@@ -31,6 +31,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (_devid.bus_type == Device.BusType.BUS_TYPE_UAVCAN)
                     return "SENSOR_ID#" + (_devid.devtype).ToString();
 
+                if (ParamName.StartsWith("MAV") && ParamName.EndsWith("_DEVID"))
+                    return _devid.devtypemavlink.ToString();
+
                 if(ParamName.Contains("COMP"))
                     return _devid.devtypecompass.ToString().Replace("DEVTYPE_", "");
 

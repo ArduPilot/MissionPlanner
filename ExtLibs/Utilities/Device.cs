@@ -69,6 +69,10 @@ namespace MissionPlanner.Utilities
 
             public airspeed_types devtypeairspd { get { return (airspeed_types)devtype; } }
 
+            // MAVn_DEVID identifies which device a MAVLink channel's parameters (MAVn_SRx, etc) apply to.
+            // Unlike the other DEVID families above, the full devid (not just the devtype byte) identifies the device.
+            public mavlink_devid devtypemavlink { get { return (mavlink_devid)devid; } }
+
             public DeviceStructure(string paramname, UInt32 id)
             {
                 devid = id;
@@ -211,6 +215,31 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_AIRSPEED_ANALOG = 0x08,
                 DEVTYPE_AIRSPEED_NMEA = 0x09,
                 DEVTYPE_AIRSPEED_ASP5033 = 0x0A,
+            };
+
+            // MAVn_DEVID: which device a MAVLink channel's parameters correspond to.
+            // https://github.com/ArduPilot/ardupilot/pull/29762
+            public enum mavlink_devid
+            {
+                Unknown = 0,
+                USB0 = 6,
+                SERIAL1 = 14,
+                SERIAL2 = 22,
+                SERIAL3 = 30,
+                SERIAL4 = 38,
+                SERIAL5 = 46,
+                SERIAL6 = 54,
+                SERIAL7 = 62,
+                SERIAL8 = 70,
+                SERIAL9 = 78,
+                NET_P1 = 174,
+                NET_P2 = 182,
+                NET_P3 = 190,
+                NET_P4 = 198,
+                CAN_D1_UC_S1 = 334,
+                CAN_D2_UC_S1 = 414,
+                SCR_SDEV1 = 494,
+                SCR_SDEV2 = 502,
             };
 
             public enum px4_i2c_bus
