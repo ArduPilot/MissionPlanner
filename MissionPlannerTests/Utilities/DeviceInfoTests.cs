@@ -7,30 +7,38 @@ namespace MissionPlanner.Utilities.Tests
     [TestClass()]
     public class DeviceInfoTests
     {
+        // devid = bus_type(6=BUS_TYPE_SERIAL) | (bus<<3) | (address<<8) | (devtype<<16),
+        // matching AP_SerialManager::UARTState::get_device_id() and the values ArduPilot
+        // publishes in GCS_MAVLink_Parameters.cpp for MAVn_DEVID.
         [TestMethod()]
         public void MavDevIdKnownValuesTest()
         {
             var expected = new Dictionary<uint, string>()
             {
                 { 0, "Unknown" },
-                { 6, "USB0" },
-                { 14, "SERIAL1" },
-                { 22, "SERIAL2" },
-                { 30, "SERIAL3" },
-                { 38, "SERIAL4" },
-                { 46, "SERIAL5" },
-                { 54, "SERIAL6" },
-                { 62, "SERIAL7" },
-                { 70, "SERIAL8" },
-                { 78, "SERIAL9" },
-                { 174, "NET_P1" },
-                { 182, "NET_P2" },
-                { 190, "NET_P3" },
-                { 198, "NET_P4" },
-                { 334, "CAN_D1_UC_S1" },
-                { 414, "CAN_D2_UC_S1" },
-                { 494, "SCR_SDEV1" },
-                { 502, "SCR_SDEV2" },
+                { 65542, "SERIAL0 (USB)" },
+                { 65798, "SERIAL1" },
+                { 66054, "SERIAL2" },
+                { 66310, "SERIAL3" },
+                { 66566, "SERIAL4" },
+                { 66822, "SERIAL5" },
+                { 67078, "SERIAL6" },
+                { 67334, "SERIAL7" },
+                { 67590, "SERIAL8" },
+                { 67846, "SERIAL9" },
+                { 131078, "NET_P1" },
+                { 131334, "NET_P2" },
+                { 131590, "NET_P3" },
+                { 131846, "NET_P4" },
+                { 196614, "CAN_D1_UC_S1" },
+                { 196870, "CAN_D1_UC_S2" },
+                { 197126, "CAN_D1_UC_S3" },
+                { 196622, "CAN_D2_UC_S1" },
+                { 196878, "CAN_D2_UC_S2" },
+                { 197134, "CAN_D2_UC_S3" },
+                { 262150, "SCR_SDEV1" },
+                { 262406, "SCR_SDEV2" },
+                { 262662, "SCR_SDEV3" },
             };
 
             foreach (var kvp in expected)
@@ -40,11 +48,22 @@ namespace MissionPlanner.Utilities.Tests
             }
         }
 
+        // SERIAL10 isn't in ArduPilot's published table, but the decode is closed-form on
+        // (devtype, bus, address) rather than an enumerated list, so it still resolves.
         [TestMethod()]
-        public void MavDevIdUnknownValueFallsBackToNumberTest()
+        public void MavDevIdUnlistedSerialPortDecodesTest()
         {
-            var info = new DeviceInfo(0, "MAV2_DEVID", 12345);
-            Assert.AreEqual("12345", info.DevType);
+            var info = new DeviceInfo(0, "MAV1_DEVID", 68102); // 6 | (10<<8) | (1<<16)
+            Assert.AreEqual("SERIAL10", info.DevType);
+        }
+
+        // devtype=5 is not a defined AP_HAL::Device::DeviceType, so this must fall back to the
+        // raw number rather than throwing or guessing.
+        [TestMethod()]
+        public void MavDevIdUnknownFamilyFallsBackToNumberTest()
+        {
+            var info = new DeviceInfo(0, "MAV2_DEVID", 327686); // 6 | (5<<16)
+            Assert.AreEqual("327686", info.DevType);
         }
     }
 }

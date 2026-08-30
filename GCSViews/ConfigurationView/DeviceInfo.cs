@@ -32,7 +32,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return "SENSOR_ID#" + (_devid.devtype).ToString();
 
                 if (ParamName.StartsWith("MAV") && ParamName.EndsWith("_DEVID"))
-                    return _devid.devtypemavlink.ToString();
+                    return _devid.devtypemavlink;
 
                 if(ParamName.Contains("COMP"))
                     return _devid.devtypecompass.ToString().Replace("DEVTYPE_", "");
