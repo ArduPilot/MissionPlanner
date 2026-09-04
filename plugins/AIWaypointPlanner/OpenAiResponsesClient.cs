@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,6 +26,8 @@ namespace MissionPlanner.AIWaypointPlanner
         public string RawResponse { get; set; }
         public string StructuredOutput { get; set; }
         public string Diagnostic { get; set; }
+        public int AttemptCount { get; set; }
+        public int RetryCount { get; set; }
 
         public bool HasServerResponse
         {
@@ -34,6 +37,9 @@ namespace MissionPlanner.AIWaypointPlanner
 
     public sealed class OpenAiResponsesClient : IDisposable
     {
+        private const int MaxAttempts = 3;
+        private const int InitialRetryDelayMilliseconds = 1000;
+        private const int MaximumRetryDelayMilliseconds = 15000;
         private readonly HttpClient httpClient;
         private readonly JavaScriptSerializer serializer;
 
@@ -330,59 +336,148 @@ namespace MissionPlanner.AIWaypointPlanner
                 Model = settings.Model == null ? string.Empty : settings.Model.Trim()
             };
 
-            using (var request = new HttpRequestMessage(method, endpoint))
+            Exception lastTransportException = null;
+            for (int attempt = 1; attempt <= MaxAttempts; attempt++)
             {
-                if (settings.AuthenticationMode == ApiAuthenticationMode.Bearer)
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey.Trim());
-                else if (settings.AuthenticationMode == ApiAuthenticationMode.ApiKeyHeader)
-                    request.Headers.TryAddWithoutValidation("api-key", settings.ApiKey.Trim());
-
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                if (!string.IsNullOrWhiteSpace(settings.ProjectId))
-                    request.Headers.TryAddWithoutValidation("OpenAI-Project", settings.ProjectId.Trim());
-
-                if (json != null)
-                    request.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                try
+                LastResponseData.AttemptCount = attempt;
+                LastResponseData.HttpStatusCode = null;
+                LastResponseData.HttpReasonPhrase = null;
+                LastResponseData.RequestId = null;
+                LastResponseData.RawResponse = null;
+                using (var request = new HttpRequestMessage(method, endpoint))
                 {
-                    using (HttpResponseMessage response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
+                    if (settings.AuthenticationMode == ApiAuthenticationMode.Bearer)
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", settings.ApiKey.Trim());
+                    else if (settings.AuthenticationMode == ApiAuthenticationMode.ApiKeyHeader)
+                        request.Headers.TryAddWithoutValidation("api-key", settings.ApiKey.Trim());
+
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    if (!string.IsNullOrWhiteSpace(settings.ProjectId))
+                        request.Headers.TryAddWithoutValidation("OpenAI-Project", settings.ProjectId.Trim());
+                    if (json != null)
+                        request.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    try
                     {
-                        string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        string requestId = response.Headers.Contains("x-request-id")
-                            ? response.Headers.GetValues("x-request-id").FirstOrDefault()
-                            : null;
-                        LastResponseData.HttpStatusCode = (int)response.StatusCode;
-                        LastResponseData.HttpReasonPhrase = response.ReasonPhrase;
-                        LastResponseData.RequestId = requestId;
-                        LastResponseData.RawResponse = body;
-                        if (!response.IsSuccessStatusCode)
+                        using (HttpResponseMessage response = await httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false))
                         {
+                            string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            string requestId = response.Headers.Contains("x-request-id")
+                                ? response.Headers.GetValues("x-request-id").FirstOrDefault()
+                                : null;
+                            LastResponseData.HttpStatusCode = (int)response.StatusCode;
+                            LastResponseData.HttpReasonPhrase = response.ReasonPhrase;
+                            LastResponseData.RequestId = requestId;
+                            LastResponseData.RawResponse = body;
+                            if (response.IsSuccessStatusCode)
+                            {
+                                if (LastResponseData.RetryCount > 0)
+                                    LastResponseData.Diagnostic = "连接已恢复，共尝试 " +
+                                        LastResponseData.AttemptCount + " 次。";
+                                return body;
+                            }
+
                             string detail = ExtractApiError(body);
                             string suffix = string.IsNullOrWhiteSpace(requestId) ? string.Empty : "（请求 ID：" + requestId + "）";
-                            LastResponseData.Diagnostic =
+                            string diagnostic =
                                 "AI API 请求失败，HTTP " + (int)response.StatusCode + "：" + detail + suffix;
-                            throw new InvalidOperationException(LastResponseData.Diagnostic);
+                            if (!IsTransientStatusCode((int)response.StatusCode) || attempt >= MaxAttempts)
+                            {
+                                LastResponseData.Diagnostic = diagnostic;
+                                throw new InvalidOperationException(diagnostic);
+                            }
+
+                            await DelayBeforeRetryAsync(response, attempt, cancellationToken).ConfigureAwait(false);
+                            continue;
+                        }
+                    }
+                    catch (OperationCanceledException ex)
+                    {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            LastResponseData.Diagnostic = "请求已取消。";
+                            throw;
                         }
 
-                        return body;
+                        lastTransportException = ex;
+                        if (attempt >= MaxAttempts)
+                        {
+                            LastResponseData.Diagnostic = "请求超过 90 秒超时，且自动重连已用尽。";
+                            throw new InvalidOperationException(LastResponseData.Diagnostic, ex);
+                        }
+
+                        await DelayBeforeRetryAsync(null, attempt, cancellationToken).ConfigureAwait(false);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        lastTransportException = ex;
+                        if (!IsTransientTransportException(ex) || attempt >= MaxAttempts)
+                        {
+                            LastResponseData.Diagnostic = CreateTransportDiagnostic(ex, endpoint);
+                            throw new InvalidOperationException(LastResponseData.Diagnostic, ex);
+                        }
+
+                        await DelayBeforeRetryAsync(null, attempt, cancellationToken).ConfigureAwait(false);
                     }
                 }
-                catch (OperationCanceledException)
+            }
+
+            LastResponseData.Diagnostic = CreateTransportDiagnostic(lastTransportException, endpoint);
+            throw new InvalidOperationException(LastResponseData.Diagnostic, lastTransportException);
+        }
+
+        private async Task DelayBeforeRetryAsync(
+            HttpResponseMessage response,
+            int attempt,
+            CancellationToken cancellationToken)
+        {
+            int delayMilliseconds = GetRetryDelayMilliseconds(response, attempt);
+            LastResponseData.RetryCount++;
+            LastResponseData.Diagnostic = "临时连接问题，正在自动重连（第 " +
+                (attempt + 1) + "/" + MaxAttempts + " 次尝试，等待 " +
+                delayMilliseconds + " 毫秒）。";
+            await Task.Delay(delayMilliseconds, cancellationToken).ConfigureAwait(false);
+        }
+
+        private static bool IsTransientStatusCode(int statusCode)
+        {
+            return statusCode == 408 || statusCode == 409 || statusCode == 425 ||
+                   statusCode == 429 || statusCode == 500 || statusCode == 502 ||
+                   statusCode == 503 || statusCode == 504;
+        }
+
+        private static bool IsTransientTransportException(Exception exception)
+        {
+            return EnumerateExceptions(exception).Any(item =>
+                item is HttpRequestException || item is SocketException ||
+                item is IOException);
+        }
+
+        private static int GetRetryDelayMilliseconds(HttpResponseMessage response, int attempt)
+        {
+            if (response != null && response.Headers.RetryAfter != null)
+            {
+                if (response.Headers.RetryAfter.Delta.HasValue)
                 {
-                    LastResponseData.Diagnostic = "请求已取消或超过 90 秒超时。";
-                    throw;
+                    double milliseconds = response.Headers.RetryAfter.Delta.Value.TotalMilliseconds;
+                    if (milliseconds >= 0 && milliseconds <= MaximumRetryDelayMilliseconds)
+                        return Math.Max(100, (int)milliseconds);
                 }
-                catch (InvalidOperationException)
+                if (response.Headers.RetryAfter.Date.HasValue)
                 {
-                    throw;
-                }
-                catch (Exception ex)
-                {
-                    LastResponseData.Diagnostic = CreateTransportDiagnostic(ex, endpoint);
-                    throw new InvalidOperationException(LastResponseData.Diagnostic, ex);
+                    double milliseconds = (response.Headers.RetryAfter.Date.Value - DateTimeOffset.UtcNow).TotalMilliseconds;
+                    if (milliseconds >= 0 && milliseconds <= MaximumRetryDelayMilliseconds)
+                        return Math.Max(100, (int)milliseconds);
                 }
             }
+
+            int exponential = InitialRetryDelayMilliseconds * (1 << Math.Min(attempt - 1, 4));
+            int jitter = (attempt * 137) % 251;
+            return Math.Min(MaximumRetryDelayMilliseconds, exponential + jitter);
         }
 
         public static string CreateTransportDiagnostic(Exception exception, Uri endpoint)

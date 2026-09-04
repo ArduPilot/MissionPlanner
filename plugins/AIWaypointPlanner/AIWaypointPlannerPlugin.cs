@@ -8,7 +8,7 @@ namespace MissionPlanner.AIWaypointPlanner
         private ToolStripMenuItem menuItem;
 
         public override string Name { get { return "AI 航点规划"; } }
-        public override string Version { get { return "1.4.2"; } }
+        public override string Version { get { return "1.5.0"; } }
         public override string Author { get { return "Local Mission Planner Plugin"; } }
 
         public override bool Init()

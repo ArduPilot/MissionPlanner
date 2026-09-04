@@ -97,6 +97,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 : "未收到 HTTP 响应");
             if (!string.IsNullOrWhiteSpace(data.RequestId))
                 builder.Append("；请求 ID：" + data.RequestId);
+            builder.AppendLine();
+            builder.AppendLine("连接尝试：" + data.AttemptCount + "；自动重连：" + data.RetryCount);
             return builder.ToString();
         }
 

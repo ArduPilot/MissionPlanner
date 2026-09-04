@@ -45,6 +45,8 @@ namespace AIWaypointPlanner.SelfTests
             Run("Clarification prevents mission", TestClarificationPreventsMission);
             Run("Attachment cannot override RTL safety", TestAttachmentCannotOverrideSafety);
             Run("Model response data capture", TestModelResponseDataCapture);
+            Run("Transient API retry recovery", TestTransientApiRetryRecovery);
+            Run("Permanent API error is not retried", TestPermanentApiErrorIsNotRetried);
             Run("Local proxy refusal diagnostic", TestLocalProxyRefusalDiagnostic);
 
             Console.WriteLine(failures == 0
@@ -466,6 +468,129 @@ namespace AIWaypointPlanner.SelfTests
             AssertTrue(message.Contains("代理服务未启动"), "Connection refusal should explain that the local proxy is not running.");
             AssertTrue(message.Contains("CC Switch"), "CC Switch recovery guidance is missing.");
             AssertTrue(message.Contains("outer transport error"), "Outer exception detail was lost.");
+        }
+
+        private static void TestTransientApiRetryRecovery()
+        {
+            var listener = new TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            int port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            int requestCount = 0;
+            Task server = Task.Run(delegate
+            {
+                for (int attempt = 1; attempt <= 3; attempt++)
+                {
+                    using (TcpClient connection = listener.AcceptTcpClient())
+                    using (NetworkStream stream = connection.GetStream())
+                    {
+                        DrainHttpRequest(stream);
+                        requestCount++;
+                        if (attempt < 3)
+                            WriteHttpResponse(stream, "503 Service Unavailable",
+                                "{\"error\":{\"message\":\"temporary overload\"}}", "Retry-After: 0\r\n");
+                        else
+                            WriteHttpResponse(stream, "200 OK", "{}");
+                    }
+                }
+            });
+
+            try
+            {
+                var settings = CreateNoAuthSettings(ApiProtocol.Responses);
+                settings.BaseUrl = "http://127.0.0.1:" + port + "/v1";
+                using (var client = new OpenAiResponsesClient())
+                {
+                    client.TestConnectionAsync(settings, CancellationToken.None).GetAwaiter().GetResult();
+                    AssertEqual(3, requestCount, "Transient response should be retried twice.");
+                    AssertEqual(3, client.LastResponseData.AttemptCount, "Attempt count differs.");
+                    AssertEqual(2, client.LastResponseData.RetryCount, "Retry count differs.");
+                    AssertEqual(200, client.LastResponseData.HttpStatusCode.Value, "Recovery status differs.");
+                    AssertTrue(client.LastResponseData.Diagnostic.Contains("连接已恢复"),
+                        "Successful recovery diagnostic is missing.");
+                }
+                AssertTrue(server.Wait(5000), "Transient retry test server did not finish.");
+            }
+            finally
+            {
+                listener.Stop();
+            }
+        }
+
+        private static void TestPermanentApiErrorIsNotRetried()
+        {
+            var listener = new TcpListener(IPAddress.Loopback, 0);
+            listener.Start();
+            int port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            int requestCount = 0;
+            Task server = Task.Run(delegate
+            {
+                using (TcpClient connection = listener.AcceptTcpClient())
+                using (NetworkStream stream = connection.GetStream())
+                {
+                    DrainHttpRequest(stream);
+                    requestCount++;
+                    WriteHttpResponse(stream, "401 Unauthorized", "{\"error\":{\"message\":\"invalid token\"}}");
+                }
+            });
+
+            try
+            {
+                var settings = CreateNoAuthSettings(ApiProtocol.Responses);
+                settings.BaseUrl = "http://127.0.0.1:" + port + "/v1";
+                using (var client = new OpenAiResponsesClient())
+                {
+                    AssertThrows<InvalidOperationException>(delegate
+                    {
+                        client.TestConnectionAsync(settings, CancellationToken.None).GetAwaiter().GetResult();
+                    }, "Authentication errors must fail without a retry.");
+                    AssertEqual(1, requestCount, "Authentication error was unexpectedly retried.");
+                    AssertEqual(1, client.LastResponseData.AttemptCount, "Attempt count differs.");
+                    AssertEqual(0, client.LastResponseData.RetryCount, "Retry count must remain zero.");
+                    AssertEqual(401, client.LastResponseData.HttpStatusCode.Value, "Authentication status differs.");
+                }
+                AssertTrue(server.Wait(5000), "Permanent error test server did not finish.");
+            }
+            finally
+            {
+                listener.Stop();
+            }
+        }
+
+        private static void DrainHttpRequest(NetworkStream stream)
+        {
+            using (var reader = new StreamReader(stream, Encoding.ASCII, false, 1024, true))
+            {
+                string line;
+                int contentLength = 0;
+                do
+                {
+                    line = reader.ReadLine();
+                    const string header = "Content-Length:";
+                    if (!string.IsNullOrEmpty(line) && line.StartsWith(header, StringComparison.OrdinalIgnoreCase))
+                        int.TryParse(line.Substring(header.Length).Trim(), out contentLength);
+                }
+                while (!string.IsNullOrEmpty(line));
+
+                var buffer = new char[contentLength];
+                int read = 0;
+                while (read < contentLength)
+                {
+                    int count = reader.Read(buffer, read, contentLength - read);
+                    if (count <= 0)
+                        break;
+                    read += count;
+                }
+            }
+        }
+
+        private static void WriteHttpResponse(NetworkStream stream, string status, string bodyText, string extraHeaders = "")
+        {
+            byte[] body = Encoding.UTF8.GetBytes(bodyText);
+            byte[] headers = Encoding.ASCII.GetBytes(
+                "HTTP/1.1 " + status + "\r\nContent-Type: application/json; charset=utf-8\r\n" +
+                extraHeaders + "Content-Length: " + body.Length + "\r\nConnection: close\r\n\r\n");
+            stream.Write(headers, 0, headers.Length);
+            stream.Write(body, 0, body.Length);
         }
 
         private static TaskSpec CreateRelativeSpec()

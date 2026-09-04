@@ -1,5 +1,21 @@
 # Change Log
 
+## 1.5.0 - 2026-09-04
+
+### Added
+
+- Automatic recovery for temporary API connection failures.
+- Up to three connection attempts with bounded exponential backoff and delay variation.
+- Support for the standard `Retry-After` response header.
+- Attempt and automatic-reconnection counts in the response inspection dialog.
+
+### Behavior
+
+- Retry HTTP 408, 409, 425, 429, 500, 502, 503 and 504 responses.
+- Retry request timeouts and transient transport failures.
+- Do not retry authentication, authorization, invalid-request or missing-endpoint errors.
+- Stop recovery immediately when the operator cancels the request.
+
 ## 1.4.2 - 2026-09-01
 
 ### Added

@@ -4,7 +4,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>MissionPlanner.AIWaypointPlanner</AssemblyName>
     <RootNamespace>MissionPlanner.AIWaypointPlanner</RootNamespace>
-    <Version>1.4.2</Version>
+    <Version>1.5.0</Version>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 

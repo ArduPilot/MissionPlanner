@@ -99,7 +99,7 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private void BuildInterface()
         {
-            Text = "AI 航点规划 v1.4.2 - 文件辅助候选任务生成器";
+            Text = "AI 航点规划 v1.5.0 - 文件辅助候选任务生成器";
             StartPosition = FormStartPosition.CenterParent;
             MinimumSize = new Drawing.Size(1080, 760);
             Size = new Drawing.Size(1280, 900);

@@ -43,6 +43,12 @@ Remote endpoints must use HTTPS. HTTP is accepted only for loopback addresses su
 
 The plugin does not read credentials, cookies or OAuth data belonging to CC Switch, Codex, ChatGPT or another application. A gateway must expose an OpenAI-compatible endpoint; native Anthropic or Gemini protocols are not handled directly.
 
+## Connection recovery
+
+API requests make up to three connection attempts when a temporary failure occurs. The client retries HTTP 408, 409, 425, 429, 500, 502, 503 and 504 responses, request timeouts and transient network errors. It honors a standard `Retry-After` response header when present; otherwise it uses bounded exponential backoff with a small delay variation. Operator cancellation stops recovery immediately.
+
+Authentication, authorization, invalid-request and missing-endpoint errors are not retried because they require a credential or configuration change. The response inspection dialog records the final status, total attempt count and automatic reconnection count. These rules follow OpenAI's published [API error guidance](https://platform.openai.com/docs/guides/error-codes), [rate-limit guidance](https://platform.openai.com/docs/guides/rate-limits) and [production best practices](https://developers.openai.com/api/docs/guides/production-best-practices).
+
 ## Repository layout
 
 ```text
@@ -87,7 +93,7 @@ Run the offline regression tests:
 & '.\SelfTests\bin\Release\net472\AIWaypointPlanner.SelfTests.exe'
 ```
 
-The tests do not require an API key or a flight controller. They cover endpoint validation, route and survey compilation, RTL enforcement, attachment extraction, multimodal request formatting, response capture and local-proxy diagnostics.
+The tests do not require an API key or a flight controller. They cover endpoint validation, route and survey compilation, RTL enforcement, attachment extraction, multimodal request formatting, response capture, temporary-error recovery, permanent-error handling and local-proxy diagnostics.
 
 ## Installation
 
@@ -119,4 +125,4 @@ This plugin is intended for inclusion in the GPLv3-licensed Mission Planner proj
 
 ## Version
 
-The current plugin version is `1.4.2`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.
+The current plugin version is `1.5.0`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.
