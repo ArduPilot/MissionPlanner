@@ -13,51 +13,79 @@ namespace MissionPlanner.AIWaypointPlanner
         public const double MaximumDistanceFromHomeM = 20000.0;
         public const double MaximumTotalRouteM = 50000.0;
 
+        private string languageCode;
+
+        public MissionValidator()
+            : this(UiStrings.DefaultLanguageCode)
+        {
+        }
+
+        public MissionValidator(string languageCode)
+        {
+            LanguageCode = languageCode;
+        }
+
+        public string LanguageCode
+        {
+            get { return languageCode; }
+            set { languageCode = UiStrings.NormalizeLanguageCode(value); }
+        }
+
+        private string L(string key)
+        {
+            return UiStrings.Get(languageCode, key);
+        }
+
+        private string F(string key, params object[] arguments)
+        {
+            return UiStrings.Format(languageCode, key, arguments);
+        }
+
         public ValidationResult ValidateSpec(TaskSpec spec, MissionContext context)
         {
             var result = new ValidationResult();
 
             if (spec == null)
             {
-                result.Errors.Add("GPT 未返回可解析的任务参数。");
+                result.Errors.Add(L("Validation.NoSpec"));
                 return result;
             }
 
             if (spec.requires_clarification)
             {
                 result.Errors.Add(string.IsNullOrWhiteSpace(spec.clarification_question)
-                    ? "任务信息不足，需要补充说明。"
-                    : "需要补充说明：" + spec.clarification_question.Trim());
+                    ? L("Validation.NeedsClarification")
+                    : F("Validation.NeedsClarificationFormat", spec.clarification_question.Trim()));
             }
 
             if (string.IsNullOrWhiteSpace(spec.source_summary))
-                result.Errors.Add("AI 未提供对任务资料的理解摘要，不能进入应用流程。");
+                result.Errors.Add(L("Validation.SourceSummaryMissing"));
             if (spec.confirmed_requirements == null ||
                 !spec.confirmed_requirements.Any(requirement => !string.IsNullOrWhiteSpace(requirement)))
             {
-                result.Errors.Add("AI 未列出需要操作员确认的任务要求。");
+                result.Errors.Add(L("Validation.RequirementsMissing"));
             }
 
             if (context == null || !IsValidHome(context.Home))
-                result.Errors.Add("Mission Planner 的计划 Home 无效，请先设置正确的 Home 位置。");
+                result.Errors.Add(L("Validation.HomeInvalid"));
 
             if (spec.mission_type != "survey_polygon" &&
                 spec.mission_type != "relative_route" &&
                 spec.mission_type != "unsupported")
             {
-                result.Errors.Add("模型返回了不受支持的任务类型。");
+                result.Errors.Add(L("Validation.MissionTypeInvalid"));
             }
 
             if (spec.mission_type == "unsupported")
-                result.Errors.Add("当前版本无法把该目标转换为受支持的确定性任务模板。");
+                result.Errors.Add(L("Validation.UnsupportedTemplate"));
 
-            ValidateNumber(result, spec.cruise_altitude_m, 30.0, 500.0, "巡航高度");
-            ValidateNumber(result, spec.cruise_speed_mps, 8.0, 45.0, "巡航速度");
+            ValidateNumber(result, spec.cruise_altitude_m, 30.0, 500.0, L("Validation.FieldCruiseAltitude"));
+            ValidateNumber(result, spec.cruise_speed_mps, 8.0, 45.0, L("Validation.FieldCruiseSpeed"));
             if (spec.include_takeoff)
-                ValidateNumber(result, spec.takeoff_altitude_m, 20.0, 200.0, "起飞高度");
+                ValidateNumber(result, spec.takeoff_altitude_m, 20.0, 200.0, L("Validation.FieldTakeoffAltitude"));
 
             if (!string.Equals(spec.completion_action, "RTL", StringComparison.Ordinal))
-                result.Errors.Add("当前版本只允许 RTL 作为任务结束动作。");
+                result.Errors.Add(L("Validation.CompletionMustRtl"));
 
             if (spec.mission_type == "survey_polygon")
                 ValidateSurveySpec(result, spec, context);
@@ -67,10 +95,10 @@ namespace MissionPlanner.AIWaypointPlanner
             if (spec.safety_notes != null)
             {
                 foreach (string note in spec.safety_notes.Where(n => !string.IsNullOrWhiteSpace(n)))
-                    result.Warnings.Add("GPT 提示：" + note.Trim());
+                    result.Warnings.Add(F("Validation.AiNoteFormat", note.Trim()));
             }
 
-            result.Warnings.Add("候选任务不会自动上传、解锁、起飞或改变飞行模式；应用后仍需人工复核并手动写入飞控。");
+            result.Warnings.Add(L("Validation.LocalOnlyWarning"));
             return result;
         }
 
@@ -79,16 +107,16 @@ namespace MissionPlanner.AIWaypointPlanner
             var result = new ValidationResult();
             if (mission == null || mission.Items == null || mission.Items.Count == 0)
             {
-                result.Errors.Add("本地任务编译器没有生成任何任务项。");
+                result.Errors.Add(L("Validation.NoMissionItems"));
                 return result;
             }
 
             if (mission.Items.Count > MaximumMissionItems)
-                result.Errors.Add("任务项数量超过上限 " + MaximumMissionItems + "。");
+                result.Errors.Add(F("Validation.TooManyItemsFormat", MaximumMissionItems));
 
             if (!IsValidHome(home))
             {
-                result.Errors.Add("无法依据无效 Home 校验任务范围。");
+                result.Errors.Add(L("Validation.MissionHomeInvalid"));
                 return result;
             }
 
@@ -104,17 +132,17 @@ namespace MissionPlanner.AIWaypointPlanner
                 var point = new PointLatLngAlt(item.Latitude, item.Longitude, item.Altitude);
                 if (!IsValidCoordinate(point))
                 {
-                    result.Errors.Add("候选任务包含无效经纬度或高度。");
+                    result.Errors.Add(L("Validation.InvalidCoordinate"));
                     continue;
                 }
 
                 double distanceFromHome = home.GetDistance(point);
                 if (!IsFinite(distanceFromHome) || distanceFromHome > MaximumDistanceFromHomeM)
-                    result.Errors.Add("候选航点超出 Home 周围 " + MaximumDistanceFromHomeM.ToString("0") + " 米限制。");
+                    result.Errors.Add(F("Validation.WaypointTooFarFormat", MaximumDistanceFromHomeM));
 
                 double segment = previous.GetDistance(point);
                 if (!IsFinite(segment))
-                    result.Errors.Add("无法计算候选航段距离。");
+                    result.Errors.Add(L("Validation.SegmentDistanceInvalid"));
                 else
                     totalRoute += segment;
 
@@ -123,14 +151,14 @@ namespace MissionPlanner.AIWaypointPlanner
             }
 
             if (waypointCount == 0)
-                result.Errors.Add("候选任务不包含有效航点。");
+                result.Errors.Add(L("Validation.NoWaypoints"));
 
             if (totalRoute > MaximumTotalRouteM)
-                result.Errors.Add("候选航线总长度超过 " + MaximumTotalRouteM.ToString("0") + " 米限制。");
+                result.Errors.Add(F("Validation.RouteTooLongFormat", MaximumTotalRouteM));
 
             CandidateMissionItem last = mission.Items[mission.Items.Count - 1];
             if (last.Command != MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
-                result.Errors.Add("候选任务必须以 RETURN_TO_LAUNCH 结束。");
+                result.Errors.Add(L("Validation.MustEndRtl"));
 
             return result;
         }
@@ -141,20 +169,20 @@ namespace MissionPlanner.AIWaypointPlanner
                    !(Math.Abs(home.Lat) < 0.000001 && Math.Abs(home.Lng) < 0.000001);
         }
 
-        private static void ValidateSurveySpec(ValidationResult result, TaskSpec spec, MissionContext context)
+        private void ValidateSurveySpec(ValidationResult result, TaskSpec spec, MissionContext context)
         {
-            ValidateNumber(result, spec.lane_spacing_m, 20.0, 500.0, "航线间距");
-            ValidateNumber(result, spec.grid_angle_deg, 0.0, 359.999, "网格角度");
+            ValidateNumber(result, spec.lane_spacing_m, 20.0, 500.0, L("Validation.FieldLaneSpacing"));
+            ValidateNumber(result, spec.grid_angle_deg, 0.0, 359.999, L("Validation.FieldGridAngle"));
 
             IList<PointLatLngAlt> polygon = context == null ? null : context.Polygon;
             if (polygon == null || polygon.Count < 3)
             {
-                result.Errors.Add("区域巡视需要先在 Flight Planner 地图上绘制至少三个顶点的多边形。");
+                result.Errors.Add(L("Validation.SurveyPolygonMissing"));
                 return;
             }
 
             if (polygon.Count > MaximumPolygonVertices)
-                result.Errors.Add("多边形顶点数量超过上限 " + MaximumPolygonVertices + "。");
+                result.Errors.Add(F("Validation.TooManyVerticesFormat", MaximumPolygonVertices));
 
             if (context != null && IsValidHome(context.Home))
             {
@@ -162,29 +190,29 @@ namespace MissionPlanner.AIWaypointPlanner
                 {
                     if (!IsValidCoordinate(vertex))
                     {
-                        result.Errors.Add("绘制的多边形包含无效坐标。");
+                        result.Errors.Add(L("Validation.PolygonInvalid"));
                         break;
                     }
 
                     if (context.Home.GetDistance(vertex) > MaximumDistanceFromHomeM)
                     {
-                        result.Errors.Add("绘制区域超出 Home 周围 " + MaximumDistanceFromHomeM.ToString("0") + " 米限制。");
+                        result.Errors.Add(F("Validation.PolygonTooFarFormat", MaximumDistanceFromHomeM));
                         break;
                     }
                 }
             }
         }
 
-        private static void ValidateRelativeSpec(ValidationResult result, TaskSpec spec)
+        private void ValidateRelativeSpec(ValidationResult result, TaskSpec spec)
         {
             if (spec.legs == null || spec.legs.Count == 0)
             {
-                result.Errors.Add("相对航线至少需要一个航段。");
+                result.Errors.Add(L("Validation.NoRelativeLegs"));
                 return;
             }
 
             if (spec.legs.Count > MaximumRelativeLegs)
-                result.Errors.Add("相对航段数量超过上限 " + MaximumRelativeLegs + "。");
+                result.Errors.Add(F("Validation.TooManyLegsFormat", MaximumRelativeLegs));
 
             double total = 0.0;
             for (int i = 0; i < spec.legs.Count; i++)
@@ -192,25 +220,28 @@ namespace MissionPlanner.AIWaypointPlanner
                 RelativeLeg leg = spec.legs[i];
                 if (leg == null)
                 {
-                    result.Errors.Add("第 " + (i + 1) + " 个航段为空。");
+                    result.Errors.Add(F("Validation.EmptyLegFormat", i + 1));
                     continue;
                 }
 
-                ValidateNumber(result, leg.bearing_deg, 0.0, 359.999, "第 " + (i + 1) + " 航段方位角");
-                ValidateNumber(result, leg.distance_m, 50.0, 10000.0, "第 " + (i + 1) + " 航段距离");
-                ValidateNumber(result, leg.altitude_m, 30.0, 500.0, "第 " + (i + 1) + " 航段高度");
+                ValidateNumber(result, leg.bearing_deg, 0.0, 359.999,
+                    F("Validation.FieldLegBearingFormat", i + 1));
+                ValidateNumber(result, leg.distance_m, 50.0, 10000.0,
+                    F("Validation.FieldLegDistanceFormat", i + 1));
+                ValidateNumber(result, leg.altitude_m, 30.0, 500.0,
+                    F("Validation.FieldLegAltitudeFormat", i + 1));
                 if (IsFinite(leg.distance_m))
                     total += leg.distance_m;
             }
 
             if (total > MaximumTotalRouteM)
-                result.Errors.Add("模型给出的相对航段总长超过 " + MaximumTotalRouteM.ToString("0") + " 米限制。");
+                result.Errors.Add(F("Validation.RelativeRouteTooLongFormat", MaximumTotalRouteM));
         }
 
-        private static void ValidateNumber(ValidationResult result, double value, double minimum, double maximum, string name)
+        private void ValidateNumber(ValidationResult result, double value, double minimum, double maximum, string name)
         {
             if (!IsFinite(value) || value < minimum || value > maximum)
-                result.Errors.Add(name + "必须在 " + minimum.ToString("0.###") + " 至 " + maximum.ToString("0.###") + " 之间。");
+                result.Errors.Add(F("Validation.NumberRangeFormat", name, minimum, maximum));
         }
 
         private static bool IsValidCoordinate(PointLatLngAlt point)

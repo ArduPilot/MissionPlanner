@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using UglyToad.PdfPig;
 
@@ -13,7 +14,8 @@ namespace MissionPlanner.AIWaypointPlanner
     {
         ExtractedText,
         Image,
-        NativePdf
+        NativePdf,
+        NativeDocument
     }
 
     public sealed class MissionAttachment
@@ -60,67 +62,133 @@ namespace MissionPlanner.AIWaypointPlanner
                 { ".gif", "image/gif" }
             };
 
+        private static readonly Dictionary<string, string> NativeDocumentMediaTypes =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { ".doc", "application/msword" },
+                { ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" },
+                { ".rtf", "application/rtf" },
+                { ".odt", "application/vnd.oasis.opendocument.text" },
+                { ".ppt", "application/vnd.ms-powerpoint" },
+                { ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+                { ".xls", "application/vnd.ms-excel" },
+                { ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+            };
+
         public MissionAttachment Load(string path, IEnumerable<MissionAttachment> existingAttachments)
         {
+            return Load(path, existingAttachments, UiStrings.DefaultLanguageCode, CancellationToken.None);
+        }
+
+        public MissionAttachment Load(
+            string path,
+            IEnumerable<MissionAttachment> existingAttachments,
+            string languageCode)
+        {
+            return Load(path, existingAttachments, languageCode, CancellationToken.None);
+        }
+
+        public MissionAttachment Load(
+            string path,
+            IEnumerable<MissionAttachment> existingAttachments,
+            string languageCode,
+            CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
             if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException("文件路径不能为空。", "path");
+                throw new ArgumentException(UiStrings.Get(languageCode, "Attachment.ErrorPathRequired"), "path");
 
             var file = new FileInfo(path);
             if (!file.Exists)
-                throw new FileNotFoundException("找不到所选文件。", path);
+                throw new FileNotFoundException(UiStrings.Get(languageCode, "Attachment.ErrorNotFound"), path);
             if (file.Length <= 0)
-                throw new InvalidOperationException("不能添加空文件：" + file.Name);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorEmptyFileFormat", file.Name));
             if (file.Length > MaximumFileBytes)
-                throw new InvalidOperationException("单个文件不能超过 12 MB：" + file.Name);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorFileTooLargeFormat", file.Name));
 
             List<MissionAttachment> existing = (existingAttachments ?? Enumerable.Empty<MissionAttachment>()).ToList();
             if (existing.Count >= MaximumAttachmentCount)
-                throw new InvalidOperationException("最多只能添加 " + MaximumAttachmentCount + " 个文件。");
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorTooManyFilesFormat", MaximumAttachmentCount));
+            if (existing.Any(item => item != null &&
+                string.Equals(item.DisplayName, file.Name, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new InvalidOperationException(UiStrings.Get(
+                    languageCode, "Attachment.DuplicateName"));
+            }
             if (existing.Sum(item => item.SizeBytes) + file.Length > MaximumTotalBytes)
-                throw new InvalidOperationException("附件总大小不能超过 24 MB。");
+                throw new InvalidOperationException(UiStrings.Get(languageCode, "Attachment.ErrorTotalSize"));
 
             string extension = file.Extension.ToLowerInvariant();
             MissionAttachment attachment;
             if (ImageMediaTypes.ContainsKey(extension))
-                attachment = LoadImage(file, ImageMediaTypes[extension]);
+                attachment = LoadImage(file, ImageMediaTypes[extension], languageCode, cancellationToken);
             else if (extension == ".pdf")
-                attachment = LoadPdf(file);
+                attachment = LoadPdf(file, languageCode, cancellationToken);
             else if (extension == ".docx")
-                attachment = LoadDocx(file);
+                attachment = LoadDocx(file, languageCode, cancellationToken);
+            else if (NativeDocumentMediaTypes.ContainsKey(extension))
+                attachment = LoadNativeDocument(
+                    file, NativeDocumentMediaTypes[extension], languageCode, cancellationToken);
             else if (TextExtensions.Contains(extension))
-                attachment = LoadText(file, GetTextMediaType(extension));
+                attachment = LoadText(file, GetTextMediaType(extension), languageCode, cancellationToken);
             else
-                throw new InvalidOperationException(
-                    "暂不支持该文件类型：" + extension + "。可使用 PDF、DOCX、PNG/JPEG/WebP/GIF 或常见文本/数据文件。");
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorUnsupportedTypeFormat", extension));
 
-            int totalCharacters = existing.Sum(item => item.ExtractedText == null ? 0 : item.ExtractedText.Length) +
-                                  attachment.ExtractedText.Length;
-            if (totalCharacters > MaximumExtractedCharacters)
-                throw new InvalidOperationException("附件提取文本总量不能超过 120,000 个字符，请精简或拆分资料。");
+            cancellationToken.ThrowIfCancellationRequested();
+            int totalPromptCharacters = existing
+                .Where(item => item != null && item.Kind == AttachmentContentKind.ExtractedText)
+                .Sum(item => item.ExtractedText == null ? 0 : item.ExtractedText.Length) +
+                (attachment.Kind == AttachmentContentKind.ExtractedText
+                    ? attachment.ExtractedText.Length
+                    : 0);
+            if (totalPromptCharacters > MaximumExtractedCharacters)
+                throw new InvalidOperationException(UiStrings.Get(
+                    languageCode, "Attachment.ErrorExtractedTextTotal"));
             return attachment;
         }
 
         public static void ValidateForProtocol(IEnumerable<MissionAttachment> attachments, ApiProtocol protocol)
         {
+            ValidateForProtocol(attachments, protocol, UiStrings.DefaultLanguageCode);
+        }
+
+        public static void ValidateForProtocol(
+            IEnumerable<MissionAttachment> attachments,
+            ApiProtocol protocol,
+            string languageCode)
+        {
             List<MissionAttachment> files = (attachments ?? Enumerable.Empty<MissionAttachment>()).ToList();
             if (files.Count > MaximumAttachmentCount)
-                throw new InvalidOperationException("附件数量超过安全上限。");
+                throw new InvalidOperationException(UiStrings.Get(languageCode, "Attachment.ErrorCountLimit"));
             if (files.Sum(item => item.SizeBytes) > MaximumTotalBytes)
-                throw new InvalidOperationException("附件总大小超过安全上限。");
-            if (files.Sum(item => item.ExtractedText == null ? 0 : item.ExtractedText.Length) > MaximumExtractedCharacters)
-                throw new InvalidOperationException("附件提取文本超过安全上限。");
-            if (protocol == ApiProtocol.ChatCompletions && files.Any(item => item.Kind == AttachmentContentKind.NativePdf))
+                throw new InvalidOperationException(UiStrings.Get(languageCode, "Attachment.ErrorTotalLimit"));
+            if (protocol == ApiProtocol.ChatCompletions &&
+                files.Sum(item => item.ExtractedText == null ? 0 : item.ExtractedText.Length) >
+                MaximumExtractedCharacters)
+                throw new InvalidOperationException(UiStrings.Get(languageCode, "Attachment.ErrorTextLimit"));
+            if (protocol == ApiProtocol.ChatCompletions && files.Any(item =>
+                (item.Kind == AttachmentContentKind.NativePdf || item.Kind == AttachmentContentKind.NativeDocument) &&
+                string.IsNullOrWhiteSpace(item.ExtractedText)))
             {
-                throw new InvalidOperationException(
-                    "该 PDF 没有可提取文本，需使用 Responses API 的原生 PDF 输入，或先对 PDF 进行 OCR 后再添加。");
+                throw new InvalidOperationException(UiStrings.Get(
+                    languageCode, "Attachment.ErrorChatNativeUnsupported"));
             }
         }
 
-        private static MissionAttachment LoadImage(FileInfo file, string mediaType)
+        private static MissionAttachment LoadImage(
+            FileInfo file,
+            string mediaType,
+            string languageCode,
+            CancellationToken cancellationToken)
         {
             if (file.Length > MaximumImageBytes)
-                throw new InvalidOperationException("单张图像不能超过 8 MB：" + file.Name);
-            byte[] bytes = File.ReadAllBytes(file.FullName);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorImageTooLargeFormat", file.Name));
+            byte[] bytes = ReadAllBytes(file, cancellationToken);
             return new MissionAttachment
             {
                 DisplayName = file.Name,
@@ -128,68 +196,74 @@ namespace MissionPlanner.AIWaypointPlanner
                 SizeBytes = file.Length,
                 Kind = AttachmentContentKind.Image,
                 DataUrl = "data:" + mediaType + ";base64," + Convert.ToBase64String(bytes),
-                Status = "图像将发送给模型"
+                Status = UiStrings.Get(languageCode, "Attachment.ImageWillSend")
             };
         }
 
-        private static MissionAttachment LoadPdf(FileInfo file)
+        private static MissionAttachment LoadPdf(
+            FileInfo file,
+            string languageCode,
+            CancellationToken cancellationToken)
         {
             var text = new StringBuilder();
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 using (PdfDocument document = PdfDocument.Open(file.FullName))
                 {
                     foreach (var page in document.GetPages())
                     {
+                        cancellationToken.ThrowIfCancellationRequested();
                         if (!string.IsNullOrWhiteSpace(page.Text))
                             text.AppendLine(page.Text.Trim());
                     }
                 }
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("无法读取 PDF（可能已加密或损坏）：" + file.Name + "。" + ex.Message, ex);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorPdfReadFormat", file.Name, ex.Message), ex);
             }
 
             string extracted = NormalizeExtractedText(text.ToString());
-            if (!string.IsNullOrWhiteSpace(extracted))
-            {
-                return new MissionAttachment
-                {
-                    DisplayName = file.Name,
-                    MediaType = "application/pdf",
-                    SizeBytes = file.Length,
-                    Kind = AttachmentContentKind.ExtractedText,
-                    ExtractedText = extracted,
-                    Status = "已提取 PDF 文本"
-                };
-            }
-
-            byte[] bytes = File.ReadAllBytes(file.FullName);
+            byte[] bytes = ReadAllBytes(file, cancellationToken);
             return new MissionAttachment
             {
                 DisplayName = file.Name,
                 MediaType = "application/pdf",
                 SizeBytes = file.Length,
                 Kind = AttachmentContentKind.NativePdf,
+                ExtractedText = extracted,
                 DataUrl = "data:application/pdf;base64," + Convert.ToBase64String(bytes),
-                Status = "无文本 PDF，将以原生文件发送（Responses）"
+                Status = string.IsNullOrWhiteSpace(extracted)
+                    ? UiStrings.Get(languageCode, "Attachment.PdfNative")
+                    : UiStrings.Get(languageCode, "Attachment.PdfText")
             };
         }
 
-        private static MissionAttachment LoadDocx(FileInfo file)
+        private static MissionAttachment LoadDocx(
+            FileInfo file,
+            string languageCode,
+            CancellationToken cancellationToken)
         {
             string extracted;
             try
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 using (ZipArchive archive = ZipFile.OpenRead(file.FullName))
                 {
                     ZipArchiveEntry documentEntry = archive.GetEntry("word/document.xml");
                     if (documentEntry == null)
-                        throw new InvalidDataException("DOCX 中缺少 word/document.xml。");
+                        throw new InvalidDataException(UiStrings.Get(
+                            languageCode, "Attachment.ErrorDocxXmlMissing"));
                     using (Stream stream = documentEntry.Open())
                     {
                         XDocument document = XDocument.Load(stream);
+                        cancellationToken.ThrowIfCancellationRequested();
                         XNamespace word = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
                         var paragraphs = document.Descendants(word + "p")
                             .Select(paragraph => string.Concat(paragraph.Descendants(word + "t").Select(node => node.Value)))
@@ -198,35 +272,68 @@ namespace MissionPlanner.AIWaypointPlanner
                     }
                 }
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("无法读取 DOCX（可能已加密或损坏）：" + file.Name + "。" + ex.Message, ex);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorDocxReadFormat", file.Name, ex.Message), ex);
             }
 
             if (string.IsNullOrWhiteSpace(extracted))
-                throw new InvalidOperationException("DOCX 中没有可读取的正文文字：" + file.Name);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorDocxEmptyFormat", file.Name));
             return new MissionAttachment
             {
                 DisplayName = file.Name,
                 MediaType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 SizeBytes = file.Length,
-                Kind = AttachmentContentKind.ExtractedText,
+                Kind = AttachmentContentKind.NativeDocument,
                 ExtractedText = extracted,
-                Status = "已提取 DOCX 正文与表格文本"
+                DataUrl = "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64," +
+                          Convert.ToBase64String(ReadAllBytes(file, cancellationToken)),
+                Status = UiStrings.Get(languageCode, "Attachment.DocxText")
             };
         }
 
-        private static MissionAttachment LoadText(FileInfo file, string mediaType)
+        private static MissionAttachment LoadNativeDocument(
+            FileInfo file,
+            string mediaType,
+            string languageCode,
+            CancellationToken cancellationToken)
         {
-            byte[] bytes = File.ReadAllBytes(file.FullName);
+            byte[] bytes = ReadAllBytes(file, cancellationToken);
+            return new MissionAttachment
+            {
+                DisplayName = file.Name,
+                MediaType = mediaType,
+                SizeBytes = file.Length,
+                Kind = AttachmentContentKind.NativeDocument,
+                DataUrl = "data:" + mediaType + ";base64," + Convert.ToBase64String(bytes),
+                Status = UiStrings.Get(languageCode, "Attachment.DocumentNative")
+            };
+        }
+
+        private static MissionAttachment LoadText(
+            FileInfo file,
+            string mediaType,
+            string languageCode,
+            CancellationToken cancellationToken)
+        {
+            byte[] bytes = ReadAllBytes(file, cancellationToken);
             if (bytes.Any(value => value == 0) && !HasUtf16Bom(bytes))
-                throw new InvalidOperationException("文件看起来是二进制内容，无法作为文本读取：" + file.Name);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorBinaryTextFormat", file.Name));
 
             string extracted;
-            using (var reader = new StreamReader(file.FullName, Encoding.UTF8, true))
+            using (var reader = new StreamReader(new MemoryStream(bytes), Encoding.UTF8, true))
                 extracted = NormalizeExtractedText(reader.ReadToEnd());
+            cancellationToken.ThrowIfCancellationRequested();
             if (string.IsNullOrWhiteSpace(extracted))
-                throw new InvalidOperationException("文本文件没有可读取内容：" + file.Name);
+                throw new InvalidOperationException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorTextEmptyFormat", file.Name));
 
             return new MissionAttachment
             {
@@ -235,8 +342,33 @@ namespace MissionPlanner.AIWaypointPlanner
                 SizeBytes = file.Length,
                 Kind = AttachmentContentKind.ExtractedText,
                 ExtractedText = extracted,
-                Status = "已读取文本"
+                Status = UiStrings.Get(languageCode, "Attachment.TextRead")
             };
+        }
+
+        private static byte[] ReadAllBytes(FileInfo file, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (file.Length > int.MaxValue)
+                throw new IOException("The attachment is too large to read into memory.");
+
+            byte[] bytes = new byte[(int)file.Length];
+            int offset = 0;
+            using (var stream = new FileStream(
+                file.FullName, FileMode.Open, FileAccess.Read, FileShare.Read, 81920,
+                FileOptions.SequentialScan))
+            {
+                while (offset < bytes.Length)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    int read = stream.Read(bytes, offset, Math.Min(81920, bytes.Length - offset));
+                    if (read == 0)
+                        throw new EndOfStreamException("The attachment changed while it was being read.");
+                    offset += read;
+                }
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+            return bytes;
         }
 
         private static string NormalizeExtractedText(string text)

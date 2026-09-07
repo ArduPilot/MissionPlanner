@@ -17,6 +17,7 @@ namespace MissionPlanner.AIWaypointPlanner
         public ApiAuthenticationMode AuthenticationMode { get; set; }
         public string Model { get; set; }
         public string ProjectId { get; set; }
+        public ApiReasoningLevel ReasoningLevel { get; set; } = ApiReasoningLevel.Off;
         public bool RememberApiKey { get; set; }
         public DateTime LastUsedUtc { get; set; }
 
@@ -42,11 +43,17 @@ namespace MissionPlanner.AIWaypointPlanner
         private readonly XmlSerializer serializer = new XmlSerializer(typeof(ApiProfileDocument));
 
         public ApiProfileStore()
-        {
-            string directory = Path.Combine(
+            : this(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "MissionPlanner", "AIWaypointPlanner");
-            filePath = Path.Combine(directory, "api-profiles.xml");
+                "MissionPlanner", "AIWaypointPlanner", "api-profiles.xml"))
+        {
+        }
+
+        public ApiProfileStore(string profileFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(profileFilePath))
+                throw new ArgumentException("A profile file path is required.", "profileFilePath");
+            filePath = Path.GetFullPath(profileFilePath);
         }
 
         public IList<ApiProfileRecord> Load()
@@ -88,15 +95,115 @@ namespace MissionPlanner.AIWaypointPlanner
                 File.Move(temporary, filePath);
         }
 
-        public static string CredentialTargetFor(string profileName)
+        public static string CredentialTargetFor(ApiProfileRecord profile)
+        {
+            if (profile == null)
+                throw new ArgumentNullException("profile");
+
+            return CredentialTargetForProfileConnection(
+                profile.Name,
+                profile.BaseUrl,
+                profile.Protocol,
+                profile.AuthenticationMode,
+                profile.Model);
+        }
+
+        public static string CredentialTargetForProfileConnection(
+            string profileName,
+            string baseUrl,
+            ApiProtocol protocol,
+            ApiAuthenticationMode authenticationMode,
+            string model)
+        {
+            string identity = "profile\n" +
+                              (profileName ?? string.Empty).Trim().ToLowerInvariant() + "\n" +
+                              BuildConnectionIdentity(baseUrl, protocol, authenticationMode, model);
+            return CredentialPrefix + "Scoped." + HashIdentity(identity);
+        }
+
+        public static string CredentialTargetForEndpoint(
+            string baseUrl,
+            ApiProtocol protocol,
+            ApiAuthenticationMode authenticationMode,
+            string model)
+        {
+            string identity = "endpoint\n" +
+                              BuildConnectionIdentity(baseUrl, protocol, authenticationMode, model);
+            return CredentialPrefix + "Endpoint." + HashIdentity(identity);
+        }
+
+        public static string LegacyCredentialTargetForProfileName(string profileName)
+        {
+            return CredentialPrefix + HashIdentity(profileName ?? string.Empty);
+        }
+
+        private static string BuildConnectionIdentity(
+            string baseUrl,
+            ApiProtocol protocol,
+            ApiAuthenticationMode authenticationMode,
+            string model)
+        {
+            return NormalizeBaseUrl(baseUrl) + "\n" +
+                   protocol + "\n" +
+                   authenticationMode + "\n" +
+                   (model ?? string.Empty).Trim();
+        }
+
+        private static string HashIdentity(string identity)
         {
             using (var sha = SHA256.Create())
             {
-                byte[] digest = sha.ComputeHash(Encoding.UTF8.GetBytes(profileName ?? string.Empty));
-                return CredentialPrefix + BitConverter.ToString(digest).Replace("-", string.Empty).Substring(0, 32);
+                byte[] digest = sha.ComputeHash(Encoding.UTF8.GetBytes(identity ?? string.Empty));
+                return BitConverter.ToString(digest).Replace("-", string.Empty).Substring(0, 32);
             }
         }
 
+        /// <summary>
+        /// Determines whether a saved profile still describes the connection currently
+        /// shown in the settings page.  A profile credential is only safe to reuse when
+        /// all endpoint-affecting fields match; otherwise the caller must use an
+        /// endpoint-scoped credential (or ask the operator for a new session key).
+        /// </summary>
+        public static bool MatchesConnection(
+            ApiProfileRecord profile,
+            string baseUrl,
+            ApiProtocol protocol,
+            ApiAuthenticationMode authenticationMode,
+            string model)
+        {
+            if (profile == null)
+                return false;
+
+            return string.Equals(
+                       NormalizeBaseUrl(profile.BaseUrl),
+                       NormalizeBaseUrl(baseUrl),
+                       StringComparison.Ordinal) &&
+                   profile.Protocol == protocol &&
+                   profile.AuthenticationMode == authenticationMode &&
+                   string.Equals(
+                       (profile.Model ?? string.Empty).Trim(),
+                       (model ?? string.Empty).Trim(),
+                       StringComparison.Ordinal);
+        }
+
+        private static string NormalizeBaseUrl(string value)
+        {
+            Uri uri;
+            if (Uri.TryCreate((value ?? string.Empty).Trim(), UriKind.Absolute, out uri))
+            {
+                var builder = new UriBuilder(uri)
+                {
+                    Scheme = uri.Scheme.ToLowerInvariant(),
+                    Host = uri.IdnHost.ToLowerInvariant(),
+                    Fragment = string.Empty,
+                    Query = string.Empty
+                };
+                if (uri.IsDefaultPort)
+                    builder.Port = -1;
+                return builder.Uri.AbsoluteUri.TrimEnd('/');
+            }
+            return (value ?? string.Empty).Trim().TrimEnd('/');
+        }
         private static bool IsUsable(ApiProfileRecord profile)
         {
             return profile != null && !string.IsNullOrWhiteSpace(profile.Name) &&

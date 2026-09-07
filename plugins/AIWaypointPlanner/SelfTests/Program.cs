@@ -30,6 +30,17 @@ namespace AIWaypointPlanner.SelfTests
             Run("Localhost HTTP acceptance", TestLocalhostHttpAcceptance);
             Run("No-auth validation", TestNoAuthenticationValidation);
             Run("CC Switch preset defaults", TestCcSwitchPreset);
+            Run("OpenAI preset defaults", TestOpenAiPreset);
+            Run("Reasoning effort mappings", TestReasoningEffortMappings);
+            Run("Reasoning request JSON", TestReasoningRequestJson);
+            Run("Reasoning profile persistence", TestReasoningProfilePersistence);
+            Run("Legacy profile reasoning default", TestLegacyProfileReasoningDefault);
+            Run("Profile credential scope matching", TestProfileCredentialScopeMatching);
+            Run("Connection-scoped credential targets", TestConnectionScopedCredentialTargets);
+            Run("Localized interface catalogs", TestLocalizedInterfaceCatalogs);
+            Run("Language preference persistence", TestLanguagePreferencePersistence);
+            Run("Conversation language instruction", TestConversationLanguageInstruction);
+            Run("Plugin version consistency", TestPluginVersionConsistency);
             Run("Relative route compilation", TestRelativeRouteCompilation);
             Run("Survey polygon grid compilation", TestSurveyPolygonCompilation);
             Run("Out-of-bounds leg rejection", TestOutOfBoundsLeg);
@@ -37,17 +48,24 @@ namespace AIWaypointPlanner.SelfTests
             Run("Text attachment extraction", TestTextAttachmentExtraction);
             Run("DOCX attachment extraction", TestDocxAttachmentExtraction);
             Run("PDF attachment extraction", TestPdfAttachmentExtraction);
+            Run("Native document MIME types", TestNativeDocumentMediaTypes);
+            Run("Chat rejects native-only document", TestChatRejectsNativeOnlyDocument);
+            Run("Duplicate attachment name rejection", TestDuplicateAttachmentNameRejection);
             Run("Image data URL generation", TestImageAttachment);
             Run("Attachment limits", TestAttachmentLimits);
+            Run("Attachment cancellation", TestAttachmentCancellation);
+            Run("Responses native-file text limit", TestResponsesNativeFileTextLimit);
             Run("Responses multimodal request", TestResponsesMultimodalRequest);
             Run("Chat Completions multimodal request", TestChatMultimodalRequest);
             Run("Confirmation fields validation", TestConfirmationFieldsValidation);
             Run("Clarification prevents mission", TestClarificationPreventsMission);
             Run("Attachment cannot override RTL safety", TestAttachmentCannotOverrideSafety);
             Run("Model response data capture", TestModelResponseDataCapture);
+            Run("Large model response extraction", TestLargeModelResponseExtraction);
             Run("Transient API retry recovery", TestTransientApiRetryRecovery);
             Run("Permanent API error is not retried", TestPermanentApiErrorIsNotRetried);
             Run("Local proxy refusal diagnostic", TestLocalProxyRefusalDiagnostic);
+            Run("Russian validation and API diagnostics", TestRussianDiagnostics);
 
             Console.WriteLine(failures == 0
                 ? "All AIWaypointPlanner self-tests passed."
@@ -112,11 +130,315 @@ namespace AIWaypointPlanner.SelfTests
         private static void TestCcSwitchPreset()
         {
             ApiProviderPreset preset = ApiProviderPreset.CreateDefaults()[0];
-            AssertEqual("CC Switch（本机）", preset.Name, "First preset should be CC Switch.");
+            AssertEqual("CC Switch (local)", preset.Name, "First preset should be CC Switch.");
             AssertEqual("http://127.0.0.1:15721/v1", preset.BaseUrl, "CC Switch URL differs.");
             AssertEqual(ApiProtocol.Responses, preset.Protocol, "CC Switch protocol differs.");
             AssertEqual(ApiAuthenticationMode.None, preset.AuthenticationMode, "CC Switch auth differs.");
             AssertEqual("gpt-5.6-sol", preset.Model, "CC Switch default model differs.");
+            AssertEqual(ApiReasoningLevel.Medium, preset.ReasoningLevel,
+                "Provider presets must default to medium reasoning.");
+        }
+
+        private static void TestOpenAiPreset()
+        {
+            IList<ApiProviderPreset> presets = ApiProviderPreset.CreateDefaults();
+            ApiProviderPreset preset = presets[1];
+            AssertEqual("OpenAI", preset.Name, "Second preset should be OpenAI.");
+            AssertEqual("https://api.openai.com/v1", preset.BaseUrl, "OpenAI URL differs.");
+            AssertEqual(ApiProtocol.Responses, preset.Protocol, "OpenAI protocol differs.");
+            AssertEqual(ApiAuthenticationMode.Bearer, preset.AuthenticationMode, "OpenAI auth differs.");
+            AssertEqual("gpt-5.6-sol", preset.Model, "OpenAI default model differs.");
+            AssertEqual(ApiReasoningLevel.Medium, preset.ReasoningLevel,
+                "OpenAI gpt-5.6-sol should default to medium reasoning.");
+
+            for (int i = 2; i < presets.Count; i++)
+            {
+                AssertEqual(ApiReasoningLevel.Off, presets[i].ReasoningLevel,
+                    presets[i].Name + " must omit reasoning fields until the selected model is known to support them.");
+            }
+        }
+
+        private static void TestReasoningEffortMappings()
+        {
+            AssertEqual<string>(null,
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.Off),
+                "Off must omit API reasoning configuration.");
+            AssertEqual("low",
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.Low),
+                "Low reasoning mapping differs.");
+            AssertEqual("medium",
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.Medium),
+                "Medium reasoning mapping differs.");
+            AssertEqual("high",
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.High),
+                "High reasoning mapping differs.");
+            AssertEqual("xhigh",
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.ExtraHigh),
+                "Extra-high reasoning mapping differs.");
+            AssertEqual("max",
+                OpenAiResponsesClient.GetReasoningEffortValue(ApiReasoningLevel.Ultra),
+                "Ultra must map to the public API max value.");
+        }
+
+        private static void TestReasoningRequestJson()
+        {
+            var serializer = new JavaScriptSerializer();
+            var responsesSettings = CreateNoAuthSettings(ApiProtocol.Responses);
+            responsesSettings.ReasoningLevel = ApiReasoningLevel.ExtraHigh;
+            var responsesBody = serializer.DeserializeObject(OpenAiResponsesClient.BuildRequestJson(
+                "test", responsesSettings, CreateContext(), new MissionAttachment[0]))
+                as Dictionary<string, object>;
+            AssertTrue(responsesBody != null, "Responses request JSON was not an object.");
+            var reasoning = responsesBody["reasoning"] as Dictionary<string, object>;
+            AssertTrue(reasoning != null, "Responses reasoning object is missing.");
+            AssertEqual("xhigh", reasoning["effort"] as string,
+                "Responses reasoning.effort differs.");
+            AssertTrue(!responsesBody.ContainsKey("reasoning_effort"),
+                "Chat reasoning field leaked into Responses request.");
+
+            var chatSettings = CreateNoAuthSettings(ApiProtocol.ChatCompletions);
+            chatSettings.ReasoningLevel = ApiReasoningLevel.Ultra;
+            var chatBody = serializer.DeserializeObject(OpenAiResponsesClient.BuildRequestJson(
+                "test", chatSettings, CreateContext(), new MissionAttachment[0]))
+                as Dictionary<string, object>;
+            AssertTrue(chatBody != null, "Chat request JSON was not an object.");
+            AssertEqual("max", chatBody["reasoning_effort"] as string,
+                "Chat reasoning_effort differs.");
+            AssertTrue(!chatBody.ContainsKey("reasoning"),
+                "Responses reasoning object leaked into Chat request.");
+
+            responsesSettings.ReasoningLevel = ApiReasoningLevel.Off;
+            responsesBody = serializer.DeserializeObject(OpenAiResponsesClient.BuildRequestJson(
+                "test", responsesSettings, CreateContext(), new MissionAttachment[0]))
+                as Dictionary<string, object>;
+            AssertTrue(!responsesBody.ContainsKey("reasoning"),
+                "Off must omit Responses reasoning configuration.");
+
+            chatSettings.ReasoningLevel = ApiReasoningLevel.Off;
+            chatBody = serializer.DeserializeObject(OpenAiResponsesClient.BuildRequestJson(
+                "test", chatSettings, CreateContext(), new MissionAttachment[0]))
+                as Dictionary<string, object>;
+            AssertTrue(!chatBody.ContainsKey("reasoning_effort"),
+                "Off must omit Chat reasoning configuration.");
+        }
+
+        private static void TestReasoningProfilePersistence()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string path = Path.Combine(directory, "api-profiles.xml");
+                var store = new ApiProfileStore(path);
+                store.Save(new[]
+                {
+                    new ApiProfileRecord
+                    {
+                        Name = "Reasoning profile",
+                        BaseUrl = "https://api.openai.com/v1",
+                        Protocol = ApiProtocol.Responses,
+                        AuthenticationMode = ApiAuthenticationMode.Bearer,
+                        Model = "gpt-5.6-sol",
+                        ReasoningLevel = ApiReasoningLevel.Ultra,
+                        LastUsedUtc = DateTime.UtcNow
+                    }
+                });
+
+                IList<ApiProfileRecord> loaded = store.Load();
+                AssertEqual(1, loaded.Count, "Saved reasoning profile was not loaded.");
+                AssertEqual(ApiReasoningLevel.Ultra, loaded[0].ReasoningLevel,
+                    "Saved reasoning level was not restored.");
+            });
+        }
+
+        private static void TestLegacyProfileReasoningDefault()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string path = Path.Combine(directory, "api-profiles.xml");
+                File.WriteAllText(path,
+                    "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                    "<AIWaypointPlannerApiProfiles><Profiles><Profile>" +
+                    "<Name>Legacy profile</Name>" +
+                    "<BaseUrl>https://api.openai.com/v1</BaseUrl>" +
+                    "<Protocol>Responses</Protocol>" +
+                    "<AuthenticationMode>Bearer</AuthenticationMode>" +
+                    "<Model>gpt-5.6-sol</Model>" +
+                    "</Profile></Profiles></AIWaypointPlannerApiProfiles>",
+                    new UTF8Encoding(false));
+
+                IList<ApiProfileRecord> loaded = new ApiProfileStore(path).Load();
+                AssertEqual(1, loaded.Count, "Legacy profile was not loaded.");
+                AssertEqual(ApiReasoningLevel.Off, loaded[0].ReasoningLevel,
+                    "A missing legacy reasoning value must use the provider default.");
+            });
+        }
+
+        private static void TestProfileCredentialScopeMatching()
+        {
+            var profile = new ApiProfileRecord
+            {
+                Name = "Gateway",
+                BaseUrl = "https://example.test/v1/",
+                Protocol = ApiProtocol.Responses,
+                AuthenticationMode = ApiAuthenticationMode.Bearer,
+                Model = "gpt-5.6-sol"
+            };
+
+            AssertTrue(ApiProfileStore.MatchesConnection(
+                profile,
+                "https://example.test/v1",
+                ApiProtocol.Responses,
+                ApiAuthenticationMode.Bearer,
+                "gpt-5.6-sol"),
+                "Equivalent endpoint formatting should match a saved profile.");
+            AssertTrue(!ApiProfileStore.MatchesConnection(
+                profile,
+                "https://other.example.test/v1",
+                ApiProtocol.Responses,
+                ApiAuthenticationMode.Bearer,
+                "gpt-5.6-sol"),
+                "A changed host must not reuse the saved profile credential.");
+            AssertTrue(!ApiProfileStore.MatchesConnection(
+                profile,
+                "https://example.test/v1",
+                ApiProtocol.ChatCompletions,
+                ApiAuthenticationMode.Bearer,
+                "gpt-5.6-sol"),
+                "A changed protocol must not reuse the saved profile credential.");
+            AssertTrue(!ApiProfileStore.MatchesConnection(
+                profile,
+                "https://example.test/v1",
+                ApiProtocol.Responses,
+                ApiAuthenticationMode.Bearer,
+                "another-model"),
+                "A changed model must not reuse the saved profile credential.");
+        }
+
+        private static void TestConnectionScopedCredentialTargets()
+        {
+            var profile = new ApiProfileRecord
+            {
+                Name = "Gateway",
+                BaseUrl = "https://example.test/v1/",
+                Protocol = ApiProtocol.Responses,
+                AuthenticationMode = ApiAuthenticationMode.Bearer,
+                Model = "gpt-5.6-sol"
+            };
+            string original = ApiProfileStore.CredentialTargetFor(profile);
+            AssertEqual(original, ApiProfileStore.CredentialTargetForProfileConnection(
+                "gateway",
+                "https://EXAMPLE.test/v1",
+                ApiProtocol.Responses,
+                ApiAuthenticationMode.Bearer,
+                "gpt-5.6-sol"),
+                "Equivalent profile connection settings must produce the same credential target.");
+            AssertTrue(!string.Equals(original, ApiProfileStore.CredentialTargetForProfileConnection(
+                profile.Name,
+                "https://other.example.test/v1",
+                profile.Protocol,
+                profile.AuthenticationMode,
+                profile.Model), StringComparison.Ordinal),
+                "A changed endpoint must produce a different profile credential target.");
+            AssertTrue(!string.Equals(original, ApiProfileStore.CredentialTargetForProfileConnection(
+                profile.Name,
+                profile.BaseUrl,
+                ApiProtocol.ChatCompletions,
+                profile.AuthenticationMode,
+                profile.Model), StringComparison.Ordinal),
+                "A changed protocol must produce a different profile credential target.");
+            AssertTrue(!string.Equals(original, ApiProfileStore.CredentialTargetForProfileConnection(
+                profile.Name,
+                profile.BaseUrl,
+                profile.Protocol,
+                ApiAuthenticationMode.ApiKeyHeader,
+                profile.Model), StringComparison.Ordinal),
+                "A changed authentication mode must produce a different profile credential target.");
+            AssertTrue(!string.Equals(original, ApiProfileStore.CredentialTargetForProfileConnection(
+                profile.Name,
+                profile.BaseUrl,
+                profile.Protocol,
+                profile.AuthenticationMode,
+                "another-model"), StringComparison.Ordinal),
+                "A changed model must produce a different profile credential target.");
+            AssertTrue(!string.Equals(original,
+                ApiProfileStore.LegacyCredentialTargetForProfileName(profile.Name),
+                StringComparison.Ordinal),
+                "A scoped profile target must not collide with the legacy name-only target.");
+        }
+
+        private static void TestLocalizedInterfaceCatalogs()
+        {
+            AssertEqual(UiStrings.DefaultLanguageCode,
+                UiStrings.NormalizeLanguageCode(null),
+                "Missing language must default to English.");
+            AssertEqual("Chat", UiStrings.Get(UiStrings.DefaultLanguageCode, "Nav.Chat"),
+                "English navigation label differs.");
+            AssertEqual("对话", UiStrings.Get(UiStrings.ChineseLanguageCode, "Nav.Chat"),
+                "Chinese navigation label differs.");
+            AssertEqual("Диалог", UiStrings.Get(UiStrings.RussianLanguageCode, "Nav.Chat"),
+                "Russian navigation label differs.");
+            AssertEqual("Chat", UiStrings.Get("xx-XX", "Nav.Chat"),
+                "Unknown language must fall back to English.");
+            AssertEqual("ULTRA", UiStrings.Get(UiStrings.RussianLanguageCode, "Reasoning.Ultra"),
+                "Russian reasoning label differs.");
+            AssertEqual("Connection attempts: 3",
+                UiStrings.Format(UiStrings.DefaultLanguageCode, "Diagnostics.AttemptsFormat", 3),
+                "Localized format string differs.");
+            var englishKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.DefaultLanguageCode));
+            var chineseKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.ChineseLanguageCode));
+            var russianKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.RussianLanguageCode));
+            AssertEqual(englishKeys.Count, chineseKeys.Count, "Chinese catalog key count differs.");
+            AssertEqual(englishKeys.Count, russianKeys.Count, "Russian catalog key count differs.");
+            AssertTrue(englishKeys.SetEquals(chineseKeys), "Chinese catalog key set differs.");
+            AssertTrue(englishKeys.SetEquals(russianKeys), "Russian catalog key set differs.");
+            foreach (string key in englishKeys)
+            {
+                AssertTrue(!string.IsNullOrWhiteSpace(UiStrings.Get(UiStrings.ChineseLanguageCode, key)),
+                    "Chinese catalog has an empty value for " + key + ".");
+                AssertTrue(!string.IsNullOrWhiteSpace(UiStrings.Get(UiStrings.RussianLanguageCode, key)),
+                    "Russian catalog has an empty value for " + key + ".");
+            }
+        }
+
+        private static void TestLanguagePreferencePersistence()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string path = Path.Combine(directory, "preferences.xml");
+                var store = new PluginPreferencesStore(path);
+                store.Save(new PluginPreferences { LanguageCode = UiStrings.RussianLanguageCode });
+                AssertEqual(UiStrings.RussianLanguageCode, store.Load().LanguageCode,
+                    "Saved Russian preference was not restored.");
+
+                File.WriteAllText(path, "<broken", Encoding.UTF8);
+                AssertEqual(UiStrings.DefaultLanguageCode, store.Load().LanguageCode,
+                    "A damaged preference file must fall back to English.");
+            });
+        }
+
+        private static void TestConversationLanguageInstruction()
+        {
+            var session = new MissionConversationSession();
+            session.RecordUserTask("Plan a short route.");
+            string objective = session.BuildObjective("Continue the task.", UiStrings.RussianLanguageCode);
+            AssertTrue(objective.Contains("Operator interface language: ru-RU"),
+                "Conversation context did not include the selected language.");
+
+            string request = OpenAiResponsesClient.BuildRequestJson(
+                objective,
+                CreateNoAuthSettings(ApiProtocol.Responses),
+                CreateContext(),
+                new MissionAttachment[0]);
+            AssertTrue(request.Contains("requested language"),
+                "The model instruction did not describe language selection.");
+            AssertTrue(!request.Contains("中文摘要"),
+                "The request still contains a Chinese-only schema instruction.");
+        }
+
+        private static void TestPluginVersionConsistency()
+        {
+            AssertEqual("2.0.0",
+                typeof(OpenAiResponsesClient).Assembly.GetName().Version.ToString(3),
+                "Plugin assembly version was not updated to the major UI release.");
         }
 
         private static void TestRelativeRouteCompilation()
@@ -224,8 +546,29 @@ namespace AIWaypointPlanner.SelfTests
                 }
 
                 MissionAttachment attachment = new AttachmentProcessor().Load(path, new MissionAttachment[0]);
+                AssertEqual(AttachmentContentKind.NativeDocument, attachment.Kind,
+                    "DOCX must remain a native document for Responses.");
                 AssertTrue(attachment.ExtractedText.Contains("向东飞行"), "DOCX paragraph was not extracted.");
                 AssertTrue(attachment.ExtractedText.Contains("高度 120"), "DOCX table text was not extracted.");
+                AssertTrue(attachment.DataUrl.StartsWith(
+                        "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,"),
+                    "DOCX native data URL differs.");
+
+                string responsesJson = OpenAiResponsesClient.BuildRequestJson(
+                    "Read the document", CreateNoAuthSettings(ApiProtocol.Responses),
+                    CreateContext(), new[] { attachment });
+                AssertTrue(responsesJson.Contains("\"type\":\"input_file\""),
+                    "Responses must include DOCX as input_file.");
+                AssertTrue(!responsesJson.Contains("向东飞行"),
+                    "Responses should not duplicate locally extracted DOCX text.");
+
+                string chatJson = OpenAiResponsesClient.BuildRequestJson(
+                    "Read the document", CreateNoAuthSettings(ApiProtocol.ChatCompletions),
+                    CreateContext(), new[] { attachment });
+                AssertTrue(chatJson.Contains("向东飞行"),
+                    "Chat must receive locally extracted DOCX text.");
+                AssertTrue(!chatJson.Contains("\"type\":\"input_file\""),
+                    "Chat must not receive Responses input_file syntax.");
             });
         }
 
@@ -241,8 +584,117 @@ namespace AIWaypointPlanner.SelfTests
                 File.WriteAllBytes(path, builder.Build());
 
                 MissionAttachment attachment = new AttachmentProcessor().Load(path, new MissionAttachment[0]);
-                AssertEqual(AttachmentContentKind.ExtractedText, attachment.Kind, "Text PDF should be extracted locally.");
+                AssertEqual(AttachmentContentKind.NativePdf, attachment.Kind,
+                    "Every PDF must remain a native file for Responses.");
                 AssertTrue(attachment.ExtractedText.Contains("altitude"), "PDF text was not extracted.");
+                AssertTrue(attachment.DataUrl.StartsWith("data:application/pdf;base64,"),
+                    "PDF native data URL differs.");
+
+                string responsesJson = OpenAiResponsesClient.BuildRequestJson(
+                    "Read the PDF", CreateNoAuthSettings(ApiProtocol.Responses),
+                    CreateContext(), new[] { attachment });
+                AssertTrue(responsesJson.Contains("\"type\":\"input_file\""),
+                    "Responses must include a text PDF as native input_file.");
+                AssertTrue(!responsesJson.Contains("Mission altitude 120 meters RTL"),
+                    "Responses should not duplicate locally extracted PDF text.");
+
+                string chatJson = OpenAiResponsesClient.BuildRequestJson(
+                    "Read the PDF", CreateNoAuthSettings(ApiProtocol.ChatCompletions),
+                    CreateContext(), new[] { attachment });
+                AssertTrue(chatJson.Contains("Mission altitude 120 meters RTL"),
+                    "Chat must receive locally extracted PDF text.");
+                AssertTrue(!chatJson.Contains("\"type\":\"input_file\""),
+                    "Chat must not receive Responses input_file syntax.");
+            });
+        }
+
+        private static void TestNativeDocumentMediaTypes()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                var expected = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { ".doc", "application/msword" },
+                    { ".rtf", "application/rtf" },
+                    { ".odt", "application/vnd.oasis.opendocument.text" },
+                    { ".ppt", "application/vnd.ms-powerpoint" },
+                    { ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+                    { ".xls", "application/vnd.ms-excel" },
+                    { ".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }
+                };
+
+                foreach (KeyValuePair<string, string> item in expected)
+                {
+                    string path = Path.Combine(directory, "sample" + item.Key);
+                    File.WriteAllBytes(path, new byte[] { 1, 2, 3 });
+                    MissionAttachment attachment = new AttachmentProcessor().Load(
+                        path, new MissionAttachment[0]);
+                    AssertEqual(AttachmentContentKind.NativeDocument, attachment.Kind,
+                        item.Key + " must be treated as a native document.");
+                    AssertEqual(item.Value, attachment.MediaType,
+                        item.Key + " MIME type differs.");
+                    AssertTrue(attachment.DataUrl.StartsWith("data:" + item.Value + ";base64,"),
+                        item.Key + " data URL differs.");
+                }
+            });
+        }
+
+        private static void TestChatRejectsNativeOnlyDocument()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string path = Path.Combine(directory, "requirements.xlsx");
+                File.WriteAllBytes(path, new byte[] { 1, 2, 3 });
+                MissionAttachment attachment = new AttachmentProcessor().Load(
+                    path, new MissionAttachment[0]);
+
+                try
+                {
+                    OpenAiResponsesClient.BuildRequestJson(
+                        "Read the workbook", CreateNoAuthSettings(ApiProtocol.ChatCompletions),
+                        CreateContext(), new[] { attachment });
+                }
+                catch (InvalidOperationException ex)
+                {
+                    AssertTrue(ex.Message.Contains("Responses API"),
+                        "Native-only Chat rejection must recommend Responses API.");
+                    AssertTrue(ex.Message.Contains("extracted text"),
+                        "Native-only Chat rejection must explain the missing extracted text.");
+                    return;
+                }
+
+                throw new InvalidOperationException(
+                    "Chat Completions unexpectedly accepted a native-only workbook.");
+            });
+        }
+
+        private static void TestDuplicateAttachmentNameRejection()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string firstDirectory = Path.Combine(directory, "first");
+                string secondDirectory = Path.Combine(directory, "second");
+                Directory.CreateDirectory(firstDirectory);
+                Directory.CreateDirectory(secondDirectory);
+                string firstPath = Path.Combine(firstDirectory, "mission.txt");
+                string secondPath = Path.Combine(secondDirectory, "mission.txt");
+                File.WriteAllText(firstPath, "first", Encoding.UTF8);
+                File.WriteAllText(secondPath, "second", Encoding.UTF8);
+
+                var processor = new AttachmentProcessor();
+                MissionAttachment first = processor.Load(firstPath, new MissionAttachment[0]);
+                try
+                {
+                    processor.Load(secondPath, new[] { first }, UiStrings.RussianLanguageCode);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    AssertTrue(ex.Message.Contains("одинаковое отображаемое имя"),
+                        "Duplicate-name rejection was not localized in Russian.");
+                    return;
+                }
+
+                throw new InvalidOperationException("Two attachments with the same display name were accepted.");
             });
         }
 
@@ -282,6 +734,48 @@ namespace AIWaypointPlanner.SelfTests
             }, "Native PDF must be rejected for Chat Completions.");
         }
 
+        private static void TestAttachmentCancellation()
+        {
+            WithTempDirectory(delegate(string directory)
+            {
+                string path = Path.Combine(directory, "cancel.txt");
+                File.WriteAllText(path, new string('x', 8192), Encoding.UTF8);
+                using (var cancellation = new CancellationTokenSource())
+                {
+                    cancellation.Cancel();
+                    AssertThrows<OperationCanceledException>(delegate
+                    {
+                        new AttachmentProcessor().Load(
+                            path,
+                            new MissionAttachment[0],
+                            UiStrings.DefaultLanguageCode,
+                            cancellation.Token);
+                    }, "A cancelled attachment load must stop before reading the file.");
+                }
+            });
+        }
+
+        private static void TestResponsesNativeFileTextLimit()
+        {
+            var nativePdf = new MissionAttachment
+            {
+                DisplayName = "manual.pdf",
+                MediaType = "application/pdf",
+                SizeBytes = 1024,
+                Kind = AttachmentContentKind.NativePdf,
+                ExtractedText = new string('x', AttachmentProcessor.MaximumExtractedCharacters + 1),
+                DataUrl = "data:application/pdf;base64,AA=="
+            };
+
+            AttachmentProcessor.ValidateForProtocol(
+                new[] { nativePdf }, ApiProtocol.Responses);
+            AssertThrows<InvalidOperationException>(delegate
+            {
+                AttachmentProcessor.ValidateForProtocol(
+                    new[] { nativePdf }, ApiProtocol.ChatCompletions);
+            }, "Chat fallback text must retain the extracted-text limit.");
+        }
+
         private static void TestResponsesMultimodalRequest()
         {
             var settings = CreateNoAuthSettings(ApiProtocol.Responses);
@@ -305,6 +799,8 @@ namespace AIWaypointPlanner.SelfTests
                 "读取附件要求", settings, CreateContext(), new[] { image, pdf });
             AssertTrue(json.Contains("\"type\":\"input_image\""), "Responses image item is missing.");
             AssertTrue(json.Contains("\"type\":\"input_file\""), "Responses PDF item is missing.");
+            AssertTrue(json.Contains("\"file_data\":\"data:application/pdf;base64,AAAA\",\"detail\":\"auto\""),
+                "Responses PDF detail setting is missing.");
             AssertTrue(json.Contains("confirmed_requirements"), "Confirmation schema fields are missing.");
         }
 
@@ -459,13 +955,30 @@ namespace AIWaypointPlanner.SelfTests
             }
         }
 
+        private static void TestLargeModelResponseExtraction()
+        {
+            string padding = new string('a', 1200000);
+            string responsesJson =
+                "{\"output\":[{\"type\":\"reasoning\",\"encrypted_content\":\"" + padding +
+                "\"},{\"type\":\"message\",\"content\":[{\"type\":\"output_text\",\"text\":\"{}\"}]}]}";
+            AssertEqual("{}", OpenAiResponsesClient.ExtractOutputText(responsesJson),
+                "A valid Responses payload larger than one megabyte was rejected.");
+
+            string chatJson =
+                "{\"padding\":\"" + padding +
+                "\",\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"{}\"}}]}";
+            AssertEqual("{}", OpenAiResponsesClient.ExtractChatCompletionText(chatJson),
+                "A valid Chat Completions payload larger than one megabyte was rejected.");
+        }
+
         private static void TestLocalProxyRefusalDiagnostic()
         {
             var socketError = new SocketException((int)SocketError.ConnectionRefused);
             var transportError = new InvalidOperationException("outer transport error", socketError);
             string message = OpenAiResponsesClient.CreateTransportDiagnostic(
                 transportError, new Uri("http://127.0.0.1:15721/v1/responses"));
-            AssertTrue(message.Contains("代理服务未启动"), "Connection refusal should explain that the local proxy is not running.");
+            AssertTrue(message.Contains("refused the connection"),
+                "Connection refusal should explain that the local proxy rejected the connection.");
             AssertTrue(message.Contains("CC Switch"), "CC Switch recovery guidance is missing.");
             AssertTrue(message.Contains("outer transport error"), "Outer exception detail was lost.");
         }
@@ -505,7 +1018,7 @@ namespace AIWaypointPlanner.SelfTests
                     AssertEqual(3, client.LastResponseData.AttemptCount, "Attempt count differs.");
                     AssertEqual(2, client.LastResponseData.RetryCount, "Retry count differs.");
                     AssertEqual(200, client.LastResponseData.HttpStatusCode.Value, "Recovery status differs.");
-                    AssertTrue(client.LastResponseData.Diagnostic.Contains("连接已恢复"),
+                    AssertTrue(client.LastResponseData.Diagnostic.Contains("connection recovered"),
                         "Successful recovery diagnostic is missing.");
                 }
                 AssertTrue(server.Wait(5000), "Transient retry test server did not finish.");
@@ -514,6 +1027,42 @@ namespace AIWaypointPlanner.SelfTests
             {
                 listener.Stop();
             }
+        }
+
+        private static void TestRussianDiagnostics()
+        {
+            TaskSpec spec = CreateRelativeSpec();
+            spec.cruise_altitude_m = 10.0;
+            ValidationResult validation = new MissionValidator(UiStrings.RussianLanguageCode)
+                .ValidateSpec(spec, CreateContext());
+            AssertTrue(validation.Errors.Exists(message => message.Contains("Крейсерская высота")),
+                "Russian validation field name is missing.");
+            AssertTrue(validation.Errors.Exists(message => message.Contains("должно быть от")),
+                "Russian validation range diagnostic is missing.");
+
+            var socketError = new SocketException((int)SocketError.ConnectionRefused);
+            string transportMessage = OpenAiResponsesClient.CreateTransportDiagnostic(
+                socketError,
+                new Uri("http://127.0.0.1:15721/v1/responses"),
+                UiStrings.RussianLanguageCode);
+            AssertTrue(transportMessage.Contains("отклонил подключение"),
+                "Russian local-gateway refusal diagnostic is missing.");
+
+            var settings = CreateNoAuthSettings(ApiProtocol.Responses);
+            settings.DisplayLanguageCode = UiStrings.RussianLanguageCode;
+            try
+            {
+                OpenAiResponsesClient.BuildRequestJson(
+                    " ", settings, CreateContext(), new MissionAttachment[0]);
+            }
+            catch (ArgumentException ex)
+            {
+                AssertTrue(ex.Message.Contains("Необходимо указать цель задания"),
+                    "Russian empty-objective diagnostic is missing.");
+                return;
+            }
+
+            throw new InvalidOperationException("An empty objective was unexpectedly accepted.");
         }
 
         private static void TestPermanentApiErrorIsNotRetried()

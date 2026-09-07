@@ -7,8 +7,8 @@ namespace MissionPlanner.AIWaypointPlanner
     {
         private ToolStripMenuItem menuItem;
 
-        public override string Name { get { return "AI 航点规划"; } }
-        public override string Version { get { return "1.5.0"; } }
+        public override string Name { get { return "AI Waypoint Planner"; } }
+        public override string Version { get { return "2.0.0"; } }
         public override string Author { get { return "Local Mission Planner Plugin"; } }
 
         public override bool Init()
@@ -18,8 +18,9 @@ namespace MissionPlanner.AIWaypointPlanner
 
         public override bool Loaded()
         {
-            menuItem = new ToolStripMenuItem(Name);
-            menuItem.ToolTipText = "用自然语言生成经本地校验的候选航点";
+            string languageCode = new PluginPreferencesStore().Load().LanguageCode;
+            menuItem = new ToolStripMenuItem(UiStrings.Get(languageCode, "App.Name"));
+            menuItem.ToolTipText = UiStrings.Get(languageCode, "App.MenuTooltip");
             menuItem.Click += OpenPlanner;
 
             ToolStripItemCollection items = Host.FPMenuMap.Items;

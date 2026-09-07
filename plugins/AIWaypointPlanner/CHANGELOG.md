@@ -1,5 +1,36 @@
 # Change Log
 
+## 2.0.0 - 2026-09-06
+
+### Added
+
+- Reworked the main workflow into Chat, Mission review and Settings views with bounded multi-turn context.
+- Added English, Simplified Chinese and Russian interface catalogs; English is the default and the selected language is persisted per user.
+- Added task prompts, attachment status, connection activity and explicit Thinking, validation and clarification states.
+- Added Provider default, Low, Medium, High, Very high and ULTRA reasoning choices. ULTRA maps to the API value `max`.
+- Added native Responses API file inputs for supported PDF and Office documents while retaining Chat Completions text/image fallbacks.
+- Added the plugin project to the Mission Planner solution so the official .NET workflow includes a build target.
+- Added cancellable background attachment parsing with per-file duplicate-name checks and localized attachment status.
+- Added live connection activity callbacks for connecting, waiting, thinking and automatic reconnection states.
+
+### Compatibility and safety
+
+- Moved API, language, model, authentication and reasoning controls into one settings view.
+- Renamed the plugin assembly to `AIWaypointPlanner.dll` so Mission Planner 1.3.83 does not exclude it as a host assembly.
+- Human-readable model fields follow the selected operator language; schema field names and enum values remain stable.
+- The UI's Thinking state is an activity indicator only and does not expose private model reasoning.
+- Preserved local validation, operator confirmation and no-upload/no-flight-control boundaries.
+- Compatibility presets use Provider default reasoning for gateways and local models unless the preset is known to support the selected reasoning values; OpenAI and CC Switch retain the `gpt-5.6-sol` medium default.
+- Cleared session keys when switching providers or editing connection fields, and isolated saved keys by profile or endpoint so a key is not silently reused across services or protocols.
+- Bound every saved credential to the canonical endpoint, protocol, authentication mode and model; legacy name-only profile credentials are no longer loaded automatically.
+- Defaulted legacy profiles without a reasoning setting to Provider default instead of injecting an unsupported Medium field into compatibility gateways.
+- Propagated cancellation through attachment reads and PDF page parsing, and limited extracted-text totals only where text is actually sent to the selected protocol.
+- Raised successful Responses and Chat Completions JSON parsing to the same 64 MB limit used by the client, preventing high-reasoning metadata from breaking otherwise valid replies.
+- Made the red safety banner and settings labels wrap within the available window, including Russian and high-DPI layouts.
+- Restored cancelled and invalid-result states after asynchronous operations and language changes.
+- Responses PDF file inputs include the documented `detail: auto` option; same-name attachments are rejected before they can make model file confirmation ambiguous.
+- Documented GitHub public-fork workflow approval requirements separately from code build results.
+
 ## 1.5.0 - 2026-09-04
 
 ### Added

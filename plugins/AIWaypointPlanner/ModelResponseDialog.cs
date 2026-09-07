@@ -1,6 +1,7 @@
 extern alias SystemDrawing;
 
 using System;
+using System.Globalization;
 using System.Text;
 using System.Windows.Forms;
 using Drawing = SystemDrawing::System.Drawing;
@@ -10,17 +11,25 @@ namespace MissionPlanner.AIWaypointPlanner
     public sealed class ModelResponseDialog : Form
     {
         private readonly TabControl tabs;
+        private readonly string languageCode;
 
         public ModelResponseDialog(ApiResponseData data)
+            : this(data, UiStrings.DefaultLanguageCode)
+        {
+        }
+
+        public ModelResponseDialog(ApiResponseData data, string languageCode)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            Text = "模型返回数据与请求诊断";
+            this.languageCode = UiStrings.NormalizeLanguageCode(languageCode);
+            Text = UiStrings.Get(this.languageCode, "Diagnostics.Title");
             StartPosition = FormStartPosition.CenterParent;
             MinimumSize = new Drawing.Size(760, 520);
             Size = new Drawing.Size(980, 700);
-            Font = new Drawing.Font("Microsoft YaHei UI", 9F, Drawing.FontStyle.Regular, Drawing.GraphicsUnit.Point);
+            Font = Drawing.SystemFonts.MessageBoxFont;
+            AutoScaleMode = AutoScaleMode.Font;
 
             var root = new TableLayoutPanel
             {
@@ -29,7 +38,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 RowCount = 3,
                 Padding = new Padding(12)
             };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 116F));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 132F));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             root.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
             Controls.Add(root);
@@ -40,16 +49,23 @@ namespace MissionPlanner.AIWaypointPlanner
                 Multiline = true,
                 ReadOnly = true,
                 BackColor = Drawing.SystemColors.Window,
+                ScrollBars = ScrollBars.Vertical,
                 Text = BuildMetadata(data)
             }, 0, 0);
 
             tabs = new TabControl { Dock = DockStyle.Fill };
-            tabs.TabPages.Add(CreateTextPage("模型原始响应", data.RawResponse,
-                data.HasServerResponse ? "服务已响应，但响应正文为空。" : "请求未到达模型服务，因此没有模型返回数据。"));
-            tabs.TabPages.Add(CreateTextPage("结构化任务数据", data.StructuredOutput,
-                "尚未提取出结构化任务数据。请查看模型原始响应和诊断信息。"));
-            tabs.TabPages.Add(CreateTextPage("诊断信息", data.Diagnostic,
-                "本次请求没有记录错误。"));
+            tabs.TabPages.Add(CreateTextPage(
+                UiStrings.Get(this.languageCode, "Diagnostics.RawResponse"),
+                data.RawResponse,
+                UiStrings.Get(this.languageCode, "Diagnostics.NoRawResponse")));
+            tabs.TabPages.Add(CreateTextPage(
+                UiStrings.Get(this.languageCode, "Diagnostics.StructuredData"),
+                data.StructuredOutput,
+                UiStrings.Get(this.languageCode, "Diagnostics.NoStructuredData")));
+            tabs.TabPages.Add(CreateTextPage(
+                UiStrings.Get(this.languageCode, "Diagnostics.DiagnosticInfo"),
+                data.Diagnostic,
+                UiStrings.Get(this.languageCode, "Diagnostics.NoError")));
             root.Controls.Add(tabs, 0, 1);
 
             var buttons = new FlowLayoutPanel
@@ -59,8 +75,21 @@ namespace MissionPlanner.AIWaypointPlanner
                 Padding = new Padding(0, 8, 0, 0),
                 WrapContents = false
             };
-            var close = new Button { Text = "关闭", Width = 100, Height = 32, DialogResult = DialogResult.OK };
-            var copy = new Button { Text = "复制当前页", Width = 120, Height = 32 };
+            var close = new Button
+            {
+                Text = UiStrings.Get(this.languageCode, "Button.Close"),
+                AutoSize = true,
+                MinimumSize = new Drawing.Size(100, 32),
+                Height = 32,
+                DialogResult = DialogResult.OK
+            };
+            var copy = new Button
+            {
+                Text = UiStrings.Get(this.languageCode, "Button.CopyCurrentPage"),
+                AutoSize = true,
+                MinimumSize = new Drawing.Size(140, 32),
+                Height = 32
+            };
             copy.Click += CopyCurrentPage;
             buttons.Controls.Add(close);
             buttons.Controls.Add(copy);
@@ -68,7 +97,7 @@ namespace MissionPlanner.AIWaypointPlanner
             AcceptButton = close;
         }
 
-        private static TabPage CreateTextPage(string title, string content, string emptyMessage)
+        private TabPage CreateTextPage(string title, string content, string emptyMessage)
         {
             var page = new TabPage(title) { Padding = new Padding(8) };
             page.Controls.Add(new TextBox
@@ -85,20 +114,38 @@ namespace MissionPlanner.AIWaypointPlanner
             return page;
         }
 
-        private static string BuildMetadata(ApiResponseData data)
+        private string BuildMetadata(ApiResponseData data)
         {
             var builder = new StringBuilder();
-            builder.AppendLine("请求时间（本地）：" + data.RequestedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"));
-            builder.AppendLine("请求：" + (data.Method ?? string.Empty) + " " + (data.Endpoint ?? string.Empty));
-            builder.AppendLine("协议 / 模型：" + (data.Protocol ?? string.Empty) + " / " + (data.Model ?? string.Empty));
-            builder.Append("HTTP 状态：");
-            builder.Append(data.HttpStatusCode.HasValue
+            builder.AppendLine(UiStrings.Get(languageCode, "Diagnostics.RequestMetadata"));
+            builder.AppendLine(UiStrings.Format(
+                languageCode,
+                "Diagnostics.RequestedAtFormat",
+                data.RequestedAtUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)));
+            builder.AppendLine(UiStrings.Format(
+                languageCode,
+                "Diagnostics.RequestFormat",
+                data.Method ?? string.Empty,
+                data.Endpoint ?? string.Empty));
+            builder.AppendLine(UiStrings.Format(
+                languageCode,
+                "Diagnostics.ProtocolModelFormat",
+                data.Protocol ?? string.Empty,
+                data.Model ?? string.Empty));
+
+            string httpStatus = data.HttpStatusCode.HasValue
                 ? data.HttpStatusCode.Value + " " + (data.HttpReasonPhrase ?? string.Empty)
-                : "未收到 HTTP 响应");
+                : UiStrings.Get(languageCode, "Diagnostics.NoHttpResponse");
+            builder.AppendLine(UiStrings.Format(languageCode, "Diagnostics.HttpStatusFormat", httpStatus));
             if (!string.IsNullOrWhiteSpace(data.RequestId))
-                builder.Append("；请求 ID：" + data.RequestId);
-            builder.AppendLine();
-            builder.AppendLine("连接尝试：" + data.AttemptCount + "；自动重连：" + data.RetryCount);
+            {
+                builder.AppendLine(UiStrings.Format(
+                    languageCode,
+                    "Diagnostics.RequestIdFormat",
+                    data.RequestId));
+            }
+            builder.AppendLine(UiStrings.Format(languageCode, "Diagnostics.AttemptsFormat", data.AttemptCount));
+            builder.Append(UiStrings.Format(languageCode, "Diagnostics.ReconnectsFormat", data.RetryCount));
             return builder.ToString();
         }
 

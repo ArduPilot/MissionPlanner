@@ -22,7 +22,7 @@ namespace MissionPlanner.AIWaypointPlanner
         public WindowsCredentialStore(string targetName)
         {
             if (string.IsNullOrWhiteSpace(targetName))
-                throw new ArgumentException("凭据目标不能为空。", "targetName");
+                throw new ArgumentException("A credential target is required.", "targetName");
             this.targetName = targetName;
         }
 
@@ -34,7 +34,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 int error = Marshal.GetLastWin32Error();
                 if (error == ErrorNotFound)
                     return null;
-                throw new Win32Exception(error, "无法读取 Windows 凭据管理器。");
+                throw new Win32Exception(error, "Windows Credential Manager could not be read.");
             }
 
             try
@@ -57,7 +57,7 @@ namespace MissionPlanner.AIWaypointPlanner
         public void Write(string apiKey)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
-                throw new ArgumentException("API 密钥不能为空。", "apiKey");
+                throw new ArgumentException("An API key is required.", "apiKey");
 
             byte[] secretBytes = Encoding.Unicode.GetBytes(apiKey.Trim());
             IntPtr secretPointer = Marshal.AllocCoTaskMem(secretBytes.Length);
@@ -75,7 +75,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 };
 
                 if (!CredWrite(ref credential, 0))
-                    throw new Win32Exception(Marshal.GetLastWin32Error(), "无法写入 Windows 凭据管理器。");
+                    throw new Win32Exception(Marshal.GetLastWin32Error(), "Windows Credential Manager could not be written.");
             }
             finally
             {
@@ -94,7 +94,7 @@ namespace MissionPlanner.AIWaypointPlanner
             int error = Marshal.GetLastWin32Error();
             if (error == ErrorNotFound)
                 return false;
-            throw new Win32Exception(error, "无法删除 Windows 凭据管理器中的密钥。");
+            throw new Win32Exception(error, "The Windows Credential Manager entry could not be deleted.");
         }
 
         private static void ZeroMemory(IntPtr pointer, int length)

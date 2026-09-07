@@ -3,6 +3,7 @@ extern alias SystemDrawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,14 +23,40 @@ namespace MissionPlanner.AIWaypointPlanner
         private readonly List<ApiProfileRecord> savedApiProfiles;
         private readonly AttachmentProcessor attachmentProcessor;
         private readonly List<MissionAttachment> attachments;
+        private readonly PluginPreferencesStore preferencesStore;
+        private readonly MissionConversationSession conversationSession;
+        private readonly Dictionary<Control, string> localizationKeys;
+
+        private PluginPreferences preferences;
+        private string languageCode;
+        private bool loadingLanguage;
+
+        private TabControl workspaceTabs;
+        private TabPage chatTab;
+        private TabPage reviewTab;
+        private TabPage settingsTab;
+        private FlowLayoutPanel conversationPanel;
+        private FlowLayoutPanel attachmentChipPanel;
+        private Panel pendingStatusPanel;
+        private Label pendingStatusLabel;
+        private Label attachmentHeaderLabel;
+        private Button newChatButton;
+        private Button settingsShortcutButton;
+        private Button chatReviewButton;
+        private Button chatDiagnosticsButton;
+        private System.Windows.Forms.Timer statusAnimationTimer;
+        private string activeStatusKey;
+        private string activeStatusText;
+        private int activeStatusAttempt;
+        private int activeStatusMaximumAttempts;
+        private int activeStatusDelayMilliseconds;
+        private int statusAnimationFrame;
 
         private TextBox objectiveTextBox;
         private TextBox summaryTextBox;
         private TextBox validationTextBox;
         private DataGridView candidateGrid;
-        private DataGridView attachmentGrid;
         private Button addAttachmentButton;
-        private Button removeAttachmentButton;
         private Button clearAttachmentsButton;
         private CheckBox confirmRequirementsCheckBox;
         private Button generateButton;
@@ -44,6 +71,8 @@ namespace MissionPlanner.AIWaypointPlanner
         private Button deleteProfileButton;
         private ComboBox protocolComboBox;
         private ComboBox authenticationComboBox;
+        private ComboBox reasoningComboBox;
+        private ComboBox languageComboBox;
         private TextBox baseUrlTextBox;
         private TextBox modelTextBox;
         private TextBox projectTextBox;
@@ -57,8 +86,34 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private CancellationTokenSource cancellation;
         private MissionGenerationResult currentResult;
+        private MissionContext currentResultContext;
         private ApiResponseData lastResponseData;
         private bool loadingApiProfile;
+        private bool closeWhenIdle;
+        private bool testingConnection;
+        // The key in the session field is deliberately scoped to the connection
+        // settings that were visible when it was entered or loaded.  If an
+        // operator edits the endpoint/model/protocol/authentication, the old
+        // value is cleared and can never silently cross service boundaries.
+        private string sessionCredentialScope;
+
+        private string L(string key)
+        {
+            return UiStrings.Get(languageCode, key);
+        }
+
+        private T Track<T>(T control, string key) where T : Control
+        {
+            if (control == null)
+                throw new ArgumentNullException("control");
+
+            if (!string.IsNullOrWhiteSpace(key))
+            {
+                localizationKeys[control] = key;
+                control.Text = L(key);
+            }
+            return control;
+        }
 
         private ApiProfileRecord SelectedApiProfile
         {
@@ -75,9 +130,15 @@ namespace MissionPlanner.AIWaypointPlanner
             savedApiProfiles = new List<ApiProfileRecord>(apiProfileStore.Load());
             attachmentProcessor = new AttachmentProcessor();
             attachments = new List<MissionAttachment>();
+            preferencesStore = new PluginPreferencesStore();
+            preferences = preferencesStore.Load();
+            languageCode = UiStrings.NormalizeLanguageCode(preferences.LanguageCode);
+            conversationSession = new MissionConversationSession();
+            localizationKeys = new Dictionary<Control, string>();
 
             BuildInterface();
             LoadCredentialStatus();
+            ApplyLocalization();
         }
 
         protected override void Dispose(bool disposing)
@@ -88,217 +149,367 @@ namespace MissionPlanner.AIWaypointPlanner
                 cancellation.Dispose();
                 cancellation = null;
             }
+            if (disposing && statusAnimationTimer != null)
+            {
+                statusAnimationTimer.Stop();
+                statusAnimationTimer.Dispose();
+                statusAnimationTimer = null;
+            }
             base.Dispose(disposing);
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (cancellation != null)
+            {
+                closeWhenIdle = true;
+                cancellation.Cancel();
+                e.Cancel = true;
+                return;
+            }
+
+            preferences.LanguageCode = languageCode;
+            try
+            {
+                preferencesStore.Save(preferences);
+            }
+            catch
+            {
+                // Closing Mission Planner must not be blocked by a preferences write failure.
+            }
+            base.OnFormClosing(e);
         }
 
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
             ApplySafetyNoticeStyle();
+            UpdateSafetyNoticeLayout();
+            UpdateSuggestionButtonLayouts();
         }
 
         private void BuildInterface()
         {
-            Text = "AI 航点规划 v1.5.0 - 文件辅助候选任务生成器";
+            Text = L("App.Title");
             StartPosition = FormStartPosition.CenterParent;
-            MinimumSize = new Drawing.Size(1080, 760);
-            Size = new Drawing.Size(1280, 900);
-            Font = new Drawing.Font("Microsoft YaHei UI", 9F, Drawing.FontStyle.Regular, Drawing.GraphicsUnit.Point);
+            MinimumSize = new Drawing.Size(820, 600);
+            Size = new Drawing.Size(1180, 760);
+            Font = Drawing.SystemFonts.MessageBoxFont;
+            AutoScaleMode = AutoScaleMode.Font;
+            KeyPreview = true;
 
             var root = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 3,
-                Padding = new Padding(12)
+                RowCount = 2,
+                Padding = new Padding(10)
             };
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 54F));
             Controls.Add(root);
 
             safetyNotice = new Label
             {
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Top,
                 AutoSize = false,
-                Padding = new Padding(12, 8, 12, 8),
+                MinimumSize = new Drawing.Size(0, 50),
+                MaximumSize = new Drawing.Size(760, 0),
+                Padding = new Padding(12, 9, 12, 9),
                 TextAlign = Drawing.ContentAlignment.MiddleLeft,
-                Text = "安全边界：GPT 仅生成受限任务参数。插件只追加到本地 Flight Planner 列表，不会上传任务、改变模式、解锁、起飞或发送 RC/PWM。"
+                UseMnemonic = false
             };
+            Track(safetyNotice, "Safety.Banner");
             ApplySafetyNoticeStyle();
             root.Controls.Add(safetyNotice, 0, 0);
+            root.SizeChanged += delegate { UpdateSafetyNoticeLayout(); };
 
-            var tabs = new TabControl { Dock = DockStyle.Fill };
-            tabs.TabPages.Add(BuildMissionTab());
-            tabs.TabPages.Add(BuildApiTab());
-            root.Controls.Add(tabs, 0, 1);
+            workspaceTabs = new TabControl { Dock = DockStyle.Fill, Padding = new Drawing.Point(16, 6) };
+            chatTab = BuildChatTab();
+            reviewTab = BuildReviewTab();
+            settingsTab = BuildSettingsTab();
+            workspaceTabs.TabPages.Add(chatTab);
+            workspaceTabs.TabPages.Add(reviewTab);
+            workspaceTabs.TabPages.Add(settingsTab);
+            root.Controls.Add(workspaceTabs, 0, 1);
 
-            var bottom = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.RightToLeft,
-                Padding = new Padding(0, 10, 0, 0),
-                WrapContents = false
-            };
-            closeButton = new Button { Text = "关闭", AutoSize = true, Height = 32 };
-            closeButton.Click += delegate { Close(); };
-            applyButton = new Button
-            {
-                Text = "应用到飞行计划",
-                AutoSize = true,
-                Height = 32,
-                Enabled = false
-            };
-            applyButton.Click += ApplyMission;
-            viewResponseButton = new Button
-            {
-                Text = "查看模型返回数据",
-                AutoSize = true,
-                Height = 32,
-                Enabled = false
-            };
-            viewResponseButton.Click += ViewModelResponse;
-            activityLabel = new Label
-            {
-                AutoSize = true,
-                Padding = new Padding(0, 8, 16, 0),
-                Text = "等待输入任务目标"
-            };
-            bottom.Controls.Add(closeButton);
-            bottom.Controls.Add(applyButton);
-            bottom.Controls.Add(viewResponseButton);
-            bottom.Controls.Add(activityLabel);
-            root.Controls.Add(bottom, 0, 2);
+            statusAnimationTimer = new System.Windows.Forms.Timer { Interval = 420 };
+            statusAnimationTimer.Tick += AnimateStatus;
         }
 
-        private TabPage BuildMissionTab()
+        private TabPage BuildChatTab()
         {
-            var tab = new TabPage("任务规划") { Padding = new Padding(8) };
+            var tab = new TabPage { Padding = new Padding(0) };
+            Track(tab, "Nav.Chat");
             var layout = new TableLayoutPanel
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 5
+                RowCount = 4,
+                Padding = new Padding(12)
             };
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 135F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 145F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 155F));
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 115F));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             tab.Controls.Add(layout);
 
-            var objectiveGroup = new GroupBox { Text = "自然语言任务目标", Dock = DockStyle.Fill };
-            var objectiveLayout = new TableLayoutPanel
+            var header = new TableLayoutPanel
             {
-                Dock = DockStyle.Fill,
+                Dock = DockStyle.Top,
+                AutoSize = true,
                 ColumnCount = 2,
                 RowCount = 1,
-                Padding = new Padding(8)
+                Margin = new Padding(0, 0, 0, 8)
             };
-            objectiveLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            objectiveLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            header.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            activityLabel = new Label
+            {
+                AutoSize = true,
+                Anchor = AnchorStyles.Left,
+                Padding = new Padding(2, 8, 12, 0)
+            };
+            activityLabel.Text = L("Status.Idle");
+            var headerActions = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                Anchor = AnchorStyles.Right
+            };
+            newChatButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.NewChat");
+            newChatButton.Click += StartNewConversation;
+            chatReviewButton = Track(new Button { AutoSize = true, Height = 32, Enabled = false }, "Button.ReviewMission");
+            chatReviewButton.Click += delegate { workspaceTabs.SelectedTab = reviewTab; };
+            chatDiagnosticsButton = Track(new Button { AutoSize = true, Height = 32, Enabled = false }, "Nav.Diagnostics");
+            chatDiagnosticsButton.Click += ViewModelResponse;
+            settingsShortcutButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.Settings");
+            settingsShortcutButton.Click += delegate { workspaceTabs.SelectedTab = settingsTab; };
+            closeButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.Close");
+            closeButton.Click += delegate { Close(); };
+            headerActions.Controls.Add(newChatButton);
+            headerActions.Controls.Add(chatReviewButton);
+            headerActions.Controls.Add(chatDiagnosticsButton);
+            headerActions.Controls.Add(settingsShortcutButton);
+            headerActions.Controls.Add(closeButton);
+            header.Controls.Add(activityLabel, 0, 0);
+            header.Controls.Add(headerActions, 1, 0);
+            layout.Controls.Add(header, 0, 0);
+
+            conversationPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                Padding = new Padding(12),
+                BackColor = Drawing.SystemColors.Window
+            };
+            conversationPanel.ClientSizeChanged += delegate { ResizeConversationItems(); };
+            conversationPanel.Controls.Add(BuildWelcomePanel());
+            layout.Controls.Add(conversationPanel, 0, 1);
+
+            var attachmentStrip = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 3,
+                RowCount = 1,
+                Padding = new Padding(4, 5, 4, 5),
+                Margin = new Padding(0, 8, 0, 6)
+            };
+            attachmentStrip.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            attachmentStrip.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            attachmentStrip.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            attachmentHeaderLabel = Track(new Label
+            {
+                AutoSize = true,
+                Anchor = AnchorStyles.Left,
+                Padding = new Padding(0, 7, 10, 0)
+            }, "Attachment.Title");
+            attachmentChipPanel = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                Margin = Padding.Empty
+            };
+            clearAttachmentsButton = Track(new Button { AutoSize = true, Height = 30, Enabled = false }, "Button.Clear");
+            clearAttachmentsButton.Click += ClearAttachments;
+            attachmentStrip.Controls.Add(attachmentHeaderLabel, 0, 0);
+            attachmentStrip.Controls.Add(attachmentChipPanel, 1, 0);
+            attachmentStrip.Controls.Add(clearAttachmentsButton, 2, 0);
+            layout.Controls.Add(attachmentStrip, 0, 2);
+
+            var composer = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 2,
+                RowCount = 1,
+                Padding = new Padding(8),
+                BackColor = Drawing.SystemColors.ControlLight
+            };
+            composer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            composer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
             objectiveTextBox = new TextBox
             {
                 Dock = DockStyle.Fill,
                 Multiline = true,
                 ScrollBars = ScrollBars.Vertical,
                 AcceptsReturn = true,
-                Text = "从计划 Home 起飞，起飞任务高度 80 米，以 120 米相对高度、18 米每秒速度先向东飞行 1000 米，再向北飞行 1000 米，完成后返航。"
+                MinimumSize = new Drawing.Size(320, 86)
             };
-            var actionPanel = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.TopDown,
-                Padding = new Padding(8, 0, 0, 0),
-                WrapContents = false
-            };
-            generateButton = new Button { Text = "生成候选任务", Width = 140, Height = 36 };
-            generateButton.Click += GenerateMission;
-            cancelButton = new Button { Text = "取消请求", Width = 140, Height = 32, Enabled = false };
-            cancelButton.Click += delegate { if (cancellation != null) cancellation.Cancel(); };
-            actionPanel.Controls.Add(generateButton);
-            actionPanel.Controls.Add(cancelButton);
-            objectiveLayout.Controls.Add(objectiveTextBox, 0, 0);
-            objectiveLayout.Controls.Add(actionPanel, 1, 0);
-            objectiveGroup.Controls.Add(objectiveLayout);
-            layout.Controls.Add(objectiveGroup, 0, 0);
-
-            var attachmentGroup = new GroupBox { Text = "任务资料附件（最多 6 个）", Dock = DockStyle.Fill };
-            var attachmentLayout = new TableLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                ColumnCount = 2,
-                RowCount = 1,
-                Padding = new Padding(8)
-            };
-            attachmentLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            attachmentLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
-            attachmentGrid = new DataGridView
-            {
-                Dock = DockStyle.Fill,
-                ReadOnly = true,
-                AllowUserToAddRows = false,
-                AllowUserToDeleteRows = false,
-                AllowUserToResizeRows = false,
-                AutoGenerateColumns = false,
-                RowHeadersVisible = false,
-                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
-                MultiSelect = true
-            };
-            attachmentGrid.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                HeaderText = "文件名",
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                MinimumWidth = 200
-            });
-            attachmentGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "类型", Width = 155 });
-            attachmentGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "大小", Width = 85 });
-            attachmentGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "处理状态", Width = 260 });
-            var attachmentActions = new FlowLayoutPanel
-            {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.TopDown,
-                Padding = new Padding(8, 0, 0, 0),
-                WrapContents = false
-            };
-            addAttachmentButton = new Button { Text = "添加文件", Width = 140, Height = 32 };
-            addAttachmentButton.Click += AddAttachments;
-            removeAttachmentButton = new Button { Text = "移除所选", Width = 140, Height = 32 };
-            removeAttachmentButton.Click += RemoveSelectedAttachments;
-            clearAttachmentsButton = new Button { Text = "清空", Width = 140, Height = 32 };
-            clearAttachmentsButton.Click += ClearAttachments;
-            attachmentActions.Controls.Add(addAttachmentButton);
-            attachmentActions.Controls.Add(removeAttachmentButton);
-            attachmentActions.Controls.Add(clearAttachmentsButton);
-            attachmentLayout.Controls.Add(attachmentGrid, 0, 0);
-            attachmentLayout.Controls.Add(attachmentActions, 1, 0);
-            attachmentGroup.Controls.Add(attachmentLayout);
-            layout.Controls.Add(attachmentGroup, 0, 1);
-
-            var summaryGroup = new GroupBox { Text = "AI 对任务要求的理解（应用前须人工确认）", Dock = DockStyle.Fill };
-            var summaryLayout = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 1, RowCount = 2 };
-            summaryLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            summaryLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            summaryTextBox = CreateReadOnlyTextBox();
-            confirmRequirementsCheckBox = new CheckBox
+            objectiveTextBox.KeyDown += ObjectiveKeyDown;
+            var composerActions = new FlowLayoutPanel
             {
                 AutoSize = true,
-                Enabled = false,
-                Padding = new Padding(4, 4, 0, 0),
-                Text = "我已核对并确认上述任务理解与要求"
+                FlowDirection = FlowDirection.TopDown,
+                WrapContents = false,
+                Padding = new Padding(8, 0, 0, 0)
             };
-            confirmRequirementsCheckBox.CheckedChanged += ConfirmRequirementsChanged;
-            summaryLayout.Controls.Add(summaryTextBox, 0, 0);
-            summaryLayout.Controls.Add(confirmRequirementsCheckBox, 0, 1);
-            summaryGroup.Controls.Add(summaryLayout);
-            layout.Controls.Add(summaryGroup, 0, 2);
+            addAttachmentButton = Track(new Button { AutoSize = true, MinimumSize = new Drawing.Size(118, 32) }, "Button.Attach");
+            addAttachmentButton.Click += AddAttachments;
+            generateButton = Track(new Button { AutoSize = true, MinimumSize = new Drawing.Size(118, 36) }, "Button.Send");
+            generateButton.Click += GenerateMission;
+            cancelButton = Track(new Button { AutoSize = true, MinimumSize = new Drawing.Size(118, 32), Enabled = false }, "Button.Stop");
+            cancelButton.Click += delegate { if (cancellation != null) cancellation.Cancel(); };
+            composerActions.Controls.Add(addAttachmentButton);
+            composerActions.Controls.Add(generateButton);
+            composerActions.Controls.Add(cancelButton);
+            composer.Controls.Add(objectiveTextBox, 0, 0);
+            composer.Controls.Add(composerActions, 1, 0);
+            layout.Controls.Add(composer, 0, 3);
+            return tab;
+        }
 
-            var validationGroup = new GroupBox { Text = "本地校验结果与提示", Dock = DockStyle.Fill };
+        private Control BuildWelcomePanel()
+        {
+            var panel = new TableLayoutPanel
+            {
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 1,
+                RowCount = 3,
+                Padding = new Padding(18, 22, 18, 18),
+                Margin = new Padding(0, 0, 0, 12),
+                BackColor = Drawing.SystemColors.Window
+            };
+            var title = Track(new Label
+            {
+                AutoSize = true,
+                Font = new Drawing.Font(Font.FontFamily, 15F, Drawing.FontStyle.Bold),
+                Margin = new Padding(0, 0, 0, 8)
+            }, "Chat.WelcomeTitle");
+            var body = Track(new Label
+            {
+                AutoSize = true,
+                MaximumSize = new Drawing.Size(760, 0),
+                Margin = new Padding(0, 0, 0, 14),
+                UseMnemonic = false
+            }, "Chat.WelcomeBody");
+            var suggestions = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                Margin = Padding.Empty
+            };
+            var relative = Track(CreateSuggestionButton(), "TaskSuggestions.RelativeRoute");
+            relative.Click += delegate { SetSuggestedTask("relative"); };
+            var survey = Track(CreateSuggestionButton(), "TaskSuggestions.SurveyPolygon");
+            survey.Click += delegate { SetSuggestedTask("survey"); };
+            var fromFile = Track(CreateSuggestionButton(), "TaskSuggestions.FromFile");
+            fromFile.Click += delegate { SetSuggestedTask("file"); };
+            UpdateSuggestionButtonLayout(relative);
+            UpdateSuggestionButtonLayout(survey);
+            UpdateSuggestionButtonLayout(fromFile);
+            suggestions.Controls.Add(relative);
+            suggestions.Controls.Add(survey);
+            suggestions.Controls.Add(fromFile);
+            panel.Controls.Add(title, 0, 0);
+            panel.Controls.Add(body, 0, 1);
+            panel.Controls.Add(suggestions, 0, 2);
+            return panel;
+        }
+
+        private static Button CreateSuggestionButton()
+        {
+            return new Button
+            {
+                AutoSize = false,
+                Size = new Drawing.Size(310, 60),
+                MinimumSize = new Drawing.Size(180, 44),
+                MaximumSize = new Drawing.Size(310, 110),
+                Padding = new Padding(10, 5, 10, 5),
+                TextAlign = Drawing.ContentAlignment.MiddleLeft,
+                UseMnemonic = false
+            };
+        }
+
+        private void UpdateSuggestionButtonLayouts()
+        {
+            foreach (KeyValuePair<Control, string> entry in localizationKeys.ToArray())
+            {
+                Button button = entry.Key as Button;
+                if (button == null || button.IsDisposed ||
+                    !entry.Value.StartsWith("TaskSuggestions.", StringComparison.Ordinal))
+                    continue;
+                UpdateSuggestionButtonLayout(button);
+            }
+        }
+
+        private static void UpdateSuggestionButtonLayout(Button button)
+        {
+            if (button == null)
+                return;
+
+            int width = button.MaximumSize.Width > 0
+                ? button.MaximumSize.Width
+                : Math.Max(button.MinimumSize.Width, button.Width);
+            int textWidth = Math.Max(80, width - button.Padding.Horizontal - 8);
+            Drawing.Size measured = TextRenderer.MeasureText(
+                button.Text ?? string.Empty,
+                button.Font,
+                new Drawing.Size(textWidth, int.MaxValue),
+                TextFormatFlags.WordBreak | TextFormatFlags.Left |
+                TextFormatFlags.NoPrefix | TextFormatFlags.NoPadding);
+            int height = Math.Max(button.MinimumSize.Height,
+                measured.Height + button.Padding.Vertical + 12);
+            if (button.MaximumSize.Height > 0)
+                height = Math.Min(height, button.MaximumSize.Height);
+            button.Size = new Drawing.Size(width, height);
+        }
+
+        private TabPage BuildReviewTab()
+        {
+            var tab = new TabPage { Padding = new Padding(10) };
+            Track(tab, "Nav.MissionReview");
+            var layout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 4
+            };
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 18F));
+            layout.RowStyles.Add(new RowStyle(SizeType.Percent, 52F));
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            tab.Controls.Add(layout);
+
+            var summaryGroup = Track(new GroupBox { Dock = DockStyle.Fill }, "Mission.Understanding");
+            summaryTextBox = CreateReadOnlyTextBox();
+            summaryGroup.Controls.Add(summaryTextBox);
+            layout.Controls.Add(summaryGroup, 0, 0);
+
+            var validationGroup = Track(new GroupBox { Dock = DockStyle.Fill }, "Mission.Validation");
             validationTextBox = CreateReadOnlyTextBox();
             validationGroup.Controls.Add(validationTextBox);
-            layout.Controls.Add(validationGroup, 0, 3);
+            layout.Controls.Add(validationGroup, 0, 1);
 
-            var candidateGroup = new GroupBox { Text = "候选任务项（尚未应用、尚未上传）", Dock = DockStyle.Fill };
+            var candidateGroup = Track(new GroupBox { Dock = DockStyle.Fill }, "Mission.Items");
             candidateGrid = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -312,27 +523,64 @@ namespace MissionPlanner.AIWaypointPlanner
                 SelectionMode = DataGridViewSelectionMode.FullRowSelect,
                 MultiSelect = false
             };
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "序号", Width = 54 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "命令", Width = 180 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "纬度", Width = 110 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "经度", Width = 110 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "高度(m)", Width = 82 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "参数1", Width = 72 });
-            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "参数2", Width = 72 });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 48, HeaderText = L("Mission.Sequence") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 150, HeaderText = L("Mission.Command") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 100, HeaderText = L("Mission.Latitude") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 100, HeaderText = L("Mission.Longitude") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 78, HeaderText = L("Mission.Altitude") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 68, HeaderText = L("Mission.Parameter1") });
+            candidateGrid.Columns.Add(new DataGridViewTextBoxColumn { Width = 68, HeaderText = L("Mission.Parameter2") });
             candidateGrid.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "说明",
                 AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill,
-                MinimumWidth = 180
+                MinimumWidth = 130,
+                HeaderText = L("Mission.Description")
             });
             candidateGroup.Controls.Add(candidateGrid);
-            layout.Controls.Add(candidateGroup, 0, 4);
+            layout.Controls.Add(candidateGroup, 0, 2);
+
+            var reviewActions = new TableLayoutPanel
+            {
+                AutoSize = true,
+                Dock = DockStyle.Top,
+                ColumnCount = 1,
+                RowCount = 2,
+                Padding = new Padding(4, 8, 4, 2)
+            };
+            confirmRequirementsCheckBox = Track(new CheckBox
+            {
+                AutoSize = true,
+                Enabled = false,
+                Padding = new Padding(4),
+                UseMnemonic = false
+            }, "Mission.ConfirmCheck");
+            confirmRequirementsCheckBox.CheckedChanged += ConfirmRequirementsChanged;
+            var buttons = new FlowLayoutPanel
+            {
+                AutoSize = true,
+                Dock = DockStyle.Top,
+                FlowDirection = FlowDirection.RightToLeft,
+                WrapContents = true
+            };
+            applyButton = Track(new Button { AutoSize = true, Height = 34, Enabled = false }, "Button.ApplyToPlan");
+            applyButton.Click += ApplyMission;
+            viewResponseButton = Track(new Button { AutoSize = true, Height = 34, Enabled = false }, "Chat.ViewDiagnostics");
+            viewResponseButton.Click += ViewModelResponse;
+            var back = Track(new Button { AutoSize = true, Height = 34 }, "Button.BackToChat");
+            back.Click += delegate { workspaceTabs.SelectedTab = chatTab; };
+            buttons.Controls.Add(applyButton);
+            buttons.Controls.Add(viewResponseButton);
+            buttons.Controls.Add(back);
+            reviewActions.Controls.Add(confirmRequirementsCheckBox, 0, 0);
+            reviewActions.Controls.Add(buttons, 0, 1);
+            layout.Controls.Add(reviewActions, 0, 3);
             return tab;
         }
 
-        private TabPage BuildApiTab()
+        private TabPage BuildSettingsTab()
         {
-            var tab = new TabPage("AI API 设置") { Padding = new Padding(8) };
+            var tab = new TabPage { Padding = new Padding(8) };
+            Track(tab, "Nav.Settings");
             var scrollPanel = new Panel
             {
                 Dock = DockStyle.Fill,
@@ -343,117 +591,190 @@ namespace MissionPlanner.AIWaypointPlanner
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                ColumnCount = 3,
-                RowCount = 13,
-                Padding = new Padding(0, 0, 12, 8)
+                ColumnCount = 1,
+                RowCount = 0,
+                Padding = new Padding(4, 2, 18, 12)
             };
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 160F));
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190F));
+
+            AddSettingsSection(layout, "Settings.Appearance");
+            languageComboBox = new ComboBox { Dock = DockStyle.Top, DropDownStyle = ComboBoxStyle.DropDownList };
+            loadingLanguage = true;
+            foreach (UiLanguageOption option in UiStrings.CreateLanguageOptions())
+                languageComboBox.Items.Add(option);
+            for (int i = 0; i < languageComboBox.Items.Count; i++)
+            {
+                var option = languageComboBox.Items[i] as UiLanguageOption;
+                if (option != null && option.LanguageCode == languageCode)
+                {
+                    languageComboBox.SelectedIndex = i;
+                    break;
+                }
+            }
+            if (languageComboBox.SelectedIndex < 0 && languageComboBox.Items.Count > 0)
+                languageComboBox.SelectedIndex = 0;
+            loadingLanguage = false;
+            languageComboBox.SelectedIndexChanged += LanguageSelectionChanged;
+            AddSettingRow(layout, "Settings.Language", languageComboBox, "Settings.LanguageHelp");
+
+            AddSettingsSection(layout, "Settings.Api");
 
             providerComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             savedProfileComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             protocolComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            protocolComboBox.Items.AddRange(new object[]
-            {
-                "Responses API (/responses)",
-                "Chat Completions (/chat/completions)"
-            });
             authenticationComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
-            authenticationComboBox.Items.AddRange(new object[]
-            {
-                "Bearer API Key",
-                "api-key 请求头",
-                "无需鉴权（本机网关）"
-            });
+            reasoningComboBox = new ComboBox { Dock = DockStyle.Fill, DropDownStyle = ComboBoxStyle.DropDownList };
             baseUrlTextBox = new TextBox { Dock = DockStyle.Fill };
             modelTextBox = new TextBox { Dock = DockStyle.Fill, Text = "gpt-5.6-sol" };
             projectTextBox = new TextBox { Dock = DockStyle.Fill };
             apiKeyTextBox = new TextBox { Dock = DockStyle.Fill, UseSystemPasswordChar = true };
+            baseUrlTextBox.TextChanged += ConnectionSettingsChanged;
+            modelTextBox.TextChanged += ConnectionSettingsChanged;
+            protocolComboBox.SelectedIndexChanged += ConnectionSettingsChanged;
+            apiKeyTextBox.TextChanged += SessionApiKeyChanged;
             rememberKeyCheckBox = new CheckBox
             {
                 AutoSize = true,
-                Text = "保存到 Windows 凭据管理器",
                 Padding = new Padding(0, 6, 0, 0)
             };
             credentialStatusLabel = new Label
             {
                 AutoSize = true,
-                Padding = new Padding(0, 8, 0, 0),
-                Text = "尚未检查凭据"
+                Padding = new Padding(0, 8, 0, 0)
             };
-            testConnectionButton = new Button { Text = "测试连接", Width = 120, Height = 32 };
+            testConnectionButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.TestConnection");
             testConnectionButton.Click += TestConnection;
-            deleteCredentialButton = new Button { Text = "删除已保存密钥", Width = 150, Height = 32 };
+            deleteCredentialButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.DeleteSavedKey");
             deleteCredentialButton.Click += DeleteStoredCredential;
             providerNoteLabel = new Label
             {
                 AutoSize = true,
-                MaximumSize = new Drawing.Size(1020, 0),
-                Padding = new Padding(0, 12, 0, 4)
+                MaximumSize = new Drawing.Size(920, 0),
+                Padding = new Padding(6, 12, 6, 8),
+                ForeColor = Drawing.SystemColors.GrayText,
+                UseMnemonic = false
             };
 
-            AddSettingRow(layout, 0, "服务预设", providerComboBox, "选择后自动填写；下方字段仍可编辑。", null);
-            AddSettingRow(layout, 1, "已保存组合", savedProfileComboBox, "可重复保存和读取；插件启动时自动加载最近使用的组合。", null);
-            AddSettingRow(layout, 2, "API Base URL", baseUrlTextBox, "远程接口必须使用 HTTPS；本机回环地址可用 HTTP。", null);
-            AddSettingRow(layout, 3, "API 协议", protocolComboBox, "支持 Responses 与 Chat Completions。", null);
-            AddSettingRow(layout, 4, "鉴权方式", authenticationComboBox, "由网关管理上游凭据时选择无需鉴权。", null);
-            AddSettingRow(layout, 5, "模型 ID", modelTextBox, "须支持 JSON Schema 结构化输出。", null);
-            AddSettingRow(layout, 6, "OpenAI Project ID", projectTextBox, "可选；主要用于 OpenAI 官方多项目账号。", null);
-            AddSettingRow(layout, 7, "API 密钥", apiKeyTextBox, "密钥按组合单独保存到 Windows 凭据管理器，不写入配置文件。", null);
-            AddSettingRow(layout, 8, "凭据保存", rememberKeyCheckBox, "启用后保存当前组合对应的密钥；不勾选则仅保存非敏感配置。", null);
-            AddSettingRow(layout, 9, "当前状态", credentialStatusLabel, string.Empty, null);
+            AddSettingRow(layout, "Settings.Provider", providerComboBox, string.Empty);
+            AddSettingRow(layout, "Settings.SavedProfile", savedProfileComboBox, string.Empty);
+            AddSettingRow(layout, "Settings.BaseUrl", baseUrlTextBox, "Api.RemoteHttpsRequired");
+            AddSettingRow(layout, "Settings.Protocol", protocolComboBox, string.Empty);
+            AddSettingRow(layout, "Settings.Authentication", authenticationComboBox, string.Empty);
+            AddSettingRow(layout, "Settings.ModelId", modelTextBox, string.Empty);
+            AddSettingRow(layout, "Settings.Reasoning", reasoningComboBox, "Settings.ReasoningHelp");
+            AddSettingRow(layout, "Settings.ProjectId", projectTextBox, string.Empty);
+            AddSettingRow(layout, "Settings.ApiKey", apiKeyTextBox, string.Empty);
+            AddSettingRow(layout, "Settings.RememberKey", rememberKeyCheckBox, string.Empty);
+            AddSettingRow(layout, "Settings.CredentialStatus", credentialStatusLabel, string.Empty);
 
-            var buttons = new FlowLayoutPanel { Dock = DockStyle.Fill, AutoSize = true, WrapContents = false };
+            var buttons = new FlowLayoutPanel { Dock = DockStyle.Top, AutoSize = true, WrapContents = true };
             buttons.Controls.Add(testConnectionButton);
             buttons.Controls.Add(deleteCredentialButton);
-            saveProfileButton = new Button { Text = "保存当前组合", Width = 130, Height = 32 };
+            saveProfileButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.SaveProfile");
             saveProfileButton.Click += SaveApiProfile;
-            deleteProfileButton = new Button { Text = "删除组合", Width = 100, Height = 32 };
+            deleteProfileButton = Track(new Button { AutoSize = true, Height = 32 }, "Button.DeleteProfile");
             deleteProfileButton.Click += DeleteApiProfile;
             buttons.Controls.Add(saveProfileButton);
             buttons.Controls.Add(deleteProfileButton);
-            layout.Controls.Add(new Label { Text = "连接操作", AutoSize = true, Padding = new Padding(0, 8, 0, 0) }, 0, 10);
-            layout.Controls.Add(buttons, 1, 10);
-            layout.SetColumnSpan(buttons, 2);
-
-            layout.Controls.Add(providerNoteLabel, 0, 12);
-            layout.SetColumnSpan(providerNoteLabel, 3);
+            AddSettingRow(layout, "Settings.ConnectionActions", buttons, string.Empty);
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.Controls.Add(providerNoteLabel, 0, layout.RowCount++);
             scrollPanel.Controls.Add(layout);
             tab.Controls.Add(scrollPanel);
 
             foreach (ApiProviderPreset preset in ApiProviderPreset.CreateDefaults())
+            {
+                preset.DisplayName = string.IsNullOrWhiteSpace(preset.NameKey)
+                    ? preset.Name
+                    : L(preset.NameKey);
                 providerComboBox.Items.Add(preset);
+            }
             providerComboBox.SelectedIndexChanged += ProviderSelectionChanged;
             savedProfileComboBox.SelectedIndexChanged += SavedProfileSelectionChanged;
             authenticationComboBox.SelectedIndexChanged += AuthenticationSelectionChanged;
+            RefreshLocalizedOptionLists();
+            RefreshProviderPresetNames();
             providerComboBox.SelectedIndex = 0;
             RefreshSavedProfileList();
             return tab;
         }
 
-        private static void AddSettingRow(
-            TableLayoutPanel layout,
-            int row,
-            string label,
-            Control control,
-            string help,
-            EventHandler handler)
+        private void AddSettingsSection(TableLayoutPanel layout, string key)
         {
-            layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
-            var labelControl = new Label { Text = label, AutoSize = true, Padding = new Padding(0, 8, 0, 0) };
-            var helpControl = new Label
+            var heading = Track(new Label
             {
-                Text = help,
                 AutoSize = true,
-                Padding = new Padding(10, 8, 0, 0),
-                ForeColor = Drawing.SystemColors.GrayText
+                Font = new Drawing.Font(Font, Drawing.FontStyle.Bold),
+                Padding = new Padding(2, 16, 2, 7)
+            }, key);
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.Controls.Add(heading, 0, layout.RowCount++);
+        }
+
+        private void AddSettingRow(TableLayoutPanel layout, string labelKey, Control control, string helpKey)
+        {
+            var row = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                ColumnCount = 2,
+                RowCount = 1,
+                Margin = new Padding(0, 0, 0, 7),
+                Padding = new Padding(2)
             };
-            if (handler != null)
-                control.Click += handler;
-            layout.Controls.Add(labelControl, 0, row);
-            layout.Controls.Add(control, 1, row);
-            layout.Controls.Add(helpControl, 2, row);
+            row.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 250F));
+            row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            var label = Track(new Label
+            {
+                AutoSize = true,
+                MaximumSize = new Drawing.Size(240, 0),
+                Padding = new Padding(0, 7, 12, 0),
+                UseMnemonic = false
+            }, labelKey);
+            var value = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ColumnCount = 1,
+                RowCount = string.IsNullOrEmpty(helpKey) ? 1 : 2,
+                Margin = Padding.Empty
+            };
+            control.Dock = DockStyle.Top;
+            value.Controls.Add(control, 0, 0);
+            if (!string.IsNullOrEmpty(helpKey))
+            {
+                var help = Track(new Label
+                {
+                    AutoSize = true,
+                    ForeColor = Drawing.SystemColors.GrayText,
+                    Padding = new Padding(0, 4, 0, 2),
+                    UseMnemonic = false
+                }, helpKey);
+                value.Controls.Add(help, 0, 1);
+                row.SizeChanged += delegate { ConstrainSettingHelpLabel(row, value, help); };
+                ConstrainSettingHelpLabel(row, value, help);
+            }
+            row.Controls.Add(label, 0, 0);
+            row.Controls.Add(value, 1, 0);
+            layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            layout.Controls.Add(row, 0, layout.RowCount++);
+        }
+
+        private static void ConstrainSettingHelpLabel(
+            TableLayoutPanel row, TableLayoutPanel value, Label help)
+        {
+            if (row == null || value == null || help == null || help.IsDisposed)
+                return;
+
+            int labelColumnWidth = row.ColumnStyles.Count > 0
+                ? (int)Math.Ceiling(row.ColumnStyles[0].Width)
+                : 0;
+            int availableWidth = Math.Max(120,
+                row.ClientSize.Width - row.Padding.Horizontal - labelColumnWidth -
+                value.Margin.Horizontal - value.Padding.Horizontal - help.Margin.Horizontal);
+            if (help.MaximumSize.Width != availableWidth)
+                help.MaximumSize = new Drawing.Size(availableWidth, 0);
         }
 
         private void ApplySafetyNoticeStyle()
@@ -465,6 +786,385 @@ namespace MissionPlanner.AIWaypointPlanner
             safetyNotice.ForeColor = Drawing.Color.White;
             if (!safetyNotice.Font.Bold)
                 safetyNotice.Font = new Drawing.Font(safetyNotice.Font, Drawing.FontStyle.Bold);
+        }
+
+        private void UpdateSafetyNoticeLayout()
+        {
+            if (safetyNotice == null || safetyNotice.Parent == null)
+                return;
+
+            int availableWidth = Math.Max(260,
+                safetyNotice.Parent.ClientSize.Width - safetyNotice.Parent.Padding.Horizontal -
+                safetyNotice.Margin.Horizontal);
+            int textWidth = Math.Max(120, availableWidth - safetyNotice.Padding.Horizontal);
+            Drawing.Size measured = TextRenderer.MeasureText(
+                safetyNotice.Text ?? string.Empty,
+                safetyNotice.Font,
+                new Drawing.Size(textWidth, int.MaxValue),
+                TextFormatFlags.WordBreak | TextFormatFlags.Left | TextFormatFlags.NoPadding);
+            safetyNotice.MaximumSize = new Drawing.Size(availableWidth, 0);
+            safetyNotice.Width = availableWidth;
+            safetyNotice.Height = Math.Max(50, measured.Height + safetyNotice.Padding.Vertical);
+        }
+
+        private void ApplyLocalization()
+        {
+            languageCode = UiStrings.NormalizeLanguageCode(languageCode);
+            validator.LanguageCode = languageCode;
+            compiler.LanguageCode = languageCode;
+            Text = L("App.Title");
+
+            foreach (KeyValuePair<Control, string> entry in localizationKeys.ToArray())
+            {
+                if (entry.Key == null)
+                    continue;
+                if (entry.Key.IsDisposed)
+                {
+                    localizationKeys.Remove(entry.Key);
+                    continue;
+                }
+                entry.Key.Text = L(entry.Value);
+            }
+
+            if (conversationPanel != null)
+            {
+                foreach (ConversationMessageControl message in conversationPanel.Controls
+                    .OfType<ConversationMessageControl>())
+                    message.ApplyLanguage(languageCode);
+            }
+            if (pendingStatusLabel != null && !pendingStatusLabel.IsDisposed &&
+                !string.IsNullOrWhiteSpace(activeStatusKey))
+                pendingStatusLabel.Text = GetActiveStatusText();
+
+            if (objectiveTextBox != null && string.IsNullOrWhiteSpace(objectiveTextBox.Text))
+                objectiveTextBox.Text = string.Empty;
+
+            RefreshLocalizedOptionLists();
+            RefreshProviderPresetNames();
+            if (candidateGrid != null && candidateGrid.Columns.Count >= 8)
+            {
+                string[] headers =
+                {
+                    L("Mission.Sequence"), L("Mission.Command"), L("Mission.Latitude"),
+                    L("Mission.Longitude"), L("Mission.Altitude"), L("Mission.Parameter1"),
+                    L("Mission.Parameter2"), L("Mission.Description")
+                };
+                for (int i = 0; i < headers.Length; i++)
+                    candidateGrid.Columns[i].HeaderText = headers[i];
+            }
+            ApplySafetyNoticeStyle();
+            UpdateSafetyNoticeLayout();
+            UpdateSuggestionButtonLayouts();
+            RefreshAttachmentChips();
+            ResizeConversationItems();
+            UpdateAuthenticationControls();
+            RelocalizeCurrentResult();
+            if (activityLabel != null)
+                activityLabel.Text = string.IsNullOrWhiteSpace(activeStatusKey)
+                    ? L("Status.Idle")
+                    : GetActiveStatusText();
+
+            if (providerNoteLabel != null && providerComboBox != null &&
+                providerComboBox.SelectedItem is ApiProviderPreset preset)
+            {
+                providerNoteLabel.Text = GetProviderNote(preset);
+            }
+        }
+
+        private void LanguageSelectionChanged(object sender, EventArgs e)
+        {
+            if (loadingLanguage)
+                return;
+
+            UiLanguageOption option = languageComboBox == null
+                ? null
+                : languageComboBox.SelectedItem as UiLanguageOption;
+            if (option == null)
+                return;
+
+            languageCode = UiStrings.NormalizeLanguageCode(option.LanguageCode);
+            preferences.LanguageCode = languageCode;
+            try
+            {
+                preferencesStore.Save(preferences);
+            }
+            catch
+            {
+                // The choice remains active for this session and is retried on close.
+            }
+            ApplyLocalization();
+        }
+
+        private void RefreshLocalizedOptionLists()
+        {
+            if (protocolComboBox == null || authenticationComboBox == null || reasoningComboBox == null)
+                return;
+
+            int protocolIndex = protocolComboBox.SelectedIndex;
+            int authenticationIndex = authenticationComboBox.SelectedIndex;
+            ApiReasoningLevel reasoning = GetReasoningLevel();
+
+            loadingApiProfile = true;
+            try
+            {
+                protocolComboBox.Items.Clear();
+                protocolComboBox.Items.Add(L("Protocol.Responses"));
+                protocolComboBox.Items.Add(L("Protocol.ChatCompletions"));
+                protocolComboBox.SelectedIndex = protocolIndex < 0 ? 0 : Math.Min(protocolIndex, 1);
+
+                authenticationComboBox.Items.Clear();
+                authenticationComboBox.Items.Add(L("Authentication.Bearer"));
+                authenticationComboBox.Items.Add(L("Authentication.ApiKeyHeader"));
+                authenticationComboBox.Items.Add(L("Authentication.None"));
+                authenticationComboBox.SelectedIndex = authenticationIndex < 0
+                    ? 0
+                    : Math.Min(authenticationIndex, 2);
+
+                reasoningComboBox.Items.Clear();
+                reasoningComboBox.Items.Add(L("Reasoning.ProviderDefault"));
+                reasoningComboBox.Items.Add(L("Reasoning.Low"));
+                reasoningComboBox.Items.Add(L("Reasoning.Medium"));
+                reasoningComboBox.Items.Add(L("Reasoning.High"));
+                reasoningComboBox.Items.Add(L("Reasoning.VeryHigh"));
+                reasoningComboBox.Items.Add(L("Reasoning.Ultra"));
+                reasoningComboBox.SelectedIndex = GetReasoningIndex(reasoning);
+            }
+            finally
+            {
+                loadingApiProfile = false;
+            }
+
+            UpdateAuthenticationControls();
+        }
+
+        private void RefreshProviderPresetNames()
+        {
+            if (providerComboBox == null)
+                return;
+
+            int selectedIndex = providerComboBox.SelectedIndex;
+            foreach (ApiProviderPreset preset in providerComboBox.Items.OfType<ApiProviderPreset>())
+            {
+                preset.DisplayName = string.IsNullOrWhiteSpace(preset.NameKey)
+                    ? preset.Name
+                    : L(preset.NameKey);
+            }
+            providerComboBox.Refresh();
+            if (selectedIndex >= 0 && selectedIndex < providerComboBox.Items.Count)
+                providerComboBox.SelectedIndex = selectedIndex;
+        }
+
+        private ApiReasoningLevel GetReasoningLevel()
+        {
+            if (reasoningComboBox == null || reasoningComboBox.SelectedIndex < 0)
+                return ApiReasoningLevel.Off;
+
+            switch (reasoningComboBox.SelectedIndex)
+            {
+                case 0: return ApiReasoningLevel.Off;
+                case 1: return ApiReasoningLevel.Low;
+                case 2: return ApiReasoningLevel.Medium;
+                case 3: return ApiReasoningLevel.High;
+                case 4: return ApiReasoningLevel.ExtraHigh;
+                case 5: return ApiReasoningLevel.Ultra;
+                default: return ApiReasoningLevel.Off;
+            }
+        }
+
+        private static int GetReasoningIndex(ApiReasoningLevel level)
+        {
+            switch (level)
+            {
+                case ApiReasoningLevel.Off: return 0;
+                case ApiReasoningLevel.Low: return 1;
+                case ApiReasoningLevel.Medium: return 2;
+                case ApiReasoningLevel.High: return 3;
+                case ApiReasoningLevel.ExtraHigh: return 4;
+                case ApiReasoningLevel.Ultra: return 5;
+                default: return 0;
+        }
+        }
+
+        private void ObjectiveKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                e.Handled = true;
+                GenerateMission(sender, EventArgs.Empty);
+            }
+        }
+
+        private void AnimateStatus(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(activeStatusKey) || activityLabel == null)
+                return;
+
+            statusAnimationFrame = (statusAnimationFrame + 1) % 4;
+            string suffix = new string('.', statusAnimationFrame);
+            string statusText = string.IsNullOrWhiteSpace(activeStatusText)
+                ? L(activeStatusKey)
+                : activeStatusText;
+            activityLabel.Text = statusText + suffix;
+            if (pendingStatusLabel != null && !pendingStatusLabel.IsDisposed)
+                pendingStatusLabel.Text = statusText + suffix;
+        }
+
+        private void StartNewConversation(object sender, EventArgs e)
+        {
+            if (conversationPanel != null && conversationPanel.Controls.Count > 1)
+            {
+                DialogResult result = MessageBox.Show(this,
+                    L("Chat.ClearConversationPrompt"),
+                    L("Dialog.ConfirmClear"),
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question);
+                if (result != DialogResult.OK)
+                    return;
+            }
+
+            if (cancellation != null)
+                cancellation.Cancel();
+            conversationSession.Clear();
+            attachments.Clear();
+            currentResult = null;
+            currentResultContext = null;
+            lastResponseData = null;
+            objectiveTextBox.Clear();
+            summaryTextBox.Clear();
+            validationTextBox.Clear();
+            candidateGrid.Rows.Clear();
+            confirmRequirementsCheckBox.Checked = false;
+            confirmRequirementsCheckBox.Enabled = false;
+            applyButton.Enabled = false;
+            viewResponseButton.Enabled = false;
+            chatReviewButton.Enabled = false;
+            chatDiagnosticsButton.Enabled = false;
+            RefreshAttachmentChips();
+            RemovePendingStatus();
+            foreach (Control control in conversationPanel.Controls.Cast<Control>().ToArray())
+            {
+                ForgetLocalizationTree(control);
+                control.Dispose();
+            }
+            conversationPanel.Controls.Clear();
+            conversationPanel.Controls.Add(BuildWelcomePanel());
+            UpdateSuggestionButtonLayouts();
+            activityLabel.Text = L("Status.Idle");
+            SetBusy(false, "Status.Idle");
+        }
+
+        private void ForgetLocalizationTree(Control control)
+        {
+            if (control == null)
+                return;
+
+            foreach (Control child in control.Controls.Cast<Control>().ToArray())
+                ForgetLocalizationTree(child);
+            localizationKeys.Remove(control);
+        }
+
+        private void SetSuggestedTask(string suggestionKey)
+        {
+            if (objectiveTextBox == null)
+                return;
+
+            objectiveTextBox.Text = L("TaskSuggestions." +
+                (suggestionKey == "survey" ? "SurveyPolygon" :
+                 suggestionKey == "file" ? "FromFile" : "RelativeRoute"));
+            objectiveTextBox.SelectionStart = objectiveTextBox.Text.Length;
+            objectiveTextBox.Focus();
+        }
+
+        private void ResizeConversationItems()
+        {
+            if (conversationPanel == null)
+                return;
+
+            int width = Math.Max(260, conversationPanel.ClientSize.Width -
+                conversationPanel.Padding.Horizontal - SystemInformation.VerticalScrollBarWidth - 4);
+            foreach (Control control in conversationPanel.Controls)
+            {
+                ConversationMessageControl message = control as ConversationMessageControl;
+                if (message != null)
+                    message.SetAvailableWidth(width);
+                else if (control is Panel panel && panel.Tag is string && panel.Tag.ToString() == "pending-status")
+                    panel.Width = width;
+            }
+        }
+
+        private void AddConversationMessage(ConversationMessageRole role, string message, bool isError)
+        {
+            if (conversationPanel == null || string.IsNullOrWhiteSpace(message))
+                return;
+
+            ConversationMessageControl item = new ConversationMessageControl(role, message, languageCode, isError);
+            conversationPanel.Controls.Add(item);
+            ResizeConversationItems();
+            conversationPanel.ScrollControlIntoView(item);
+        }
+
+        private void ShowPendingStatus(string statusKey)
+        {
+            if (conversationPanel == null)
+                return;
+
+            RemovePendingStatus();
+            pendingStatusPanel = new Panel
+            {
+                AutoSize = false,
+                Height = 32,
+                Margin = new Padding(0, 0, 0, 10),
+                Padding = new Padding(14, 7, 14, 6),
+                BackColor = Drawing.Color.FromArgb(247, 247, 247),
+                Tag = "pending-status"
+            };
+            pendingStatusLabel = new Label
+            {
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+                UseMnemonic = false
+            };
+            pendingStatusPanel.Controls.Add(pendingStatusLabel);
+            conversationPanel.Controls.Add(pendingStatusPanel);
+            activeStatusKey = statusKey;
+            activeStatusText = L(statusKey);
+            activeStatusAttempt = 0;
+            activeStatusMaximumAttempts = 0;
+            activeStatusDelayMilliseconds = 0;
+            statusAnimationFrame = 0;
+            pendingStatusLabel.Text = activeStatusText;
+            statusAnimationTimer.Start();
+            ResizeConversationItems();
+            conversationPanel.ScrollControlIntoView(pendingStatusPanel);
+        }
+
+        private void ShowPendingStatusText(string statusKey, string text)
+        {
+            ShowPendingStatus(statusKey);
+            activeStatusText = text;
+            if (pendingStatusLabel != null)
+                pendingStatusLabel.Text = text;
+            if (activityLabel != null)
+                activityLabel.Text = text;
+        }
+
+        private void RemovePendingStatus()
+        {
+            if (pendingStatusPanel != null && conversationPanel != null &&
+                conversationPanel.Controls.Contains(pendingStatusPanel))
+            {
+                conversationPanel.Controls.Remove(pendingStatusPanel);
+                pendingStatusPanel.Dispose();
+            }
+            pendingStatusPanel = null;
+            pendingStatusLabel = null;
+            statusAnimationTimer.Stop();
+            activeStatusKey = null;
+            activeStatusText = null;
+            activeStatusAttempt = 0;
+            activeStatusMaximumAttempts = 0;
+            activeStatusDelayMilliseconds = 0;
         }
 
         private void ProviderSelectionChanged(object sender, EventArgs e)
@@ -485,10 +1185,22 @@ namespace MissionPlanner.AIWaypointPlanner
             protocolComboBox.SelectedIndex = preset.Protocol == ApiProtocol.Responses ? 0 : 1;
             authenticationComboBox.SelectedIndex = GetAuthenticationIndex(preset.AuthenticationMode);
             modelTextBox.Text = preset.Model;
+            reasoningComboBox.SelectedIndex = GetReasoningIndex(preset.ReasoningLevel);
             projectTextBox.Clear();
-            providerNoteLabel.Text = preset.Note + Environment.NewLine +
-                "插件仅调用 OpenAI 兼容接口，不会读取 CC Switch、Codex、ChatGPT 或其他软件保存的密钥/OAuth。";
+            apiKeyTextBox.Clear();
+            sessionCredentialScope = null;
+            rememberKeyCheckBox.Checked = false;
+            providerNoteLabel.Text = GetProviderNote(preset);
             UpdateAuthenticationControls();
+        }
+
+        private string GetProviderNote(ApiProviderPreset preset)
+        {
+            if (preset == null)
+                return string.Empty;
+            return string.IsNullOrWhiteSpace(preset.NoteKey)
+                ? preset.Note
+                : L(preset.NoteKey);
         }
 
         private void RefreshSavedProfileList()
@@ -538,10 +1250,13 @@ namespace MissionPlanner.AIWaypointPlanner
             loadingApiProfile = true;
             try
             {
+                if (providerComboBox != null)
+                    providerComboBox.SelectedIndex = -1;
                 baseUrlTextBox.Text = profile.BaseUrl ?? string.Empty;
                 protocolComboBox.SelectedIndex = profile.Protocol == ApiProtocol.ChatCompletions ? 1 : 0;
                 authenticationComboBox.SelectedIndex = GetAuthenticationIndex(profile.AuthenticationMode);
                 modelTextBox.Text = profile.Model ?? string.Empty;
+                reasoningComboBox.SelectedIndex = GetReasoningIndex(profile.ReasoningLevel);
                 projectTextBox.Text = profile.ProjectId ?? string.Empty;
                 rememberKeyCheckBox.Checked = profile.RememberApiKey;
                 apiKeyTextBox.Text = string.Empty;
@@ -550,18 +1265,22 @@ namespace MissionPlanner.AIWaypointPlanner
                     if (profile.RememberApiKey)
                     {
                         string storedKey = new WindowsCredentialStore(
-                            ApiProfileStore.CredentialTargetFor(profile.Name)).Read();
+                            ApiProfileStore.CredentialTargetFor(profile)).Read();
                         if (!string.IsNullOrWhiteSpace(storedKey))
                             apiKeyTextBox.Text = storedKey;
                     }
                 }
                 catch (Exception ex)
                 {
-                    credentialStatusLabel.Text = "组合凭据读取失败：" + ex.Message;
+                    credentialStatusLabel.Text = UiStrings.Format(languageCode, "Api.CredentialReadFailedFormat", ex.Message);
                 }
 
-                providerNoteLabel.Text = "已加载组合：" + profile.Name + Environment.NewLine +
-                    "插件仅调用 OpenAI 兼容接口，不会读取 CC Switch、Codex、ChatGPT 或其他软件保存的密钥/OAuth。";
+                sessionCredentialScope = string.IsNullOrWhiteSpace(apiKeyTextBox.Text)
+                    ? null
+                    : GetCurrentCredentialScope();
+
+                providerNoteLabel.Text = UiStrings.Format(languageCode, "Api.ProfileLoadedFormat", profile.Name) +
+                    Environment.NewLine + L("Settings.ProviderNote");
             }
             finally
             {
@@ -582,6 +1301,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 AuthenticationMode = GetAuthenticationMode(),
                 Model = modelTextBox.Text == null ? string.Empty : modelTextBox.Text.Trim(),
                 ProjectId = projectTextBox.Text == null ? string.Empty : projectTextBox.Text.Trim(),
+                ReasoningLevel = GetReasoningLevel(),
                 RememberApiKey = rememberKeyCheckBox.Checked,
                 LastUsedUtc = DateTime.UtcNow
             };
@@ -593,28 +1313,37 @@ namespace MissionPlanner.AIWaypointPlanner
             if (string.IsNullOrWhiteSpace(defaultName))
             {
                 var preset = providerComboBox.SelectedItem as ApiProviderPreset;
-                defaultName = preset == null ? "自定义 API" : preset.Name;
+                defaultName = preset == null ? L("App.Name") : preset.Name;
             }
 
-            string name = PromptForText("保存 API 配置组合", "组合名称：", defaultName);
+            string name = PromptForText(L("Button.SaveProfile"), L("Api.ProfileNamePrompt"), defaultName);
             if (string.IsNullOrWhiteSpace(name))
                 return;
             name = name.Trim();
             if (name.Length > 80)
             {
-                ShowError("组合名称不能超过 80 个字符。");
+                ShowError(L("Api.ProfileNameTooLong"));
                 return;
             }
 
             ApiProfileRecord profile = BuildCurrentProfileRecord(name);
             if (string.IsNullOrWhiteSpace(profile.BaseUrl) || string.IsNullOrWhiteSpace(profile.Model))
             {
-                ShowError("请先填写 API Base URL 和模型 ID。");
+                ShowError(L("Api.ProfileEndpointModelRequired"));
                 return;
             }
 
             ApiProfileRecord existing = savedApiProfiles.FirstOrDefault(item =>
                 string.Equals(item.Name, name, StringComparison.OrdinalIgnoreCase));
+            if (existing != null && !ApiProfileStore.MatchesConnection(
+                existing,
+                profile.BaseUrl,
+                profile.Protocol,
+                profile.AuthenticationMode,
+                profile.Model))
+            {
+                TryDeleteCredential(ApiProfileStore.CredentialTargetFor(existing));
+            }
             if (existing != null)
                 savedApiProfiles.Remove(existing);
             savedApiProfiles.Add(profile);
@@ -623,13 +1352,16 @@ namespace MissionPlanner.AIWaypointPlanner
             if (profile.AuthenticationMode != ApiAuthenticationMode.None &&
                 profile.RememberApiKey && !string.IsNullOrWhiteSpace(apiKeyTextBox.Text))
             {
-                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile.Name)).Write(apiKeyTextBox.Text);
-                credentialStatusLabel.Text = "组合已保存；密钥已保存到 Windows 凭据管理器";
+                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile)).Write(apiKeyTextBox.Text);
+                credentialStatusLabel.Text = L("Api.KeySaved");
             }
             else
             {
-                credentialStatusLabel.Text = "组合已保存；仅保存非敏感配置";
+                if (!profile.RememberApiKey || profile.AuthenticationMode == ApiAuthenticationMode.None)
+                    TryDeleteCredential(ApiProfileStore.CredentialTargetFor(profile));
+                credentialStatusLabel.Text = UiStrings.Format(languageCode, "Api.ProfileSavedFormat", profile.Name);
             }
+            TryDeleteCredential(ApiProfileStore.LegacyCredentialTargetForProfileName(profile.Name));
 
             loadingApiProfile = true;
             RefreshSavedProfileList();
@@ -651,13 +1383,13 @@ namespace MissionPlanner.AIWaypointPlanner
             ApiProfileRecord profile = SelectedApiProfile;
             if (profile == null)
             {
-                ShowError("请先选择要删除的配置组合。");
+                ShowError(L("Api.ProfileMissing"));
                 return;
             }
 
             DialogResult result = MessageBox.Show(this,
-                "确定删除配置组合“" + profile.Name + "”及其对应的已保存密钥吗？",
-                "删除配置组合", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                 UiStrings.Format(languageCode, "Dialog.ConfirmDeleteProfile") + Environment.NewLine + profile.Name,
+                 L("Dialog.Warning"), MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (result != DialogResult.OK)
                 return;
 
@@ -665,11 +1397,13 @@ namespace MissionPlanner.AIWaypointPlanner
             apiProfileStore.Save(savedApiProfiles);
             try
             {
-                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile.Name)).Delete();
+                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile)).Delete();
+                new WindowsCredentialStore(
+                    ApiProfileStore.LegacyCredentialTargetForProfileName(profile.Name)).Delete();
             }
             catch (Exception ex)
             {
-                ShowError("组合已删除，但删除对应凭据失败：" + ex.Message);
+                ShowError(L("Api.ProfileDeleted") + ": " + ex.Message);
             }
             RefreshSavedProfileList();
         }
@@ -688,8 +1422,18 @@ namespace MissionPlanner.AIWaypointPlanner
 
                 var label = new Label { Text = labelText, AutoSize = true, Location = new Drawing.Point(12, 14) };
                 var textBox = new TextBox { Text = initialValue ?? string.Empty, Location = new Drawing.Point(12, 40), Width = 416 };
-                var ok = new Button { Text = "确定", DialogResult = DialogResult.OK, Location = new Drawing.Point(264, 80), Width = 78 };
-                var cancel = new Button { Text = "取消", DialogResult = DialogResult.Cancel, Location = new Drawing.Point(350, 80), Width = 78 };
+                var ok = new Button
+                {
+                    Text = L("Button.Confirm"), DialogResult = DialogResult.OK,
+                    Location = new Drawing.Point(264, 80), AutoSize = true,
+                    MinimumSize = new Drawing.Size(78, 28)
+                };
+                var cancel = new Button
+                {
+                    Text = L("Button.Cancel"), DialogResult = DialogResult.Cancel,
+                    Location = new Drawing.Point(350, 80), AutoSize = true,
+                    MinimumSize = new Drawing.Size(78, 28)
+                };
                 prompt.Controls.Add(label);
                 prompt.Controls.Add(textBox);
                 prompt.Controls.Add(ok);
@@ -707,16 +1451,103 @@ namespace MissionPlanner.AIWaypointPlanner
             if (selected == null)
                 return;
 
+            string sessionApiKey = apiKeyTextBox.Text;
             ApiProfileRecord updated = BuildCurrentProfileRecord(selected.Name);
             savedApiProfiles.RemoveAll(item => string.Equals(item.Name, selected.Name, StringComparison.OrdinalIgnoreCase));
             savedApiProfiles.Add(updated);
             apiProfileStore.Save(savedApiProfiles);
             RefreshSavedProfileList();
+            if (!updated.RememberApiKey && !string.IsNullOrWhiteSpace(sessionApiKey))
+            {
+                apiKeyTextBox.Text = sessionApiKey;
+                LoadCredentialStatus();
+            }
         }
 
         private void AuthenticationSelectionChanged(object sender, EventArgs e)
         {
+            ConnectionSettingsChanged(sender, e);
             UpdateAuthenticationControls();
+        }
+
+        private void SessionApiKeyChanged(object sender, EventArgs e)
+        {
+            if (loadingApiProfile || apiKeyTextBox == null)
+                return;
+
+            sessionCredentialScope = string.IsNullOrWhiteSpace(apiKeyTextBox.Text)
+                ? null
+                : GetCurrentCredentialScope();
+        }
+
+        private void ConnectionSettingsChanged(object sender, EventArgs e)
+        {
+            if (loadingApiProfile || apiKeyTextBox == null)
+                return;
+
+            // A key loaded for one profile/endpoint must not remain in the
+            // session field after the operator changes connection settings.
+            // The user can still enter a new key immediately afterwards.
+            if (!string.IsNullOrWhiteSpace(apiKeyTextBox.Text))
+                apiKeyTextBox.Clear();
+            sessionCredentialScope = null;
+
+            if (authenticationComboBox != null &&
+                GetAuthenticationMode() != ApiAuthenticationMode.None)
+                LoadCredentialStatus();
+        }
+
+        private string GetCurrentCredentialScope()
+        {
+            string endpointTarget = ApiProfileStore.CredentialTargetForEndpoint(
+                baseUrlTextBox == null ? string.Empty : baseUrlTextBox.Text,
+                protocolComboBox != null && protocolComboBox.SelectedIndex == 1
+                    ? ApiProtocol.ChatCompletions
+                    : ApiProtocol.Responses,
+                GetAuthenticationMode(),
+                modelTextBox == null ? string.Empty : modelTextBox.Text);
+            string profileName = SelectedApiProfile == null
+                ? string.Empty
+                : SelectedApiProfile.Name ?? string.Empty;
+            string protocol = protocolComboBox == null
+                ? ApiProtocol.Responses.ToString()
+                : (protocolComboBox.SelectedIndex == 1
+                    ? ApiProtocol.ChatCompletions
+                    : ApiProtocol.Responses).ToString();
+            string authentication = authenticationComboBox == null
+                ? ApiAuthenticationMode.Bearer.ToString()
+                : GetAuthenticationMode().ToString();
+            return profileName + "\n" + endpointTarget + "\n" + protocol + "\n" + authentication;
+        }
+
+        private static void TryDeleteCredential(string target)
+        {
+            if (string.IsNullOrWhiteSpace(target))
+                return;
+            try
+            {
+                new WindowsCredentialStore(target).Delete();
+            }
+            catch
+            {
+                // Credential cleanup must not prevent saving a valid profile.
+            }
+        }
+
+        private bool CurrentProfileMatchesConnection(ApiProfileRecord profile)
+        {
+            if (profile == null)
+                return false;
+
+            ApiProtocol protocol = protocolComboBox != null && protocolComboBox.SelectedIndex == 1
+                ? ApiProtocol.ChatCompletions
+                : ApiProtocol.Responses;
+            return ApiProfileStore.MatchesConnection(
+                profile,
+                baseUrlTextBox == null ? string.Empty : baseUrlTextBox.Text,
+                protocol,
+                GetAuthenticationMode(),
+                modelTextBox == null ? string.Empty : modelTextBox.Text);
         }
 
         private void UpdateAuthenticationControls()
@@ -730,7 +1561,7 @@ namespace MissionPlanner.AIWaypointPlanner
             if (!requiresKey)
             {
                 rememberKeyCheckBox.Checked = false;
-                credentialStatusLabel.Text = "无需插件密钥；凭据由本机网关管理";
+                credentialStatusLabel.Text = L("Api.CredentialNone");
             }
             else
             {
@@ -749,6 +1580,8 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private ApiAuthenticationMode GetAuthenticationMode()
         {
+            if (authenticationComboBox == null || authenticationComboBox.SelectedIndex < 0)
+                return ApiAuthenticationMode.Bearer;
             if (authenticationComboBox.SelectedIndex == 1)
                 return ApiAuthenticationMode.ApiKeyHeader;
             if (authenticationComboBox.SelectedIndex == 2)
@@ -761,7 +1594,7 @@ namespace MissionPlanner.AIWaypointPlanner
             ApiAuthenticationMode authenticationMode = GetAuthenticationMode();
             string apiKey = null;
             if (authenticationMode == ApiAuthenticationMode.None)
-                credentialSource = "无需鉴权";
+                credentialSource = L("Api.SourceNone");
             else
                 apiKey = ResolveApiKey(out credentialSource);
 
@@ -774,7 +1607,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 AuthenticationMode = authenticationMode,
                 Model = modelTextBox.Text,
                 ApiKey = apiKey,
-                ProjectId = projectTextBox.Text
+                ProjectId = projectTextBox.Text,
+                ReasoningLevel = GetReasoningLevel(),
+                DisplayLanguageCode = languageCode
             };
             settings.Validate();
             return settings;
@@ -792,53 +1627,106 @@ namespace MissionPlanner.AIWaypointPlanner
             };
         }
 
-        private void AddAttachments(object sender, EventArgs e)
+        private async void AddAttachments(object sender, EventArgs e)
         {
+            string[] selectedPaths;
             using (var dialog = new OpenFileDialog
             {
-                Title = "选择任务资料",
+                Title = L("Attachment.SelectDialogTitle"),
                 Multiselect = true,
                 CheckFileExists = true,
-                Filter = "支持的任务资料|*.pdf;*.docx;*.png;*.jpg;*.jpeg;*.webp;*.gif;*.txt;*.md;*.csv;*.tsv;*.json;*.xml;*.kml;*.gpx;*.yaml;*.yml;*.html;*.htm;*.log;*.ini;*.cfg|PDF 文件|*.pdf|Word 文档|*.docx|图像文件|*.png;*.jpg;*.jpeg;*.webp;*.gif|文本与数据文件|*.txt;*.md;*.csv;*.tsv;*.json;*.xml;*.kml;*.gpx;*.yaml;*.yml;*.html;*.htm;*.log;*.ini;*.cfg|所有文件|*.*"
+                Filter = BuildAttachmentFilter()
             })
             {
                 if (dialog.ShowDialog(this) != DialogResult.OK)
                     return;
+                selectedPaths = dialog.FileNames.ToArray();
+            }
 
-                var errors = new List<string>();
-                foreach (string path in dialog.FileNames)
+            var errors = new List<string>();
+            int addedCount = 0;
+            bool operationCancelled = false;
+            cancellation = new CancellationTokenSource();
+            SetBusy(true, "Status.ReadingFiles");
+            ShowPendingStatus("Status.ReadingFiles");
+            try
+            {
+                foreach (string path in selectedPaths)
                 {
+                    cancellation.Token.ThrowIfCancellationRequested();
                     try
                     {
-                        attachments.Add(attachmentProcessor.Load(path, attachments));
+                        MissionAttachment[] existing = attachments.ToArray();
+                        string selectedLanguage = languageCode;
+                        MissionAttachment attachment = await Task.Run(
+                            () => attachmentProcessor.Load(
+                                path, existing, selectedLanguage, cancellation.Token),
+                            cancellation.Token);
+                        attachments.Add(attachment);
+                        addedCount++;
+                        RefreshAttachmentChips();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
                     }
                     catch (Exception ex)
                     {
                         errors.Add(ex.Message);
                     }
                 }
-                RefreshAttachmentGrid();
-                InvalidateGeneratedResult("附件已变化，请重新生成并确认任务要求。");
-                if (errors.Count > 0)
-                    MessageBox.Show(this, string.Join(Environment.NewLine, errors), "部分文件未添加",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            catch (OperationCanceledException)
+            {
+                operationCancelled = true;
+            }
+            finally
+            {
+                if (cancellation != null)
+                {
+                    cancellation.Dispose();
+                    cancellation = null;
+                }
+
+                if (addedCount > 0)
+                {
+                    RefreshAttachmentChips();
+                    InvalidateGeneratedResult(errors.Count > 0
+                        ? L("Attachment.SomeFailed")
+                        : L("Attachment.Ready"));
+                }
+                if (errors.Count > 0)
+                {
+                    MessageBox.Show(this, string.Join(Environment.NewLine, errors), L("Attachment.SomeFailed"),
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                CompleteBusyOperation(operationCancelled ? "Status.Cancelled" : "Status.Idle");
+            }
+        }
+
+        private string BuildAttachmentFilter()
+        {
+            const string allSupported = "*.pdf;*.doc;*.docx;*.rtf;*.odt;*.ppt;*.pptx;*.xls;*.xlsx;*.png;*.jpg;*.jpeg;*.webp;*.gif;*.txt;*.md;*.csv;*.tsv;*.json;*.xml;*.kml;*.gpx;*.yaml;*.yml;*.html;*.htm;*.log;*.ini;*.cfg";
+            const string documents = "*.pdf;*.doc;*.docx;*.rtf;*.odt;*.ppt;*.pptx;*.xls;*.xlsx";
+            const string images = "*.png;*.jpg;*.jpeg;*.webp;*.gif";
+            const string textData = "*.txt;*.md;*.csv;*.tsv;*.json;*.xml;*.kml;*.gpx;*.yaml;*.yml;*.html;*.htm;*.log;*.ini;*.cfg";
+            return L("Attachment.FilterMissionReferences") + "|" + allSupported + "|" +
+                   L("Attachment.FilterDocuments") + "|" + documents + "|" +
+                   L("Attachment.FilterImages") + "|" + images + "|" +
+                   L("Attachment.FilterTextData") + "|" + textData + "|" +
+                   L("Attachment.FilterAllFiles") + "|*.*";
         }
 
         private void RemoveSelectedAttachments(object sender, EventArgs e)
         {
-            int[] indexes = attachmentGrid.SelectedRows.Cast<DataGridViewRow>()
-                .Select(row => row.Index)
-                .Where(index => index >= 0 && index < attachments.Count)
-                .Distinct()
-                .OrderByDescending(index => index)
-                .ToArray();
-            if (indexes.Length == 0)
+            Button removeButton = sender as Button;
+            MissionAttachment attachment = removeButton == null ? null : removeButton.Tag as MissionAttachment;
+            if (attachment == null)
                 return;
-            foreach (int index in indexes)
-                attachments.RemoveAt(index);
-            RefreshAttachmentGrid();
-            InvalidateGeneratedResult("附件已变化，请重新生成并确认任务要求。");
+            attachments.Remove(attachment);
+            RefreshAttachmentChips();
+            InvalidateGeneratedResult(L("Attachment.Removed"));
         }
 
         private void ClearAttachments(object sender, EventArgs e)
@@ -846,26 +1734,86 @@ namespace MissionPlanner.AIWaypointPlanner
             if (attachments.Count == 0)
                 return;
             attachments.Clear();
-            RefreshAttachmentGrid();
-            InvalidateGeneratedResult("附件已清空，请重新生成并确认任务要求。");
+            RefreshAttachmentChips();
+            InvalidateGeneratedResult(L("Attachment.Empty"));
         }
 
         private void RefreshAttachmentGrid()
         {
-            attachmentGrid.Rows.Clear();
-            foreach (MissionAttachment attachment in attachments)
+            RefreshAttachmentChips();
+        }
+
+        private void RefreshAttachmentChips()
+        {
+            if (attachmentChipPanel == null)
+                return;
+
+            attachmentChipPanel.SuspendLayout();
+            try
             {
-                attachmentGrid.Rows.Add(
-                    attachment.DisplayName,
-                    attachment.MediaType,
-                    FormatFileSize(attachment.SizeBytes),
-                    attachment.Status);
+                foreach (Control control in attachmentChipPanel.Controls.Cast<Control>().ToArray())
+                {
+                    ForgetLocalizationTree(control);
+                    control.Dispose();
+                }
+                attachmentChipPanel.Controls.Clear();
+
+                foreach (MissionAttachment attachment in attachments)
+                {
+                    var chip = new FlowLayoutPanel
+                    {
+                        AutoSize = true,
+                        WrapContents = false,
+                        FlowDirection = FlowDirection.LeftToRight,
+                        Margin = new Padding(0, 0, 6, 4),
+                        Padding = new Padding(7, 4, 4, 4),
+                        BackColor = Drawing.Color.FromArgb(235, 240, 246),
+                        Tag = attachment
+                    };
+                    var label = new Label
+                    {
+                        AutoSize = true,
+                        MaximumSize = new Drawing.Size(360, 0),
+                        Text = attachment.DisplayName + " · " + FormatFileSize(attachment.SizeBytes),
+                        Padding = new Padding(0, 3, 6, 0),
+                        UseMnemonic = false
+                    };
+                    var remove = Track(new Button
+                    {
+                        AutoSize = true,
+                        Height = 25,
+                        Padding = new Padding(5, 1, 5, 1),
+                        Tag = attachment
+                    }, "Button.Remove");
+                    remove.Click += RemoveSelectedAttachments;
+                    chip.Controls.Add(label);
+                    chip.Controls.Add(remove);
+                    attachmentChipPanel.Controls.Add(chip);
+                }
+
+                if (attachments.Count == 0)
+                {
+                    attachmentChipPanel.Controls.Add(new Label
+                    {
+                        AutoSize = true,
+                        ForeColor = Drawing.SystemColors.GrayText,
+                        Text = L("Attachment.Empty"),
+                        Padding = new Padding(0, 5, 0, 0),
+                        UseMnemonic = false
+                    });
+                }
+                clearAttachmentsButton.Enabled = attachments.Count > 0;
+            }
+            finally
+            {
+                attachmentChipPanel.ResumeLayout(true);
             }
         }
 
         private void InvalidateGeneratedResult(string status)
         {
             currentResult = null;
+            currentResultContext = null;
             lastResponseData = null;
             applyButton.Enabled = false;
             viewResponseButton.Enabled = false;
@@ -874,7 +1822,14 @@ namespace MissionPlanner.AIWaypointPlanner
             summaryTextBox.Clear();
             validationTextBox.Text = status;
             candidateGrid.Rows.Clear();
-            activityLabel.Text = "等待重新生成";
+            chatReviewButton.Enabled = false;
+            chatDiagnosticsButton.Enabled = false;
+            activeStatusKey = "Status.Idle";
+            activeStatusText = L("Status.Idle");
+            activeStatusAttempt = 0;
+            activeStatusMaximumAttempts = 0;
+            activeStatusDelayMilliseconds = 0;
+            activityLabel.Text = L("Status.Idle");
         }
 
         private static string FormatFileSize(long bytes)
@@ -896,9 +1851,11 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private async void GenerateMission(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(objectiveTextBox.Text) && attachments.Count == 0)
+            string rawObjective = objectiveTextBox.Text == null ? string.Empty : objectiveTextBox.Text.Trim();
+            if (string.IsNullOrWhiteSpace(rawObjective) && attachments.Count == 0)
             {
-                MessageBox.Show(this, "请先输入任务目标或添加包含任务要求的文件。", "缺少任务资料", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, L("Chat.EmptyObjective"), L("Dialog.Information"),
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -914,7 +1871,19 @@ namespace MissionPlanner.AIWaypointPlanner
                 return;
             }
 
-            SetBusy(true, "正在请求 GPT 并执行本地校验...");
+            string visibleObjective = string.IsNullOrWhiteSpace(rawObjective)
+                ? L("TaskSuggestions.FromFile")
+                : rawObjective;
+            AddConversationMessage(ConversationMessageRole.User, visibleObjective, false);
+            string requestObjective = conversationSession.BuildObjective(
+                string.IsNullOrWhiteSpace(rawObjective)
+                    ? "Use the attached files to identify and clarify the mission requirements."
+                    : rawObjective,
+                languageCode);
+            conversationSession.RecordUserTask(visibleObjective);
+
+            SetBusy(true, "Status.ReadingFiles");
+            ShowPendingStatus("Status.ReadingFiles");
             currentResult = null;
             candidateGrid.Rows.Clear();
             applyButton.Enabled = false;
@@ -925,17 +1894,21 @@ namespace MissionPlanner.AIWaypointPlanner
             lastResponseData = null;
             viewResponseButton.Enabled = false;
             cancellation = new CancellationTokenSource();
+            bool operationCancelled = false;
 
             try
             {
+                ShowPendingStatus("Status.PreparingRequest");
                 MissionContext context = CaptureMissionContext();
                 TaskSpec spec;
-                using (var client = new OpenAiResponsesClient())
+                ShowPendingStatus("Status.Connecting");
+                using (var client = new OpenAiResponsesClient(languageCode, ReportApiActivity))
                 {
                     try
                     {
+                        ShowPendingStatus("Status.Thinking");
                         spec = await client.GenerateTaskSpecAsync(
-                            string.IsNullOrWhiteSpace(objectiveTextBox.Text) ? "请依据附件理解并整理任务要求。" : objectiveTextBox.Text,
+                            requestObjective,
                             settings,
                             context,
                             attachments.ToArray(),
@@ -948,11 +1921,13 @@ namespace MissionPlanner.AIWaypointPlanner
                     }
                 }
 
+                ShowPendingStatus("Status.Validating");
                 var result = new MissionGenerationResult { Spec = spec };
                 result.Validation.Merge(validator.ValidateSpec(spec, context));
                 ValidateAttachmentAcknowledgement(result.Validation, spec);
                 if (result.Validation.IsValid)
                 {
+                    ShowPendingStatus("Status.Compiling");
                     try
                     {
                         result.Mission = compiler.Compile(spec, context);
@@ -960,31 +1935,43 @@ namespace MissionPlanner.AIWaypointPlanner
                     }
                     catch (Exception ex)
                     {
-                        result.Validation.Errors.Add("本地任务编译失败：" + ex.Message);
+                        result.Validation.Errors.Add(UiStrings.Format(
+                            languageCode, "Mission.CompilationFailedFormat", ex.Message));
                     }
                 }
 
                 currentResult = result;
+                currentResultContext = context;
                 DisplayResult(result);
+                conversationSession.RecordStructuredTaskData(BuildConversationSummary(spec));
+                AddConversationMessage(
+                    ConversationMessageRole.Assistant,
+                    BuildAssistantMessage(result),
+                    !result.Validation.IsValid);
 
                 if (settings.AuthenticationMode != ApiAuthenticationMode.None && rememberKeyCheckBox.Checked)
                 {
                     WriteCurrentCredential(settings.ApiKey);
-                    credentialStatusLabel.Text = "已保存到 Windows 凭据管理器";
+                    credentialStatusLabel.Text = L("Api.KeySaved");
                 }
                 else
                 {
-                    credentialStatusLabel.Text = "本次使用：" + credentialSource;
+                    credentialStatusLabel.Text = UiStrings.Format(
+                        languageCode, "Api.CredentialFoundFormat", credentialSource);
                 }
                 MarkCurrentProfileUsed();
             }
             catch (OperationCanceledException)
             {
-                validationTextBox.Text = "请求已取消。";
-                activityLabel.Text = "请求已取消";
+                operationCancelled = true;
+                validationTextBox.Text = L("Status.Cancelled");
+                AddConversationMessage(ConversationMessageRole.System, L("Status.Cancelled"), false);
             }
             catch (Exception ex)
             {
+                AddConversationMessage(ConversationMessageRole.Assistant,
+                    L("Chat.MessageFailed") + Environment.NewLine + ex.Message,
+                    true);
                 ShowError(ex.Message);
             }
             finally
@@ -994,10 +1981,47 @@ namespace MissionPlanner.AIWaypointPlanner
                     cancellation.Dispose();
                     cancellation = null;
                 }
-                SetBusy(false, currentResult != null && currentResult.Validation.IsValid
-                    ? "候选任务已通过本地校验"
-                    : "未生成可应用的候选任务");
+                string completionStatus = currentResult == null
+                    ? operationCancelled ? "Status.Cancelled" : "Status.Failed"
+                    : currentResult.Spec != null && currentResult.Spec.requires_clarification
+                        ? "Status.NeedsClarification"
+                        : currentResult.Validation.IsValid
+                            ? "Status.ReadyForReview"
+                            : "Status.Failed";
+                CompleteBusyOperation(completionStatus);
             }
+        }
+
+        private static string BuildConversationSummary(TaskSpec spec)
+        {
+            if (spec == null)
+                return string.Empty;
+
+            var builder = new StringBuilder();
+            builder.AppendLine(spec.summary ?? string.Empty);
+            builder.AppendLine(spec.source_summary ?? string.Empty);
+            if (spec.requires_clarification)
+                builder.AppendLine(spec.clarification_question ?? string.Empty);
+            return builder.ToString().Trim();
+        }
+
+        private string BuildAssistantMessage(MissionGenerationResult result)
+        {
+            if (result == null || result.Spec == null)
+                return L("Mission.NoCandidate");
+
+            TaskSpec spec = result.Spec;
+            if (spec.requires_clarification)
+                return L("Chat.ClarificationTitle") + Environment.NewLine +
+                    (spec.clarification_question ?? string.Empty);
+
+            string summary = string.IsNullOrWhiteSpace(spec.summary)
+                ? L("Mission.CandidateSummary")
+                : spec.summary.Trim();
+            string title = result.Validation != null && result.Validation.IsValid && result.Mission != null
+                ? L("Chat.CandidateReadyTitle")
+                : L("Chat.CandidateInvalidTitle");
+            return title + Environment.NewLine + summary;
         }
 
         private async void TestConnection(object sender, EventArgs e)
@@ -1015,14 +2039,19 @@ namespace MissionPlanner.AIWaypointPlanner
             }
 
             testConnectionButton.Enabled = false;
-            credentialStatusLabel.Text = "正在测试连接...";
+            SetBusy(true, "Status.TestingConnection");
+            credentialStatusLabel.Text = L("Status.TestingConnection");
+            bool connectionSucceeded = false;
+            bool connectionCancelled = false;
+            testingConnection = true;
+            cancellation = new CancellationTokenSource();
             try
             {
-                using (var client = new OpenAiResponsesClient())
+                using (var client = new OpenAiResponsesClient(languageCode, ReportApiActivity))
                 {
                     try
                     {
-                        await client.TestConnectionAsync(settings, CancellationToken.None);
+                        await client.TestConnectionAsync(settings, cancellation.Token);
                     }
                     finally
                     {
@@ -1034,22 +2063,40 @@ namespace MissionPlanner.AIWaypointPlanner
                 if (settings.AuthenticationMode != ApiAuthenticationMode.None && rememberKeyCheckBox.Checked)
                 {
                     WriteCurrentCredential(settings.ApiKey);
-                    credentialStatusLabel.Text = "连接成功；密钥已保存到 Windows 凭据管理器";
+                    credentialStatusLabel.Text = L("Api.KeySaved");
                 }
                 else
                 {
-                    credentialStatusLabel.Text = "连接成功；凭据来源：" + source;
+                    credentialStatusLabel.Text = UiStrings.Format(
+                        languageCode, "Api.TestSuccessFormat", source);
                 }
+                connectionSucceeded = true;
                 MarkCurrentProfileUsed();
+            }
+            catch (OperationCanceledException)
+            {
+                connectionCancelled = true;
+                credentialStatusLabel.Text = L("Status.Cancelled");
             }
             catch (Exception ex)
             {
-                credentialStatusLabel.Text = "连接失败";
+                credentialStatusLabel.Text = L("Status.ConnectionFailed");
                 ShowError(ex.Message);
             }
             finally
             {
+                if (cancellation != null)
+                {
+                    cancellation.Dispose();
+                    cancellation = null;
+                }
+                testingConnection = false;
                 testConnectionButton.Enabled = true;
+                CompleteBusyOperation(connectionCancelled
+                    ? "Status.Cancelled"
+                    : connectionSucceeded
+                        ? "Status.ConnectionSucceeded"
+                        : "Status.ConnectionFailed");
             }
         }
 
@@ -1062,16 +2109,16 @@ namespace MissionPlanner.AIWaypointPlanner
             if (!IsRelativeAltitudeMode())
             {
                 MessageBox.Show(this,
-                    "当前 Flight Planner 高度模式不是 Relative。请切换为相对 Home 高度后重新检查候选任务。",
-                    "高度模式不匹配", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("Mission.RelativeAltitudeRequired"),
+                    L("Dialog.Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!IsStandardMissionType())
             {
                 MessageBox.Show(this,
-                    "当前 Flight Planner 不是普通 Mission 任务类型。请切换到 Mission 后再应用候选任务。",
-                    "任务类型不匹配", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    L("Mission.StandardMissionRequired"),
+                    L("Dialog.Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -1080,22 +2127,24 @@ namespace MissionPlanner.AIWaypointPlanner
             if (!revalidation.IsValid)
             {
                 validationTextBox.Text = string.Join(Environment.NewLine,
-                    revalidation.Errors.Select(error => "错误：" + error));
+                    revalidation.Errors.Select(error =>
+                        UiStrings.Format(languageCode, "Validation.ErrorPrefix", error)));
                 applyButton.Enabled = false;
-                MessageBox.Show(this, "任务状态已变化，重新校验未通过；未应用任何任务项。",
-                    "校验失败", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, L("Mission.RevalidationFailed"),
+                    L("Dialog.Warning"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             int existing = GetExistingMissionItemCount();
             string existingWarning = existing > 0
-                ? "当前飞行计划已有 " + existing + " 个任务项，本插件将追加而不会替换。\r\n\r\n"
+                ? UiStrings.Format(languageCode, "Mission.ExistingItemsWarningFormat", existing) +
+                  Environment.NewLine + Environment.NewLine
                 : string.Empty;
             DialogResult confirmation = MessageBox.Show(this,
                 existingWarning +
-                "确认把 " + currentResult.Mission.Items.Count + " 个候选任务项追加到本地 Flight Planner 列表？\r\n" +
-                "此操作不会上传到飞控，之后仍须人工逐项检查并手动写入。",
-                "确认应用候选任务", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                UiStrings.Format(languageCode, "Mission.ApplyConfirmFormat", currentResult.Mission.Items.Count) +
+                Environment.NewLine + Environment.NewLine + L("Mission.LocalOnlyNotice"),
+                L("Dialog.ConfirmApply"), MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
             if (confirmation != DialogResult.OK)
                 return;
 
@@ -1125,8 +2174,7 @@ namespace MissionPlanner.AIWaypointPlanner
                     if (appliedCommand == null ||
                         !string.Equals(Convert.ToString(appliedCommand), item.Command.ToString(), StringComparison.Ordinal))
                     {
-                        throw new InvalidOperationException(
-                            "Mission Planner 当前编辑模式改变了任务命令，请关闭样条航点等自动转换后重试。");
+                        throw new InvalidOperationException(L("Mission.CommandChanged"));
                     }
                 }
             }
@@ -1134,8 +2182,8 @@ namespace MissionPlanner.AIWaypointPlanner
             {
                 RollBackAppendedRows(originalMissionItemCount);
                 MessageBox.Show(this,
-                    "追加任务项时发生错误，本次已添加的行已撤回。请检查 Flight Planner：\r\n" + ex.Message,
-                    "应用失败", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    UiStrings.Format(languageCode, "Mission.AppendFailedFormat", ex.Message),
+                    L("Dialog.Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             finally
@@ -1146,10 +2194,10 @@ namespace MissionPlanner.AIWaypointPlanner
             }
 
             applyButton.Enabled = false;
-            activityLabel.Text = "已追加到本地飞行计划，尚未上传";
+            activityLabel.Text = L("Status.AppliedLocally");
             MessageBox.Show(this,
-                "候选任务已追加到本地 Flight Planner 列表。请人工检查航线、高度、空域、返航与失效保护设置，再决定是否手动写入飞控。",
-                "已应用到本地计划", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                L("Mission.Applied"),
+                L("Dialog.Information"), MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private MissionContext CaptureMissionContext()
@@ -1233,14 +2281,14 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private void DisplayResult(MissionGenerationResult result)
         {
-            string missionType = result.Spec == null ? "未知" : result.Spec.mission_type;
+            string missionType = result.Spec == null ? string.Empty : result.Spec.mission_type;
             int itemCount = result.Mission == null ? 0 : result.Mission.Items.Count;
             TaskSpec spec = result.Spec;
             var summaryLines = new List<string>();
             if (spec != null)
             {
-                summaryLines.Add("理解摘要：" + (spec.source_summary ?? string.Empty));
-                summaryLines.Add("确认要求：");
+                summaryLines.Add(L("Mission.Understanding") + ": " + (spec.source_summary ?? string.Empty));
+                summaryLines.Add(L("Mission.Requirements") + ":");
                 if (spec.confirmed_requirements != null)
                 {
                     summaryLines.AddRange(spec.confirmed_requirements
@@ -1249,17 +2297,24 @@ namespace MissionPlanner.AIWaypointPlanner
                 }
                 string files = spec.source_files_used == null
                     ? string.Empty
-                    : string.Join("、", spec.source_files_used.Where(name => !string.IsNullOrWhiteSpace(name)));
-                summaryLines.Add("已使用文件：" + (string.IsNullOrWhiteSpace(files) ? "无" : files));
-                summaryLines.Add("候选任务：" + (spec.summary ?? string.Empty));
+                    : string.Join(", ", spec.source_files_used.Where(name => !string.IsNullOrWhiteSpace(name)));
+                summaryLines.Add(L("Mission.UsedFiles") + ": " +
+                    (string.IsNullOrWhiteSpace(files) ? L("Mission.NoFiles") : files));
+                summaryLines.Add(L("Mission.CandidateSummary") + ": " + (spec.summary ?? string.Empty));
+                if (spec.requires_clarification && !string.IsNullOrWhiteSpace(spec.clarification_question))
+                    summaryLines.Add(L("Chat.ClarificationTitle") + ": " + spec.clarification_question);
             }
-            summaryLines.Add("模板：" + missionType + "；候选任务项：" + itemCount);
+            summaryLines.Add(UiStrings.Format(languageCode, "Mission.TemplateAndCountFormat", missionType, itemCount));
             summaryTextBox.Text = string.Join(Environment.NewLine, summaryLines);
 
-            var lines = result.Validation.Errors.Select(error => "错误：" + error)
-                .Concat(result.Validation.Warnings.Select(warning => "提示：" + warning))
+            var lines = result.Validation.Errors.Select(error =>
+                    UiStrings.Format(languageCode, "Validation.ErrorPrefix", error))
+                .Concat(result.Validation.Warnings.Select(warning =>
+                    UiStrings.Format(languageCode, "Validation.WarningPrefix", warning)))
                 .ToArray();
-            validationTextBox.Text = lines.Length == 0 ? "本地校验通过。" : string.Join(Environment.NewLine, lines);
+            validationTextBox.Text = lines.Length == 0
+                ? L("Validation.Passed")
+                : string.Join(Environment.NewLine, lines);
 
             candidateGrid.Rows.Clear();
             if (result.Mission != null)
@@ -1284,6 +2339,37 @@ namespace MissionPlanner.AIWaypointPlanner
             applyButton.Enabled = false;
         }
 
+        private void RelocalizeCurrentResult()
+        {
+            if (currentResult == null || currentResult.Spec == null)
+                return;
+
+            if (currentResultContext != null)
+            {
+                var validation = new ValidationResult();
+                validation.Merge(validator.ValidateSpec(currentResult.Spec, currentResultContext));
+                ValidateAttachmentAcknowledgement(validation, currentResult.Spec);
+                CandidateMission mission = null;
+                if (validation.IsValid)
+                {
+                    try
+                    {
+                        mission = compiler.Compile(currentResult.Spec, currentResultContext);
+                        validation.Merge(validator.ValidateMission(mission, currentResultContext.Home));
+                    }
+                    catch (Exception ex)
+                    {
+                        validation.Errors.Add(UiStrings.Format(
+                            languageCode, "Mission.CompilationFailedFormat", ex.Message));
+                    }
+                }
+                currentResult.Mission = mission;
+                currentResult.Validation = validation;
+            }
+
+            DisplayResult(currentResult);
+        }
+
         private void ValidateAttachmentAcknowledgement(ValidationResult validation, TaskSpec spec)
         {
             if (validation == null || spec == null)
@@ -1294,47 +2380,79 @@ namespace MissionPlanner.AIWaypointPlanner
                 .Select(name => name.Trim())
                 .ToArray();
             if (attachments.Count > 0 && usedFiles.Length == 0)
-                validation.Errors.Add("AI 未确认使用任何已添加文件，请重新生成或检查模型的文件理解能力。");
+                validation.Errors.Add(L("Attachment.NoUsedFiles"));
             if (attachments.Count == 0 && usedFiles.Length > 0)
-                validation.Errors.Add("AI 声称使用了并未添加的文件，结果不可信。请重新生成。");
+                validation.Errors.Add(L("Attachment.UnrequestedFiles"));
 
             var available = new HashSet<string>(attachments.Select(item => item.DisplayName), StringComparer.OrdinalIgnoreCase);
             foreach (string usedFile in usedFiles)
             {
                 if (!available.Contains(usedFile))
-                    validation.Errors.Add("AI 声称使用了未知文件：" + usedFile);
+                    validation.Errors.Add(UiStrings.Format(
+                        languageCode, "Attachment.UnknownUsedFileFormat", usedFile));
             }
         }
 
         private string ResolveApiKey(out string source)
         {
-            if (!string.IsNullOrWhiteSpace(apiKeyTextBox.Text))
+            if (!string.IsNullOrWhiteSpace(apiKeyTextBox.Text) &&
+                (string.IsNullOrWhiteSpace(sessionCredentialScope) ||
+                 string.Equals(sessionCredentialScope, GetCurrentCredentialScope(),
+                     StringComparison.Ordinal)))
             {
-                source = "会话输入";
+                source = L("Api.SourceSession");
                 return apiKeyTextBox.Text.Trim();
-            }
-
-            string environmentKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-            if (!string.IsNullOrWhiteSpace(environmentKey))
-            {
-                source = "OPENAI_API_KEY";
-                return environmentKey.Trim();
             }
 
             string storedKey = null;
             ApiProfileRecord profile = SelectedApiProfile;
-            if (profile != null && profile.RememberApiKey)
-                storedKey = new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile.Name)).Read();
-            if (string.IsNullOrWhiteSpace(storedKey))
-                storedKey = credentialStore.Read();
+            if (profile != null && profile.RememberApiKey &&
+                CurrentProfileMatchesConnection(profile))
+                storedKey = new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile)).Read();
+            if ((profile == null || !CurrentProfileMatchesConnection(profile)) &&
+                rememberKeyCheckBox != null && rememberKeyCheckBox.Checked)
+            {
+                storedKey = new WindowsCredentialStore(ApiProfileStore.CredentialTargetForEndpoint(
+                    baseUrlTextBox == null ? string.Empty : baseUrlTextBox.Text,
+                    protocolComboBox != null && protocolComboBox.SelectedIndex == 1
+                        ? ApiProtocol.ChatCompletions
+                        : ApiProtocol.Responses,
+                    GetAuthenticationMode(),
+                    modelTextBox == null ? string.Empty : modelTextBox.Text)).Read();
+            }
             if (!string.IsNullOrWhiteSpace(storedKey))
             {
-                source = "Windows 凭据管理器";
+                source = L("Api.SourceWindows");
                 return storedKey.Trim();
             }
 
-            source = "无";
+            if (profile == null && IsOfficialOpenAiEndpoint())
+            {
+                string environmentKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+                if (!string.IsNullOrWhiteSpace(environmentKey))
+                {
+                    source = L("Api.SourceEnvironment");
+                    return environmentKey.Trim();
+                }
+
+                storedKey = credentialStore.Read();
+                if (!string.IsNullOrWhiteSpace(storedKey))
+                {
+                    source = L("Api.SourceWindows");
+                    return storedKey.Trim();
+                }
+            }
+
+            source = L("Api.SourceNone");
             return null;
+        }
+
+        private bool IsOfficialOpenAiEndpoint()
+        {
+            Uri endpoint;
+            return baseUrlTextBox != null &&
+                   Uri.TryCreate(baseUrlTextBox.Text, UriKind.Absolute, out endpoint) &&
+                   string.Equals(endpoint.Host, "api.openai.com", StringComparison.OrdinalIgnoreCase);
         }
 
         private void WriteCurrentCredential(string apiKey)
@@ -1343,17 +2461,24 @@ namespace MissionPlanner.AIWaypointPlanner
                 return;
 
             ApiProfileRecord profile = SelectedApiProfile;
-            if (profile == null)
-                credentialStore.Write(apiKey);
+            if (profile != null)
+                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(
+                    BuildCurrentProfileRecord(profile.Name))).Write(apiKey);
             else
-                new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile.Name)).Write(apiKey);
+                new WindowsCredentialStore(ApiProfileStore.CredentialTargetForEndpoint(
+                    baseUrlTextBox.Text,
+                    protocolComboBox != null && protocolComboBox.SelectedIndex == 1
+                        ? ApiProtocol.ChatCompletions
+                        : ApiProtocol.Responses,
+                    GetAuthenticationMode(),
+                    modelTextBox.Text)).Write(apiKey);
         }
 
         private void LoadCredentialStatus()
         {
             if (authenticationComboBox != null && GetAuthenticationMode() == ApiAuthenticationMode.None)
             {
-                credentialStatusLabel.Text = "无需插件密钥；凭据由本机网关管理";
+                credentialStatusLabel.Text = L("Api.CredentialNone");
                 return;
             }
 
@@ -1362,12 +2487,13 @@ namespace MissionPlanner.AIWaypointPlanner
                 string source;
                 string apiKey = ResolveApiKey(out source);
                 credentialStatusLabel.Text = string.IsNullOrWhiteSpace(apiKey)
-                    ? "未发现可用 API 密钥"
-                    : "已发现凭据：" + source + "（密钥内容不显示）";
+                    ? L("Api.CredentialMissing")
+                    : UiStrings.Format(languageCode, "Api.CredentialFoundFormat", source);
             }
             catch (Exception ex)
             {
-                credentialStatusLabel.Text = "凭据检查失败：" + ex.Message;
+                credentialStatusLabel.Text = UiStrings.Format(
+                    languageCode, "Api.CredentialReadFailedFormat", ex.Message);
             }
         }
 
@@ -1376,10 +2502,17 @@ namespace MissionPlanner.AIWaypointPlanner
             try
             {
                 ApiProfileRecord profile = SelectedApiProfile;
-                bool deleted = profile == null
-                    ? credentialStore.Delete()
-                    : new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile.Name)).Delete();
-                credentialStatusLabel.Text = deleted ? "已删除 Windows 凭据" : "Windows 凭据管理器中没有已保存密钥";
+                bool useProfileCredential = profile != null && CurrentProfileMatchesConnection(profile);
+                bool deleted = !useProfileCredential
+                    ? new WindowsCredentialStore(ApiProfileStore.CredentialTargetForEndpoint(
+                        baseUrlTextBox.Text,
+                        protocolComboBox != null && protocolComboBox.SelectedIndex == 1
+                            ? ApiProtocol.ChatCompletions
+                            : ApiProtocol.Responses,
+                        GetAuthenticationMode(),
+                        modelTextBox.Text)).Delete()
+                    : new WindowsCredentialStore(ApiProfileStore.CredentialTargetFor(profile)).Delete();
+                credentialStatusLabel.Text = deleted ? L("Api.KeyDeleted") : L("Api.NoSavedKey");
             }
             catch (Exception ex)
             {
@@ -1389,26 +2522,115 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private void SetBusy(bool busy, string status)
         {
+            if (!busy)
+                RemovePendingStatus();
+
             generateButton.Enabled = !busy;
             cancelButton.Enabled = busy;
             testConnectionButton.Enabled = !busy;
             deleteCredentialButton.Enabled = !busy;
+            saveProfileButton.Enabled = !busy;
+            deleteProfileButton.Enabled = !busy;
             closeButton.Enabled = !busy;
             objectiveTextBox.Enabled = !busy;
-            attachmentGrid.Enabled = !busy;
+            attachmentChipPanel.Enabled = !busy;
             addAttachmentButton.Enabled = !busy;
-            removeAttachmentButton.Enabled = !busy;
-            clearAttachmentsButton.Enabled = !busy;
+            clearAttachmentsButton.Enabled = !busy && attachments.Count > 0;
+            settingsShortcutButton.Enabled = !busy;
+            newChatButton.Enabled = !busy;
+            chatReviewButton.Enabled = !busy && currentResult != null;
+            chatDiagnosticsButton.Enabled = !busy && lastResponseData != null;
             providerComboBox.Enabled = !busy;
+            savedProfileComboBox.Enabled = !busy;
             protocolComboBox.Enabled = !busy;
             authenticationComboBox.Enabled = !busy;
+            reasoningComboBox.Enabled = !busy;
+            languageComboBox.Enabled = !busy;
             baseUrlTextBox.Enabled = !busy;
             modelTextBox.Enabled = !busy;
             projectTextBox.Enabled = !busy;
             apiKeyTextBox.Enabled = !busy && GetAuthenticationMode() != ApiAuthenticationMode.None;
             rememberKeyCheckBox.Enabled = !busy && GetAuthenticationMode() != ApiAuthenticationMode.None;
-            activityLabel.Text = status;
+            applyButton.Enabled = !busy && confirmRequirementsCheckBox.Checked &&
+                                  currentResult != null && currentResult.Validation.IsValid;
+            activeStatusKey = null;
+            activeStatusText = null;
+            activeStatusAttempt = 0;
+            activeStatusMaximumAttempts = 0;
+            activeStatusDelayMilliseconds = 0;
+            statusAnimationTimer.Stop();
+            if (!string.IsNullOrWhiteSpace(status) && status.StartsWith("Status.", StringComparison.Ordinal))
+            {
+                activeStatusKey = status;
+                activeStatusText = L(status);
+                activeStatusAttempt = 0;
+                activeStatusMaximumAttempts = 0;
+                activeStatusDelayMilliseconds = 0;
+                statusAnimationFrame = 0;
+                activityLabel.Text = activeStatusText;
+                if (busy)
+                    statusAnimationTimer.Start();
+            }
+            else
+            {
+                activityLabel.Text = status ?? string.Empty;
+            }
             Cursor = busy ? Cursors.WaitCursor : Cursors.Default;
+        }
+
+        private void CompleteBusyOperation(string status)
+        {
+            SetBusy(false, status);
+            if (!closeWhenIdle)
+                return;
+
+            closeWhenIdle = false;
+            BeginInvoke(new Action(Close));
+        }
+
+        private void ReportApiActivity(ApiClientActivity activity)
+        {
+            if (activity == null || IsDisposed || Disposing || !IsHandleCreated)
+                return;
+            if (InvokeRequired)
+            {
+                try
+                {
+                    BeginInvoke(new Action<ApiClientActivity>(ReportApiActivity), activity);
+                }
+                catch (InvalidOperationException)
+                {
+                    // The form may be closing while an in-flight request reports its final state.
+                }
+                return;
+            }
+
+            string statusKey = activity.Kind == ApiClientActivityKind.Reconnecting
+                ? "Status.ReconnectingFormat"
+                : activity.Kind == ApiClientActivityKind.WaitingForModel && !testingConnection
+                    ? "Status.Thinking"
+                    : activity.Kind == ApiClientActivityKind.WaitingForModel
+                        ? "Status.WaitingForModel"
+                        : "Status.Connecting";
+
+            string text = activity.Kind == ApiClientActivityKind.Reconnecting
+                ? UiStrings.Format(languageCode, statusKey, activity.Attempt, activity.MaximumAttempts)
+                : L(statusKey);
+            ShowPendingStatusText(statusKey, text);
+            activeStatusAttempt = activity.Attempt;
+            activeStatusMaximumAttempts = activity.MaximumAttempts;
+            activeStatusDelayMilliseconds = activity.DelayMilliseconds;
+            activeStatusText = text;
+        }
+
+        private string GetActiveStatusText()
+        {
+            if (activeStatusKey == "Status.ReconnectingFormat" && activeStatusMaximumAttempts > 0)
+                return UiStrings.Format(languageCode, activeStatusKey,
+                    activeStatusAttempt, activeStatusMaximumAttempts);
+            return string.IsNullOrWhiteSpace(activeStatusText)
+                ? L(activeStatusKey)
+                : activeStatusText;
         }
 
         private void ViewModelResponse(object sender, EventArgs e)
@@ -1416,7 +2638,7 @@ namespace MissionPlanner.AIWaypointPlanner
             if (lastResponseData == null)
                 return;
 
-            using (var dialog = new ModelResponseDialog(lastResponseData))
+            using (var dialog = new ModelResponseDialog(lastResponseData, languageCode))
             {
                 ThemeManager.ApplyThemeTo(dialog);
                 dialog.ShowDialog(this);
@@ -1425,12 +2647,34 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private void ShowError(string message)
         {
-            validationTextBox.Text = "错误：" + message;
-            activityLabel.Text = "发生错误";
+            validationTextBox.Text = UiStrings.Format(languageCode, "Validation.ErrorPrefix", message);
+            SetActivityStatus("Status.Failed", false);
             string responseHint = lastResponseData == null
                 ? string.Empty
-                : "\r\n\r\n可点击“查看模型返回数据”查看 HTTP 状态、原始响应和完整诊断。";
-            MessageBox.Show(this, message + responseHint, "AI 航点规划", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                : Environment.NewLine + Environment.NewLine + L("Chat.ViewDiagnostics");
+            MessageBox.Show(this, message + responseHint, L("Dialog.Error"),
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void SetActivityStatus(string statusKey, bool animate)
+        {
+            if (string.IsNullOrWhiteSpace(statusKey))
+                return;
+
+            activeStatusKey = statusKey;
+            activeStatusText = L(statusKey);
+            activeStatusAttempt = 0;
+            activeStatusMaximumAttempts = 0;
+            activeStatusDelayMilliseconds = 0;
+            statusAnimationFrame = 0;
+            if (activityLabel != null)
+                activityLabel.Text = activeStatusText;
+            if (pendingStatusLabel != null && !pendingStatusLabel.IsDisposed)
+                pendingStatusLabel.Text = activeStatusText;
+            if (animate)
+                statusAnimationTimer.Start();
+            else
+                statusAnimationTimer.Stop();
         }
     }
 }

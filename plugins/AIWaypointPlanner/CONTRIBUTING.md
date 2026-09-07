@@ -20,7 +20,7 @@ At minimum, build the plugin against a matching Mission Planner host and run the
 
 ## Pull request
 
-Push the branch to a personal Fork and open a pull request with base `ArduPilot:master`. Include:
+Push the branch to a personal fork and open a pull request with base `ArduPilot:master`. Include:
 
 - a concise summary of the change;
 - user-visible behavior and limitations;

@@ -6,6 +6,29 @@ namespace MissionPlanner.AIWaypointPlanner
 {
     public sealed class MissionCompiler
     {
+        private string languageCode;
+
+        public MissionCompiler()
+            : this(UiStrings.DefaultLanguageCode)
+        {
+        }
+
+        public MissionCompiler(string languageCode)
+        {
+            LanguageCode = languageCode;
+        }
+
+        public string LanguageCode
+        {
+            get { return languageCode; }
+            set { languageCode = UiStrings.NormalizeLanguageCode(value); }
+        }
+
+        private string L(string key)
+        {
+            return UiStrings.Get(languageCode, key);
+        }
+
         public CandidateMission Compile(TaskSpec spec, MissionContext context)
         {
             if (spec == null)
@@ -25,39 +48,39 @@ namespace MissionPlanner.AIWaypointPlanner
             else if (spec.mission_type == "relative_route")
                 AddRelativeWaypoints(mission, spec, context.Home);
             else
-                throw new InvalidOperationException("Unsupported mission type.");
+                throw new InvalidOperationException(UiStrings.Get(languageCode, "Validation.UnsupportedTemplate"));
 
             mission.Items.Add(new CandidateMissionItem
             {
                 Command = MAVLink.MAV_CMD.RETURN_TO_LAUNCH,
-                Description = "任务完成后返航"
+                Description = L("Mission.DescriptionRtl")
             });
 
             return mission;
         }
 
-        private static CandidateMissionItem CreateTakeoff(double altitude)
+        private CandidateMissionItem CreateTakeoff(double altitude)
         {
             return new CandidateMissionItem
             {
                 Command = MAVLink.MAV_CMD.TAKEOFF,
                 Altitude = altitude,
-                Description = "固定翼任务起飞项（仅加入本地任务表）"
+                Description = L("Mission.DescriptionTakeoff")
             };
         }
 
-        private static CandidateMissionItem CreateSpeed(double speed)
+        private CandidateMissionItem CreateSpeed(double speed)
         {
             return new CandidateMissionItem
             {
                 Command = MAVLink.MAV_CMD.DO_CHANGE_SPEED,
                 Param1 = 1.0,
                 Param2 = speed,
-                Description = "设置任务巡航速度"
+                Description = L("Mission.DescriptionSpeed")
             };
         }
 
-        private static void AddSurveyWaypoints(CandidateMission mission, TaskSpec spec, MissionContext context)
+        private void AddSurveyWaypoints(CandidateMission mission, TaskSpec spec, MissionContext context)
         {
             var polygon = new List<PointLatLngAlt>();
             foreach (PointLatLngAlt point in context.Polygon)
@@ -88,12 +111,12 @@ namespace MissionPlanner.AIWaypointPlanner
                     NearlyEqual(previous.Lng, point.Lng) && NearlyEqual(previous.Alt, point.Alt))
                     continue;
 
-                mission.Items.Add(CreateWaypoint(point, "区域巡视网格航点"));
+                mission.Items.Add(CreateWaypoint(point, L("Mission.DescriptionSurveyWaypoint")));
                 previous = point;
             }
         }
 
-        private static void AddRelativeWaypoints(CandidateMission mission, TaskSpec spec, PointLatLngAlt home)
+        private void AddRelativeWaypoints(CandidateMission mission, TaskSpec spec, PointLatLngAlt home)
         {
             var current = new PointLatLngAlt(home);
             for (int i = 0; i < spec.legs.Count; i++)
@@ -102,7 +125,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 current = current.newpos(leg.bearing_deg, leg.distance_m);
                 current.Alt = leg.altitude_m;
                 string description = string.IsNullOrWhiteSpace(leg.purpose)
-                    ? "相对航段 " + (i + 1)
+                    ? UiStrings.Format(languageCode, "Mission.DescriptionRelativeLegFormat", i + 1)
                     : leg.purpose.Trim();
                 mission.Items.Add(CreateWaypoint(current, description));
             }
