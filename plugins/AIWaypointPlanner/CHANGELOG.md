@@ -1,5 +1,29 @@
 # Change Log
 
+## 3.0.0 - 2026-09-07
+
+### Changed
+
+- Reworked the plugin presentation around a high-contrast dark palette for the conversation, mission review, settings and diagnostics views.
+- Applied explicit foreground, background, selection, disabled and status colors so text remains readable independently of the active Mission Planner theme.
+- Increased neutral borders and added dedicated selection and focus colors so secondary buttons, selected tabs, selected rows and keyboard focus remain distinct on dark surfaces.
+- Replaced the native light tab-strip surface with a fully plugin-painted dark strip in the main workspace and response diagnostics dialog.
+- Increased component-border and selected-tab contrast, including a visible keyboard-focus outline on the active tab.
+- Reserved and dynamically resized the safety-banner row so localized banner text cannot cover the workspace tabs on the first frame or after a language change.
+- Kept the Mission Planner Auto WP menu label and tooltip synchronized immediately with the language selected in the plugin.
+- Localized Mission Planner-visible plugin identity text consistently in English, Simplified Chinese and Russian, including host culture aliases such as `zh-Hans`.
+- Rebuilt attachment states, automatic attachment-only prompts and activity labels from localization keys when the interface language changes.
+- Cleared earlier model-generated text and unapplied candidate items on a language change so the visible response cannot remain in the previous language; task text and attachments are preserved for resubmission.
+- Displayed every unknown model mission type as the localized unsupported type instead of exposing an internal identifier.
+- Centralized the release identifier in `PluginIdentity.Version` so the plugin metadata and localized window titles can share one version value.
+
+### Compatibility and safety
+
+- Reapplied the plugin palette after Mission Planner host theming so the host cannot silently restore low-contrast light surfaces inside the dark interface.
+- Stored the successful local-apply state as a localization key so it remains correct when the interface language changes.
+- Preserved raw API diagnostics and already-applied Flight Planner descriptions without silently translating or overwriting operator-visible technical data.
+- Preserved the persisted language preference, English first-run default, local candidate validation and no-upload/no-flight-control safety boundary.
+
 ## 2.0.0 - 2026-09-06
 
 ### Added

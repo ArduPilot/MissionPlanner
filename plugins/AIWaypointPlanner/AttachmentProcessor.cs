@@ -188,7 +188,7 @@ namespace MissionPlanner.AIWaypointPlanner
             if (file.Length > MaximumImageBytes)
                 throw new InvalidOperationException(UiStrings.Format(
                     languageCode, "Attachment.ErrorImageTooLargeFormat", file.Name));
-            byte[] bytes = ReadAllBytes(file, cancellationToken);
+            byte[] bytes = ReadAllBytes(file, languageCode, cancellationToken);
             return new MissionAttachment
             {
                 DisplayName = file.Name,
@@ -230,7 +230,7 @@ namespace MissionPlanner.AIWaypointPlanner
             }
 
             string extracted = NormalizeExtractedText(text.ToString());
-            byte[] bytes = ReadAllBytes(file, cancellationToken);
+            byte[] bytes = ReadAllBytes(file, languageCode, cancellationToken);
             return new MissionAttachment
             {
                 DisplayName = file.Name,
@@ -293,7 +293,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 Kind = AttachmentContentKind.NativeDocument,
                 ExtractedText = extracted,
                 DataUrl = "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64," +
-                          Convert.ToBase64String(ReadAllBytes(file, cancellationToken)),
+                          Convert.ToBase64String(ReadAllBytes(file, languageCode, cancellationToken)),
                 Status = UiStrings.Get(languageCode, "Attachment.DocxText")
             };
         }
@@ -304,7 +304,7 @@ namespace MissionPlanner.AIWaypointPlanner
             string languageCode,
             CancellationToken cancellationToken)
         {
-            byte[] bytes = ReadAllBytes(file, cancellationToken);
+            byte[] bytes = ReadAllBytes(file, languageCode, cancellationToken);
             return new MissionAttachment
             {
                 DisplayName = file.Name,
@@ -322,7 +322,7 @@ namespace MissionPlanner.AIWaypointPlanner
             string languageCode,
             CancellationToken cancellationToken)
         {
-            byte[] bytes = ReadAllBytes(file, cancellationToken);
+            byte[] bytes = ReadAllBytes(file, languageCode, cancellationToken);
             if (bytes.Any(value => value == 0) && !HasUtf16Bom(bytes))
                 throw new InvalidOperationException(UiStrings.Format(
                     languageCode, "Attachment.ErrorBinaryTextFormat", file.Name));
@@ -346,11 +346,15 @@ namespace MissionPlanner.AIWaypointPlanner
             };
         }
 
-        private static byte[] ReadAllBytes(FileInfo file, CancellationToken cancellationToken)
+        private static byte[] ReadAllBytes(
+            FileInfo file,
+            string languageCode,
+            CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (file.Length > int.MaxValue)
-                throw new IOException("The attachment is too large to read into memory.");
+                throw new IOException(UiStrings.Format(
+                    languageCode, "Attachment.ErrorFileTooLargeFormat", file.Name));
 
             byte[] bytes = new byte[(int)file.Length];
             int offset = 0;
@@ -363,7 +367,8 @@ namespace MissionPlanner.AIWaypointPlanner
                     cancellationToken.ThrowIfCancellationRequested();
                     int read = stream.Read(bytes, offset, Math.Min(81920, bytes.Length - offset));
                     if (read == 0)
-                        throw new EndOfStreamException("The attachment changed while it was being read.");
+                        throw new EndOfStreamException(UiStrings.Get(
+                            languageCode, "Attachment.ErrorChangedWhileReading"));
                     offset += read;
                 }
             }

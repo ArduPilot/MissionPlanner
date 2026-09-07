@@ -6,10 +6,15 @@ namespace MissionPlanner.AIWaypointPlanner
     public sealed class AIWaypointPlannerPlugin : MissionPlanner.Plugin.Plugin
     {
         private ToolStripMenuItem menuItem;
+        private string languageCode;
 
-        public override string Name { get { return "AI Waypoint Planner"; } }
-        public override string Version { get { return "2.0.0"; } }
-        public override string Author { get { return "Local Mission Planner Plugin"; } }
+        public override string Name
+        {
+            get { return UiStrings.Get(GetEffectiveLanguageCode(), "App.Name"); }
+        }
+
+        public override string Version { get { return PluginIdentity.Version; } }
+        public override string Author { get { return "Alico12315"; } }
 
         public override bool Init()
         {
@@ -18,9 +23,9 @@ namespace MissionPlanner.AIWaypointPlanner
 
         public override bool Loaded()
         {
-            string languageCode = new PluginPreferencesStore().Load().LanguageCode;
-            menuItem = new ToolStripMenuItem(UiStrings.Get(languageCode, "App.Name"));
-            menuItem.ToolTipText = UiStrings.Get(languageCode, "App.MenuTooltip");
+            languageCode = LoadSavedLanguageCode();
+            menuItem = new ToolStripMenuItem();
+            ApplyLanguage(languageCode);
             menuItem.Click += OpenPlanner;
 
             ToolStripItemCollection items = Host.FPMenuMap.Items;
@@ -43,7 +48,38 @@ namespace MissionPlanner.AIWaypointPlanner
             using (var form = new AIWaypointPlannerForm(this))
             {
                 MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(form);
+                form.ApplyPluginTheme();
                 form.ShowDialog(Host.MainForm);
+            }
+        }
+
+        public void ApplyLanguage(string selectedLanguageCode)
+        {
+            languageCode = UiStrings.NormalizeLanguageCode(selectedLanguageCode);
+            if (menuItem == null || menuItem.IsDisposed)
+                return;
+
+            menuItem.Text = UiStrings.Get(languageCode, "App.Name");
+            menuItem.ToolTipText = UiStrings.Get(languageCode, "App.MenuTooltip");
+        }
+
+        private string GetEffectiveLanguageCode()
+        {
+            return string.IsNullOrWhiteSpace(languageCode)
+                ? LoadSavedLanguageCode()
+                : UiStrings.NormalizeLanguageCode(languageCode);
+        }
+
+        private static string LoadSavedLanguageCode()
+        {
+            try
+            {
+                return UiStrings.NormalizeLanguageCode(
+                    new PluginPreferencesStore().Load().LanguageCode);
+            }
+            catch
+            {
+                return UiStrings.DefaultLanguageCode;
             }
         }
 

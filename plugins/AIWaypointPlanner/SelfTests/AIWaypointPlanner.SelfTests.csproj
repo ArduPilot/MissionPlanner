@@ -2,6 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net472</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
@@ -16,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(MissionPlannerHostDir)'!=''">
+    <Reference Include="MissionPlanner">
+      <HintPath>$(MissionPlannerHostDir)\MissionPlanner.exe</HintPath>
+      <Private>true</Private>
+    </Reference>
     <Reference Include="MissionPlanner.Utilities">
       <HintPath>$(MissionPlannerHostDir)\MissionPlanner.Utilities.dll</HintPath>
       <Private>true</Private>

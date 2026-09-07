@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using System.Windows.Forms;
 using MissionPlanner.AIWaypointPlanner;
 using MissionPlanner.Utilities;
 using UglyToad.PdfPig.Content;
@@ -21,6 +22,7 @@ namespace AIWaypointPlanner.SelfTests
     {
         private static int failures;
 
+        [STAThread]
         private static int Main()
         {
             Run("Responses output_text extraction", TestResponseExtraction);
@@ -41,6 +43,12 @@ namespace AIWaypointPlanner.SelfTests
             Run("Language preference persistence", TestLanguagePreferencePersistence);
             Run("Conversation language instruction", TestConversationLanguageInstruction);
             Run("Plugin version consistency", TestPluginVersionConsistency);
+            Run("Dark palette contrast", TestDarkPaletteContrast);
+            Run("Dark theme controls", TestDarkThemeControls);
+            Run("Safety banner layout across languages", TestSafetyBannerLayoutAcrossLanguages);
+            Run("Initial tab header rendering", TestInitialTabHeaderRendering);
+            Run("Saved profile note localization wiring", TestSavedProfileNoteLocalizationWiring);
+            Run("Language-switch content localization wiring", TestLanguageSwitchContentLocalizationWiring);
             Run("Relative route compilation", TestRelativeRouteCompilation);
             Run("Survey polygon grid compilation", TestSurveyPolygonCompilation);
             Run("Out-of-bounds leg rejection", TestOutOfBoundsLeg);
@@ -363,6 +371,19 @@ namespace AIWaypointPlanner.SelfTests
                 ApiProfileStore.LegacyCredentialTargetForProfileName(profile.Name),
                 StringComparison.Ordinal),
                 "A scoped profile target must not collide with the legacy name-only target.");
+            AssertTrue(!string.Equals(
+                ApiProfileStore.CredentialTargetForEndpoint(
+                    profile.BaseUrl,
+                    profile.Protocol,
+                    profile.AuthenticationMode,
+                    profile.Model),
+                ApiProfileStore.CredentialTargetForEndpoint(
+                    profile.BaseUrl,
+                    ApiProtocol.ChatCompletions,
+                    profile.AuthenticationMode,
+                    profile.Model),
+                StringComparison.Ordinal),
+                "Endpoint credential targets must include the protocol.");
         }
 
         private static void TestLocalizedInterfaceCatalogs()
@@ -370,6 +391,15 @@ namespace AIWaypointPlanner.SelfTests
             AssertEqual(UiStrings.DefaultLanguageCode,
                 UiStrings.NormalizeLanguageCode(null),
                 "Missing language must default to English.");
+            AssertEqual(UiStrings.ChineseLanguageCode,
+                UiStrings.NormalizeLanguageCode("zh-Hans"),
+                "Mission Planner zh-Hans culture must map to Simplified Chinese.");
+            AssertEqual(UiStrings.ChineseLanguageCode,
+                UiStrings.NormalizeLanguageCode("zh-SG"),
+                "Mission Planner zh-SG culture must map to Simplified Chinese.");
+            AssertEqual(UiStrings.ChineseLanguageCode,
+                UiStrings.NormalizeLanguageCode("zh-CHS"),
+                "Legacy Mission Planner zh-CHS culture must map to Simplified Chinese.");
             AssertEqual("Chat", UiStrings.Get(UiStrings.DefaultLanguageCode, "Nav.Chat"),
                 "English navigation label differs.");
             AssertEqual("对话", UiStrings.Get(UiStrings.ChineseLanguageCode, "Nav.Chat"),
@@ -383,6 +413,16 @@ namespace AIWaypointPlanner.SelfTests
             AssertEqual("Connection attempts: 3",
                 UiStrings.Format(UiStrings.DefaultLanguageCode, "Diagnostics.AttemptsFormat", 3),
                 "Localized format string differs.");
+            AssertTrue(!string.Equals(
+                    UiStrings.Get(UiStrings.DefaultLanguageCode, "Language.GeneratedContentReset"),
+                    UiStrings.Get(UiStrings.ChineseLanguageCode, "Language.GeneratedContentReset"),
+                    StringComparison.Ordinal),
+                "The generated-content reset notice was not localized for Chinese.");
+            AssertTrue(!string.Equals(
+                    UiStrings.Get(UiStrings.DefaultLanguageCode, "Language.GeneratedContentReset"),
+                    UiStrings.Get(UiStrings.RussianLanguageCode, "Language.GeneratedContentReset"),
+                    StringComparison.Ordinal),
+                "The generated-content reset notice was not localized for Russian.");
             var englishKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.DefaultLanguageCode));
             var chineseKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.ChineseLanguageCode));
             var russianKeys = new HashSet<string>(UiStrings.GetCatalogKeys(UiStrings.RussianLanguageCode));
@@ -390,6 +430,32 @@ namespace AIWaypointPlanner.SelfTests
             AssertEqual(englishKeys.Count, russianKeys.Count, "Russian catalog key count differs.");
             AssertTrue(englishKeys.SetEquals(chineseKeys), "Chinese catalog key set differs.");
             AssertTrue(englishKeys.SetEquals(russianKeys), "Russian catalog key set differs.");
+
+            string[] missionTypeKeys =
+            {
+                "Mission.TypeRelativeRoute",
+                "Mission.TypeSurveyPolygon",
+                "Mission.TypeUnsupported"
+            };
+            foreach (string key in missionTypeKeys)
+            {
+                string english = UiStrings.Get(UiStrings.DefaultLanguageCode, key);
+                string chinese = UiStrings.Get(UiStrings.ChineseLanguageCode, key);
+                string russian = UiStrings.Get(UiStrings.RussianLanguageCode, key);
+                AssertTrue(!string.IsNullOrWhiteSpace(english),
+                    "English mission-type text is empty for " + key + ".");
+                AssertTrue(!string.IsNullOrWhiteSpace(chinese),
+                    "Chinese mission-type text is empty for " + key + ".");
+                AssertTrue(!string.IsNullOrWhiteSpace(russian),
+                    "Russian mission-type text is empty for " + key + ".");
+                AssertTrue(!string.Equals(english, chinese, StringComparison.Ordinal),
+                    "English and Chinese mission-type text unexpectedly match for " + key + ".");
+                AssertTrue(!string.Equals(english, russian, StringComparison.Ordinal),
+                    "English and Russian mission-type text unexpectedly match for " + key + ".");
+                AssertTrue(!string.Equals(chinese, russian, StringComparison.Ordinal),
+                    "Chinese and Russian mission-type text unexpectedly match for " + key + ".");
+            }
+
             foreach (string key in englishKeys)
             {
                 AssertTrue(!string.IsNullOrWhiteSpace(UiStrings.Get(UiStrings.ChineseLanguageCode, key)),
@@ -436,9 +502,460 @@ namespace AIWaypointPlanner.SelfTests
 
         private static void TestPluginVersionConsistency()
         {
-            AssertEqual("2.0.0",
+            const string expectedVersion = "3.0.0";
+            AssertEqual(expectedVersion, PluginIdentity.Version,
+                "The shared plugin identity version differs.");
+            AssertEqual(expectedVersion,
                 typeof(OpenAiResponsesClient).Assembly.GetName().Version.ToString(3),
                 "Plugin assembly version was not updated to the major UI release.");
+            AssertEqual(expectedVersion, ReadPluginMetadataVersion(),
+                "Mission Planner plugin metadata version differs.");
+            AssertEqual("AI Waypoint Planner v" + expectedVersion,
+                UiStrings.Get(UiStrings.DefaultLanguageCode, "App.Title"),
+                "English window title version differs.");
+            AssertEqual("AI 航点规划 v" + expectedVersion,
+                UiStrings.Get(UiStrings.ChineseLanguageCode, "App.Title"),
+                "Chinese window title version differs.");
+            AssertEqual("Планировщик маршрута ИИ v" + expectedVersion,
+                UiStrings.Get(UiStrings.RussianLanguageCode, "App.Title"),
+                "Russian window title version differs.");
+        }
+
+        private static void TestDarkPaletteContrast()
+        {
+            AssertContrastAtLeast(PluginTheme.PrimaryText, PluginTheme.WindowBackground,
+                "Primary text on the plugin window");
+            AssertContrastAtLeast(PluginTheme.SecondaryText, PluginTheme.WindowBackground,
+                "Secondary text on the plugin window");
+            AssertContrastAtLeast(PluginTheme.PrimaryText, PluginTheme.InputBackground,
+                "Primary text in an input field");
+            AssertContrastAtLeast(PluginTheme.PrimaryText, PluginTheme.Accent,
+                "Primary text on an accent button");
+            AssertContrastAtLeast(PluginTheme.PrimaryText, PluginTheme.Danger,
+                "Primary text on a danger button");
+            AssertContrastAtLeast(PluginTheme.PrimaryText, PluginTheme.SelectionBackground,
+                "Primary text on a selected row or option");
+            AssertContrastAtLeast(PluginTheme.ErrorText, PluginTheme.ErrorMessage,
+                "Error text on an error message");
+            AssertContrastAtLeast(System.Drawing.Color.White, PluginTheme.SafetyBanner,
+                "White text on the safety banner");
+            AssertContrastAtLeast(PluginTheme.Border, PluginTheme.RaisedSurface, 3.0D,
+                "Component borders on raised surfaces");
+            AssertContrastAtLeast(PluginTheme.SelectionOutline, PluginTheme.WindowBackground, 3.0D,
+                "Selected-tab and keyboard-focus indicators");
+            AssertContrastAtLeast(PluginTheme.SelectionBackground, PluginTheme.RaisedSurface, 3.0D,
+                "Selected rows against alternating rows");
+        }
+
+        private static void TestDarkThemeControls()
+        {
+            using (var host = new Panel())
+            {
+                var button = new Button { Text = "Action" };
+                var comboBox = new ComboBox();
+                comboBox.Items.Add("Option");
+                comboBox.SelectedIndex = 0;
+                var grid = new DataGridView();
+                grid.Columns.Add("value", "Value");
+                var textBox = new TextBox { Text = "Input" };
+                var tabs = new PluginTabControl();
+                var page = new TabPage("Page");
+                tabs.TabPages.Add(page);
+
+                host.Controls.Add(button);
+                host.Controls.Add(comboBox);
+                host.Controls.Add(grid);
+                host.Controls.Add(textBox);
+                host.Controls.Add(tabs);
+                PluginTheme.Apply(host);
+
+                AssertDarkBackground(host.BackColor, "Theme host");
+                AssertColorEqual(PluginTheme.RaisedSurface, button.BackColor,
+                    "A default button did not receive the secondary button surface.");
+                AssertColorEqual(PluginTheme.PrimaryText, button.ForeColor,
+                    "A themed button did not receive primary text.");
+                AssertEqual(FlatStyle.Flat, button.FlatStyle,
+                    "A themed button must use the flat dark-theme renderer.");
+                AssertTrue(!button.UseVisualStyleBackColor,
+                    "Windows visual styles could override the themed button background.");
+
+                AssertColorEqual(PluginTheme.InputBackground, comboBox.BackColor,
+                    "A combo box did not receive the input background.");
+                AssertColorEqual(PluginTheme.PrimaryText, comboBox.ForeColor,
+                    "A combo box did not receive primary text.");
+                AssertEqual(DrawMode.OwnerDrawFixed, comboBox.DrawMode,
+                    "A themed combo box must owner-draw its dark list items.");
+
+                AssertColorEqual(PluginTheme.InputBackground, textBox.BackColor,
+                    "A text box did not receive the input background.");
+                AssertColorEqual(PluginTheme.PrimaryText, textBox.ForeColor,
+                    "A text box did not receive primary text.");
+
+                AssertColorEqual(PluginTheme.PrimaryText, tabs.ForeColor,
+                    "The tab control did not receive primary text.");
+                AssertEqual(TabDrawMode.OwnerDrawFixed, tabs.DrawMode,
+                    "The tab control must owner-draw dark tabs.");
+                AssertColorEqual(PluginTheme.WindowBackground, page.BackColor,
+                    "A tab page did not receive the window background.");
+                AssertColorEqual(PluginTheme.PrimaryText, page.ForeColor,
+                    "A tab page did not receive primary text.");
+
+                AssertColorEqual(PluginTheme.WindowBackground, grid.BackgroundColor,
+                    "The data grid did not receive the window background.");
+                AssertColorEqual(PluginTheme.Surface, grid.DefaultCellStyle.BackColor,
+                    "The data grid default rows did not receive the surface background.");
+                AssertColorEqual(PluginTheme.PrimaryText, grid.DefaultCellStyle.ForeColor,
+                    "The data grid default rows did not receive primary text.");
+                AssertColorEqual(PluginTheme.RaisedSurface,
+                    grid.AlternatingRowsDefaultCellStyle.BackColor,
+                    "The data grid alternating rows did not receive the raised surface.");
+                AssertColorEqual(PluginTheme.RaisedSurface,
+                    grid.ColumnHeadersDefaultCellStyle.BackColor,
+                    "The data grid headers did not receive the raised surface.");
+                AssertColorEqual(PluginTheme.SelectionBackground,
+                    grid.DefaultCellStyle.SelectionBackColor,
+                    "The data grid selection did not receive the accent background.");
+                AssertTrue(!grid.EnableHeadersVisualStyles,
+                    "Windows header styles could override the themed data grid headers.");
+            }
+
+            using (var message = new ConversationMessageControl(
+                ConversationMessageRole.User,
+                "Test message",
+                UiStrings.DefaultLanguageCode,
+                false))
+            {
+                PluginTheme.Apply(message);
+                AssertColorEqual(PluginTheme.UserMessage, message.BackColor,
+                    "A user conversation message did not retain its dark role surface.");
+                AssertColorEqual(PluginTheme.PrimaryText, message.ForeColor,
+                    "A conversation message did not receive primary text.");
+                AssertDarkBackground(message.BackColor, "Conversation message");
+            }
+
+            using (var errorMessage = new ConversationMessageControl(
+                ConversationMessageRole.System,
+                "Test error",
+                UiStrings.DefaultLanguageCode,
+                true))
+            {
+                PluginTheme.Apply(errorMessage);
+                AssertColorEqual(PluginTheme.ErrorMessage, errorMessage.BackColor,
+                    "An error conversation message did not retain its dark error surface.");
+                AssertColorEqual(PluginTheme.ErrorText, errorMessage.ForeColor,
+                    "An error conversation message did not receive error text.");
+            }
+
+            var responseData = new ApiResponseData
+            {
+                RequestedAtUtc = DateTime.UtcNow,
+                Method = "POST",
+                Endpoint = "https://example.invalid/v1/responses",
+                Protocol = "Responses",
+                Model = "self-test",
+                RawResponse = "{}",
+                StructuredOutput = "{}",
+                Diagnostic = "Offline theme test",
+                AttemptCount = 1
+            };
+            using (var dialog = new ModelResponseDialog(responseData, UiStrings.ChineseLanguageCode))
+            {
+                dialog.ApplyPluginTheme();
+                AssertColorEqual(PluginTheme.WindowBackground, dialog.BackColor,
+                    "The response dialog did not receive the window background.");
+                AssertDarkBackground(dialog.BackColor, "Response dialog");
+
+                List<TabControl> dialogTabs = FindControls<TabControl>(dialog);
+                AssertTrue(dialogTabs.Count > 0, "The response dialog has no tab control to inspect.");
+                foreach (TabControl currentTabs in dialogTabs)
+                {
+                    AssertEqual(TabDrawMode.OwnerDrawFixed, currentTabs.DrawMode,
+                        "A response-dialog tab control is not owner drawn.");
+                    AssertColorEqual(PluginTheme.PrimaryText, currentTabs.ForeColor,
+                        "A response-dialog tab control does not use themed text.");
+                    foreach (TabPage currentPage in currentTabs.TabPages)
+                    {
+                        AssertColorEqual(PluginTheme.WindowBackground, currentPage.BackColor,
+                            "A response-dialog tab page is not dark themed.");
+                    }
+                }
+
+                List<TextBox> dialogTextBoxes = FindControls<TextBox>(dialog);
+                AssertTrue(dialogTextBoxes.Count > 0, "The response dialog has no text boxes to inspect.");
+                foreach (TextBox currentTextBox in dialogTextBoxes)
+                {
+                    AssertColorEqual(PluginTheme.InputBackground, currentTextBox.BackColor,
+                        "A response-dialog text box is not dark themed.");
+                    AssertColorEqual(PluginTheme.PrimaryText, currentTextBox.ForeColor,
+                        "A response-dialog text box does not use primary text.");
+                }
+
+                List<Button> dialogButtons = FindControls<Button>(dialog);
+                AssertTrue(dialogButtons.Count > 0, "The response dialog has no buttons to inspect.");
+                bool foundPrimaryButton = false;
+                bool foundSecondaryButton = false;
+                foreach (Button currentButton in dialogButtons)
+                {
+                    AssertDarkBackground(currentButton.BackColor, "Response-dialog button");
+                    foundPrimaryButton |= currentButton.BackColor.ToArgb() == PluginTheme.Accent.ToArgb();
+                    foundSecondaryButton |= currentButton.BackColor.ToArgb() == PluginTheme.RaisedSurface.ToArgb();
+                }
+                AssertTrue(foundPrimaryButton,
+                    "The response dialog did not preserve its primary action style.");
+                AssertTrue(foundSecondaryButton,
+                    "The response dialog did not preserve its secondary action style.");
+            }
+        }
+
+        private static void TestSafetyBannerLayoutAcrossLanguages()
+        {
+            using (var form = new AIWaypointPlannerForm(new AIWaypointPlannerPlugin())
+            {
+                ClientSize = new System.Drawing.Size(1180, 760),
+                ShowInTaskbar = false,
+                StartPosition = FormStartPosition.Manual,
+                Location = new System.Drawing.Point(-32000, -32000)
+            })
+            {
+                form.ApplyPluginTheme();
+                form.Show();
+                Application.DoEvents();
+
+                Label banner = FindControls<Label>(form).Find(label =>
+                    label.BackColor.ToArgb() == PluginTheme.SafetyBanner.ToArgb());
+                List<TabControl> tabControls = FindControls<TabControl>(form);
+                TabControl tabs = tabControls.Count == 0 ? null : tabControls[0];
+                AssertTrue(banner != null, "The real plugin form has no themed safety banner.");
+                AssertTrue(tabs != null, "The real plugin form has no workspace tab control.");
+
+                string[] languages =
+                {
+                    UiStrings.DefaultLanguageCode,
+                    UiStrings.ChineseLanguageCode,
+                    UiStrings.RussianLanguageCode
+                };
+                int[] widths = { 820, 1180, 900 };
+                for (int i = 0; i < languages.Length; i++)
+                {
+                    banner.Text = UiStrings.Get(languages[i], "Safety.Banner");
+                    form.ClientSize = new System.Drawing.Size(widths[i], 650 + i);
+                    form.PerformLayout();
+                    Application.DoEvents();
+
+                    var root = banner.Parent as TableLayoutPanel;
+                    AssertTrue(root != null, "The safety banner is not hosted by the root table layout.");
+                    root.PerformLayout();
+                    Application.DoEvents();
+
+                    int rowIndex = root.GetRow(banner);
+                    int[] rowHeights = root.GetRowHeights();
+                    AssertTrue(rowIndex >= 0 && rowIndex < rowHeights.Length,
+                        "The safety banner does not occupy a valid root-layout row.");
+                    AssertTrue(rowHeights[rowIndex] >= banner.Height + banner.Margin.Vertical,
+                        "The safety row is shorter than the localized banner.");
+                    AssertTrue(banner.Bottom <= tabs.Top,
+                        "The localized safety banner overlaps the workspace tabs at width " +
+                        widths[i] + ".");
+
+                    using (var bitmap = new System.Drawing.Bitmap(
+                        Math.Max(1, banner.Width), Math.Max(1, banner.Height)))
+                    {
+                        banner.DrawToBitmap(bitmap,
+                            new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                        AssertColorEqual(PluginTheme.SafetyBanner, bitmap.GetPixel(2, 2),
+                            "The rendered safety banner is not a complete red surface.");
+                    }
+                }
+            }
+            Application.DoEvents();
+        }
+
+        private static void TestInitialTabHeaderRendering()
+        {
+            using (var form = new Form
+            {
+                ClientSize = new System.Drawing.Size(640, 360),
+                FormBorderStyle = FormBorderStyle.FixedToolWindow,
+                ShowInTaskbar = false,
+                StartPosition = FormStartPosition.Manual,
+                Location = new System.Drawing.Point(-32000, -32000)
+            })
+            using (var tabs = new ObservedTabControl { Dock = DockStyle.Fill })
+            {
+                var chatPage = new TabPage("Chat");
+                var reviewPage = new TabPage("Mission review");
+                var reviewMarker = new Panel { Dock = DockStyle.Fill };
+                reviewPage.Controls.Add(reviewMarker);
+                tabs.TabPages.Add(chatPage);
+                tabs.TabPages.Add(reviewPage);
+                tabs.TabPages.Add(new TabPage("Settings"));
+                form.Controls.Add(tabs);
+
+                PluginTheme.Apply(tabs);
+                System.Drawing.Color markerColor = System.Drawing.Color.FromArgb(12, 83, 47);
+                reviewMarker.BackColor = markerColor;
+                form.Show();
+                form.PerformLayout();
+                tabs.PerformLayout();
+                tabs.ResetPostHandleInvalidationCount();
+                Application.DoEvents();
+
+                AssertTrue(tabs.PostHandleInvalidationCount > 0,
+                    "The tab header was not refreshed after its native handle was created.");
+                AssertEqual(TabDrawMode.OwnerDrawFixed, tabs.DrawMode,
+                    "The first tab frame is not owner drawn.");
+
+                System.Drawing.Rectangle firstTab = tabs.GetTabRect(0);
+                for (int i = 0; i < tabs.TabPages.Count; i++)
+                {
+                    System.Drawing.Rectangle bounds = tabs.GetTabRect(i);
+                    AssertTrue(bounds.Width > 0,
+                        "Tab " + i + " has no visible width on its initial frame.");
+                    AssertTrue(bounds.Height >= tabs.Font.Height + 4,
+                        "Tab " + i + " has no readable header height on its initial frame. " +
+                        "HeaderHeight=" + bounds.Height + ", FontHeight=" + tabs.Font.Height + ".");
+                    AssertTrue(tabs.ClientRectangle.IntersectsWith(bounds),
+                        "Tab " + i + " is outside the visible tab control bounds.");
+                }
+                AssertTrue(tabs.DisplayRectangle.Top >= firstTab.Bottom - 1,
+                    "The selected page overlaps the tab header area.");
+
+                System.Drawing.Rectangle lastTab = tabs.GetTabRect(tabs.TabPages.Count - 1);
+                int emptyStripX = lastTab.Right + 12;
+                AssertTrue(emptyStripX < tabs.ClientSize.Width - 1,
+                    "The test window has no empty tab-strip area to inspect.");
+                int emptyStripY = firstTab.Top + Math.Max(1, firstTab.Height / 2);
+                using (var bitmap = new System.Drawing.Bitmap(
+                    Math.Max(1, tabs.Width), Math.Max(1, tabs.Height)))
+                {
+                    tabs.DrawToBitmap(bitmap,
+                        new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                    AssertColorEqual(PluginTheme.WindowBackground,
+                        bitmap.GetPixel(emptyStripX, emptyStripY),
+                        "The unoccupied tab strip was rendered with a native light background.");
+                }
+
+                tabs.SelectedIndex = 1;
+                Application.DoEvents();
+                AssertTrue(reviewMarker.Visible,
+                    "The newly selected tab page is not visible after switching tabs.");
+                using (var bitmap = new System.Drawing.Bitmap(
+                    Math.Max(1, tabs.Width), Math.Max(1, tabs.Height)))
+                {
+                    tabs.DrawToBitmap(bitmap,
+                        new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height));
+                    System.Drawing.Rectangle pageBounds = tabs.DisplayRectangle;
+                    int pageX = Math.Min(bitmap.Width - 1,
+                        pageBounds.Left + Math.Max(1, pageBounds.Width / 2));
+                    int pageY = Math.Min(bitmap.Height - 1,
+                        pageBounds.Top + Math.Max(1, pageBounds.Height / 2));
+                    AssertColorEqual(markerColor, bitmap.GetPixel(pageX, pageY),
+                        "Painting the dark tab strip erased the selected page content.");
+                }
+
+                tabs.ResetPostHandleInvalidationCount();
+                PluginTheme.Apply(tabs);
+                PluginTheme.Apply(tabs);
+                PluginTheme.Apply(tabs);
+                Application.DoEvents();
+                AssertTrue(tabs.PostHandleInvalidationCount > 0,
+                    "Reapplying the plugin theme after host theming did not refresh the tab header.");
+
+                form.Close();
+                Application.DoEvents();
+            }
+        }
+
+        private static void TestSavedProfileNoteLocalizationWiring()
+        {
+            string source = ReadProjectSource("AIWaypointPlannerForm.cs");
+            var compact = new StringBuilder(source.Length);
+            foreach (char value in source)
+            {
+                if (!char.IsWhiteSpace(value))
+                    compact.Append(value);
+            }
+
+            string normalized = compact.ToString();
+            AssertTrue(normalized.Contains(
+                    "RefreshProviderNote();plugin.ApplyLanguage(languageCode);"),
+                "ApplyLocalization does not refresh the saved-profile note before updating the host menu.");
+            AssertTrue(normalized.Contains(
+                    "ApiProfileRecordprofile=SelectedApiProfile;if(profile!=null)"),
+                "The provider-note refresh does not prioritize the selected saved profile.");
+            AssertTrue(normalized.Contains(
+                    "UiStrings.Format(languageCode,\"Api.ProfileLoadedFormat\",profile.Name)"),
+                "The saved-profile status does not use the active language catalog.");
+            AssertTrue(normalized.Contains(
+                    "Environment.NewLine+L(\"Settings.ProviderNote\")"),
+                "The saved-profile provider label is not rebuilt in the active language.");
+        }
+
+        private static void TestLanguageSwitchContentLocalizationWiring()
+        {
+            string source = ReadProjectSource("AIWaypointPlannerForm.cs");
+            var compact = new StringBuilder(source.Length);
+            foreach (char value in source)
+            {
+                if (!char.IsWhiteSpace(value))
+                    compact.Append(value);
+            }
+
+            string normalized = compact.ToString();
+            AssertTrue(normalized.Contains(
+                    "boolresetLanguageSensitiveContent=HasLanguageSensitiveContent();"),
+                "Language switching does not detect visible model-generated content.");
+            AssertTrue(normalized.Contains(
+                    "ResetLanguageSensitiveContentForLanguageChange();"),
+                "Language switching does not clear content that cannot be translated safely.");
+            AssertTrue(normalized.Contains(
+                    "InvalidateGeneratedResult(\"Language.GeneratedContentReset\");"),
+                "The language-change reset does not use a localized status key.");
+            AssertTrue(normalized.Contains("SetValidationStatus(statusKey);"),
+                "Attachment validation notices are not stored as relocalizable keys.");
+            AssertTrue(normalized.Contains(
+                    "attachmentOnlyTask?(Func<string>)(()=>L(\"TaskSuggestions.FromFile\")):null"),
+                "The plugin-generated attachment-only user prompt cannot be relocalized.");
+            AssertTrue(normalized.Contains(
+                    "SetActivityStatus(\"Status.AppliedLocally\",false);"),
+                "The applied-locally state is not stored as a relocalizable status key.");
+            AssertTrue(normalized.Contains("returnL(\"Mission.TypeUnsupported\");"),
+                "Unknown mission types can still expose an internal model identifier in the interface.");
+        }
+
+        private static string ReadPluginMetadataVersion()
+        {
+            string source = ReadProjectSource("AIWaypointPlannerPlugin.cs");
+            var compact = new StringBuilder(source.Length);
+            foreach (char value in source)
+            {
+                if (!char.IsWhiteSpace(value))
+                    compact.Append(value);
+            }
+            AssertTrue(compact.ToString().Contains(
+                    "publicoverridestringVersion{get{returnPluginIdentity.Version;}}"),
+                "AIWaypointPlannerPlugin.Version is not wired to PluginIdentity.Version.");
+            return PluginIdentity.Version;
+        }
+
+        private static string ReadProjectSource(string fileName)
+        {
+            string directory = AppDomain.CurrentDomain.BaseDirectory;
+            string sourcePath = null;
+            for (int level = 0; level < 8 && !string.IsNullOrWhiteSpace(directory); level++)
+            {
+                string candidate = Path.Combine(directory, fileName);
+                if (File.Exists(candidate))
+                {
+                    sourcePath = candidate;
+                    break;
+                }
+                DirectoryInfo parent = Directory.GetParent(directory);
+                directory = parent == null ? null : parent.FullName;
+            }
+            AssertTrue(!string.IsNullOrWhiteSpace(sourcePath),
+                fileName + " could not be located for source wiring validation.");
+            return File.ReadAllText(sourcePath);
         }
 
         private static void TestRelativeRouteCompilation()
@@ -1214,6 +1731,56 @@ namespace AIWaypointPlanner.SelfTests
             }
         }
 
+        private static void AssertContrastAtLeast(
+            System.Drawing.Color foreground,
+            System.Drawing.Color background,
+            string surfaceName)
+        {
+            AssertContrastAtLeast(foreground, background, 4.5D, surfaceName);
+        }
+
+        private static void AssertContrastAtLeast(
+            System.Drawing.Color foreground,
+            System.Drawing.Color background,
+            double minimumRatio,
+            string surfaceName)
+        {
+            double ratio = PluginTheme.GetContrastRatio(foreground, background);
+            AssertTrue(ratio >= minimumRatio,
+                surfaceName + " contrast is below " + minimumRatio.ToString("0.0") +
+                ":1. Actual=" + ratio.ToString("0.00") + ":1.");
+        }
+
+        private static void AssertDarkBackground(System.Drawing.Color color, string surfaceName)
+        {
+            double luminance = PluginTheme.GetRelativeLuminance(color);
+            AssertTrue(luminance < 0.25D,
+                surfaceName + " is unexpectedly light. Relative luminance=" +
+                luminance.ToString("0.000") + ".");
+        }
+
+        private static void AssertColorEqual(
+            System.Drawing.Color expected,
+            System.Drawing.Color actual,
+            string message)
+        {
+            AssertEqual(expected.ToArgb(), actual.ToArgb(), message);
+        }
+
+        private static List<T> FindControls<T>(Control root) where T : Control
+        {
+            var matches = new List<T>();
+            if (root == null)
+                return matches;
+
+            T current = root as T;
+            if (current != null)
+                matches.Add(current);
+            foreach (Control child in root.Controls)
+                matches.AddRange(FindControls<T>(child));
+            return matches;
+        }
+
         private static void AssertTrue(bool condition, string message)
         {
             if (!condition)
@@ -1244,6 +1811,23 @@ namespace AIWaypointPlanner.SelfTests
             }
 
             throw new InvalidOperationException(message);
+        }
+
+        private sealed class ObservedTabControl : PluginTabControl
+        {
+            public int PostHandleInvalidationCount { get; private set; }
+
+            public void ResetPostHandleInvalidationCount()
+            {
+                PostHandleInvalidationCount = 0;
+            }
+
+            protected override void OnInvalidated(InvalidateEventArgs e)
+            {
+                base.OnInvalidated(e);
+                if (IsHandleCreated)
+                    PostHandleInvalidationCount++;
+            }
         }
     }
 }

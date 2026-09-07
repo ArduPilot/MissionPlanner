@@ -260,7 +260,7 @@ namespace MissionPlanner.AIWaypointPlanner
             IDictionary<string, object> requestBody,
             ApiConnectionSettings settings)
         {
-            string effort = GetReasoningEffortValue(settings.ReasoningLevel);
+            string effort = GetReasoningEffortValue(settings.ReasoningLevel, settings.DisplayLanguageCode);
             if (effort == null)
                 return;
 
@@ -279,6 +279,11 @@ namespace MissionPlanner.AIWaypointPlanner
 
         public static string GetReasoningEffortValue(ApiReasoningLevel level)
         {
+            return GetReasoningEffortValue(level, UiStrings.DefaultLanguageCode);
+        }
+
+        public static string GetReasoningEffortValue(ApiReasoningLevel level, string languageCode)
+        {
             switch (level)
             {
                 case ApiReasoningLevel.Off:
@@ -294,7 +299,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 case ApiReasoningLevel.Ultra:
                     return "max";
                 default:
-                    throw new ArgumentOutOfRangeException("level", level, "Unsupported reasoning level.");
+                    throw new ArgumentOutOfRangeException("level", level,
+                        UiStrings.Get(languageCode, "Api.ErrorReasoningLevelUnsupported"));
             }
         }
 

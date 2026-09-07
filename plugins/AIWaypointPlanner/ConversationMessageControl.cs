@@ -18,6 +18,7 @@ namespace MissionPlanner.AIWaypointPlanner
         private readonly Label roleLabel;
         private readonly Label messageLabel;
         private readonly ConversationMessageRole role;
+        private readonly bool isError;
         private string languageCode;
 
         public ConversationMessageControl(
@@ -27,17 +28,14 @@ namespace MissionPlanner.AIWaypointPlanner
             bool isError)
         {
             this.role = role;
+            this.isError = isError;
             this.languageCode = UiStrings.NormalizeLanguageCode(languageCode);
 
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
             Margin = new Padding(0, 0, 0, 10);
             Padding = new Padding(14, 10, 14, 12);
-            BackColor = isError
-                ? Drawing.Color.FromArgb(255, 238, 238)
-                : role == ConversationMessageRole.User
-                    ? Drawing.Color.FromArgb(238, 242, 247)
-                    : Drawing.SystemColors.Window;
+            BorderStyle = BorderStyle.FixedSingle;
 
             var layout = new TableLayoutPanel
             {
@@ -70,6 +68,7 @@ namespace MissionPlanner.AIWaypointPlanner
             layout.Controls.Add(messageLabel, 0, 1);
             Controls.Add(layout);
             ApplyLanguage(this.languageCode);
+            ApplyPluginTheme();
         }
 
         public void ApplyLanguage(string selectedLanguageCode)
@@ -81,6 +80,35 @@ namespace MissionPlanner.AIWaypointPlanner
                     ? "Chat.AssistantLabel"
                     : "Chat.SystemLabel";
             roleLabel.Text = UiStrings.Get(languageCode, key);
+        }
+
+        public void SetMessage(string message)
+        {
+            messageLabel.Text = message ?? string.Empty;
+        }
+
+        public void ApplyPluginTheme()
+        {
+            PluginTheme.Apply(this);
+        }
+
+        internal void ApplyPluginThemeColors()
+        {
+            BackColor = isError
+                ? PluginTheme.ErrorMessage
+                : role == ConversationMessageRole.User
+                    ? PluginTheme.UserMessage
+                    : PluginTheme.AssistantMessage;
+            ForeColor = isError ? PluginTheme.ErrorText : PluginTheme.PrimaryText;
+            BorderStyle = BorderStyle.FixedSingle;
+            roleLabel.BackColor = Drawing.Color.Transparent;
+            roleLabel.ForeColor = isError
+                ? PluginTheme.ErrorText
+                : role == ConversationMessageRole.User
+                    ? Drawing.Color.FromArgb(166, 203, 255)
+                    : PluginTheme.SecondaryText;
+            messageLabel.BackColor = Drawing.Color.Transparent;
+            messageLabel.ForeColor = isError ? PluginTheme.ErrorText : PluginTheme.PrimaryText;
         }
 
         public void SetAvailableWidth(int width)

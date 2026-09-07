@@ -26,6 +26,7 @@ namespace MissionPlanner.AIWaypointPlanner
         private readonly PluginPreferencesStore preferencesStore;
         private readonly MissionConversationSession conversationSession;
         private readonly Dictionary<Control, string> localizationKeys;
+        private readonly Dictionary<ConversationMessageControl, Func<string>> conversationMessageLocalizers;
 
         private PluginPreferences preferences;
         private string languageCode;
@@ -47,6 +48,7 @@ namespace MissionPlanner.AIWaypointPlanner
         private System.Windows.Forms.Timer statusAnimationTimer;
         private string activeStatusKey;
         private string activeStatusText;
+        private string validationStatusKey;
         private int activeStatusAttempt;
         private int activeStatusMaximumAttempts;
         private int activeStatusDelayMilliseconds;
@@ -135,6 +137,7 @@ namespace MissionPlanner.AIWaypointPlanner
             languageCode = UiStrings.NormalizeLanguageCode(preferences.LanguageCode);
             conversationSession = new MissionConversationSession();
             localizationKeys = new Dictionary<Control, string>();
+            conversationMessageLocalizers = new Dictionary<ConversationMessageControl, Func<string>>();
 
             BuildInterface();
             LoadCredentialStatus();
@@ -183,9 +186,81 @@ namespace MissionPlanner.AIWaypointPlanner
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+            ApplyPluginTheme();
             ApplySafetyNoticeStyle();
             UpdateSafetyNoticeLayout();
             UpdateSuggestionButtonLayouts();
+        }
+
+        public void ApplyPluginTheme()
+        {
+            if (IsDisposed || Disposing)
+                return;
+
+            SuspendLayout();
+            try
+            {
+                PluginTheme.Apply(this);
+
+                if (conversationPanel != null)
+                    conversationPanel.BackColor = PluginTheme.InputBackground;
+                if (activityLabel != null)
+                    activityLabel.ForeColor = PluginTheme.SecondaryText;
+                if (providerNoteLabel != null)
+                    providerNoteLabel.ForeColor = PluginTheme.SecondaryText;
+
+                foreach (KeyValuePair<Control, string> entry in localizationKeys.ToArray())
+                {
+                    if (entry.Key == null || entry.Key.IsDisposed)
+                        continue;
+                    if (entry.Key is Label && IsMutedLocalizationKey(entry.Value))
+                        entry.Key.ForeColor = PluginTheme.SecondaryText;
+                }
+
+                if (conversationPanel != null)
+                {
+                    foreach (ConversationMessageControl message in conversationPanel.Controls
+                        .OfType<ConversationMessageControl>())
+                        message.ApplyPluginTheme();
+                }
+
+                if (pendingStatusPanel != null && !pendingStatusPanel.IsDisposed)
+                {
+                    PluginTheme.Apply(pendingStatusPanel);
+                    pendingStatusPanel.BackColor = PluginTheme.RaisedSurface;
+                }
+
+                if (attachmentChipPanel != null)
+                {
+                    foreach (Control control in attachmentChipPanel.Controls)
+                    {
+                        PluginTheme.Apply(control);
+                        if (control is FlowLayoutPanel chip && chip.Tag is MissionAttachment)
+                            chip.BackColor = PluginTheme.RaisedSurface;
+                        foreach (Button remove in control.Controls.OfType<Button>())
+                            PluginTheme.ApplyButton(remove, PluginButtonStyle.Danger);
+                    }
+                }
+
+                PluginTheme.ApplyButton(generateButton, PluginButtonStyle.Primary);
+                PluginTheme.ApplyButton(applyButton, PluginButtonStyle.Primary);
+                PluginTheme.ApplyButton(cancelButton, PluginButtonStyle.Danger);
+                PluginTheme.ApplyButton(deleteCredentialButton, PluginButtonStyle.Danger);
+                PluginTheme.ApplyButton(deleteProfileButton, PluginButtonStyle.Danger);
+                ApplySafetyNoticeStyle();
+            }
+            finally
+            {
+                ResumeLayout(true);
+                Invalidate(true);
+            }
+        }
+
+        private static bool IsMutedLocalizationKey(string key)
+        {
+            return !string.IsNullOrWhiteSpace(key) &&
+                   (key.EndsWith("Help", StringComparison.Ordinal) ||
+                    string.Equals(key, "Api.RemoteHttpsRequired", StringComparison.Ordinal));
         }
 
         private void BuildInterface()
@@ -205,7 +280,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 RowCount = 2,
                 Padding = new Padding(10)
             };
-            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            root.RowStyles.Add(new RowStyle(SizeType.Absolute, 56F));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             Controls.Add(root);
 
@@ -224,7 +299,11 @@ namespace MissionPlanner.AIWaypointPlanner
             root.Controls.Add(safetyNotice, 0, 0);
             root.SizeChanged += delegate { UpdateSafetyNoticeLayout(); };
 
-            workspaceTabs = new TabControl { Dock = DockStyle.Fill, Padding = new Drawing.Point(16, 6) };
+            workspaceTabs = new PluginTabControl
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Drawing.Point(16, 6)
+            };
             chatTab = BuildChatTab();
             reviewTab = BuildReviewTab();
             settingsTab = BuildSettingsTab();
@@ -304,7 +383,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 FlowDirection = FlowDirection.TopDown,
                 WrapContents = false,
                 Padding = new Padding(12),
-                BackColor = Drawing.SystemColors.Window
+                BackColor = PluginTheme.InputBackground
             };
             conversationPanel.ClientSizeChanged += delegate { ResizeConversationItems(); };
             conversationPanel.Controls.Add(BuildWelcomePanel());
@@ -350,7 +429,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 ColumnCount = 2,
                 RowCount = 1,
                 Padding = new Padding(8),
-                BackColor = Drawing.SystemColors.ControlLight
+                BackColor = PluginTheme.Surface
             };
             composer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             composer.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
@@ -395,7 +474,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 RowCount = 3,
                 Padding = new Padding(18, 22, 18, 18),
                 Margin = new Padding(0, 0, 0, 12),
-                BackColor = Drawing.SystemColors.Window
+                BackColor = PluginTheme.Surface
             };
             var title = Track(new Label
             {
@@ -432,6 +511,8 @@ namespace MissionPlanner.AIWaypointPlanner
             panel.Controls.Add(title, 0, 0);
             panel.Controls.Add(body, 0, 1);
             panel.Controls.Add(suggestions, 0, 2);
+            PluginTheme.Apply(panel);
+            panel.BackColor = PluginTheme.Surface;
             return panel;
         }
 
@@ -651,7 +732,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 AutoSize = true,
                 MaximumSize = new Drawing.Size(920, 0),
                 Padding = new Padding(6, 12, 6, 8),
-                ForeColor = Drawing.SystemColors.GrayText,
+                ForeColor = PluginTheme.SecondaryText,
                 UseMnemonic = false
             };
 
@@ -747,7 +828,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 var help = Track(new Label
                 {
                     AutoSize = true,
-                    ForeColor = Drawing.SystemColors.GrayText,
+                    ForeColor = PluginTheme.SecondaryText,
                     Padding = new Padding(0, 4, 0, 2),
                     UseMnemonic = false
                 }, helpKey);
@@ -782,7 +863,7 @@ namespace MissionPlanner.AIWaypointPlanner
             if (safetyNotice == null)
                 return;
 
-            safetyNotice.BackColor = Drawing.Color.FromArgb(176, 0, 32);
+            safetyNotice.BackColor = PluginTheme.SafetyBanner;
             safetyNotice.ForeColor = Drawing.Color.White;
             if (!safetyNotice.Font.Bold)
                 safetyNotice.Font = new Drawing.Font(safetyNotice.Font, Drawing.FontStyle.Bold);
@@ -804,7 +885,25 @@ namespace MissionPlanner.AIWaypointPlanner
                 TextFormatFlags.WordBreak | TextFormatFlags.Left | TextFormatFlags.NoPadding);
             safetyNotice.MaximumSize = new Drawing.Size(availableWidth, 0);
             safetyNotice.Width = availableWidth;
-            safetyNotice.Height = Math.Max(50, measured.Height + safetyNotice.Padding.Vertical);
+            int desiredHeight = Math.Max(50, measured.Height + safetyNotice.Padding.Vertical);
+            safetyNotice.Height = desiredHeight;
+
+            TableLayoutPanel parent = safetyNotice.Parent as TableLayoutPanel;
+            if (parent != null)
+            {
+                int rowIndex = parent.GetRow(safetyNotice);
+                if (rowIndex >= 0 && rowIndex < parent.RowStyles.Count)
+                {
+                    RowStyle rowStyle = parent.RowStyles[rowIndex];
+                    rowStyle.SizeType = SizeType.Absolute;
+                    float requiredHeight = desiredHeight + safetyNotice.Margin.Vertical;
+                    if (Math.Abs(rowStyle.Height - requiredHeight) > 0.5F)
+                    {
+                        rowStyle.Height = requiredHeight;
+                        parent.PerformLayout();
+                    }
+                }
+            }
         }
 
         private void ApplyLocalization()
@@ -813,6 +912,8 @@ namespace MissionPlanner.AIWaypointPlanner
             validator.LanguageCode = languageCode;
             compiler.LanguageCode = languageCode;
             Text = L("App.Title");
+            if (!string.IsNullOrWhiteSpace(activeStatusKey))
+                activeStatusText = GetActiveStatusText();
 
             foreach (KeyValuePair<Control, string> entry in localizationKeys.ToArray())
             {
@@ -830,7 +931,15 @@ namespace MissionPlanner.AIWaypointPlanner
             {
                 foreach (ConversationMessageControl message in conversationPanel.Controls
                     .OfType<ConversationMessageControl>())
+                {
                     message.ApplyLanguage(languageCode);
+                    Func<string> localizer;
+                    if (conversationMessageLocalizers.TryGetValue(message, out localizer) &&
+                        localizer != null)
+                    {
+                        message.SetMessage(localizer());
+                    }
+                }
             }
             if (pendingStatusLabel != null && !pendingStatusLabel.IsDisposed &&
                 !string.IsNullOrWhiteSpace(activeStatusKey))
@@ -864,11 +973,12 @@ namespace MissionPlanner.AIWaypointPlanner
                     ? L("Status.Idle")
                     : GetActiveStatusText();
 
-            if (providerNoteLabel != null && providerComboBox != null &&
-                providerComboBox.SelectedItem is ApiProviderPreset preset)
-            {
-                providerNoteLabel.Text = GetProviderNote(preset);
-            }
+            RefreshProviderNote();
+            plugin.ApplyLanguage(languageCode);
+            if (currentResult == null && validationTextBox != null &&
+                !string.IsNullOrWhiteSpace(validationStatusKey))
+                validationTextBox.Text = L(validationStatusKey);
+            ApplyPluginTheme();
         }
 
         private void LanguageSelectionChanged(object sender, EventArgs e)
@@ -882,7 +992,12 @@ namespace MissionPlanner.AIWaypointPlanner
             if (option == null)
                 return;
 
-            languageCode = UiStrings.NormalizeLanguageCode(option.LanguageCode);
+            string selectedLanguageCode = UiStrings.NormalizeLanguageCode(option.LanguageCode);
+            if (string.Equals(languageCode, selectedLanguageCode, StringComparison.Ordinal))
+                return;
+
+            bool resetLanguageSensitiveContent = HasLanguageSensitiveContent();
+            languageCode = selectedLanguageCode;
             preferences.LanguageCode = languageCode;
             try
             {
@@ -893,6 +1008,41 @@ namespace MissionPlanner.AIWaypointPlanner
                 // The choice remains active for this session and is retried on close.
             }
             ApplyLocalization();
+            if (resetLanguageSensitiveContent)
+                ResetLanguageSensitiveContentForLanguageChange();
+        }
+
+        private bool HasLanguageSensitiveContent()
+        {
+            return currentResult != null ||
+                   lastResponseData != null ||
+                   (conversationPanel != null && conversationPanel.Controls
+                       .OfType<ConversationMessageControl>().Any());
+        }
+
+        private void ResetLanguageSensitiveContentForLanguageChange()
+        {
+            conversationSession.Clear();
+            InvalidateGeneratedResult("Language.GeneratedContentReset");
+            RemovePendingStatus();
+
+            if (conversationPanel == null)
+                return;
+
+            foreach (Control control in conversationPanel.Controls.Cast<Control>().ToArray())
+            {
+                ForgetLocalizationTree(control);
+                control.Dispose();
+            }
+            conversationPanel.Controls.Clear();
+            conversationPanel.Controls.Add(BuildWelcomePanel());
+            AddConversationMessage(
+                ConversationMessageRole.System,
+                L("Language.GeneratedContentReset"),
+                false,
+                () => L("Language.GeneratedContentReset"));
+            UpdateSuggestionButtonLayouts();
+            ApplyPluginTheme();
         }
 
         private void RefreshLocalizedOptionLists()
@@ -1033,6 +1183,7 @@ namespace MissionPlanner.AIWaypointPlanner
             objectiveTextBox.Clear();
             summaryTextBox.Clear();
             validationTextBox.Clear();
+            validationStatusKey = null;
             candidateGrid.Rows.Clear();
             confirmRequirementsCheckBox.Checked = false;
             confirmRequirementsCheckBox.Enabled = false;
@@ -1062,6 +1213,9 @@ namespace MissionPlanner.AIWaypointPlanner
             foreach (Control child in control.Controls.Cast<Control>().ToArray())
                 ForgetLocalizationTree(child);
             localizationKeys.Remove(control);
+            ConversationMessageControl message = control as ConversationMessageControl;
+            if (message != null)
+                conversationMessageLocalizers.Remove(message);
         }
 
         private void SetSuggestedTask(string suggestionKey)
@@ -1093,12 +1247,19 @@ namespace MissionPlanner.AIWaypointPlanner
             }
         }
 
-        private void AddConversationMessage(ConversationMessageRole role, string message, bool isError)
+        private void AddConversationMessage(
+            ConversationMessageRole role,
+            string message,
+            bool isError,
+            Func<string> localizer = null)
         {
             if (conversationPanel == null || string.IsNullOrWhiteSpace(message))
                 return;
 
             ConversationMessageControl item = new ConversationMessageControl(role, message, languageCode, isError);
+            item.ApplyPluginTheme();
+            if (localizer != null)
+                conversationMessageLocalizers[item] = localizer;
             conversationPanel.Controls.Add(item);
             ResizeConversationItems();
             conversationPanel.ScrollControlIntoView(item);
@@ -1116,7 +1277,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 Height = 32,
                 Margin = new Padding(0, 0, 0, 10),
                 Padding = new Padding(14, 7, 14, 6),
-                BackColor = Drawing.Color.FromArgb(247, 247, 247),
+                BackColor = PluginTheme.RaisedSurface,
                 Tag = "pending-status"
             };
             pendingStatusLabel = new Label
@@ -1126,6 +1287,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 UseMnemonic = false
             };
             pendingStatusPanel.Controls.Add(pendingStatusLabel);
+            PluginTheme.Apply(pendingStatusPanel);
+            pendingStatusPanel.BackColor = PluginTheme.RaisedSurface;
             conversationPanel.Controls.Add(pendingStatusPanel);
             activeStatusKey = statusKey;
             activeStatusText = L(statusKey);
@@ -1201,6 +1364,28 @@ namespace MissionPlanner.AIWaypointPlanner
             return string.IsNullOrWhiteSpace(preset.NoteKey)
                 ? preset.Note
                 : L(preset.NoteKey);
+        }
+
+        private void RefreshProviderNote()
+        {
+            if (providerNoteLabel == null)
+                return;
+
+            ApiProfileRecord profile = SelectedApiProfile;
+            if (profile != null)
+            {
+                providerNoteLabel.Text = UiStrings.Format(
+                    languageCode, "Api.ProfileLoadedFormat", profile.Name) +
+                    Environment.NewLine + L("Settings.ProviderNote");
+                return;
+            }
+
+            ApiProviderPreset preset = providerComboBox == null
+                ? null
+                : providerComboBox.SelectedItem as ApiProviderPreset;
+            providerNoteLabel.Text = preset == null
+                ? L("Settings.ProviderNote")
+                : GetProviderNote(preset);
         }
 
         private void RefreshSavedProfileList()
@@ -1279,8 +1464,7 @@ namespace MissionPlanner.AIWaypointPlanner
                     ? null
                     : GetCurrentCredentialScope();
 
-                providerNoteLabel.Text = UiStrings.Format(languageCode, "Api.ProfileLoadedFormat", profile.Name) +
-                    Environment.NewLine + L("Settings.ProviderNote");
+                RefreshProviderNote();
             }
             finally
             {
@@ -1314,6 +1498,8 @@ namespace MissionPlanner.AIWaypointPlanner
             {
                 var preset = providerComboBox.SelectedItem as ApiProviderPreset;
                 defaultName = preset == null ? L("App.Name") : preset.Name;
+                if (preset != null && !string.IsNullOrWhiteSpace(preset.DisplayName))
+                    defaultName = preset.DisplayName;
             }
 
             string name = PromptForText(L("Button.SaveProfile"), L("Api.ProfileNamePrompt"), defaultName);
@@ -1440,6 +1626,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 prompt.Controls.Add(cancel);
                 prompt.AcceptButton = ok;
                 prompt.CancelButton = cancel;
+                PluginTheme.Apply(prompt);
+                PluginTheme.ApplyButton(ok, PluginButtonStyle.Primary);
+                PluginTheme.ApplyButton(cancel, PluginButtonStyle.Secondary);
                 prompt.Shown += delegate { textBox.SelectAll(); textBox.Focus(); };
                 return prompt.ShowDialog(this) == DialogResult.OK ? textBox.Text : null;
             }
@@ -1453,6 +1642,15 @@ namespace MissionPlanner.AIWaypointPlanner
 
             string sessionApiKey = apiKeyTextBox.Text;
             ApiProfileRecord updated = BuildCurrentProfileRecord(selected.Name);
+            if (!ApiProfileStore.MatchesConnection(
+                selected,
+                updated.BaseUrl,
+                updated.Protocol,
+                updated.AuthenticationMode,
+                updated.Model))
+            {
+                TryDeleteCredential(ApiProfileStore.CredentialTargetFor(selected));
+            }
             savedApiProfiles.RemoveAll(item => string.Equals(item.Name, selected.Name, StringComparison.OrdinalIgnoreCase));
             savedApiProfiles.Add(updated);
             apiProfileStore.Save(savedApiProfiles);
@@ -1623,7 +1821,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 Multiline = true,
                 ReadOnly = true,
                 ScrollBars = ScrollBars.Vertical,
-                BackColor = Drawing.SystemColors.Window
+                BackColor = PluginTheme.InputBackground,
+                ForeColor = PluginTheme.PrimaryText,
+                BorderStyle = BorderStyle.FixedSingle
             };
         }
 
@@ -1692,8 +1892,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 {
                     RefreshAttachmentChips();
                     InvalidateGeneratedResult(errors.Count > 0
-                        ? L("Attachment.SomeFailed")
-                        : L("Attachment.Ready"));
+                        ? "Attachment.SomeFailed"
+                        : "Attachment.Ready");
                 }
                 if (errors.Count > 0)
                 {
@@ -1726,7 +1926,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 return;
             attachments.Remove(attachment);
             RefreshAttachmentChips();
-            InvalidateGeneratedResult(L("Attachment.Removed"));
+            InvalidateGeneratedResult("Attachment.Removed");
         }
 
         private void ClearAttachments(object sender, EventArgs e)
@@ -1735,7 +1935,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 return;
             attachments.Clear();
             RefreshAttachmentChips();
-            InvalidateGeneratedResult(L("Attachment.Empty"));
+            InvalidateGeneratedResult("Attachment.Empty");
         }
 
         private void RefreshAttachmentGrid()
@@ -1767,7 +1967,7 @@ namespace MissionPlanner.AIWaypointPlanner
                         FlowDirection = FlowDirection.LeftToRight,
                         Margin = new Padding(0, 0, 6, 4),
                         Padding = new Padding(7, 4, 4, 4),
-                        BackColor = Drawing.Color.FromArgb(235, 240, 246),
+                        BackColor = PluginTheme.RaisedSurface,
                         Tag = attachment
                     };
                     var label = new Label
@@ -1788,19 +1988,25 @@ namespace MissionPlanner.AIWaypointPlanner
                     remove.Click += RemoveSelectedAttachments;
                     chip.Controls.Add(label);
                     chip.Controls.Add(remove);
+                    PluginTheme.Apply(chip);
+                    chip.BackColor = PluginTheme.RaisedSurface;
+                    PluginTheme.ApplyButton(remove, PluginButtonStyle.Danger);
                     attachmentChipPanel.Controls.Add(chip);
                 }
 
                 if (attachments.Count == 0)
                 {
-                    attachmentChipPanel.Controls.Add(new Label
+                    var emptyLabel = new Label
                     {
                         AutoSize = true,
-                        ForeColor = Drawing.SystemColors.GrayText,
+                        ForeColor = PluginTheme.SecondaryText,
                         Text = L("Attachment.Empty"),
                         Padding = new Padding(0, 5, 0, 0),
                         UseMnemonic = false
-                    });
+                    };
+                    PluginTheme.Apply(emptyLabel);
+                    emptyLabel.ForeColor = PluginTheme.SecondaryText;
+                    attachmentChipPanel.Controls.Add(emptyLabel);
                 }
                 clearAttachmentsButton.Enabled = attachments.Count > 0;
             }
@@ -1810,7 +2016,7 @@ namespace MissionPlanner.AIWaypointPlanner
             }
         }
 
-        private void InvalidateGeneratedResult(string status)
+        private void InvalidateGeneratedResult(string statusKey)
         {
             currentResult = null;
             currentResultContext = null;
@@ -1820,7 +2026,7 @@ namespace MissionPlanner.AIWaypointPlanner
             confirmRequirementsCheckBox.Checked = false;
             confirmRequirementsCheckBox.Enabled = false;
             summaryTextBox.Clear();
-            validationTextBox.Text = status;
+            SetValidationStatus(statusKey);
             candidateGrid.Rows.Clear();
             chatReviewButton.Enabled = false;
             chatDiagnosticsButton.Enabled = false;
@@ -1830,6 +2036,14 @@ namespace MissionPlanner.AIWaypointPlanner
             activeStatusMaximumAttempts = 0;
             activeStatusDelayMilliseconds = 0;
             activityLabel.Text = L("Status.Idle");
+        }
+
+        private void SetValidationStatus(string statusKey)
+        {
+            validationStatusKey = statusKey;
+            validationTextBox.Text = string.IsNullOrWhiteSpace(statusKey)
+                ? string.Empty
+                : L(statusKey);
         }
 
         private static string FormatFileSize(long bytes)
@@ -1871,10 +2085,15 @@ namespace MissionPlanner.AIWaypointPlanner
                 return;
             }
 
-            string visibleObjective = string.IsNullOrWhiteSpace(rawObjective)
+            bool attachmentOnlyTask = string.IsNullOrWhiteSpace(rawObjective);
+            string visibleObjective = attachmentOnlyTask
                 ? L("TaskSuggestions.FromFile")
                 : rawObjective;
-            AddConversationMessage(ConversationMessageRole.User, visibleObjective, false);
+            AddConversationMessage(
+                ConversationMessageRole.User,
+                visibleObjective,
+                false,
+                attachmentOnlyTask ? (Func<string>)(() => L("TaskSuggestions.FromFile")) : null);
             string requestObjective = conversationSession.BuildObjective(
                 string.IsNullOrWhiteSpace(rawObjective)
                     ? "Use the attached files to identify and clarify the mission requirements."
@@ -1947,7 +2166,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 AddConversationMessage(
                     ConversationMessageRole.Assistant,
                     BuildAssistantMessage(result),
-                    !result.Validation.IsValid);
+                    !result.Validation.IsValid,
+                    delegate { return BuildAssistantMessage(result); });
 
                 if (settings.AuthenticationMode != ApiAuthenticationMode.None && rememberKeyCheckBox.Checked)
                 {
@@ -1964,14 +2184,21 @@ namespace MissionPlanner.AIWaypointPlanner
             catch (OperationCanceledException)
             {
                 operationCancelled = true;
-                validationTextBox.Text = L("Status.Cancelled");
-                AddConversationMessage(ConversationMessageRole.System, L("Status.Cancelled"), false);
+                SetValidationStatus("Status.Cancelled");
+                AddConversationMessage(
+                    ConversationMessageRole.System,
+                    L("Status.Cancelled"),
+                    false,
+                    delegate { return L("Status.Cancelled"); });
             }
             catch (Exception ex)
             {
-                AddConversationMessage(ConversationMessageRole.Assistant,
-                    L("Chat.MessageFailed") + Environment.NewLine + ex.Message,
-                    true);
+                string errorDetail = ex.Message;
+                AddConversationMessage(
+                    ConversationMessageRole.Assistant,
+                    L("Chat.MessageFailed") + Environment.NewLine + errorDetail,
+                    true,
+                    delegate { return L("Chat.MessageFailed") + Environment.NewLine + errorDetail; });
                 ShowError(ex.Message);
             }
             finally
@@ -2158,6 +2385,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 foreach (CandidateMissionItem item in currentResult.Mission.Items)
                 {
                     CandidateMissionItem plannerItem = ConvertToPlannerDisplayUnits(item);
+                    string hostTag = string.IsNullOrWhiteSpace(plannerItem.Description)
+                        ? L("App.Name")
+                        : plannerItem.Description;
                     int rowIndex = plugin.Host.AddWPtoList(
                         plannerItem.Command,
                         plannerItem.Param1,
@@ -2167,7 +2397,7 @@ namespace MissionPlanner.AIWaypointPlanner
                         plannerItem.Longitude,
                         plannerItem.Latitude,
                         plannerItem.Altitude,
-                        "AIWaypointPlanner");
+                        hostTag);
 
                     object appliedCommand = plugin.Host.MainForm.FlightPlanner.Commands.Rows[rowIndex]
                         .Cells["Command"].Value;
@@ -2194,7 +2424,7 @@ namespace MissionPlanner.AIWaypointPlanner
             }
 
             applyButton.Enabled = false;
-            activityLabel.Text = L("Status.AppliedLocally");
+            SetActivityStatus("Status.AppliedLocally", false);
             MessageBox.Show(this,
                 L("Mission.Applied"),
                 L("Dialog.Information"), MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -2281,6 +2511,7 @@ namespace MissionPlanner.AIWaypointPlanner
 
         private void DisplayResult(MissionGenerationResult result)
         {
+            validationStatusKey = null;
             string missionType = result.Spec == null ? string.Empty : result.Spec.mission_type;
             int itemCount = result.Mission == null ? 0 : result.Mission.Items.Count;
             TaskSpec spec = result.Spec;
@@ -2304,7 +2535,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 if (spec.requires_clarification && !string.IsNullOrWhiteSpace(spec.clarification_question))
                     summaryLines.Add(L("Chat.ClarificationTitle") + ": " + spec.clarification_question);
             }
-            summaryLines.Add(UiStrings.Format(languageCode, "Mission.TemplateAndCountFormat", missionType, itemCount));
+            summaryLines.Add(UiStrings.Format(languageCode, "Mission.TemplateAndCountFormat",
+                GetMissionTypeDisplayName(missionType), itemCount));
             summaryTextBox.Text = string.Join(Environment.NewLine, summaryLines);
 
             var lines = result.Validation.Errors.Select(error =>
@@ -2337,6 +2569,17 @@ namespace MissionPlanner.AIWaypointPlanner
             confirmRequirementsCheckBox.Enabled = result.Validation.IsValid && result.Mission != null;
             confirmRequirementsCheckBox.Checked = false;
             applyButton.Enabled = false;
+        }
+
+        private string GetMissionTypeDisplayName(string missionType)
+        {
+            if (string.Equals(missionType, "relative_route", StringComparison.OrdinalIgnoreCase))
+                return L("Mission.TypeRelativeRoute");
+            if (string.Equals(missionType, "survey_polygon", StringComparison.OrdinalIgnoreCase))
+                return L("Mission.TypeSurveyPolygon");
+            if (string.Equals(missionType, "unsupported", StringComparison.OrdinalIgnoreCase))
+                return L("Mission.TypeUnsupported");
+            return L("Mission.TypeUnsupported");
         }
 
         private void RelocalizeCurrentResult()
@@ -2628,9 +2871,9 @@ namespace MissionPlanner.AIWaypointPlanner
             if (activeStatusKey == "Status.ReconnectingFormat" && activeStatusMaximumAttempts > 0)
                 return UiStrings.Format(languageCode, activeStatusKey,
                     activeStatusAttempt, activeStatusMaximumAttempts);
-            return string.IsNullOrWhiteSpace(activeStatusText)
-                ? L(activeStatusKey)
-                : activeStatusText;
+            return string.IsNullOrWhiteSpace(activeStatusKey)
+                ? (activeStatusText ?? string.Empty)
+                : L(activeStatusKey);
         }
 
         private void ViewModelResponse(object sender, EventArgs e)
@@ -2641,12 +2884,14 @@ namespace MissionPlanner.AIWaypointPlanner
             using (var dialog = new ModelResponseDialog(lastResponseData, languageCode))
             {
                 ThemeManager.ApplyThemeTo(dialog);
+                dialog.ApplyPluginTheme();
                 dialog.ShowDialog(this);
             }
         }
 
         private void ShowError(string message)
         {
+            validationStatusKey = null;
             validationTextBox.Text = UiStrings.Format(languageCode, "Validation.ErrorPrefix", message);
             SetActivityStatus("Status.Failed", false);
             string responseHint = lastResponseData == null

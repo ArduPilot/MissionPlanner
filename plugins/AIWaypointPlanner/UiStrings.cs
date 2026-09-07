@@ -69,7 +69,10 @@ namespace MissionPlanner.AIWaypointPlanner
 
             string value = languageCode.Trim();
             if (value.Equals(ChineseLanguageCode, StringComparison.OrdinalIgnoreCase) ||
-                value.Equals("zh", StringComparison.OrdinalIgnoreCase))
+                value.Equals("zh", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("zh-Hans", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("zh-SG", StringComparison.OrdinalIgnoreCase) ||
+                value.Equals("zh-CHS", StringComparison.OrdinalIgnoreCase))
             {
                 return ChineseLanguageCode;
             }
@@ -136,7 +139,7 @@ namespace MissionPlanner.AIWaypointPlanner
             return new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 { "App.Name", "AI Waypoint Planner" },
-                { "App.Title", "AI Waypoint Planner v2.0.0" },
+                { "App.Title", "AI Waypoint Planner v" + PluginIdentity.Version },
                 { "App.MenuTooltip", "Create locally validated candidate waypoints from a natural-language task" },
                 { "Safety.Banner", "Safety boundary: GPT creates a constrained candidate mission only. The plugin does not upload a mission, change flight mode, arm, take off, or send RC/PWM commands." },
                 { "Nav.Chat", "Chat" },
@@ -184,6 +187,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Status.ConnectionFailed", "Connection failed" },
                 { "Status.Applying", "Applying to the local flight plan..." },
                 { "Status.AppliedLocally", "Added to the local flight plan; not uploaded" },
+                { "Language.GeneratedContentReset", "The language changed. Previous AI-generated content and candidate mission items were cleared. Send the task again to receive a response in the selected language." },
 
                 { "Button.Send", "Send" },
                 { "Button.Stop", "Stop" },
@@ -276,6 +280,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Mission.NoFiles", "None" },
                 { "Mission.CandidateSummary", "Candidate mission" },
                 { "Mission.TemplateAndCountFormat", "Template: {0}; candidate items: {1}" },
+                { "Mission.TypeRelativeRoute", "Relative route" },
+                { "Mission.TypeSurveyPolygon", "Survey polygon" },
+                { "Mission.TypeUnsupported", "Unsupported mission type" },
                 { "Mission.Validation", "Local validation" },
                 { "Mission.Items", "Candidate mission items" },
                 { "Mission.Sequence", "No." },
@@ -395,12 +402,14 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Attachment.ErrorDocxEmptyFormat", "The DOCX file has no readable body text: {0}" },
                 { "Attachment.ErrorBinaryTextFormat", "The file appears to contain binary data and cannot be read as text: {0}" },
                 { "Attachment.ErrorTextEmptyFormat", "The text file has no readable content: {0}" },
+                { "Attachment.ErrorChangedWhileReading", "The attachment changed while it was being read. Add the file again after it is no longer being modified." },
 
                 { "Api.ProfileNameTooLong", "The profile name cannot exceed 80 characters." },
                 { "Api.ProfileEndpointModelRequired", "Enter an API base URL and model ID first." },
                 { "Api.ErrorModelRequired", "A model ID is required." },
                 { "Api.ErrorKeyRequired", "The selected authentication method requires an API key." },
                 { "Api.ErrorReasoningInvalid", "The reasoning-effort setting is invalid." },
+                { "Api.ErrorReasoningLevelUnsupported", "The selected reasoning level is not supported." },
                 { "Api.ErrorBaseUrlInvalid", "The API base URL must be a complete HTTP or HTTPS address." },
                 { "Api.ErrorBaseUrlQuery", "The API base URL cannot contain a query string or fragment." },
                 { "Api.ErrorRemoteHttp", "Plain HTTP is allowed only for a local loopback address; remote APIs must use HTTPS." },
@@ -483,7 +492,7 @@ namespace MissionPlanner.AIWaypointPlanner
             return new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 { "App.Name", "AI 航点规划" },
-                { "App.Title", "AI 航点规划 v2.0.0" },
+                { "App.Title", "AI 航点规划 v" + PluginIdentity.Version },
                 { "App.MenuTooltip", "根据自然语言任务生成经过本地校验的候选航点" },
                 { "Safety.Banner", "安全边界：GPT 仅生成受限的候选任务。插件不会上传任务、改变飞行模式、解锁、起飞或发送 RC/PWM 指令。" },
                 { "Nav.Chat", "对话" },
@@ -531,6 +540,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Status.ConnectionFailed", "连接失败" },
                 { "Status.Applying", "正在应用到本地飞行计划……" },
                 { "Status.AppliedLocally", "已添加到本地飞行计划，尚未上传" },
+                { "Language.GeneratedContentReset", "界面语言已更改。先前由 AI 生成的内容和候选任务项已清除；请重新发送任务，以使用当前语言获取回复。" },
 
                 { "Button.Send", "发送" },
                 { "Button.Stop", "停止" },
@@ -623,6 +633,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Mission.NoFiles", "无" },
                 { "Mission.CandidateSummary", "候选任务" },
                 { "Mission.TemplateAndCountFormat", "模板：{0}；候选任务项：{1}" },
+                { "Mission.TypeRelativeRoute", "相对航线" },
+                { "Mission.TypeSurveyPolygon", "区域测绘" },
+                { "Mission.TypeUnsupported", "不支持的任务类型" },
                 { "Mission.Validation", "本地校验" },
                 { "Mission.Items", "候选任务项" },
                 { "Mission.Sequence", "序号" },
@@ -742,12 +755,14 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Attachment.ErrorDocxEmptyFormat", "DOCX 中没有可读取的正文文字：{0}" },
                 { "Attachment.ErrorBinaryTextFormat", "文件看起来是二进制内容，无法作为文本读取：{0}" },
                 { "Attachment.ErrorTextEmptyFormat", "文本文件没有可读取内容：{0}" },
+                { "Attachment.ErrorChangedWhileReading", "读取过程中附件发生了变化。请在文件不再被修改后重新添加。" },
 
                 { "Api.ProfileNameTooLong", "连接组合名称不能超过 80 个字符。" },
                 { "Api.ProfileEndpointModelRequired", "请先填写 API 基础地址和模型 ID。" },
                 { "Api.ErrorModelRequired", "模型 ID 不能为空。" },
                 { "Api.ErrorKeyRequired", "当前鉴权方式需要 API 密钥。" },
                 { "Api.ErrorReasoningInvalid", "推理强度设置无效。" },
+                { "Api.ErrorReasoningLevelUnsupported", "所选推理强度不受支持。" },
                 { "Api.ErrorBaseUrlInvalid", "API 基础地址必须是完整的 HTTP 或 HTTPS 地址。" },
                 { "Api.ErrorBaseUrlQuery", "API 基础地址不能包含查询参数或片段。" },
                 { "Api.ErrorRemoteHttp", "仅本机回环地址允许使用明文 HTTP；远程 API 必须使用 HTTPS。" },
@@ -830,7 +845,7 @@ namespace MissionPlanner.AIWaypointPlanner
             return new Dictionary<string, string>(StringComparer.Ordinal)
             {
                 { "App.Name", "Планировщик маршрута ИИ" },
-                { "App.Title", "Планировщик маршрута ИИ v2.0.0" },
+                { "App.Title", "Планировщик маршрута ИИ v" + PluginIdentity.Version },
                 { "App.MenuTooltip", "Создание локально проверенных маршрутных точек по описанию задачи" },
                 { "Safety.Banner", "Граница безопасности: GPT создаёт только ограниченный проект задания. Плагин не загружает задание, не меняет режим полёта, не выполняет разблокировку или взлёт и не отправляет команды RC/PWM." },
                 { "Nav.Chat", "Диалог" },
@@ -878,6 +893,7 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Status.ConnectionFailed", "Ошибка подключения" },
                 { "Status.Applying", "Добавление в локальный план полёта..." },
                 { "Status.AppliedLocally", "Добавлено в локальный план; загрузка не выполнялась" },
+                { "Language.GeneratedContentReset", "Язык интерфейса изменён. Предыдущее содержимое, созданное ИИ, и элементы задания-кандидата удалены. Отправьте задание ещё раз, чтобы получить ответ на выбранном языке." },
 
                 { "Button.Send", "Отправить" },
                 { "Button.Stop", "Остановить" },
@@ -970,6 +986,9 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Mission.NoFiles", "Нет" },
                 { "Mission.CandidateSummary", "Проект задания" },
                 { "Mission.TemplateAndCountFormat", "Шаблон: {0}; элементов задания: {1}" },
+                { "Mission.TypeRelativeRoute", "Относительный маршрут" },
+                { "Mission.TypeSurveyPolygon", "Съёмка полигона" },
+                { "Mission.TypeUnsupported", "Неподдерживаемый тип задания" },
                 { "Mission.Validation", "Локальная проверка" },
                 { "Mission.Items", "Элементы проекта задания" },
                 { "Mission.Sequence", "№" },
@@ -1089,12 +1108,14 @@ namespace MissionPlanner.AIWaypointPlanner
                 { "Attachment.ErrorDocxEmptyFormat", "В DOCX нет читаемого основного текста: {0}" },
                 { "Attachment.ErrorBinaryTextFormat", "Файл содержит двоичные данные и не может быть прочитан как текст: {0}" },
                 { "Attachment.ErrorTextEmptyFormat", "В текстовом файле нет читаемого содержимого: {0}" },
+                { "Attachment.ErrorChangedWhileReading", "Вложение изменилось во время чтения. Добавьте файл повторно после завершения его изменения." },
 
                 { "Api.ProfileNameTooLong", "Имя профиля не должно превышать 80 символов." },
                 { "Api.ProfileEndpointModelRequired", "Сначала укажите базовый URL API и идентификатор модели." },
                 { "Api.ErrorModelRequired", "Необходимо указать идентификатор модели." },
                 { "Api.ErrorKeyRequired", "Для выбранного способа аутентификации требуется ключ API." },
                 { "Api.ErrorReasoningInvalid", "Задано недопустимое значение глубины рассуждений." },
+                { "Api.ErrorReasoningLevelUnsupported", "Выбранный уровень глубины рассуждений не поддерживается." },
                 { "Api.ErrorBaseUrlInvalid", "Базовый URL API должен быть полным адресом HTTP или HTTPS." },
                 { "Api.ErrorBaseUrlQuery", "Базовый URL API не должен содержать строку запроса или фрагмент." },
                 { "Api.ErrorRemoteHttp", "Обычный HTTP разрешён только для локального loopback-адреса; удалённый API должен использовать HTTPS." },

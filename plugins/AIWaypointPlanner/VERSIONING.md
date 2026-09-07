@@ -25,9 +25,12 @@ Example: `1.4.3` to `2.0.0`.
 Every release must update all of the following:
 
 - `Version` in `AIWaypointPlanner.csproj`;
-- the version returned by `AIWaypointPlannerPlugin`;
-- the version in the plugin window title;
+- the shared release identifier in `PluginIdentity.Version`;
+- the version returned by `AIWaypointPlannerPlugin` and every localized plugin window title;
+- the version-consistency expectation in the offline self-tests;
 - the release entry in `CHANGELOG.md`;
 - `README.md` when behavior, limits or dependencies change.
+
+Before publishing, build the plugin and run the offline self-tests from a clean worktree. Verify that the generated assembly version, plugin host metadata and English, Simplified Chinese and Russian window titles all report the same `MAJOR.MINOR.PATCH` value. Do not edit generated `bin` or `obj` files to change a version.
 
 The version identifies software scope only. It is not a safety rating, mission-quality rating or model-capability rating.

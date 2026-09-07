@@ -1,6 +1,6 @@
 # Mission Planner AI Waypoint Planner
 
-An independently built Mission Planner plugin for converting a written mission description and optional reference files into locally validated candidate mission items. The plugin targets .NET Framework 4.7.2 and uses Mission Planner's public plugin host APIs. Version 2.0.0 adds a conversation-oriented workflow, multilingual controls and a unified settings page while keeping the local-only safety boundary.
+An independently built Mission Planner plugin for converting a written mission description and optional reference files into locally validated candidate mission items. The plugin targets .NET Framework 4.7.2 and uses Mission Planner's public plugin host APIs. Version 3.0.0 introduces a high-contrast dark interface and keeps Mission Planner-visible plugin text synchronized with the selected language while preserving the conversation-oriented workflow and local-only safety boundary.
 
 The plugin does not upload missions or control a vehicle. The operator must review and manually write any accepted items using Mission Planner's normal workflow.
 
@@ -32,6 +32,14 @@ English is the default interface language. Simplified Chinese and Russian are al
 %APPDATA%\\MissionPlanner\\AIWaypointPlanner\\preferences.xml
 ```
 
+Changing the interface language immediately refreshes the plugin window, the Mission Planner Auto WP menu entry and its tooltip. The saved language is restored the next time Mission Planner loads the plugin. Mission Planner culture aliases such as `zh-Hans` are normalized to the corresponding supported plugin language so host-visible text does not fall back to English unexpectedly.
+
+Model-generated summaries cannot be translated locally without risking a change to mission meaning. If the operator changes language after a model response has been displayed, the plugin clears the previous generated response and candidate mission, preserves the current task text and attachments, and asks the operator to send the task again. Plugin-generated notices, attachment states and the attachment-only task prompt are rebuilt immediately in the selected language. Free-form operator text, file names, model identifiers, URLs and protocol diagnostics are intentionally preserved verbatim.
+
+Descriptions appended to the Mission Planner Flight Planner use the interface language that was active when the candidate items were applied. A later language change does not rewrite rows already present in Flight Planner, because those rows may have been edited by the operator. The response diagnostics window localizes its own controls while preserving raw API responses and protocol data exactly as received.
+
+The interface uses an explicit high-contrast dark palette across conversation messages, mission review, settings, status indicators and response diagnostics. The palette is applied after Mission Planner's host theme so the plugin remains readable when the host theme changes. The workspace and diagnostics tabs use a fully plugin-painted dark strip, and the safety banner reserves its own dynamically sized row so localized text cannot obscure the tabs on first display.
+
 The language selected in the interface is passed to the model as the requested language for human-readable fields. The schema field names and protocol enum values remain stable English identifiers. The plugin displays an activity state labelled Thinking; it does not expose or claim to expose a model's private chain of thought.
 
 ## API configuration
@@ -55,7 +63,7 @@ Remote endpoints must use HTTPS. HTTP is accepted only for loopback addresses su
 
 The plugin does not read credentials, cookies or OAuth data belonging to CC Switch, Codex, ChatGPT or another application. A gateway must expose an OpenAI-compatible endpoint; native Anthropic or Gemini protocols are not handled directly.
 
-Saved keys are scoped to a fingerprint containing the profile name (when present), canonical endpoint, protocol, authentication mode and model. The legacy global OpenAI credential is read only for the official `api.openai.com` endpoint. Selecting another provider, or editing the endpoint, protocol, authentication mode or model, clears the current session key. A saved profile credential is reused only when every connection-affecting field still matches the profile, so it cannot be silently sent to a different host or protocol. Legacy name-only profile credentials are not read automatically by version 2.0.0; re-enter and save the key once so it is stored under the connection-scoped target.
+Saved keys are scoped to a fingerprint containing the profile name (when present), canonical endpoint, protocol, authentication mode and model. The legacy global OpenAI credential is read only for the official `api.openai.com` endpoint. Selecting another provider, or editing the endpoint, protocol, authentication mode or model, clears the current session key. A saved profile credential is reused only when every connection-affecting field still matches the profile, so it cannot be silently sent to a different host or protocol. Starting with version 2.0.0, legacy name-only profile credentials are not read automatically; re-enter and save the key once so it is stored under the connection-scoped target.
 
 The reasoning selector offers Provider default, Low, Medium, High, Very high and ULTRA. The request mapping is Provider default (omit the parameter), `low`, `medium`, `high`, `xhigh` and `max`, respectively. `ULTRA` is a user-interface label only; the API never receives a non-standard `ultra` value. OpenAI and CC Switch presets default to Medium for `gpt-5.6-sol`; other compatibility and local presets default to Provider default until the operator selects a supported level. Gateways that reject reasoning fields should use Provider default.
 
@@ -69,6 +77,7 @@ Authentication, authorization, invalid-request and missing-endpoint errors are n
 
 ```text
 AIWaypointPlanner.csproj             Plugin project (.NET Framework 4.7.2)
+PluginIdentity.cs                    Shared plugin version identity
 AIWaypointPlannerPlugin.cs           Mission Planner plugin entry point
 AIWaypointPlannerForm.cs             WinForms user interface and workflow
 ApiConnectionSettings.cs             Endpoint and authentication validation
@@ -111,7 +120,7 @@ Run the offline regression tests:
 & '.\SelfTests\bin\Release\net472\AIWaypointPlanner.SelfTests.exe'
 ```
 
-The tests do not require an API key or a flight controller. They cover endpoint and credential-scope validation, route and survey compilation, RTL enforcement, cancellable attachment extraction, protocol-specific native-file limits, multimodal request formatting, large-response extraction, response capture, temporary-error recovery, permanent-error handling and local-proxy diagnostics.
+The tests do not require an API key or a flight controller. They cover version consistency, localized host presentation, dark-palette contrast, endpoint and credential-scope validation, route and survey compilation, RTL enforcement, cancellable attachment extraction, protocol-specific native-file limits, multimodal request formatting, large-response extraction, response capture, temporary-error recovery, permanent-error handling and local-proxy diagnostics.
 
 ## Installation
 
@@ -147,4 +156,4 @@ This plugin is intended for inclusion in the GPLv3-licensed Mission Planner proj
 
 ## Version
 
-The current plugin version is `2.0.0`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.
+The current plugin version is `3.0.0`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.

@@ -48,12 +48,13 @@ namespace MissionPlanner.AIWaypointPlanner
                 Dock = DockStyle.Fill,
                 Multiline = true,
                 ReadOnly = true,
-                BackColor = Drawing.SystemColors.Window,
+                BackColor = PluginTheme.InputBackground,
+                ForeColor = PluginTheme.PrimaryText,
                 ScrollBars = ScrollBars.Vertical,
                 Text = BuildMetadata(data)
             }, 0, 0);
 
-            tabs = new TabControl { Dock = DockStyle.Fill };
+            tabs = new PluginTabControl { Dock = DockStyle.Fill };
             tabs.TabPages.Add(CreateTextPage(
                 UiStrings.Get(this.languageCode, "Diagnostics.RawResponse"),
                 data.RawResponse,
@@ -95,11 +96,30 @@ namespace MissionPlanner.AIWaypointPlanner
             buttons.Controls.Add(copy);
             root.Controls.Add(buttons, 0, 2);
             AcceptButton = close;
+            PluginTheme.ApplyButton(close, PluginButtonStyle.Primary);
+            PluginTheme.ApplyButton(copy, PluginButtonStyle.Secondary);
+            ApplyPluginTheme();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            ApplyPluginTheme();
+        }
+
+        public void ApplyPluginTheme()
+        {
+            PluginTheme.Apply(this);
         }
 
         private TabPage CreateTextPage(string title, string content, string emptyMessage)
         {
-            var page = new TabPage(title) { Padding = new Padding(8) };
+            var page = new TabPage(title)
+            {
+                Padding = new Padding(8),
+                BackColor = PluginTheme.WindowBackground,
+                ForeColor = PluginTheme.PrimaryText
+            };
             page.Controls.Add(new TextBox
             {
                 Dock = DockStyle.Fill,
@@ -107,7 +127,8 @@ namespace MissionPlanner.AIWaypointPlanner
                 ReadOnly = true,
                 ScrollBars = ScrollBars.Both,
                 WordWrap = false,
-                BackColor = Drawing.SystemColors.Window,
+                BackColor = PluginTheme.InputBackground,
+                ForeColor = PluginTheme.PrimaryText,
                 Font = new Drawing.Font("Consolas", 9F, Drawing.FontStyle.Regular, Drawing.GraphicsUnit.Point),
                 Text = string.IsNullOrWhiteSpace(content) ? emptyMessage : content
             });
