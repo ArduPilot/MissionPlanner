@@ -4,7 +4,7 @@ The project uses `MAJOR.MINOR.PATCH` version numbers.
 
 ## Patch releases
 
-Increment `PATCH` for bug fixes, wording changes, compatibility fixes, test additions and other changes that do not alter the principal workflow.
+Increment `PATCH` for bug fixes, wording changes, compatibility fixes, behavior-preserving internal refactoring, test/development tooling and other changes that do not alter the principal workflow. An isolated language experiment does not change the production architecture or require a major version; adopting a different production runtime does.
 
 Example: `1.3.1` to `1.3.2`.
 

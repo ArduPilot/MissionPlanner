@@ -40,6 +40,7 @@ namespace AIWaypointPlanner.SelfTests
             Run("Profile credential scope matching", TestProfileCredentialScopeMatching);
             Run("Connection-scoped credential targets", TestConnectionScopedCredentialTargets);
             Run("Localized interface catalogs", TestLocalizedInterfaceCatalogs);
+            Run("Embedded catalogs and format placeholders", TestEmbeddedCatalogs);
             Run("Language preference persistence", TestLanguagePreferencePersistence);
             Run("Conversation language instruction", TestConversationLanguageInstruction);
             Run("Plugin version consistency", TestPluginVersionConsistency);
@@ -465,6 +466,47 @@ namespace AIWaypointPlanner.SelfTests
             }
         }
 
+        private static void TestEmbeddedCatalogs()
+        {
+            var assembly = typeof(UiStrings).Assembly;
+            var resources = new HashSet<string>(assembly.GetManifestResourceNames());
+            var placeholders = new System.Text.RegularExpressions.Regex(
+                @"(?<!\{)\{(?<index>\d+)(?:,[+-]?\d+)?(?::[^{}]+)?\}(?!\})");
+            object[] sampleValues = { 12.5, 24.0, 36.5, 48.0, 60.5, 72.0, 84.5, 96.0 };
+            foreach (UiLanguageOption language in UiStrings.CreateLanguageOptions())
+            {
+                string resourceName = "MissionPlanner.AIWaypointPlanner.Localization." +
+                    language.LanguageCode + ".json";
+                AssertTrue(resources.Contains(resourceName),
+                    "Language data must be embedded in the main DLL: " + resourceName);
+                foreach (string key in UiStrings.GetEnglishKeys())
+                {
+                    string english = UiStrings.Get(UiStrings.DefaultLanguageCode, key);
+                    string localized = UiStrings.Get(language.LanguageCode, key);
+                    var expected = new HashSet<string>();
+                    var actual = new HashSet<string>();
+                    foreach (System.Text.RegularExpressions.Match match in placeholders.Matches(english))
+                        expected.Add(match.Groups["index"].Value);
+                    foreach (System.Text.RegularExpressions.Match match in placeholders.Matches(localized))
+                        actual.Add(match.Groups["index"].Value);
+                    AssertTrue(expected.SetEquals(actual),
+                        language.LanguageCode + " format arguments differ for " + key + ".");
+                    if (expected.Count > 0)
+                    {
+                        AssertTrue(!string.IsNullOrWhiteSpace(
+                                UiStrings.Format(language.LanguageCode, key, sampleValues)),
+                            "Localized format result is empty: " + key);
+                    }
+                    AssertTrue(!localized.Contains("{version}"),
+                        "The release placeholder was not resolved for " + key + ".");
+                }
+            }
+            AssertEqual("unknown.translation.key", UiStrings.Get("en-US", "unknown.translation.key"),
+                "Missing-key fallback changed.");
+            AssertEqual(UiStrings.Get("en-US", "App.Name"), UiStrings.Get("unsupported", "App.Name"),
+                "Unknown language must use the English catalog.");
+        }
+
         private static void TestLanguagePreferencePersistence()
         {
             WithTempDirectory(delegate(string directory)
@@ -502,12 +544,12 @@ namespace AIWaypointPlanner.SelfTests
 
         private static void TestPluginVersionConsistency()
         {
-            const string expectedVersion = "3.0.0";
+            const string expectedVersion = "3.0.1";
             AssertEqual(expectedVersion, PluginIdentity.Version,
                 "The shared plugin identity version differs.");
             AssertEqual(expectedVersion,
                 typeof(OpenAiResponsesClient).Assembly.GetName().Version.ToString(3),
-                "Plugin assembly version was not updated to the major UI release.");
+                "Plugin assembly version differs from the current release.");
             AssertEqual(expectedVersion, ReadPluginMetadataVersion(),
                 "Mission Planner plugin metadata version differs.");
             AssertEqual("AI Waypoint Planner v" + expectedVersion,
@@ -955,6 +997,16 @@ namespace AIWaypointPlanner.SelfTests
             }
             AssertTrue(!string.IsNullOrWhiteSpace(sourcePath),
                 fileName + " could not be located for source wiring validation.");
+            if (fileName == "AIWaypointPlannerForm.cs")
+            {
+                string[] parts = Directory.GetFiles(Path.GetDirectoryName(sourcePath),
+                    "AIWaypointPlannerForm*.cs", SearchOption.TopDirectoryOnly);
+                Array.Sort(parts, StringComparer.Ordinal);
+                var source = new StringBuilder();
+                foreach (string part in parts)
+                    source.AppendLine(File.ReadAllText(part));
+                return source.ToString();
+            }
             return File.ReadAllText(sourcePath);
         }
 

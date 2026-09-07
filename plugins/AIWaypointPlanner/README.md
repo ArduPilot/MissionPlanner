@@ -1,6 +1,6 @@
 # Mission Planner AI Waypoint Planner
 
-An independently built Mission Planner plugin for converting a written mission description and optional reference files into locally validated candidate mission items. The plugin targets .NET Framework 4.7.2 and uses Mission Planner's public plugin host APIs. Version 3.0.0 introduces a high-contrast dark interface and keeps Mission Planner-visible plugin text synchronized with the selected language while preserving the conversation-oriented workflow and local-only safety boundary.
+An independently built Mission Planner plugin for converting a written mission description and optional reference files into locally validated candidate mission items. The plugin targets .NET Framework 4.7.2 and uses Mission Planner's public plugin host APIs. Version 3.0.1 separates the existing dark, multilingual interface into focused source files and embedded translation catalogs. The operator workflow and installed runtime requirements are unchanged.
 
 The plugin does not upload missions or control a vehicle. The operator must review and manually write any accepted items using Mission Planner's normal workflow.
 
@@ -79,7 +79,10 @@ Authentication, authorization, invalid-request and missing-endpoint errors are n
 AIWaypointPlanner.csproj             Plugin project (.NET Framework 4.7.2)
 PluginIdentity.cs                    Shared plugin version identity
 AIWaypointPlannerPlugin.cs           Mission Planner plugin entry point
-AIWaypointPlannerForm.cs             WinForms user interface and workflow
+AIWaypointPlannerForm.cs             Window state, lifetime and activity coordination
+AIWaypointPlannerForm.*.cs           Layout, localization, settings, conversation and mission workflow
+UiStrings.cs                        Language lookup, fallback and formatting
+Localization/*.json                 English, Simplified Chinese and Russian text, embedded in the DLL
 ApiConnectionSettings.cs             Endpoint and authentication validation
 ApiProfileStore.cs                   Named profile persistence
 WindowsCredentialStore.cs            Windows Credential Manager wrapper
@@ -88,6 +91,7 @@ AttachmentProcessor.cs               Local reference-file processing
 MissionCompiler.cs                   Deterministic candidate mission compiler
 MissionValidator.cs                  Local safety and range validation
 SelfTests/                           Offline regression tests
+Experiments/Python/                 Optional offline language-feasibility experiment
 ```
 
 ## Requirements
@@ -156,4 +160,12 @@ This plugin is intended for inclusion in the GPLv3-licensed Mission Planner proj
 
 ## Version
 
-The current plugin version is `3.0.0`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.
+The current plugin version is `3.0.1`. Versioning rules and release history are documented in `VERSIONING.md` and `CHANGELOG.md`.
+
+## Maintaining the source
+
+The form uses partial classes to group layout, localization, connection settings, conversation/attachments and mission handling. These files compile into the same WinForms type; they do not introduce processes or service boundaries.
+
+Edit interface wording in `Localization/en-US.json`, `Localization/zh-CN.json` and `Localization/ru-RU.json`. All three files must have identical keys and matching numbered format arguments such as `{0}` and `{1:0.###}`. The `{version}` marker in `App.Title` is filled from `PluginIdentity.Version`. MSBuild embeds the catalogs in the main DLL with explicit resource names; installation does not require loose JSON files or language-specific satellite assemblies. Run the offline self-tests after editing translations.
+
+An optional Python experiment is documented in [Experiments/Python/README.md](Experiments/Python/README.md). It compares relative-route coordinate calculations with the installed Mission Planner implementation. Python is not loaded by the plugin and is not an installation dependency. The production integration remains C# because Mission Planner exposes a .NET plugin host, WinForms controls, .NET mission-grid utilities and Windows credential APIs.

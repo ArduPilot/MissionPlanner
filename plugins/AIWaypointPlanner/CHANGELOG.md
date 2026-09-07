@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.0.1 - 2026-09-07
+
+### Maintenance
+
+- Split the existing form into partial-class files grouped by responsibility, preserving its public type, event handlers and workflow.
+- Moved 984 interface strings into three embedded JSON catalogs and reduced the language helper to lookup, normalization, fallback and formatting.
+- Preserved every translation value and the shared release placeholder; catalog files are embedded in the main plugin DLL.
+- Added checks for embedded resource packaging and matching format arguments across all three languages.
+- Updated source-based regression checks to read all form partials.
+- Ignored generated build output and Python cache files within the plugin source directory.
+- Added an isolated, standard-library Python coordinate-preview experiment to assess a simpler language without adding a production runtime dependency.
+
+This is a patch release: operator behavior, interface layout, file/API support and the production architecture remain unchanged.
+
 ## 3.0.0 - 2026-09-07
 
 ### Changed
