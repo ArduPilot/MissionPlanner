@@ -44,6 +44,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         static Dictionary<(int, int), object> locker = new Dictionary<(int, int), object>();
 
+        /// set once the vehicle has NAKed ListDirectoryWithTime, so later listings skip straight to ListDirectory
+        private bool listDirectoryWithTimeUnsupported = false;
+
         public MAVFtp(MAVLinkInterface mavint, byte sysid, byte compid)
         {
             _mavint = mavint;
@@ -543,6 +546,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
             ///<summary> Burst download session file</summary>
             kCmdBurstReadFile,
+
+            ///<summary> List files and directories in &lt;path&gt; from offset, each with its modification time</summary>
+            kCmdListDirectoryWithTime = 16,
 
             ///<summary> Ack response</summary>
             kRspAck = 128,
@@ -1229,8 +1235,37 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        /// <summary>Convert a listing timestamp, in seconds since the UNIX epoch (UTC), to a
+        /// DateTime. The format uses zero for a time the vehicle does not know.</summary>
+        private static DateTime? ParseListingTime(string seconds)
+        {
+            // the time is a uint32 on the wire; anything larger is a corrupt entry
+            if (!ulong.TryParse(seconds, out var secs) || secs == 0 || secs > uint.MaxValue)
+                return null;
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(secs);
+        }
+
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
+            // Ask for modification times first. A vehicle which does not know the opcode NAKs
+            // it, and we drop back to the plain listing, for this and every later listing.
+            if (!listDirectoryWithTimeUnsupported)
+            {
+                var answer = kCmdListDirectory(dir, cancel, FTPOpcode.kCmdListDirectoryWithTime,
+                    out var unsupported);
+                if (!unsupported)
+                    return answer;
+                log.Info("ListDirectoryWithTime unsupported, falling back to ListDirectory");
+                listDirectoryWithTimeUnsupported = true;
+            }
+            return kCmdListDirectory(dir, cancel, FTPOpcode.kCmdListDirectory, out _);
+        }
+
+        private List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel,
+            FTPOpcode opcode, out bool unsupported)
+        {
+            var withtime = opcode == FTPOpcode.kCmdListDirectoryWithTime;
+            var notsupported = false;
             if (dir.Length > 1)
                 dir = dir.TrimEnd('/');
 
@@ -1240,7 +1275,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
             {
-                opcode = FTPOpcode.kCmdListDirectory,
+                opcode = opcode,
                 data = ASCIIEncoding.UTF8.GetBytes(dir),
                 seq_number = seq_no++,
                 offset = 0
@@ -1268,6 +1303,19 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     if (ftphead.opcode == FTPOpcode.kRspNak)
                     {
                         var errorcode = (FTPErrorCode) ftphead.data[0];
+                        // A vehicle which does not know ListDirectoryWithTime NAKs it.
+                        // Only the very first reply can mean that; a NAK part way through
+                        // a listing is a real error.
+                        if (withtime && ftphead.req_opcode == FTPOpcode.kCmdListDirectoryWithTime &&
+                            answer.Count == 0 &&
+                            (errorcode == FTPErrorCode.kErrUnknownCommand ||
+                             errorcode == FTPErrorCode.kErrFail))
+                        {
+                            notsupported = true;
+                            timeout.Complete = true;
+                            return true;
+                        }
+
                         if (errorcode == FTPErrorCode.kErrFailErrno)
                         {
                             var _ftp_errno = (errno) ftphead.data[1];
@@ -1318,7 +1366,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                                 var items = filename.ToString().Split('\t');
                                 var size = ulong.Parse(items[1]);
-                                answer.Add(new FtpFileInfo(items[0], dir, false, size));
+                                answer.Add(new FtpFileInfo(items[0], dir, false, size,
+                                    withtime && items.Length > 2 ? ParseListingTime(items[2]) : null));
                                 break;
                             case kDirentDir:
                                 var name = new StringBuilder();
@@ -1329,7 +1378,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
                                         name.Append((char) b);
                                 }
 
-                                answer.Add(new FtpFileInfo(name.ToString(), dir, true));
+                                // A timed listing gives a directory the same trailing fields as
+                                // a file, "<name>\t<size>\t<mtime>"; a plain one is just the name,
+                                // where a tab would be part of the name.
+                                var dirfields = name.ToString().Split('\t');
+                                answer.Add(withtime
+                                    ? new FtpFileInfo(dirfields[0], dir, true, 0,
+                                        dirfields.Length > 2 ? ParseListingTime(dirfields[2]) : null)
+                                    : new FtpFileInfo(name.ToString(), dir, true));
                                 break;
                             case kDirentSkip:
                                 while (b != 0x0)
@@ -1383,6 +1439,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 _mavint.UnSubscribeToPacketType(sub);
             }
             Progress?.Invoke(dir + " Ready", 100);
+            unsupported = notsupported;
             if (ex != null)
                 throw ex;
             return answer;
@@ -2362,12 +2419,14 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public class FtpFileInfo : System.IO.FileSystemInfo
         {
-            public FtpFileInfo(string name, string parent, bool isdirectory = false, ulong size = 0)
+            public FtpFileInfo(string name, string parent, bool isdirectory = false, ulong size = 0,
+                DateTime? modifiedutc = null)
             {
                 Name = name;
                 isDirectory = isdirectory;
                 Size = size;
                 Parent = parent;
+                ModifiedUtc = modifiedutc;
                 this.FullPath = (Parent.EndsWith("/") ? Parent : Parent + '/') + Name;
             }
 
@@ -2376,6 +2435,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
             public override string Name { get; }
             public string Parent { get; }
             public ulong Size { get; set; }
+
+            /// <summary>Last modification time, or null if the vehicle did not report one.</summary>
+            public DateTime? ModifiedUtc { get; set; }
 
             public override void Delete()
             {
