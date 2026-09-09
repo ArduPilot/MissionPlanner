@@ -36,6 +36,7 @@ namespace MissionPlanner.ArduPilot
         {
             public string RemotePath;
             public int FileSize = -1;          // -1 = not yet known
+            public DateTime? ModifiedUtc;      // null = vehicle did not report one
             public byte[] Cache;               // populated on first ReadFile
             public MemoryStream WriteBuffer;   // non-null for write-only opens
             public bool IsWrite;
@@ -234,7 +235,8 @@ namespace MissionPlanner.ArduPilot
             info.Context = new FileContext
             {
                 RemotePath = ftpPath,
-                FileSize = (int)entry.Size   // size from directory listing
+                FileSize = (int)entry.Size,  // size from directory listing
+                ModifiedUtc = entry.ModifiedUtc
             };
             return DokanResult.Success;
         }
@@ -336,7 +338,7 @@ namespace MissionPlanner.ArduPilot
                     Attributes = FileAttributes.Normal,
                     CreationTime = DateTime.UtcNow,
                     LastAccessTime = DateTime.UtcNow,
-                    LastWriteTime = DateTime.UtcNow,
+                    LastWriteTime = ctx.ModifiedUtc ?? DateTime.UtcNow,
                     Length = ctx.FileSize
                 };
                 return DokanResult.Success;
@@ -352,7 +354,8 @@ namespace MissionPlanner.ArduPilot
                 Attributes = entry.isDirectory ? FileAttributes.Directory : FileAttributes.Normal,
                 CreationTime = DateTime.UtcNow,
                 LastAccessTime = DateTime.UtcNow,
-                LastWriteTime = DateTime.UtcNow,
+                // the vehicle only reports a modification time when it knows one
+                LastWriteTime = entry.ModifiedUtc ?? DateTime.UtcNow,
                 Length = (long)entry.Size
             };
             return DokanResult.Success;
@@ -374,7 +377,8 @@ namespace MissionPlanner.ArduPilot
                     Attributes = e.isDirectory ? FileAttributes.Directory : FileAttributes.Normal,
                     CreationTime = DateTime.UtcNow,
                     LastAccessTime = DateTime.UtcNow,
-                    LastWriteTime = DateTime.UtcNow,
+                    // the vehicle only reports a modification time when it knows one
+                    LastWriteTime = e.ModifiedUtc ?? DateTime.UtcNow,
                     Length = (long)e.Size
                 });
             }
