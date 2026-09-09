@@ -139,6 +139,15 @@ namespace MissionPlanner.Controls
             }
         }
 
+        /// <summary>Format a listing time for display, in local time; blank when the
+        /// vehicle did not report one.</summary>
+        private static string ModifiedString(DateTime? modifiedutc)
+        {
+            if (modifiedutc == null)
+                return "";
+            return modifiedutc.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
         private async void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node == null)
@@ -162,7 +171,8 @@ namespace MissionPlanner.Controls
                 subItems = new ListViewItem.ListViewSubItem[]
                 {
                     new ListViewItem.ListViewSubItem(item, "Directory"),
-                    new ListViewItem.ListViewSubItem(item, "".ToString())
+                    new ListViewItem.ListViewSubItem(item, "".ToString()),
+                    new ListViewItem.ListViewSubItem(item, ModifiedString(dir.ModifiedUtc))
                 };
                 item.Tag = nodeDirInfo;
                 item.SubItems.AddRange(subItems);
@@ -175,7 +185,8 @@ namespace MissionPlanner.Controls
                 subItems = new ListViewItem.ListViewSubItem[]
                 {
                     new ListViewItem.ListViewSubItem(item, "File"),
-                    new ListViewItem.ListViewSubItem(item, file.Size.ToSizeUnits())
+                    new ListViewItem.ListViewSubItem(item, file.Size.ToSizeUnits()),
+                    new ListViewItem.ListViewSubItem(item, ModifiedString(file.ModifiedUtc))
                 };
                 item.Tag = nodeDirInfo;
                 item.SubItems.AddRange(subItems);
@@ -197,11 +208,15 @@ namespace MissionPlanner.Controls
             private readonly MAVFtp _mavftp;
             private List<MAVFtp.FtpFileInfo> cache;
 
-            public DirectoryInfo(string dir, MAVFtp mavftp)
+            public DirectoryInfo(string dir, MAVFtp mavftp, DateTime? modifiedutc = null)
             {
                 _mavftp = mavftp;
                 FullPath = dir;
+                ModifiedUtc = modifiedutc;
             }
+
+            /// <summary>Last modification time, or null if the vehicle did not report one.</summary>
+            public DateTime? ModifiedUtc { get; }
 
             public override string Name
             {
@@ -230,7 +245,7 @@ namespace MissionPlanner.Controls
                         }
                     }).ConfigureAwait(true);
                     return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
-                        .Select(a => new DirectoryInfo(a.FullName, _mavftp)).ToArray();
+                        .Select(a => new DirectoryInfo(a.FullName, _mavftp, a.ModifiedUtc)).ToArray();
 
                 }
                 catch (Exception e)
