@@ -400,6 +400,16 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains(" /websocket/raw"))
                     {
+                        var remoteWsEp = client.Client.RemoteEndPoint as System.Net.IPEndPoint;
+                        if (remoteWsEp == null || !IPAddress.IsLoopback(remoteWsEp.Address))
+                        {
+                            string rejectHeader = "HTTP/1.1 403 Forbidden\r\n\r\nForbidden";
+                            byte[] rejectTemp = asciiEncoding.GetBytes(rejectHeader);
+                            stream.Write(rejectTemp, 0, rejectTemp.Length);
+                            stream.Close();
+                            return;
+                        }
+
                         using (var writer = new StreamWriter(stream, Encoding.Default))
                         {
                             writer.WriteLine("HTTP/1.1 101 WebSocket Protocol Handshake");
