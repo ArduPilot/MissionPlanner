@@ -69,6 +69,36 @@ namespace MissionPlanner.Utilities
 
             public airspeed_types devtypeairspd { get { return (airspeed_types)devtype; } }
 
+            // MAVn_DEVID identifies which device a MAVLink channel's parameters (MAVn_SRx, etc) apply to.
+            // The family lives in devtype (AP_HAL::Device::DeviceType), the port/instance within that
+            // family in bus/address, mirroring how AP_SerialManager::UARTState::get_device_id() packs it.
+            // https://github.com/ArduPilot/ardupilot/pull/29762
+            public string devtypemavlink
+            {
+                get
+                {
+                    if (devid == 0)
+                        return "Unknown";
+
+                    if (bus_type != BusType.BUS_TYPE_SERIAL)
+                        return devid.ToString();
+
+                    switch ((mavlink_devtype)devtype)
+                    {
+                        case mavlink_devtype.UART:
+                            return address == 0 ? "SERIAL0 (USB)" : "SERIAL" + address;
+                        case mavlink_devtype.NETWORKING:
+                            return "NET_P" + (address + 1);
+                        case mavlink_devtype.CANBUS:
+                            return "CAN_D" + (bus + 1) + "_UC_S" + (address + 1);
+                        case mavlink_devtype.SCRIPTING:
+                            return "SCR_SDEV" + (address + 1);
+                        default:
+                            return devid.ToString();
+                    }
+                }
+            }
+
             public DeviceStructure(string paramname, UInt32 id)
             {
                 devid = id;
@@ -211,6 +241,17 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_AIRSPEED_ANALOG = 0x08,
                 DEVTYPE_AIRSPEED_NMEA = 0x09,
                 DEVTYPE_AIRSPEED_ASP5033 = 0x0A,
+            };
+
+            // MAVn_DEVID device family, from AP_HAL::Device::DeviceType as used by
+            // AP_SerialManager::UARTState::get_device_id() (devid bits 16-23).
+            // https://github.com/ArduPilot/ardupilot/pull/29762
+            public enum mavlink_devtype
+            {
+                UART = 1,
+                NETWORKING = 2,
+                CANBUS = 3,
+                SCRIPTING = 4,
             };
 
             public enum px4_i2c_bus
