@@ -80,6 +80,9 @@ namespace MissionPlanner.Utilities
                     if (devid == 0)
                         return "Unknown";
 
+                    if (bus_type != BusType.BUS_TYPE_SERIAL)
+                        return devid.ToString();
+
                     switch ((mavlink_devtype)devtype)
                     {
                         case mavlink_devtype.UART:

@@ -65,5 +65,26 @@ namespace MissionPlanner.Utilities.Tests
             var info = new DeviceInfo(0, "MAV2_DEVID", 327686); // 6 | (5<<16)
             Assert.AreEqual("327686", info.DevType);
         }
+
+        [TestMethod()]
+        public void MavDevIdUnknownDeviceTypeFallsBackToNumberTest()
+        {
+            var info = new DeviceInfo(0, "MAV1_DEVID", 6); // serial bus, devtype=0
+            Assert.AreEqual("6", info.DevType);
+        }
+
+        [TestMethod()]
+        public void NonMavDeviceIdKeepsExistingDecodePathTest()
+        {
+            var info = new DeviceInfo(0, "COMPASS_DEV_ID", 65542); // devtype=1
+            Assert.AreEqual("HMC5883_OLD", info.DevType);
+        }
+
+        [TestMethod()]
+        public void NonSerialMavDeviceIdFallsBackToNumberTest()
+        {
+            var info = new DeviceInfo(0, "MAV1_DEVID", 65536); // devtype=1, unknown bus type
+            Assert.AreEqual("65536", info.DevType);
+        }
     }
 }
