@@ -342,11 +342,21 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        var file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text);
+                        // The vehicle chooses this name, and Path.Combine() honours a rooted
+                        // or ".."-laden second argument. Reduce it the same way the upload
+                        // path above already does.
+                        var safeName = Path.GetFileName(listView1SelectedItem.Text);
+                        if (string.IsNullOrEmpty(safeName) || safeName == "." || safeName == "..")
+                        {
+                            log.Error("MAVFTP: refusing unsafe file name: " + listView1SelectedItem.Text);
+                            return;
+                        }
+
+                        var file = Path.Combine(sfd.SelectedPath, safeName);
                         int a = 0;
                         while (File.Exists(file))
                         {
-                            file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text) + a++;
+                            file = Path.Combine(sfd.SelectedPath, safeName) + a++;
                         }
                         File.WriteAllBytes(file, ms.ToArray());
                     };
@@ -626,11 +636,21 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        var file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text);
+                        // The vehicle chooses this name, and Path.Combine() honours a rooted
+                        // or ".."-laden second argument. Reduce it the same way the upload
+                        // path above already does.
+                        var safeName = Path.GetFileName(listView1SelectedItem.Text);
+                        if (string.IsNullOrEmpty(safeName) || safeName == "." || safeName == "..")
+                        {
+                            log.Error("MAVFTP: refusing unsafe file name: " + listView1SelectedItem.Text);
+                            return;
+                        }
+
+                        var file = Path.Combine(sfd.SelectedPath, safeName);
                         int a = 0;
                         while (File.Exists(file))
                         {
-                            file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text) + a++;
+                            file = Path.Combine(sfd.SelectedPath, safeName) + a++;
                         }
                         File.WriteAllBytes(file, ms.ToArray());
                     };
