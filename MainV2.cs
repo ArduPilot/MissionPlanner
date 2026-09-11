@@ -1759,8 +1759,12 @@ namespace MissionPlanner
                     }
 
                     // get any rallypoints
+                    // The vehicle picks both the value and the reported type of any parameter,
+                    // so this string can be "3.5", "NaN" or "1E+30". int.Parse() throws on those,
+                    // and this runs in the if condition, before the try below and before showui.
                     if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") &&
-                        int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0 && showui)
+                        int.TryParse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString(), out var rallyTotal) &&
+                        rallyTotal > 0 && showui)
                     {
                         try
                         {
@@ -1798,7 +1802,8 @@ namespace MissionPlanner
 
                     // get any fences
                     if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
-                        int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
+                        int.TryParse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString(), out var fenceTotal) &&
+                        fenceTotal > 1 &&
                         MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION") && showui)
                     {
                         try
