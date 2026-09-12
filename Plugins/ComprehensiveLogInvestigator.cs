@@ -2496,6 +2496,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
         private readonly FirmwareProfile _firmware = new FirmwareProfile();
         private readonly List<double> _attitudeTimes = new List<double>();
         private readonly Dictionary<string, CounterPeak> _counterPeaks = new Dictionary<string, CounterPeak>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, SampleCapAssessment> _sampleCaps = new Dictionary<string, SampleCapAssessment>(StringComparer.OrdinalIgnoreCase);
+        private readonly List<string> _itemParseErrorSamples = new List<string>();
         private string _currentMode = "Unknown";
         private bool _armed;
         private double _currentAltitude;
@@ -2536,7 +2538,16 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                     string[] relevant = SelectRelevantTypes(df.logformat.Keys).ToArray();
                     foreach (DFLog.DFItem item in buffer.GetEnumeratorType(relevant))
                     {
-                        ProcessItem(item, df);
+                        try
+                        {
+                            ProcessItem(item, df);
+                        }
+                        catch (Exception itemException)
+                        {
+                            _result.ItemParseErrors++;
+                            if (_itemParseErrorSamples.Count < 3)
+                                _itemParseErrorSamples.Add("line " + item.lineno.ToString(CultureInfo.InvariantCulture) + " type " + Safe(item.msgtype) + ": " + itemException.Message);
+                        }
                     }
 
                     try
@@ -2578,6 +2589,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 _result.MissionCommands = new List<MissionCommandRecord>(_missionCommands);
                 _result.ReferencePoints = new List<ReferencePointRecord>(_referencePoints);
                 _result.Firmware = _firmware;
+                _result.SampleCaps = _sampleCaps.Values.Where(s => s.DroppedSamples > 0).OrderByDescending(s => s.DroppedSamples).ToList();
 
                 _result.FirmwareMessages = _result.Timeline
                     .Where(t => t.Type == "MSG")
@@ -2678,7 +2690,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 return;
 
             double time = item.timems;
-            if (time > 0)
+            if (!double.IsNaN(time) && !double.IsInfinity(time) && time >= 0)
             {
                 _firstTime = Math.Min(_firstTime, time);
                 _lastTime = Math.Max(_lastTime, time);
@@ -2861,7 +2873,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 UsedMah = used,
                 Line = item.lineno,
                 Phase = GetPhase()
-            });
+            }, "Battery:" + key);
         }
 
         private void ProcessPower(DFLog.DFItem item, DFLog df)
@@ -2901,7 +2913,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Clip2 = c2 ?? 0,
                 Line = item.lineno,
                 Phase = GetPhase()
-            });
+            }, "VIBE");
         }
 
         private void ProcessGps(DFLog.DFItem item, DFLog df)
@@ -2941,7 +2953,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Line = item.lineno,
                 Phase = GetPhase(),
                 Airborne = IsAirborne()
-            });
+            }, "GPS:" + key);
         }
 
         private void ProcessAttitude(DFLog.DFItem item, DFLog df)
@@ -2962,8 +2974,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 PitchError = pitch.HasValue && desiredPitch.HasValue ? Math.Abs(pitch.Value - desiredPitch.Value) : (double?)null,
                 YawError = yaw.HasValue && desiredYaw.HasValue ? Math.Abs(Wrap180(yaw.Value - desiredYaw.Value)) : (double?)null,
                 Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne()
-            });
-            AddCapped(_attitudeTimes, item.timems);
+            }, "ATT");
+            AddCapped(_attitudeTimes, item.timems, "ATT.time");
         }
 
         private void ProcessAhrs2(DFLog.DFItem item, DFLog df)
@@ -2972,7 +2984,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             double? pitch = NormalizeAngle(GetDouble(item, df, "Pitch", "P"));
             double? yaw = NormalizeAngle(GetDouble(item, df, "Yaw", "Y"));
             if (!roll.HasValue && !pitch.HasValue && !yaw.HasValue) return;
-            AddCapped(_ahrs2, new AhrsSample { TimeMs = item.timems, Roll = roll, Pitch = pitch, Yaw = yaw, Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne() });
+            AddCapped(_ahrs2, new AhrsSample { TimeMs = item.timems, Roll = roll, Pitch = pitch, Yaw = yaw, Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne() }, "AHR2");
         }
 
         private void ProcessRate(DFLog.DFItem item, DFLog df)
@@ -2985,7 +2997,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             double? yd = GetDouble(item, df, "YDes", "YawDes", "TarY", "DY");
             double? ya = GetDouble(item, df, "Y", "Yaw", "ActY");
             if (!rd.HasValue && !ra.HasValue && !pd.HasValue && !pa.HasValue && !yd.HasValue && !ya.HasValue) return;
-            AddCapped(_rates, new RateSample { TimeMs = item.timems, RollDesired = rd, RollActual = ra, PitchDesired = pd, PitchActual = pa, YawDesired = yd, YawActual = ya, Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne() });
+            AddCapped(_rates, new RateSample { TimeMs = item.timems, RollDesired = rd, RollActual = ra, PitchDesired = pd, PitchActual = pa, YawDesired = yd, YawActual = ya, Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne() }, "RATE");
         }
 
         private void ProcessImu(DFLog.DFItem item, DFLog df)
@@ -3006,7 +3018,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 GyroYDegPerSec = gy.HasValue ? gy.Value * RadToDeg : (double?)null,
                 GyroZDegPerSec = gz.HasValue ? gz.Value * RadToDeg : (double?)null,
                 AccelX = ax, AccelY = ay, AccelZ = az, Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne()
-            });
+            }, "IMU");
         }
 
         private void ProcessMissionCommand(DFLog.DFItem item, DFLog df)
@@ -3026,7 +3038,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Executed = string.Equals(item.msgtype, "MISE", StringComparison.OrdinalIgnoreCase),
                 Line = item.lineno, Phase = GetPhase()
             };
-            AddCapped(_missionCommands, record);
+            AddCapped(_missionCommands, record, "MissionCommands");
             if (record.Executed)
                 AddTimeline(item, "Mission", "Executing mission item " + sequence.ToString(CultureInfo.InvariantCulture) + ": " + record.CommandName);
         }
@@ -3041,7 +3053,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             {
                 TimeMs = item.timems, Type = type, Lat = lat.Value, Lng = lng.Value,
                 Altitude = GetDouble(item, df, "Alt", "Altitude"), Line = item.lineno, Phase = GetPhase()
-            });
+            }, "ReferencePoints");
         }
 
         private void ProcessAltitude(DFLog.DFItem item, DFLog df)
@@ -3067,7 +3079,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Line = item.lineno,
                 Phase = GetPhase(),
                 Airborne = IsAirborne()
-            });
+            }, "Altitude");
         }
 
         private void ProcessMotor(DFLog.DFItem item, DFLog df)
@@ -3098,7 +3110,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Line = item.lineno,
                 Phase = GetPhase(),
                 Airborne = IsAirborne()
-            });
+            }, "RCOU");
         }
 
         private void ProcessRcInput(DFLog.DFItem item, DFLog df)
@@ -3122,7 +3134,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 Flags = _currentRcFlags,
                 Line = item.lineno,
                 Phase = GetPhase()
-            });
+            }, "RCIN");
         }
 
         private void ProcessRcInput2(DFLog.DFItem item, DFLog df)
@@ -3142,7 +3154,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                     Line = item.lineno,
                     Phase = GetPhase()
                 };
-                AddCapped(_rcInputs, sample);
+                AddCapped(_rcInputs, sample, "RCIN");
             }
             if (c15.HasValue) sample.Values[15] = c15.Value;
             if (c16.HasValue) sample.Values[16] = c16.Value;
@@ -3308,7 +3320,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 VelocityVariance = sv, PositionVariance = sp, HeightVariance = sh, MagneticVariance = sm,
                 PositionInnovation = MaxAbs(ipn, ipe, ipd), VelocityInnovation = MaxAbs(ivn, ive, ivd),
                 Line = item.lineno, Phase = GetPhase(), Airborne = IsAirborne()
-            });
+            }, "EKF");
         }
 
         private void TrackCounterField(DFLog.DFItem item, DFLog df, string name, bool cumulative, params string[] fields)
@@ -3439,6 +3451,27 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 AddFinding("Warning", "High", "Logging", "Very short or incomplete log",
                     "Calculated log duration is only " + _result.DurationSeconds.ToString("0.0", CultureInfo.InvariantCulture) + " seconds.",
                     "Check whether the file was truncated or logging stopped unexpectedly.", 0, 0, "Whole log");
+            }
+
+            if (_result.ItemParseErrors > 0)
+            {
+                AddFinding("Warning", "Medium", "Log parser",
+                    "Some records could not be interpreted",
+                    _result.ItemParseErrors.ToString("N0", CultureInfo.InvariantCulture) + " record(s) raised parser/field exceptions during analysis." +
+                    (_itemParseErrorSamples.Count > 0 ? " Examples: " + string.Join(" | ", _itemParseErrorSamples.ToArray()) : string.Empty),
+                    "Treat event attribution conservatively where nearby telemetry is sparse; verify raw records around critical timestamps.",
+                    _result.LastTimeMs, 0, FlightStateResolver.StateAt(_result.FlightStates, _result.LastTimeMs));
+            }
+
+            if (_result.SampleCaps.Count > 0)
+            {
+                string top = string.Join("; ", _result.SampleCaps.Take(4).Select(s =>
+                    s.Stream + " dropped " + s.DroppedSamples.ToString("N0", CultureInfo.InvariantCulture) + " sample(s) after cap " + s.Limit.ToString("N0", CultureInfo.InvariantCulture) + "."));
+                AddFinding("Advisory", "Medium", "Sampling",
+                    "Long-log sample caps were reached",
+                    "Some telemetry streams exceeded in-memory sample caps; early-flight density may be higher than later-flight density. " + top,
+                    "For high-precision event reconstruction in long logs, verify the same window in raw Log Browse around the suspected event time.",
+                    _result.LastTimeMs, 0, FlightStateResolver.StateAt(_result.FlightStates, _result.LastTimeMs));
             }
         }
 
@@ -4038,12 +4071,29 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             return null;
         }
 
-        private void AddCapped<T>(List<T> list, T value)
+        private void AddCapped<T>(List<T> list, T value, string stream)
         {
             if (list.Count < _sampleLimit)
+            {
                 list.Add(value);
-            else if (list.Count % 10 == 0)
+                return;
+            }
+
+            SampleCapAssessment stats;
+            if (!_sampleCaps.TryGetValue(stream, out stats))
+            {
+                stats = new SampleCapAssessment { Stream = stream, Limit = _sampleLimit };
+                _sampleCaps[stream] = stats;
+            }
+            stats.DroppedSamples++;
+
+            const int tailReplacementStride = 500;
+            // Keep occasional late-flight representatives so the tail is not silently frozen.
+            if (stats.DroppedSamples % tailReplacementStride == 0 && list.Count > 0)
+            {
                 list[list.Count - 1] = value;
+                stats.KeptTailReplacements++;
+            }
         }
 
         private static double Percentile(List<double> values, double percentile)
@@ -4279,6 +4329,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             incident.LikelyConsequences = "Reduced attitude-control margin; persistence at low altitude can lead to impact or rollover.";
             incident.Recommendations.Add("Inspect at least 5 s before onset through recovery, comparing pilot/GCS demand, desired/actual attitude or rates, and motor output.");
             incident.Recommendations.Add("Inspect propulsion/mechanics before changing tuning solely from this log.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, 4 + (command.Classification == "Uncommanded" ? 2 : 0) + (motor.SaturationPercent > 5 ? 1 : 0)); incidents.Add(incident);
         }
 
@@ -4302,6 +4353,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             if (result.Imu.Count == 0) incident.UnavailableData.Add("IMU gyro data was unavailable for physical-motion cross-validation.");
             incident.LikelyConsequences = "Navigation error, estimator fallback/reset, unexpected mode behavior, or reduced position-control performance.";
             incident.Recommendations.Add("Inspect GPS status/HDOP/satellites, EKF innovations/variances, estimator resets/source changes and mode changes in the same window.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, gps && ekf ? 5 : 3); incidents.Add(incident);
         }
 
@@ -4317,6 +4369,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             incident.ContradictingEvidence.Add("A voltage change can also follow a sudden load/control event; timing relative to the principal control event is required before calling it the root cause.");
             incident.LikelyConsequences = "Reduced propulsion/control margin or a battery failsafe if the voltage event was sufficiently severe.";
             incident.Recommendations.Add("Compare voltage and current before versus after incident onset; inspect connectors, power module and battery condition before attributing causality.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, 3); incidents.Add(incident);
         }
 
@@ -4331,6 +4384,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             incident.PossibleCauses.Add("RC receiver/link loss, GCS heartbeat/link timeout, configured failsafe logic, or command-path interruption depending on the exact failsafe source.");
             incident.LikelyConsequences = "Mode or navigation action commanded by failsafe logic rather than by the pilot at that instant.";
             incident.Recommendations.Add("Verify the exact failsafe source, configured actions and link-quality/receiver logs if available; do not infer pilot error from the failsafe action itself.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, 4); incidents.Add(incident);
         }
 
@@ -4353,6 +4407,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             incident.PossibleCauses.Add("High descent rate, hard touchdown, uneven surface, landing-gear interaction, or loss of control immediately before contact.");
             incident.LikelyConsequences = "Elevated landing loads and possible mechanical damage depending on vehicle type and surface.";
             incident.Recommendations.Add("Inspect descent command versus actual descent, landing detector state and mechanical condition; review several seconds before touchdown for any preceding control event.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, 4); incidents.Add(incident);
         }
 
@@ -4379,6 +4434,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             incident.StronglyInferred.Add("Multiple independent signals are consistent with severe physical motion/contact; this is stronger evidence than attitude magnitude alone.");
             incident.PossibleCauses.Add("Ground/obstacle contact or rollover after descent/loss of control."); incident.PossibleCauses.Add("A preceding control, propulsion, navigation/estimator, or commanded maneuver event; inspect earlier onset before treating impact evidence as root cause.");
             incident.LikelyConsequences = "Possible ground/obstacle contact, rollover or termination of controlled flight."; incident.Recommendations.Add("Prioritize the 5–10 s before this event for root-cause analysis; impact vibration/clipping that begins afterward is consequence evidence.");
+            ApplyCoreTelemetryLimitations(result, incident);
             ScoreIncident(result, incident, 5 + corroborators); incidents.Add(incident);
         }
 
@@ -4394,6 +4450,9 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             double desired = att == null ? 0 : Math.Max(Math.Abs(att.DesiredRoll ?? 0), Math.Abs(att.DesiredPitch ?? 0));
             double actual = att == null ? 0 : Math.Max(Math.Abs(att.Roll ?? 0), Math.Abs(att.Pitch ?? 0));
             List<MavCommandRecord> mav = result.MavCommands.Where(c => c.TimeMs >= start - 2500 && c.TimeMs <= peak + 1500).ToList();
+            if (rc == null) a.Contradicting.Add("No RCIN sample was available near maneuver onset.");
+            if (att == null) a.Contradicting.Add("No ATT sample was available near the event peak.");
+            if (mav.Count == 0) a.Contradicting.Add("No nearby executed MAVLink command was logged, limiting command-path attribution.");
             if (rc != null && stick >= 50)
             {
                 a.Classification = rc.PrimaryOverrideActive ? "Autopilot/GCS-commanded" : "Pilot-commanded";
@@ -4410,6 +4469,7 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                 a.Classification = "Uncommanded"; a.Supporting.Add("Actual attitude became large while desired attitude and available pilot input remained comparatively small.");
             }
             else a.Contradicting.Add("Command sources are incomplete or mixed, so pilot/autopilot/hardware responsibility cannot be assigned confidently.");
+
             return a;
         }
 
@@ -4483,12 +4543,43 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             return new PrincipalIncident { FilePath=result.FilePath, FileName=Path.GetFileName(result.FilePath), Line=line, Id=category+"-"+Math.Round(start).ToString(CultureInfo.InvariantCulture), Category=category, Title=title, StartTimeMs=start, PeakTimeMs=peak, EndTimeMs=end, StartTime=FormatTime(result,start), PeakTime=FormatTime(result,peak), Phase=StateAt(result,start) };
         }
 
+        private static void ApplyCoreTelemetryLimitations(LogAnalysisResult result, PrincipalIncident incident)
+        {
+            DataAvailabilityAssessment gps = result.DataAvailability.FirstOrDefault(a => a.Group == "GPS");
+            if (gps == null || gps.Status != "Available")
+                AddUnique(incident.UnavailableData, "GPS evidence is limited (" + (gps == null ? "status unknown" : gps.Status) + "), so position/speed-based interpretation remains conservative.");
+
+            DataAvailabilityAssessment rc = result.DataAvailability.FirstOrDefault(a => a.Group == "RC / pilot inputs");
+            if (rc == null || rc.Status != "Available")
+                AddUnique(incident.UnavailableData, "RCIN/pilot-input evidence is limited (" + (rc == null ? "status unknown" : rc.Status) + "), so pilot-versus-autopilot attribution is uncertain.");
+
+            if (!result.MavCommands.Any(c => c.TimeMs >= incident.StartTimeMs - 3000 && c.TimeMs <= incident.EndTimeMs + 3000))
+                AddUnique(incident.UnavailableData, "No nearby MAVLink command record was logged around this incident window.");
+
+            if (!result.Attitudes.Any(a => a.TimeMs >= incident.StartTimeMs - 1000 && a.TimeMs <= incident.EndTimeMs + 1000))
+                AddUnique(incident.UnavailableData, "ATT data coverage is insufficient around this event window.");
+
+            if (!result.Altitudes.Any(a => a.TimeMs >= incident.StartTimeMs - 1000 && a.TimeMs <= incident.EndTimeMs + 1000))
+                AddUnique(incident.UnavailableData, "Altitude/climb evidence is insufficient around this event window.");
+
+            if (result.SampleCaps.Any())
+                AddUnique(incident.UnavailableData, "One or more telemetry streams hit analysis sample caps; verify the same window in raw logs for high-fidelity reconstruction.");
+        }
+
+        private static void AddUnique(List<string> list, string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return;
+            if (!list.Contains(value)) list.Add(value);
+        }
+
         private static void ScoreIncident(LogAnalysisResult result, PrincipalIncident incident, int supportStrength)
         {
             int support=incident.SupportingEvidence.Count+incident.Known.Count+supportStrength; int contradictions=incident.ContradictingEvidence.Count; int missing=incident.UnavailableData.Count;
             int available=result.DataAvailability.Count(a=>string.Equals(a.Status,"Available",StringComparison.OrdinalIgnoreCase)); int limited=result.DataAvailability.Count-available; int coverage=available>limited?6:(limited>available?-6:0);
             int eventScore=34+support*8-contradictions*7-missing*4+coverage; int causeScore=22+incident.StronglyInferred.Count*12+(incident.PossibleCauses.Count==1?10:0)-contradictions*8-missing*7+coverage/2;
             if(!string.IsNullOrEmpty(result.ParseError)){eventScore-=18;causeScore-=24;} if(result.Firmware==null||!result.Firmware.VersionKnown)causeScore-=7; if(result.Firmware!=null&&result.Firmware.CustomBuild)causeScore-=10;
+            if (string.Equals(incident.CommandClassification, "Uncertain", StringComparison.OrdinalIgnoreCase)) { eventScore -= 6; causeScore -= 12; }
+            if (result.SampleCaps.Count > 0) { eventScore -= 4; causeScore -= 8; }
             incident.EventConfidenceScore=Math.Max(0,Math.Min(99,eventScore)); incident.RootCauseConfidenceScore=Math.Max(0,Math.Min(95,causeScore)); incident.EventConfidence=ConfidenceLabel(incident.EventConfidenceScore); incident.RootCauseConfidence=ConfidenceLabel(incident.RootCauseConfidenceScore);
             int severity=15; bool airborne=FlightStateResolver.IsAirborneState(incident.Phase); if(airborne)severity+=20; if(ContainsAny(incident.Category,"Control","Impact","Landing"))severity+=12; if(incident.CommandClassification=="Uncommanded")severity+=15; if(incident.SupportingEvidence.Any(e=>e.IndexOf("saturation",StringComparison.OrdinalIgnoreCase)>=0))severity+=8; if(incident.SupportingEvidence.Any(e=>e.IndexOf("oscillation",StringComparison.OrdinalIgnoreCase)>=0))severity+=7;
             AltitudeSample alt=FindNearest(result.Altitudes,incident.PeakTimeMs,a=>a.TimeMs,1200); if(airborne&&alt!=null&&alt.Altitude.HasValue){if(alt.Altitude.Value<5)severity+=10;else if(alt.Altitude.Value<15)severity+=5;}
@@ -4684,6 +4775,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                           ", Warning " + result.Incidents.Count(i => i.Severity == "Warning") +
                           ", Advisory " + result.Incidents.Count(i => i.Severity == "Advisory") + ").");
             sb.AppendLine("- Pilot-input samples: " + result.RcInputs.Count.ToString("N0", CultureInfo.InvariantCulture) + ". Executed MAVLink commands: " + result.MavCommands.Count.ToString("N0", CultureInfo.InvariantCulture) + ".");
+            if (result.SampleCaps.Count > 0)
+                sb.AppendLine("- Long-log sampling caps: " + string.Join("; ", result.SampleCaps.Take(4).Select(c => c.Stream + " dropped " + c.DroppedSamples.ToString("N0", CultureInfo.InvariantCulture) + " after cap " + c.Limit.ToString("N0", CultureInfo.InvariantCulture)).ToArray()) + ".");
             sb.AppendLine("- Detailed telemetry, secondary findings and raw evidence remain available in the Incidents, Findings, Timeline, Pilot & GCS, Graphs, Interactive Map, Values and Log data tabs.");
             sb.AppendLine();
             sb.AppendLine("LIMITATION: Automatic findings are evidence, not definitive proof. Root-cause conclusions should be checked against raw records, the physical vehicle, configuration history and a known-good comparison flight.");
@@ -4911,11 +5004,35 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             if (result.Integrity != null && string.Equals(result.Integrity.Status, "Abnormal", StringComparison.OrdinalIgnoreCase) && principal == null) return "Abnormal log ending without enough evidence to assign a root cause";
             if (finalState != null && string.Equals(finalState.State, "Abnormal or uncertain ending", StringComparison.OrdinalIgnoreCase))
                 return principal == null ? "Uncertain ending" : "Probable incident with an abnormal or uncertain ending";
+            if (principal != null && HasSparseKeyTelemetry(result))
+                return "Flight outcome is uncertain from the available state evidence";
             if (principal != null && (string.Equals(principal.Severity, "Critical", StringComparison.OrdinalIgnoreCase) || string.Equals(principal.Severity, "Warning", StringComparison.OrdinalIgnoreCase)))
                 return "Probable incident identified by correlated evidence";
             if (finalState != null && (string.Equals(finalState.State, "Disarmed", StringComparison.OrdinalIgnoreCase) || string.Equals(finalState.State, "Landed", StringComparison.OrdinalIgnoreCase)))
                 return "Normal or apparently normal completed flight; no principal incident exceeded the correlation threshold";
             return "Flight outcome is uncertain from the available state evidence";
+        }
+
+        private static bool HasSparseKeyTelemetry(LogAnalysisResult result)
+        {
+            if (result == null) return true;
+            // Conservative minimums for assigning a confident outcome narrative.
+            const int attitudeMin = 8;
+            const int altitudeMin = 8;
+            const int rcMin = 6;
+            const int gpsMin = 6;
+            const int maxDurationScaledMin = 40;
+            int scaled = Math.Min(maxDurationScaledMin, Math.Max(0, (int)Math.Ceiling(result.DurationSeconds * 0.2)));
+
+            int missing = 0;
+            if (result.Attitudes == null || result.Attitudes.Count < Math.Max(attitudeMin, scaled)) missing++;
+            if (result.Altitudes == null || result.Altitudes.Count < Math.Max(altitudeMin, scaled)) missing++;
+            bool rcSparse = result.RcInputs == null || result.RcInputs.Count < Math.Max(rcMin, scaled / 2);
+            if (rcSparse) missing++;
+            if (rcSparse && (result.MavCommands == null || result.MavCommands.Count == 0)) missing++;
+            List<GpsSample> gps = GetPrimaryGpsTrack(result, true);
+            if (gps.Count < Math.Max(gpsMin, scaled / 2)) missing++;
+            return missing >= 2;
         }
 
         private static List<string> BuildEvidenceTimeline(LogAnalysisResult result, PrincipalIncident principal)
@@ -4940,6 +5057,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             List<MavCommandRecord> commands = result.MavCommands.Where(c => Math.Abs(c.TimeMs - center) <= 5000).OrderBy(c => c.TimeMs).Take(4).ToList();
             foreach (MavCommandRecord command in commands)
                 lines.Add(command.Time + " — executed " + command.CommandName + " from " + command.SourceText + "; result " + command.ResultName + ".");
+            if (commands.Count == 0)
+                lines.Add("No executed MAVLink command was logged near the event; command-path attribution therefore remains conservative.");
             List<RcInputSample> rc = result.RcInputs.Where(r => Math.Abs(r.TimeMs - center) <= 2500).OrderBy(r => Math.Abs(r.TimeMs - center)).Take(3).OrderBy(r => r.TimeMs).ToList();
             if (rc.Count > 0)
             {
@@ -5083,6 +5202,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
             }
             if (!string.IsNullOrEmpty(result.ParseError)) AddUnique(missing, "Parser reported: " + result.ParseError);
             if (result.Integrity != null && result.Integrity.Status != "Normal") AddUnique(missing, "Log ending/integrity: " + result.Integrity.Status + ". " + result.Integrity.Reason);
+            foreach (SampleCapAssessment cap in result.SampleCaps.Where(c => c.DroppedSamples > 0).OrderByDescending(c => c.DroppedSamples).Take(5))
+                AddUnique(missing, "Sampling cap: " + cap.Stream + " kept up to " + cap.Limit.ToString("N0", CultureInfo.InvariantCulture) + " points and dropped " + cap.DroppedSamples.ToString("N0", CultureInfo.InvariantCulture) + " additional sample(s) (with sparse late replacements).");
             return missing.Take(10).ToList();
         }
 
@@ -5187,6 +5308,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                     sb.AppendLine("  " + availability.Group + " | " + availability.Status + " | " + availability.Reason);
 
                 sb.AppendLine("Normalized signal groups: " + result.NormalizedSignals.Count.ToString(CultureInfo.InvariantCulture) + ". DataFlash engineering-unit scaling is trusted; magnitude-based unit guessing is not used.");
+                if (result.SampleCaps.Count > 0)
+                    sb.AppendLine("Long-log sampling caps: " + string.Join("; ", result.SampleCaps.Take(5).Select(c => c.Stream + " dropped " + c.DroppedSamples.ToString("N0", CultureInfo.InvariantCulture) + " after cap " + c.Limit.ToString("N0", CultureInfo.InvariantCulture)).ToArray()));
 
                 sb.AppendLine();
                 sb.AppendLine("Correlated principal incidents:");
@@ -5418,6 +5541,16 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
         public List<DataAvailabilityAssessment> DataAvailability = new List<DataAvailabilityAssessment>();
         public Dictionary<string, List<NormalizedSignalSample>> NormalizedSignals = new Dictionary<string, List<NormalizedSignalSample>>(StringComparer.OrdinalIgnoreCase);
         public LogIntegrityAssessment Integrity = new LogIntegrityAssessment();
+        public List<SampleCapAssessment> SampleCaps = new List<SampleCapAssessment>();
+        public int ItemParseErrors;
+    }
+
+    internal sealed class SampleCapAssessment
+    {
+        public string Stream;
+        public int Limit;
+        public long DroppedSamples;
+        public long KeptTailReplacements;
     }
 
     internal sealed class Finding
@@ -6222,7 +6355,8 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
 
             FlightStatePoint final = output[output.Count - 1];
             bool integrityIncomplete = result.Integrity != null && string.Equals(result.Integrity.Status, "Incomplete", StringComparison.OrdinalIgnoreCase);
-            if (!string.IsNullOrEmpty(result.ParseError) || integrityIncomplete || (airborneEver && final.Armed && final.State != "Landed" && final.State != "Disarmed"))
+            bool unresolvedArmedEnding = airborneEver && final.Armed && final.State != "Landed" && final.State != "Disarmed";
+            if (!string.IsNullOrEmpty(result.ParseError) || integrityIncomplete || unresolvedArmedEnding)
             {
                 output.Add(new FlightStatePoint
                 {
@@ -6231,10 +6365,22 @@ namespace ComprehensiveLogInvestigatorV0571HebrewPolishPlugin
                     Armed = final.Armed,
                     Airborne = final.Airborne,
                     Evidence = !string.IsNullOrEmpty(result.ParseError) ? "Parser did not reach a clean complete result" :
-                        (integrityIncomplete ? "Physical file inspection indicates an incomplete final binary record or truncated tail" : "Flight evidence exists but no normal landed/disarmed ending was resolved")
+                        (integrityIncomplete ? "Physical file inspection indicates an incomplete final binary record or truncated tail" :
+                        (!HasStrongEndingEvidence(observations, result.LastTimeMs) ? "Flight-state ending evidence is sparse or conflicting near the tail; normal landing/disarm cannot be proven" :
+                        "Flight evidence exists but no normal landed/disarmed ending was resolved"))
                 });
             }
             return output;
+        }
+
+        private static bool HasStrongEndingEvidence(List<Observation> observations, double lastTimeMs)
+        {
+            List<Observation> tail = observations.Where(o => o.TimeMs >= lastTimeMs - 6000).ToList();
+            if (tail.Count < 5) return false;
+            bool hasArmEvidence = tail.Any(o => o.Kind == "ARM" || o.Kind == "DISARM" || o.Kind == "MAV_ARM" || o.Kind == "MAV_DISARM" || o.Kind == "EVENT");
+            bool hasKinematics = tail.Any(o => o.Kind == "ALT" || o.Kind == "GPS");
+            bool hasMotor = tail.Any(o => o.Kind == "MOTOR");
+            return (hasArmEvidence && hasKinematics) || (hasKinematics && hasMotor && tail.Count >= 8);
         }
 
         private static void ApplyEvent(FirmwareProfile firmware, Observation observation, ref bool armed, ref bool explicitArmKnown, ref bool landed)
