@@ -1229,6 +1229,16 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
+        private static (string info, int offset) ExtractString(uint8_t[] data, int offset, int limit)
+        {
+            var tail = Array.IndexOf(data, (uint8_t)0, offset, limit - offset);
+            if (tail >= 0)
+            {
+                return (ASCIIEncoding.UTF8.GetString(data, offset, tail - offset), tail + 1);
+            }
+            throw new IndexOutOfRangeException(nameof(data));
+        }
+
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
             if (dir.Length > 1)
@@ -1308,28 +1318,18 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         switch (b)
                         {
                             case kDirentFile:
-                                var filename = new StringBuilder();
-                                while (b != 0x0)
-                                {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        filename.Append((char) b);
-                                }
+                                string filename;
+                                (filename, offset) = ExtractString(ftphead.data, offset, ftphead.size);
 
-                                var items = filename.ToString().Split('\t');
+                                var items = filename.Split('\t');
                                 var size = ulong.Parse(items[1]);
                                 answer.Add(new FtpFileInfo(items[0], dir, false, size));
                                 break;
                             case kDirentDir:
-                                var name = new StringBuilder();
-                                while (b != 0x0)
-                                {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        name.Append((char) b);
-                                }
+                                string name;
+                                (name, offset) = ExtractString(ftphead.data, offset, ftphead.size);
 
-                                answer.Add(new FtpFileInfo(name.ToString(), dir, true));
+                                answer.Add(new FtpFileInfo(name, dir, true));
                                 break;
                             case kDirentSkip:
                                 while (b != 0x0)
@@ -1340,16 +1340,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                                 answer.Add(new FtpFileInfo("", dir, true));
                                 break;
                             default:
-                                var nameextra = new StringBuilder();
-                                while (b != 0x0)
+                                if (b != 0x0)
                                 {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        nameextra.Append((char) b);
+                                    string nameextra;
+                                    (nameextra, offset) = ExtractString(ftphead.data, offset, ftphead.size);
+
+                                    if (nameextra != "")
+                                        answer.Add(new FtpFileInfo(nameextra, dir, false));
                                 }
 
-                                if (nameextra.ToString() != "")
-                                    answer.Add(new FtpFileInfo(nameextra.ToString(), dir, false));
                                 break;
                         }
                     }
