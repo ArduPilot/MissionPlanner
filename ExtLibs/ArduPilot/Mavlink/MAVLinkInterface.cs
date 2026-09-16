@@ -2686,8 +2686,29 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
+            return await doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommand, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// </summary>
+        public MAV_RESULT doCommandResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
+            return doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)
+                .AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2717,7 +2738,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (!requireack)
             {
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
 
             DateTime GUI = DateTime.Now;
@@ -2732,7 +2753,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 // this is for advanced accel offsets, and blocks execution
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
             else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
             {
@@ -2740,7 +2761,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 // send again just incase
                 generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
             else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
             {
@@ -2756,7 +2777,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
             else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
             {
@@ -2766,7 +2787,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             else if (actionid == MAV_CMD.GET_HOME_POSITION)
             {
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
 
             while (true)
@@ -2818,16 +2839,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             retrys = 0;
                             continue;
                         } 
-                        else if (ack.result == (byte) MAV_RESULT.ACCEPTED)
-                        {
-                            giveComport = false;
-                            return true;
-                        }
-                        else
-                        {
-                            giveComport = false;
-                            return false;
-                        }
+
+                        giveComport = false;
+                        return (MAV_RESULT) ack.result;
                     }
                 }
             }
@@ -2846,8 +2860,32 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
             MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
+            return await doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback, frame).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommandInt, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// The command is resent up to retries times, timeoutms apart, before a TimeoutException.
+        /// </summary>
+        public MAV_RESULT doCommandIntResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
+            return doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback,
+                frame, retries, timeoutms).AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandIntResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2,
+            float p3, float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2882,15 +2920,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (!requireack)
             {
                 giveComport = false;
-                return true;
+                return MAV_RESULT.ACCEPTED;
             }
 
             DateTime GUI = DateTime.Now;
 
             DateTime start = DateTime.Now;
-            int retrys = 3;
+            int retrys = retries;
 
-            int timeout = 2000;
+            int timeout = timeoutms;
 
             while (true)
             {
@@ -2935,16 +2973,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD) ack.command,
                             (MAV_RESULT) ack.result);
 
-                        if (ack.result == (byte) MAV_RESULT.ACCEPTED)
+                        if (ack.result == (byte) MAV_RESULT.IN_PROGRESS)
                         {
-                            giveComport = false;
-                            return true;
+                            start = DateTime.Now;
+                            retrys = 0;
+                            continue;
                         }
-                        else
-                        {
-                            giveComport = false;
-                            return false;
-                        }
+
+                        giveComport = false;
+                        return (MAV_RESULT) ack.result;
                     }
                 }
             }
