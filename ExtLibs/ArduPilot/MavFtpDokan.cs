@@ -124,6 +124,8 @@ namespace MissionPlanner.ArduPilot
                 List<MAVFtp.FtpFileInfo> entries;
                 lock (_mavftp)
                     entries = _mavftp.kCmdListDirectory(ftpPath, NewCancel());
+                // a nameless entry is the placeholder for one the vehicle skipped
+                entries = entries.Where(e => e.Name != "").ToList();
 
                 lock (_dirCacheLock)
                     _dirCache[ftpPath] = (entries, DateTime.UtcNow.Add(DirCacheTtl));

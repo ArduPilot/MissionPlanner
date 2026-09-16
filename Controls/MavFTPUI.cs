@@ -244,7 +244,8 @@ namespace MissionPlanner.Controls
                             cache = _mavftp.kCmdListDirectory(FullPath, new CancellationTokenSource());
                         }
                     }).ConfigureAwait(true);
-                    return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
+                    // a nameless entry is the placeholder for one the vehicle skipped
+                    return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != ".." && a.Name != "")
                         .Select(a => new DirectoryInfo(a.FullName, _mavftp, a.ModifiedUtc)).ToArray();
 
                 }
