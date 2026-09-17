@@ -3,6 +3,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO.Compression;
 using System.Linq;
@@ -17,6 +18,93 @@ namespace MissionPlanner.Joystick
 
         int noButtons = 0;
         private int maxaxis = 16;
+
+        /// <summary>
+        /// One entry in the button function dropdown: either a built in buttonfunction, or an
+        /// RCx_OPTION aux function (function == Aux_Function, aux = RCx_OPTION value)
+        /// </summary>
+        class ButtonFunctionItem
+        {
+            public buttonfunction function;
+            public int aux;
+            public string display;
+
+            public override string ToString()
+            {
+                return display;
+            }
+        }
+
+        static string auxDisplay(int aux, string name)
+        {
+            return "RC_OPTION " + aux + ": " + name;
+        }
+
+        /// <summary>
+        /// Built in functions followed by the RCx_OPTION list for the last connected vehicle
+        /// </summary>
+        static List<ButtonFunctionItem> getButtonFunctionItems()
+        {
+            var items = new List<ButtonFunctionItem>();
+
+            foreach (buttonfunction f in Enum.GetValues(typeof(buttonfunction)))
+            {
+                // Aux_Function is represented by the individual RC_OPTION entries below
+                if (f == buttonfunction.Aux_Function)
+                    continue;
+                items.Add(new ButtonFunctionItem() { function = f, display = f.ToString() });
+            }
+
+            foreach (var opt in AuxFunction.GetList(MainV2.comPort.MAV.cs.firmware))
+            {
+                items.Add(new ButtonFunctionItem()
+                {
+                    function = buttonfunction.Aux_Function,
+                    aux = opt.Key,
+                    display = auxDisplay(opt.Key, opt.Value)
+                });
+            }
+
+            return items;
+        }
+
+        /// <summary>
+        /// Select the dropdown entry matching a button config. Does not touch event handlers.
+        /// </summary>
+        static void selectButtonFunction(ComboBox cmb, JoyButton config)
+        {
+            ButtonFunctionItem match = null;
+
+            foreach (var obj in cmb.Items)
+            {
+                var item = obj as ButtonFunctionItem;
+                if (item == null)
+                    continue;
+
+                if (item.function != config.function)
+                    continue;
+
+                if (config.function == buttonfunction.Aux_Function && item.aux != (int) config.p1)
+                    continue;
+
+                match = item;
+                break;
+            }
+
+            if (match == null && config.function == buttonfunction.Aux_Function)
+            {
+                // saved option not in this vehicles metadata - keep it visible so the config is not lost
+                match = new ButtonFunctionItem()
+                {
+                    function = buttonfunction.Aux_Function,
+                    aux = (int) config.p1,
+                    display = auxDisplay((int) config.p1, "(unknown for " + MainV2.comPort.MAV.cs.firmware + ")")
+                };
+                cmb.Items.Add(match);
+            }
+
+            cmb.SelectedItem = match;
+        }
 
         public JoystickSetup()
         {
@@ -406,10 +494,11 @@ namespace MissionPlanner.Joystick
             hbar.Name = "hbar" + name;
 
             cmbaction.Location = new Point(hbar.Right + 5, y);
-            cmbaction.Size = new Size(100, 21);
+            cmbaction.Size = new Size(190, 21);
+            cmbaction.DropDownWidth = 260;
 
-            //cmbaction.DataSource = Enum.GetNames(typeof(buttonfunction));
-            cmbaction.Items.AddRange(Enum.GetNames(typeof(buttonfunction)));
+            // built in functions + the RCx_OPTION list for the last connected vehicle
+            cmbaction.Items.AddRange(getButtonFunctionItems().ToArray());
 
 
             //Common.getModesList(MainV2.comPort.MAV.cs);
@@ -421,7 +510,7 @@ namespace MissionPlanner.Joystick
             //if (Settings.Instance["butaction" + name] != null)
             //  cmbaction.Text = Settings.Instance["butaction" + name].ToString();
             //if (config.function != buttonfunction.ChangeMode)
-            cmbaction.Text = config.function.ToString();
+            selectButtonFunction(cmbaction, config);
             cmbaction.SelectedIndexChanged += cmbaction_SelectedIndexChanged;
 
             but_settings.Location = new Point(cmbaction.Right + 5, y);
@@ -444,18 +533,40 @@ namespace MissionPlanner.Joystick
         void cmbaction_SelectedIndexChanged(object sender, EventArgs e)
         {
             int num = int.Parse(((Control)sender).Tag.ToString());
+            var item = ((ComboBox)sender).SelectedItem as ButtonFunctionItem;
+            if (item == null)
+                return;
+
             var config = MainV2.joystick.getButton(num);
-            config.function =
-                (buttonfunction)Enum.Parse(typeof(buttonfunction), ((Control)sender).Text);
+            if (item.function == buttonfunction.Aux_Function)
+            {
+                // p2 is the trigger mode for aux functions. Coming from another action it still
+                // holds that action's value (eg a servo PWM), which matches no trigger and would
+                // send nothing, so start from the default. An aux button keeps its trigger.
+                if (config.function != buttonfunction.Aux_Function)
+                    config.p2 = (int) auxfunctiontrigger.HighOnPress;
+                config.p1 = item.aux;
+            }
+            config.function = item.function;
             MainV2.joystick.setButton(num, config);
         }
 
         void but_settings_Click(object sender, EventArgs e)
         {
             var cmb = ((Control)sender).Tag as ComboBox;
+            var item = cmb.SelectedItem as ButtonFunctionItem;
+            if (item == null)
+                return;
 
-            switch ((buttonfunction)Enum.Parse(typeof(buttonfunction), cmb.SelectedItem.ToString()))
+            switch (item.function)
             {
+                case buttonfunction.Aux_Function:
+                    new Joy_Aux_Function((string)cmb.Tag).ShowDialog();
+                    // the dialog can change which aux function is used - resync the dropdown
+                    cmb.SelectedIndexChanged -= cmbaction_SelectedIndexChanged;
+                    selectButtonFunction(cmb, MainV2.joystick.getButton(int.Parse((string)cmb.Tag)));
+                    cmb.SelectedIndexChanged += cmbaction_SelectedIndexChanged;
+                    break;
                 case buttonfunction.ChangeMode:
                     new Joy_ChangeMode((string)cmb.Tag).ShowDialog();
                     break;
