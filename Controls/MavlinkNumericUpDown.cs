@@ -84,8 +84,8 @@ namespace MissionPlanner.Controls
                     Increment = (float) Inc;
 
             _scale = Scale;
-            this.Minimum = (decimal)(Min);
-            this.Maximum = (decimal)(Max);
+            this.Minimum = (decimal)(Min / _scale);
+            this.Maximum = (decimal)(Max / _scale);
             this.Increment = (decimal)(Increment);
             this.DecimalPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)Increment)[3])[2];
 
