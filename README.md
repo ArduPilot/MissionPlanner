@@ -2,6 +2,11 @@
 
 ![Dot Net](https://github.com/ardupilot/missionplanner/actions/workflows/main.yml/badge.svg) ![Android](https://github.com/ardupilot/missionplanner/actions/workflows/android.yml/badge.svg) ![OSX/IOS](https://github.com/ardupilot/missionplanner/actions/workflows/mac.yml/badge.svg)
 
+## Table of Contents
+- [How to Compile](#how-tocompile)
+- [Launching Mission Planner on other Operating systems](launching-mission-planner-on-other-system)
+- [External Services Used](#external-services-used)
+
 Website : http://ardupilot.org/planner/
 
 Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
@@ -13,26 +18,22 @@ Changelog : https://github.com/ArduPilot/MissionPlanner/blob/master/ChangeLog.tx
 License : https://github.com/ArduPilot/MissionPlanner/blob/master/COPYING.txt
 
 
-## How to compile
+## How To Compile
 
 ### On Windows (Recommended)
 
 #### 1. Install software
 
-##### Main requirements
+##### Requirements
 
-Currently, Mission Planner needs:
-
-Visual Studio 2022
-
-##### IDE
+Recommended IDE - Visual Studio 2022
 
 ### Visual Studio Community
-To compile Mission Planner, we recommend using Visual Studio. You can download Visual Studio Community from the [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
+You can download Visual Studio Community from the [Visual Studio Download page](https://visualstudio.microsoft.com/downloads/ "Visual Studio Download page").
 
-Visual Studio is a comprehensive suite with built-in Git support, but it can be overwhelming due to its complexity. To streamline the installation process, you can customize your installation by selecting the relevant "Workloads" and "Individual components" based on your software development needs.
+Visual Studio is a comprehensive suite with built-in Git support. You can customize your installation by selecting the relevant "Workloads" and "Individual components" based on your software development needs. (You can always download them afterwards so don't worry.)
 
-To simplify this selection process, we have provided a configuration file that specifies the components required for MissionPlanner development. Here's how you can use it:
+We have provided a configuration file that specifies the components required for MissionPlanner development. Here's how you can use it:
 
 1. Go to "More" in the Visual Studio installer.
 2. Select "Import configuration."
@@ -48,6 +49,9 @@ Currently VSCode with C# plugin is able to parse the code but cannot build.
 If you get Visual Studio Community, you should be able to use Git from the IDE. 
 Clone `https://github.com/ArduPilot/MissionPlanner.git` to get the full code.
 
+To do clone the following repo by:
+- `git clone https://github.com/ArduPilot/MissionPlanner.git`
+
 In case you didn't install an IDE, you will need to manually install Git. Please follow instruction in https://ardupilot.org/dev/docs/where-to-get-the-code.html#downloading-the-code-using-git
 
 Open a git bash terminal in the MissionPlanner directory and type, "git submodule update --init" to download all submodules
@@ -55,13 +59,14 @@ Open a git bash terminal in the MissionPlanner directory and type, "git submodul
 #### 3. Build
 
 To build the code:
-- Open MissionPlanner.sln with Visual Studio
+- Download MissionPlanner.sln to your computer
+- Right clock MissionPlanner.sln to open with Visual Studio
 - From the Build menu, select "Build MissionPlanner"
 
-### On other systems
+### On other operating systems
 Building Mission Planner on other systems isn't support currently.
 
-## Launching Mission Planner on other system
+## Launching Mission Planner on other Operating systems
 
 Mission Planner is available for Android via the Play Store. https://play.google.com/store/apps/details?id=com.michaeloborne.MissionPlanner
 Mission Planner can be used with Mono on Linux systems. Be aware that not all functions are available on Linux.
@@ -76,16 +81,19 @@ Those instructions were tested on Ubuntu 20.04.
 Please install Mono, either :
 - `sudo apt install mono-complete mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms4.0-cil libmono-corlib4.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
 
+If you it says sudo command not found, run the following code to install sudo:
+- `apt install sudo`
+
 #### Launching
 
 - Get the lastest zipped version of Mission Planner here : https://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.zip
 - Unzip in the directory you want
 - Go into the directory
-- run with `mono MissionPlanner.exe`
+- Run with `mono MissionPlanner.exe`
 
 You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPlanner.exe`
 
-### External Services Used
+## External Services Used
 
 | Source | Use | How to disable | Custodian |
 |---|---|---|---|
@@ -109,7 +117,7 @@ You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPla
 | https://files.rfdesign.com.au | RFD firmwares | User Initiated | RFDesign |
 | https://teck.airmarket.io | airmarket - disabled | N/A | N/A |
 
-### Offline Use - No Internet
+## Offline Use - No Internet
 
 | Location | Use | Transferable between pcs |
 |---|---|---|
