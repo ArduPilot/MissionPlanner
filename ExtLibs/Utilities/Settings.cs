@@ -108,6 +108,23 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
+        public bool GetRTSEnable(string COMPort)
+        {
+            try
+            {
+                return bool.Parse(this[COMPort + "_RTSENABLE"]);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public void SetRTSEnable(string COMPort, bool Enabled)
+        {
+            this[COMPort + "_RTSENABLE"] = Enabled.ToString();
+        }
+
         public string BaudRate
         {
             get
@@ -122,6 +139,18 @@ namespace MissionPlanner.Utilities
                 }
             }
             set { this[ComPort + "_BAUD"] = value; }
+        }
+
+        public bool RtsEnable
+        {
+            get
+            {
+                return GetRTSEnable(ComPort);
+            }
+            set 
+            { 
+                SetRTSEnable(ComPort, value); 
+            }
         }
 
         public string LogDir

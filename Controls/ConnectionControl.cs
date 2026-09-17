@@ -28,6 +28,10 @@ namespace MissionPlanner.Controls
             get { return this.cmb_Connection; }
         }
 
+        public CheckBox chk_RTSEnable
+        {
+            get { return this.chk_RTS; }
+        }
 
         /// <summary>
         /// Called from the main form - set whether we are connected or not currently.
