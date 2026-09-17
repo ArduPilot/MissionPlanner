@@ -29,6 +29,41 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFirmware()
         {
             InitializeComponent();
+
+            // ---- AutoFlasher entry point (added for MP_AutoFlasher build) ----
+            // We attach a code-only LinkLabel so we don't have to touch the
+            // Designer.cs / .resx pipeline for every locale.
+            try
+            {
+                var autoFlashLink = new LinkLabel
+                {
+                    Text = "Auto-Flash (USB hot-plug)",
+                    AutoSize = true,
+                    Location = new System.Drawing.Point(8, 8),
+                    LinkBehavior = LinkBehavior.HoverUnderline,
+                    Anchor = AnchorStyles.Top | AnchorStyles.Left,
+                    Tag = "AutoFlasherLink",
+                };
+                autoFlashLink.LinkClicked += (s, e) =>
+                {
+                    try
+                    {
+                        using (var f = new AutoFlasher.AutoFlasherForm())
+                            f.ShowDialog(this.FindForm());
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("AutoFlasher launch failed", ex);
+                        CustomMessageBox.Show("AutoFlasher: " + ex.Message, "Erreur");
+                    }
+                };
+                this.Controls.Add(autoFlashLink);
+                autoFlashLink.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                log.Warn("AutoFlasher link not added: " + ex.Message);
+            }
         }
 
         public void Activate()
