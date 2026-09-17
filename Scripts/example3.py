@@ -1,4 +1,5 @@
-﻿import sys
+﻿from __future__ import print_function
+import sys
 import math
 import clr
 import time
@@ -25,10 +26,10 @@ def gps_distance(lat1, lon1, lat2, lon2):
 	c = 2.0 * atan2(sqrt(a), sqrt(1.0-a))
 	return radius_of_earth * c
 
-print __name__
+print(__name__)
 
 # main program
-print "Start script"
+print("Start script")
 ######Mission variables######
 dist_tolerance = 15 #(m)
 ber_tolerance = 45 #heading tolerance
@@ -43,7 +44,7 @@ gravity = 9.81
 target = (-35, 117.98) # gps pos of target in degrees
 
 time.sleep(5) # wait 10 seconds before starting
-print 'Starting Mission'
+print('Starting Mission')
 Script.ChangeMode("Guided") # changes mode to "Guided"
 item = MissionPlanner.Utilities.Locationwp() # creating waypoint
 
@@ -51,15 +52,15 @@ alt = 60.000000 # altitude value
 Locationwp.lat.SetValue(item,target[0]) # sets latitude
 Locationwp.lng.SetValue(item,target[1]) # sets longitude
 Locationwp.alt.SetValue(item,alt) # sets altitude
-print 'Drop zone set'
+print('Drop zone set')
 MAV.setGuidedModeWP(item) # tells UAV "go to" the set lat/long @ alt
-print 'Going to DZ'
+print('Going to DZ')
 Good = True
 while Good == True:
 	ground_speed = cs.groundspeed
 	alt = cs.alt
 	wp_dist = gps_distance(cs.lat ,cs.lng, math.radians(target[0]), math.radians(target[1]))
-	print wp_dist 
+	print(wp_dist) 
 	ber_error = cs.ber_error
 	fall_time = ((2 * alt) / gravity) ** (0.5)
 	fall_dist = ground_speed * fall_time
@@ -69,12 +70,12 @@ while Good == True:
 		if (math.fabs(ber_error) <= ber_tolerance):
 			######Payload Release######
 			Script.SendRC(payload_servo,1900,True)
-			print 'Bombs away!'
+			print('Bombs away!')
 		else: 
-			print 'Heading outside of threshold, go around!'
+			print('Heading outside of threshold, go around!')
 			Good = False 
 	else: 
-		print 'Outside of threshold!'
+		print('Outside of threshold!')
 		time.sleep (1.0) #sleep for a second
 	#Broken out of the loop as Bearing was not right
-	print 'Bearing was out of tolerance for the Drop - Start run again' 
+	print('Bearing was out of tolerance for the Drop - Start run again') 
