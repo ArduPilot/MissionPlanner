@@ -303,10 +303,12 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        static readonly HttpClient client = new HttpClient();
+
         public static async Task<string> PostAsync(string uri, string data)
         {
-            var httpClient = new HttpClient();
-            var response = await httpClient.PostAsync(uri, new StringContent(data));
+            var request = new HttpRequestMessage(HttpMethod.Post, uri) { Content = new StringContent(data) };
+            var response = await client.SendAsync(request);
 
             response.EnsureSuccessStatusCode();
 
@@ -316,8 +318,9 @@ namespace MissionPlanner.Utilities
 
         public static async Task<string> GetAsync(string uri)
         {
-            var httpClient = new HttpClient();
-            var content = await httpClient.GetStringAsync(uri);
+            var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, uri));
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
             return await Task.Run(() => (content));
         }
 
@@ -332,8 +335,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static async Task<HTTPResult> GetAsyncWithStatus(string uri)
         {
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(uri);
+            var response = await client.SendAsync(new HttpRequestMessage(HttpMethod.Get, uri));
             var content = await response.Content.ReadAsStringAsync();
             return await Task.Run(() => (new HTTPResult() { content = content, status = response.StatusCode }));
         }
@@ -347,7 +349,6 @@ namespace MissionPlanner.Utilities
                 log.Info("Get " + url);
 
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
-
                 RequestModification?.Invoke(url, request);
 
                 using (var response = await client.SendAsync(request, completionOption: HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
@@ -444,18 +445,15 @@ namespace MissionPlanner.Utilities
         {
             if (!String.IsNullOrEmpty(Settings.Instance.UserAgent))
                 client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
+            client.Timeout = TimeSpan.FromSeconds(30);
         }
 
-        static HttpClient client = new HttpClient();
         public static bool getFilefromNet(string url, string saveto, Action<int, string> status = null)
         {
             try
             {
                 lock (log)
                     log.Info(url);
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-                client.Timeout = TimeSpan.FromSeconds(30);
 
                 // Get the response.
                 var response = client.GetAsync(url, completionOption: HttpCompletionOption.ResponseHeadersRead).Result;
@@ -569,9 +567,6 @@ namespace MissionPlanner.Utilities
             if (url == null || url == "" || uri == null)
                 return false;
 
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", Settings.Instance.UserAgent);
-            client.Timeout = TimeSpan.FromSeconds(30);
             var resp = client.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)).Result;
             return resp.IsSuccessStatusCode;
 
