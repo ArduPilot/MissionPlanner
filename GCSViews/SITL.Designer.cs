@@ -59,6 +59,7 @@ namespace MissionPlanner.GCSViews
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
             this.cmb_version = new System.Windows.Forms.ComboBox();
+            this.but_sethome = new MissionPlanner.Controls.MyButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -181,9 +182,18 @@ namespace MissionPlanner.GCSViews
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.but_sethome);
             this.groupBox1.Controls.Add(this.myGMAP1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            //
+            // but_sethome
+            //
+            resources.ApplyResources(this.but_sethome, "but_sethome");
+            this.but_sethome.Name = "but_sethome";
+            this.but_sethome.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_sethome.UseVisualStyleBackColor = true;
+            this.but_sethome.Click += new System.EventHandler(this.but_sethome_Click);
             // 
             // groupBox2
             // 
@@ -409,5 +419,6 @@ namespace MissionPlanner.GCSViews
         private MyButton but_swarmrover;
         private MyButton but_swarmplane;
         private System.Windows.Forms.ComboBox cmb_version;
+        private MyButton but_sethome;
     }
 }

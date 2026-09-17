@@ -1006,7 +1006,11 @@ namespace MissionPlanner.GCSViews
 
         private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            POI.POIAdd(MouseDownStart);
+            // ground height at the clicked point, metres
+            var point = new PointLatLngAlt(MouseDownStart);
+            point.Alt = srtm.getAltitude(point.Lat, point.Lng).alt;
+
+            POI.POIAdd(point);
         }
 
         private void BUT_abort_script_Click(object sender, EventArgs e)
@@ -2703,6 +2707,8 @@ namespace MissionPlanner.GCSViews
         private void FlightData_Load(object sender, EventArgs e)
         {
             POI.POIModified += POI_POIModified;
+            // redraw POI labels when the coordinate frame changes
+            coords1.SystemChanged += POI_POIModified;
 
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
                 NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
@@ -4474,7 +4480,8 @@ namespace MissionPlanner.GCSViews
 
         void POI_POIModified(object sender, EventArgs e)
         {
-            POI.UpdateOverlay(poioverlay);
+            // labels follow the coordinate frame chosen in the mouse position readout
+            POI.UpdateOverlay(poioverlay, coords1.System);
         }
 
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -6012,31 +6019,19 @@ namespace MissionPlanner.GCSViews
 
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var location = "";
-            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            // frame defaults to whatever the mouse position readout is showing
+            var point = CoordsInputBox.Show(this, "Enter POI Coords", coords1.System, out var hasAlt);
+            if (point == null)
+                return;
 
-            var split = location.Split(';');
-
-            if (split.Length == 3)
-            {
-                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
-                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
-
-                POI.POIAdd(new PointLatLngAlt(lat, lng, alt));
-            }
-            else if (split.Length == 2)
-            {
-                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
-                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt / CurrentState.multiplieralt;
-
-                POI.POIAdd(new PointLatLngAlt(lat, lng, alt));
-            }
+            // POI altitude is metres. Typed altitude is in the display unit; otherwise use the
+            // ground height at the POI itself.
+            if (hasAlt)
+                point.Alt = point.Alt / CurrentState.multiplieralt;
             else
-            {
-                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
-            }
+                point.Alt = srtm.getAltitude(point.Lat, point.Lng).alt;
+
+            POI.POIAdd(point);
         }
 
         private void hud1_Load(object sender, EventArgs e)
