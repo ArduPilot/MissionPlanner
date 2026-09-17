@@ -335,6 +335,7 @@ namespace MissionPlanner.GCSViews
                 case MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION:
                 case MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION:
                 case MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION:
+                case MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION: // legacy home centred fence
                     return MAVLink.MAV_MISSION_TYPE.FENCE;
                 default:
                     return MAVLink.MAV_MISSION_TYPE.MISSION;
@@ -717,7 +718,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    types = MissionTypePicker.Show(this, "Read");
+                    types = MissionTypePicker.Show(this, false);
                     if (types == null || types.Count == 0)
                         return;
                 }
@@ -730,9 +731,15 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    if (
-                        CustomMessageBox.Show("This will clear your existing points, Continue?", "Confirm",
-                            MessageBoxButtons.OKCancel) != (int) DialogResult.OK)
+                    var prompt = "This will clear your existing points, Continue?";
+
+                    // a partial read (ALL mode) keeps the rows of the types that are not fetched
+                    if (types != null && types.Count < allMissionTypes.Length)
+                        prompt = string.Format(Strings.ReplaceExistingPoints,
+                            string.Join(", ", types.Select(MissionTypePicker.TypeName)));
+
+                    if (CustomMessageBox.Show(prompt, "Confirm", MessageBoxButtons.OKCancel) !=
+                        (int) DialogResult.OK)
                     {
                         return;
                     }
@@ -791,46 +798,8 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            // check for invalid grid data
-            for (int a = 0; a < Commands.Rows.Count - 0; a++)
-            {
-                for (int b = 0; b < Commands.ColumnCount - 0; b++)
-                {
-                    double answer;
-                    if (b >= 1 && b <= 7)
-                    {
-                        if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
-                        {
-                            CustomMessageBox.Show("There are errors in your mission");
-                            return;
-                        }
-                    }
-
-                    if (TXT_altwarn.Text == "") TXT_altwarn.Text = (0).ToString();
-
-                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
-                        continue;
-
-                    ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
-
-                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
-                        double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
-                    {
-                        if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
-                            cmd != (ushort) MAVLink.MAV_CMD.LAND &&
-                            cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
-                        {
-                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
-                                                  "\nPlease reduce the alt warning, or increase the altitude");
-                            return;
-                        }
-                    }
-                }
-                if (!checkZeroAlts(a))
-                    return;
-            }
-
-            // which item types to send. null = the single type in the dropdown
+            // which item types to send. null = the single type in the dropdown. Chosen before
+            // the grid is checked, so rows of a type that is not being sent do not block it.
             List<MAVLink.MAV_MISSION_TYPE> types = null;
 
             if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
@@ -847,8 +816,53 @@ namespace MissionPlanner.GCSViews
                     return;
                 }
 
-                types = MissionTypePicker.Show(this, "Write", counts);
+                types = MissionTypePicker.Show(this, true, counts);
                 if (types == null || types.Count == 0)
+                    return;
+            }
+
+            // check for invalid grid data
+            for (int a = 0; a < Commands.Rows.Count - 0; a++)
+            {
+                var cmdname = Commands.Rows[a].Cells[Command.Index].Value.ToString();
+
+                // the altitude checks only apply to rows that are being sent
+                var sending = types == null || cmdname.Contains("UNKNOWN") ||
+                              types.Contains(MissionTypeOf(getCmdID(cmdname)));
+
+                for (int b = 0; b < Commands.ColumnCount - 0; b++)
+                {
+                    double answer;
+                    if (b >= 1 && b <= 7)
+                    {
+                        if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
+                        {
+                            CustomMessageBox.Show("There are errors in your mission");
+                            return;
+                        }
+                    }
+
+                    if (TXT_altwarn.Text == "") TXT_altwarn.Text = (0).ToString();
+
+                    if (cmdname.Contains("UNKNOWN") || !sending)
+                        continue;
+
+                    ushort cmd = getCmdID(cmdname);
+
+                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
+                        double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
+                    {
+                        if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
+                            cmd != (ushort) MAVLink.MAV_CMD.LAND &&
+                            cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                        {
+                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
+                                                  "\nPlease reduce the alt warning, or increase the altitude");
+                            return;
+                        }
+                    }
+                }
+                if (sending && !checkZeroAlts(a))
                     return;
             }
 
@@ -1607,7 +1621,24 @@ namespace MissionPlanner.GCSViews
                                                 .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
                                         ) / 1000.0, false);
 
-                    setgradanddistandaz(wpOverlay.pointlist, home);
+                    // In ALL mode the point list also holds the fence and rally items. Distance,
+                    // gradient and bearing are between mission legs only, and so are the mission
+                    // midlines, so both work from a mission-only copy (fence polygons get their
+                    // own midlines below).
+                    var missionpoints = wpOverlay.pointlist;
+                    if (type == MAVLink.MAV_MISSION_TYPE.ALL)
+                    {
+                        missionpoints = wpOverlay.pointlist.Where(p =>
+                        {
+                            if (p == null)
+                                return true;
+                            if (int.TryParse(p.Tag, out var row) && row >= 1 && row <= commandlist.Count)
+                                return MissionTypeOf(commandlist[row - 1].id) == MAVLink.MAV_MISSION_TYPE.MISSION;
+                            return true;
+                        }).ToList();
+                    }
+
+                    setgradanddistandaz(missionpoints, home);
 
                     if (wpOverlay.pointlist.Count <= 1)
                     {
@@ -1623,21 +1654,8 @@ namespace MissionPlanner.GCSViews
                     pointlist = wpOverlay.pointlist;
 
                     {
-                        // mission midlines only join mission legs. In ALL mode the point list
-                        // also holds fence and rally items, which are skipped here (fence
-                        // polygons get their own midlines below).
-                        var midpoints = pointlist;
-                        if (type == MAVLink.MAV_MISSION_TYPE.ALL)
-                        {
-                            midpoints = pointlist.Where(p =>
-                            {
-                                if (p == null)
-                                    return true;
-                                if (int.TryParse(p.Tag, out var row) && row >= 1 && row <= commandlist.Count)
-                                    return MissionTypeOf(commandlist[row - 1].id) == MAVLink.MAV_MISSION_TYPE.MISSION;
-                                return true;
-                            }).ToList();
-                        }
+                        // mission midlines only join mission legs
+                        var midpoints = missionpoints;
 
                         foreach (var pointLatLngAlt in midpoints.PrevNowNext())
                         {
@@ -4208,9 +4226,10 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            // a downloaded mission starts with home, and processToScreen strips it. When the
-            // mission part was not refreshed, put the current home in front so the same applies.
-            if (!refreshedmission)
+            // a downloaded mission starts with home, and processToScreen strips the first row.
+            // When the mission part was not refreshed, or the vehicle has no mission, put the
+            // current home in front so a fence or rally row is not taken for home.
+            if (!refreshedmission || parts[MAVLink.MAV_MISSION_TYPE.MISSION].Count == 0)
             {
                 Locationwp home = new Locationwp();
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
@@ -6511,6 +6530,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 // always send in mission, fence, rally order
                 var ordered = allMissionTypes.Where(types.Contains).ToList();
 
+                var errors = new List<string>();
+
                 for (int i = 0; i < ordered.Count; i++)
                 {
                     var type = ordered[i];
@@ -6523,9 +6544,22 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     var offset = i * 100.0 / ordered.Count;
                     var scale = 1.0 / ordered.Count;
 
-                    UploadMissionItems(sender, type, items, home,
-                        ordered.Count > 1 ? type + ": " : "",
-                        percent => (int) ((offset + percent * scale) * 0.95));
+                    try
+                    {
+                        UploadMissionItems(sender, type, items, home,
+                            ordered.Count > 1 ? type + ": " : "",
+                            percent => (int) ((offset + percent * scale) * 0.95));
+                    }
+                    catch (Exception ex)
+                    {
+                        // a single type fails the whole upload as before
+                        if (ordered.Count == 1 || sender.doWorkArgs.CancelRequested)
+                            throw;
+
+                        // eg fence items rejected by this vehicle - still send the other types
+                        log.Error(ex);
+                        errors.Add(type + ": " + ex.Message);
+                    }
                 }
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
@@ -6563,6 +6597,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 });
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(100, "Done.");
+
+                if (errors.Count > 0)
+                {
+                    MainV2.comPort.giveComport = false;
+                    throw new Exception("Some items could not be sent:\n" + string.Join("\n", errors));
+                }
             }
             catch (Exception ex)
             {
@@ -7998,16 +8038,23 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         if (int.TryParse(midline.next.Tag, out pnt2))
                         {
-                            // in ALL mode the midline belongs to whatever the row before it is
+                            // the row the midline starts from. In ALL mode a mission leg can
+                            // span fence or rally rows in the grid, so the physical row before
+                            // pnt2 is not necessarily the start of this leg. Home has no row.
+                            int pnt1;
+                            if (!int.TryParse(midline.now?.Tag, out pnt1))
+                                pnt1 = pnt2 - 1;
+
+                            // in ALL mode the midline belongs to the type of the row it starts from
                             var midtype = SelectedMissionType;
                             if (midtype == MAVLink.MAV_MISSION_TYPE.ALL)
-                                midtype = IsFencePolygonVertexRow(pnt2 - 2)
+                                midtype = IsFencePolygonVertexRow(pnt1 - 1)
                                     ? MAVLink.MAV_MISSION_TYPE.FENCE
                                     : MAVLink.MAV_MISSION_TYPE.MISSION;
 
                             if (midtype == MAVLink.MAV_MISSION_TYPE.FENCE)
                             {
-                                var prevtype = Commands.Rows[(int) Math.Max(pnt2 - 2, 0)].Cells[Command.Index].Value
+                                var prevtype = Commands.Rows[(int) Math.Max(pnt1 - 1, 0)].Cells[Command.Index].Value
                                     .ToString();
                                 // match type of prev row
                                 InsertCommand(pnt2 - 1, (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), prevtype),

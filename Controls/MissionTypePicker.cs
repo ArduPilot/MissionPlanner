@@ -30,13 +30,14 @@ namespace MissionPlanner.Controls
         /// Show the picker.
         /// </summary>
         /// <param name="owner">owning window</param>
-        /// <param name="verb">"Read" or "Write" - used for the title and the OK button</param>
+        /// <param name="write">true when writing to the vehicle, false when reading from it
+        /// (sets the title, prompt and OK button)</param>
         /// <param name="counts">optional item count per type, shown next to each checkbox</param>
         /// <returns>selected types in upload order (mission, fence, rally), or null if cancelled</returns>
-        public static List<MAVLink.MAV_MISSION_TYPE> Show(IWin32Window owner, string verb,
+        public static List<MAVLink.MAV_MISSION_TYPE> Show(IWin32Window owner, bool write,
             IDictionary<MAVLink.MAV_MISSION_TYPE, int> counts = null)
         {
-            using (var dlg = new MissionTypePicker(verb, counts))
+            using (var dlg = new MissionTypePicker(write, counts))
             {
                 if (dlg.ShowDialog(owner) != DialogResult.OK)
                     return null;
@@ -45,9 +46,9 @@ namespace MissionPlanner.Controls
             }
         }
 
-        private MissionTypePicker(string verb, IDictionary<MAVLink.MAV_MISSION_TYPE, int> counts)
+        private MissionTypePicker(bool write, IDictionary<MAVLink.MAV_MISSION_TYPE, int> counts)
         {
-            Text = verb + " which items?";
+            Text = write ? Strings.WriteWhichItems : Strings.ReadWhichItems;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             StartPosition = FormStartPosition.CenterParent;
             MaximizeBox = false;
@@ -68,8 +69,7 @@ namespace MissionPlanner.Controls
             var label = new Label
             {
                 AutoSize = true,
-                Text = verb + " the following item types " +
-                       (verb == "Read" ? "from" : "to") + " the vehicle:",
+                Text = write ? Strings.WriteItemTypesPrompt : Strings.ReadItemTypesPrompt,
                 Margin = new Padding(0, 0, 0, 8)
             };
             layout.Controls.Add(label);
@@ -78,7 +78,7 @@ namespace MissionPlanner.Controls
             {
                 var text = TypeName(type);
                 if (counts != null && counts.TryGetValue(type, out var n))
-                    text += " (" + n + (n == 1 ? " item)" : " items)");
+                    text += " (" + (n == 1 ? Strings.ItemCountOne : string.Format(Strings.ItemCountMany, n)) + ")";
 
                 var cb = new CheckBox
                 {
@@ -101,8 +101,11 @@ namespace MissionPlanner.Controls
                 Margin = new Padding(0, 12, 0, 0)
             };
 
-            var butCancel = new MyButton {Text = "Cancel", DialogResult = DialogResult.Cancel, Width = 75};
-            butOk = new MyButton {Text = verb, DialogResult = DialogResult.OK, Width = 75};
+            var butCancel = new MyButton {Text = Strings.Cancel, DialogResult = DialogResult.Cancel, Width = 75};
+            butOk = new MyButton
+            {
+                Text = write ? Strings.Write : Strings.Read, DialogResult = DialogResult.OK, Width = 75
+            };
 
             buttons.Controls.Add(butCancel);
             buttons.Controls.Add(butOk);
@@ -121,16 +124,19 @@ namespace MissionPlanner.Controls
             butOk.Enabled = boxes.Values.Any(b => b.Checked);
         }
 
-        private static string TypeName(MAVLink.MAV_MISSION_TYPE type)
+        /// <summary>
+        /// The localized name of an item type, as shown in the picker.
+        /// </summary>
+        public static string TypeName(MAVLink.MAV_MISSION_TYPE type)
         {
             switch (type)
             {
                 case MAVLink.MAV_MISSION_TYPE.MISSION:
-                    return "Mission";
+                    return Strings.MissionTypeMission;
                 case MAVLink.MAV_MISSION_TYPE.FENCE:
-                    return "Fence";
+                    return Strings.MissionTypeFence;
                 case MAVLink.MAV_MISSION_TYPE.RALLY:
-                    return "Rally";
+                    return Strings.MissionTypeRally;
                 default:
                     return type.ToString();
             }
