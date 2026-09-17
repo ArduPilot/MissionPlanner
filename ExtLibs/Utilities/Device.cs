@@ -167,6 +167,11 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_IIM42653 = 0x3D,
                 DEVTYPE_INS_LSM6DSV = 0x3E,
                 DEVTYPE_INS_ASM330 = 0x3F,
+                DEVTYPE_INS_ADIS16607 = 0x40,
+                DEVTYPE_INS_ZEROONE_FPGA_SCH16T = 0x41,
+                DEVTYPE_INS_LSM6DSV32X = 0x42,
+                DEVTYPE_INS_LSM6DSK320X = 0x43,
+                DEVTYPE_INS_ICM56686 = 0x44,
             };
 
             //https://github.com/tridge/ardupilot/blob/master/libraries/AP_Baro/AP_Baro_Backend.h#L40
