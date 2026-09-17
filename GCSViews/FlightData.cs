@@ -444,6 +444,9 @@ namespace MissionPlanner.GCSViews
             hud1.distunit = CurrentState.DistanceUnit;
             coords1.AltUnit = CurrentState.AltUnit;
 
+            // POI labels carry the altitude unit, which may have changed on the Config screen
+            POI.UpdateOverlay(poioverlay, coords1.System);
+
             if (MainV2.MONO)
             {
                 if (!hud1.Visible)

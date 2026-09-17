@@ -344,6 +344,7 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.TXT_homecoord, "TXT_homecoord");
             this.TXT_homecoord.Name = "TXT_homecoord";
             this.TXT_homecoord.Enter += new System.EventHandler(this.TXT_homelat_Enter);
+            this.TXT_homecoord.TextChanged += new System.EventHandler(this.TXT_homecoord_TextChanged);
             this.TXT_homecoord.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXT_homecoord_KeyDown);
             this.TXT_homecoord.Leave += new System.EventHandler(this.TXT_homecoord_Leave);
             // 

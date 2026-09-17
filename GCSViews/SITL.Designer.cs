@@ -186,9 +186,9 @@ namespace MissionPlanner.GCSViews
             this.groupBox1.Controls.Add(this.myGMAP1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            //
+            // 
             // but_sethome
-            //
+            // 
             resources.ApplyResources(this.but_sethome, "but_sethome");
             this.but_sethome.Name = "but_sethome";
             this.but_sethome.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));

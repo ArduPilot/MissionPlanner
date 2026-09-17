@@ -2970,6 +2970,13 @@ namespace MissionPlanner.GCSViews
             updateHomeCoordText(true);
         }
 
+        public void TXT_homecoord_TextChanged(object sender, EventArgs e)
+        {
+            // typing a home location cancels "click on the map to set home", as it does for
+            // the Lat/Long boxes, so the next map click adds a waypoint again
+            sethome = false;
+        }
+
         public void TXT_homecoord_Leave(object sender, EventArgs e)
         {
             applyHomeCoordText();

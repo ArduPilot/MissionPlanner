@@ -1,4 +1,4 @@
-using GMap.NET.WindowsForms;
+﻿using GMap.NET.WindowsForms;
 using MissionPlanner.Controls;
 using MissionPlanner.Maps;
 using System;
