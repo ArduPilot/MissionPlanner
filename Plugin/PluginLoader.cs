@@ -12,6 +12,8 @@ using DroneCAN;
 using System.Text.RegularExpressions;
 using System.Linq.Expressions;
 using System.Threading;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MissionPlanner.Plugin
 {
@@ -35,6 +37,107 @@ namespace MissionPlanner.Plugin
         public static Dictionary<string, string[]> filecache = new Dictionary<string, string[]>();
 
         public static Dictionary<string, string> ErrorInfo = new Dictionary<string, string>();
+
+
+
+        //net 4.7.x cannot read alternate data streams directly, so we need to use win32 API
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr CreateFile(
+            string lpFileName,
+            uint dwDesiredAccess,
+            uint dwShareMode,
+            IntPtr lpSecurityAttributes,
+            uint dwCreationDisposition,
+            uint dwFlagsAndAttributes,
+            IntPtr hTemplateFile);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool ReadFile(
+            IntPtr hFile,
+            byte[] lpBuffer,
+            uint nNumberOfBytesToRead,
+            out uint lpNumberOfBytesRead,
+            IntPtr lpOverlapped);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool CloseHandle(IntPtr hObject);
+
+
+        private const uint GENERIC_READ = 0x80000000;
+        private const uint GENERIC_WRITE = 0x40000000;
+        private const uint DELETE = 0x00010000;
+        private const uint FILE_SHARE_READ = 0x00000001;
+        private const uint FILE_SHARE_DELETE = 0x00000004;
+        private const uint OPEN_EXISTING = 3;
+        private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+
+        private static int ParseZoneId(string content)
+        {
+            foreach (string line in content.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (line.StartsWith("ZoneId=", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (int.TryParse(line.Substring(7), out int zoneId))
+                    {
+                        return zoneId;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        public static int getZoneIdentifier(string filePath)
+        {
+            IntPtr handle = IntPtr.Zero;
+            string zoneIdPath = filePath + ":Zone.Identifier";
+            try
+            {
+                handle = CreateFile(zoneIdPath, GENERIC_READ, FILE_SHARE_READ,
+                    IntPtr.Zero, OPEN_EXISTING, 0, IntPtr.Zero);
+
+                if (handle == INVALID_HANDLE_VALUE)
+                {
+                    int error = Marshal.GetLastWin32Error();
+                    if (error == 2) // ERROR_FILE_NOT_FOUND
+                    {
+                        log.Info("No Zone.Identifier found. File may be local or stream was removed.");
+                        return 0;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error opening file. Win32 error code: {error}");
+                        return -1;
+                    }
+                }
+
+                // Read the Zone.Identifier content using ReadFile
+                byte[] buffer = new byte[1024];
+                if (ReadFile(handle, buffer, (uint)buffer.Length, out uint bytesRead, IntPtr.Zero))
+                {
+                    string content = Encoding.UTF8.GetString(buffer, 0, (int)bytesRead);
+                    log.Info("Zone.Identifier content:");
+                    log.Info(content);
+
+                    int zoneId = ParseZoneId(content);
+                    return zoneId;
+
+                }
+                else
+                {
+                    log.Error($"Error reading file. Win32 error code: {Marshal.GetLastWin32Error()}");
+                    return -1;
+                }
+            }
+            finally
+            {
+                if (handle != IntPtr.Zero && handle != INVALID_HANDLE_VALUE)
+                {
+                    CloseHandle(handle);
+                }
+            }
+        }
+
+
 
         static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
         {
@@ -220,7 +323,7 @@ namespace MissionPlanner.Plugin
                     log.Info("Plugin: " + csFile);
                     //Check if it is disabled (moved out from the previous IF, to make it loggable)
                     if (DisabledPluginNames.Contains(Path.GetFileName(csFile).ToLower()))
-                    { 
+                    {
                         log.InfoFormat("Plugin {0} is disabled in config.xml", Path.GetFileName(csFile));
                         continue;
                     }
@@ -303,7 +406,20 @@ namespace MissionPlanner.Plugin
 
             String[] files = Directory.GetFiles(path, "*.dll");
             foreach (var s in files)
+            {
+
+                if (!Program.MONO) //Only on Windows
+                {
+                    int zoneID = getZoneIdentifier(s);
+                    if (zoneID == 3) // Internet zone
+                    {
+                        CustomMessageBox.Show(String.Format("Plugin {0} is blocked by Windows (Zone.Identifier = Internet). Please unblock the file in its properties.", s));
+                        continue;
+                    }
+                }
+
                 Load(Path.Combine(Environment.CurrentDirectory, s));
+            }
 
             InitPlugin(Assembly.GetAssembly(typeof(PluginLoader)), "self");
 
