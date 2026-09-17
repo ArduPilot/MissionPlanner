@@ -1679,21 +1679,19 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
-            // Custom action handling
+            // Custom action handling. Only actions registered by a plugin are in the
+            // dictionary, so an indexer lookup would throw for every built in action.
+            if (CustomActions.TryGetValue(CMB_action.Text, out var customAction) && customAction != null)
             {
-                var customAction = CustomActions[CMB_action.Text];
-                if(customAction!=null)
+                try
                 {
-                    try
-                    {
-                        customAction.Invoke(CMB_action.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
-                    }
-                    return;
+                    customAction.Invoke(CMB_action.Text);
                 }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
+                }
+                return;
             }
 
             if (CMB_action.Text == actions.Format_SD_Card.ToString())
