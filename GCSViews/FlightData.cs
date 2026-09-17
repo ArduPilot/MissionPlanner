@@ -187,6 +187,7 @@ namespace MissionPlanner.GCSViews
             Preflight_Calibration,
             Mission_Start,
             Preflight_Reboot_Shutdown,
+            Reboot_Mass_Storage,
             Trigger_Camera,
             System_Time,
             Battery_Reset,
@@ -1680,20 +1681,17 @@ namespace MissionPlanner.GCSViews
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
             // Custom action handling
+            if (CustomActions.TryGetValue(CMB_action.Text, out var customAction))
             {
-                var customAction = CustomActions[CMB_action.Text];
-                if(customAction!=null)
+                try
                 {
-                    try
-                    {
-                        customAction.Invoke(CMB_action.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
-                    }
-                    return;
+                    customAction.Invoke(CMB_action.Text);
                 }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
+                }
+                return;
             }
 
             if (CMB_action.Text == actions.Format_SD_Card.ToString())
@@ -1803,6 +1801,14 @@ namespace MissionPlanner.GCSViews
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         MainV2.comPort.doReboot();
+                        ((Control) sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.Reboot_Mass_Storage.ToString())
+                    {
+                        const float rebootToMassStorage = 5;
+                        MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                            MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, rebootToMassStorage, 0, 0, 0, 0, 0, 0);
                         ((Control) sender).Enabled = true;
                         return;
                     }
