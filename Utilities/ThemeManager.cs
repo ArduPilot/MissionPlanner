@@ -1080,6 +1080,11 @@ mc:Ignorable=""d""
                     Color mix = Color.FromArgb(ThemeManager.BGColor.ToArgb() ^ 0xffffff);
 
                     Controls.QuickView but = (QuickView)ctl;
+                    // Don't change the color if there is a defined color already in settings
+                    if (Settings.Instance[but.Name+"_color"] != null && Settings.Instance[but.Name+"_color"] != "default")
+                    {
+                        continue;
+                    }
                     if (but.Name == "quickView6")
                     {
                         but.numberColor = Color.FromArgb((0 + mix.R) / 2, (255 + mix.G) / 2, (252 + mix.B) / 2);
