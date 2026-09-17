@@ -126,7 +126,6 @@
             // 
             resources.ApplyResources(this.but_mot_spin_min, "but_mot_spin_min");
             this.but_mot_spin_min.Name = "but_mot_spin_min";
-            this.but_mot_spin_min.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_mot_spin_min.UseVisualStyleBackColor = true;
             this.but_mot_spin_min.Click += new System.EventHandler(this.but_mot_spin_min_Click);
             // 
@@ -139,7 +138,6 @@
             // 
             resources.ApplyResources(this.but_mot_spin_arm, "but_mot_spin_arm");
             this.but_mot_spin_arm.Name = "but_mot_spin_arm";
-            this.but_mot_spin_arm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_mot_spin_arm.UseVisualStyleBackColor = true;
             this.but_mot_spin_arm.Click += new System.EventHandler(this.but_mot_spin_arm_Click);
             // 

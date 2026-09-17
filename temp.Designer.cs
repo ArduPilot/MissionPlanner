@@ -286,7 +286,6 @@
             // 
             resources.ApplyResources(this.BUT_forcecal_accel, "BUT_forcecal_accel");
             this.BUT_forcecal_accel.Name = "BUT_forcecal_accel";
-            this.BUT_forcecal_accel.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_forcecal_accel.UseVisualStyleBackColor = true;
             this.BUT_forcecal_accel.Click += new System.EventHandler(this.BUT_forcecal_accel_Click);
             // 
@@ -294,7 +293,6 @@
             // 
             resources.ApplyResources(this.BUT_forcecal_mag, "BUT_forcecal_mag");
             this.BUT_forcecal_mag.Name = "BUT_forcecal_mag";
-            this.BUT_forcecal_mag.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_forcecal_mag.UseVisualStyleBackColor = true;
             this.BUT_forcecal_mag.Click += new System.EventHandler(this.BUT_forcecal_mag_Click);
             // 
@@ -302,7 +300,6 @@
             // 
             resources.ApplyResources(this.but_apjtool, "but_apjtool");
             this.but_apjtool.Name = "but_apjtool";
-            this.but_apjtool.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_apjtool.UseVisualStyleBackColor = true;
             this.but_apjtool.Click += new System.EventHandler(this.but_signfw_Click);
             // 
@@ -310,7 +307,6 @@
             // 
             resources.ApplyResources(this.BUT_CoT, "BUT_CoT");
             this.BUT_CoT.Name = "BUT_CoT";
-            this.BUT_CoT.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_CoT.UseVisualStyleBackColor = true;
             this.BUT_CoT.Click += new System.EventHandler(this.BUT_CoT_Click);
             // 
@@ -318,7 +314,6 @@
             // 
             resources.ApplyResources(this.but_proximity, "but_proximity");
             this.but_proximity.Name = "but_proximity";
-            this.but_proximity.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_proximity.UseVisualStyleBackColor = true;
             this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
             // 
@@ -326,7 +321,6 @@
             // 
             resources.ApplyResources(this.but_followswarm, "but_followswarm");
             this.but_followswarm.Name = "but_followswarm";
-            this.but_followswarm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_followswarm.UseVisualStyleBackColor = true;
             this.but_followswarm.Click += new System.EventHandler(this.but_followswarm_Click);
             // 
@@ -339,7 +333,6 @@
             // 
             resources.ApplyResources(this.but_lockup, "but_lockup");
             this.but_lockup.Name = "but_lockup";
-            this.but_lockup.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_lockup.UseVisualStyleBackColor = true;
             this.but_lockup.Click += new System.EventHandler(this.but_lockup_Click);
             // 
@@ -347,7 +340,6 @@
             // 
             resources.ApplyResources(this.but_td, "but_td");
             this.but_td.Name = "but_td";
-            this.but_td.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_td.UseVisualStyleBackColor = true;
             this.but_td.Click += new System.EventHandler(this.but_td_Click);
             // 
@@ -355,7 +347,6 @@
             // 
             resources.ApplyResources(this.but_gpsinj, "but_gpsinj");
             this.but_gpsinj.Name = "but_gpsinj";
-            this.but_gpsinj.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_gpsinj.UseVisualStyleBackColor = true;
             this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
             // 
@@ -363,7 +354,6 @@
             // 
             resources.ApplyResources(this.but_dem, "but_dem");
             this.but_dem.Name = "but_dem";
-            this.but_dem.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_dem.UseVisualStyleBackColor = true;
             this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
             // 
@@ -371,7 +361,6 @@
             // 
             resources.ApplyResources(this.BUT_magfit2, "BUT_magfit2");
             this.BUT_magfit2.Name = "BUT_magfit2";
-            this.BUT_magfit2.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_magfit2.UseVisualStyleBackColor = true;
             this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
             // 
@@ -379,7 +368,6 @@
             // 
             resources.ApplyResources(this.but_GDAL, "but_GDAL");
             this.but_GDAL.Name = "but_GDAL";
-            this.but_GDAL.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_GDAL.UseVisualStyleBackColor = true;
             this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
             // 
@@ -387,7 +375,6 @@
             // 
             resources.ApplyResources(this.but_sortlogs, "but_sortlogs");
             this.but_sortlogs.Name = "but_sortlogs";
-            this.but_sortlogs.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_sortlogs.UseVisualStyleBackColor = true;
             this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
             // 
@@ -395,7 +382,6 @@
             // 
             resources.ApplyResources(this.but_optflowcalib, "but_optflowcalib");
             this.but_optflowcalib.Name = "but_optflowcalib";
-            this.but_optflowcalib.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_optflowcalib.UseVisualStyleBackColor = true;
             this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
             // 
@@ -403,7 +389,6 @@
             // 
             resources.ApplyResources(this.but_logdlscp, "but_logdlscp");
             this.but_logdlscp.Name = "but_logdlscp";
-            this.but_logdlscp.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_logdlscp.UseVisualStyleBackColor = true;
             this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
             // 
@@ -411,7 +396,6 @@
             // 
             resources.ApplyResources(this.but_signkey, "but_signkey");
             this.but_signkey.Name = "but_signkey";
-            this.but_signkey.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_signkey.UseVisualStyleBackColor = true;
             this.but_signkey.Click += new System.EventHandler(this.but_signkey_Click);
             // 
@@ -419,7 +403,6 @@
             // 
             resources.ApplyResources(this.but_acbarohight, "but_acbarohight");
             this.but_acbarohight.Name = "but_acbarohight";
-            this.but_acbarohight.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_acbarohight.UseVisualStyleBackColor = true;
             this.but_acbarohight.Click += new System.EventHandler(this.but_acbarohight_Click);
             // 
@@ -427,7 +410,6 @@
             // 
             resources.ApplyResources(this.myButton1, "myButton1");
             this.myButton1.Name = "myButton1";
-            this.myButton1.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click_2);
             // 
@@ -435,7 +417,6 @@
             // 
             resources.ApplyResources(this.but_driverclean, "but_driverclean");
             this.but_driverclean.Name = "but_driverclean";
-            this.but_driverclean.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_driverclean.UseVisualStyleBackColor = true;
             this.but_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
             // 
@@ -443,7 +424,6 @@
             // 
             resources.ApplyResources(this.but_agemapdata, "but_agemapdata");
             this.but_agemapdata.Name = "but_agemapdata";
-            this.but_agemapdata.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_agemapdata.UseVisualStyleBackColor = true;
             this.but_agemapdata.Click += new System.EventHandler(this.but_agemapdata_Click);
             // 
@@ -451,7 +431,6 @@
             // 
             resources.ApplyResources(this.but_packetbytes, "but_packetbytes");
             this.but_packetbytes.Name = "but_packetbytes";
-            this.but_packetbytes.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_packetbytes.UseVisualStyleBackColor = true;
             this.but_packetbytes.Click += new System.EventHandler(this.but_packetbytes_Click);
             // 
@@ -459,7 +438,6 @@
             // 
             resources.ApplyResources(this.myButton_vlc, "myButton_vlc");
             this.myButton_vlc.Name = "myButton_vlc";
-            this.myButton_vlc.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.myButton_vlc.UseVisualStyleBackColor = true;
             this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
             // 
@@ -472,7 +450,6 @@
             // 
             resources.ApplyResources(this.but_trimble, "but_trimble");
             this.but_trimble.Name = "but_trimble";
-            this.but_trimble.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_trimble.UseVisualStyleBackColor = true;
             this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
             // 
@@ -480,7 +457,6 @@
             // 
             resources.ApplyResources(this.but_hwids, "but_hwids");
             this.but_hwids.Name = "but_hwids";
-            this.but_hwids.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_hwids.UseVisualStyleBackColor = true;
             this.but_hwids.Click += new System.EventHandler(this.but_hwids_Click);
             // 
@@ -488,7 +464,6 @@
             // 
             resources.ApplyResources(this.BUT_QNH, "BUT_QNH");
             this.BUT_QNH.Name = "BUT_QNH";
-            this.BUT_QNH.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_QNH.UseVisualStyleBackColor = true;
             this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
             // 
@@ -496,7 +471,6 @@
             // 
             resources.ApplyResources(this.but_reboot, "but_reboot");
             this.but_reboot.Name = "but_reboot";
-            this.but_reboot.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_reboot.UseVisualStyleBackColor = true;
             this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
             // 
@@ -504,7 +478,6 @@
             // 
             resources.ApplyResources(this.but_3dmap, "but_3dmap");
             this.but_3dmap.Name = "but_3dmap";
-            this.but_3dmap.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_3dmap.UseVisualStyleBackColor = true;
             this.but_3dmap.Click += new System.EventHandler(this.but_3dmap_Click);
             // 
@@ -512,7 +485,6 @@
             // 
             resources.ApplyResources(this.but_messageinterval, "but_messageinterval");
             this.but_messageinterval.Name = "but_messageinterval";
-            this.but_messageinterval.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_messageinterval.UseVisualStyleBackColor = true;
             this.but_messageinterval.Click += new System.EventHandler(this.but_messageinterval_Click);
             // 
@@ -520,7 +492,6 @@
             // 
             resources.ApplyResources(this.but_blupdate, "but_blupdate");
             this.but_blupdate.Name = "but_blupdate";
-            this.but_blupdate.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_blupdate.UseVisualStyleBackColor = true;
             this.but_blupdate.Click += new System.EventHandler(this.but_blupdate_Click);
             // 
@@ -528,7 +499,6 @@
             // 
             resources.ApplyResources(this.BUT_fft, "BUT_fft");
             this.BUT_fft.Name = "BUT_fft";
-            this.BUT_fft.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_fft.UseVisualStyleBackColor = true;
             this.BUT_fft.Click += new System.EventHandler(this.BUT_fft_Click);
             // 
@@ -536,7 +506,6 @@
             // 
             resources.ApplyResources(this.but_disablearmswitch, "but_disablearmswitch");
             this.but_disablearmswitch.Name = "but_disablearmswitch";
-            this.but_disablearmswitch.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_disablearmswitch.UseVisualStyleBackColor = true;
             this.but_disablearmswitch.Click += new System.EventHandler(this.but_disablearmswitch_Click);
             // 
@@ -544,7 +513,6 @@
             // 
             resources.ApplyResources(this.but_paramrestore, "but_paramrestore");
             this.but_paramrestore.Name = "but_paramrestore";
-            this.but_paramrestore.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_paramrestore.UseVisualStyleBackColor = true;
             this.but_paramrestore.Click += new System.EventHandler(this.but_paramrestore_Click);
             // 
@@ -552,7 +520,6 @@
             // 
             resources.ApplyResources(this.but_mavinspector, "but_mavinspector");
             this.but_mavinspector.Name = "but_mavinspector";
-            this.but_mavinspector.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_mavinspector.UseVisualStyleBackColor = true;
             this.but_mavinspector.Click += new System.EventHandler(this.but_mavinspector_Click);
             // 
@@ -560,7 +527,6 @@
             // 
             resources.ApplyResources(this.but_sitl_comb, "but_sitl_comb");
             this.but_sitl_comb.Name = "but_sitl_comb";
-            this.but_sitl_comb.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_sitl_comb.UseVisualStyleBackColor = true;
             this.but_sitl_comb.Click += new System.EventHandler(this.but_sitl_comb_Click);
             // 
@@ -568,7 +534,6 @@
             // 
             resources.ApplyResources(this.but_anonlog, "but_anonlog");
             this.but_anonlog.Name = "but_anonlog";
-            this.but_anonlog.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_anonlog.UseVisualStyleBackColor = true;
             this.but_anonlog.Click += new System.EventHandler(this.but_anonlog_Click);
             // 
@@ -576,7 +541,6 @@
             // 
             resources.ApplyResources(this.but_dashware, "but_dashware");
             this.but_dashware.Name = "but_dashware";
-            this.but_dashware.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_dashware.UseVisualStyleBackColor = true;
             this.but_dashware.Click += new System.EventHandler(this.but_dashware_Click);
             // 
@@ -624,7 +588,6 @@
             // 
             resources.ApplyResources(this.butlogindex, "butlogindex");
             this.butlogindex.Name = "butlogindex";
-            this.butlogindex.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.butlogindex.UseVisualStyleBackColor = true;
             this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
             // 
@@ -632,14 +595,12 @@
             // 
             resources.ApplyResources(this.but_armandtakeoff, "but_armandtakeoff");
             this.but_armandtakeoff.Name = "but_armandtakeoff";
-            this.but_armandtakeoff.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
             // 
             // but_maplogs
             // 
             resources.ApplyResources(this.but_maplogs, "but_maplogs");
             this.but_maplogs.Name = "but_maplogs";
-            this.but_maplogs.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_maplogs.UseVisualStyleBackColor = true;
             this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
             // 
@@ -652,7 +613,6 @@
             // 
             resources.ApplyResources(this.but_gimbaltest, "but_gimbaltest");
             this.but_gimbaltest.Name = "but_gimbaltest";
-            this.but_gimbaltest.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_gimbaltest.UseVisualStyleBackColor = true;
             this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
             // 
@@ -660,7 +620,6 @@
             // 
             resources.ApplyResources(this.but_structtest, "but_structtest");
             this.but_structtest.Name = "but_structtest";
-            this.but_structtest.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_structtest.UseVisualStyleBackColor = true;
             this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
             // 
@@ -698,7 +657,6 @@
             // 
             resources.ApplyResources(this.BUT_clearcustommaps, "BUT_clearcustommaps");
             this.BUT_clearcustommaps.Name = "BUT_clearcustommaps";
-            this.BUT_clearcustommaps.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_clearcustommaps.UseVisualStyleBackColor = true;
             this.BUT_clearcustommaps.Click += new System.EventHandler(this.BUT_clearcustommaps_Click);
             // 
@@ -706,7 +664,6 @@
             // 
             resources.ApplyResources(this.but_getfw, "but_getfw");
             this.but_getfw.Name = "but_getfw";
-            this.but_getfw.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_getfw.UseVisualStyleBackColor = true;
             this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
             // 
@@ -714,7 +671,6 @@
             // 
             resources.ApplyResources(this.BUT_geinjection, "BUT_geinjection");
             this.BUT_geinjection.Name = "BUT_geinjection";
-            this.BUT_geinjection.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_geinjection.UseVisualStyleBackColor = true;
             this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
             // 
@@ -732,7 +688,6 @@
             // 
             resources.ApplyResources(this.BUT_sorttlogs, "BUT_sorttlogs");
             this.BUT_sorttlogs.Name = "BUT_sorttlogs";
-            this.BUT_sorttlogs.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
             this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
             // 
@@ -765,7 +720,6 @@
             // 
             resources.ApplyResources(this.BUT_outputMavlink, "BUT_outputMavlink");
             this.BUT_outputMavlink.Name = "BUT_outputMavlink";
-            this.BUT_outputMavlink.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_outputMavlink.UseVisualStyleBackColor = true;
             this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
             // 
@@ -773,7 +727,6 @@
             // 
             resources.ApplyResources(this.BUT_outputMD, "BUT_outputMD");
             this.BUT_outputMD.Name = "BUT_outputMD";
-            this.BUT_outputMD.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_outputMD.UseVisualStyleBackColor = true;
             this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -781,7 +734,6 @@
             // 
             resources.ApplyResources(this.BUT_outputnmea, "BUT_outputnmea");
             this.BUT_outputnmea.Name = "BUT_outputnmea";
-            this.BUT_outputnmea.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_outputnmea.UseVisualStyleBackColor = true;
             this.BUT_outputnmea.Click += new System.EventHandler(this.BUT_outputnmea_Click);
             // 
@@ -789,14 +741,12 @@
             // 
             resources.ApplyResources(this.BUT_georefimage, "BUT_georefimage");
             this.BUT_georefimage.Name = "BUT_georefimage";
-            this.BUT_georefimage.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // button3
             // 
             resources.ApplyResources(this.button3, "button3");
             this.button3.Name = "button3";
-            this.button3.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -804,7 +754,6 @@
             // 
             resources.ApplyResources(this.BUT_lang_edit, "BUT_lang_edit");
             this.BUT_lang_edit.Name = "BUT_lang_edit";
-            this.BUT_lang_edit.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_lang_edit.UseVisualStyleBackColor = true;
             this.BUT_lang_edit.Click += new System.EventHandler(this.BUT_lang_edit_Click);
             // 
@@ -812,7 +761,6 @@
             // 
             resources.ApplyResources(this.BUT_follow_me, "BUT_follow_me");
             this.BUT_follow_me.Name = "BUT_follow_me";
-            this.BUT_follow_me.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_follow_me.UseVisualStyleBackColor = true;
             this.BUT_follow_me.Click += new System.EventHandler(this.BUT_follow_me_Click);
             // 
@@ -820,7 +768,6 @@
             // 
             resources.ApplyResources(this.BUT_paramgen, "BUT_paramgen");
             this.BUT_paramgen.Name = "BUT_paramgen";
-            this.BUT_paramgen.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_paramgen.UseVisualStyleBackColor = true;
             this.BUT_paramgen.Click += new System.EventHandler(this.BUT_paramgen_Click);
             // 
@@ -828,7 +775,6 @@
             // 
             resources.ApplyResources(this.but_osdvideo, "but_osdvideo");
             this.but_osdvideo.Name = "but_osdvideo";
-            this.but_osdvideo.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_osdvideo.UseVisualStyleBackColor = true;
             this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
             // 
@@ -836,7 +782,6 @@
             // 
             resources.ApplyResources(this.BUT_movingbase, "BUT_movingbase");
             this.BUT_movingbase.Name = "BUT_movingbase";
-            this.BUT_movingbase.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_movingbase.UseVisualStyleBackColor = true;
             this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
             // 
@@ -844,7 +789,6 @@
             // 
             resources.ApplyResources(this.BUT_shptopoly, "BUT_shptopoly");
             this.BUT_shptopoly.Name = "BUT_shptopoly";
-            this.BUT_shptopoly.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_shptopoly.UseVisualStyleBackColor = true;
             this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
             // 
@@ -852,7 +796,6 @@
             // 
             resources.ApplyResources(this.BUT_swarm, "BUT_swarm");
             this.BUT_swarm.Name = "BUT_swarm";
-            this.BUT_swarm.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_swarm.UseVisualStyleBackColor = true;
             this.BUT_swarm.Click += new System.EventHandler(this.BUT_swarm_Click);
             // 
@@ -860,7 +803,6 @@
             // 
             resources.ApplyResources(this.BUT_followleader, "BUT_followleader");
             this.BUT_followleader.Name = "BUT_followleader";
-            this.BUT_followleader.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
@@ -873,7 +815,6 @@
             // 
             resources.ApplyResources(this.but_mavserialport, "but_mavserialport");
             this.but_mavserialport.Name = "but_mavserialport";
-            this.but_mavserialport.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_mavserialport.UseVisualStyleBackColor = true;
             this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
             // 
@@ -881,7 +822,6 @@
             // 
             resources.ApplyResources(this.but_hexmavlink, "but_hexmavlink");
             this.but_hexmavlink.Name = "but_hexmavlink";
-            this.but_hexmavlink.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_hexmavlink.UseVisualStyleBackColor = true;
             this.but_hexmavlink.Click += new System.EventHandler(this.but_hexmavlink_Click);
             // 
@@ -1029,7 +969,6 @@
             // 
             resources.ApplyResources(this.but_remotedflogger, "but_remotedflogger");
             this.but_remotedflogger.Name = "but_remotedflogger";
-            this.but_remotedflogger.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_remotedflogger.UseVisualStyleBackColor = true;
             this.but_remotedflogger.Click += new System.EventHandler(this.but_remotedflogger_Click);
             // 
@@ -1042,7 +981,6 @@
             // 
             resources.ApplyResources(this.but_ManageCMDList, "but_ManageCMDList");
             this.but_ManageCMDList.Name = "but_ManageCMDList";
-            this.but_ManageCMDList.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_ManageCMDList.UseVisualStyleBackColor = true;
             this.but_ManageCMDList.Click += new System.EventHandler(this.but_ManageCMDList_Click);
             // 
@@ -1055,7 +993,6 @@
             // 
             resources.ApplyResources(this.but_dfumode, "but_dfumode");
             this.but_dfumode.Name = "but_dfumode";
-            this.but_dfumode.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_dfumode.UseVisualStyleBackColor = true;
             this.but_dfumode.Click += new System.EventHandler(this.but_dfumode_Click);
             // 

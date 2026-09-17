@@ -47,7 +47,6 @@
             this.but_upfw.Size = new System.Drawing.Size(120, 23);
             this.but_upfw.TabIndex = 0;
             this.but_upfw.Text = "Upload Firmware";
-            this.but_upfw.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_upfw.UseVisualStyleBackColor = true;
             this.but_upfw.Click += new System.EventHandler(this.but_upfw_Click);
             // 
@@ -132,7 +131,6 @@
             this.but_customfw.Size = new System.Drawing.Size(109, 23);
             this.but_customfw.TabIndex = 8;
             this.but_customfw.Text = "Upload Custom Firmware";
-            this.but_customfw.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_customfw.UseVisualStyleBackColor = true;
             this.but_customfw.Click += new System.EventHandler(this.but_customfw_Click);
             // 
