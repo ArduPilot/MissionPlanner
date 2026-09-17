@@ -146,6 +146,8 @@ namespace MissionPlanner.GCSViews
 
             myGMAP1.Invalidate();
 
+            updateHomeTitle();
+
             Utilities.ThemeManager.ApplyThemeTo(this);
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -239,8 +241,14 @@ namespace MissionPlanner.GCSViews
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
         {
+            // an altitude typed with the home location applies to that location, otherwise
+            // the terrain height there is used
+            var alt = homeAltOverride.HasValue && homelocation == homemarker.Position
+                ? homeAltOverride.Value
+                : srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt;
+
             return String.Format("{0},{1},{2},{3}", homelocation.Lat.ToString(CultureInfo.InvariantCulture), homelocation.Lng.ToString(CultureInfo.InvariantCulture),
-                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
+                alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
         }
 
         [DllImport("libc", SetLastError = true)]
@@ -778,6 +786,8 @@ namespace MissionPlanner.GCSViews
                 if (e.Button == MouseButtons.Left)
                 {
                     homemarker.Position = myGMAP1.FromLocalToLatLng(e.X, e.Y);
+                    // dragged away from the typed location: back to terrain height
+                    homeAltOverride = null;
                 }
             }
             else if (mousedown)
@@ -801,6 +811,68 @@ namespace MissionPlanner.GCSViews
         {
             mousedown = false;
             onmarker = false;
+
+            updateHomeTitle();
+        }
+
+        /// <summary>
+        /// Coordinate frame for showing and typing the home location: the one chosen on the
+        /// Plan page mouse readout, GEO when none has been chosen yet.
+        /// </summary>
+        private string HomeCoordSystem =>
+            Settings.Instance["fpcoordmouse", Coords.CoordsSystems.GEO.ToString()];
+
+        /// <summary>
+        /// The group box title as it came from the resources (may be localised)
+        /// </summary>
+        private string homeGroupTitle;
+
+        /// <summary>
+        /// Home altitude typed with the home location, metres AMSL. null = use the terrain
+        /// height at the marker. Cleared when the marker is dragged somewhere else.
+        /// </summary>
+        private double? homeAltOverride;
+
+        /// <summary>
+        /// Show the current home marker position in the map group title, in HomeCoordSystem.
+        /// </summary>
+        private void updateHomeTitle()
+        {
+            if (homeGroupTitle == null)
+                homeGroupTitle = groupBox1.Text;
+
+            var system = HomeCoordSystem;
+            var pos = homemarker.Position;
+
+            var text = CoordsInputBox.Format(system, pos.Lat, pos.Lng);
+            if (text == "" || system == Coords.CoordsSystems.GEO.ToString())
+                text = pos.Lat.ToString("0.0000000", CultureInfo.InvariantCulture) + ", " +
+                       pos.Lng.ToString("0.0000000", CultureInfo.InvariantCulture);
+
+            if (homeAltOverride.HasValue)
+                text += ", " + (homeAltOverride.Value * CurrentState.multiplieralt).ToString("0") +
+                        CurrentState.AltUnit;
+
+            groupBox1.Text = homeGroupTitle + "   |   " + system + " " + text;
+        }
+
+        /// <summary>
+        /// Type the home location in GEO, UTM or MGRS instead of dragging the marker. An
+        /// altitude typed with it is used as the SITL start altitude.
+        /// </summary>
+        private void but_sethome_Click(object sender, EventArgs e)
+        {
+            var point = CoordsInputBox.Show(this, "Enter Home Location", HomeCoordSystem, out var hasAlt);
+            if (point == null)
+                return;
+
+            homemarker.Position = point;
+            // typed altitude is in the display unit, SITL wants metres
+            homeAltOverride = hasAlt ? point.Alt / CurrentState.multiplieralt : (double?) null;
+            myGMAP1.Position = homemarker.Position;
+            myGMAP1.Invalidate();
+
+            updateHomeTitle();
         }
 
         private void myGMAP1_MouseDown(object sender, MouseEventArgs e)
