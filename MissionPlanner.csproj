@@ -62,6 +62,7 @@
     <Compile Remove="plugins\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
+    <Compile Remove="tests\**" />
     <Compile Remove="Updater\**" />
     <Compile Remove="wix\**" />
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
@@ -73,6 +74,7 @@
     <EmbeddedResource Remove="plugins\**" />
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
+    <EmbeddedResource Remove="tests\**" />
     <EmbeddedResource Remove="Updater\**" />
     <EmbeddedResource Remove="wix\**" />
     <None Remove="APMPlannerXplanes\**" />
@@ -84,6 +86,7 @@
     <None Remove="plugins\**" />
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
+    <None Remove="tests\**" />
     <None Remove="Updater\**" />
     <None Remove="wix\**" />
     <Compile Remove=".git\**" />

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,6 +23,7 @@ namespace MissionPlanner.Log
         uint tallyBytes; // previous downloaded logs
         uint totalBytes; // total expected
         List<MAVLink.mavlink_log_entry_t> logEntries;
+        CancellationTokenSource downloadCts;
 
         //List<Model> orientation = new List<Model>();
 
@@ -180,11 +182,15 @@ namespace MissionPlanner.Log
                 }
                 AppendSerialLog(string.Format(LogStrings.DownloadStarting, Settings.Instance.LogDir));
 
+                // the previous download (if any) has finished - the buttons gate on that
+                downloadCts?.Dispose();
+                downloadCts = new CancellationTokenSource();
+                var cancel = downloadCts.Token;
                 System.Threading.Thread t11 =
                     new System.Threading.Thread(
                         delegate ()
                         {
-                            DownloadThread(toDownload);
+                            DownloadThread(toDownload, cancel);
                         })
                     {
                         Name = "Log Download All thread"
@@ -193,25 +199,38 @@ namespace MissionPlanner.Log
             }
         }
 
-        async Task<string> GetLog(ushort no, string fileName)
+        async Task<string> GetLog(MAVLink.mavlink_log_entry_t entry, CancellationToken cancel)
         {
-            log.Info("GetLog " + no);
+            log.Info("GetLog " + entry.id);
 
             MainV2.comPort.Progress += ComPort_Progress;
+            try
+            {
+                return await GetLogUnsubscribed(entry, cancel).ConfigureAwait(false);
+            }
+            finally
+            {
+                // always drop the handler, also when the download throws or is
+                // canceled - a leaked handler would double-count progress on
+                // the next download
+                MainV2.comPort.Progress -= ComPort_Progress;
+            }
+        }
 
+        async Task<string> GetLogUnsubscribed(MAVLink.mavlink_log_entry_t entry, CancellationToken cancel)
+        {
             status = SerialStatus.Reading;
 
             // get df log from mav
-            var fn = await MainV2.comPort.GetLog(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, no)
+            var fn = await MainV2.comPort.GetLog(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, entry.id, cancel)
                 .ConfigureAwait(false);
 
-            GC.Collect();
             status = SerialStatus.Done;
 
             logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                                + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                               + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar + no + " " +
-                                               MakeValidFileName(fileName) + ".bin";
+                                               + MainV2.comPort.MAV.sysid + Path.DirectorySeparatorChar + entry.id + " " +
+                                               MakeValidFileName(GetItemCaption(entry)) + ".bin";
 
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -223,17 +242,22 @@ namespace MissionPlanner.Log
             }
             catch
             {
-                CustomMessageBox.Show(Strings.ErrorRenameFile + " " + logfile + "\nto " + logfile,
+                CustomMessageBox.Show(Strings.ErrorRenameFile + " " + fn + "\nto " + logfile,
                     Strings.ERROR);
             }
 
             // rename file if needed
-            log.Info("about to GetFirstGpsTime: " + logfile);
-            // get gps time of assci log
-            var dflb = new DFLogBuffer(logfile);
-            DateTime logtime = dflb.dflog.gpsstarttime;
-            dflb.Clear();
-            GC.Collect();
+            // LOG_ENTRY already carries the log start time - only fall back to a full scan
+            // of the fresh download when the vehicle reported no valid time
+            DateTime logtime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(entry.time_utc).ToLocalTime();
+            if (logtime.Year < 1990)
+            {
+                log.Info("about to GetFirstGpsTime: " + logfile);
+                // scan the downloaded log for its first gps time
+                var dflb = new DFLogBuffer(logfile);
+                logtime = dflb.dflog.gpsstarttime;
+                dflb.Clear();
+            }
 
             // rename log fs we have a valid gps time, logtime is after 1990-01-01, since some GPS does not use Unix epoch for invalid time.
             if (logtime.Year >= 1990)
@@ -256,17 +280,28 @@ namespace MissionPlanner.Log
                 }
             }
 
-            MainV2.comPort.Progress -= ComPort_Progress;
-
             return logfile;
         }
 
         protected override void OnClosed(EventArgs e)
         {
             this.closed = true;
+            CancelDownload();
             MainV2.comPort.Progress -= ComPort_Progress;
 
             base.OnClosed(e);
+        }
+
+        void CancelDownload()
+        {
+            try
+            {
+                downloadCts?.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+                // the download finished and disposed the source just as we canceled
+            }
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -279,6 +314,9 @@ namespace MissionPlanner.Log
                     e.Cancel = true;
                     return;
                 }
+
+                // actually stop the transfer, not just the form
+                CancelDownload();
             }
 
             base.OnClosing(e);
@@ -321,7 +359,7 @@ namespace MissionPlanner.Log
             status = SerialStatus.Done;
         }
 
-        private async void DownloadThread(int[] selectedLogs)
+        private async void DownloadThread(int[] selectedLogs, CancellationToken cancel)
         {
             try
             {
@@ -340,11 +378,10 @@ namespace MissionPlanner.Log
                 foreach (int a in selectedLogs)
                 {
                     var entry = logEntries[a]; // mavlink_log_entry_t
-                    string fileName = GetItemCaption(entry);
 
-                    AppendSerialLog(string.Format(LogStrings.FetchingLog, fileName));
+                    AppendSerialLog(string.Format(LogStrings.FetchingLog, GetItemCaption(entry)));
 
-                    await GetLog(entry.id, fileName).ConfigureAwait(false);
+                    await GetLog(entry, cancel).ConfigureAwait(false);
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
@@ -356,17 +393,27 @@ namespace MissionPlanner.Log
                 AppendSerialLog("Download complete.");
                 Console.Beep();
             }
+            catch (OperationCanceledException)
+            {
+                AppendSerialLog("Download canceled.");
+            }
             catch (Exception ex)
             {
                 AppendSerialLog("Error in log " + ex.Message);
             }
+            finally
+            {
+                // this download owns the token source - release it before the
+                // buttons re-arm; Cancel racing this from OnClosing is handled there
+                Interlocked.Exchange(ref downloadCts, null)?.Dispose();
 
-            RunOnUIThread(() =>
+                RunOnUIThread(() =>
                 {
                     BUT_DLall.Enabled = true;
                     BUT_DLthese.Enabled = true;
                     status = SerialStatus.Done;
                 });
+            }
         }
 
         IEnumerable<int> GetSelectedLogIndices()
@@ -391,9 +438,12 @@ namespace MissionPlanner.Log
         {
             RunOnUIThread(() =>
             {
-                progressBar1.Minimum = (int)min;
-                progressBar1.Maximum = (int)max;
-                progressBar1.Value = (int)current;
+                // scale to 0-1000 so byte counts beyond int.MaxValue don't overflow the
+                // ProgressBar; clamp because the sender may deliver more bytes than the
+                // LOG_ENTRY size it reported
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = 1000;
+                progressBar1.Value = max == 0 ? 0 : (int)Math.Min(1000.0, current * 1000.0 / max);
                 progressBar1.Visible = (current < max);
 
                 if (current == 0)
@@ -412,7 +462,7 @@ namespace MissionPlanner.Log
                     var left = max - current;
                     var eta = DateTime.Now.AddSeconds(left / avgbps);
                     var remaining = new DateTime().AddSeconds(left / avgbps);
-                    labelBytes.Text = MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)current) + " "
+                    labelBytes.Text = MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)Math.Min(current, int.MaxValue)) + " "
                     + per.ToString("N1") + "% "
                     + MissionPlanner.Controls.ConnectionStats.ToHumanReadableByteCount((int)avgbps) + "/s "
                     + (remaining.Day > 1 || remaining.Hour > 0 ? ((remaining.Day - 1) * 24 + remaining.Hour).ToString() + ":" : "") + remaining.ToString("mm:ss") + " left";
@@ -438,7 +488,11 @@ namespace MissionPlanner.Log
                 {
                     BUT_DLall.Enabled = false;
                     BUT_DLthese.Enabled = false;
-                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); })
+                    // the previous download (if any) has finished - the buttons gate on that
+                    downloadCts?.Dispose();
+                    downloadCts = new CancellationTokenSource();
+                    var cancel = downloadCts.Token;
+                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload, cancel); })
                     {
                         Name = "Log download single thread"
                     };

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExtLibs\ArduPilot\MissionPlanner.ArduPilot.csproj" />
+    <ProjectReference Include="..\..\ExtLibs\Comms\MissionPlanner.Comms.csproj" />
+    <ProjectReference Include="..\..\ExtLibs\Mavlink\MAVLink.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lossy_proxy.py" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

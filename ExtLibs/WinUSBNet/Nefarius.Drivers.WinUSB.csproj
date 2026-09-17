@@ -26,7 +26,7 @@
 
     <!-- Win32 Metadata -->
     <ItemGroup>
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.268">
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.269">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="69.0.7-preview">
