@@ -118,6 +118,29 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="richTextBox1.Text" xml:space="preserve">
-    <value>如何使用：第一次，如果是首次加载，在下方选择你的语言然后编辑，点击保存。其他使用，选择你的语言它就会自动加载现有的那个语言。如果你要加载半途的翻译，可点击load trans按钮。注意，自动加载仅在Michael已经把它加到了planner中之后可用，否则你需要使用load trans</value>
+    <value>使用方法：  
+首次使用时，如果是初次加载，请在底部选择您的语言并编辑内容，然后点击保存。  
+
+其他情况下，选择您的语言后，系统会自动加载该语言已有的翻译内容。  
+
+如果翻译进行到一半，可点击“加载翻译”按钮继续。  
+
+注意：自动加载功能仅在 Michael 已将语言添加到规划器中后才生效，否则您需要手动使用“加载翻译”功能。</value>
+  </data><data name="$this.Text" xml:space="preserve">
+    <value>语言编辑器</value>
+  </data><data name="BUT_clipboard.Text" xml:space="preserve">
+    <value>复制到剪贴板</value>
+  </data><data name="button3.Text" xml:space="preserve">
+    <value>加载翻译</value>
+  </data><data name="button2.Text" xml:space="preserve">
+    <value>保存</value>
+  </data><data name="colOtherLang.HeaderText" xml:space="preserve">
+    <value>其他语言</value>
+  </data><data name="colEnglish.HeaderText" xml:space="preserve">
+    <value>英文</value>
+  </data><data name="colInternal.HeaderText" xml:space="preserve">
+    <value>内部</value>
+  </data><data name="colFile.HeaderText" xml:space="preserve">
+    <value>文件</value>
   </data>
 </root>

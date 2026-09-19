@@ -199,5 +199,35 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>串口输出 - Mavlink</value>
+  </data><data name="Go.HeaderText" xml:space="preserve">
+    <value>前进</value>
+  </data><data name="Write.HeaderText" xml:space="preserve">
+    <value>写</value>
+  </data><data name="Extra.HeaderText" xml:space="preserve">
+    <value>主机/波特率</value>
+  </data><data name="Port.HeaderText" xml:space="preserve">
+    <value>港口</value>
+  </data><data name="Direction.HeaderText" xml:space="preserve">
+    <value>方向</value>
+  </data><data name="Type.HeaderText" xml:space="preserve">
+    <value>类型</value>
+  </data><data name="chk_write.Text" xml:space="preserve">
+    <value>写入权限</value>
+  </data><data name="CMB_baudrate.Items7" xml:space="preserve">
+    <value>115200</value>
+  </data><data name="CMB_baudrate.Items6" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="CMB_baudrate.Items5" xml:space="preserve">
+    <value>38400</value>
+  </data><data name="CMB_baudrate.Items4" xml:space="preserve">
+    <value>28800</value>
+  </data><data name="CMB_baudrate.Items3" xml:space="preserve">
+    <value>19200</value>
+  </data><data name="CMB_baudrate.Items2" xml:space="preserve">
+    <value>14400</value>
+  </data><data name="CMB_baudrate.Items1" xml:space="preserve">
+    <value>9600</value>
+  </data><data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>4800</value>
   </data>
 </root>

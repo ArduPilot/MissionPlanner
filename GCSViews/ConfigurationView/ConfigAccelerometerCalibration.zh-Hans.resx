@@ -131,8 +131,8 @@
     <value>353, 24</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>水平放置您的自驾仪，设置加速度计的默认最小/最大值（3轴）。
-这会要求您将自驾仪的每一面都放置一次。</value>
+    <value>水平放置您的自动驾驶仪以设置加速度计的默认最小/最大值（3轴）。  
+这将要求您依次将自动驾驶仪放置在每个平面上。</value>
   </data>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
     <value>校准加速度计</value>
@@ -147,7 +147,12 @@
     <value>377, 24</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>水平放置您的自驾仪，设置加速度计的默认偏移（1轴/航姿系统平衡）
-这需要您将自驾仪放置在水平的平面上。</value>
+    <value>校准您的自动驾驶仪以设置默认加速度计偏移（1轴/AHRS配平）。
+这需要您将自动驾驶仪水平放置。</value>
+  </data><data name="label2.Text" xml:space="preserve">
+    <value>水平放置您的自动驾驶仪，以设置水平飞行（1轴）的默认加速度计量程系数。  
+此操作要求您将自动驾驶仪平稳且水平放置。</value>
+  </data><data name="BUT_simpleAccelCal.Text" xml:space="preserve">
+    <value>简易加速度计校准</value>
   </data>
 </root>

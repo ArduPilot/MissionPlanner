@@ -137,7 +137,7 @@
     <value>77, 12</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube 示范</value>
+    <value>Youtube 示例</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>149, 12</value>
@@ -176,7 +176,7 @@
     <value>17, 12</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>分</value>
+    <value>分钟</value>
   </data>
   <data name="lbl_obmagresult.Text" xml:space="preserve">
     <value>结果</value>
@@ -254,7 +254,7 @@
     <value>外部安装</value>
   </data>
   <data name="CHK_compass2_use.Text" xml:space="preserve">
-    <value>使用这个指南针</value>
+    <value>使用此指南针</value>
   </data>
   <data name="groupBoxCompass2.Text" xml:space="preserve">
     <value>指南针 #2</value>
@@ -275,9 +275,44 @@
     <value>外部安装</value>
   </data>
   <data name="CHK_compass3_use.Text" xml:space="preserve">
-    <value>使用这个指南针</value>
+    <value>使用此罗盘</value>
   </data>
   <data name="groupBoxCompass3.Text" xml:space="preserve">
     <value>指南针 #3</value>
+  </data><data name="label6.Text" xml:space="preserve">
+    <value>校准失败时放松限制</value>
+  </data><data name="label10.Text" xml:space="preserve">
+    <value>en-US: Fitness
+es-ES: PWM 1621 - 1749
+ko-KR: Fitness
+pl: PWM 1621 - 1749
+uk: Фітнес
+zh-CN: 适应性</value>
+  </data><data name="label9.Text" xml:space="preserve">
+    <value>磁力计 3</value>
+  </data><data name="label8.Text" xml:space="preserve">
+    <value>磁力计 2</value>
+  </data><data name="label7.Text" xml:space="preserve">
+    <value>磁罗盘 1</value>
+  </data><data name="groupBoxonboardcalib.Text" xml:space="preserve">
+    <value>机载磁罗盘校准</value>
+  </data><data name="groupBoxmpcalib.Text" xml:space="preserve">
+    <value>Mission Planner 磁罗盘校准</value>
+  </data><data name="LBL_compass1_mot.Text" xml:space="preserve">
+    <value>电机</value>
+  </data><data name="LBL_compass1_offset.Text" xml:space="preserve">
+    <value>偏移</value>
+  </data><data name="LBL_compass2_mot.Text" xml:space="preserve">
+    <value>电机</value>
+  </data><data name="LBL_compass2_offset.Text" xml:space="preserve">
+    <value>偏移量</value>
+  </data><data name="LBL_compass3_mot.Text" xml:space="preserve">
+    <value>电机</value>
+  </data><data name="LBL_compass3_offset.Text" xml:space="preserve">
+    <value>偏移量</value>
+  </data><data name="buttonQuickPixhawk.Text" xml:space="preserve">
+    <value>Pixhawk/PX4</value>
+  </data><data name="but_largemagcal.Text" xml:space="preserve">
+    <value>大型飞行器磁力计校准</value>
   </data>
 </root>

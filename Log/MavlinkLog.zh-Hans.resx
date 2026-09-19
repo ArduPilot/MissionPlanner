@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_paramsfromlog.Text" xml:space="preserve">
-    <value>下一个参数</value>
+    <value>提取参数</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>日志</value>
@@ -143,5 +143,7 @@
   </data>
   <data name="BUT_humanreadable.Text" xml:space="preserve">
     <value>转换为文本</value>
+  </data><data name="but_cs.Text" xml:space="preserve">
+    <value>提取CS</value>
   </data>
 </root>

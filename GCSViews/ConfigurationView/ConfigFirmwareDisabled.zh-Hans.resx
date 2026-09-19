@@ -118,9 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>已经连接MAVLink的情况下不能加载新固件。
+    <value>通过MAVLink连接时无法加载新固件。
 
-请点击右上方的断开连接按钮结束当前MAVLink会话，
-即可启用安装固件界面。</value>
+请点击右上角的断开连接按钮以结束当前MAVLink会话，并启用固件加载界面。</value>
+  </data><data name="but_bootloaderupdate.Text" xml:space="preserve">
+    <value>引导程序更新</value>
+  </data><data name="label2.Text" xml:space="preserve">
+    <value>将硬件上的引导程序更新至最新可用版本。</value>
   </data>
 </root>

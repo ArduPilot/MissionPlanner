@@ -121,12 +121,12 @@
     <value>现在执行加速度计校准。</value>
   </data>
   <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>现在执行加速度计校准。</value>
+    <value>立即执行加速度计校准。</value>
   </data>
   <data name="BUT_zero_press.Text" xml:space="preserve">
     <value>零气压</value>
   </data>
   <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>零高度</value>
+    <value>零姿态</value>
   </data>
 </root>

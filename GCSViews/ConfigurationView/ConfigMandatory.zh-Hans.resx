@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>以下页面需要在自动驾驶仪工作前配置完毕。请逐项设置。</value>
+    <value>以下页面需要在自动驾驶仪工作前完成配置。请逐项完成所有设置。</value>
   </data>
 </root>
