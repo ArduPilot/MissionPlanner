@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -136,19 +136,19 @@
     <value />
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>保存</value>
+    <value>保存到文件</value>
   </data>
   <data name="BUT_save.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>加载</value>
+    <value>从文件加载</value>
   </data>
   <data name="BUT_load.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Command.HeaderText" xml:space="preserve">
-    <value>命令</value>
+    <value>名称</value>
   </data>
   <data name="Value.HeaderText" xml:space="preserve">
     <value>值</value>
@@ -170,8 +170,7 @@
     <value>125, 24</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>所有单位都会以原始
-格式储存，不会被缩放</value>
+    <value>所有单位均为原始格式，未经缩放</value>
   </data>
   <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -208,5 +207,72 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data><data name="BUT_commitToFlash.Text" xml:space="preserve">
+    <value>提交参数</value>
+  </data><data name="chk_modified.Text" xml:space="preserve">
+    <value>已修改</value>
+  </data><data name="BUT_refreshTable.Text" xml:space="preserve">
+    <value>刷新表格</value>
+  </data><data name="chk_none_default.Text" xml:space="preserve">
+    <value>非默认值</value>
+  </data><data name="Default_value.HeaderText" xml:space="preserve">
+    <value>默认</value>
+  </data><data name="Fav.HeaderText" xml:space="preserve">
+    <value>收藏</value>
+  </data><data name="but_collapse.Text" xml:space="preserve">
+    <value>&lt;</value>
+  </data><data name="BUT_stopTranslate.Text" xml:space="preserve">
+    <value>停止批量翻译</value>
+  </data><data name="BUT_translateAll.Text" xml:space="preserve">
+    <value>翻译全部</value>
+  </data><data name="BUT_translateSelected.Text" xml:space="preserve">
+    <value>翻译选中</value>
+  </data><data name="BUT_llmSettings.Text" xml:space="preserve">
+    <value>LLM设置</value>
+  </data>
+  <data name="llm.tip.settings" xml:space="preserve">
+    <value>配置 LLM 翻译 API</value>
+  </data>
+  <data name="llm.tip.translateSelected" xml:space="preserve">
+    <value>翻译当前选中的参数描述</value>
+  </data>
+  <data name="llm.tip.translateAll" xml:space="preserve">
+    <value>翻译全部参数描述，需要调用 LLM API</value>
+  </data>
+  <data name="llm.tip.stop" xml:space="preserve">
+    <value>停止当前翻译任务</value>
+  </data>
+  <data name="llm.msg.needConfig" xml:space="preserve">
+    <value>未配置 LLM API，是否现在配置？</value>
+  </data>
+  <data name="llm.title.config" xml:space="preserve">
+    <value>LLM 配置</value>
+  </data>
+  <data name="llm.msg.selectParams" xml:space="preserve">
+    <value>请选择要翻译的参数</value>
+  </data>
+  <data name="llm.title.notice" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="llm.msg.nothingToTranslate" xml:space="preserve">
+    <value>当前没有需要翻译的参数</value>
+  </data>
+  <data name="llm.msg.confirmAll" xml:space="preserve">
+    <value>准备翻译 {0} 个参数，需要调用 API 进行翻译，是否继续？</value>
+  </data>
+  <data name="llm.title.confirm" xml:space="preserve">
+    <value>翻译确认</value>
+  </data>
+  <data name="llm.msg.translating" xml:space="preserve">
+    <value>翻译中...</value>
+  </data>
+  <data name="llm.msg.stopped" xml:space="preserve">
+    <value>翻译已停止，已完成 {0} 个参数翻译</value>
+  </data>
+  <data name="llm.msg.done" xml:space="preserve">
+    <value>翻译完成，共翻译 {0} 个参数</value>
+  </data>
+  <data name="llm.title.result" xml:space="preserve">
+    <value>LLM 翻译</value>
   </data>
 </root>
