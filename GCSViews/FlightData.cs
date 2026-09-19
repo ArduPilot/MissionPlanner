@@ -14,6 +14,7 @@ using MissionPlanner.Maps;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -40,6 +41,8 @@ namespace MissionPlanner.GCSViews
 {
     public partial class FlightData : MyUserControl, IActivate, IDeactivate
     {
+        private static readonly string[] DesignerProcessNames = { "devenv", "DesignToolsServer", "XDesProc" };
+
         public static FlightData instance;
         public static GMapOverlay kmlpolygons;
         public static HUD myhud;
@@ -240,11 +243,37 @@ namespace MissionPlanner.GCSViews
 
         private bool transponderNeverConnected = true;
 
+        private bool IsInDesigner
+        {
+            get
+            {
+                if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+                    return true;
+
+                if (Site?.DesignMode == true || DesignMode)
+                    return true;
+
+                try
+                {
+                    var processName = Process.GetCurrentProcess().ProcessName;
+                    return DesignerProcessNames.Any(name =>
+                        string.Equals(processName, name, StringComparison.OrdinalIgnoreCase));
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         public FlightData()
         {
             log.Info("Ctor Start");
 
             InitializeComponent();
+
+            if (IsInDesigner)
+                return;
 
             log.Info("Components Done");
 
@@ -432,6 +461,9 @@ namespace MissionPlanner.GCSViews
 
         public void Activate()
         {
+            if (IsInDesigner)
+                return;
+
             log.Info("Activate Called");
 
             OnResize(EventArgs.Empty);
@@ -650,6 +682,9 @@ namespace MissionPlanner.GCSViews
 
         public void Deactivate()
         {
+            if (IsInDesigner)
+                return;
+
             if (MainV2.MONO)
             {
                 hud1.Dock = DockStyle.None;
@@ -824,6 +859,17 @@ namespace MissionPlanner.GCSViews
 
         protected override void Dispose(bool disposing)
         {
+            if (IsInDesigner)
+            {
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }
+
+                base.Dispose(disposing);
+                return;
+            }
+
             base.Dispose(disposing);
 
             MainV2.comPort.logreadmode = false;
@@ -859,6 +905,10 @@ namespace MissionPlanner.GCSViews
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
             base.OnInvalidated(e);
+
+            if (IsInDesigner)
+                return;
+
             updateBindingSourceWork();
         }
 
@@ -2700,6 +2750,9 @@ namespace MissionPlanner.GCSViews
 
         private void FlightData_Load(object sender, EventArgs e)
         {
+            if (IsInDesigner)
+                return;
+
             POI.POIModified += POI_POIModified;
 
             if (!Settings.Instance.ContainsKey("ShowNoFly") || Settings.Instance.GetBoolean("ShowNoFly"))
@@ -4373,6 +4426,9 @@ namespace MissionPlanner.GCSViews
 
         private void Messagetabtimer_Tick(object sender, EventArgs e)
         {
+            if (IsInDesigner)
+                return;
+
             var messagetime = MainV2.comPort.MAV.cs.messages.LastOrDefault().time;
             if (messagecount != messagetime.toUnixTime())
             {
@@ -5420,6 +5476,9 @@ namespace MissionPlanner.GCSViews
 
         private void updateBindingSource()
         {
+            if (IsInDesigner)
+                return;
+
             //  run at 10 hz.
             if (lastscreenupdate.AddMilliseconds(100) < DateTime.UtcNow)
             {
@@ -5457,6 +5516,9 @@ namespace MissionPlanner.GCSViews
 
         private void updateBindingSourceWork()
         {
+            if (IsInDesigner)
+                return;
+
             try
             {
                 if (this.Visible && !this.IsDisposed)
@@ -6044,6 +6106,12 @@ namespace MissionPlanner.GCSViews
 
         private void tabStatus_Paint(object sender, PaintEventArgs e)
         {
+            if (IsInDesigner)
+            {
+                e.Graphics.DrawString("FlightData", this.Font, SystemBrushes.ControlText, new PointF(10, 10));
+                return;
+            }
+
             var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
             var g = Graphics.FromImage(bmp);
             g.Clear(Color.Transparent);
@@ -6057,7 +6125,8 @@ namespace MissionPlanner.GCSViews
 
             foreach (var field in list)
             {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
+                var displayName = cs?.GetFieldDesc(field) ?? field;
+                g.DrawString(displayName, this.Font, br, new RectangleF(x, y, 120, 15));
 
                 if (cs != null)
                     g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
@@ -6711,6 +6780,7 @@ namespace MissionPlanner.GCSViews
             form.Show(this);
         }
 
+<<<<<<< HEAD
         public void RegisterCustomAction(string action, Action<string> handler, string after=null, string before=null)
         {
             if(ActionList.Contains(action))
@@ -6751,6 +6821,11 @@ namespace MissionPlanner.GCSViews
                 return false;
             }
             return ActionList.Remove(action);
+        }
+
+        private void checkListControl1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
