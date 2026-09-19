@@ -6780,7 +6780,6 @@ namespace MissionPlanner.GCSViews
             form.Show(this);
         }
 
-<<<<<<< HEAD
         public void RegisterCustomAction(string action, Action<string> handler, string after=null, string before=null)
         {
             if(ActionList.Contains(action))
