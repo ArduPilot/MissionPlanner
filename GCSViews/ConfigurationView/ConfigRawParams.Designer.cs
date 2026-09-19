@@ -32,10 +32,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigRawParams));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.BUT_compare = new MissionPlanner.Controls.MyButton();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
@@ -52,8 +52,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.chk_modified = new System.Windows.Forms.CheckBox();
             this.BUT_refreshTable = new MissionPlanner.Controls.MyButton();
             this.chk_none_default = new System.Windows.Forms.CheckBox();
+            this.BUT_llmSettings = new MissionPlanner.Controls.MyButton();
+            this.BUT_translateSelected = new MissionPlanner.Controls.MyButton();
+            this.BUT_translateAll = new MissionPlanner.Controls.MyButton();
+            this.BUT_stopTranslate = new MissionPlanner.Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.but_collapse = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.Params = new MissionPlanner.Controls.MyDataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,14 +68,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Fav = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.but_collapse = new MissionPlanner.Controls.MyButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
             // BUT_compare
@@ -187,6 +191,38 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.chk_none_default.UseVisualStyleBackColor = true;
             this.chk_none_default.CheckedChanged += new System.EventHandler(this.chk_filter_CheckedChanged);
             // 
+            // BUT_llmSettings
+            // 
+            resources.ApplyResources(this.BUT_llmSettings, "BUT_llmSettings");
+            this.BUT_llmSettings.Name = "BUT_llmSettings";
+            this.BUT_llmSettings.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_llmSettings.UseVisualStyleBackColor = true;
+            this.BUT_llmSettings.Click += new System.EventHandler(this.BUT_llmSettings_Click);
+            // 
+            // BUT_translateSelected
+            // 
+            resources.ApplyResources(this.BUT_translateSelected, "BUT_translateSelected");
+            this.BUT_translateSelected.Name = "BUT_translateSelected";
+            this.BUT_translateSelected.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_translateSelected.UseVisualStyleBackColor = true;
+            this.BUT_translateSelected.Click += new System.EventHandler(this.BUT_translateSelected_Click);
+            // 
+            // BUT_translateAll
+            // 
+            resources.ApplyResources(this.BUT_translateAll, "BUT_translateAll");
+            this.BUT_translateAll.Name = "BUT_translateAll";
+            this.BUT_translateAll.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_translateAll.UseVisualStyleBackColor = true;
+            this.BUT_translateAll.Click += new System.EventHandler(this.BUT_translateAll_Click);
+            // 
+            // BUT_stopTranslate
+            // 
+            resources.ApplyResources(this.BUT_stopTranslate, "BUT_stopTranslate");
+            this.BUT_stopTranslate.Name = "BUT_stopTranslate";
+            this.BUT_stopTranslate.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_stopTranslate.UseVisualStyleBackColor = true;
+            this.BUT_stopTranslate.Click += new System.EventHandler(this.BUT_stopTranslate_Click);
+            // 
             // splitContainer1
             // 
             resources.ApplyResources(this.splitContainer1, "splitContainer1");
@@ -209,18 +245,50 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.treeView1.Name = "treeView1";
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
+            // but_collapse
+            // 
+            resources.ApplyResources(this.but_collapse, "but_collapse");
+            this.but_collapse.Name = "but_collapse";
+            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_collapse.UseVisualStyleBackColor = true;
+            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
+            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_llmSettings, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_translateSelected, 0, 18);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_translateAll, 0, 19);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_stopTranslate, 0, 20);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
             // Params
             // 
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.Params.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Command,
             this.Value,
@@ -229,24 +297,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Options,
             this.Desc,
             this.Fav});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.DefaultCellStyle = dataGridViewCellStyle7;
             resources.ApplyResources(this.Params, "Params");
             this.Params.Name = "Params";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.Params.RowHeadersVisible = false;
             this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.Params.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.Params_CellBeginEdit);
@@ -294,8 +362,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Desc
             // 
             this.Desc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.Desc.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.Desc.DefaultCellStyle = dataGridViewCellStyle6;
             this.Desc.FillWeight = 25F;
             resources.ApplyResources(this.Desc, "Desc");
             this.Desc.Name = "Desc";
@@ -309,34 +377,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Fav.Name = "Fav";
             this.Fav.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
-            // but_collapse
-            // 
-            resources.ApplyResources(this.but_collapse, "but_collapse");
-            this.but_collapse.Name = "but_collapse";
-            this.but_collapse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.but_collapse.UseVisualStyleBackColor = true;
-            this.but_collapse.Click += new System.EventHandler(this.but_collapse_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 11);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_refreshTable, 0, 16);
-            this.tableLayoutPanel1.Controls.Add(this.chk_none_default, 0, 14);
-            this.tableLayoutPanel1.Controls.Add(this.txt_search, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_load, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_save, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_rerequestparams, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_commitToFlash, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_writePIDS, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_reset_params, 0, 10);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_compare, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_paramfileload, 0, 9);
-            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.CMB_paramfiles, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.chk_modified, 0, 13);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
             // ConfigRawParams
             // 
             this.Controls.Add(this.splitContainer1);
@@ -347,9 +387,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -373,6 +413,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.CheckBox chk_modified;
         private MyButton BUT_refreshTable;
         private System.Windows.Forms.CheckBox chk_none_default;
+        private MyButton BUT_llmSettings;
+        private MyButton BUT_translateSelected;
+        private MyButton BUT_translateAll;
+        private MyButton BUT_stopTranslate;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TreeView treeView1;
