@@ -136,13 +136,13 @@
     <value />
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>保存</value>
+    <value>保存到文件</value>
   </data>
   <data name="BUT_save.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>加载</value>
+    <value>从文件加载</value>
   </data>
   <data name="BUT_load.ToolTip" xml:space="preserve">
     <value />
@@ -170,8 +170,7 @@
     <value>125, 24</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>所有单位都会以原始
-格式储存，不会被缩放</value>
+    <value>所有单位均以原始格式存储，未进行缩放。</value>
   </data>
   <data name="label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleLeft</value>
@@ -208,5 +207,17 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data><data name="Fav.HeaderText" xml:space="preserve">
+    <value>收藏</value>
+  </data><data name="Default.HeaderText" xml:space="preserve">
+    <value>默认</value>
+  </data><data name="Max.HeaderText" xml:space="preserve">
+    <value>最大值</value>
+  </data><data name="Min.HeaderText" xml:space="preserve">
+    <value>最小</value>
+  </data><data name="chk_modified.Text" xml:space="preserve">
+    <value>修改</value>
+  </data><data name="BUT_commitToFlash.Text" xml:space="preserve">
+    <value>提交参数</value>
   </data>
 </root>

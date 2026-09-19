@@ -124,13 +124,13 @@
     <value>转向距离</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>阻尼</value>
+    <value>横向加速度控制阻尼</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>I</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>转向速度</value>
+    <value>转弯半径</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>INT_MAX</value>
@@ -148,25 +148,25 @@
     <value>转向角度</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>触发器 cm</value>
+    <value>触发距离（厘米）</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>转向时间</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>最大</value>
+    <value>最大油门（%）</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>最小</value>
+    <value>最小推力 (%)</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Rover</value>
+    <value>导航</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>防抖</value>
+    <value>声呐防抖</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>方向舵 至 舵机</value>
+    <value>转向速率</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>FS 值</value>
@@ -175,10 +175,10 @@
     <value>L1 控制 - 转向控制</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>油门 0-100%</value>
+    <value>油门与电机</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>巡航</value>
+    <value>巡航油门</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>声呐</value>
@@ -187,7 +187,7 @@
     <value>航点半径</value>
   </data>
   <data name="groupBox14.Text" xml:space="preserve">
-    <value>速度 至 油门</value>
+    <value>速度/油门</value>
   </data>
   <data name="label74.Text" xml:space="preserve">
     <value>D</value>
@@ -209,5 +209,23 @@
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>刷新参数</value>
+  </data><data name="label22.Text" xml:space="preserve">
+    <value>电机类型</value>
+  </data><data name="label23.Text" xml:space="preserve">
+    <value>制动</value>
+  </data><data name="label20.Text" xml:space="preserve">
+    <value>最大加速度 (m/s/s)</value>
+  </data><data name="label19.Text" xml:space="preserve">
+    <value>航点超调</value>
+  </data><data name="label24.Text" xml:space="preserve">
+    <value>前馈</value>
+  </data><data name="label21.Text" xml:space="preserve">
+    <value>RC7 选项</value>
+  </data><data name="label25.Text" xml:space="preserve">
+    <value>RC8 选项</value>
+  </data><data name="label26.Text" xml:space="preserve">
+    <value>RC9 选项</value>
+  </data><data name="label27.Text" xml:space="preserve">
+    <value>RC10 选项</value>
   </data>
 </root>

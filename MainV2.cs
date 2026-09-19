@@ -4220,7 +4220,7 @@ namespace MissionPlanner
             {
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Settings.Instance["language"] = ci.Name;
-                //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+                MissionPlanner.Controls.HUDT.Culture = ci;
 
                 HashSet<Control> views = new HashSet<Control> {this, FlightData, FlightPlanner, Simulation};
 

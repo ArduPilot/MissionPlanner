@@ -29,6 +29,7 @@ namespace MissionPlanner.Controls.PreFlight
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckListEditor));
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.BUT_Add = new MissionPlanner.Controls.MyButton();
@@ -61,7 +62,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 16);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Field";
+            this.label4.Text = resources.GetString("label4.Text");
             // 
             // BUT_Add
             // 
@@ -80,7 +81,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.BUT_save.Name = "BUT_save";
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 2;
-            this.BUT_save.Text = "Save";
+            this.BUT_save.Text = resources.GetString("BUT_save.Text");
             this.BUT_save.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
@@ -92,7 +93,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Field";
+            this.label1.Text = resources.GetString("label1.Text");
             // 
             // label2
             // 
@@ -101,7 +102,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 16);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Comparison";
+            this.label2.Text = resources.GetString("label2.Text");
             // 
             // label3
             // 
@@ -110,7 +111,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 16);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Trigger";
+            this.label3.Text = resources.GetString("label3.Text");
             // 
             // label5
             // 
@@ -119,7 +120,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Color True";
+            this.label5.Text = resources.GetString("label5.Text");
             // 
             // label6
             // 
@@ -128,7 +129,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(116, 16);
             this.label6.TabIndex = 7;
-            this.label6.Text = "Desciption / Value";
+            this.label6.Text = resources.GetString("label6.Text");
             // 
             // label7
             // 
@@ -137,7 +138,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(76, 16);
             this.label7.TabIndex = 8;
-            this.label7.Text = "Color False";
+            this.label7.Text = resources.GetString("label7.Text");
             // 
             // CheckListEditor
             // 
@@ -152,7 +153,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.Controls.Add(this.BUT_Add);
             this.Controls.Add(this.panel1);
             this.Name = "CheckListEditor";
-            this.Text = "PreFlight CheckListEditor";
+            this.Text = resources.GetString("$this.Text");
             this.Load += new System.EventHandler(this.CheckListEditor_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

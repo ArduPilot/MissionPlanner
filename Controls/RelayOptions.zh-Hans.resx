@@ -125,5 +125,9 @@
   </data>
   <data name="BUT_Repeat.Text" xml:space="preserve">
     <value>切换</value>
+  </data><data name="TXT_rcchannel.Text" xml:space="preserve">
+    <value>0</value>
+  </data><data name="renameToolStripMenuItem.Text" xml:space="preserve">
+    <value>重命名</value>
   </data>
 </root>

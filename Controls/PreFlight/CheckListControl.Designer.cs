@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CheckListControl));
             this.BUT_edit = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -41,7 +42,7 @@
             this.BUT_edit.Name = "BUT_edit";
             this.BUT_edit.Size = new System.Drawing.Size(34, 23);
             this.BUT_edit.TabIndex = 0;
-            this.BUT_edit.Text = "Edit";
+            this.BUT_edit.Text = resources.GetString("BUT_edit.Text");
             this.BUT_edit.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_edit.UseVisualStyleBackColor = true;
             this.BUT_edit.Click += new System.EventHandler(this.BUT_edit_Click);

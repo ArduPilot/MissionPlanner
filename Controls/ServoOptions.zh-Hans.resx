@@ -125,5 +125,15 @@
   </data>
   <data name="BUT_Repeat.Text" xml:space="preserve">
     <value>切换</value>
+  </data><data name="but_mid.Text" xml:space="preserve">
+    <value>中</value>
+  </data><data name="TXT_rcchannel.Text" xml:space="preserve">
+    <value>5</value>
+  </data><data name="TXT_pwm_high.Text" xml:space="preserve">
+    <value>1900</value>
+  </data><data name="TXT_pwm_low.Text" xml:space="preserve">
+    <value>1100</value>
+  </data><data name="renameToolStripMenuItem.Text" xml:space="preserve">
+    <value>重命名</value>
   </data>
 </root>

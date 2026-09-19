@@ -147,6 +147,6 @@
     <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>进程</value>
+    <value>进度</value>
   </data>
 </root>

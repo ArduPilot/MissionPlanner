@@ -128,12 +128,24 @@
     <value>48, 18</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>电压: </value>
+    <value>电压：</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 18</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>距离: </value>
+    <value>距离：</value>
+  </data><data name="CMB_sonartype.Items" xml:space="preserve">
+    <value>XL-EZ0 / XL-EZ4</value>
+  </data><data name="CMB_sonartype.Items1" xml:space="preserve">
+    <value>LV-EZ0</value>
+  </data><data name="CMB_sonartype.Items2" xml:space="preserve">
+    <value>XL-EZL0</value>
+  </data><data name="CMB_sonartype.Items3" xml:space="preserve">
+    <value>HRLV</value>
+  </data><data name="LBL_volt.Text" xml:space="preserve">
+    <value>0.0</value>
+  </data><data name="LBL_dist.Text" xml:space="preserve">
+    <value>0.0</value>
   </data>
 </root>
