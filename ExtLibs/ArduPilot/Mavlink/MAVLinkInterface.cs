@@ -2689,8 +2689,32 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
+            return await doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommand, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// The commands which never wait for an ack, such as PREFLIGHT_CALIBRATION,
+        /// PREFLIGHT_REBOOT_SHUTDOWN and GET_HOME_POSITION, also return ACCEPTED without
+        /// the vehicle having confirmed anything.
+        /// </summary>
+        public MAV_RESULT doCommandResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
+            return doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)
+                .AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2712,127 +2736,131 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
                 p7);
 
-            if (requireack)
-                giveComport = true;
+            // set where this call takes the port, so a fire-and-forget command does not
+            // release a hold taken elsewhere.  A hold an outer caller took before calling
+            // in is still cleared on the ack path, as it was before.
+            bool heldComport = false;
 
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-
-            if (!requireack)
+            try
             {
-                giveComport = false;
-                return true;
-            }
-
-            DateTime GUI = DateTime.Now;
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            int timeout = 2000;
-
-            // imu calib take a little while
-            if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p5 == 1)
-            {
-                // this is for advanced accel offsets, and blocks execution
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
-            {
-                // compassmot
-                // send again just incase
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
-            {
-                retrys = 1;
-                timeout = 25000;
-            }
-            else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
-            {
-                retrys = 1;
-                timeout = 25000;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
-            {
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
-            {
-                // 10 seconds as may need an imu calib
-                timeout = 10000;
-            }
-            else if (actionid == MAV_CMD.GET_HOME_POSITION)
-            {
-                giveComport = false;
-                return true;
-            }
-
-            while (true)
-            {
-                if (DateTime.Now > GUI.AddMilliseconds(100))
+                if (requireack)
                 {
-                    GUI = DateTime.Now;
-
-                    uicallback?.Invoke();
+                    giveComport = true;
+                    heldComport = true;
                 }
 
-                if (!(start.AddMilliseconds(timeout) > DateTime.Now))
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+
+                if (!requireack)
                 {
-                    if (retrys > 0)
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                DateTime GUI = DateTime.Now;
+
+                DateTime start = DateTime.Now;
+                int retrys = 3;
+
+                int timeout = 2000;
+
+                // imu calib take a little while
+                if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p5 == 1)
+                {
+                    // this is for advanced accel offsets, and blocks execution
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
+                {
+                    // compassmot
+                    // send again just incase
+                    generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
+                {
+                    retrys = 1;
+                    timeout = 25000;
+                }
+                else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
+                {
+                    retrys = 1;
+                    timeout = 25000;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
+                {
+                    generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
+                {
+                    // 10 seconds as may need an imu calib
+                    timeout = 10000;
+                }
+                else if (actionid == MAV_CMD.GET_HOME_POSITION)
+                {
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                while (true)
+                {
+                    if (DateTime.Now > GUI.AddMilliseconds(100))
                     {
-                        log.Info("doCommand Retry " + retrys);
-                        req.confirmation++;
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        GUI = DateTime.Now;
+
+                        uicallback?.Invoke();
                     }
 
-                    giveComport = false;
-                    throw new TimeoutException("Timeout on read - doCommand");
-                }
-
-                buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
-                {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
-                        buffer.compid == req.target_component)
+                    if (!(start.AddMilliseconds(timeout) > DateTime.Now))
                     {
-                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
-
-                        if (ack.command != req.command)
+                        if (retrys > 0)
                         {
-                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
-                                (MAV_RESULT) ack.result);
-                            continue;
-                        }
-
-                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
-
-
-                        if (ack.result == (byte)MAV_RESULT.IN_PROGRESS)
-                        {
+                            log.Info("doCommand Retry " + retrys);
+                            req.confirmation++;
+                            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                             start = DateTime.Now;
-                            retrys = 0;
+                            retrys--;
                             continue;
-                        } 
-                        else if (ack.result == (byte) MAV_RESULT.ACCEPTED)
-                        {
-                            giveComport = false;
-                            return true;
                         }
-                        else
+
+                        throw new TimeoutException("Timeout on read - doCommand");
+                    }
+
+                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (buffer.Length > 5)
+                    {
+                        if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
+                            buffer.compid == req.target_component)
                         {
-                            giveComport = false;
-                            return false;
+                            var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                            if (ack.command != req.command)
+                            {
+                                log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
+                                    (MAV_RESULT) ack.result);
+                                continue;
+                            }
+
+                            log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
+
+
+                            if (ack.result == (byte)MAV_RESULT.IN_PROGRESS)
+                            {
+                                start = DateTime.Now;
+                                retrys = 0;
+                                continue;
+                            } 
+
+                            return (MAV_RESULT) ack.result;
                         }
                     }
                 }
+            }
+            finally
+            {
+                // also on an exception out of the send or the packet read, so
+                // the port is never left held
+                if (heldComport)
+                    giveComport = false;
             }
         }
 
@@ -2849,8 +2877,32 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
             MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
+            return await doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback, frame).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommandInt, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// The command is resent up to retries times, timeoutms apart, before a TimeoutException.
+        /// </summary>
+        public MAV_RESULT doCommandIntResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
+            return doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback,
+                frame, retries, timeoutms).AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandIntResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2,
+            float p3, float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2877,79 +2929,93 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 p5, p6,
                 p7);
 
-            if (requireack)
-                giveComport = true;
+            // set where this call takes the port, so a fire-and-forget command does not
+            // release a hold taken elsewhere.  A hold an outer caller took before calling
+            // in is still cleared on the ack path, as it was before.
+            bool heldComport = false;
 
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
-
-            if (!requireack)
+            try
             {
-                giveComport = false;
-                return true;
-            }
-
-            DateTime GUI = DateTime.Now;
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            int timeout = 2000;
-
-            while (true)
-            {
-                if (DateTime.Now > GUI.AddMilliseconds(100))
+                if (requireack)
                 {
-                    GUI = DateTime.Now;
-
-                    uicallback?.Invoke();
+                    giveComport = true;
+                    heldComport = true;
                 }
 
-                if (!(start.AddMilliseconds(timeout) > DateTime.Now))
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
+
+                if (!requireack)
                 {
-                    if (retrys > 0)
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                DateTime GUI = DateTime.Now;
+
+                DateTime start = DateTime.Now;
+                int retrys = retries;
+
+                int timeout = timeoutms;
+
+                while (true)
+                {
+                    if (DateTime.Now > GUI.AddMilliseconds(100))
                     {
-                        log.Info("doCommandIntAsync Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        GUI = DateTime.Now;
+
+                        uicallback?.Invoke();
                     }
 
-                    giveComport = false;
-                    throw new TimeoutException("Timeout on read - doCommand");
-                }
-
-                buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
-                {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
-                        buffer.compid == req.target_component)
+                    if (!(start.AddMilliseconds(timeout) > DateTime.Now))
                     {
-                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
-
-                        if (ack.command != req.command)
+                        if (retrys > 0)
                         {
-                            log.InfoFormat("doCommandIntAsync cmd resp {0} - {1} - Commands dont match",
-                                (MAV_CMD) ack.command,
-                                (MAV_RESULT) ack.result);
+                            log.Info("doCommandIntAsync Retry " + retrys);
+                            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
+                            start = DateTime.Now;
+                            retrys--;
                             continue;
                         }
 
-                        log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD) ack.command,
-                            (MAV_RESULT) ack.result);
+                        throw new TimeoutException("Timeout on read - doCommand");
+                    }
 
-                        if (ack.result == (byte) MAV_RESULT.ACCEPTED)
+                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (buffer.Length > 5)
+                    {
+                        if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
+                            buffer.compid == req.target_component)
                         {
-                            giveComport = false;
-                            return true;
-                        }
-                        else
-                        {
-                            giveComport = false;
-                            return false;
+                            var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                            if (ack.command != req.command)
+                            {
+                                log.InfoFormat("doCommandIntAsync cmd resp {0} - {1} - Commands dont match",
+                                    (MAV_CMD) ack.command,
+                                    (MAV_RESULT) ack.result);
+                                continue;
+                            }
+
+                            log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD) ack.command,
+                                (MAV_RESULT) ack.result);
+
+                            if (ack.result == (byte) MAV_RESULT.IN_PROGRESS)
+                            {
+                                start = DateTime.Now;
+                                retrys = 0;
+                                continue;
+                            }
+
+                            return (MAV_RESULT) ack.result;
                         }
                     }
                 }
+            }
+            finally
+            {
+                // also on an exception out of the send or the packet read, so
+                // the port is never left held
+                if (heldComport)
+                    giveComport = false;
             }
         }
 
