@@ -239,6 +239,7 @@ namespace MissionPlanner.GCSViews
         };
 
         private bool transponderNeverConnected = true;
+        private bool linuxActionLayoutConfigured;
 
         public FlightData()
         {
@@ -2732,6 +2733,9 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["CHK_autopan"] != null)
                 CHK_autopan.Checked = Settings.Instance.GetBoolean("CHK_autopan");
 
+            if (MainV2.MONO && Settings.isUnix)
+                ConfigureLinuxActionLayout();
+
             if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
                 SwapHud1AndMap();
 
@@ -3298,6 +3302,107 @@ namespace MissionPlanner.GCSViews
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
+        }
+
+        private void ConfigureLinuxActionLayout()
+        {
+            if (linuxActionLayoutConfigured)
+                return;
+            linuxActionLayoutConfigured = true;
+
+            // Mono keeps the 300-pixel designer splitter and does not grow the
+            // action table to fit its children. Measure the controls before
+            // choosing a default HUD width, and allow scrolling in narrow panes.
+            var columnWidths = new int[tableLayoutPanel1.ColumnCount];
+            int rowHeight = 0;
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Size preferred;
+                var modify = control as ModifyandSet;
+                var combo = control as ComboBox;
+                if (modify != null)
+                {
+                    var number = modify.NumericUpDown;
+                    string format = "F" + number.DecimalPlaces;
+                    number.Width = Math.Max(
+                        TextRenderer.MeasureText(number.Minimum.ToString(format), number.Font).Width,
+                        TextRenderer.MeasureText(number.Maximum.ToString(format), number.Font).Width) +
+                        SystemInformation.VerticalScrollBarWidth + 6;
+                    var buttonSize = modify.Button.GetPreferredSize(Size.Empty);
+                    preferred = new Size(number.Width + buttonSize.Width,
+                        Math.Max(number.Height, buttonSize.Height));
+                    modify.Margin = BUTactiondo.Margin;
+                    // Keep the number and its button on the same row.
+                    modify.AutoSize = false;
+                    modify.MinimumSize = preferred;
+                }
+                else if (combo != null)
+                {
+                    preferred = new Size(Math.Max(combo.Width,
+                        TextRenderer.MeasureText(combo.Text, combo.Font).Width +
+                        SystemInformation.VerticalScrollBarWidth + 6), combo.PreferredHeight);
+                    combo.DropDown += ActionComboDropDown;
+                }
+                else
+                {
+                    preferred = TextRenderer.MeasureText(control.Text, control.Font,
+                        Size.Empty, TextFormatFlags.SingleLine);
+                    preferred += new Size(12, 12);
+                }
+
+                int column = tableLayoutPanel1.GetColumn(control);
+                columnWidths[column] = Math.Max(columnWidths[column], preferred.Width + control.Margin.Horizontal);
+                rowHeight = Math.Max(rowHeight, preferred.Height + control.Margin.Vertical);
+            }
+
+            int tableWidth = columnWidths.Sum();
+            for (int column = 0; column < columnWidths.Length; column++)
+            {
+                tableLayoutPanel1.ColumnStyles[column].SizeType = SizeType.Percent;
+                tableLayoutPanel1.ColumnStyles[column].Width = 100f * columnWidths[column] / tableWidth;
+            }
+            foreach (RowStyle row in tableLayoutPanel1.RowStyles)
+            {
+                row.SizeType = SizeType.Absolute;
+                row.Height = rowHeight;
+            }
+
+            tableLayoutPanel1.MinimumSize = new Size(tableWidth, rowHeight * tableLayoutPanel1.RowCount);
+            tableLayoutPanel1.Height = tableLayoutPanel1.MinimumSize.Height;
+            // Right anchoring prevents WinForms AutoScroll from exposing clipped controls.
+            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            tabActions.AutoScroll = true;
+            tabActions.Resize += (sender, e) => ResizeLinuxActionTable();
+            ResizeLinuxActionTable();
+
+            if (!Settings.Instance.ContainsKey("FlightSplitter"))
+            {
+                int borders = MainH.SplitterDistance - tabActions.ClientSize.Width;
+                int actionHeight = tableLayoutPanel1.Height + tabControlactions.Height -
+                    tabActions.ClientSize.Height + SystemInformation.HorizontalScrollBarHeight;
+                int hudHeight = Math.Max(0, SubMainLeft.Height - actionHeight - SubMainLeft.SplitterWidth - 2);
+                int widthForHeight = (int)(hudHeight * (hud1.SixteenXNine ? 16f / 9f : 4f / 3f)) +
+                    MainH.SplitterDistance - hud1.Width;
+                int maximumWidth = Math.Max(MainH.Panel1MinSize,
+                    Math.Min((MainH.Width - MainH.SplitterWidth) * 2 / 3, widthForHeight));
+                MainH.SplitterDistance = Math.Min(tableWidth + borders, maximumWidth);
+            }
+        }
+
+        private void ResizeLinuxActionTable()
+        {
+            tableLayoutPanel1.Width = Math.Max(tableLayoutPanel1.MinimumSize.Width,
+                tabActions.ClientSize.Width - tabActions.Padding.Horizontal);
+        }
+
+        private void ActionComboDropDown(object sender, EventArgs e)
+        {
+            var combo = (ComboBox)sender;
+            int width = combo.Width;
+            foreach (var item in combo.Items)
+                width = Math.Max(width, TextRenderer.MeasureText(combo.GetItemText(item), combo.Font).Width +
+                    SystemInformation.VerticalScrollBarWidth + 6);
+            combo.DropDownWidth = width;
         }
 
         private void hud1_Resize(object sender, EventArgs e)
