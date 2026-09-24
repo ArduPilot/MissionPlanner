@@ -47,6 +47,11 @@ cp -- ExtLibs/System.Speech.dll "$app_dir/"
 sed -i '/<dllmap dll="libdl.so"/d; /<\/configSections>/a\  <dllmap dll="libdl.so" target="libdl.so.2" os="linux" />' \
     "$app_dir/MissionPlanner.exe.config"
 
+# Source-location logging walks runtime metadata while holding the log4net
+# appender lock. Mono can deadlock against concurrent assembly-load logging.
+# Linux packages omit debug symbols, so keep the logger/thread but skip locations.
+sed -i 's/ (%file:%line)//g' "$app_dir/MissionPlanner.exe.config"
+
 # Include a diagnostic that can validate the runtime without a compiler.
 mcs -out:"$app_dir/LinuxSmokeTest.exe" \
     -r:System.Windows.Forms -r:System.Drawing -r:"$app_dir/SkiaSharp.dll" \
