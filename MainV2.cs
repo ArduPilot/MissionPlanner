@@ -1224,6 +1224,9 @@ namespace MissionPlanner
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
                     plane.Source = sender;
+                    plane.Category = adsb.Category;
+                    plane.Type = adsb.Type;
+                    plane.IsOnGround = adsb.IsOnGround;
                     instance.adsbPlanes[id] = plane;
                 }
                 else
@@ -1233,7 +1236,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3100,6 +3103,7 @@ namespace MissionPlanner
                 return;
             adsbThread = true;
             ADSBThreadRunner.Reset();
+            DateTime lastSpeech = DateTime.Now;
             while (adsbThread)
             {
                 await Task.Delay(1000).ConfigureAwait(false); // run every 1000 ms
@@ -3112,17 +3116,48 @@ namespace MissionPlanner
 
                 }
                 PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
-                // Get only close planes, sorted by distance
+
+                // Our velocity in the NE frame, for projecting the point of closest approach
+                double ourCourse = comPort.MAV.cs.groundcourse * MathHelper.deg2rad;
+                double ourVelocityNorth = comPort.MAV.cs.groundspeed * Math.Cos(ourCourse);
+                double ourVelocityEast = comPort.MAV.cs.groundspeed * Math.Sin(ourCourse);
+                double ourVerticalSpeed = comPort.MAV.cs.verticalspeed;
+
+                // Threat thresholds; the equivalents of ArduPilot's AVD_W_* and AVD_F_* parameters
+                var warnThresholds = new adsb.ThreatThresholds
+                {
+                    TimeHorizon = Settings.Instance.GetDouble("adsb_warn_time", 30),
+                    DistanceXY = Settings.Instance.GetDouble("adsb_warn_dist_xy", 1000),
+                    DistanceZ = Settings.Instance.GetDouble("adsb_warn_dist_z", 300)
+                };
+                var criticalThresholds = new adsb.ThreatThresholds
+                {
+                    TimeHorizon = Settings.Instance.GetDouble("adsb_crit_time", 30),
+                    DistanceXY = Settings.Instance.GetDouble("adsb_crit_dist_xy", 300),
+                    DistanceZ = Settings.Instance.GetDouble("adsb_crit_dist_z", 100)
+                };
+
+                // Classify every aircraft by its closest point of approach, then prioritize by
+                // threat level and by how soon that closest approach happens, so the most
+                // pressing threats are the ones forwarded to the autopilot and called out
                 var relevantPlanes = MainV2.instance.adsbPlanes
-                    .Select(v => new { v, Distance = v.Value.GetDistance(ourLocation) })
-                    .Where(v => v.Distance <= 10000)
-                    .Where(v => !(v.v.Value.Source is MAVLinkInterface))
-                    .OrderBy(v => v.Distance)
-                    .Select(v => v.v.Value)
+                    .Select(v => v.Value)
+                    .Where(v => !(v.Source is MAVLinkInterface))
+                    .Select(v => new
+                    {
+                        Plane = v,
+                        Threat = adsb.AssessThreat(ourLocation, ourVelocityNorth, ourVelocityEast,
+                            ourVerticalSpeed, v, warnThresholds, criticalThresholds),
+                        Distance = v.GetDistance(ourLocation)
+                    })
+                    .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                    .OrderByDescending(v => v.Threat.Level)
+                    .ThenBy(v => v.Threat.TimeToClosestApproach)
+                    .ThenBy(v => v.Distance)
                     .Take(10)
                     .ToList();
                 adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
-                var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex);
+                var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex)?.Plane;
                 if (currentPlane == null)
                 {
                     continue;
@@ -3132,7 +3167,7 @@ namespace MissionPlanner
                 packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
                 packet.callsign = currentPlane.CallSign.MakeBytes();
                 packet.squawk = currentPlane.Squawk;
-                packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.emitter_type = ((byte)currentPlane.GetEmitterCategory());
                 packet.heading = (ushort)(currentPlane.Heading * 100);
                 packet.lat = (int)(currentPlane.Lat * 1e7);
                 packet.lon = (int)(currentPlane.Lng * 1e7);
@@ -3152,7 +3187,66 @@ namespace MissionPlanner
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                // Speech alert for the most pressing threat
+                var threat = relevantPlanes.FirstOrDefault();
+                if (
+                    lastSpeech.AddSeconds(5) < DateTime.Now &&
+                    threat != null &&
+                    threat.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE
+                )
+                {
+                    if (speechEnable && speechEngine != null)
+                    {
+                        if (Settings.Instance.GetBoolean("speechadsbenabled"))
+                        {
+                            var threatPlane = threat.Plane;
+                            // Bearing to traffic from our plane
+                            int bearingToTraffic = (int)ourLocation.GetBearing(threatPlane);
 
+                            // Heading of our plane
+                            int heading = (int)comPort.MAV.cs.yaw;
+
+                            // Calculate the bearing to traffic relative to our heading
+                            bearingToTraffic = (bearingToTraffic - heading + 360) % 360;
+                            int clock = (int)Math.Round(bearingToTraffic / 30.0, MidpointRounding.AwayFromZero);
+                            if (clock == 0)
+                            {
+                                clock = 12;
+                            }
+                            // Log it including callsign
+                            log.InfoFormat("Traffic: {0} {1}; {2} {3}",
+                                bearingToTraffic,
+                                threatPlane.Alt > ourLocation.Alt ? "high" : "low",
+                                threatPlane.CallSign,
+                                threatPlane.Tag
+                            );
+                            string verticalDirection = threatPlane.Alt > ourLocation.Alt ? "high" : "low";
+                            string recommendedAction = threatPlane.Alt > ourLocation.Alt ? "descend" : "climb";
+                            string speech;
+                            // Switch message urgency based on threat level
+                            if (threat.Threat.Level == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH)
+                            {
+                                // Peak urgency, start with the recommended action
+                                speech = string.Format("{2} NOW! {2} NOW! Traffic {0} O'Clock {1}",
+                                    clock,
+                                    verticalDirection,
+                                    recommendedAction
+                                );
+                            }
+                            else
+                            {
+                                speech = string.Format("Traffic; {0} O'Clock {1};",
+                                    clock,
+                                    verticalDirection
+                                );
+                            }
+
+                            MainV2.speechEngine.SpeakAsync(speech);
+                            lastSpeech = DateTime.Now;
+                        }
+                    }
+
+                }
             }
 
         }
