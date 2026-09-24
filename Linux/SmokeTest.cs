@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using MissionPlanner.Controls.PreFlight;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using MissionPlanner;
@@ -21,6 +22,22 @@ class LinuxSmokeTest
         Console.Out.Flush();
         Console.Error.Flush();
         Exit(status);
+    }
+
+    private static void CheckChecklistResize()
+    {
+        using (var checklist = new CheckListControl())
+        {
+            // A resize can arrive before the timer has drawn any rows.
+            checklist.Controls_Resize(checklist, EventArgs.Empty);
+            checklist.CheckListItems.Clear();
+            checklist.CheckListItems.Add(new CheckListItem { Description = "Test item", Text = "Test" });
+            checklist.Draw();
+            checklist.Controls_Resize(checklist, EventArgs.Empty);
+            checklist.CheckListItems.Clear();
+            checklist.Draw();
+            checklist.Controls_Resize(checklist, EventArgs.Empty);
+        }
     }
 
     [STAThread]
@@ -51,6 +68,7 @@ class LinuxSmokeTest
                 foreach (var modify in modifiers)
                     if (modify.Button.Top != modify.NumericUpDown.Top || modify.Button.Right > modify.Width)
                         throw new Exception("Clipped action control: " + modify.Name);
+                CheckChecklistResize();
                 // Check the packaged native library and its managed ABI together.
                 using (var bitmap = new SkiaSharp.SKBitmap(8, 8))
                 using (var canvas = new SkiaSharp.SKCanvas(bitmap))
