@@ -1,0 +1,10 @@
+ca-certificates-mono
+fonts-dejavu-core
+libgdiplus
+libmono-system-data-entity4.0-cil
+libmono-system-management4.0-cil
+libmono-system-net-http4.0-cil
+libmono-system-servicemodel4.0a-cil
+libmono-system-web-extensions4.0-cil
+libmono-system-windows-forms4.0-cil
+mono-runtime
