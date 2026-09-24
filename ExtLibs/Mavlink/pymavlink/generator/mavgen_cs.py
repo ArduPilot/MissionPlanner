@@ -115,7 +115,8 @@ public partial class MAVLink
     public const byte MAVLINK_NUM_CHECKSUM_BYTES = 2;
     public const byte MAVLINK_NUM_NON_PAYLOAD_BYTES = (MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES);
 
-    public const int MAVLINK_MAX_PACKET_LEN = (MAVLINK_MAX_PAYLOAD_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN);///< Maximum packet length
+    public const int MAVLINK_MAX_HEADER_BYTES = MAVLINK_NUM_HEADER_BYTES + 7;
+    public const int MAVLINK_MAX_PACKET_LEN = (MAVLINK_MAX_PAYLOAD_LEN + MAVLINK_MAX_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN);///< Maximum packet length
     public const byte MAVLINK_SIGNATURE_BLOCK_LEN = 13;
 
     public const int MAVLINK_LITTLE_ENDIAN = 1;
@@ -364,8 +365,8 @@ def copy_fixed_headers(directory, xml):
     '''copy the fixed protocol headers to the target directory'''
     import shutil, filecmp
     hlist = {
-        "1.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ],
-        "2.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ]
+        "1.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkHeader.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ],
+        "2.0": [ 'MavlinkCRC.cs', 'MAVLinkMessage.cs', 'MavlinkParse.cs', 'MavlinkHeader.cs', 'MavlinkUtil.cs', 'MAVLink.csproj' ]
         }
     basepath = os.path.dirname(os.path.realpath(__file__))
     srcpath = os.path.join(basepath, 'CS')

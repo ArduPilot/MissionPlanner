@@ -1055,7 +1055,7 @@ namespace MissionPlanner.GCSViews
                     sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
                         .TrimEnd('\0'));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                 bool ans = MainV2.comPort.doARM(!isitarmed);
                 MainV2.comPort.UnSubscribeToPacketType(sub);
                 if (ans == false)
@@ -1397,13 +1397,13 @@ namespace MissionPlanner.GCSViews
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("MNT_MODE"))
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "MNT_MODE", (int) CMB_mountmode.SelectedValue);
                 }
                 else
                 {
                     // copter 3.3 acks with an error, but is ok
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, 0, 0, 0,
                         (int) CMB_mountmode.SelectedValue);
                 }
@@ -1588,7 +1588,7 @@ namespace MissionPlanner.GCSViews
                             timeout = 0;
                             while (MainV2.comPort.MAV.cs.alt < (lastwpdata.alt - 2))
                             {
-                                if(!MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                                if(!MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent,
                                     (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0,
                                     lastwpdata.alt)) {
                                         CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
@@ -1828,26 +1828,26 @@ namespace MissionPlanner.GCSViews
                     }
                     if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
-                        var target_system = (byte)MainV2.comPort.sysidcurrent;
+                        var target_system = MainV2.comPort.sysidcurrent;
                         if (target_system == 0) {
                             log.Info("Not toggling safety on sysid 0");
                             return;
                         }
                         var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
-                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
+                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)(target_system )};
                         MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
                         ((Control)sender).Enabled = true;
                         return;
                     }
                     if (CMB_action.Text == actions.Engine_Start.ToString())
                     {
-                        MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+                        MainV2.comPort.doEngineControl(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
                         ((Control)sender).Enabled = true;
                         return;
                     }
                     if (CMB_action.Text == actions.Engine_Stop.ToString())
                     {
-                        MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
+                        MainV2.comPort.doEngineControl(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
                         ((Control)sender).Enabled = true;
                         return;
                     }
@@ -4602,7 +4602,7 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
                     (int) (lng * 1e7),  ((alt / CurrentState.multiplieralt) ));
             }
@@ -4612,7 +4612,7 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = (float)srtm.getAltitude(lat, lng).alt;
 
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
                     (int) (lng * 1e7),  ((alt)));
             }
@@ -4649,7 +4649,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (MouseDownStart.Lat * 1e7),
                     (int) (MouseDownStart.Lng * 1e7),  ((intalt / CurrentState.multiplieralt)),
                     frame: MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
@@ -4918,7 +4918,7 @@ namespace MissionPlanner.GCSViews
                 latitude = (int) (MouseDownStart.Lat * 1e7),
                 longitude = (int) (MouseDownStart.Lng * 1e7),
                 altitude = (int) alt.alt * 1000, // in mm
-                target_system = MainV2.comPort.MAV.sysid
+                target_system = (byte)(MainV2.comPort.MAV.sysid)
             };
 
             MainV2.comPort.sendPacket(go, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
@@ -4982,13 +4982,13 @@ namespace MissionPlanner.GCSViews
                             "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
-                        MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent,
                             MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (int)(MouseDownStart.Lat * 1e7),
                             (int)(MouseDownStart.Lng * 1e7), (float)(alt.alt));
                     }
 
-                    await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                    await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                         (byte) MainV2.comPort.compidcurrent);
                 }
                 catch
@@ -5418,7 +5418,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
                 }
                 catch

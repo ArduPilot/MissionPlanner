@@ -624,7 +624,7 @@ namespace MissionPlanner
 
                     Thread.Sleep(300);
 
-                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
                 }
             }
             catch (Exception ex)
@@ -676,7 +676,7 @@ namespace MissionPlanner
             {
                 var newQNH = double.Parse(currentQNH);
 
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     paramname, newQNH);
             }
         }
@@ -750,7 +750,7 @@ namespace MissionPlanner
 
             test.Show();
 
-            var flow = new OpticalFlow(MainV2.comPort, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            var flow = new OpticalFlow(MainV2.comPort, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             // disable on close form
             test.Closed += (o, args) =>
@@ -881,7 +881,7 @@ namespace MissionPlanner
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    var mavftp = new MAVFtp(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
+                    var mavftp = new MAVFtp(MainV2.comPort, MainV2.comPort.sysidcurrent,
                         (byte) MainV2.comPort.compidcurrent);
                     var st = mavftp.GetFile(path, new CancellationTokenSource(5000), true);
                     var output = Path.Combine(Settings.GetUserDataDirectory(), Path.GetFileName(path));
@@ -975,7 +975,7 @@ namespace MissionPlanner
                     "BL Update", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == (int) DialogResult.Yes)
                     try
                     {
-                        if (MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                        if (MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.FLASH_BOOTLOADER, 0, 0, 0, 0, 290876,
                             0, 0))
                         {
@@ -1048,7 +1048,7 @@ namespace MissionPlanner
                     rateratio = 1.0f / (float) rate * 1000000.0f;
                 try
                 {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value, rateratio
                         , 0, 0, 0, 0, 0);
                 }
@@ -1073,7 +1073,7 @@ namespace MissionPlanner
                    var value = Enum.Parse(typeof(MAVLink.MAVLINK_MSG_ID), a.ToString());
                    try
                    {
-                       MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                       MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                            MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) (int) value,
                            rateratio, 0, 0, 0, 0, 0, false);
                    }
@@ -1106,13 +1106,13 @@ namespace MissionPlanner
         {
             if (CustomMessageBox.Show("Are you sure?", "", MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
             {   
-                var target_system = (byte)MainV2.comPort.sysidcurrent;
+                var target_system = MainV2.comPort.sysidcurrent;
                 if (target_system == 0) {
                     log.Info("Not toggling safety on sysid 0");
                     return;
                 }
                 var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
-                var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
+                var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)(target_system )};
                 MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
             }
         }
@@ -1181,7 +1181,7 @@ namespace MissionPlanner
             mavlinkNumericUpDown.Padding = new Padding(20);
             mavlinkNumericUpDown.ValueChanged += (o, args) =>
                 {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname, (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, paramname, (float)(double.Parse(currentQNH) + (double)mavlinkNumericUpDown.Value * 11.1));
                 };
 
             mavlinkNumericUpDown.ShowUserControl();
@@ -1260,7 +1260,7 @@ namespace MissionPlanner
 
         private void but_remotedflogger_Click(object sender, EventArgs e)
         {
-            RemoteLog.StartRemoteLog(MainV2.comPort, (byte) MainV2.comPort.sysidcurrent,
+            RemoteLog.StartRemoteLog(MainV2.comPort, MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
         }
 
@@ -1396,7 +1396,7 @@ namespace MissionPlanner
 
         private void but_dfumode_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doDFUBoot((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent);
+            MainV2.comPort.doDFUBoot(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent);
         }
 
         // Perform a force calibration for accelerometers when restoring parameters to a board after a param wipe,
@@ -1406,7 +1406,7 @@ namespace MissionPlanner
             // Send MAV_CMD_PREFLIGHT_CALIBRATION with param5=76 (magic number)
             try
             {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 76, 0, 0, true);
             }
             catch (Exception ex)
@@ -1422,7 +1422,7 @@ namespace MissionPlanner
             // Send MAV_CMD_PREFLIGHT_CALIBRATION with param2=76 (magic number)
             try
             {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 76, 0, 0, 0, 0, 0, true);
             }
             catch (Exception ex)

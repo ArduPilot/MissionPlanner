@@ -7,9 +7,9 @@ namespace MissionPlanner.Mavlink
 {
     public class MAVList : IEnumerable<MAVState>, IDisposable
     {
-        private Dictionary<int, MAVState> masterlist = new Dictionary<int, MAVState>();
+        private Dictionary<ulong, MAVState> masterlist = new Dictionary<ulong, MAVState>();
 
-        private Dictionary<int, MAVState> hiddenlist = new Dictionary<int, MAVState>();
+        private Dictionary<ulong, MAVState> hiddenlist = new Dictionary<ulong, MAVState>();
 
         public MAVLinkInterface parent;
 
@@ -22,18 +22,18 @@ namespace MissionPlanner.Mavlink
             hiddenlist.Add(0, new MAVState(parent, 0, 0));
         }
 
-        public void AddHiddenList(byte sysid, byte compid)
+        public void AddHiddenList(uint sysid, byte compid)
         {
-            int id = GetID((byte)sysid, (byte)compid);
+            ulong id = GetID(sysid, (byte)compid);
             lock (locker)
                 hiddenlist[id] = new MAVState(parent, sysid, compid);
         }
 
-        public MAVState this[int sysid, int compid]
+        public MAVState this[uint sysid, int compid]
         {
             get
             {
-                int id = GetID((byte)sysid, (byte)compid);
+                ulong id = GetID(sysid, (byte)compid);
 
                 lock (locker)
                 {
@@ -43,7 +43,7 @@ namespace MissionPlanner.Mavlink
 
                     if (!masterlist.ContainsKey(id))
                     {
-                        AddHiddenList((byte) sysid, (byte) compid);
+                        AddHiddenList(sysid, (byte) compid);
                         return hiddenlist[id];
                     }
 
@@ -52,7 +52,7 @@ namespace MissionPlanner.Mavlink
             }
             set
             {
-                int id = GetID((byte)sysid, (byte)compid);
+                ulong id = GetID(sysid, (byte)compid);
                 lock (locker)
                 {
                     masterlist[id] = value;
@@ -65,9 +65,9 @@ namespace MissionPlanner.Mavlink
             get { return masterlist.Count; }
         }
 
-        public List<int> GetRawIDS()
+        public List<ulong> GetRawIDS()
         {
-            return masterlist.Keys.ToList<int>();
+            return masterlist.Keys.ToList<ulong>();
         }
 
         public void Clear()
@@ -75,7 +75,7 @@ namespace MissionPlanner.Mavlink
             masterlist.Clear();
         }
 
-        public bool Contains(byte sysid, byte compid, bool includehidden = true)
+        public bool Contains(uint sysid, byte compid, bool includehidden = true)
         {
             lock (locker)
             {
@@ -98,9 +98,9 @@ namespace MissionPlanner.Mavlink
             return false;
         }
 
-        internal void Create(byte sysid, byte compid)
+        internal void Create(uint sysid, byte compid)
         {
-            int id = GetID((byte)sysid, (byte)compid);
+            ulong id = GetID(sysid, (byte)compid);
 
             lock (locker) 
             { 
@@ -129,14 +129,14 @@ namespace MissionPlanner.Mavlink
             return this.GetEnumerator();
         }
 
-        public static int GetID(byte sysid, byte compid)
+        public static ulong GetID(uint sysid, byte compid)
         {
-           return  sysid*256 + compid;
+           return  ((ulong)sysid << 8) | compid;
         }
 
-        public static (byte sysid, byte compid) FromID(int id)
+        public static (uint sysid, byte compid) FromID(ulong id)
         {
-            return ((byte)(id / 256), (byte)(id & 0xff));
+            return ((uint)(id / 256), (byte)(id & 0xff));
         }
 
         public void Dispose()

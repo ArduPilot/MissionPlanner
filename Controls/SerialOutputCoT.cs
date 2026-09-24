@@ -210,7 +210,7 @@ namespace MissionPlanner.Controls
             catch { }
         }
 
-        private String getXmlString(byte sysid, byte compid)
+        private String getXmlString(uint sysid, byte compid)
         {
             double lat = MainV2.comPort.MAVlist[sysid,compid].cs.lat;
             double lng = MainV2.comPort.MAVlist[sysid, compid].cs.lng;
@@ -245,7 +245,7 @@ namespace MissionPlanner.Controls
             return -1;
         }
 
-        string FindUIDviaSysid(byte sysid) 
+        string FindUIDviaSysid(uint sysid)
         {
             var rcnt = myDataGridView1.Rows.Count;
             for (int x = 0; x < rcnt - 1; x++)

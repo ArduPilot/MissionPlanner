@@ -18,7 +18,7 @@ namespace SimpleExample
         // locking to prevent multiple reads on serial port
         object readlock = new object();
         // our target sysid
-        byte sysid;
+        uint sysid;
         // our target compid
         byte compid;
 
@@ -80,15 +80,15 @@ namespace SimpleExample
                         compid = packet.compid;
 
                         // request streams at 2 hz
-                        var buffer = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
+                        var buffer = mavlink.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
                             new MAVLink.mavlink_request_data_stream_t()
                             {
                                 req_message_rate = 2,
                                 req_stream_id = (byte)MAVLink.MAV_DATA_STREAM.ALL,
                                 start_stop = 1,
                                 target_component = compid,
-                                target_system = sysid
-                            });
+                                target_system = (byte)(sysid)
+                            }, targetSystem: sysid, targetComponent: compid);
 
                         serialPort1.Write(buffer, 0, buffer.Length);
 
@@ -120,7 +120,7 @@ namespace SimpleExample
             }
         }
 
-        T readsomedata<T>(byte sysid,byte compid,int timeout = 2000)
+        T readsomedata<T>(uint sysid,byte compid,int timeout = 2000)
         {
             DateTime deadline = DateTime.Now.AddMilliseconds(timeout);
 
@@ -151,8 +151,8 @@ namespace SimpleExample
         {
             MAVLink.mavlink_command_long_t req = new MAVLink.mavlink_command_long_t();
 
-            req.target_system = 1;
-            req.target_component = 1;
+            req.target_system = (byte)sysid;
+            req.target_component = compid;
 
             req.command = (ushort)MAVLink.MAV_CMD.COMPONENT_ARM_DISARM;
 
@@ -193,13 +193,13 @@ namespace SimpleExample
         {
             MAVLink.mavlink_mission_count_t req = new MAVLink.mavlink_mission_count_t();
 
-            req.target_system = 1;
-            req.target_component = 1;
+            req.target_system = (byte)sysid;
+            req.target_component = compid;
 
             // set wp count
             req.count = 1;
 
-            byte[] packet = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.MISSION_COUNT, req);
+            byte[] packet = mavlink.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.MISSION_COUNT, req, targetSystem: sysid, targetComponent: compid);
             Console.WriteLine("MISSION_COUNT send");
             serialPort1.Write(packet, 0, packet.Length);
 
@@ -208,7 +208,7 @@ namespace SimpleExample
             {
                 MAVLink.mavlink_mission_item_int_t req2 = new MAVLink.mavlink_mission_item_int_t();
 
-                req2.target_system = sysid;
+                req2.target_system = (byte)(sysid);
                 req2.target_component = compid;
 
                 req2.command = (byte)MAVLink.MAV_CMD.WAYPOINT;
@@ -230,7 +230,7 @@ namespace SimpleExample
 
                 req2.seq = 0;
 
-                packet = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT, req2);
+                packet = mavlink.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT, req2, targetSystem: sysid, targetComponent: compid);
                 Console.WriteLine("MISSION_ITEM_INT send");
                 lock (readlock)
                 {
@@ -245,7 +245,7 @@ namespace SimpleExample
 
 
                 MAVLink.mavlink_mission_ack_t req3 = new MAVLink.mavlink_mission_ack_t();
-                req3.target_system = 1;
+                req3.target_system = (byte)(1);
                 req3.target_component = 1;
                 req3.type = 0;
 
