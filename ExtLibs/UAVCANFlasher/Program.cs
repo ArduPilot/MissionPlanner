@@ -45,8 +45,8 @@ namespace UAVCANFlasher
 
             try
             {
-                mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "CAN_SLCAN_TIMOUT");
-                mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "CAN_SLCAN_SERNUM");
+                mav.GetParam(mav.sysidcurrent, (byte) mav.compidcurrent, "CAN_SLCAN_TIMOUT");
+                mav.GetParam(mav.sysidcurrent, (byte) mav.compidcurrent, "CAN_SLCAN_SERNUM");
 
                 mav.setParam("CAN_SLCAN_TIMOUT", 2, true);
 

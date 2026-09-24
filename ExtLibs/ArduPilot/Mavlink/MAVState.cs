@@ -50,7 +50,7 @@ namespace MissionPlanner
         [IgnoreDataMember]
         public MAVLinkInterface parent;
 
-        public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
+        public MAVState(MAVLinkInterface mavLinkInterface, uint sysid, byte compid)
         {
             this.parent = mavLinkInterface;
             this.sysid = sysid;
@@ -133,11 +133,11 @@ namespace MissionPlanner
         /// </summary>
         public CurrentState cs = new CurrentState();
 
-        private byte _sysid = 0;
+        private uint _sysid = 0;
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
-        public byte sysid
+        public uint sysid
         {
             get { return _sysid; }
             set { _sysid = value; }

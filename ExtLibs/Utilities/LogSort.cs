@@ -14,6 +14,16 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        // AP_Int32 parameters are logged as signed values, even when used as unsigned IDs.
+        public static uint ParseSystemId(string value)
+        {
+            long id = long.Parse(value, System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture);
+            if (id < int.MinValue || id > uint.MaxValue)
+                throw new ArgumentOutOfRangeException(nameof(value));
+            return unchecked((uint)id);
+        }
+
         public static void SortLogs(string[] logs, string masterdestdir = "")
         {
             Parallel.ForEach(logs, logfile =>
@@ -64,7 +74,7 @@ namespace MissionPlanner.Log
                     }
                     
                     bool issitl = false;
-                    var sysid = 0;
+                    uint sysid = 0;
                     var compid = 0;
                     var brdsernum = 0;
                     var aptype = MAVLink.MAV_TYPE.GENERIC;
@@ -76,12 +86,12 @@ namespace MissionPlanner.Log
 
                         //PARM, 68613507, SYSID_THISMAV, 1
 
-                        var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "SYSID_THISMAV");
+                        var sysidlist = logBuffer.GetEnumeratorType("PARM").Where(a => (a["Name"] == "SYSID_THISMAV" || a["Name"] == "MAV_SYSID"));
                         var brdsernumlist = logBuffer.GetEnumeratorType("PARM").Where(a => a["Name"] == "BRD_SERIAL_NUM");
                         var msgs = logBuffer.GetEnumeratorType("MSG").Take(100);
                         try
                         {
-                            sysid = int.Parse(sysidlist.First()["Value"].ToString());
+                            sysid = ParseSystemId(sysidlist.First()["Value"].ToString());
                         }
                         catch { }
                         try
@@ -244,7 +254,7 @@ namespace MissionPlanner.Log
                         }
 
                         // find most appropriate
-                        if (hblist.GroupBy(a => a.sysid * 256 + a.compid).ToArray().Length > 1)
+                        if (hblist.GroupBy(a => (ulong)a.sysid * 256 + a.compid).ToArray().Length > 1)
                         {
                             foreach (var mav in hblist)
                             {

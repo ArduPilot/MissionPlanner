@@ -34,7 +34,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly byte _compid;
         private readonly MAVLinkInterface _mavint;
-        private readonly byte _sysid;
+        private readonly uint _sysid;
 
         private MAVLink.mavlink_file_transfer_protocol_t fileTransferProtocol =
             new MAVLink.mavlink_file_transfer_protocol_t();
@@ -42,12 +42,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// incremented anytime its not a retransmit
         private uint16_t seq_no = 0;
 
-        static Dictionary<(int, int), object> locker = new Dictionary<(int, int), object>();
+        static Dictionary<(uint, int), object> locker = new Dictionary<(uint, int), object>();
 
         /// set once the vehicle has NAKed ListDirectoryWithTime, so later listings skip straight to ListDirectory
         private bool listDirectoryWithTimeUnsupported = false;
 
-        public MAVFtp(MAVLinkInterface mavint, byte sysid, byte compid)
+        public MAVFtp(MAVLinkInterface mavint, uint sysid, byte compid)
         {
             _mavint = mavint;
             _sysid = sysid;
@@ -593,7 +593,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -694,7 +694,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = rwSize)
         {
             RetryTimeout timeout = new RetryTimeout();
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -913,7 +913,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCalcFileCRC32(string file, ref uint crc32, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1045,7 +1045,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCreateDirectory(string file, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1138,7 +1138,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCreateFile(string file, ref int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1270,7 +1270,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 dir = dir.TrimEnd('/');
 
             List<FtpFileInfo> answer = new List<FtpFileInfo>();
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1447,7 +1447,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdOpenFileWO(string file, ref int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1661,7 +1661,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public bool kCmdRemoveDirectory(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1746,7 +1746,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public bool kCmdRemoveFile(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1830,7 +1830,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdRename(string src, string dest, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -2017,7 +2017,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdTruncateFile(string file, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()

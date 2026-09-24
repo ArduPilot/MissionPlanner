@@ -19,7 +19,7 @@ namespace MissionPlanner.Utilities
 
         private static bool run = false;
 
-        static byte newsysid = 1;
+        static uint newsysid = 1;
 
         public static void Start()
         {
@@ -160,52 +160,63 @@ namespace MissionPlanner.Utilities
 
         static object locker = new object();
 
+        private static uint AllocateSystemId(uint maximum)
+        {
+            lock (locker)
+            {
+                if (newsysid > maximum)
+                    throw new InvalidOperationException("No representable system IDs remain");
+                return newsysid++;
+            }
+        }
+
         private static void RequestCallback(IAsyncResult ar)
         {
             TcpClient client = (TcpClient) ar.AsyncState;
 
-            byte localsysid = 0;
-
-            lock (locker)
-            {
-                localsysid = newsysid++;
-            }
-
             if (client.Connected)
             {
                 MAVLinkInterface mav = new MAVLinkInterface();
-
                 mav.BaseStream = new TcpSerial() {client = client};
-
+                uint localsysid;
                 try
                 {
-                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
+                    var heartbeat = mav.getHeartBeat();
+                    if (heartbeat == MAVLink.MAVLinkMessage.Invalid)
+                        throw new TimeoutException("No vehicle heartbeat");
+                    mav.sysidcurrent = heartbeat.sysid;
+                    mav.compidcurrent = heartbeat.compid;
+                    string parameter = "MAV_SYSID";
+                    try
+                    {
+                        mav.GetParam(mav.sysidcurrent, (byte)mav.compidcurrent, parameter);
+                    }
+                    catch (TimeoutException)
+                    {
+                        parameter = "SYSID_THISMAV";
+                        mav.GetParam(mav.sysidcurrent, (byte)mav.compidcurrent, parameter);
+                    }
+                    // PARAM_SET uses float32; only allocate consecutive exact IDs.
+                    localsysid = AllocateSystemId(parameter == "MAV_SYSID" ? 0xFFFFFFU : 255U);
+                    mav.sendPacket(new MAVLink.mavlink_param_set_t
+                    {
+                        param_id = System.Text.Encoding.ASCII.GetBytes(parameter.PadRight(16, '\0')),
+                        param_value = localsysid,
+                        param_type = (byte)mav.MAV.param_types[parameter],
+                        target_system = (byte)mav.sysidcurrent,
+                        target_component = (byte)mav.compidcurrent
+                    }, mav.sysidcurrent, mav.compidcurrent);
+                    // ArduPilot changes its source ID immediately. Read back at
+                    // the new address instead of waiting for an ACK at the old one.
+                    mav.sysidcurrent = localsysid;
+                    if (mav.GetParam(parameter) != localsysid)
+                        throw new InvalidOperationException("Vehicle rejected its allocated system ID");
                 }
-                catch
+                catch (Exception ex)
                 {
-                }
-                try
-                {
-                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
-                }
-                catch
-                {
-                }
-                try
-                {
-                    mav.GetParam((byte) mav.sysidcurrent, (byte) mav.compidcurrent, "SYSID_THISMAV");
-                }
-                catch
-                {
-                }
-
-                try
-                {
-                    var ans = mav.setParam("SYSID_THISMAV", localsysid);
-                    Console.WriteLine("this mav set " + ans);
-                }
-                catch
-                {
+                    Console.WriteLine("Cannot assign vehicle system ID: " + ex.Message);
+                    client.Close();
+                    return;
                 }
 
                 Connect?.Invoke(mav, localsysid.ToString());

@@ -306,7 +306,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                if (!MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                if (!MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_MOTOR_TEST,
                         (float)motor,
@@ -353,7 +353,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var value = (int)NUM_thr_percent.Value + 2;
                 if (InputBox.Show(Strings.ChangeThrottle, "Enter arm throttle % (deadzone + 2%)", ref value) == DialogResult.OK)
                 {
-                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_ARM",
                         (float)value / 100.0f).ConfigureAwait(true);
                 }
@@ -382,7 +382,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
                     DialogResult.OK)
                 {
-                    await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                    await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent, "MOT_SPIN_MIN",
                         (float)value/100.0f).ConfigureAwait(true);
                 }

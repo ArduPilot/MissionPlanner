@@ -347,7 +347,7 @@ namespace MissionPlanner.Controls
             if(path.Length < 4)
                 return;
 
-            var sysid = int.Parse(path[0].Split(' ')[1]);
+            var sysid = uint.Parse(path[0].Split(' ')[1]);
             var compid = int.Parse(path[1].Split(' ')[1]);
             var msgt = path[2];
             var field = path[3];

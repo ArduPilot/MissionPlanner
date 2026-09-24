@@ -43,25 +43,25 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
         }
 
-        public bool Reboot(MAVLinkInterface mint, byte sysid, byte compid)
+        public bool Reboot(MAVLinkInterface mint, uint sysid, byte compid)
         {
             return mint.doCommand(sysid, compid, MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 0, 0, 0, 1, 0, 0, 0);
         }
 
-        public bool SetRCMode(MAVLinkInterface mint, byte sysid, byte compid)
+        public bool SetRCMode(MAVLinkInterface mint, uint sysid, byte compid)
         {
             return mint.doCommand(sysid, compid, MAVLink.MAV_CMD.DO_MOUNT_CONFIGURE,
                 (int)MAVLink.MAV_MOUNT_MODE.RC_TARGETING, 0, 0,
                 0, 0, 0, 0);
         }
 
-        public bool SetMotorState(MAVLinkInterface mint, byte sysid, byte compid, control_motor_t type)
+        public bool SetMotorState(MAVLinkInterface mint, uint sysid, byte compid, control_motor_t type)
         {
             return mint.doCommand(sysid, compid, MAVLink.MAV_CMD.USER_1, 0, 0, 0,
                 0, 0, 0, (byte)type);
         }
 
-        public void GetGimbalMode(MAVLinkInterface mint, byte sysid, byte compid)
+        public void GetGimbalMode(MAVLinkInterface mint, uint sysid, byte compid)
         {
             var ss = mint.MAVlist[sysid, compid].getPacketLast((uint)MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
             if (ss != null)
@@ -90,7 +90,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
         }
 
-        public void SetResetMode(MAVLinkInterface mint, byte sysid, byte compid, gimbal_reset_mode_t reset_mode)
+        public void SetResetMode(MAVLinkInterface mint, uint sysid, byte compid, gimbal_reset_mode_t reset_mode)
         {
             float pitch = 0; //_attitude.pitch;
             float roll = 0; //_attitude.roll;
@@ -131,11 +131,11 @@ namespace MissionPlanner.ArduPilot.Mavlink
             SetOrientation(mint, sysid, compid, pitch, roll, yaw, input_mode_t.INPUT_ANGLE);
         }
 
-        public void SetOrientation(MAVLinkInterface mint, byte sysid, byte compid, float pitch, float roll, float yaw,
+        public void SetOrientation(MAVLinkInterface mint, uint sysid, byte compid, float pitch, float roll, float yaw,
             input_mode_t mode)
         {
             MAVLink.mavlink_gimbal_device_set_attitude_t attitude;
-            attitude.target_system = sysid;
+            attitude.target_system = (byte)(sysid);
             attitude.target_component = compid;
             attitude.flags = (ushort)(MAVLink.GIMBAL_DEVICE_FLAGS.ROLL_LOCK | MAVLink.GIMBAL_DEVICE_FLAGS.PITCH_LOCK |
                                       ((_control_mode == control_mode_t.GIMBAL_LOCK_MODE)
