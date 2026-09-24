@@ -1304,37 +1304,37 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage3.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat3 Voltage (V)")]
         public double battery_voltage3 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage4.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat4 Voltage (V)")]
         public double battery_voltage4 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage5.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat5 Voltage (V)")]
         public double battery_voltage5 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage6.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat6 Voltage (V)")]
         public double battery_voltage6 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage7.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat7 Voltage (V)")]
         public double battery_voltage7 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage8.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat8 Voltage (V)")]
         public double battery_voltage8 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage9.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat9 Voltage (V)")]
         public double battery_voltage9 { get; set; }
 
         [GroupText("Battery")]
@@ -1352,42 +1352,42 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining2.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat2 Remaining (%)")]
         public int battery_remaining2 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining3.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat3 Remaining (%)")]
         public int battery_remaining3 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining4.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat4 Remaining (%)")]
         public int battery_remaining4 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining5.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat5 Remaining (%)")]
         public int battery_remaining5 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining6.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat6 Remaining (%)")]
         public int battery_remaining6 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining7.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat7 Remaining (%)")]
         public int battery_remaining7 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining8.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat8 Remaining (%)")]
         public int battery_remaining8 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining9.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat9 Remaining (%)")]
         public int battery_remaining9 { get; set; }
 
         [GroupText("Battery")]
@@ -1520,35 +1520,35 @@ namespace MissionPlanner
         [GroupText("Battery")] public double battery_remainmin9 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat2 used EST (mah)")]
         public double battery_usedmah2 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat3 used EST (mah)")]
         public double battery_usedmah3 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat4 used EST (mah)")]
         public double battery_usedmah4 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat5 used EST (mah)")]
         public double battery_usedmah5 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat6 used EST (mah)")]
         public double battery_usedmah6 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat7 used EST (mah)")]
         public double battery_usedmah7 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat8 used EST (mah)")]
         public double battery_usedmah8 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat9 used EST (mah)")]
         public double battery_usedmah9 { get; set; }
 
         [GroupText("Battery")]
@@ -4499,20 +4499,33 @@ namespace MissionPlanner
 
                 if (typeofthing != null)
                 {
+                    string translated = null;
+
                     var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayFieldNameAttribute>().ToArray();
 
                     if (attrib.Length > 0)
                     {
-                        var translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
-
-                        if (translated != null)
-                        {
-                            var desc = translated.Replace("(fieldName)", name);
-                            return desc;
-                        }
-
-                        // fall-through
+                        translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
                     }
+
+                    // fallback: DisplayTextAttribute.Text already translates via L10NU
+                    if (translated == null)
+                    {
+                        var displayAttrib = typeofthing.GetCustomAttributes(false)
+                            .OfType<DisplayTextAttribute>().FirstOrDefault();
+                        if (displayAttrib != null)
+                        {
+                            translated = displayAttrib.Text;
+                        }
+                    }
+
+                    if (translated != null)
+                    {
+                        var desc = translated.Replace("(fieldName)", name);
+                        return desc;
+                    }
+
+                    // fall-through
                 }
             } catch
             {

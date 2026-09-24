@@ -7262,13 +7262,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 if (L10N.ConfigLang.IsChildOf(CultureInfo.GetCultureInfo("zh-Hans")))
                 {
-                    CustomMessageBox.Show(
-                        "亲爱的中国用户，为保证地图使用正常，已为您将默认地图自动切换到具有中国特色的【谷歌中国卫星地图】！\r\n与默认【谷歌卫星地图】的区别：使用.cn服务器，加入火星坐标修正\r\n如果您所在的地区仍然无法使用，天书同时推荐必应或高德地图，其它地图由于没有加入坐标修正功能，为确保飞行安全，请谨慎选择",
-                        "默认地图已被切换");
-
                     try
                     {
-                        var index = GMapProviders.List.FindIndex(x => (x.Name == "谷歌中国卫星地图"));
+                        var index = GMapProviders.List.FindIndex(x => (x.Name == "BingHybridMap"));
 
                         if (index != -1) comboBoxMapType.SelectedIndex = index;
                     }
@@ -7279,7 +7275,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
                 else
                 {
-                    mapType = "GoogleSatelliteMap";
+                    mapType = "BingHybridMap";
                     // set default
                     try
                     {
@@ -8571,6 +8567,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
             return true;
+        }
+
+        private void comboBoxMapType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
