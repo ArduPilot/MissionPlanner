@@ -6012,12 +6012,21 @@ public partial class MAVLink
         ///<summary>  | </summary>
         [Description("")]
         MAG_CAL_FAILED=5, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MAG_CAL_BAD_ORIENTATION=6, 
-        ///<summary>  | </summary>
-        [Description("")]
-        MAG_CAL_BAD_RADIUS=7, 
+        ///<summary> Compass calibration failed: the vehicle orientation is outside the required tolerance. | </summary>
+        [Description("Compass calibration failed: the vehicle orientation is outside the required tolerance.")]
+        MAG_CAL_FAILED_ORIENTATION=6, 
+        ///<summary> Compass calibration failed: the radius of the fitted sphere is unrealistically small or large. | </summary>
+        [Description("Compass calibration failed: the radius of the fitted sphere is unrealistically small or large.")]
+        MAG_CAL_FAILED_RADIUS=7, 
+        ///<summary> Compass calibration failed: offset magnitude too large. | </summary>
+        [Description("Compass calibration failed: offset magnitude too large.")]
+        MAG_CAL_FAILED_OFFSETS=8, 
+        ///<summary> Compass calibration failed: diagonal or off-diagonal scaling values out of valid range. | </summary>
+        [Description("Compass calibration failed: diagonal or off-diagonal scaling values out of valid range.")]
+        MAG_CAL_FAILED_DIAG_SCALING=9, 
+        ///<summary> Compass calibration failed: fitness (RMS residual) exceeds tolerance. | </summary>
+        [Description("Compass calibration failed: fitness (RMS residual) exceeds tolerance.")]
+        MAG_CAL_FAILED_RESIDUALS_HIGH=10, 
         
     };
     
