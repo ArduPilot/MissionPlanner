@@ -249,7 +249,9 @@ namespace MissionPlanner
                 {
                     // trying to set it true twice
                     log.Error(new System.Diagnostics.StackTrace().ToString());
-                    Debugger.Break();
+                    // without a debugger this goes to Windows Error Reporting and can hang the UI
+                    if (Debugger.IsAttached)
+                        Debugger.Break();
                 }
 
                 if (value == true)
