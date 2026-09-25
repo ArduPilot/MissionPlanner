@@ -121,7 +121,7 @@
     <value>脚本控制台</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>在python代码中打印报表会打印到这个对话框</value>
+    <value>Python代码中的print语句将输出到此对话框。</value>
   </data>
   <data name="BUT_clear.Text" xml:space="preserve">
     <value>清除</value>

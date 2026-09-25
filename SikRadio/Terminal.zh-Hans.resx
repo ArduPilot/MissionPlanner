@@ -119,20 +119,20 @@
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
     <value>ATI - 显示电台版本
-ATI2 - 显示电路板类型 
-ATI3 - 显示电路板频率 
-ATI4 - 显示电路板版本 
-ATI5 - 显示所有可设置的EEPROM参数
-ATI6 - display TDM timing report 
-ATI7 - display RSSI signal report 
-ATO - 退出AT命令模式 
-ATSn? - 显示电台参数(编号'n') 
-ATSn=X - 设置电台参数(编号'n'至'X')
-ATZ - 重启电台 
-AT&amp;W - 将当前参数写入EEPROM 
-AT&amp;F - 恢复出厂默认设置 
-AT&amp;T=RSSI - 启用RSSI调试报告 
-AT&amp;T=TDM - 启用TDM调试报告 
-AT&amp;T - 禁用调试报告 </value>
+ATI2 - 显示电路板类型
+ATI3 - 显示电路板频率
+ATI4 - 显示电路板版本
+ATI5 - 显示所有用户可设置的EEPROM参数
+ATI6 - 显示TDM时序报告
+ATI7 - 显示RSSI信号报告
+ATO - 退出AT命令模式
+ATSn? - 显示电台参数编号 'n'
+ATSn=X - 将电台参数编号 'n' 设置为 'X'
+ATZ - 重启电台
+AT&amp;W - 将当前参数写入EEPROM
+AT&amp;F - 将所有参数恢复为出厂默认值
+AT&amp;T=RSSI - 启用RSSI调试报告
+AT&amp;T=TDM - 启用TDM调试报告
+AT&amp;T - 禁用调试报告</value>
   </data>
 </root>

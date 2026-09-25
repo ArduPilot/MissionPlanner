@@ -128,7 +128,7 @@
     <value>31, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>端口</value>
+    <value>港口</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>141, 39</value>
@@ -166,7 +166,7 @@
     <value>152, 22</value>
   </data>
   <data name="projectPageToolStripMenuItem.Text" xml:space="preserve">
-    <value>项目主页</value>
+    <value>项目页面</value>
   </data>
   <data name="aboutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 20</value>
@@ -1309,5 +1309,35 @@
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data><data name="CMB_Baudrate.Items" xml:space="preserve">
+    <value>2400</value>
+  </data><data name="CMB_Baudrate.Items1" xml:space="preserve">
+    <value>4800</value>
+  </data><data name="CMB_Baudrate.Items2" xml:space="preserve">
+    <value>9600</value>
+  </data><data name="CMB_Baudrate.Items3" xml:space="preserve">
+    <value>14400</value>
+  </data><data name="CMB_Baudrate.Items4" xml:space="preserve">
+    <value>19200</value>
+  </data><data name="CMB_Baudrate.Items5" xml:space="preserve">
+    <value>28800</value>
+  </data><data name="CMB_Baudrate.Items6" xml:space="preserve">
+    <value>38400</value>
+  </data><data name="CMB_Baudrate.Items7" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="CMB_Baudrate.Items8" xml:space="preserve">
+    <value>115200</value>
+  </data><data name="CMB_Baudrate.Items9" xml:space="preserve">
+    <value>230400</value>
+  </data><data name="CMB_Baudrate.Items10" xml:space="preserve">
+    <value>460800</value>
+  </data><data name="menuStrip1.Text" xml:space="preserve">
+    <value>menuStrip1</value>
+  </data><data name="btnConnect.Text" xml:space="preserve">
+    <value>连接</value>
+  </data><data name="rssiToolStripMenuItem.Text" xml:space="preserve">
+    <value>信号强度指示</value>
+  </data><data name="$this.Text" xml:space="preserve">
+    <value>SikRadio 配置 1.4 - 由 Michael Oborne 制作</value>
   </data>
 </root>

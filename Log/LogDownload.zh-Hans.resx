@@ -136,9 +136,11 @@
     <value>第一人称KML</value>
   </data>
   <data name="BUT_dumpdf.Text" xml:space="preserve">
-    <value>(adv)丢弃全部闪存数据</value>
+    <value>(adv) 丢弃全部闪存数据</value>
   </data>
   <data name="BUT_bintolog.Text" xml:space="preserve">
     <value>.bin 至 .log</value>
+  </data><data name="TXT_seriallog.Text" xml:space="preserve">
+    <value>无人机已上锁时无法清除日志。请先解锁！</value>
   </data>
 </root>

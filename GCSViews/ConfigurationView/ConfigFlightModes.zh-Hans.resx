@@ -228,5 +228,19 @@
   </data>
   <data name="linkLabel1_ss.Text" xml:space="preserve">
     <value>简单和超简单模式介绍</value>
+  </data><data name="LBL_flightmodepwm.Text" xml:space="preserve">
+    <value>0</value>
+  </data><data name="label10.Text" xml:space="preserve">
+    <value>PWM 1621 - 1749</value>
+  </data><data name="label11.Text" xml:space="preserve">
+    <value>PWM 1750 +</value>
+  </data><data name="label12.Text" xml:space="preserve">
+    <value>PWM 0 - 1230</value>
+  </data><data name="label7.Text" xml:space="preserve">
+    <value>PWM 1231 - 1360</value>
+  </data><data name="label8.Text" xml:space="preserve">
+    <value>PWM 1361 - 1490</value>
+  </data><data name="label9.Text" xml:space="preserve">
+    <value>PWM 1491 - 1620</value>
   </data>
 </root>

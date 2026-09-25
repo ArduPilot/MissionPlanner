@@ -152,7 +152,7 @@
     <value>31, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>平摇</value>
+    <value>平移</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
@@ -200,7 +200,7 @@
     <value>319, 13</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>这个界面使用不当会导致舵机损坏，请谨慎使用！！！</value>
+    <value>错误使用此界面可能导致舵机损坏，请谨慎操作！！！</value>
   </data>
   <data name="BUT_connect.Text" xml:space="preserve">
     <value>连接</value>
@@ -224,12 +224,62 @@
     <value>70, 13</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>中点的PWM</value>
+    <value>中心PWM</value>
   </data>
   <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 13</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>中点的PWM</value>
+    <value>中心PWM</value>
+  </data><data name="TXT_tiltaccel.Text" xml:space="preserve">
+    <value>5</value>
+  </data><data name="TXT_tiltspeed.Text" xml:space="preserve">
+    <value>100</value>
+  </data><data name="label18.Text" xml:space="preserve">
+    <value>速度</value>
+  </data><data name="label17.Text" xml:space="preserve">
+    <value>加速</value>
+  </data><data name="label16.Text" xml:space="preserve">
+    <value>加速</value>
+  </data><data name="label15.Text" xml:space="preserve">
+    <value>速度</value>
+  </data><data name="TXT_panaccel.Text" xml:space="preserve">
+    <value>5</value>
+  </data><data name="TXT_panspeed.Text" xml:space="preserve">
+    <value>100</value>
+  </data><data name="TXT_centertilt.Text" xml:space="preserve">
+    <value>1500</value>
+  </data><data name="TXT_centerpan.Text" xml:space="preserve">
+    <value>1500</value>
+  </data><data name="TXT_pwmrangetilt.Text" xml:space="preserve">
+    <value>1000</value>
+  </data><data name="TXT_pwmrangepan.Text" xml:space="preserve">
+    <value>1000</value>
+  </data><data name="TXT_tiltrange.Text" xml:space="preserve">
+    <value>90</value>
+  </data><data name="TXT_panrange.Text" xml:space="preserve">
+    <value>360</value>
+  </data><data name="CMB_baudrate.Items7" xml:space="preserve">
+    <value>115200</value>
+  </data><data name="CMB_baudrate.Items6" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="CMB_baudrate.Items5" xml:space="preserve">
+    <value>38400</value>
+  </data><data name="CMB_baudrate.Items4" xml:space="preserve">
+    <value>28800</value>
+  </data><data name="CMB_baudrate.Items3" xml:space="preserve">
+    <value>19200</value>
+  </data><data name="CMB_baudrate.Items2" xml:space="preserve">
+    <value>14400</value>
+  </data><data name="CMB_baudrate.Items1" xml:space="preserve">
+    <value>9600</value>
+  </data><data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>4800</value>
+  </data><data name="CMB_interface.Text" xml:space="preserve">
+    <value>大师</value>
+  </data><data name="CMB_interface.Items1" xml:space="preserve">
+    <value>ArduTracker</value>
+  </data><data name="CMB_interface.Items" xml:space="preserve">
+    <value>大师</value>
   </data>
 </root>

@@ -135,5 +135,27 @@
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>PIN</value>
+  </data><data name="cmb_baud.Items" xml:space="preserve">
+    <value>1200</value>
+  </data><data name="cmb_baud.Items3" xml:space="preserve">
+    <value>9600</value>
+  </data><data name="cmb_baud.Items7" xml:space="preserve">
+    <value>115200</value>
+  </data><data name="cmb_baud.Text" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="cmb_baud.Items1" xml:space="preserve">
+    <value>2400</value>
+  </data><data name="cmb_baud.Items2" xml:space="preserve">
+    <value>4800</value>
+  </data><data name="cmb_baud.Items4" xml:space="preserve">
+    <value>19200</value>
+  </data><data name="cmb_baud.Items5" xml:space="preserve">
+    <value>38400</value>
+  </data><data name="cmb_baud.Items6" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="txt_name.Text" xml:space="preserve">
+    <value>Ardupilot</value>
+  </data><data name="txt_pin.Text" xml:space="preserve">
+    <value>1234</value>
   </data>
 </root>

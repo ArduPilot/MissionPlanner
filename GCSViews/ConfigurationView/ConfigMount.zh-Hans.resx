@@ -158,7 +158,7 @@
     <value>73, 20</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
-    <value>角度限位</value>
+    <value>角度限制</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 20</value>
@@ -194,7 +194,7 @@
     <value>73, 20</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>角度限位</value>
+    <value>角度限制</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>73, 20</value>
@@ -248,19 +248,19 @@
     <value>48, 16</value>
   </data>
   <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="mavlinkCheckBoxPR.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
   <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="mavlinkCheckBoxRR.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
   <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>收回角度</value>
@@ -344,13 +344,36 @@
     <value>53, 28</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>持续时间
-(1/10秒)</value>
+    <value>持续时间 (1/10秒)</value>
   </data>
   <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
     <value>194, 20</value>
   </data>
   <data name="label42.Text" xml:space="preserve">
-    <value>请设置通道7为相机触发器</value>
+    <value>请将通道7选项设置为相机触发器</value>
+  </data><data name="label5.Text" xml:space="preserve">
+    <value>俯仰</value>
+  </data><data name="label6.Text" xml:space="preserve">
+    <value>横滚</value>
+  </data><data name="label15.Text" xml:space="preserve">
+    <value>平移</value>
+  </data><data name="label27.Text" xml:space="preserve">
+    <value>Z</value>
+  </data><data name="label26.Text" xml:space="preserve">
+    <value>Y</value>
+  </data><data name="label25.Text" xml:space="preserve">
+    <value>X</value>
+  </data><data name="label28.Text" xml:space="preserve">
+    <value>Z</value>
+  </data><data name="label29.Text" xml:space="preserve">
+    <value>Y</value>
+  </data><data name="label30.Text" xml:space="preserve">
+    <value>X</value>
+  </data><data name="label43.Text" xml:space="preserve">
+    <value>类型</value>
+  </data><data name="LNK_wiki.Text" xml:space="preserve">
+    <value>Wiki</value>
+  </data><data name="label44.Text" xml:space="preserve">
+    <value>注意：云台类型将在飞行控制器下次重启后生效</value>
   </data>
 </root>

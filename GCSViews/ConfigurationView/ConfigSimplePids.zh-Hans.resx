@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TXT_info.Text" xml:space="preserve">
-    <value>注意：使用这个界面可能会重设一部分自定义PID</value>
+    <value>注意：使用此界面可能会重置您的一些自定义PID参数。</value>
   </data>
 </root>
