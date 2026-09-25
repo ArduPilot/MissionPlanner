@@ -20,6 +20,12 @@ jobs:
           nuget locals all -clear
           msbuild -v:m -restore -t:Build -p:Configuration=Release MissionPlanner.sln
 
+      - name: MAVLink protocol regression tests
+        shell: pwsh
+        run: |
+          dotnet test MissionPlannerTests/MissionPlannerTests.csproj --configuration Release --filter FullyQualifiedName~Sysid32Tests --logger "trx;LogFileName=sysid32.trx"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
       - name: Cleanup
         shell: pwsh
         run: |

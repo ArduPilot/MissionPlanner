@@ -103,7 +103,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, int.Parse(TXT_low_value.Text), 0, 0,
+                if (MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, int.Parse(TXT_low_value.Text), 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
@@ -123,7 +123,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, int.Parse(TXT_highvalue.Text), 0, 0,
+                if (MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, int.Parse(TXT_highvalue.Text), 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
@@ -152,7 +152,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, (int.Parse(TXT_highvalue.Text) - int.Parse(TXT_low_value.Text)) / 2 + int.Parse(TXT_low_value.Text), 0, 0,
+                if (MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_AUX_FUNCTION, (int)mavlinkComboBox1.SelectedValue, (int.Parse(TXT_highvalue.Text) - int.Parse(TXT_low_value.Text)) / 2 + int.Parse(TXT_low_value.Text), 0, 0,
                     0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Orange;

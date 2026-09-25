@@ -680,7 +680,9 @@ namespace MissionPlanner
                 }
             };
 
-            MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
+            uint configuredGcsId;
+            if (uint.TryParse(Settings.Instance["gcsid"], out configuredGcsId))
+                MAVLinkInterface.gcssysid = configuredGcsId;
 
             Form splash = Program.Splash;
 
@@ -2277,7 +2279,7 @@ namespace MissionPlanner
                                     rc = new MAVLink.mavlink_rc_channels_override_t();
 
                                 rc.target_component = comPort.MAV.compid;
-                                rc.target_system = comPort.MAV.sysid;
+                                rc.target_system = (byte)(comPort.MAV.sysid);
 
                                 if (joystick.getJoystickAxis(1) == Joystick.joystickaxis.None)
                                     rc.chan1_raw = ushort.MaxValue;
@@ -2396,7 +2398,7 @@ namespace MissionPlanner
                                         }
                                         else
                                         {
-                                            comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                                            comPort.sendPacket(rc, comPort.MAV.sysid, comPort.MAV.compid);
                                         }
 
                                         count++;
@@ -4177,7 +4179,7 @@ namespace MissionPlanner
                 // write
                 try
                 {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 }
                 catch

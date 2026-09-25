@@ -15,12 +15,13 @@ namespace MissionPlanner.Controls
         public DevopsUI()
         {
             InitializeComponent();
+            num_sysid.Maximum = uint.MaxValue;
         }
 
         private void but_doit_Click(object sender, EventArgs e)
         {
             var buffer = new byte[Convert.ToByte(num_count.Text)];
-            var result = MainV2.comPort.device_op(Convert.ToByte(num_sysid.Text), Convert.ToByte(num_compid.Text), out buffer, 
+            var result = MainV2.comPort.device_op((uint)num_sysid.Value, Convert.ToByte(num_compid.Text), out buffer,
                 dom_bustype.Text == "SPI" ? MAVLink.DEVICE_OP_BUSTYPE.SPI : MAVLink.DEVICE_OP_BUSTYPE.I2C,
                 txt_spiname.Text, Convert.ToByte(num_busno.Text), Convert.ToByte(num_address.Text), 
                 Convert.ToByte(num_regstart.Text), Convert.ToByte(num_count.Text));

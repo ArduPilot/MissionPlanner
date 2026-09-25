@@ -29,7 +29,7 @@ namespace MissionPlanner.Controls
         public MavFTPUI(MAVLinkInterface mav)
         {
             _mav = mav;
-            _mavftp = new MAVFtp(_mav, (byte)_mav.sysidcurrent, (byte)mav.compidcurrent);
+            _mavftp = new MAVFtp(_mav, _mav.sysidcurrent, (byte)mav.compidcurrent);
             DateTime nextupdate = DateTime.UtcNow;
             _mavftp.Progress += (message, percent) =>
             {

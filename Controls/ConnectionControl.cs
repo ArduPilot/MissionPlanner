@@ -88,9 +88,9 @@ namespace MissionPlanner.Controls
             {
                 var list = port.MAVlist.GetRawIDS();
 
-                foreach (int item in list)
+                foreach (ulong item in list)
                 {
-                    var temp = new port_sysid() { compid = (item % 256), sysid = (item / 256), port = port };
+                    var temp = new port_sysid() { compid = (byte)item, sysid = (uint)(item >> 8), port = port };
 
                     // exclude GCS's from the list
                     if (temp.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
@@ -116,7 +116,7 @@ namespace MissionPlanner.Controls
         internal struct port_sysid
         {
             internal MAVLinkInterface port;
-            internal int sysid;
+            internal uint sysid;
             internal int compid;
         }
 
@@ -175,7 +175,7 @@ namespace MissionPlanner.Controls
                             mavComponentString =
                                 temp.compid + " " + temp.port.MAVlist[temp.sysid, temp.compid].VersionString;
                     }
-                    e.Value = temp.port.BaseStream.PortName + "-" + ((int)temp.sysid) + "-" + mavComponentString.Replace("_", " ");
+                    e.Value = temp.port.BaseStream.PortName + "-" + temp.sysid + "-" + mavComponentString.Replace("_", " ");
                 }
             }
         }

@@ -94,6 +94,7 @@ namespace MissionPlanner.Utilities
                         {
                             bool valid = false;
                             var oldrxtime = packet.rxtime;
+                            uint? target = MAVLink.GetTargetSystemField(msginfo.type) == null ? null : packet.target_system;
                             foreach (var check in checks)
                             {
                                 var field = msginfo.type.GetField(check);
@@ -109,7 +110,7 @@ namespace MissionPlanner.Utilities
 
                                         packet = new MAVLink.MAVLinkMessage(
                                             parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
-                                                pkt, false, packet.sysid, packet.compid, packet.seq));
+                                                pkt, false, packet.sysid, packet.compid, packet.seq, target, packet.GetTargetComponent() ?? 0));
                                         valid = true;
                                     }
                                     else if (value is Single)
@@ -119,7 +120,7 @@ namespace MissionPlanner.Utilities
 
                                         packet = new MAVLink.MAVLinkMessage(
                                             parse.GenerateMAVLinkPacket20((MAVLink.MAVLINK_MSG_ID) msginfo.msgid,
-                                                pkt, false, packet.sysid, packet.compid, packet.seq));
+                                                pkt, false, packet.sysid, packet.compid, packet.seq, target, packet.GetTargetComponent() ?? 0));
                                         valid = true;
                                     }
                                     else
