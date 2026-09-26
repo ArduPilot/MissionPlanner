@@ -2691,8 +2691,32 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             float p4,
             float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
+            return await doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommand, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// The commands which never wait for an ack, such as PREFLIGHT_CALIBRATION,
+        /// PREFLIGHT_REBOOT_SHUTDOWN and GET_HOME_POSITION, also return ACCEPTED without
+        /// the vehicle having confirmed anything.
+        /// </summary>
+        public MAV_RESULT doCommandResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
+            return doCommandResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback)
+                .AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2, float p3,
+            float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2714,127 +2738,131 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
                 p7);
 
-            if (requireack)
-                giveComport = true;
+            // set where this call takes the port, so a fire-and-forget command does not
+            // release a hold taken elsewhere.  A hold an outer caller took before calling
+            // in is still cleared on the ack path, as it was before.
+            bool heldComport = false;
 
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-
-            if (!requireack)
+            try
             {
-                giveComport = false;
-                return true;
-            }
-
-            DateTime GUI = DateTime.Now;
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            int timeout = 2000;
-
-            // imu calib take a little while
-            if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p5 == 1)
-            {
-                // this is for advanced accel offsets, and blocks execution
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
-            {
-                // compassmot
-                // send again just incase
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
-            {
-                retrys = 1;
-                timeout = 25000;
-            }
-            else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
-            {
-                retrys = 1;
-                timeout = 25000;
-            }
-            else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
-            {
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                giveComport = false;
-                return true;
-            }
-            else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
-            {
-                // 10 seconds as may need an imu calib
-                timeout = 10000;
-            }
-            else if (actionid == MAV_CMD.GET_HOME_POSITION)
-            {
-                giveComport = false;
-                return true;
-            }
-
-            while (true)
-            {
-                if (DateTime.Now > GUI.AddMilliseconds(100))
+                if (requireack)
                 {
-                    GUI = DateTime.Now;
-
-                    uicallback?.Invoke();
+                    giveComport = true;
+                    heldComport = true;
                 }
 
-                if (!(start.AddMilliseconds(timeout) > DateTime.Now))
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+
+                if (!requireack)
                 {
-                    if (retrys > 0)
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                DateTime GUI = DateTime.Now;
+
+                DateTime start = DateTime.Now;
+                int retrys = 3;
+
+                int timeout = 2000;
+
+                // imu calib take a little while
+                if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p5 == 1)
+                {
+                    // this is for advanced accel offsets, and blocks execution
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
+                {
+                    // compassmot
+                    // send again just incase
+                    generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
+                {
+                    retrys = 1;
+                    timeout = 25000;
+                }
+                else if (actionid == MAV_CMD.FLASH_BOOTLOADER)
+                {
+                    retrys = 1;
+                    timeout = 25000;
+                }
+                else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
+                {
+                    generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+                    return MAV_RESULT.ACCEPTED;
+                }
+                else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
+                {
+                    // 10 seconds as may need an imu calib
+                    timeout = 10000;
+                }
+                else if (actionid == MAV_CMD.GET_HOME_POSITION)
+                {
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                while (true)
+                {
+                    if (DateTime.Now > GUI.AddMilliseconds(100))
                     {
-                        log.Info("doCommand Retry " + retrys);
-                        req.confirmation++;
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        GUI = DateTime.Now;
+
+                        uicallback?.Invoke();
                     }
 
-                    giveComport = false;
-                    throw new TimeoutException("Timeout on read - doCommand");
-                }
-
-                buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
-                {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
-                        buffer.compid == req.target_component)
+                    if (!(start.AddMilliseconds(timeout) > DateTime.Now))
                     {
-                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
-
-                        if (ack.command != req.command)
+                        if (retrys > 0)
                         {
-                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
-                                (MAV_RESULT) ack.result);
-                            continue;
-                        }
-
-                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
-
-
-                        if (ack.result == (byte)MAV_RESULT.IN_PROGRESS)
-                        {
+                            log.Info("doCommand Retry " + retrys);
+                            req.confirmation++;
+                            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                             start = DateTime.Now;
-                            retrys = 0;
+                            retrys--;
                             continue;
-                        } 
-                        else if (ack.result == (byte) MAV_RESULT.ACCEPTED)
-                        {
-                            giveComport = false;
-                            return true;
                         }
-                        else
+
+                        throw new TimeoutException("Timeout on read - doCommand");
+                    }
+
+                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (buffer.Length > 5)
+                    {
+                        if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
+                            buffer.compid == req.target_component)
                         {
-                            giveComport = false;
-                            return false;
+                            var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                            if (ack.command != req.command)
+                            {
+                                log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
+                                    (MAV_RESULT) ack.result);
+                                continue;
+                            }
+
+                            log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
+
+
+                            if (ack.result == (byte)MAV_RESULT.IN_PROGRESS)
+                            {
+                                start = DateTime.Now;
+                                retrys = 0;
+                                continue;
+                            } 
+
+                            return (MAV_RESULT) ack.result;
                         }
                     }
                 }
+            }
+            finally
+            {
+                // also on an exception out of the send or the packet read, so
+                // the port is never left held
+                if (heldComport)
+                    giveComport = false;
             }
         }
 
@@ -2851,8 +2879,32 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
             MAV_FRAME frame = MAV_FRAME.GLOBAL)
         {
+            return await doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack,
+                uicallback, frame).ConfigureAwait(false) == MAV_RESULT.ACCEPTED;
+        }
+
+        /// <summary>
+        /// as doCommandInt, but returns the MAV_RESULT from the vehicle's COMMAND_ACK.
+        /// Commands not requiring an ack return ACCEPTED; a closed link returns FAILED.
+        /// The command is resent up to retries times, timeoutms apart, before a TimeoutException.
+        /// </summary>
+        public MAV_RESULT doCommandIntResult(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3,
+            float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
+            return doCommandIntResultAsync(sysid, compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, uicallback,
+                frame, retries, timeoutms).AwaitSync();
+        }
+
+        public async Task<MAV_RESULT> doCommandIntResultAsync(byte sysid, byte compid, MAV_CMD actionid, float p1,
+            float p2,
+            float p3, float p4,
+            int p5, int p6, float p7, bool requireack = true, Action uicallback = null,
+            MAV_FRAME frame = MAV_FRAME.GLOBAL, int retries = 3, int timeoutms = 2000)
+        {
             if (BaseStream == null || BaseStream.IsOpen == false)
-                return false;
+                return MAV_RESULT.FAILED;
 
             MAVLinkMessage buffer;
 
@@ -2879,79 +2931,93 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 p5, p6,
                 p7);
 
-            if (requireack)
-                giveComport = true;
+            // set where this call takes the port, so a fire-and-forget command does not
+            // release a hold taken elsewhere.  A hold an outer caller took before calling
+            // in is still cleared on the ack path, as it was before.
+            bool heldComport = false;
 
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
-
-            if (!requireack)
+            try
             {
-                giveComport = false;
-                return true;
-            }
-
-            DateTime GUI = DateTime.Now;
-
-            DateTime start = DateTime.Now;
-            int retrys = 3;
-
-            int timeout = 2000;
-
-            while (true)
-            {
-                if (DateTime.Now > GUI.AddMilliseconds(100))
+                if (requireack)
                 {
-                    GUI = DateTime.Now;
-
-                    uicallback?.Invoke();
+                    giveComport = true;
+                    heldComport = true;
                 }
 
-                if (!(start.AddMilliseconds(timeout) > DateTime.Now))
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
+
+                if (!requireack)
                 {
-                    if (retrys > 0)
+                    return MAV_RESULT.ACCEPTED;
+                }
+
+                DateTime GUI = DateTime.Now;
+
+                DateTime start = DateTime.Now;
+                int retrys = retries;
+
+                int timeout = timeoutms;
+
+                while (true)
+                {
+                    if (DateTime.Now > GUI.AddMilliseconds(100))
                     {
-                        log.Info("doCommandIntAsync Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
-                        start = DateTime.Now;
-                        retrys--;
-                        continue;
+                        GUI = DateTime.Now;
+
+                        uicallback?.Invoke();
                     }
 
-                    giveComport = false;
-                    throw new TimeoutException("Timeout on read - doCommand");
-                }
-
-                buffer = await readPacketAsync().ConfigureAwait(false);
-                if (buffer.Length > 5)
-                {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
-                        buffer.compid == req.target_component)
+                    if (!(start.AddMilliseconds(timeout) > DateTime.Now))
                     {
-                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
-
-                        if (ack.command != req.command)
+                        if (retrys > 0)
                         {
-                            log.InfoFormat("doCommandIntAsync cmd resp {0} - {1} - Commands dont match",
-                                (MAV_CMD) ack.command,
-                                (MAV_RESULT) ack.result);
+                            log.Info("doCommandIntAsync Retry " + retrys);
+                            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_INT, req, sysid, compid);
+                            start = DateTime.Now;
+                            retrys--;
                             continue;
                         }
 
-                        log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD) ack.command,
-                            (MAV_RESULT) ack.result);
+                        throw new TimeoutException("Timeout on read - doCommand");
+                    }
 
-                        if (ack.result == (byte) MAV_RESULT.ACCEPTED)
+                    buffer = await readPacketAsync().ConfigureAwait(false);
+                    if (buffer.Length > 5)
+                    {
+                        if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == req.target_system &&
+                            buffer.compid == req.target_component)
                         {
-                            giveComport = false;
-                            return true;
-                        }
-                        else
-                        {
-                            giveComport = false;
-                            return false;
+                            var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                            if (ack.command != req.command)
+                            {
+                                log.InfoFormat("doCommandIntAsync cmd resp {0} - {1} - Commands dont match",
+                                    (MAV_CMD) ack.command,
+                                    (MAV_RESULT) ack.result);
+                                continue;
+                            }
+
+                            log.InfoFormat("doCommandIntAsync cmd resp {0} - {1}", (MAV_CMD) ack.command,
+                                (MAV_RESULT) ack.result);
+
+                            if (ack.result == (byte) MAV_RESULT.IN_PROGRESS)
+                            {
+                                start = DateTime.Now;
+                                retrys = 0;
+                                continue;
+                            }
+
+                            return (MAV_RESULT) ack.result;
                         }
                     }
                 }
+            }
+            finally
+            {
+                // also on an exception out of the send or the packet read, so
+                // the port is never left held
+                if (heldComport)
+                    giveComport = false;
             }
         }
 
@@ -4427,10 +4493,66 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
+            gotohere.id = (ushort) MAV_CMD.WAYPOINT;
+
+            if (!MAVlist[sysid, compid].UnsupportedCommands.ContainsKey(MAV_CMD.DO_REPOSITION))
+            {
+                byte flags = 0;
+                if (setguidedmode)
+                {
+                    flags |= (byte) MAV_DO_REPOSITION_FLAGS.CHANGE_MODE;
+                }
+
+                MAV_RESULT? result = null;
+                try
+                {
+                    result = doCommandIntResult(sysid, compid, MAV_CMD.DO_REPOSITION,
+                        -1,                         // param1 - groundspeed (default)
+                        flags,                      // param2 - flags
+                        0,                          // param3 - loiter radius (Planes)
+                        float.NaN,                  // param4 - yaw (NaN: keep current yaw behaviour)
+                        (int) (gotohere.lat * 1e7), // param5 - latitude
+                        (int) (gotohere.lng * 1e7), // param6 - longitude
+                        gotohere.alt,               // param7 - altitude
+                        true,                       // require ack
+                        null,                       // callback
+                        (MAV_FRAME) gotohere.frame, // frame
+                        // often sent from the UI thread or a position-update loop;
+                        // a lost ack must not stall either for long
+                        retries: 1, timeoutms: 1000);
+                }
+                catch (Exception ex)
+                {
+                    // no ack - fall back to the legacy method
+                    log.Error(ex);
+                }
+
+                if (result == MAV_RESULT.ACCEPTED)
+                {
+                    // the legacy paths below record the target in setWP/setPositionTargetGlobalInt.
+                    // Leave frame alone as setPositionTargetGlobalInt does: callers which do not
+                    // set it would otherwise turn the cached frame into GLOBAL, and "Fly To Coords"
+                    // takes that frame while the operator supplies the altitude.
+                    MAVlist[sysid, compid].GuidedMode.x = (int) (gotohere.lat * 1e7);
+                    MAVlist[sysid, compid].GuidedMode.y = (int) (gotohere.lng * 1e7);
+                    MAVlist[sysid, compid].GuidedMode.z = gotohere.alt;
+                    return;
+                }
+
+                if (result == MAV_RESULT.UNSUPPORTED)
+                {
+                    MAVlist[sysid, compid].UnsupportedCommands[MAV_CMD.DO_REPOSITION] = true;
+                }
+                else if (result != null && result != MAV_RESULT.COMMAND_LONG_ONLY)
+                {
+                    // the vehicle refused this target (e.g. outside the fence); don't bypass that
+                    log.ErrorFormat("setGuidedModeWP {0}:{1} DO_REPOSITION failed: {2}", sysid, compid, result);
+                    throw new Exception("Guided Mode Failed: " + result);
+                }
+            }
+
             try
             {
-                gotohere.id = (ushort) MAV_CMD.WAYPOINT;
-
                 if (setguidedmode)
                 {
                     // fix for followme change
@@ -4463,16 +4585,69 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             }
         }
 
-        [Obsolete]
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
         public void setNewWPAlt(Locationwp gotohere)
         {
-            setNewWPAlt((byte) sysidcurrent, (byte) compidcurrent, gotohere);
+            setNewAlt((byte) sysidcurrent, (byte) compidcurrent, gotohere.alt);
         }
 
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
         public void setNewWPAlt(byte sysid, byte compid, Locationwp gotohere)
         {
+            setNewAlt(sysid, compid, gotohere.alt);
+        }
+
+        [Obsolete("Use setNewAlt(sysid, compid, alt)")]
+        public void setNewAlt(float new_relhome_alt_m)
+        {
+            setNewAlt((byte) sysidcurrent, (byte) compidcurrent, new_relhome_alt_m);
+        }
+
+        public void setNewAlt(byte sysid, byte compid, float new_relhome_alt_m)
+        {
+            if (!MAVlist[sysid, compid].UnsupportedCommands.ContainsKey(MAV_CMD.DO_CHANGE_ALTITUDE))
+            {
+                MAV_RESULT? result = null;
+                try
+                {
+                    result = doCommandIntResult(sysid, compid, MAV_CMD.DO_CHANGE_ALTITUDE,
+                        new_relhome_alt_m,                     // param1 - altitude
+                        (float) MAV_FRAME.GLOBAL_RELATIVE_ALT, // param2 - frame
+                        0, 0, 0, 0, 0,
+                        true,                                  // require ack
+                        null,                                  // callback
+                        MAV_FRAME.GLOBAL_RELATIVE_ALT,
+                        // sent from the UI thread; a lost ack must not stall it for long
+                        retries: 1, timeoutms: 1000);
+                }
+                catch (Exception ex)
+                {
+                    // no ack - fall back to the legacy method
+                    log.Error(ex);
+                }
+
+                if (result == MAV_RESULT.ACCEPTED)
+                {
+                    return;
+                }
+
+                if (result == MAV_RESULT.UNSUPPORTED)
+                {
+                    MAVlist[sysid, compid].UnsupportedCommands[MAV_CMD.DO_CHANGE_ALTITUDE] = true;
+                }
+                else if (result != null && result != MAV_RESULT.COMMAND_LONG_ONLY)
+                {
+                    // the vehicle refused this altitude; don't bypass that
+                    throw new Exception("Alt Change Failed: " + result);
+                }
+            }
+
+            // fall back to using a special mission item with a
+            // super-special mission_current field value which
+            // ArduPilot used for many years:
             try
             {
+                Locationwp gotohere = new Locationwp {alt = new_relhome_alt_m};
                 gotohere.id = (ushort) MAV_CMD.WAYPOINT;
 
                 log.InfoFormat("setNewWPAlt {0}:{1} lat {2} lng {3} alt {4}", sysid, compid, gotohere.lat, gotohere.lng,
