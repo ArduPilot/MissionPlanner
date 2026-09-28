@@ -1050,7 +1050,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                log.Error("Failed to enumerate serial ports for connection list.", ex);
             }
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
@@ -1078,7 +1078,7 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex);
+                    log.Error("Failed to populate serial port dropdown.", ex);
                 }
             }
 
@@ -1293,7 +1293,14 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Clear();
 
             _connectionControl.CMB_serialport.Items.Add("AUTO");
-            _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            try
+            {
+                _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to populate serial port dropdown.", ex);
+            }
 
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
