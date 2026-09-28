@@ -215,7 +215,9 @@ namespace MissionPlanner.Utilities
                 catch (Exception ex)
                 {
                     Console.WriteLine("Cannot assign vehicle system ID: " + ex.Message);
-                    client.Close();
+                    // Reject links whose ID cannot be assigned and verified;
+                    // connecting with the old ID could alias another vehicle.
+                    mav.Dispose();
                     return;
                 }
 

@@ -16,13 +16,13 @@ namespace MissionPlannerTests.Mavlink
     {
         // Independently construct the proposal's wire format, without the production header/CRC helpers.
         static byte[] Frame(byte flags, uint source, uint target = 255,
-            byte[] payload = null, uint message = 0, byte crcExtra = 50)
+            byte[] payload = null, uint message = 0, byte crcExtra = 50, byte component = 1)
         {
             payload = payload ?? new byte[] { 0, 0, 0, 0, 2, 3, 81, 4, 3 };
             var bytes = new List<byte> { 253, (byte)payload.Length, flags, 0, 17 };
             if ((flags & 2) != 0) bytes.AddRange(BitConverter.GetBytes(source));
             else bytes.Add((byte)source);
-            bytes.Add(1);
+            bytes.Add(component);
             bytes.Add((byte)message); bytes.Add((byte)(message >> 8)); bytes.Add((byte)(message >> 16));
             if ((flags & 4) != 0)
             {
@@ -358,6 +358,9 @@ namespace MissionPlannerTests.Mavlink
                 var frame = Frame(6, uint.MaxValue, 256, payload, 178, 47);
                 File.WriteAllBytes(input, stamp.Concat(frame).ToArray());
                 MissionPlanner.Utilities.Privacy.anonymise(input, output);
+                // Deleting an open file succeeds on Unix; exclusive access also
+                // catches a leaked reader when running these tests there.
+                using (File.Open(input, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
                 using (var stream = File.OpenRead(output))
                 {
                     var packet = new MAVLink.MavlinkParse(true).ReadPacket(stream);
@@ -368,6 +371,58 @@ namespace MissionPlannerTests.Mavlink
                 }
             }
             finally { File.Delete(input); File.Delete(output); }
+        }
+
+        [TestMethod]
+        public void AnonymiserClosesInputWhenOutputCannotBeOpened()
+        {
+            string input = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".tlog");
+            string output = input + ".out";
+            try
+            {
+                File.WriteAllBytes(input, new byte[0]);
+                Directory.CreateDirectory(output);
+                Assert.ThrowsException<UnauthorizedAccessException>(() =>
+                    MissionPlanner.Utilities.Privacy.anonymise(input, output));
+                using (File.Open(input, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
+            }
+            finally { File.Delete(input); Directory.Delete(output); }
+        }
+
+        [TestMethod]
+        public void MissionItemRepliesUseExplicitComponentOverride()
+        {
+            foreach (bool useInt in new[] { false, true })
+            foreach (uint message in new uint[] { 47, 40, 51 })
+            using (var port = new MAVLinkInterface())
+            {
+                if (useInt && message == 51) continue; // This overload consumes MISSION_REQUEST.
+                var serial = new TestSerial();
+                port.BaseStream = serial;
+                const uint vehicle = 0x80000001;
+                const byte component = 191;
+                port.MAVlist[vehicle, component].mavlinkv2 = true;
+                byte[] payload = message == 47
+                    ? new byte[] { (byte)MAVLinkInterface.gcssysid, 190, 0, 0 }
+                    : new byte[] { 1, 0, (byte)MAVLinkInterface.gcssysid, 190, 0 };
+                byte crc = message == 47 ? (byte)153 : message == 40 ? (byte)230 : (byte)196;
+                // Both replies are otherwise valid: only the explicitly selected
+                // component may complete the upload, even if the payload says 1.
+                serial.Feed(Frame(2, vehicle, payload: payload, message: message, crcExtra: crc));
+                serial.Feed(Frame(2, vehicle, payload: payload, message: message, crcExtra: crc, component: component));
+#pragma warning disable CS0612
+                var result = useInt
+                    ? port.setWPAsync(new MAVLink.mavlink_mission_item_int_t { target_system = 1, target_component = 1 },
+                                      vehicle, component).GetAwaiter().GetResult()
+                    : port.setWPAsync(new MAVLink.mavlink_mission_item_t { target_system = 1, target_component = 1 },
+                                      vehicle, component).GetAwaiter().GetResult();
+#pragma warning restore CS0612
+                Assert.AreEqual(MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED, result);
+                Assert.AreEqual(0, serial.BytesToRead, "Upload accepted the reply from the wrong component");
+                var sent = new MAVLink.MavlinkParse().ReadPacket(new MemoryStream(serial.Written.ToArray()));
+                Assert.AreEqual((uint?)vehicle, sent.GetTargetSystem());
+                Assert.AreEqual((byte?)component, sent.GetTargetComponent());
+            }
         }
 
         [TestMethod]
