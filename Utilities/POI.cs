@@ -2,6 +2,7 @@
 using MissionPlanner.Controls;
 using MissionPlanner.Maps;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
@@ -25,17 +26,15 @@ namespace MissionPlanner.Utilities
             add
             {
                 _POIModified += value;
+
+                // the first subscription reads the saved file and redraws every page
+                if (LoadSaved())
+                    return;
+
+                // a page subscribing later (Plan opens after Data) still has to draw the POIs
                 try
                 {
-                    // Several pages subscribe (Data, Plan). The saved file is loaded on the
-                    // first subscription only; loading it once per subscriber duplicated every
-                    // POI on each start, and the next save made the duplicates permanent.
-                    if (!loaded)
-                    {
-                        loaded = true;
-                        if (File.Exists(filename))
-                            LoadFile(filename);
-                    }
+                    value(null, null);
                 }
                 catch
                 {
@@ -46,6 +45,7 @@ namespace MissionPlanner.Utilities
 
         private static string filename = Settings.GetUserDataDirectory() + "poi.txt";
         private static bool loading;
+        // the saved file has been read, or there is none; until then it is not written
         private static bool loaded;
 
         /// <summary>The POI name: the first line of Tag, which also carries the position text.</summary>
@@ -65,11 +65,56 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                if (loading)
+                // before the saved file has been read, saving would replace it with a list that
+                // is missing its POIs
+                if (loading || !loaded)
                     return;
                 SaveFile(filename);
             }
             catch { }
+        }
+
+        /// <summary>
+        /// Read the saved file into the list. Several pages subscribe (Data, Plan); loading it once
+        /// per subscriber duplicated every POI on each start, and the next save made the duplicates
+        /// permanent. A read that fails, for example while another program holds the file, is
+        /// retried on the next subscription.
+        /// </summary>
+        /// <returns>true when the list was read now and the pages have been redrawn</returns>
+        private static bool LoadSaved()
+        {
+            if (loaded)
+                return false;
+
+            int duplicates = 0;
+            try
+            {
+                if (File.Exists(filename))
+                    duplicates = LoadFile(filename);
+            }
+            catch
+            {
+                return false;
+            }
+
+            loaded = true;
+
+            try
+            {
+                // write the file back without its duplicates, which repairs files that grew
+                // before the list was loaded once
+                if (duplicates > 0)
+                    SaveFile(filename);
+
+                // redraw now
+                if (_POIModified != null)
+                    _POIModified(null, null);
+            }
+            catch
+            {
+            }
+
+            return true;
         }
 
         public static void POIAdd(PointLatLngAlt Point, string tag)
@@ -193,6 +238,10 @@ namespace MissionPlanner.Utilities
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     LoadFile(sfd.FileName);
+
+                    // redraw now
+                    if (_POIModified != null)
+                        _POIModified(null, null);
                 }
             }
         }
@@ -200,16 +249,18 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Merge the POIs in <paramref name="fileName"/> into the list. An entry with the same
         /// position and name as one already held is skipped, so loading a file twice, or a file
-        /// that already contains duplicates, never piles markers on top of each other. When
-        /// anything was skipped the saved file is rewritten without the duplicates.
+        /// that already contains duplicates, never piles markers on top of each other.
         /// </summary>
-        private static void LoadFile(string fileName)
+        /// <returns>the number of entries skipped as duplicates</returns>
+        private static int LoadFile(string fileName)
         {
+            var held = new HashSet<string>(POIs.Select(pnt => Key(pnt.Lat, pnt.Lng, NameOf(pnt))));
             int skipped = 0;
             loading = true;
             try
             {
-                using (Stream file = File.Open(fileName, FileMode.Open))
+                // read only, and let other programs (virus scanners, sync clients) keep it open
+                using (Stream file = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     using (StreamReader sr = new StreamReader(file))
                     {
@@ -225,7 +276,7 @@ namespace MissionPlanner.Utilities
                                 !double.TryParse(items[1], NumberStyles.Float, CultureInfo.InvariantCulture, out lng))
                                 continue;
 
-                            if (Contains(lat, lng, items[2]))
+                            if (!held.Add(Key(lat, lng, items[2])))
                             {
                                 skipped++;
                                 continue;
@@ -241,32 +292,18 @@ namespace MissionPlanner.Utilities
                 loading = false;
             }
 
-            if (skipped > 0)
-            {
-                try
-                {
-                    SaveFile(filename);
-                }
-                catch
-                {
-                }
-            }
-
-            // redraw now
-            if (_POIModified != null)
-                _POIModified(null, null);
+            return skipped;
         }
 
-        /// <summary>True if a POI with this position and name is already in the list.</summary>
-        private static bool Contains(double lat, double lng, string name)
+        /// <summary>
+        /// Identifies a POI when skipping duplicates: the position as SaveFile writes it, and the
+        /// name. The file keeps 15 significant digits, so comparing the written text lets a point
+        /// placed on the map match the same point read back from a saved file.
+        /// </summary>
+        private static string Key(double lat, double lng, string name)
         {
-            foreach (var pnt in POIs)
-            {
-                if (pnt.Lat == lat && pnt.Lng == lng &&
-                    string.Equals(NameOf(pnt), name, StringComparison.Ordinal))
-                    return true;
-            }
-            return false;
+            return lat.ToString(CultureInfo.InvariantCulture) + "\t" +
+                   lng.ToString(CultureInfo.InvariantCulture) + "\t" + name;
         }
 
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
