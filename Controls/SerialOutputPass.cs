@@ -3,6 +3,7 @@ using Microsoft.Scripting.Utils;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using Newtonsoft.Json;
+using log4net;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace MissionPlanner.Controls
 {
     public partial class SerialOutputPass : Form
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         static TcpListener listener;
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
@@ -24,7 +27,7 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
-            Go.DefaultCellStyle.NullValue = "Go";
+            Go.DefaultCellStyle.NullValue = Strings.Go;
             myDataGridView1.UserDeletingRow += myDataGridView1_UserDeletingRow;
             myDataGridView1.UserDeletedRow += myDataGridView1_UserDeletedRow;
 
@@ -56,7 +59,10 @@ namespace MissionPlanner.Controls
         {
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
             {
-                MainV2.comPort.MirrorStream.Close();
+                // stop the listener first, so it cannot attach a new client to the closed stream
+                listener?.Stop();
+                listener = null;
+                MainV2.comPort.MirrorStream?.Close();
                 BUT_connect.Text = Strings.Connect;
             }
             else
@@ -75,7 +81,9 @@ namespace MissionPlanner.Controls
                                     return;
                                 listener = new TcpListener(System.Net.IPAddress.Any, port);
                                 listener.Start(0);
-                                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                                // the MirrorStream setter above stores the stream in Mirrors[0]
+                                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback),
+                                    (listener, MainV2.comPort.Mirrors[0]));
                                 BUT_connect.Text = Strings.Stop;
                                 return;
                             }
@@ -147,7 +155,13 @@ namespace MissionPlanner.Controls
                 // the console.
                 client = listener.EndAcceptTcpClient(ar);
 
-                var tcp = (TcpSerial)mirror.MirrorStream;
+                var tcp = mirror.MirrorStream as TcpSerial;
+                if (tcp == null)
+                {
+                    client.Close();
+                    return;
+                }
+
                 var previous = tcp.client;
                 tcp.client = client;
                 previous?.Close();
@@ -159,6 +173,18 @@ namespace MissionPlanner.Controls
                 // listener was stopped. StopMirror stops the listener before closing the stream, so a client
                 // accepted while stopping may have been set after the close and has to be closed here
                 client?.Close();
+            }
+            catch (Exception ex)
+            {
+                // this is a thread pool callback, an unhandled exception would terminate the process
+                log.Error(ex);
+                try
+                {
+                    client?.Close();
+                }
+                catch
+                {
+                }
             }
         }
 
@@ -248,7 +274,7 @@ namespace MissionPlanner.Controls
                     continue;
 
                 var running = Active.ContainsKey(RowKey(row.Index));
-                row.Cells[Go.Index].Value = running ? "Stop" : "Go";
+                row.Cells[Go.Index].Value = running ? Strings.Stop : Strings.Go;
 
                 // a running row must keep its key, otherwise it can no longer be stopped
                 foreach (DataGridViewCell cell in row.Cells)
@@ -356,7 +382,7 @@ namespace MissionPlanner.Controls
             }
 
             if (mirror.MirrorStream == null)
-                throw new ArgumentException("Select Type and Direction");
+                throw new ArgumentException(Strings.SelectTypeAndDirection);
 
             var comPort = MainV2.comPort;
             // the reader thread enumerates Mirrors, so replace the list instead of modifying it
@@ -378,16 +404,18 @@ namespace MissionPlanner.Controls
             {
                 active.Listener?.Stop();
             }
-            catch
+            catch (Exception ex)
             {
+                log.Warn("Failed to stop mirror listener " + key, ex);
             }
 
             try
             {
                 active.Mirror.MirrorStream?.Close();
             }
-            catch
+            catch (Exception ex)
             {
+                log.Warn("Failed to close mirror stream " + key, ex);
             }
         }
     }
