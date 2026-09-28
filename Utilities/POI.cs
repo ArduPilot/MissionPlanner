@@ -27,8 +27,15 @@ namespace MissionPlanner.Utilities
                 _POIModified += value;
                 try
                 {
-                    if (File.Exists(filename))
-                        LoadFile(filename);
+                    // Several pages subscribe (Data, Plan). The saved file is loaded on the
+                    // first subscription only; loading it once per subscriber duplicated every
+                    // POI on each start, and the next save made the duplicates permanent.
+                    if (!loaded)
+                    {
+                        loaded = true;
+                        if (File.Exists(filename))
+                            LoadFile(filename);
+                    }
                 }
                 catch
                 {
@@ -39,6 +46,15 @@ namespace MissionPlanner.Utilities
 
         private static string filename = Settings.GetUserDataDirectory() + "poi.txt";
         private static bool loading;
+        private static bool loaded;
+
+        /// <summary>The POI name: the first line of Tag, which also carries the position text.</summary>
+        private static string NameOf(PointLatLngAlt pnt)
+        {
+            var tag = pnt.Tag ?? "";
+            var nl = tag.IndexOf('\n');
+            return nl >= 0 ? tag.Substring(0, nl) : tag;
+        }
 
         static POI()
         {
@@ -181,29 +197,76 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// Merge the POIs in <paramref name="fileName"/> into the list. An entry with the same
+        /// position and name as one already held is skipped, so loading a file twice, or a file
+        /// that already contains duplicates, never piles markers on top of each other. When
+        /// anything was skipped the saved file is rewritten without the duplicates.
+        /// </summary>
         private static void LoadFile(string fileName)
         {
+            int skipped = 0;
             loading = true;
-            using (Stream file = File.Open(fileName, FileMode.Open))
+            try
             {
-                using (StreamReader sr = new StreamReader(file))
+                using (Stream file = File.Open(fileName, FileMode.Open))
                 {
-                    while (!sr.EndOfStream)
+                    using (StreamReader sr = new StreamReader(file))
                     {
-                        string[] items = sr.ReadLine().Split('\t');
+                        while (!sr.EndOfStream)
+                        {
+                            string[] items = sr.ReadLine().Split('\t');
 
-                        if (items.Count() < 3)
-                            continue;
+                            if (items.Count() < 3)
+                                continue;
 
-                        POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
-                            , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
+                            double lat, lng;
+                            if (!double.TryParse(items[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lat) ||
+                                !double.TryParse(items[1], NumberStyles.Float, CultureInfo.InvariantCulture, out lng))
+                                continue;
+
+                            if (Contains(lat, lng, items[2]))
+                            {
+                                skipped++;
+                                continue;
+                            }
+
+                            POIAdd(new PointLatLngAlt(lat, lng), items[2]);
+                        }
                     }
                 }
             }
-            loading = false;
+            finally
+            {
+                loading = false;
+            }
+
+            if (skipped > 0)
+            {
+                try
+                {
+                    SaveFile(filename);
+                }
+                catch
+                {
+                }
+            }
+
             // redraw now
             if (_POIModified != null)
                 _POIModified(null, null);
+        }
+
+        /// <summary>True if a POI with this position and name is already in the list.</summary>
+        private static bool Contains(double lat, double lng, string name)
+        {
+            foreach (var pnt in POIs)
+            {
+                if (pnt.Lat == lat && pnt.Lng == lng &&
+                    string.Equals(NameOf(pnt), name, StringComparison.Ordinal))
+                    return true;
+            }
+            return false;
         }
 
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
