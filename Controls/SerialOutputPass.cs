@@ -71,16 +71,18 @@ namespace MissionPlanner.Controls
                         case "TCP Host - 14550":
                         case "TCP Host":
                             {
-                                MainV2.comPort.MirrorStream = new TcpSerial();
+                                var stream = new TcpSerial();
+                                MainV2.comPort.MirrorStream = stream;
                                 CMB_baudrate.SelectedIndex = 0;
                                 int port = 14550;
                                 if (InputBox.Show("Port", "Enter port", ref port) != DialogResult.OK)
                                     return;
                                 listener = new TcpListener(System.Net.IPAddress.Any, port);
                                 listener.Start(0);
-                                // the MirrorStream setter above stores the stream in Mirrors[0]
+                                // the legacy mirror is not necessarily Mirrors[0] when list mirrors are running;
+                                // the callback only needs the stream to hand the accepted client to
                                 listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback),
-                                    (listener, MainV2.comPort.Mirrors[0]));
+                                    (listener, new MAVLinkInterface.Mirror() { MirrorStream = stream }));
                                 BUT_connect.Text = Strings.Stop;
                                 return;
                             }
