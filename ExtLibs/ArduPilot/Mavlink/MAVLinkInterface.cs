@@ -426,37 +426,35 @@ namespace MissionPlanner
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
 
-        // Legacy single-mirror view over Mirrors[0]. The reader thread enumerates Mirrors in
-        // ProcessMirrorStream, so the list is never modified in place here: reading returns a
-        // default when there is no mirror, and writing to an empty list replaces it.
+        // Legacy single-mirror view. It owns its own entry in Mirrors instead of using Mirrors[0],
+        // which may be a mirror started from the serial output list. The reader thread enumerates
+        // Mirrors in ProcessMirrorStream, so the list is never modified in place here: reading
+        // returns a default when there is no legacy mirror, and adding one replaces the list.
+        private Mirror _legacyMirror;
+
+        private Mirror LegacyMirror(bool create)
+        {
+            var mirrors = Mirrors;
+            var legacy = _legacyMirror;
+            if (legacy != null && mirrors.Contains(legacy))
+                return legacy;
+
+            if (!create)
+                return null;
+
+            legacy = new Mirror();
+            Mirrors = new List<Mirror>(mirrors) { legacy };
+            _legacyMirror = legacy;
+            return legacy;
+        }
+
         public bool MirrorStreamWrite {
-            get {
-                var mirrors = Mirrors;
-                return mirrors.Count > 0 && mirrors[0].MirrorStreamWrite;
-            }
-            set
-            {
-                var mirrors = Mirrors;
-                if (mirrors.Count > 0)
-                    mirrors[0].MirrorStreamWrite = value;
-                else
-                    Mirrors = new List<Mirror>() { new Mirror() { MirrorStreamWrite = value } };
-            }
+            get { return LegacyMirror(false)?.MirrorStreamWrite ?? false; }
+            set { LegacyMirror(true).MirrorStreamWrite = value; }
         }
         public ICommsSerial MirrorStream {
-            get
-            {
-                var mirrors = Mirrors;
-                return mirrors.Count > 0 ? mirrors[0].MirrorStream : null;
-            }
-            set
-            {
-                var mirrors = Mirrors;
-                if (mirrors.Count > 0)
-                    mirrors[0].MirrorStream = value;
-                else
-                    Mirrors = new List<Mirror>() { new Mirror() { MirrorStream = value } };
-            }
+            get { return LegacyMirror(false)?.MirrorStream; }
+            set { LegacyMirror(true).MirrorStream = value; }
         }
 
 
