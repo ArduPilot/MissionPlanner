@@ -426,37 +426,36 @@ namespace MissionPlanner
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
 
-        public bool MirrorStreamWrite { 
+        // Legacy single-mirror view over Mirrors[0]. The reader thread enumerates Mirrors in
+        // ProcessMirrorStream, so the list is never modified in place here: reading returns a
+        // default when there is no mirror, and writing to an empty list replaces it.
+        public bool MirrorStreamWrite {
             get {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStreamWrite;
-
-                Mirrors.Add(new Mirror());
-                return MirrorStreamWrite;
-            } 
-            set 
+                var mirrors = Mirrors;
+                return mirrors.Count > 0 && mirrors[0].MirrorStreamWrite;
+            }
+            set
             {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStreamWrite = value;
+                var mirrors = Mirrors;
+                if (mirrors.Count > 0)
+                    mirrors[0].MirrorStreamWrite = value;
                 else
-                    Mirrors.Add(new Mirror() { MirrorStreamWrite = value });
-            } 
+                    Mirrors = new List<Mirror>() { new Mirror() { MirrorStreamWrite = value } };
+            }
         }
         public ICommsSerial MirrorStream {
             get
             {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStream;
-
-                Mirrors.Add(new Mirror());
-                return MirrorStream;
+                var mirrors = Mirrors;
+                return mirrors.Count > 0 ? mirrors[0].MirrorStream : null;
             }
             set
             {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStream = value;
+                var mirrors = Mirrors;
+                if (mirrors.Count > 0)
+                    mirrors[0].MirrorStream = value;
                 else
-                    Mirrors.Add(new Mirror() { MirrorStream = value });
+                    Mirrors = new List<Mirror>() { new Mirror() { MirrorStream = value } };
             }
         }
 
