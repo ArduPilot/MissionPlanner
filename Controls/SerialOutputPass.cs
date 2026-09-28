@@ -56,7 +56,10 @@ namespace MissionPlanner.Controls
         {
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
             {
-                MainV2.comPort.MirrorStream.Close();
+                // stop the listener first, so it cannot attach a new client to the closed stream
+                listener?.Stop();
+                listener = null;
+                MainV2.comPort.MirrorStream?.Close();
                 BUT_connect.Text = Strings.Connect;
             }
             else
@@ -75,7 +78,9 @@ namespace MissionPlanner.Controls
                                     return;
                                 listener = new TcpListener(System.Net.IPAddress.Any, port);
                                 listener.Start(0);
-                                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                                // the MirrorStream setter above stores the stream in Mirrors[0]
+                                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback),
+                                    (listener, MainV2.comPort.Mirrors[0]));
                                 BUT_connect.Text = Strings.Stop;
                                 return;
                             }
