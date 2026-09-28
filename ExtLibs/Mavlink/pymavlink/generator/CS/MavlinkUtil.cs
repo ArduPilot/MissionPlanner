@@ -39,27 +39,43 @@ public static class MavlinkUtil
 
     public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset, int payloadlength = 0)
     {
+        if (bytearray == null || bytearray.Length < (startoffset + payloadlength) || payloadlength == 0)
+            return;
+
         int len = Marshal.SizeOf(obj);
 
-        IntPtr iptr = Marshal.AllocHGlobal(len);
+        IntPtr iptr = IntPtr.Zero;
 
-        //clear memory
-        for (int i = 0; i < len; i++)
+        try
         {
-            Marshal.WriteByte(iptr, i, 0);
-        }
+            iptr = Marshal.AllocHGlobal(len);
+            //clear memory
+            for (int i = 0; i < len / 8; i++)
+            {
+                Marshal.WriteInt64(iptr, i * 8, 0x00);
+            }
 
-        for (int i = len - (len % 8); i < len; i++)
+            for (int i = len - (len % 8); i < len; i++)
+            {
+                Marshal.WriteByte(iptr, i, 0x00);
+            }
+
+            if (payloadlength > len)
+            {
+                // unknown mavlink extension...
+                payloadlength = len;
+            }
+
+            // copy byte array to ptr
+            Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
+
+            obj = Marshal.PtrToStructure(iptr, obj.GetType());
+        }
+        finally
         {
-            Marshal.WriteByte(iptr, i, 0x00);
+            if(iptr != IntPtr.Zero)
+                Marshal.FreeHGlobal(iptr);
         }
-
-        // copy byte array to ptr
-        Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
-
-        obj = Marshal.PtrToStructure(iptr, obj.GetType());
-
-        Marshal.FreeHGlobal(iptr);
     }
 
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
