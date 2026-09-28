@@ -2,8 +2,6 @@ using System;
 
 public partial class MAVLink
 {
-    public const byte MAVLINK_IFLAG_SYSID32 = 0x02;
-    public const byte MAVLINK_IFLAG_TARGET32 = 0x04;
     public const byte MAVLINK_SUPPORTED_IFLAGS = MAVLINK_IFLAG_SIGNED | MAVLINK_IFLAG_SYSID32 | MAVLINK_IFLAG_TARGET32;
 
     public static int GetHeaderLength(byte flags)
@@ -39,7 +37,7 @@ public partial class MAVLink
     public static System.Reflection.FieldInfo GetTargetSystemField(Type type)
     {
         return type.GetField("target_system") ??
-            (type == typeof(mavlink_manual_control_t) ? type.GetField("target") : null);
+            (type.Name == "mavlink_manual_control_t" ? type.GetField("target") : null);
     }
 
     // Generated payload structs retain byte fields. Supply their full target here

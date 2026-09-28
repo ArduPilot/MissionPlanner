@@ -394,7 +394,9 @@ public partial class MAVLink
     public const byte MAVLINK_VERSION = 2;
 
     public const byte MAVLINK_IFLAG_SIGNED=  0x01;
-    public const byte MAVLINK_IFLAG_MASK   = 0x01;
+    public const byte MAVLINK_IFLAG_SYSID32 = 0x02;
+    public const byte MAVLINK_IFLAG_TARGET32 = 0x04;
+    public const byte MAVLINK_IFLAG_MASK = MAVLINK_IFLAG_SIGNED | MAVLINK_IFLAG_SYSID32 | MAVLINK_IFLAG_TARGET32;
 
     public struct message_info
     {
