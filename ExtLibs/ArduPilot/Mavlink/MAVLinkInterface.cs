@@ -4086,7 +4086,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 if (buffer.Length > 5)
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == sysid &&
-                        buffer.compid == req.target_component)
+                        buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
@@ -4121,7 +4121,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST &&
-                             buffer.sysid == sysid && buffer.compid == req.target_component)
+                             buffer.sysid == sysid && buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
 
@@ -4169,7 +4169,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT &&
-                             buffer.sysid == sysid && buffer.compid == req.target_component)
+                             buffer.sysid == sysid && buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_int_t>();
 
@@ -4260,7 +4260,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 if (buffer.Length > 5)
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ACK && buffer.sysid == sysid &&
-                        buffer.compid == req.target_component)
+                        buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("setWPint resp MISSION_ACK " + buffer.ToJSON(Formatting.None));
@@ -4296,7 +4296,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST &&
-                             buffer.sysid == sysid && buffer.compid == req.target_component)
+                             buffer.sysid == sysid && buffer.compid == compid)
                     {
                         var ans = buffer.ToStructure<mavlink_mission_request_t>();
                         if (!buffer.IsTargetedTo(gcssysid, (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))

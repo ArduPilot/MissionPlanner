@@ -25,6 +25,7 @@ namespace MissionPlanner.Utilities
                 Comms.CommsFile tlogFile = new CommsFile();
                 tlogFile.Open(logfile);
 
+                using (tlogFile)
                 using (var stream = new CommsStream(tlogFile, tlogFile.BytesToRead))
                 using (var outfilestream = File.Open(outputfile, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
                 {

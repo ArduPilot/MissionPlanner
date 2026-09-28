@@ -167,7 +167,7 @@ namespace SimpleExample
             req.param7 = p7;
             */
 
-            byte[] packet = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, req);
+            byte[] packet = mavlink.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, req, targetSystem: sysid, targetComponent: compid);
 
             serialPort1.Write(packet, 0, packet.Length);
 
@@ -245,11 +245,11 @@ namespace SimpleExample
 
 
                 MAVLink.mavlink_mission_ack_t req3 = new MAVLink.mavlink_mission_ack_t();
-                req3.target_system = (byte)(1);
-                req3.target_component = 1;
+                req3.target_system = (byte)sysid;
+                req3.target_component = compid;
                 req3.type = 0;
 
-                packet = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.MISSION_ACK, req3);
+                packet = mavlink.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.MISSION_ACK, req3, targetSystem: sysid, targetComponent: compid);
                 Console.WriteLine("MISSION_ACK send");
                 serialPort1.Write(packet, 0, packet.Length);
             }
