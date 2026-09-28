@@ -26,6 +26,7 @@ namespace MissionPlanner.Controls
 
             Go.DefaultCellStyle.NullValue = "Go";
             myDataGridView1.UserDeletingRow += myDataGridView1_UserDeletingRow;
+            myDataGridView1.UserDeletedRow += myDataGridView1_UserDeletedRow;
 
             chk_write.Checked = MainV2.comPort.MirrorStreamWrite;
 
@@ -139,19 +140,25 @@ namespace MissionPlanner.Controls
             TcpListener listener = state.Item1;
             MAVLinkInterface.Mirror mirror = state.Item2;
 
+            TcpClient client = null;
             try
             {
                 // End the operation and display the received data on  
                 // the console.
-                TcpClient client = listener.EndAcceptTcpClient(ar);
+                client = listener.EndAcceptTcpClient(ar);
 
-                ((TcpSerial)mirror.MirrorStream).client = client;
+                var tcp = (TcpSerial)mirror.MirrorStream;
+                var previous = tcp.client;
+                tcp.client = client;
+                previous?.Close();
 
                 listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), state);
             }
             catch (Exception ex) when (ex is ObjectDisposedException || ex is SocketException || ex is InvalidOperationException)
             {
-                // listener was stopped
+                // listener was stopped. StopMirror stops the listener before closing the stream, so a client
+                // accepted while stopping may have been set after the close and has to be closed here
+                client?.Close();
             }
         }
 
@@ -178,11 +185,21 @@ namespace MissionPlanner.Controls
             List<string> ans = new List<string>();
             myDataGridView1.Rows.ForEach<DataGridViewRow>(x => 
             {
-                var line = x.Cells.Select(i => ((DataGridViewCell)i).FormattedValue).ToJSON(Formatting.None);
+                if (x.IsNewRow)
+                    return;
+
+                // the Go/Stop text is state, not a setting
+                var line = x.Cells.Select(i =>
+                        ((DataGridViewCell)i).ColumnIndex == Go.Index ? "Go" : ((DataGridViewCell)i).FormattedValue)
+                    .ToJSON(Formatting.None);
                 ans.Add(line);
             });
 
-            Settings.Instance.SetList(configlist, ans);
+            // SetList ignores an empty list, so deleting the last row has to remove the key
+            if (ans.Count == 0)
+                Settings.Instance.Remove(configlist);
+            else
+                Settings.Instance.SetList(configlist, ans);
         }
 
         private void Load()
@@ -255,6 +272,11 @@ namespace MissionPlanner.Controls
                 StopMirror(key);
                 UpdateRowStates();
             }
+        }
+
+        private void myDataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            Save();
         }
 
         private void myDataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
