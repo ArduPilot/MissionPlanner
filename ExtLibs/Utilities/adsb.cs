@@ -11,7 +11,6 @@ using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MissionPlanner.Utilities.rtcm3;
-using Flurl.Http;
 using System.Diagnostics;
 
 namespace MissionPlanner.Utilities
@@ -79,11 +78,6 @@ namespace MissionPlanner.Utilities
         /// </summary>
         private const int API_LOOP_DELAY_MAX_MILLISECONDS = 10000;
 
-        /// <summary>
-        /// Application version string for HTTP user agents - set by MainV2.cs
-        /// </summary>
-        public static string ApplicationVersion { get; set; }
-
         public adsb()
         {
             thisthread = new Thread(TryConnect);
@@ -142,10 +136,6 @@ namespace MissionPlanner.Utilities
                     {
                         // ADSB Exchange API format - see https://api.adsb.lol/docs
                         string url = "{0}/v2/point/{1}/{2}/{3}";
-                        Download.RequestModification += (u, request) => {
-                            // for future use if necessary: request.Headers.Add("X-API-Auth", "example");
-                            request.SetHeader("User-Agent", "Mission-Planner/" + ApplicationVersion);
-                        };
                         var delay = API_LOOP_DELAY_MILLISECONDS;
 
                         while (true)
