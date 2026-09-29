@@ -21,6 +21,7 @@ using SharpKml.Base;
 using SharpKml.Dom;
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -239,7 +240,10 @@ namespace MissionPlanner.GCSViews
             CMB_altmode.SelectedItem = altmode.Relative;
 
             cmb_missiontype.DataSource = new List<MAVLink.MAV_MISSION_TYPE>()
-                {MAVLink.MAV_MISSION_TYPE.MISSION, MAVLink.MAV_MISSION_TYPE.FENCE, MAVLink.MAV_MISSION_TYPE.RALLY};
+            {
+                MAVLink.MAV_MISSION_TYPE.MISSION, MAVLink.MAV_MISSION_TYPE.FENCE, MAVLink.MAV_MISSION_TYPE.RALLY,
+                MAVLink.MAV_MISSION_TYPE.ALL
+            };
 
             updateCMDParams();
 
@@ -293,6 +297,103 @@ namespace MissionPlanner.GCSViews
         public static FlightPlanner instance { get; set; }
 
         public List<PointLatLngAlt> pointlist { get; set; } = new List<PointLatLngAlt>();
+
+        /// <summary>
+        /// The item type chosen in the top right dropdown: MISSION, FENCE, RALLY, or ALL
+        /// (ALL = mission, fence and rally items are edited together in one list).
+        /// </summary>
+        private MAVLink.MAV_MISSION_TYPE SelectedMissionType
+        {
+            get
+            {
+                if (cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE type)
+                    return type;
+                return MAVLink.MAV_MISSION_TYPE.MISSION;
+            }
+        }
+
+        /// <summary>
+        /// Upload order used when several item types are sent or received together.
+        /// </summary>
+        private static readonly MAVLink.MAV_MISSION_TYPE[] allMissionTypes =
+        {
+            MAVLink.MAV_MISSION_TYPE.MISSION, MAVLink.MAV_MISSION_TYPE.FENCE, MAVLink.MAV_MISSION_TYPE.RALLY
+        };
+
+        /// <summary>
+        /// Classify a mission item by its command id. Rally and fence commands have their own
+        /// ids, everything else belongs to the main mission.
+        /// </summary>
+        internal static MAVLink.MAV_MISSION_TYPE MissionTypeOf(ushort cmd)
+        {
+            switch ((MAVLink.MAV_CMD) cmd)
+            {
+                case MAVLink.MAV_CMD.RALLY_POINT:
+                    return MAVLink.MAV_MISSION_TYPE.RALLY;
+                case MAVLink.MAV_CMD.FENCE_RETURN_POINT:
+                case MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION:
+                case MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION:
+                case MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION:
+                case MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION:
+                case MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION: // legacy home centred fence
+                    return MAVLink.MAV_MISSION_TYPE.FENCE;
+                default:
+                    return MAVLink.MAV_MISSION_TYPE.MISSION;
+            }
+        }
+
+        private static bool IsFencePolygonVertex(ushort cmd)
+        {
+            return cmd == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
+                   cmd == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION;
+        }
+
+        /// <summary>
+        /// true when the grid row holds a fence polygon vertex. Out of range rows are false.
+        /// </summary>
+        private bool IsFencePolygonVertexRow(int row)
+        {
+            if (row < 0 || row >= Commands.Rows.Count)
+                return false;
+            try
+            {
+                return IsFencePolygonVertex(DataViewtoLocationwp(row).id);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Mission, fence and rally items from the vehicle cache joined into one list, in the
+        /// order they are shown when the dropdown is set to ALL. Home (mission seq 0) is kept
+        /// at the front so processToScreen strips it the same way it does for MISSION.
+        /// </summary>
+        private static List<Locationwp> GetAllCachedItems()
+        {
+            var mav = MainV2.comPort.MAV;
+            var list = new List<Locationwp>();
+            list.AddRange(mav.wps.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
+            list.AddRange(mav.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
+            list.AddRange(mav.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
+            return list;
+        }
+
+        /// <summary>
+        /// Home as entered in the home lat/lng/alt boxes, as a mission item.
+        /// Throws if the boxes do not hold valid numbers.
+        /// </summary>
+        private Locationwp GetHomeFromText()
+        {
+            Locationwp home = new Locationwp();
+            home.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
+            home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
+            home.lat = (double.Parse(TXT_homelat.Text));
+            home.lng = (double.Parse(TXT_homelng.Text));
+            home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+            return home;
+        }
 
 
         public void Activate()
@@ -606,6 +707,23 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         public void BUT_read_Click(object sender, EventArgs e)
         {
+            // which item types to fetch. null = the single type in the dropdown
+            List<MAVLink.MAV_MISSION_TYPE> types = null;
+
+            if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
+            {
+                if (sender is FlightData)
+                {
+                    types = allMissionTypes.ToList();
+                }
+                else
+                {
+                    types = MissionTypePicker.Show(this, false);
+                    if (types == null || types.Count == 0)
+                        return;
+                }
+            }
+
             if (Commands.Rows.Count > 0)
             {
                 if (sender is FlightData)
@@ -613,9 +731,15 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    if (
-                        CustomMessageBox.Show("This will clear your existing points, Continue?", "Confirm",
-                            MessageBoxButtons.OKCancel) != (int) DialogResult.OK)
+                    var prompt = "This will clear your existing points, Continue?";
+
+                    // a partial read (ALL mode) keeps the rows of the types that are not fetched
+                    if (types != null && types.Count < allMissionTypes.Length)
+                        prompt = string.Format(Strings.ReplaceExistingPoints,
+                            string.Join(", ", types.Select(MissionTypePicker.TypeName)));
+
+                    if (CustomMessageBox.Show(prompt, "Confirm", MessageBoxButtons.OKCancel) !=
+                        (int) DialogResult.OK)
                     {
                         return;
                     }
@@ -628,7 +752,10 @@ namespace MissionPlanner.GCSViews
                 Text = "Receiving WP's"
             };
 
-            frmProgressReporter.DoWork += getWPs;
+            if (types == null)
+                frmProgressReporter.DoWork += getWPs;
+            else
+                frmProgressReporter.DoWork += (s) => getWPs(s, types);
             frmProgressReporter.UpdateProgressAndStatus(-1, "Receiving WP's");
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
@@ -671,9 +798,38 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            // which item types to send. null = the single type in the dropdown. Chosen before
+            // the grid is checked, so rows of a type that is not being sent do not block it.
+            List<MAVLink.MAV_MISSION_TYPE> types = null;
+
+            if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
+            {
+                var counts = allMissionTypes.ToDictionary(t => t, t => 0);
+                try
+                {
+                    foreach (var item in GetCommandList())
+                        counts[MissionTypeOf(item.id)]++;
+                }
+                catch (FormatException ex)
+                {
+                    CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + ex.Message, Strings.ERROR);
+                    return;
+                }
+
+                types = MissionTypePicker.Show(this, true, counts);
+                if (types == null || types.Count == 0)
+                    return;
+            }
+
             // check for invalid grid data
             for (int a = 0; a < Commands.Rows.Count - 0; a++)
             {
+                var cmdname = Commands.Rows[a].Cells[Command.Index].Value.ToString();
+
+                // the altitude checks only apply to rows that are being sent
+                var sending = types == null || cmdname.Contains("UNKNOWN") ||
+                              types.Contains(MissionTypeOf(getCmdID(cmdname)));
+
                 for (int b = 0; b < Commands.ColumnCount - 0; b++)
                 {
                     double answer;
@@ -688,10 +844,10 @@ namespace MissionPlanner.GCSViews
 
                     if (TXT_altwarn.Text == "") TXT_altwarn.Text = (0).ToString();
 
-                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    if (cmdname.Contains("UNKNOWN") || !sending)
                         continue;
 
-                    ushort cmd = getCmdID(Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                    ushort cmd = getCmdID(cmdname);
 
                     if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
                         double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
@@ -706,7 +862,7 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                if (!checkZeroAlts(a))
+                if (sending && !checkZeroAlts(a))
                     return;
             }
 
@@ -716,7 +872,10 @@ namespace MissionPlanner.GCSViews
                 Text = "Sending WP's"
             };
 
-            frmProgressReporter.DoWork += saveWPs;
+            if (types == null)
+                frmProgressReporter.DoWork += saveWPs;
+            else
+                frmProgressReporter.DoWork += (s) => saveWPs(s, types);
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Sending WP's");
 
@@ -1418,7 +1577,11 @@ namespace MissionPlanner.GCSViews
             {
                 var commandlist = GetCommandList();
 
-                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
+                var type = SelectedMissionType;
+
+                // MISSION draws the mission (plus the vehicle's fence for reference).
+                // ALL draws mission, fence and rally items from the grid in one editable overlay.
+                if (type == MAVLink.MAV_MISSION_TYPE.MISSION || type == MAVLink.MAV_MISSION_TYPE.ALL)
                 {
                     wpOverlay = new WPOverlay();
                     wpOverlay.overlay.Id = "WPOverlay";
@@ -1458,7 +1621,24 @@ namespace MissionPlanner.GCSViews
                                                 .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
                                         ) / 1000.0, false);
 
-                    setgradanddistandaz(wpOverlay.pointlist, home);
+                    // In ALL mode the point list also holds the fence and rally items. Distance,
+                    // gradient and bearing are between mission legs only, and so are the mission
+                    // midlines, so both work from a mission-only copy (fence polygons get their
+                    // own midlines below).
+                    var missionpoints = wpOverlay.pointlist;
+                    if (type == MAVLink.MAV_MISSION_TYPE.ALL)
+                    {
+                        missionpoints = wpOverlay.pointlist.Where(p =>
+                        {
+                            if (p == null)
+                                return true;
+                            if (int.TryParse(p.Tag, out var row) && row >= 1 && row <= commandlist.Count)
+                                return MissionTypeOf(commandlist[row - 1].id) == MAVLink.MAV_MISSION_TYPE.MISSION;
+                            return true;
+                        }).ToList();
+                    }
+
+                    setgradanddistandaz(missionpoints, home);
 
                     if (wpOverlay.pointlist.Count <= 1)
                     {
@@ -1474,7 +1654,10 @@ namespace MissionPlanner.GCSViews
                     pointlist = wpOverlay.pointlist;
 
                     {
-                        foreach (var pointLatLngAlt in pointlist.PrevNowNext())
+                        // mission midlines only join mission legs
+                        var midpoints = missionpoints;
+
+                        foreach (var pointLatLngAlt in midpoints.PrevNowNext())
                         {
                             var prev = pointLatLngAlt.Item1;
                             var now = pointLatLngAlt.Item2;
@@ -1494,7 +1677,8 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
-                    // draw fence
+                    // draw the vehicle's fence for reference (not editable from the mission list)
+                    if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                     {
                         var fenceoverlay = new WPOverlay();
                         fenceoverlay.overlay.Id = "fence";
@@ -1517,11 +1701,16 @@ namespace MissionPlanner.GCSViews
 
                         fenceoverlay.overlay.ForceUpdate();
                     }
+                    else
+                    {
+                        // ALL: the fence polygons are part of the editable overlay
+                        addFenceMidlines(wpOverlay.overlay);
+                    }
 
                     MainMap.Refresh();
                 }
 
-                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+                if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
                 {
                     var fenceoverlay = new WPOverlay();
                     fenceoverlay.overlay.Id = "fence";
@@ -1548,39 +1737,12 @@ namespace MissionPlanner.GCSViews
 
                     fenceoverlay.overlay.ForceUpdate();
 
-                    if (true)
-                    {
-                        foreach (var poly in fenceoverlay.overlay.Polygons)
-                        {
-                            var startwp = int.Parse(poly.Name);
-                            var a = 1;
-                            foreach (var pointLatLngAlt in poly.Points.CloseLoop().PrevNowNext())
-                            {
-                                var now = pointLatLngAlt.Item2;
-                                var next = pointLatLngAlt.Item3;
-
-                                if (now == null || next == null)
-                                    continue;
-
-                                var p1 = MainMap.FromLatLngToLocal(now);
-                                var p2 = MainMap.FromLatLngToLocal(next);
-                                var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
-
-                                var pnt = new GMapMarkerPlus(mid);
-                                pnt.Tag = new midline() {now = now, next = next};
-                                ((midline) pnt.Tag).now.Tag = (startwp + a).ToString();
-                                ((midline) pnt.Tag).next.Tag = (startwp + a + 1).ToString();
-                                fenceoverlay.overlay.Markers.Add(pnt);
-
-                                a++;
-                            }
-                        }
-                    }
+                    addFenceMidlines(fenceoverlay.overlay);
 
                     MainMap.Refresh();
                 }
 
-                if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+                if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
                 {
                     var rallyoverlay = new WPOverlay();
                     rallyoverlay.overlay.Id = "rally";
@@ -1613,6 +1775,42 @@ namespace MissionPlanner.GCSViews
             catch (FormatException ex)
             {
                 CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + ex.Message, Strings.ERROR);
+            }
+        }
+
+        /// <summary>
+        /// Add a draggable "+" marker to the middle of every edge of each fence polygon in the
+        /// overlay. The polygon name is the grid index of its first vertex, so the midline tags
+        /// resolve to grid rows when the marker is dropped (see MainMap_MouseUp).
+        /// </summary>
+        private void addFenceMidlines(GMapOverlay overlay)
+        {
+            foreach (var poly in overlay.Polygons)
+            {
+                if (!int.TryParse(poly.Name, out var startwp))
+                    continue;
+
+                var a = 1;
+                foreach (var pointLatLngAlt in poly.Points.CloseLoop().PrevNowNext())
+                {
+                    var now = pointLatLngAlt.Item2;
+                    var next = pointLatLngAlt.Item3;
+
+                    if (now == null || next == null)
+                        continue;
+
+                    var p1 = MainMap.FromLatLngToLocal(now);
+                    var p2 = MainMap.FromLatLngToLocal(next);
+                    var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
+
+                    var pnt = new GMapMarkerPlus(mid);
+                    pnt.Tag = new midline() {now = now, next = next};
+                    ((midline) pnt.Tag).now.Tag = (startwp + a).ToString();
+                    ((midline) pnt.Tag).next.Tag = (startwp + a + 1).ToString();
+                    overlay.Markers.Add(pnt);
+
+                    a++;
+                }
             }
         }
 
@@ -2181,13 +2379,13 @@ namespace MissionPlanner.GCSViews
             if (rally.Count() > 0) MainMap.Overlays.Remove(rally.First());
 
             // update the displayed items
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp) a.Value).ToList());
 
             }
-            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            else if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 BUT_Add.Visible = false;
                 processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp) a.Value).ToList());
@@ -2196,6 +2394,16 @@ namespace MissionPlanner.GCSViews
                                                             "Inclusion and Exclusion areas (round circle to the left)," +
                                                             " once drawn use the same icon to convert it to a inclusion " +
                                                             "or exclusion fence");
+            }
+            else if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
+            {
+                BUT_Add.Visible = true;
+                processToScreen(GetAllCachedItems());
+
+                Common.MessageShowAgain("FlightPlan All",
+                    "Mission, Fence and Rally items are now shown together in one list. " +
+                    "The Command column tells them apart (RALLY_POINT and FENCE_* rows are not part of the mission). " +
+                    "Read and Write let you pick which of the three to send or receive.");
             }
             else
             {
@@ -2696,22 +2904,12 @@ namespace MissionPlanner.GCSViews
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
         {
-            // update the displayed items
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
-            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
-            {
-                fenceInclusionToolStripMenuItem.Visible = true;
-                fenceExclusionToolStripMenuItem.Visible = true;
-            }
-            else
-            {
-                fenceInclusionToolStripMenuItem.Visible = false;
-                fenceExclusionToolStripMenuItem.Visible = false;
-            }
+            // fence conversion is offered when editing the fence, or everything at once
+            var showfence = SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE ||
+                            SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL;
+
+            fenceInclusionToolStripMenuItem.Visible = showfence;
+            fenceExclusionToolStripMenuItem.Visible = showfence;
         }
 
         private void convertFromGeographic(double lat, double lng)
@@ -3124,8 +3322,9 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
-                        if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
-                            MAVLink.MAV_MISSION_TYPE.FENCE)
+                        // ReCalcFence only touches fence polygon rows, so it is safe in ALL mode
+                        if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE ||
+                            SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
                             ReCalcFence(no - 1, false, true);
 
                         Commands.Rows.RemoveAt(no - 1); // home is 0
@@ -3979,9 +4178,103 @@ namespace MissionPlanner.GCSViews
         {
             var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
             {
-                return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                return SelectedMissionType;
             });
 
+            if (type == MAVLink.MAV_MISSION_TYPE.ALL)
+            {
+                getWPs(sender, allMissionTypes.ToList());
+                return;
+            }
+
+            WPtoScreen(DownloadMissionItems(sender, type, ""));
+        }
+
+        /// <summary>
+        /// ALL mode: fetch the given item types from the vehicle and show them together.
+        /// Types that are not fetched keep the rows currently in the grid, so refreshing one
+        /// type does not throw away unsent edits to the others.
+        /// </summary>
+        private void getWPs(IProgressReporterDialogue sender, List<MAVLink.MAV_MISSION_TYPE> types)
+        {
+            var current = (List<Locationwp>) Invoke((Func<List<Locationwp>>) GetCommandList);
+
+            var parts = allMissionTypes.ToDictionary(t => t,
+                t => current.Where(a => MissionTypeOf(a.id) == t).ToList());
+
+            var refreshedmission = false;
+            var errors = new List<string>();
+
+            foreach (var type in allMissionTypes)
+            {
+                if (!types.Contains(type))
+                    continue;
+
+                try
+                {
+                    parts[type] = DownloadMissionItems(sender, type, type + ": ");
+                    if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
+                        refreshedmission = true;
+                }
+                catch (Exception ex)
+                {
+                    if (sender.doWorkArgs.CancelRequested)
+                        throw;
+                    // eg fence items not supported by this vehicle - keep going with the rest
+                    log.Error(ex);
+                    errors.Add(type + ": " + ex.Message);
+                }
+            }
+
+            // a downloaded mission starts with home, and processToScreen strips the first row.
+            // When the mission part was not refreshed, or the vehicle has no mission, put the
+            // current home in front so a fence or rally row is not taken for home.
+            if (!refreshedmission || parts[MAVLink.MAV_MISSION_TYPE.MISSION].Count == 0)
+            {
+                Locationwp home = new Locationwp();
+                home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
+                try
+                {
+                    home = (Locationwp) Invoke((Func<Locationwp>) GetHomeFromText);
+                }
+                catch
+                {
+                }
+
+                parts[MAVLink.MAV_MISSION_TYPE.MISSION].Insert(0, home);
+            }
+
+            WPtoScreen(allMissionTypes.SelectMany(t => parts[t]).ToList());
+
+            if (errors.Count > 0)
+                throw new Exception("Some items could not be read:\n" + string.Join("\n", errors));
+        }
+
+        /// <summary>
+        /// The vehicle side cache of the given item type.
+        /// </summary>
+        private static ConcurrentDictionary<int, MAVLink.mavlink_mission_item_int_t> GetMissionCache(
+            MAVLink.MAV_MISSION_TYPE type)
+        {
+            var mav = MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid];
+            switch (type)
+            {
+                case MAVLink.MAV_MISSION_TYPE.FENCE:
+                    return mav.fencepoints;
+                case MAVLink.MAV_MISSION_TYPE.RALLY:
+                    return mav.rallypoints;
+                default:
+                    return mav.wps;
+            }
+        }
+
+        /// <summary>
+        /// Download one item type from the vehicle, over MAVFTP when enabled, else item by item.
+        /// </summary>
+        /// <param name="prefix">prepended to progress text so the user can tell the types apart</param>
+        private List<Locationwp> DownloadMissionItems(IProgressReporterDialogue sender,
+            MAVLink.MAV_MISSION_TYPE type, string prefix)
+        {
             if (chk_usemavftp.Checked)
             {
                 try
@@ -3989,7 +4282,7 @@ namespace MissionPlanner.GCSViews
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {
                         var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                        ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), status); };
+                        ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), prefix + status); };
                         if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                             return ftp.GetFile(
                                 "@MISSION/mission.dat", null, true, 110);
@@ -4002,10 +4295,10 @@ namespace MissionPlanner.GCSViews
                         return null;
                     });
                     var values = missionpck.unpack(paramfileTask.GetAwaiter().GetResult().ToArray());
-                    MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps.Clear();
-                    values.wps.ForEach(wp => MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid].wps[wp.seq] = wp);
-                    WPtoScreen(values.wps.Select(a => (Locationwp)a).ToList());
-                    return;
+                    var cache = GetMissionCache(type);
+                    cache.Clear();
+                    values.wps.ForEach(wp => cache[wp.seq] = wp);
+                    return values.wps.Select(a => (Locationwp)a).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -4013,7 +4306,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            List<Locationwp> cmds = mav_mission.download(MainV2.comPort,
+            return mav_mission.download(MainV2.comPort,
                 MainV2.comPort.MAV.sysid,
                 MainV2.comPort.MAV.compid,
                 type,
@@ -4026,10 +4319,8 @@ namespace MissionPlanner.GCSViews
                         throw new Exception("User Canceled");
                     }
 
-                    sender.UpdateProgressAndStatus(percent, status);
+                    sender.UpdateProgressAndStatus(percent, prefix + status);
                 }).GetAwaiter().GetResult();
-
-            WPtoScreen(cmds);
         }
 
         public void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5631,10 +5922,11 @@ namespace MissionPlanner.GCSViews
 
             var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
             {
-                return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                return SelectedMissionType;
             });
 
-            if (!append && type == MAVLink.MAV_MISSION_TYPE.MISSION)
+            // a mission list (alone, or at the front of an ALL list) starts with home
+            if (!append && (type == MAVLink.MAV_MISSION_TYPE.MISSION || type == MAVLink.MAV_MISSION_TYPE.ALL))
             {
                 try
                 {
@@ -6185,6 +6477,24 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void saveWPs(IProgressReporterDialogue sender)
         {
+            var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+            {
+                return SelectedMissionType;
+            });
+
+            if (type == MAVLink.MAV_MISSION_TYPE.ALL)
+                saveWPs(sender, allMissionTypes.ToList());
+            else
+                saveWPs(sender, new List<MAVLink.MAV_MISSION_TYPE> {type});
+        }
+
+        /// <summary>
+        /// Send the grid to the vehicle. In ALL mode each row goes to the type its command
+        /// belongs to and only the listed types are sent. Otherwise the whole grid is the one
+        /// listed type.
+        /// </summary>
+        private void saveWPs(IProgressReporterDialogue sender, List<MAVLink.MAV_MISSION_TYPE> types)
+        {
             try
             {
                 MAVLinkInterface port = MainV2.comPort;
@@ -6195,14 +6505,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
 
                 // define the home point
-                Locationwp home = new Locationwp();
+                Locationwp home;
                 try
                 {
-                    home.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
-                    home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
-                    home.lat = (double.Parse(TXT_homelat.Text));
-                    home.lng = (double.Parse(TXT_homelng.Text));
-                    home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+                    home = GetHomeFromText();
                 }
                 catch
                 {
@@ -6213,84 +6519,48 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 log.Info("wps values " + MainV2.comPort.MAV.wps.Values.Count);
                 log.Info("cmd rows " + (Commands.Rows.Count + 1)); // + home
 
-                var type = (MAVLink.MAV_MISSION_TYPE) Invoke((Func<MAVLink.MAV_MISSION_TYPE>) delegate
+                var splitbycommand = (bool) Invoke((Func<bool>) delegate
                 {
-                    return (MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue;
+                    return SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL;
                 });
 
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
 
-                if (type == MAVLink.MAV_MISSION_TYPE.MISSION &&
-                    MainV2.comPort.MAV.apname == MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA)
-                    commandlist.Insert(0, home);
+                // always send in mission, fence, rally order
+                var ordered = allMissionTypes.Where(types.Contains).ToList();
 
-                // fence does not use alt, and needs to be global
-                if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
-                {
-                    commandlist = commandlist.Select((fp) =>
-                    {
-                        fp.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
-                        return fp;
-                    }).ToList();
-                }
+                var errors = new List<string>();
 
-                if (chk_usemavftp.Checked)
+                for (int i = 0; i < ordered.Count; i++)
                 {
+                    var type = ordered[i];
+
+                    var items = splitbycommand
+                        ? commandlist.Where(a => MissionTypeOf(a.id) == type).ToList()
+                        : commandlist.ToList();
+
+                    // each type gets an equal slice of the 0-95% progress range
+                    var offset = i * 100.0 / ordered.Count;
+                    var scale = 1.0 / ordered.Count;
+
                     try
                     {
-                        var values = missionpck.pack(commandlist.Select(a => (MAVLink.mavlink_mission_item_int_t)a).ToList(), type, 0);
-                        var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                        ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), status); };
-                        if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
-                            ftp.UploadFile("@MISSION/mission.dat", new MemoryStream(values), null);
-                        if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
-                            ftp.UploadFile("@MISSION/fence.dat", new MemoryStream(values), null);
-                        if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
-                            ftp.UploadFile("@MISSION/rally.dat", new MemoryStream(values), null);
-                        return;
+                        UploadMissionItems(sender, type, items, home,
+                            ordered.Count > 1 ? type + ": " : "",
+                            percent => (int) ((offset + percent * scale) * 0.95));
                     }
                     catch (Exception ex)
                     {
+                        // a single type fails the whole upload as before
+                        if (ordered.Count == 1 || sender.doWorkArgs.CancelRequested)
+                            throw;
+
+                        // eg fence items rejected by this vehicle - still send the other types
                         log.Error(ex);
+                        errors.Add(type + ": " + ex.Message);
                     }
                 }
-
-                Task.Run(async () =>
-                {
-                    await mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type,
-                        commandlist,
-                        (percent, status) =>
-                        {
-                            if (sender.doWorkArgs.CancelRequested)
-                            {
-                                sender.doWorkArgs.CancelAcknowledged = true;
-                                sender.doWorkArgs.ErrorMessage = "User Canceled";
-                                throw new Exception("User Canceled");
-                            }
-
-                            sender.UpdateProgressAndStatus((int) (percent * 0.95), status);
-                        }).ConfigureAwait(false);
-
-                    try
-                    {
-                        await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
-                            (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
-                    }
-                    catch (Exception ex2)
-                    {
-                        log.Error(ex2);
-                        try
-                        {
-                            MainV2.comPort.getWP((byte) MainV2.comPort.sysidcurrent,
-                                (byte) MainV2.comPort.compidcurrent, 0);
-                        }
-                        catch (Exception ex3)
-                        {
-                            log.Error(ex3);
-                        }
-                    }
-                }).GetAwaiter().GetResult();
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
@@ -6327,6 +6597,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 });
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(100, "Done.");
+
+                if (errors.Count > 0)
+                {
+                    MainV2.comPort.giveComport = false;
+                    throw new Exception("Some items could not be sent:\n" + string.Join("\n", errors));
+                }
             }
             catch (Exception ex)
             {
@@ -6335,6 +6611,87 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
             MainV2.comPort.giveComport = false;
+        }
+
+        /// <summary>
+        /// Upload one item type to the vehicle, over MAVFTP when enabled, else item by item.
+        /// </summary>
+        /// <param name="commandlist">items of this type only, without home</param>
+        /// <param name="prefix">prepended to progress text so the user can tell the types apart</param>
+        /// <param name="scaleprogress">maps this upload's 0-100 onto the dialog's progress bar</param>
+        private void UploadMissionItems(IProgressReporterDialogue sender, MAVLink.MAV_MISSION_TYPE type,
+            List<Locationwp> commandlist, Locationwp home, string prefix, Func<double, int> scaleprogress)
+        {
+            if (type == MAVLink.MAV_MISSION_TYPE.MISSION &&
+                MainV2.comPort.MAV.apname == MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA)
+                commandlist.Insert(0, home);
+
+            // fence does not use alt, and needs to be global
+            if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
+            {
+                commandlist = commandlist.Select((fp) =>
+                {
+                    fp.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
+                    return fp;
+                }).ToList();
+            }
+
+            if (chk_usemavftp.Checked)
+            {
+                try
+                {
+                    var values = missionpck.pack(commandlist.Select(a => (MAVLink.mavlink_mission_item_int_t)a).ToList(), type, 0);
+                    var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                    ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus(scaleprogress(percent), prefix + status); };
+                    if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
+                        ftp.UploadFile("@MISSION/mission.dat", new MemoryStream(values), null);
+                    if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
+                        ftp.UploadFile("@MISSION/fence.dat", new MemoryStream(values), null);
+                    if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
+                        ftp.UploadFile("@MISSION/rally.dat", new MemoryStream(values), null);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+
+            Task.Run(async () =>
+            {
+                await mav_mission.upload(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, type,
+                    commandlist,
+                    (percent, status) =>
+                    {
+                        if (sender.doWorkArgs.CancelRequested)
+                        {
+                            sender.doWorkArgs.CancelAcknowledged = true;
+                            sender.doWorkArgs.ErrorMessage = "User Canceled";
+                            throw new Exception("User Canceled");
+                        }
+
+                        sender.UpdateProgressAndStatus(scaleprogress(percent), prefix + status);
+                    }).ConfigureAwait(false);
+
+                try
+                {
+                    await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                }
+                catch (Exception ex2)
+                {
+                    log.Error(ex2);
+                    try
+                    {
+                        MainV2.comPort.getWP((byte) MainV2.comPort.sysidcurrent,
+                            (byte) MainV2.comPort.compidcurrent, 0);
+                    }
+                    catch (Exception ex3)
+                    {
+                        log.Error(ex3);
+                    }
+                }
+            }).GetAwaiter().GetResult();
         }
 
         private void saveWPsFast(IProgressReporterDialogue sender)
@@ -7108,53 +7465,20 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             readCMDXML();
 
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            var type = SelectedMissionType;
+
+            // fence and rally have their own small command sets. ALL offers every command.
+            if (type == MAVLink.MAV_MISSION_TYPE.FENCE || type == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
-                var fenceNames = new[]
-                {
-                    "",
-                    "",
-                    "",
-                    "",
-                    "Lat",
-                    "Long",
-                    ""
-                };
-                var fenceMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
                 cmdParamNames.Clear();
                 cmdParamMultipliers.Clear();
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fenceNames.ToArray());
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString(), fenceMult);
-                fenceNames[0] = "Points";
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fenceNames.ToArray());
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fenceNames.ToArray());
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString(), fenceMult);
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString(), fenceMult);
-                fenceNames[0] = "Radius (m)"; // Don't actually convert, but make it clear it's meters
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceNames.ToArray());
-                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceMult);
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceMult);
             }
 
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
-            {
-                var rallyNames = new[]
-                {
-                    "",
-                    "",
-                    "",
-                    "",
-                    "Lat",
-                    "Long",
-                    $"Alt ({CurrentState.AltUnit})"
-                };
-                var rallyMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, CurrentState.multiplieralt};
-                cmdParamNames.Clear();
-                cmdParamMultipliers.Clear();
-                cmdParamNames.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rallyNames);
-                cmdParamMultipliers.Add(MAVLink.MAV_CMD.RALLY_POINT.ToString(), rallyMult);
-            }
+            if (type == MAVLink.MAV_MISSION_TYPE.FENCE || type == MAVLink.MAV_MISSION_TYPE.ALL)
+                addFenceCMDParams();
+
+            if (type == MAVLink.MAV_MISSION_TYPE.RALLY || type == MAVLink.MAV_MISSION_TYPE.ALL)
+                addRallyCMDParams();
 
             List<string> cmds = new List<string>();
 
@@ -7190,6 +7514,56 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
 
+        }
+
+        /// <summary>
+        /// Column names and multipliers for the fence commands (replaces any from mavcmd.xml)
+        /// </summary>
+        private void addFenceCMDParams()
+        {
+            var fenceNames = new[]
+            {
+                "",
+                "",
+                "",
+                "",
+                "Lat",
+                "Long",
+                ""
+            };
+            var fenceMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString()] = fenceNames.ToArray();
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_RETURN_POINT.ToString()] = fenceMult;
+            fenceNames[0] = "Points";
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString()] = fenceNames.ToArray();
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString()] = fenceNames.ToArray();
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION.ToString()] = fenceMult;
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION.ToString()] = fenceMult;
+            fenceNames[0] = "Radius (m)"; // Don't actually convert, but make it clear it's meters
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString()] = fenceNames.ToArray();
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString()] = fenceNames.ToArray();
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString()] = fenceMult;
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString()] = fenceMult;
+        }
+
+        /// <summary>
+        /// Column names and multipliers for the rally point command (replaces any from mavcmd.xml)
+        /// </summary>
+        private void addRallyCMDParams()
+        {
+            var rallyNames = new[]
+            {
+                "",
+                "",
+                "",
+                "",
+                "Lat",
+                "Long",
+                $"Alt ({CurrentState.AltUnit})"
+            };
+            var rallyMult = new[] {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, CurrentState.multiplieralt};
+            cmdParamNames[MAVLink.MAV_CMD.RALLY_POINT.ToString()] = rallyNames;
+            cmdParamMultipliers[MAVLink.MAV_CMD.RALLY_POINT.ToString()] = rallyMult;
         }
 
         private void updateHomeText()
@@ -7664,10 +8038,23 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     {
                         if (int.TryParse(midline.next.Tag, out pnt2))
                         {
-                            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
-                                MAVLink.MAV_MISSION_TYPE.FENCE)
+                            // the row the midline starts from. In ALL mode a mission leg can
+                            // span fence or rally rows in the grid, so the physical row before
+                            // pnt2 is not necessarily the start of this leg. Home has no row.
+                            int pnt1;
+                            if (!int.TryParse(midline.now?.Tag, out pnt1))
+                                pnt1 = pnt2 - 1;
+
+                            // in ALL mode the midline belongs to the type of the row it starts from
+                            var midtype = SelectedMissionType;
+                            if (midtype == MAVLink.MAV_MISSION_TYPE.ALL)
+                                midtype = IsFencePolygonVertexRow(pnt1 - 1)
+                                    ? MAVLink.MAV_MISSION_TYPE.FENCE
+                                    : MAVLink.MAV_MISSION_TYPE.MISSION;
+
+                            if (midtype == MAVLink.MAV_MISSION_TYPE.FENCE)
                             {
-                                var prevtype = Commands.Rows[(int) Math.Max(pnt2 - 2, 0)].Cells[Command.Index].Value
+                                var prevtype = Commands.Rows[(int) Math.Max(pnt1 - 1, 0)].Cells[Command.Index].Value
                                     .ToString();
                                 // match type of prev row
                                 InsertCommand(pnt2 - 1, (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), prevtype),
@@ -7677,8 +8064,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                                 ReCalcFence(pnt2 - 1, true, false);
                             }
-                            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
-                                     MAVLink.MAV_MISSION_TYPE.MISSION)
+                            else if (midtype == MAVLink.MAV_MISSION_TYPE.MISSION)
                             {
 
                                 InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0,

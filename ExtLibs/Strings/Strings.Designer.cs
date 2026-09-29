@@ -1747,5 +1747,113 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("Zoom_to_the_center_or_the_loaded_file", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mission.
+        /// </summary>
+        public static string MissionTypeMission {
+            get {
+                return ResourceManager.GetString("MissionTypeMission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence.
+        /// </summary>
+        public static string MissionTypeFence {
+            get {
+                return ResourceManager.GetString("MissionTypeFence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally.
+        /// </summary>
+        public static string MissionTypeRally {
+            get {
+                return ResourceManager.GetString("MissionTypeRally", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read.
+        /// </summary>
+        public static string Read {
+            get {
+                return ResourceManager.GetString("Read", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write.
+        /// </summary>
+        public static string Write {
+            get {
+                return ResourceManager.GetString("Write", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read which items?.
+        /// </summary>
+        public static string ReadWhichItems {
+            get {
+                return ResourceManager.GetString("ReadWhichItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write which items?.
+        /// </summary>
+        public static string WriteWhichItems {
+            get {
+                return ResourceManager.GetString("WriteWhichItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read the following item types from the vehicle:.
+        /// </summary>
+        public static string ReadItemTypesPrompt {
+            get {
+                return ResourceManager.GetString("ReadItemTypesPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write the following item types to the vehicle:.
+        /// </summary>
+        public static string WriteItemTypesPrompt {
+            get {
+                return ResourceManager.GetString("WriteItemTypesPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1 item.
+        /// </summary>
+        public static string ItemCountOne {
+            get {
+                return ResourceManager.GetString("ItemCountOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} items.
+        /// </summary>
+        public static string ItemCountMany {
+            get {
+                return ResourceManager.GetString("ItemCountMany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will replace your existing {0} points, Continue?.
+        /// </summary>
+        public static string ReplaceExistingPoints {
+            get {
+                return ResourceManager.GetString("ReplaceExistingPoints", resourceCulture);
+            }
+        }
     }
 }

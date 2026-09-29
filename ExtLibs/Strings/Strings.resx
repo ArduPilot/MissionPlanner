@@ -695,4 +695,40 @@ On ArduPlane, zero altitudes may interpreted in two different ways: actual zero 
 
 ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOUR CASE (use a simulator to be sure).[link;https://ardupilot.org/plane/docs/common-mavlink-mission-command-messages-mav_cmd.html;Command Documentation]</value>
   </data>
+  <data name="MissionTypeMission" xml:space="preserve">
+    <value>Mission</value>
+  </data>
+  <data name="MissionTypeFence" xml:space="preserve">
+    <value>Fence</value>
+  </data>
+  <data name="MissionTypeRally" xml:space="preserve">
+    <value>Rally</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Read</value>
+  </data>
+  <data name="Write" xml:space="preserve">
+    <value>Write</value>
+  </data>
+  <data name="ReadWhichItems" xml:space="preserve">
+    <value>Read which items?</value>
+  </data>
+  <data name="WriteWhichItems" xml:space="preserve">
+    <value>Write which items?</value>
+  </data>
+  <data name="ReadItemTypesPrompt" xml:space="preserve">
+    <value>Read the following item types from the vehicle:</value>
+  </data>
+  <data name="WriteItemTypesPrompt" xml:space="preserve">
+    <value>Write the following item types to the vehicle:</value>
+  </data>
+  <data name="ItemCountOne" xml:space="preserve">
+    <value>1 item</value>
+  </data>
+  <data name="ItemCountMany" xml:space="preserve">
+    <value>{0} items</value>
+  </data>
+  <data name="ReplaceExistingPoints" xml:space="preserve">
+    <value>This will replace your existing {0} points, Continue?</value>
+  </data>
 </root>
