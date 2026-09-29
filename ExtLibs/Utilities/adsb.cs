@@ -187,6 +187,8 @@ namespace MissionPlanner.Utilities
                                             onGround = true;
                                         }
                                     }
+                                    // readsb sends the four octal digits as a string ("1200"), or omits it
+                                    bool squawkValid = TryParseSquawk(ac.squawk, out ushort squawk);
                                     PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
                                         ac.lon,
                                         alt * FEET_TO_METERS,
@@ -197,7 +199,8 @@ namespace MissionPlanner.Utilities
                                     {
                                         VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                        Squawk = Convert.ToUInt16(ac.squawk, 10), // Convert the string into a collquial number representation, so that "1200" becomes 1200.
+                                        Squawk = squawk,
+                                        SquawkValid = squawkValid,
                                         Type = (ac.t ?? ""), // NOTE: ac.type is the way the aircraft was detected, not the aircraft type
                                         Category = (ac.category ?? ""),
                                         IsOnGround = onGround,
@@ -430,6 +433,9 @@ namespace MissionPlanner.Utilities
             internal int ground_speed;
             // Vertical speed in cm/s, positive = ascent
             internal double vertical_speed;
+            // Last squawk heard, in the MAVLink form ("1200" -> 1200); only meaningful when squawk_valid
+            internal ushort squawk;
+            internal bool squawk_valid;
 
             public Plane()
             {
@@ -877,6 +883,8 @@ namespace MissionPlanner.Utilities
                             plla.Heading = (float)plane.heading;
                             if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                             plla.Speed = (float)plane.ground_speed;
+                            plla.Squawk = plane.squawk;
+                            plla.SquawkValid = plane.squawk_valid;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
@@ -893,6 +901,16 @@ namespace MissionPlanner.Utilities
                     if (line.StartsWith("MSG"))
                     {
                         string[] strArray = line.Split(new char[] { ',' });
+
+                        // Field 18 is the squawk. dump1090-fa and readsb only fill it on MSG,6 (DF5/DF21
+                        // identity replies) and leave it empty on MSG,3, so it has to be remembered per aircraft.
+                        if (strArray.Length > 17 && TryParseSquawk(strArray[17], out ushort sbsSquawk))
+                        {
+                            if (Planes[strArray[4]] == null)
+                                Planes[strArray[4]] = new Plane();
+                            ((Plane)Planes[strArray[4]]).squawk = sbsSquawk;
+                            ((Plane)Planes[strArray[4]]).squawk_valid = true;
+                        }
 
                         if (strArray[1] == "3") // airborne pos
                         {
@@ -926,13 +944,6 @@ namespace MissionPlanner.Utilities
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
                             }
                             catch { }
-                            ushort squawk = 0;
-                            try
-                            {
-                                squawk = Convert.ToUInt16(strArray[17], 10); // Convert the value as the colloquial "1200" -> 1200.
-                            }
-                            catch { }
-
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
                             if (Planes[hex_ident] == null)
@@ -949,7 +960,8 @@ namespace MissionPlanner.Utilities
                                 PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
                                 {
                                     CallSign = plane.CallSign,
-                                    Squawk = squawk,
+                                    Squawk = plane.squawk,
+                                    SquawkValid = plane.squawk_valid,
                                     VerticalSpeed = plane.vertical_speed
                                 };
                                 UpdatePlanePosition(null, plln);
@@ -1021,21 +1033,21 @@ namespace MissionPlanner.Utilities
 
                     int type = st1.ReadByte();
                     buffer[1] = (byte)type;
-                    st1.Read(buffer, 2, 7);
+                    if (type != '1' && type != '2' && type != '3')
+                        continue;
+                    // 6 byte MLAT timestamp + 1 byte signal level, then the frame
+                    ReadBeastBytes(st1, buffer, 2, 7);
 
                     switch (type)
                     {
                         case '1': // mode-ac
                             // 2 bytes
-                            st1.Read(buffer, 9, 2);
+                            ReadBeastBytes(st1, buffer, 9, 2);
                             //log.Info("1");
                             break;
-                        case '2': // mode-s short
-                            st1.Read(buffer, 9, 7);
-                            //log.Info("2");
-                            break;
+                        case '2': // mode-s short - DF5 identity replies carry the squawk
                         case '3': // mode-s long
-                            st1.Read(buffer, 9, 14);
+                            ReadBeastBytes(st1, buffer, 9, type == '2' ? 7 : 14);
                             //log.Info("3");
                             Plane plane = ReadMessage(buffer);
                             if (plane != null)
@@ -1049,6 +1061,8 @@ namespace MissionPlanner.Utilities
                                 plla.Heading = (float)plane.heading;
                                 if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                                 plla.Speed = plane.ground_speed;
+                                plla.Squawk = plane.squawk;
+                                plla.SquawkValid = plane.squawk_valid;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(this, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -1063,6 +1077,22 @@ namespace MissionPlanner.Utilities
                 {
                     log.Info("bad sync 0x" + by.ToString("X2") + " " + (char)by);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Beast escapes every 0x1a after the type byte by doubling it; read count unescaped bytes.
+        /// </summary>
+        private static void ReadBeastBytes(Stream st1, byte[] buffer, int offset, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                int b = st1.ReadByte();
+                if (b == 0x1a)
+                    b = st1.ReadByte();
+                if (b < 0)
+                    return;
+                buffer[offset + i] = (byte)b;
             }
         }
 
@@ -1095,11 +1125,11 @@ namespace MissionPlanner.Utilities
             if (data[0] != 0x1a || data.Length < 0x17)
                 return null;
 
-            if (data[1] == '3')
+            if (data[1] == '2' || data[1] == '3')
             {
                 StringBuilder sb = new StringBuilder();
 
-                for (int a = 0; a < 14; a++)
+                for (int a = 0; a < (data[1] == '2' ? 7 : 14); a++)
                 {
                     sb.Append(data[9 + a].ToString("X2"));
                 }
@@ -1127,6 +1157,23 @@ namespace MissionPlanner.Utilities
             ModeSMessage adsbmess = new ModeSMessage();
 
             byte[] data = ConvertHexStringToByteArray(avrline.TrimStart('*'));
+
+            if (data.Length != 7 && data.Length != 14)
+                return null;
+
+            int df = data[0] >> 3;
+            if (df == 5 || df == 21)
+            {
+                // Identity reply. Its parity is XORed with the aircraft address, so the CRC residual
+                // is the address; like dump1090, only trust it for an aircraft already heard directly.
+                string replyid = ModeSResidual(data).ToString("X5");
+                if (!Planes.ContainsKey(replyid))
+                    return null;
+                Plane replyplane = (Plane)Planes[replyid];
+                replyplane.squawk = SquawkFromID13(((data[2] << 8) | data[3]) & 0x1FFF);
+                replyplane.squawk_valid = true;
+                return replyplane;
+            }
 
             if (data.Length < 13)
                 return null;
@@ -1213,6 +1260,12 @@ namespace MissionPlanner.Utilities
                 
                 //Console.WriteLine("Ident " + builder.ToString());
             } 
+            else if (adsbmess.DF == 17 && adsbmess.TypeCode == 28 && (adsbmess.adsbdata[0] & 7) == 1) // aircraft status: emergency/priority + Mode A code
+            {
+                Plane statusplane = (Plane)Planes[adsbmess.AA.ToString("X5")];
+                statusplane.squawk = SquawkFromID13(((adsbmess.adsbdata[1] << 8) | adsbmess.adsbdata[2]) & 0x1FFF);
+                statusplane.squawk_valid = true;
+            }
             else if (adsbmess.DF == 17 && adsbmess.TypeCode == 0x13) // velocity
             {
                 int subtype = adsbmess.adsbdata[0] & 7;
@@ -1264,6 +1317,50 @@ namespace MissionPlanner.Utilities
             }
 
             return ((Plane)Planes[adsbmess.AA.ToString("X5")]);
+        }
+
+        /// <summary>
+        /// Parse a squawk written as its octal digits - "1200", "0504", or unpadded "504" as antirez
+        /// dump1090 prints it - into the MAVLink ADSB_VEHICLE form, where "1200" is the number 1200.
+        /// Returns false for an empty field or anything that is not 1-4 digits 0-7.
+        /// </summary>
+        public static bool TryParseSquawk(string text, out ushort squawk)
+        {
+            squawk = 0;
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+            text = text.Trim();
+            if (text.Length > 4)
+                return false;
+            foreach (char c in text)
+                if (c < '0' || c > '7')
+                    return false;
+            squawk = ushort.Parse(text, CultureInfo.InvariantCulture);
+            return true;
+        }
+
+        /// <summary>
+        /// Decode a 13-bit Mode A identity field (C1 A1 C2 A2 C4 A4 X B1 D1 B2 D2 B4 D4) into the
+        /// MAVLink form, e.g. the bits for 7700 become the number 7700.
+        /// </summary>
+        public static ushort SquawkFromID13(int id13)
+        {
+            int a = ((id13 >> 11) & 1) | (((id13 >> 9) & 1) << 1) | (((id13 >> 7) & 1) << 2);
+            int b = ((id13 >> 5) & 1) | (((id13 >> 3) & 1) << 1) | (((id13 >> 1) & 1) << 2);
+            int c = ((id13 >> 12) & 1) | (((id13 >> 10) & 1) << 1) | (((id13 >> 8) & 1) << 2);
+            int d = ((id13 >> 4) & 1) | (((id13 >> 2) & 1) << 1) | ((id13 & 1) << 2);
+            return (ushort)(a * 1000 + b * 100 + c * 10 + d);
+        }
+
+        /// <summary>
+        /// CRC remainder XOR the transmitted parity: 0 for a good DF11/17/18, the address for DF4/5/20/21.
+        /// </summary>
+        private static uint ModeSResidual(byte[] data)
+        {
+            byte[] p = new Crc32ModeS().ComputeChecksumBytes(data, 0, data.Length - 3, false);
+            uint computed = (uint)((p[0] << 16) | (p[1] << 8) | p[2]);
+            uint transmitted = (uint)((data[data.Length - 3] << 16) | (data[data.Length - 2] << 8) | data[data.Length - 1]);
+            return computed ^ transmitted;
         }
 
         public static byte[] ConvertHexStringToByteArray(string hexString)
@@ -1320,8 +1417,20 @@ namespace MissionPlanner.Utilities
 
             /// <summary>
             /// Squawk in colloquially used format - where the decimal value 1200 (0b10010110000) represents what the rest of the world calls 1200.
+            /// This is the MAVLink ADSB_VEHICLE.squawk convention. Only meaningful when SquawkValid is true.
             /// </summary>
             public ushort Squawk { get; set; }
+
+            /// <summary>
+            /// False when the source did not report a squawk; Squawk is then 0 but means "unknown", not 0000.
+            /// Maps to ADSB_FLAGS.VALID_SQUAWK.
+            /// </summary>
+            public bool SquawkValid { get; set; }
+
+            /// <summary>
+            /// The squawk as it is written and read out: four digits 0-7 ("1200", "0504"), or "" when unknown.
+            /// </summary>
+            public string SquawkString => SquawkValid ? Squawk.ToString("D4", CultureInfo.InvariantCulture) : "";
 
             /// <summary>
             /// Horizontal ground speed in cm/s
@@ -1465,7 +1574,8 @@ namespace MissionPlanner.Utilities
         {
             public string Icao;
             public string CallSign;
-            public ushort Squawk;
+            /// <summary>Four octal digits as readsb/tar1090 send it ("1200"), or null when unknown</summary>
+            public string Squawk;
             public double Lat;
             public double Lng;
             public double Alt;
@@ -1482,7 +1592,7 @@ namespace MissionPlanner.Utilities
             {
                 Icao = plane.Tag;
                 CallSign = plane.CallSign;
-                Squawk = plane.Squawk;
+                Squawk = plane.SquawkValid ? plane.SquawkString : null;
                 Lat = plane.Lat;
                 Lng = plane.Lng;
                 Alt = plane.Alt;

@@ -1220,6 +1220,7 @@ namespace MissionPlanner
                     plane.Time = DateTime.Now;
                     plane.CallSign = adsb.CallSign;
                     plane.Squawk = adsb.Squawk;
+                    plane.SquawkValid = adsb.SquawkValid;
                     plane.Raw = adsb.Raw;
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
@@ -1236,7 +1237,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3189,6 +3190,8 @@ namespace MissionPlanner
                 }
                 packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
                                           MAVLink.ADSB_FLAGS.VALID_VELOCITY | MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                if (currentPlane.SquawkValid)
+                    packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_SQUAWK;
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);

@@ -5248,6 +5248,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             {
                                 CallSign = Encoding.UTF8.GetString(adsbMessage.callsign),
                                 Squawk = adsbMessage.squawk,
+                                SquawkValid = (adsbMessage.flags & (ushort)ADSB_FLAGS.VALID_SQUAWK) != 0,
                                 Raw = adsbMessage,
                                 VerticalSpeed = adsbMessage.ver_velocity,
                                 Category = adsb.GetEmitterCategoryShort((ADSB_EMITTER_TYPE)adsbMessage.emitter_type),

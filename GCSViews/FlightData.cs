@@ -4287,7 +4287,7 @@ namespace MissionPlanner.GCSViews
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
                                                             "Type/Category: " + typeCategory + "\n" +
-                                                            "Squawk: " + pllau.Squawk.ToString("X4") + "\n" +
+                                                            "Squawk: " + (pllau.SquawkValid ? pllau.SquawkString : "unknown") + "\n" +
                                                             "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
