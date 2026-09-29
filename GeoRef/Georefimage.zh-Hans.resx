@@ -130,7 +130,7 @@
     <value>纬度</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>精度</value>
+    <value>最小快门时间 (s) (CAM)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>秒偏移</value>
@@ -154,13 +154,13 @@
     <value>旋转</value>
   </data>
   <data name="BUT_doit.Text" xml:space="preserve">
-    <value>执行</value>
+    <value>预处理</value>
   </data>
   <data name="BUT_browsedir.Text" xml:space="preserve">
-    <value>浏览目录</value>
+    <value>浏览图片</value>
   </data>
   <data name="BUT_networklinkgeoref.Text" xml:space="preserve">
-    <value>定位Kml</value>
+    <value>位置 Kml</value>
   </data>
   <data name="BUT_browselog.Text" xml:space="preserve">
     <value>浏览日志</value>
@@ -169,6 +169,36 @@
     <value>地理标签图像</value>
   </data>
   <data name="BUT_estoffset.Text" xml:space="preserve">
-    <value>估算便宜</value>
+    <value>估算偏移</value>
+  </data><data name="txt_basealt.Text" xml:space="preserve">
+    <value>0</value>
+  </data><data name="TXT_shutterLag.Text" xml:space="preserve">
+    <value>0</value>
+  </data><data name="RDIO_TimeOffset.Text" xml:space="preserve">
+    <value>时间偏移</value>
+  </data><data name="RDIO_CAMMsgSynchro.Text" xml:space="preserve">
+    <value>CAM 消息同步（仅限 DF 日志）</value>
+  </data><data name="lbldrpstart.Text" xml:space="preserve">
+    <value>将图片拖放到起点</value>
+  </data><data name="chk_usegps2.Text" xml:space="preserve">
+    <value>使用GPS2</value>
+  </data><data name="label28.Text" xml:space="preserve">
+    <value>相对高度基准</value>
+  </data><data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
+    <value>使用 AMSL 高度</value>
+  </data><data name="label27.Text" xml:space="preserve">
+    <value>快门延迟 (ms)</value>
+  </data><data name="chk_cammsg.Text" xml:space="preserve">
+    <value>使用相机消息</value>
+  </data><data name="RDIO_trigmsg.Text" xml:space="preserve">
+    <value>触发消息</value>
+  </data><data name="chk_camusegpsalt.Text" xml:space="preserve">
+    <value>使用GPS高度</value>
+  </data><data name="chk_trigusergpsalt.Text" xml:space="preserve">
+    <value>使用GPS高度</value>
+  </data><data name="label11.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
+  </data><data name="label12.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
   </data>
 </root>

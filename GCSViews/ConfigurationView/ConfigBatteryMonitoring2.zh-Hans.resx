@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>低电量时MP警告 </value>
+    <value>MP 低电量警报</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>mAh</value>
@@ -136,28 +136,28 @@
     <value>校准</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>5. 电流(计算过)：</value>
+    <value>5. 电流（计算值）</value>
   </data>
   <data name="TXT_battcapacity.Text" xml:space="preserve">
     <value>2200</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>监控器</value>
+    <value>监控</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
     <value>1. 测量电池电压：</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>3. 电压分压器(计算过)：</value>
+    <value>3. 分压器(已计算)：</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>2. 电池电压(计算过)：</value>
+    <value>2. 电池电压(计算)：</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>6. 安培每伏：</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
-    <value>传感器</value>
+    <value>电压引脚</value>
   </data>
   <data name="CMB_batmontype.Items" xml:space="preserve">
     <value>0: 关闭监测</value>

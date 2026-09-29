@@ -49,3 +49,16 @@ obj3/
 
 /.claude/settings.local.json
 /CLAUDE.md
+
+# ---- local tooling / machine-specific artifacts (never commit) ----
+/.codegraph/
+/ResXManager.config.xml
+/Properties/PublishProfiles/
+/.l10n-backup/
+
+# personal deployment helpers (kept local, not part of an upstream PR)
+/Scripts/deploy-orin.ps1
+/Scripts/orin-setup.sh
+
+# PR submission working area
+/.pr-prep/

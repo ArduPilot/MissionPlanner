@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="help_text" xml:space="preserve">
+    <value>{\rtf1\ansi\ansicpg936\deff0\deflang2052\deflangfe2052{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\f0\fs22\par
+\tab 欢迎使用 \b Mission Planner\b0，这是一款用于无人飞行器（\b UAV\b0）的任务规划软件。\par
+\pard\nowidctlpar\fi720\b 帮助：\par
+ArduPlane: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/plane"}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs22\par
+ArduCopter: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/copter"}}{\fldrslt{\ul\cf1 http://ardupilot.org/copter}}}\f0\fs22\par
+ArduRover: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/rover"}}{\fldrslt{\ul\cf1 http://ardupilot.org/rover}}}\f0\fs22\par
+\par
+\pard\nowidctlpar\sa200\sl276\slmult1\tab 请访问 {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/planner"}}{\fldrslt{\ul\cf1 http://ardupilot.org/planner}}}\f0\fs22 获取更多信息。\b0\par
+\pard\nowidctlpar\b\tab 主要开发者：\b0 Michael Oborne\par
+\tab\b 设计：\b0 Samantha Nelson\par
+\tab\b 贡献者：\b0 Andrew Radford, Marooned, Ryan Beall, Tom Pittenger 以及 {\field{\*\fldinst{HYPERLINK "https://github.com/ArduPilot/MissionPlanner/graphs/contributors"}}{\fldrslt{\ul\cf1 https://github.com/ArduPilot/MissionPlanner/graphs/contributors}}}\f0\fs22\par
+\pard\nowidctlpar\fi720\b ArduCopter 插图：\b0 Max Levine\par
+\b 库：\b0 Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph, alglib, BouncyCastle, DotSpatial, LibVLC, netDXF\par
+\par
+\b 对 Mission Planner 开发做出贡献的公司：\b0 3D Robotics, Falcon Unmanned, UAV Solutions\b\par
+\par
+快捷键\par
+\par
+主界面\par
+F2 - 飞行数据\par
+F3 - 飞行规划\par
+F4 - 参数调校\par
+F5 - 刷新完整参数列表\par
+Control-F - 温度屏幕\par
+Control-T - 盲连\par
+\par
+飞行数据\par
+1 - 标签页 1\par
+2 - 标签页 2\par
+3 - 标签页 3\par
+4 - 标签页 4\par
+5 - 标签页 5\par
+6 - 标签页 6\par
+7 - 标签页 7\par
+8 - 标签页 8\par
+9 - 标签页 9\par
+0 - 标签页 10\par
+\par
+飞行规划\par
+Control-Z - 撤销\par
+Control-O - 打开航点文件\par
+Control-S - 保存航点文件\par
+\par
+自动航点网格\par
+Control-O - 打开网格文件\par
+Control-S - 保存网格文件\par
+\par
+}</value>
+  </data>
+</root>

@@ -149,7 +149,7 @@
     <value>126, 16</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.Text" xml:space="preserve">
-    <value>长故障保护 (20秒)</value>
+    <value>长时故障保护（20秒）</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.ToolTip" xml:space="preserve">
     <value>关，无动作，开，返航</value>
@@ -170,7 +170,7 @@
     <value>地面站故障保护</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>在地面站失去通讯时启动故障保护</value>
+    <value>在地面站失去通信时启用故障保护</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.Size" type="System.Drawing.Size, System.Drawing">
     <value>120, 16</value>
@@ -179,10 +179,11 @@
     <value>油门故障保护动作</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
-    <value>Arducopter自动：关，无动作，开，返航 Arducopter其他：如果有GPS，返航，否则降落</value>
+    <value>Arducopter自动：关，无动作，开，返航  
+Arducopter其他：如果有GPS，返航，否则降落</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
-    <value>触发器油门Pwm</value>
+    <value>触发油门Pwm</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
     <value>触发器油门Pwm</value>
@@ -197,7 +198,7 @@
     <value>在低油门pwm时启用故障保护</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
-    <value>触发器油门Pwm</value>
+    <value>低PWM时的失效保护模式</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.ToolTip" xml:space="preserve">
     <value />
@@ -206,7 +207,7 @@
     <value>132, 16</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
-    <value>启用地面站故障保护</value>
+    <value>启用地面站失控保护</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.ToolTip" xml:space="preserve">
     <value />
@@ -248,13 +249,13 @@
     <value />
   </data>
   <data name="lbl_armed.Text" xml:space="preserve">
-    <value>锁定</value>
+    <value>解除锁定</value>
   </data>
   <data name="lbl_armed.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="lbl_gpslock.Text" xml:space="preserve">
-    <value>无定位</value>
+    <value>无锁定</value>
   </data>
   <data name="lbl_gpslock.ToolTip" xml:space="preserve">
     <value />
@@ -308,7 +309,7 @@
     <value />
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>电台</value>
+    <value>无线电</value>
   </data>
   <data name="groupBox2.ToolTip" xml:space="preserve">
     <value />
@@ -327,5 +328,9 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data><data name="LNK_wiki.Text" xml:space="preserve">
+    <value>Wiki</value>
+  </data><data name="label6.Text" xml:space="preserve">
+    <value>低定时器</value>
   </data>
 </root>

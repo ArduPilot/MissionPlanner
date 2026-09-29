@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>日志</value>
+    <value>日志下载器</value>
   </data>
   <data name="BUT_DLall.Text" xml:space="preserve">
     <value>下载全部日志</value>
@@ -127,7 +127,7 @@
     <value>重建KML</value>
   </data>
   <data name="BUT_DLthese.Text" xml:space="preserve">
-    <value>下载这些日志</value>
+    <value>下载选中日志</value>
   </data>
   <data name="BUT_clearlogs.Text" xml:space="preserve">
     <value>清空日志</value>
@@ -137,5 +137,23 @@
   </data>
   <data name="BUT_bintolog.Text" xml:space="preserve">
     <value>.bin 转 .log</value>
+  </data><data name="label1.Text" xml:space="preserve">
+    <value>日志文件：</value>
+  </data><data name="LabelStatus.Text" xml:space="preserve">
+    <value>注意：提交支持查询时，请发送 .bin 文件</value>
+  </data><data name="label2.Text" xml:space="preserve">
+    <value>输出：</value>
+  </data><data name="labelBytes.Text" xml:space="preserve">
+    <value>标签3</value>
+  </data><data name="BUT_clearlogs.ToolTip" xml:space="preserve">
+    <value>删除您所连接无人机上的所有日志。</value>
+  </data><data name="BUT_firstperson.ToolTip" xml:space="preserve">
+    <value>将日志文件转换为KML第一人称格式。</value>
+  </data><data name="BUT_DLthese.ToolTip" xml:space="preserve">
+    <value>下载您在上述列表中勾选的日志。</value>
+  </data><data name="BUT_bintolog.ToolTip" xml:space="preserve">
+    <value>将二进制日志文件 (.bin) 转换为文本格式 (.log)。</value>
+  </data><data name="BUT_redokml.ToolTip" xml:space="preserve">
+    <value>将日志文件转换为KML格式。</value>
   </data>
 </root>

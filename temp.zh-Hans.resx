@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>高级设置</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>标记在参数恢复后为已调用</value>
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>参数恢复后将加速度计标记为已校准</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>DFU 模式</value>
+  </data>
+  <data name="but_dfumode.Text" xml:space="preserve">
+    <value>DFU 模式</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>管理 Planner 的命令列表</value>
+  </data>
+  <data name="but_ManageCMDList.Text" xml:space="preserve">
+    <value>管理命令列表</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>光标在目标上输出</value>
+  </data>
+  <data name="but_remotedflogger.Text" xml:space="preserve">
+    <value>开始远程 df 日志记录</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>集群风格</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>显示接近传感器界面</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>从tlog中提取RTCM数据</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>将dflog拆分为x部分</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>删除超过30天的图像切片。</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>通过VLC显示视频流 - 建议改用GStreamer</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>标签49</value>
+  </data>
+  <data name="label48.Text" xml:space="preserve">
+    <value>调整QNH</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>重启自动驾驶系统</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>通过GDAL加载自定义地图瓦片源</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>重新整理MP日志文件夹中的所有日志</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>通过scp - ssh (apsync)进行日志下载</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>显示当前加载的DEM信息</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>导致自动驾驶系统锁定</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>修改气压高度参考高度</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>调试十六进制字符串Mavlink数据包</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>显示输入的硬件ID信息</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>三维地图测试</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>更新引导程序</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>检查所有正在传输的MavLink数据包。</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>设置自定义消息间隔</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>虚拟按下安全按钮</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>移除已安装的驱动程序</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>显示来自PX4光流传感器的图像数据</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>从日志获取磁力计偏移量</value>
+  </data>
+  <data name="but_hexmavlink.Text" xml:space="preserve">
+    <value>Mavlink十六进制解码</value>
+  </data>
+  <data name="but_mavserialport.Text" xml:space="preserve">
+    <value>MAVSerial 串口通行</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>已移至数据闪存选项卡</value>
+  </data>
+  <data name="BUT_followleader.Text" xml:space="preserve">
+    <value>追随领队</value>
+  </data>
+  <data name="BUT_swarm.Text" xml:space="preserve">
+    <value>蜂群</value>
+  </data>
+  <data name="BUT_shptopoly.Text" xml:space="preserve">
+    <value>shp 转 poly</value>
+  </data>
+  <data name="BUT_movingbase.Text" xml:space="preserve">
+    <value>移动基座</value>
+  </data>
+  <data name="but_osdvideo.Text" xml:space="preserve">
+    <value>OSD视频</value>
+  </data>
+  <data name="BUT_paramgen.Text" xml:space="preserve">
+    <value>参数生成</value>
+  </data>
+  <data name="BUT_follow_me.Text" xml:space="preserve">
+    <value>跟随我</value>
+  </data>
+  <data name="BUT_lang_edit.Text" xml:space="preserve">
+    <value>语言编辑</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>警告管理器</value>
+  </data>
+  <data name="BUT_georefimage.Text" xml:space="preserve">
+    <value>地理参考图像</value>
+  </data>
+  <data name="BUT_outputnmea.Text" xml:space="preserve">
+    <value>NMEA</value>
+  </data>
+  <data name="BUT_outputMD.Text" xml:space="preserve">
+    <value>微型无人机</value>
+  </data>
+  <data name="BUT_outputMavlink.Text" xml:space="preserve">
+    <value>MAVLink</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>创建自定义音频警告</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>使用NMEA GPS来跟随我</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>以NMEA格式输出MAV位置</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>以微型无人机格式输出MAV位置</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>镜像由mp接收的MAVLink流</value>
+  </data>
+  <data name="BUT_sorttlogs.Text" xml:space="preserve">
+    <value>整理事务日志</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>重新生成mp内部使用的参数信息</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>翻译语言编辑器</value>
+  </data>
+  <data name="BUT_geinjection.Text" xml:space="preserve">
+    <value>注入GE</value>
+  </data>
+  <data name="but_getfw.Text" xml:space="preserve">
+    <value>所有固件下载</value>
+  </data>
+  <data name="BUT_clearcustommaps.Text" xml:space="preserve">
+    <value>清除自定义地图</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>将HUD叠加到录制的视频中</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>在地图上显示当前位置的额外图标。</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>将shp文件转换为多边形文件</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>多MAV集群接口</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>跟随领导者集群</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>创建到GPS的专用直通路径（端口500）</value>
+  </data>
+  <data name="but_structtest.Text" xml:space="preserve">
+    <value>结构测试</value>
+  </data>
+  <data name="but_gimbaltest.Text" xml:space="preserve">
+    <value>云台测试</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>将TLogs按其类型和sysid目录分类整理</value>
+  </data>
+  <data name="but_maplogs.Text" xml:space="preserve">
+    <value>地图日志</value>
+  </data>
+  <data name="but_armandtakeoff.Text" xml:space="preserve">
+    <value>解锁与起飞</value>
+  </data>
+  <data name="butlogindex.Text" xml:space="preserve">
+    <value>日志索引</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>下载所有当前固件</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>向mp添加自定义图像</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>清除自定义图像</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>结构转换速度测试</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>四轴：启动与起飞</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>运行云台指向算法</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>为目录中的所有TLog创建地图JPG。</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>tlog浏览器</value>
+  </data>
+  <data name="but_dashware.Text" xml:space="preserve">
+    <value>DashWare</value>
+  </data>
+  <data name="but_anonlog.Text" xml:space="preserve">
+    <value>匿名日志</value>
+  </data>
+  <data name="but_sitl_comb.Text" xml:space="preserve">
+    <value>SITL流合并器</value>
+  </data>
+  <data name="but_mavinspector.Text" xml:space="preserve">
+    <value>MAVLink 检查器</value>
+  </data>
+  <data name="but_paramrestore.Text" xml:space="preserve">
+    <value>参数恢复</value>
+  </data>
+  <data name="but_disablearmswitch.Text" xml:space="preserve">
+    <value>安全开关切换</value>
+  </data>
+  <data name="BUT_fft.Text" xml:space="preserve">
+    <value>快速傅里叶变换</value>
+  </data>
+  <data name="but_blupdate.Text" xml:space="preserve">
+    <value>引导程序升级</value>
+  </data>
+  <data name="but_messageinterval.Text" xml:space="preserve">
+    <value>消息间隔</value>
+  </data>
+  <data name="but_3dmap.Text" xml:space="preserve">
+    <value>三维地图</value>
+  </data>
+  <data name="but_reboot.Text" xml:space="preserve">
+    <value>重启Pixhawk</value>
+  </data>
+  <data name="BUT_QNH.Text" xml:space="preserve">
+    <value>修正海压</value>
+  </data>
+  <data name="but_hwids.Text" xml:space="preserve">
+    <value>解码硬件ID</value>
+  </data>
+  <data name="but_trimble.Text" xml:space="preserve">
+    <value>序列集群</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>创建仪表板日期输入文件</value>
+  </data>
+  <data name="myButton_vlc.Text" xml:space="preserve">
+    <value>VLC</value>
+  </data>
+  <data name="but_packetbytes.Text" xml:space="preserve">
+    <value>解析数据包字节</value>
+  </data>
+  <data name="but_agemapdata.Text" xml:space="preserve">
+    <value>年龄地图数据</value>
+  </data>
+  <data name="but_driverclean.Text" xml:space="preserve">
+    <value>驱动程序清理</value>
+  </data>
+  <data name="myButton1.Text" xml:space="preserve">
+    <value>分离数据闪存日志</value>
+  </data>
+  <data name="but_acbarohight.Text" xml:space="preserve">
+    <value>调整飞机气压高度</value>
+  </data>
+  <data name="but_signkey.Text" xml:space="preserve">
+    <value>签署</value>
+  </data>
+  <data name="but_logdlscp.Text" xml:space="preserve">
+    <value>日志下载 scp</value>
+  </data>
+  <data name="but_optflowcalib.Text" xml:space="preserve">
+    <value>光流校准</value>
+  </data>
+  <data name="but_sortlogs.Text" xml:space="preserve">
+    <value>重新排序所有日志</value>
+  </data>
+  <data name="but_GDAL.Text" xml:space="preserve">
+    <value>自定义GDAL</value>
+  </data>
+  <data name="BUT_magfit2.Text" xml:space="preserve">
+    <value>地磁校准日志</value>
+  </data>
+  <data name="but_dem.Text" xml:space="preserve">
+    <value>DEM</value>
+  </data>
+  <data name="but_gpsinj.Text" xml:space="preserve">
+    <value>提取gps_inject</value>
+  </data>
+  <data name="but_td.Text" xml:space="preserve">
+    <value>抓取 threads.txt</value>
+  </data>
+  <data name="but_lockup.Text" xml:space="preserve">
+    <value>锁定 MAV</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>mavlink2签名配置</value>
+  </data>
+  <data name="but_followswarm.Text" xml:space="preserve">
+    <value>跟随蜂群</value>
+  </data>
+  <data name="but_proximity.Text" xml:space="preserve">
+    <value>接近传感器</value>
+  </data>
+  <data name="BUT_CoT.Text" xml:space="preserve">
+    <value>思维链</value>
+  </data>
+  <data name="but_apjtool.Text" xml:space="preserve">
+    <value>APJ工具</value>
+  </data>
+  <data name="BUT_forcecal_mag.Text" xml:space="preserve">
+    <value>向校准</value>
+  </data>
+  <data name="BUT_forcecal_accel.Text" xml:space="preserve">
+    <value>加速度校准</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>....</value>
+  </data>
+  <data name="label45.Text" xml:space="preserve">
+    <value> ....</value>
+  </data>
+</root>

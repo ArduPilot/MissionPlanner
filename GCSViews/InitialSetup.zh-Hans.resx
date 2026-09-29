@@ -130,7 +130,7 @@
     <value>必要硬件</value>
   </data>
   <data name="backstageViewPagetradheli.Text" xml:space="preserve">
-    <value>直升机安装</value>
+    <value>直升机设置</value>
   </data>
   <data name="backstageViewPageframetype.Text" xml:space="preserve">
     <value>机架类型</value>
@@ -140,7 +140,7 @@
     <value>1000, 450</value>
   </data>
   <data name="backstageViewPagecompass.Text" xml:space="preserve">
-    <value>指南针</value>
+    <value>罗盘</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
     <value>遥控器校准</value>
@@ -155,16 +155,16 @@
     <value>可选硬件</value>
   </data>
   <data name="backstageViewPageSikradio.Text" xml:space="preserve">
-    <value>SiK电台(数传)</value>
+    <value>Sik电台</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
-    <value>电池监测器</value>
+    <value>电池监视器</value>
   </data>
   <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
     <value>指南针/电机 校准</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>声呐</value>
+    <value>测距仪</value>
   </data>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
     <value>空速</value>
@@ -203,9 +203,17 @@
     <value>ESP8266设置</value>
   </data>
   <data name="backstageViewPagePX4Flow.Text" xml:space="preserve">
-    <value>PX4Flow光流</value>
+    <value>PX4Flow</value>
   </data>
 <data name="backstageViewPageSerialInjectGPS.Text" xml:space="preserve">
     <value>差分定位</value>
+  </data><data name="backstageViewPageInitialParams.Text" xml:space="preserve">
+    <value>初始调谐参数</value>
+  </data><data name="backstageViewPageinstfw.Text" xml:space="preserve">
+    <value>安装固件</value>
+  </data><data name="backstageViewPageosd.Text" xml:space="preserve">
+    <value>OSD</value>
+  </data><data name="backstageViewPageSerial.Text" xml:space="preserve">
+    <value>串行端口</value>
   </data>
 </root>

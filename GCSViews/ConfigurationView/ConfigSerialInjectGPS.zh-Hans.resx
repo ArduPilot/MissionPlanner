@@ -1,0 +1,495 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 16</value>
+  </data>
+  <data name="chk_rtcmmsg.Text" xml:space="preserve">
+    <value>注入消息类型</value>
+  </data>
+  <data name="lbl_svin.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="chk_autoconfig.Size" type="System.Drawing.Size, System.Drawing">
+    <value>108, 16</value>
+  </data>
+  <data name="chk_autoconfig.Text" xml:space="preserve">
+    <value>自动配置接收器</value>
+  </data>
+  <data name="chk_autoconfig.ToolTip" xml:space="preserve">
+    <value>自动配置连接到所选端口的接收器以输出校正消息。</value>
+  </data>
+  <data name="groupBox_autoconfig.Text" xml:space="preserve">
+    <value>自动化配置</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_septentriogalileo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_septentriobeidou.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_septentriogps.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Both accuracy and duration must be meet in order for the survey in to complete
+ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value>测量信息
+有效：该测量是否有效
+进行中：当前是否正在该位置进行测量
+持续时间：已进行测量的秒数
+观测点数：本次测量中使用的观测点数量
+精度：当前测量的点精度</value>
+  </data>
+  <data name="chk_sendgga.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 16</value>
+  </data>
+  <data name="chk_sendgga.Text" xml:space="preserve">
+    <value>发送NTRIP GGA? (VRS/Smart)</value>
+  </data>
+  <data name="check_sendntripv1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 16</value>
+  </data>
+  <data name="check_sendntripv1.Text" xml:space="preserve">
+    <value>发送NTRIP v1.0 ?</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>传入速率</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 12</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>输出速率</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>101, 12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>RTCM 基准站位置 </value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>RTCM消息ID</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>基准站</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>格洛纳斯</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>RTCM数据时效</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>伽利略</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>北斗</value>
+  </data>
+  <data name="labelbase.Location" type="System.Drawing.Point, System.Drawing">
+    <value>47, 16</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>链路状态</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>2400</value>
+  </data>
+  <data name="CMB_baudrate.Items1" xml:space="preserve">
+    <value>4800</value>
+  </data>
+  <data name="CMB_baudrate.Items2" xml:space="preserve">
+    <value>9600</value>
+  </data>
+  <data name="CMB_baudrate.Items3" xml:space="preserve">
+    <value>14400</value>
+  </data>
+  <data name="CMB_baudrate.Items4" xml:space="preserve">
+    <value>19200</value>
+  </data>
+  <data name="CMB_baudrate.Items5" xml:space="preserve">
+    <value>28800</value>
+  </data>
+  <data name="CMB_baudrate.Items6" xml:space="preserve">
+    <value>38400</value>
+  </data>
+  <data name="CMB_baudrate.Items7" xml:space="preserve">
+    <value>57600</value>
+  </data>
+  <data name="CMB_baudrate.Items8" xml:space="preserve">
+    <value>115200</value>
+  </data>
+  <data name="CMB_baudrate.Items9" xml:space="preserve">
+    <value>230400</value>
+  </data>
+  <data name="CMB_baudrate.Items10" xml:space="preserve">
+    <value>460800</value>
+  </data>
+  <data name="CMB_baudrate.Items11" xml:space="preserve">
+    <value>500000</value>
+  </data>
+  <data name="CMB_baudrate.Items12" xml:space="preserve">
+    <value>1000000</value>
+  </data>
+  <data name="chk_septentriogalileo.Text" xml:space="preserve">
+    <value>伽利略</value>
+  </data>
+  <data name="BaseName1.HeaderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Use.HeaderText" xml:space="preserve">
+    <value>使用</value>
+  </data>
+  <data name="Delete.HeaderText" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="lbl_status2.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lbl_status1.Text" xml:space="preserve">
+    <value>9999 bps</value>
+  </data>
+  <data name="chk_rtcmmsg.ToolTip" xml:space="preserve">
+    <value>这取决于您自动驾驶仪上的固件版本。如果可能，请保持启用状态，因为新版消息对数据损坏的处理能力更强。</value>
+  </data>
+  <data name="lbl_svin.Text" xml:space="preserve">
+    <value>调查进入</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>连接接收器后，将启动“测量定位”以确定GPS精确位置。  
+当RTCM基准站位置不再变化时，测量定位即告完成。  
+根据位置和信号状况，此过程可能需要数分钟。
+
+测量完成后，即可开始使用。</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>RTCM星座使用</value>
+  </data>
+  <data name="label21.ToolTip" xml:space="preserve">
+    <value>选择接收器输出校正的卫星星座。星座数量越多，数据速率越高。</value>
+  </data>
+  <data name="chk_septentriogalileo.ToolTip" xml:space="preserve">
+    <value>切换伽利略RTCM消息的输出。</value>
+  </data>
+  <data name="chk_septentriobeidou.Text" xml:space="preserve">
+    <value>北斗</value>
+  </data>
+  <data name="chk_septentriobeidou.ToolTip" xml:space="preserve">
+    <value>切换北斗RTCM消息输出。</value>
+  </data>
+  <data name="chk_septentrioglonass.Text" xml:space="preserve">
+    <value>GLONASS</value>
+  </data>
+  <data name="chk_septentrioglonass.ToolTip" xml:space="preserve">
+    <value>切换GLONASS RTCM消息的输出。</value>
+  </data>
+  <data name="chk_septentriogps.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="chk_septentriogps.ToolTip" xml:space="preserve">
+    <value>切换GPS RTCM消息输出。</value>
+  </data>
+  <data name="button_septentriortcminterval.Text" xml:space="preserve">
+    <value>设置间隔</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>RTCM 消息间隔（秒）</value>
+  </data>
+  <data name="label20.ToolTip" xml:space="preserve">
+    <value>选择接收器输出RTCM消息的频率。数值越低，数据速率越高。</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>RTCM 消息数量</value>
+  </data>
+  <data name="label19.ToolTip" xml:space="preserve">
+    <value>选择RTCM消息的详细程度。数值越高，数据速率越高。</value>
+  </data>
+  <data name="cmb_septentriortcmamount.Items" xml:space="preserve">
+    <value>精简版</value>
+  </data>
+  <data name="cmb_septentriortcmamount.Items1" xml:space="preserve">
+    <value>基本</value>
+  </data>
+  <data name="cmb_septentriortcmamount.Items2" xml:space="preserve">
+    <value>满</value>
+  </data>
+  <data name="chk_septentriofixedposition.Text" xml:space="preserve">
+    <value>固定位置</value>
+  </data>
+  <data name="chk_septentriofixedposition.ToolTip" xml:space="preserve">
+    <value>输入基站天线的固定位置，而不是让接收器自动确定。这可以提高修正的精度。</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>高度（WGS84）</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>经度 (WGS84)</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>高度（米）</value>
+  </data>
+  <data name="button_septentriosetposition.Text" xml:space="preserve">
+    <value>设置位置</value>
+  </data>
+  <data name="but_restartsvin.Text" xml:space="preserve">
+    <value>重新启动</value>
+  </data>
+  <data name="but_restartsvin.ToolTip" xml:space="preserve">
+    <value>用于将当前基站位置保存为已测量状态</value>
+  </data>
+  <data name="chk_m8p_130p.Text" xml:space="preserve">
+    <value>M8P 固件版本 130+/F9P</value>
+  </data>
+  <data name="chk_m8p_130p.ToolTip" xml:space="preserve">
+    <value>如果基站和移动站都装有ublox固件1.30或更高版本，请勾选此框</value>
+  </data>
+  <data name="but_save_basepos.Text" xml:space="preserve">
+    <value>保存当前位置</value>
+  </data>
+  <data name="but_save_basepos.ToolTip" xml:space="preserve">
+    <value>用于将当前基站位置保存为测量结果</value>
+  </data>
+  <data name="Lat.HeaderText" xml:space="preserve">
+    <value>纬度/ECEFX</value>
+  </data>
+  <data name="Long.HeaderText" xml:space="preserve">
+    <value>经度/ECEFY</value>
+  </data>
+  <data name="Alt.HeaderText" xml:space="preserve">
+    <value>高度/ECEFZ</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>时间(秒)</value>
+  </data>
+  <data name="txt_surveyinAcc.Text" xml:space="preserve">
+    <value>2.00</value>
+  </data>
+  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
+    <value>调查精度触发。必须低于此值</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>SurveyIn Acc(m)</value>
+  </data>
+  <data name="txt_surveyinDur.Text" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
+    <value>最短时间调查。必须大于此数字</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>测量进入</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>调查进入</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>调查进入</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>调查进入</value>
+  </data>
+  <data name="chk_sendgga.ToolTip" xml:space="preserve">
+    <value>这取决于您的自动驾驶仪上的固件版本，如果可能请保持启用状态，因为新版消息能更好地处理数据损坏问题。</value>
+  </data>
+  <data name="check_sendntripv1.ToolTip" xml:space="preserve">
+    <value>一些较旧的NTRIP广播服务器（如RTKLIB）不支持NTRIP协议v2.0。勾选此框可回退至协议v1.0</value>
+  </data>
+  <data name="lbl_status3.Text" xml:space="preserve">
+    <value>-00.000000000 000.000000000 0000.000000000</value>
+  </data>
+  <data name="labelmsgseen.Text" xml:space="preserve">
+    <value>rtcm0000</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="comboBoxConfigType.Items" xml:space="preserve">
+    <value>UBlox M8P/F9P</value>
+  </data>
+  <data name="comboBoxConfigType.Items1" xml:space="preserve">
+    <value>Septentrio</value>
+  </data>
+  <data name="comboBoxConfigType.Items2" xml:space="preserve">
+    <value>Unicore UM982</value>
+  </data>
+</root>

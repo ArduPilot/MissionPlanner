@@ -131,15 +131,13 @@
     <value>340, 180</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>介绍：
-1. 完成遥控器校准
-2. 从载具上移除螺旋桨，拔下电池
-3. 点按这个按钮来启用电调校准并重启控制板
-4. 插上电池
-5. 按下安全开关（如果存在）并等待电调的声音
-6. 拔下并再次插上电池
-7. 解锁并测试电机旋转
-8. 拔下电池，重新装上螺旋桨</value>
+    <value>移除螺旋桨！
+按下此按钮后：
+- 断开USB和电池连接
+- 连接电池
+- 当LED闪烁时，按下安全开关（如果存在）
+- 电调校准时应发出提示音
+- 正常重启飞控</value>
   </data>
   <data name="labelRC.Location" type="System.Drawing.Point, System.Drawing">
     <value>147, 57</value>
@@ -154,6 +152,28 @@
     <value>346, 97</value>
   </data>
   <data name="buttonStart.Text" xml:space="preserve">
-    <value>开始</value>
+    <value>校准电调</value>
+  </data><data name="label3.Text" xml:space="preserve">
+    <value>ESC 类型：</value>
+  </data><data name="label4.Text" xml:space="preserve">
+    <value>最小PWM输出</value>
+  </data><data name="label5.Text" xml:space="preserve">
+    <value>最大PWM输出</value>
+  </data><data name="label6.Text" xml:space="preserve">
+    <value>上锁时旋转</value>
+  </data><data name="label7.Text" xml:space="preserve">
+    <value>最小转速</value>
+  </data><data name="label8.Text" xml:space="preserve">
+    <value>最大转速</value>
+  </data><data name="label9.Text" xml:space="preserve">
+    <value>留为0以使用RX输入范围</value>
+  </data><data name="label10.Text" xml:space="preserve">
+    <value>保留为0以使用RX输入范围</value>
+  </data><data name="label11.Text" xml:space="preserve">
+    <value>电机已解锁但油门为零时的速度（怠速）</value>
+  </data><data name="label12.Text" xml:space="preserve">
+    <value>飞行中电机的最小速度（略高于“解锁时旋转”）</value>
+  </data><data name="label13.Text" xml:space="preserve">
+    <value>飞行时电机的最大转速（几乎所有电调在最高位都存在死区）</value>
   </data>
 </root>

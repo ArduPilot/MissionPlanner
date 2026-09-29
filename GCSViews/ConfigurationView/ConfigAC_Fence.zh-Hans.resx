@@ -143,7 +143,7 @@
     <value>31, 13</value>
   </data>
   <data name="label5action.Text" xml:space="preserve">
-    <value>动作</value>
+    <value>操作</value>
   </data>
   <data name="label6maxalt.Size" type="System.Drawing.Size, System.Drawing">
     <value>55, 13</value>
@@ -159,5 +159,7 @@
   </data>
   <data name="label1gftitle.Text" xml:space="preserve">
     <value>地理围栏</value>
+  </data><data name="label8minalt.Text" xml:space="preserve">
+    <value>最低高度</value>
   </data>
 </root>

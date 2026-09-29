@@ -131,10 +131,10 @@
     <value>305, 72</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>以白点为瞄准目标。
-请将自动驾驶仪指向北方，然后绕俯仰轴旋转直至水平。
-然后
-将自动驾驶仪旋转90度，然后绕横滚轴旋转直至水平。
+    <value>以白点为瞄准目标。  
+请将自动驾驶仪指向北方，然后绕俯仰轴旋转直至水平。  
+然后  
+将自动驾驶仪旋转90度，然后绕横滚轴旋转直至水平。  
 
 这个方法应该会命中每一个白点。</value>
   </data>
@@ -142,7 +142,7 @@
     <value>96, 16</value>
   </data>
   <data name="chk_auto.Text" xml:space="preserve">
-    <value>使用自动确认</value>
+    <value>使用自动接受</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>进程</value>

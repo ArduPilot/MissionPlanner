@@ -127,7 +127,7 @@
     <value>连接</value>
   </data>
   <data name="Logs.Text" xml:space="preserve">
-    <value>下载日志</value>
+    <value>日志下载</value>
   </data>
   <data name="BUTradiosetup.Text" xml:space="preserve">
     <value>设置遥控</value>
@@ -137,16 +137,23 @@
   </data>
   <data name="TXT_terminal.Text" xml:space="preserve">
     <value>*注意* 请点击上方的连接
-命令行只在第一次连接电源时工作，日志只能通过USB下载
-
-天书注:自AC3.2起,APM1/2不再支持通过本界面下载日志，请访问 飞行数据 &gt; 数据闪存日志
-      如果需要恢复默认设置，请访问 配置/调试 &gt; 全部参数表 &gt; 重置为默认值
-</value>
+命令行界面仅在首次通电连接时工作，日志仅能通过USB下载
+新版固件仅支持通过MAVLink下载日志，请查看飞行数据 &gt; 数据闪存日志</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>浏览日志</value>
+    <value>日志浏览</value>
   </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>显示设置</value>
+  </data><data name="CMB_boardtype.Items" xml:space="preserve">
+    <value>APM</value>
+  </data><data name="CMB_boardtype.Items1" xml:space="preserve">
+    <value>PX4/PIXHAWK</value>
+  </data><data name="CMB_boardtype.Items2" xml:space="preserve">
+    <value>VRX/VRBRAIN</value>
+  </data><data name="CMB_boardtype.Items3" xml:space="preserve">
+    <value>NSH</value>
+  </data><data name="CMB_boardtype.Items4" xml:space="preserve">
+    <value>SSH</value>
   </data>
 </root>
