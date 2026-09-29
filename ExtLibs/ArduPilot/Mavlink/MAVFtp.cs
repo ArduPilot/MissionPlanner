@@ -591,6 +591,44 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kCmdResetSessions();
         }
 
+        /// <summary>
+        /// Remove a directory and everything in it. The remove commands only take an empty
+        /// directory: ArduPilot hands both to FatFs, which refuses a directory that still holds
+        /// anything with EACCES. So the files and sub-directories go first, then the directory.
+        /// </summary>
+        /// <returns>false when cancelled or when the vehicle stops answering; a remove the
+        /// vehicle refuses throws</returns>
+        public bool RemoveDirectoryRecursive(string dir, CancellationTokenSource cancel)
+        {
+            dir = dir.Replace("//", "/");
+            if (dir.Length > 1)
+                dir = dir.TrimEnd('/');
+
+            foreach (var entry in kCmdListDirectory(dir, cancel))
+            {
+                if (cancel != null && cancel.IsCancellationRequested)
+                    return false;
+
+                // SITL's posix filesystem lists "." and "..", and a nameless entry stands for one
+                // the vehicle skipped
+                if (entry.Name == "" || entry.Name == "." || entry.Name == "..")
+                    continue;
+
+                var path = (dir.EndsWith("/") ? dir : dir + "/") + entry.Name;
+                Progress?.Invoke("Delete " + path, -1);
+                var removed = entry.isDirectory
+                    ? RemoveDirectoryRecursive(path, cancel)
+                    : kCmdRemoveFile(path, cancel);
+                if (!removed)
+                    return false;
+            }
+
+            if (cancel != null && cancel.IsCancellationRequested)
+                return false;
+            Progress?.Invoke("Delete " + dir, -1);
+            return kCmdRemoveDirectory(dir, cancel);
+        }
+
         public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
         {
             fileTransferProtocol.target_system = _sysid;
@@ -1695,7 +1733,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         var _ftp_errno = (errno) ftphead.data[1];
                         log.Error(ftphead.req_opcode + " " + errorcode + " " + _ftp_errno);
                         timeout.Retries = 0;
-                        ex = new Exception("Failed to OpenFile - " + ftphead.req_opcode + " " + errorcode + " " +
+                        ex = new Exception("Failed to remove " + file + " - " + ftphead.req_opcode + " " + errorcode + " " +
                                            _ftp_errno);
                     }
                     else
@@ -1780,7 +1818,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         var _ftp_errno = (errno) ftphead.data[1];
                         log.Error(ftphead.req_opcode + " " + errorcode + " " + _ftp_errno);
                         timeout.Retries = 0;
-                        ex = new Exception("Failed to OpenFile - " + ftphead.req_opcode + " " + errorcode + " " +
+                        ex = new Exception("Failed to remove " + file + " - " + ftphead.req_opcode + " " + errorcode + " " +
                                            _ftp_errno);
                     }
                     else
