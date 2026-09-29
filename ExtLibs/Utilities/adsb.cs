@@ -54,15 +54,15 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Multiplication constant to convert knots to cm/s
         /// </summary>
-        private const double KNOTS_TO_CMS = 51.444;
+        private const double KNOTS_TO_CMS = 51.44444;
         /// <summary>
         /// Multiplication constant to convert feet to meters
         /// </summary>
-        private const double FEET_TO_METERS = 1.0d / 3.28d;
+        private const double FEET_TO_METERS = 0.3048;
         /// <summary>
         /// Multiplication constant to convert feet/mim to cm/s
         /// </summary>
-        private const double FTM_TO_CMS = 1.0d / 1.968d;
+        private const double FTM_TO_CMS = 0.508;
         /// <summary>
         /// Timeout in milliseconds for ADS-B connections to default endpoints.
         /// These are all localhost, so we can be pretty short.
@@ -187,6 +187,11 @@ namespace MissionPlanner.Utilities
                                             onGround = true;
                                         }
                                     }
+                                    // We forward this as GEOMETRIC, so prefer the GNSS altitude; alt_baro is
+                                    // pressure altitude and is often hundreds of feet off
+                                    bool altValid = ac.alt_geom.HasValue || ac.alt_baro is long;
+                                    if (ac.alt_geom.HasValue)
+                                        alt = ac.alt_geom.Value;
                                     // readsb sends the four octal digits as a string ("1200"), or omits it
                                     bool squawkValid = TryParseSquawk(ac.squawk, out ushort squawk);
                                     PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
@@ -197,7 +202,8 @@ namespace MissionPlanner.Utilities
                                         ac.hex.Trim().ToUpper(),
                                         DateTime.Now)
                                     {
-                                        VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
+                                        AltValid = altValid,
+                                        VerticalSpeed = (ac.baro_rate ?? ac.geom_rate ?? 0) * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
                                         Squawk = squawk,
                                         SquawkValid = squawkValid,
@@ -361,7 +367,7 @@ namespace MissionPlanner.Utilities
             public object alt_baro { get; set; }
             public double gs { get; set; }
             public double track { get; set; }
-            public int baro_rate { get; set; }
+            public int? baro_rate { get; set; }
             public string squawk { get; set; }
             public string category { get; set; }
             public double lat { get; set; }
@@ -503,7 +509,7 @@ namespace MissionPlanner.Utilities
                     reflng = rlng[1];
                 }
 
-                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID);
+                return new PointLatLngAlt(reflat, reflng, llaodd.AltitudeMeters, ID);
             }
 
             public PointLatLngAlt pllalocal(ModeSMessage newmsg)
@@ -622,6 +628,13 @@ namespace MissionPlanner.Utilities
 
                 return ans;
             }
+
+            /// <summary>
+            /// Altitude in metres: TC 9-18 carry barometric feet, TC 20-22 carry GNSS height in metres
+            /// </summary>
+            internal double AltitudeMeters => TypeCode >= 20 && TypeCode <= 22
+                ? (adsbdata[1] << 4) | (adsbdata[2] >> 4)
+                : alt * 0.3048;
 
             internal int alt
             {
@@ -884,6 +897,7 @@ namespace MissionPlanner.Utilities
                             if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                             plla.Speed = (float)plane.ground_speed;
                             plla.Squawk = plane.squawk;
+                            plla.VerticalSpeed = plane.vertical_speed;
                             plla.SquawkValid = plane.squawk_valid;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
@@ -995,7 +1009,7 @@ namespace MissionPlanner.Utilities
                             catch { }
                             try
                             {
-                                ((Plane)Planes[hex_ident]).vertical_speed = double.Parse(strArray[16], CultureInfo.InvariantCulture) * FTM_TO_CMS;// Integer. 64ft resolution climb/descent rate.
+                                ((Plane)Planes[hex_ident]).vertical_speed = double.Parse(strArray[16].TrimEnd('H', 'h'), CultureInfo.InvariantCulture) * FTM_TO_CMS;// Integer. 64ft resolution climb/descent rate.
                             }
                             catch { }
 
@@ -1062,6 +1076,7 @@ namespace MissionPlanner.Utilities
                                 if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                                 plla.Speed = plane.ground_speed;
                                 plla.Squawk = plane.squawk;
+                                plla.VerticalSpeed = plane.vertical_speed;
                                 plla.SquawkValid = plane.squawk_valid;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(this, plla);
@@ -1271,6 +1286,14 @@ namespace MissionPlanner.Utilities
                 int subtype = adsbmess.adsbdata[0] & 7;
                 int accuracy = (adsbmess.adsbdata[1] >> 3) & 15;
 
+                // Vertical rate, all subtypes: 0 = not available, otherwise (raw - 1) * 64 ft/min
+                int vrraw = ((adsbmess.adsbdata[4] & 7) << 6) | (adsbmess.adsbdata[5] >> 2);
+                if (vrraw != 0)
+                {
+                    int vrate = (vrraw - 1) * 64 * ((adsbmess.adsbdata[4] & 8) != 0 ? -1 : 1);
+                    ((Plane)Planes[adsbmess.AA.ToString("X5")]).vertical_speed = vrate * FTM_TO_CMS;
+                }
+
                 switch (subtype)
                 {
                     case 3:
@@ -1285,14 +1308,20 @@ namespace MissionPlanner.Utilities
                         break;
                     case 1:
                     case 2:
-                    default:
                         bool westvel = ((adsbmess.adsbdata[1] >> 2) & 1) > 0;
 
-                        int ewvel = (int)(((adsbmess.adsbdata[1] & 3) << 8) + adsbmess.adsbdata[2]);
+                        int ewraw = (int)(((adsbmess.adsbdata[1] & 3) << 8) + adsbmess.adsbdata[2]);
 
                         bool southvel = ((adsbmess.adsbdata[3] >> 7) & 1) > 0;
 
-                        int nsvel = (int)(((adsbmess.adsbdata[3] & 127) << 3) + (adsbmess.adsbdata[4] >> 5));
+                        int nsraw = (int)(((adsbmess.adsbdata[3] & 127) << 3) + (adsbmess.adsbdata[4] >> 5));
+
+                        // 0 = not available; otherwise the value is raw - 1 knots (x4 for supersonic subtype 2)
+                        if (ewraw == 0 || nsraw == 0)
+                            break;
+                        int mult = subtype == 2 ? 4 : 1;
+                        int ewvel = (ewraw - 1) * mult;
+                        int nsvel = (nsraw - 1) * mult;
 
                         if (westvel)
                             ewvel *= -1;
@@ -1426,6 +1455,12 @@ namespace MissionPlanner.Utilities
             /// Maps to ADSB_FLAGS.VALID_SQUAWK.
             /// </summary>
             public bool SquawkValid { get; set; }
+
+            /// <summary>
+            /// False when the source sent no altitude; Alt is then 0 but means "unknown", not sea level.
+            /// Maps to ADSB_FLAGS.VALID_ALTITUDE.
+            /// </summary>
+            public bool AltValid { get; set; } = true;
 
             /// <summary>
             /// The squawk as it is written and read out: four digits 0-7 ("1200", "0504"), or "" when unknown.
@@ -1642,6 +1677,39 @@ namespace MissionPlanner.Utilities
         /// approach within the time horizon, and compare the separation there against the
         /// critical (HIGH) and then warn (LOW) thresholds.
         /// </summary>
+        /// <summary>
+        /// Our own state in SI units (m AMSL, m/s), for AssessThreat.
+        /// </summary>
+        public class Ownship
+        {
+            public PointLatLngAlt Location;
+            public double VelocityNorth;
+            public double VelocityEast;
+            public double VerticalSpeed;
+
+            /// <summary>
+            /// Build from CurrentState getters, which return display units: altasl is scaled by
+            /// CurrentState.multiplieralt and groundspeed/climbrate by CurrentState.multiplierspeed.
+            /// </summary>
+            public static Ownship FromDisplayUnits(double lat, double lng, double altasl, double groundspeed,
+                double groundcourse, double climbrate, double altMultiplier, double speedMultiplier)
+            {
+                double gs = groundspeed / speedMultiplier;
+                double course = groundcourse * MathHelper.deg2rad;
+                return new Ownship
+                {
+                    Location = new PointLatLngAlt(lat, lng, altasl / altMultiplier),
+                    VelocityNorth = gs * Math.Cos(course),
+                    VelocityEast = gs * Math.Sin(course),
+                    VerticalSpeed = climbrate / speedMultiplier
+                };
+            }
+        }
+
+        public static ThreatAssessment AssessThreat(Ownship us, PointLatLngAltHdg plane,
+            ThreatThresholds warn, ThreatThresholds critical) =>
+            AssessThreat(us.Location, us.VelocityNorth, us.VelocityEast, us.VerticalSpeed, plane, warn, critical);
+
         public static ThreatAssessment AssessThreat(PointLatLngAlt ourLocation, double ourVelocityNorth,
             double ourVelocityEast, double ourVerticalSpeed, PointLatLngAltHdg plane,
             ThreatThresholds warn, ThreatThresholds critical)
@@ -1660,6 +1728,12 @@ namespace MissionPlanner.Utilities
             // Relative vertical position (m) and velocity (m/s), positive = aircraft above us
             double relPosZ = plane.Alt - ourLocation.Alt;
             double relVelZ = plane.VerticalSpeed / 100.0 - ourVerticalSpeed;
+            if (!plane.AltValid)
+            {
+                // No altitude reported: we cannot rule out a vertical conflict, so judge on distance alone
+                relPosZ = 0;
+                relVelZ = 0;
+            }
 
             double timeToClosest;
             if (WithinThresholds(critical, relPosNorth, relPosEast, relVelNorth, relVelEast, relPosZ, relVelZ, out timeToClosest))

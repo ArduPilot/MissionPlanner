@@ -5239,7 +5239,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             _UpdateADSBPlanePosition(this, new adsb.PointLatLngAltHdg(
                                     adsbMessage.lat / 1e7,
                                     adsbMessage.lon / 1e7,
-                                    adsbMessage.altitude / 1000,
+                                    adsbMessage.altitude / 1000.0,
                                     adsbMessage.heading * 0.01f,
                                     adsbMessage.hor_velocity,
                                     id,

@@ -1221,6 +1221,7 @@ namespace MissionPlanner
                     plane.CallSign = adsb.CallSign;
                     plane.Squawk = adsb.Squawk;
                     plane.SquawkValid = adsb.SquawkValid;
+                    plane.AltValid = adsb.AltValid;
                     plane.Raw = adsb.Raw;
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
@@ -1237,7 +1238,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, AltValid = adsb.AltValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3121,13 +3122,11 @@ namespace MissionPlanner
                     planesToClean.ForEach(a => MainV2.instance.adsbPlanes.TryRemove(a, out _));
 
                 }
-                PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
-
-                // Our velocity in the NE frame, for projecting the point of closest approach
-                double ourCourse = comPort.MAV.cs.groundcourse * MathHelper.deg2rad;
-                double ourVelocityNorth = comPort.MAV.cs.groundspeed * Math.Cos(ourCourse);
-                double ourVelocityEast = comPort.MAV.cs.groundspeed * Math.Sin(ourCourse);
-                double ourVerticalSpeed = comPort.MAV.cs.verticalspeed;
+                // CurrentState getters are in display units; the traffic is in metres and cm/s
+                var cs = comPort.MAV.cs;
+                var ownship = adsb.Ownship.FromDisplayUnits(cs.lat, cs.lng, cs.altasl, cs.groundspeed,
+                    cs.groundcourse, cs.climbrate, CurrentState.multiplieralt, CurrentState.multiplierspeed);
+                PointLatLngAlt ourLocation = ownship.Location;
 
                 // Threat thresholds; the equivalents of ArduPilot's AVD_W_* and AVD_F_* parameters
                 var warnThresholds = new adsb.ThreatThresholds
@@ -3152,8 +3151,7 @@ namespace MissionPlanner
                     .Select(v => new
                     {
                         Plane = v,
-                        Threat = adsb.AssessThreat(ourLocation, ourVelocityNorth, ourVelocityEast,
-                            ourVerticalSpeed, v, warnThresholds, criticalThresholds),
+                        Threat = adsb.AssessThreat(ownship, v, warnThresholds, criticalThresholds),
                         Distance = v.GetDistance(ourLocation)
                     })
                     .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
@@ -3188,8 +3186,10 @@ namespace MissionPlanner
                     log.WarnFormat("invalid icao address: {0}", currentPlane.Tag);
                     packet.ICAO_address = 0;
                 }
-                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_COORDS |
                                           MAVLink.ADSB_FLAGS.VALID_VELOCITY | MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                if (currentPlane.AltValid)
+                    packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_ALTITUDE;
                 if (currentPlane.SquawkValid)
                     packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_SQUAWK;
 
