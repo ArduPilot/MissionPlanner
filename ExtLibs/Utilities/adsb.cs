@@ -54,15 +54,15 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Multiplication constant to convert knots to cm/s
         /// </summary>
-        private const double KNOTS_TO_CMS = 51.444;
+        private const double KNOTS_TO_CMS = 51.44444;
         /// <summary>
         /// Multiplication constant to convert feet to meters
         /// </summary>
-        private const double FEET_TO_METERS = 1.0d / 3.28d;
+        private const double FEET_TO_METERS = 0.3048;
         /// <summary>
         /// Multiplication constant to convert feet/mim to cm/s
         /// </summary>
-        private const double FTM_TO_CMS = 1.0d / 1.968d;
+        private const double FTM_TO_CMS = 0.508;
         /// <summary>
         /// Timeout in milliseconds for ADS-B connections to default endpoints.
         /// These are all localhost, so we can be pretty short.
@@ -175,10 +175,25 @@ namespace MissionPlanner.Utilities
                                 {
                                     // The API sometimes sets this value to either the string "ground" or a JSON Number. This handles that.
                                     int alt = 0;
+                                    bool onGround = false;
                                     if (ac.alt_baro is long intValue)
                                     {
                                         alt = (int)intValue;
                                     }
+                                    else if (ac.alt_baro is string strValue)
+                                    {
+                                        if (strValue == "ground")
+                                        {
+                                            onGround = true;
+                                        }
+                                    }
+                                    // We forward this as GEOMETRIC, so prefer the GNSS altitude; alt_baro is
+                                    // pressure altitude and is often hundreds of feet off
+                                    bool altValid = ac.alt_geom.HasValue || ac.alt_baro is long;
+                                    if (ac.alt_geom.HasValue)
+                                        alt = ac.alt_geom.Value;
+                                    // readsb sends the four octal digits as a string ("1200"), or omits it
+                                    bool squawkValid = TryParseSquawk(ac.squawk, out ushort squawk);
                                     PointLatLngAltHdg plane = new PointLatLngAltHdg(ac.lat,
                                         ac.lon,
                                         alt * FEET_TO_METERS,
@@ -187,9 +202,14 @@ namespace MissionPlanner.Utilities
                                         ac.hex.Trim().ToUpper(),
                                         DateTime.Now)
                                     {
-                                        VerticalSpeed = ac.baro_rate * FTM_TO_CMS,
+                                        AltValid = altValid,
+                                        VerticalSpeed = (ac.baro_rate ?? ac.geom_rate ?? 0) * FTM_TO_CMS,
                                         CallSign = (ac.flight ?? "").Trim().ToUpper(),
-                                        Squawk = Convert.ToUInt16(ac.squawk, 16) // Convert the hex value back to a raw uint16
+                                        Squawk = squawk,
+                                        SquawkValid = squawkValid,
+                                        Type = (ac.t ?? ""), // NOTE: ac.type is the way the aircraft was detected, not the aircraft type
+                                        Category = (ac.category ?? ""),
+                                        IsOnGround = onGround,
                                     };
 
                                     UpdatePlanePosition(this, plane);
@@ -347,7 +367,7 @@ namespace MissionPlanner.Utilities
             public object alt_baro { get; set; }
             public double gs { get; set; }
             public double track { get; set; }
-            public int baro_rate { get; set; }
+            public int? baro_rate { get; set; }
             public string squawk { get; set; }
             public string category { get; set; }
             public double lat { get; set; }
@@ -419,6 +439,9 @@ namespace MissionPlanner.Utilities
             internal int ground_speed;
             // Vertical speed in cm/s, positive = ascent
             internal double vertical_speed;
+            // Last squawk heard, in the MAVLink form ("1200" -> 1200); only meaningful when squawk_valid
+            internal ushort squawk;
+            internal bool squawk_valid;
 
             public Plane()
             {
@@ -486,7 +509,7 @@ namespace MissionPlanner.Utilities
                     reflng = rlng[1];
                 }
 
-                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID);
+                return new PointLatLngAlt(reflat, reflng, llaodd.AltitudeMeters, ID);
             }
 
             public PointLatLngAlt pllalocal(ModeSMessage newmsg)
@@ -605,6 +628,13 @@ namespace MissionPlanner.Utilities
 
                 return ans;
             }
+
+            /// <summary>
+            /// Altitude in metres: TC 9-18 carry barometric feet, TC 20-22 carry GNSS height in metres
+            /// </summary>
+            internal double AltitudeMeters => TypeCode >= 20 && TypeCode <= 22
+                ? (adsbdata[1] << 4) | (adsbdata[2] >> 4)
+                : alt * 0.3048;
 
             internal int alt
             {
@@ -866,6 +896,9 @@ namespace MissionPlanner.Utilities
                             plla.Heading = (float)plane.heading;
                             if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                             plla.Speed = (float)plane.ground_speed;
+                            plla.Squawk = plane.squawk;
+                            plla.VerticalSpeed = plane.vertical_speed;
+                            plla.SquawkValid = plane.squawk_valid;
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
@@ -882,6 +915,16 @@ namespace MissionPlanner.Utilities
                     if (line.StartsWith("MSG"))
                     {
                         string[] strArray = line.Split(new char[] { ',' });
+
+                        // Field 18 is the squawk. dump1090-fa and readsb only fill it on MSG,6 (DF5/DF21
+                        // identity replies) and leave it empty on MSG,3, so it has to be remembered per aircraft.
+                        if (strArray.Length > 17 && TryParseSquawk(strArray[17], out ushort sbsSquawk))
+                        {
+                            if (Planes[strArray[4]] == null)
+                                Planes[strArray[4]] = new Plane();
+                            ((Plane)Planes[strArray[4]]).squawk = sbsSquawk;
+                            ((Plane)Planes[strArray[4]]).squawk_valid = true;
+                        }
 
                         if (strArray[1] == "3") // airborne pos
                         {
@@ -915,13 +958,6 @@ namespace MissionPlanner.Utilities
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
                             }
                             catch { }
-                            ushort squawk = 0;
-                            try
-                            {
-                                squawk = Convert.ToUInt16(strArray[17], 16); // Convert the hex value back to a raw uint16
-                            }
-                            catch { }
-
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
                             if (Planes[hex_ident] == null)
@@ -938,7 +974,8 @@ namespace MissionPlanner.Utilities
                                 PointLatLngAltHdg plln = new PointLatLngAltHdg(lat, lon, altitude, (float)plane.heading, plane.ground_speed, hex_ident, DateTime.Now)
                                 {
                                     CallSign = plane.CallSign,
-                                    Squawk = squawk,
+                                    Squawk = plane.squawk,
+                                    SquawkValid = plane.squawk_valid,
                                     VerticalSpeed = plane.vertical_speed
                                 };
                                 UpdatePlanePosition(null, plln);
@@ -972,7 +1009,7 @@ namespace MissionPlanner.Utilities
                             catch { }
                             try
                             {
-                                ((Plane)Planes[hex_ident]).vertical_speed = double.Parse(strArray[16], CultureInfo.InvariantCulture) * FTM_TO_CMS;// Integer. 64ft resolution climb/descent rate.
+                                ((Plane)Planes[hex_ident]).vertical_speed = double.Parse(strArray[16].TrimEnd('H', 'h'), CultureInfo.InvariantCulture) * FTM_TO_CMS;// Integer. 64ft resolution climb/descent rate.
                             }
                             catch { }
 
@@ -1010,21 +1047,21 @@ namespace MissionPlanner.Utilities
 
                     int type = st1.ReadByte();
                     buffer[1] = (byte)type;
-                    st1.Read(buffer, 2, 7);
+                    if (type != '1' && type != '2' && type != '3')
+                        continue;
+                    // 6 byte MLAT timestamp + 1 byte signal level, then the frame
+                    ReadBeastBytes(st1, buffer, 2, 7);
 
                     switch (type)
                     {
                         case '1': // mode-ac
                             // 2 bytes
-                            st1.Read(buffer, 9, 2);
+                            ReadBeastBytes(st1, buffer, 9, 2);
                             //log.Info("1");
                             break;
-                        case '2': // mode-s short
-                            st1.Read(buffer, 9, 7);
-                            //log.Info("2");
-                            break;
+                        case '2': // mode-s short - DF5 identity replies carry the squawk
                         case '3': // mode-s long
-                            st1.Read(buffer, 9, 14);
+                            ReadBeastBytes(st1, buffer, 9, type == '2' ? 7 : 14);
                             //log.Info("3");
                             Plane plane = ReadMessage(buffer);
                             if (plane != null)
@@ -1038,6 +1075,9 @@ namespace MissionPlanner.Utilities
                                 plla.Heading = (float)plane.heading;
                                 if (plane.CallSign != null) plla.CallSign = plane.CallSign;
                                 plla.Speed = plane.ground_speed;
+                                plla.Squawk = plane.squawk;
+                                plla.VerticalSpeed = plane.vertical_speed;
+                                plla.SquawkValid = plane.squawk_valid;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(this, plla);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -1052,6 +1092,22 @@ namespace MissionPlanner.Utilities
                 {
                     log.Info("bad sync 0x" + by.ToString("X2") + " " + (char)by);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Beast escapes every 0x1a after the type byte by doubling it; read count unescaped bytes.
+        /// </summary>
+        private static void ReadBeastBytes(Stream st1, byte[] buffer, int offset, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                int b = st1.ReadByte();
+                if (b == 0x1a)
+                    b = st1.ReadByte();
+                if (b < 0)
+                    return;
+                buffer[offset + i] = (byte)b;
             }
         }
 
@@ -1084,11 +1140,11 @@ namespace MissionPlanner.Utilities
             if (data[0] != 0x1a || data.Length < 0x17)
                 return null;
 
-            if (data[1] == '3')
+            if (data[1] == '2' || data[1] == '3')
             {
                 StringBuilder sb = new StringBuilder();
 
-                for (int a = 0; a < 14; a++)
+                for (int a = 0; a < (data[1] == '2' ? 7 : 14); a++)
                 {
                     sb.Append(data[9 + a].ToString("X2"));
                 }
@@ -1116,6 +1172,23 @@ namespace MissionPlanner.Utilities
             ModeSMessage adsbmess = new ModeSMessage();
 
             byte[] data = ConvertHexStringToByteArray(avrline.TrimStart('*'));
+
+            if (data.Length != 7 && data.Length != 14)
+                return null;
+
+            int df = data[0] >> 3;
+            if (df == 5 || df == 21)
+            {
+                // Identity reply. Its parity is XORed with the aircraft address, so the CRC residual
+                // is the address; like dump1090, only trust it for an aircraft already heard directly.
+                string replyid = ModeSResidual(data).ToString("X5");
+                if (!Planes.ContainsKey(replyid))
+                    return null;
+                Plane replyplane = (Plane)Planes[replyid];
+                replyplane.squawk = SquawkFromID13(((data[2] << 8) | data[3]) & 0x1FFF);
+                replyplane.squawk_valid = true;
+                return replyplane;
+            }
 
             if (data.Length < 13)
                 return null;
@@ -1202,10 +1275,24 @@ namespace MissionPlanner.Utilities
                 
                 //Console.WriteLine("Ident " + builder.ToString());
             } 
+            else if (adsbmess.DF == 17 && adsbmess.TypeCode == 28 && (adsbmess.adsbdata[0] & 7) == 1) // aircraft status: emergency/priority + Mode A code
+            {
+                Plane statusplane = (Plane)Planes[adsbmess.AA.ToString("X5")];
+                statusplane.squawk = SquawkFromID13(((adsbmess.adsbdata[1] << 8) | adsbmess.adsbdata[2]) & 0x1FFF);
+                statusplane.squawk_valid = true;
+            }
             else if (adsbmess.DF == 17 && adsbmess.TypeCode == 0x13) // velocity
             {
                 int subtype = adsbmess.adsbdata[0] & 7;
                 int accuracy = (adsbmess.adsbdata[1] >> 3) & 15;
+
+                // Vertical rate, all subtypes: 0 = not available, otherwise (raw - 1) * 64 ft/min
+                int vrraw = ((adsbmess.adsbdata[4] & 7) << 6) | (adsbmess.adsbdata[5] >> 2);
+                if (vrraw != 0)
+                {
+                    int vrate = (vrraw - 1) * 64 * ((adsbmess.adsbdata[4] & 8) != 0 ? -1 : 1);
+                    ((Plane)Planes[adsbmess.AA.ToString("X5")]).vertical_speed = vrate * FTM_TO_CMS;
+                }
 
                 switch (subtype)
                 {
@@ -1221,14 +1308,20 @@ namespace MissionPlanner.Utilities
                         break;
                     case 1:
                     case 2:
-                    default:
                         bool westvel = ((adsbmess.adsbdata[1] >> 2) & 1) > 0;
 
-                        int ewvel = (int)(((adsbmess.adsbdata[1] & 3) << 8) + adsbmess.adsbdata[2]);
+                        int ewraw = (int)(((adsbmess.adsbdata[1] & 3) << 8) + adsbmess.adsbdata[2]);
 
                         bool southvel = ((adsbmess.adsbdata[3] >> 7) & 1) > 0;
 
-                        int nsvel = (int)(((adsbmess.adsbdata[3] & 127) << 3) + (adsbmess.adsbdata[4] >> 5));
+                        int nsraw = (int)(((adsbmess.adsbdata[3] & 127) << 3) + (adsbmess.adsbdata[4] >> 5));
+
+                        // 0 = not available; otherwise the value is raw - 1 knots (x4 for supersonic subtype 2)
+                        if (ewraw == 0 || nsraw == 0)
+                            break;
+                        int mult = subtype == 2 ? 4 : 1;
+                        int ewvel = (ewraw - 1) * mult;
+                        int nsvel = (nsraw - 1) * mult;
 
                         if (westvel)
                             ewvel *= -1;
@@ -1253,6 +1346,50 @@ namespace MissionPlanner.Utilities
             }
 
             return ((Plane)Planes[adsbmess.AA.ToString("X5")]);
+        }
+
+        /// <summary>
+        /// Parse a squawk written as its octal digits - "1200", "0504", or unpadded "504" as antirez
+        /// dump1090 prints it - into the MAVLink ADSB_VEHICLE form, where "1200" is the number 1200.
+        /// Returns false for an empty field or anything that is not 1-4 digits 0-7.
+        /// </summary>
+        public static bool TryParseSquawk(string text, out ushort squawk)
+        {
+            squawk = 0;
+            if (string.IsNullOrWhiteSpace(text))
+                return false;
+            text = text.Trim();
+            if (text.Length > 4)
+                return false;
+            foreach (char c in text)
+                if (c < '0' || c > '7')
+                    return false;
+            squawk = ushort.Parse(text, CultureInfo.InvariantCulture);
+            return true;
+        }
+
+        /// <summary>
+        /// Decode a 13-bit Mode A identity field (C1 A1 C2 A2 C4 A4 X B1 D1 B2 D2 B4 D4) into the
+        /// MAVLink form, e.g. the bits for 7700 become the number 7700.
+        /// </summary>
+        public static ushort SquawkFromID13(int id13)
+        {
+            int a = ((id13 >> 11) & 1) | (((id13 >> 9) & 1) << 1) | (((id13 >> 7) & 1) << 2);
+            int b = ((id13 >> 5) & 1) | (((id13 >> 3) & 1) << 1) | (((id13 >> 1) & 1) << 2);
+            int c = ((id13 >> 12) & 1) | (((id13 >> 10) & 1) << 1) | (((id13 >> 8) & 1) << 2);
+            int d = ((id13 >> 4) & 1) | (((id13 >> 2) & 1) << 1) | ((id13 & 1) << 2);
+            return (ushort)(a * 1000 + b * 100 + c * 10 + d);
+        }
+
+        /// <summary>
+        /// CRC remainder XOR the transmitted parity: 0 for a good DF11/17/18, the address for DF4/5/20/21.
+        /// </summary>
+        private static uint ModeSResidual(byte[] data)
+        {
+            byte[] p = new Crc32ModeS().ComputeChecksumBytes(data, 0, data.Length - 3, false);
+            uint computed = (uint)((p[0] << 16) | (p[1] << 8) | p[2]);
+            uint transmitted = (uint)((data[data.Length - 3] << 16) | (data[data.Length - 2] << 8) | data[data.Length - 1]);
+            return computed ^ transmitted;
         }
 
         public static byte[] ConvertHexStringToByteArray(string hexString)
@@ -1307,7 +1444,28 @@ namespace MissionPlanner.Utilities
 
             public string CallSign { get; set; } = "";
 
+            /// <summary>
+            /// Squawk in colloquially used format - where the decimal value 1200 (0b10010110000) represents what the rest of the world calls 1200.
+            /// This is the MAVLink ADSB_VEHICLE.squawk convention. Only meaningful when SquawkValid is true.
+            /// </summary>
             public ushort Squawk { get; set; }
+
+            /// <summary>
+            /// False when the source did not report a squawk; Squawk is then 0 but means "unknown", not 0000.
+            /// Maps to ADSB_FLAGS.VALID_SQUAWK.
+            /// </summary>
+            public bool SquawkValid { get; set; }
+
+            /// <summary>
+            /// False when the source sent no altitude; Alt is then 0 but means "unknown", not sea level.
+            /// Maps to ADSB_FLAGS.VALID_ALTITUDE.
+            /// </summary>
+            public bool AltValid { get; set; } = true;
+
+            /// <summary>
+            /// The squawk as it is written and read out: four digits 0-7 ("1200", "0504"), or "" when unknown.
+            /// </summary>
+            public string SquawkString => SquawkValid ? Squawk.ToString("D4", CultureInfo.InvariantCulture) : "";
 
             /// <summary>
             /// Horizontal ground speed in cm/s
@@ -1319,6 +1477,375 @@ namespace MissionPlanner.Utilities
             public double VerticalSpeed { get; set; }
             public object Raw { get; set; }
             public object Source { get; set; }
+
+            /// <summary>
+            /// The wake vortex category of the aircraft like A1 or A3; see 2.2.3.2.5.2 (https://www.adsbexchange.com/emitter-category-ads-b-do-260b-2-2-3-2-5-2/)
+            /// </summary>
+            public string Category { get; set; }
+            /// <summary>
+            /// The type of aircraft like A380 or B737 pulled from aircraft database.
+            /// </summary>
+            public string Type { get; set; }
+
+            /// <summary>
+            /// A boolean indicating if the aircraft is on the ground
+            /// </summary>
+            public bool IsOnGround { get; set; }
+
+            /// <summary>
+            /// Returns the aircraft's emitter category in MAVLink enum format
+            /// </summary>
+            public MAVLink.ADSB_EMITTER_TYPE GetEmitterCategory()
+            {
+                switch (this.Category)
+                {
+                    case "A0":
+                        return MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                    case "A1":
+                        return MAVLink.ADSB_EMITTER_TYPE.LIGHT;
+                    case "A2":
+                        return MAVLink.ADSB_EMITTER_TYPE.SMALL;
+                    case "A3":
+                        return MAVLink.ADSB_EMITTER_TYPE.LARGE;
+                    case "A4":
+                        return MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE;
+                    case "A5":
+                        return MAVLink.ADSB_EMITTER_TYPE.HEAVY;
+                    case "A6":
+                        return MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV;
+                    case "A7":
+                        return MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT;
+                    case "B0":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED;
+                    case "B1":
+                        return MAVLink.ADSB_EMITTER_TYPE.GLIDER;
+                    case "B2":
+                        return MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR;
+                    case "B3":
+                        return MAVLink.ADSB_EMITTER_TYPE.PARACHUTE;
+                    case "B4":
+                        return MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT;
+                    case "B5":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED2;
+                    case "B6":
+                        return MAVLink.ADSB_EMITTER_TYPE.UAV;
+                    case "B7":
+                        return MAVLink.ADSB_EMITTER_TYPE.SPACE;
+                    case "C0":
+                        return MAVLink.ADSB_EMITTER_TYPE.UNASSGINED3;
+                    case "C1":
+                        return MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE;
+                    case "C2":
+                        return MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE;
+                    case "C3":
+                        return MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE;
+                    // C4-C7 aren't defined in MAVLink yet
+                }
+                return MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+            }
+            public string GetCategoryFriendlyString()
+            {
+                switch (this.Category)
+                {
+                    case "A0":
+                        return "No Info";
+                    case "A1":
+                        return "Light";
+                    case "A2":
+                        return "Small";
+                    case "A3":
+                        return "Large";
+                    case "A4":
+                        return "High Vortex Large";
+                    case "A5":
+                        return "Heavy";
+                    case "A6":
+                        return "Highly Manuv";
+                    case "A7":
+                        return "Rotocraft";
+                    case "B0":
+                        return "Unassigned";
+                    case "B1":
+                        return "Glider";
+                    case "B2":
+                        return "Lighter Air";
+                    case "B3":
+                        return "Parachute";
+                    case "B4":
+                        return "Ultra Light";
+                    case "B5":
+                        return "Unassigned";
+                    case "B6":
+                        return "UAV";
+                    case "B7":
+                        return "Space";
+                    case "C0":
+                        return "Unassigned";
+                    case "C1":
+                        return "Emergency Surface";
+                    case "C2":
+                        return "Service Surface";
+                    case "C3":
+                        return "Point Obstacle";
+                    case "C4":
+                        return "Cluster Obstacle";
+                    case "C5":
+                        return "Line Obstacle";
+                    case "C6":
+                        return "Unassigned";
+                    case "C7":
+                        return "Unassigned";
+                }
+                return this.Category;
+            }
+        }
+
+        /// <summary>
+        /// Snapshot of a PointLatLngAltHdg for the HTTP API. Fields are explicitly listed
+        /// so we never serialize object references like Source, which would drag the
+        /// entire MAVLinkInterface along with it.
+        /// </summary>
+        public class ApiVehicleInfo
+        {
+            public string Icao;
+            public string CallSign;
+            /// <summary>Four octal digits as readsb/tar1090 send it ("1200"), or null when unknown</summary>
+            public string Squawk;
+            public double Lat;
+            public double Lng;
+            public double Alt;
+            public float Heading;
+            public double Speed;
+            public double VerticalSpeed;
+            public string Category;
+            public string Type;
+            public bool IsOnGround;
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel;
+            public DateTime Time;
+
+            public ApiVehicleInfo(PointLatLngAltHdg plane)
+            {
+                Icao = plane.Tag;
+                CallSign = plane.CallSign;
+                Squawk = plane.SquawkValid ? plane.SquawkString : null;
+                Lat = plane.Lat;
+                Lng = plane.Lng;
+                Alt = plane.Alt;
+                Heading = plane.Heading;
+                Speed = plane.Speed;
+                VerticalSpeed = plane.VerticalSpeed;
+                Category = plane.Category;
+                Type = plane.Type;
+                IsOnGround = plane.IsOnGround;
+                ThreatLevel = plane.ThreatLevel;
+                Time = plane.Time;
+            }
+        }
+
+        /// <summary>
+        /// Thresholds for one threat level; the equivalent of ArduPilot's
+        /// AVD_W_TIME/AVD_W_DIST_XY/AVD_W_DIST_Z (or their AVD_F_ counterparts)
+        /// </summary>
+        public class ThreatThresholds
+        {
+            /// <summary>
+            /// How many seconds ahead to project both tracks
+            /// </summary>
+            public double TimeHorizon;
+            /// <summary>
+            /// Lateral separation (m) at closest approach below which this level applies
+            /// </summary>
+            public double DistanceXY;
+            /// <summary>
+            /// Vertical separation (m) at closest approach below which this level applies
+            /// </summary>
+            public double DistanceZ;
+        }
+
+        public class ThreatAssessment
+        {
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL Level;
+            /// <summary>
+            /// Seconds until the point of closest approach
+            /// </summary>
+            public double TimeToClosestApproach;
+        }
+
+        /// <summary>
+        /// Classify the collision threat an aircraft poses to us the same way ArduPilot's
+        /// AP_Avoidance does: project both tracks forward, find the point of closest
+        /// approach within the time horizon, and compare the separation there against the
+        /// critical (HIGH) and then warn (LOW) thresholds.
+        /// </summary>
+        /// <summary>
+        /// Our own state in SI units (m AMSL, m/s), for AssessThreat.
+        /// </summary>
+        public class Ownship
+        {
+            public PointLatLngAlt Location;
+            public double VelocityNorth;
+            public double VelocityEast;
+            public double VerticalSpeed;
+
+            /// <summary>
+            /// Build from CurrentState getters, which return display units: altasl is scaled by
+            /// CurrentState.multiplieralt and groundspeed/climbrate by CurrentState.multiplierspeed.
+            /// </summary>
+            public static Ownship FromDisplayUnits(double lat, double lng, double altasl, double groundspeed,
+                double groundcourse, double climbrate, double altMultiplier, double speedMultiplier)
+            {
+                double gs = groundspeed / speedMultiplier;
+                double course = groundcourse * MathHelper.deg2rad;
+                return new Ownship
+                {
+                    Location = new PointLatLngAlt(lat, lng, altasl / altMultiplier),
+                    VelocityNorth = gs * Math.Cos(course),
+                    VelocityEast = gs * Math.Sin(course),
+                    VerticalSpeed = climbrate / speedMultiplier
+                };
+            }
+        }
+
+        public static ThreatAssessment AssessThreat(Ownship us, PointLatLngAltHdg plane,
+            ThreatThresholds warn, ThreatThresholds critical) =>
+            AssessThreat(us.Location, us.VelocityNorth, us.VelocityEast, us.VerticalSpeed, plane, warn, critical);
+
+        public static ThreatAssessment AssessThreat(PointLatLngAlt ourLocation, double ourVelocityNorth,
+            double ourVelocityEast, double ourVerticalSpeed, PointLatLngAltHdg plane,
+            ThreatThresholds warn, ThreatThresholds critical)
+        {
+            // Relative NE position of the aircraft (m)
+            double bearing = ourLocation.GetBearing(plane) * MathHelper.deg2rad;
+            double distance = ourLocation.GetDistance(plane);
+            double relPosNorth = Math.Cos(bearing) * distance;
+            double relPosEast = Math.Sin(bearing) * distance;
+
+            // Relative NE velocity (m/s); aircraft speeds are cm/s
+            double headingRad = plane.Heading * MathHelper.deg2rad;
+            double relVelNorth = plane.Speed / 100.0 * Math.Cos(headingRad) - ourVelocityNorth;
+            double relVelEast = plane.Speed / 100.0 * Math.Sin(headingRad) - ourVelocityEast;
+
+            // Relative vertical position (m) and velocity (m/s), positive = aircraft above us
+            double relPosZ = plane.Alt - ourLocation.Alt;
+            double relVelZ = plane.VerticalSpeed / 100.0 - ourVerticalSpeed;
+            if (!plane.AltValid)
+            {
+                // No altitude reported: we cannot rule out a vertical conflict, so judge on distance alone
+                relPosZ = 0;
+                relVelZ = 0;
+            }
+
+            double timeToClosest;
+            if (WithinThresholds(critical, relPosNorth, relPosEast, relVelNorth, relVelEast, relPosZ, relVelZ, out timeToClosest))
+            {
+                return new ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH,
+                    TimeToClosestApproach = timeToClosest
+                };
+            }
+            if (WithinThresholds(warn, relPosNorth, relPosEast, relVelNorth, relVelEast, relPosZ, relVelZ, out timeToClosest))
+            {
+                return new ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW,
+                    TimeToClosestApproach = timeToClosest
+                };
+            }
+            return new ThreatAssessment
+            {
+                Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE,
+                TimeToClosestApproach = double.MaxValue
+            };
+        }
+
+        private static bool WithinThresholds(ThreatThresholds thresholds, double relPosNorth, double relPosEast,
+            double relVelNorth, double relVelEast, double relPosZ, double relVelZ, out double timeToClosest)
+        {
+            double closestXY = ClosestApproachXY(relPosNorth, relPosEast, relVelNorth, relVelEast,
+                thresholds.TimeHorizon, out timeToClosest);
+            double closestZ = ClosestApproachZ(relPosZ, relVelZ, thresholds.TimeHorizon);
+            return closestXY < thresholds.DistanceXY && closestZ < thresholds.DistanceZ;
+        }
+
+        /// <summary>
+        /// Minimum lateral separation (m) over the time horizon, and the time (s) at which it occurs
+        /// </summary>
+        private static double ClosestApproachXY(double relPosNorth, double relPosEast, double relVelNorth,
+            double relVelEast, double timeHorizon, out double timeToClosest)
+        {
+            double closingSpeedSq = relVelNorth * relVelNorth + relVelEast * relVelEast;
+            timeToClosest = 0;
+            if (closingSpeedSq > 1e-6)
+            {
+                // Time at which the relative position passes closest to us, clamped to the horizon
+                double t = -(relPosNorth * relVelNorth + relPosEast * relVelEast) / closingSpeedSq;
+                timeToClosest = Math.Min(Math.Max(t, 0), timeHorizon);
+            }
+            double north = relPosNorth + relVelNorth * timeToClosest;
+            double east = relPosEast + relVelEast * timeToClosest;
+            return Math.Sqrt(north * north + east * east);
+        }
+
+        /// <summary>
+        /// Minimum vertical separation (m) over the time horizon
+        /// </summary>
+        private static double ClosestApproachZ(double relPosZ, double relVelZ, double timeHorizon)
+        {
+            double endPosZ = relPosZ + relVelZ * timeHorizon;
+            // If we cross the aircraft's altitude within the horizon, the separation reaches zero
+            if (Math.Sign(relPosZ) != Math.Sign(endPosZ))
+                return 0;
+            return Math.Min(Math.Abs(relPosZ), Math.Abs(endPosZ));
+        }
+
+        public static string GetEmitterCategoryShort(MAVLink.ADSB_EMITTER_TYPE category)
+        {
+            switch (category)
+            {
+                case MAVLink.ADSB_EMITTER_TYPE.NO_INFO:
+                    return "A0";
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHT:
+                    return "A1";
+                case MAVLink.ADSB_EMITTER_TYPE.SMALL:
+                    return "A2";
+                case MAVLink.ADSB_EMITTER_TYPE.LARGE:
+                    return "A3";
+                case MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE:
+                    return "A4";
+                case MAVLink.ADSB_EMITTER_TYPE.HEAVY:
+                    return "A5";
+                case MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV:
+                    return "A6";
+                case MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT:
+                    return "A7";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED:
+                    return "B0";
+                case MAVLink.ADSB_EMITTER_TYPE.GLIDER:
+                    return "B1";
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR:
+                    return "B2";
+                case MAVLink.ADSB_EMITTER_TYPE.PARACHUTE:
+                    return "B3";
+                case MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT:
+                    return "B4";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSIGNED2:
+                    return "B5";
+                case MAVLink.ADSB_EMITTER_TYPE.UAV:
+                    return "B6";
+                case MAVLink.ADSB_EMITTER_TYPE.SPACE:
+                    return "B7";
+                case MAVLink.ADSB_EMITTER_TYPE.UNASSGINED3:
+                    return "C0";
+                case MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE:
+                    return "C1";
+                case MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE:
+                    return "C2";
+                case MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE:
+                    return "C3";
+            }
+            return "";
         }
     }
+
 }
