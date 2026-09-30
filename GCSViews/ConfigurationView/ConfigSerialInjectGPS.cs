@@ -554,6 +554,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.LogInfo("Setup Septentrio");
 
+            // Reset port cache before detecting a new connection
+            Utilities.Septentrio.LastDetectedPort = "USB1+USB2+COM1+COM2";
+
             try
             {
                 await Utilities.Septentrio.ConfigureBaseReceiver(comPort);
@@ -1544,7 +1547,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <exception cref="FormatException" />
         /// <exception cref="InvalidOperationException" />
         private async Task UpdateSeptentrioRTCMSettings()
-        {
+        { 
             Utilities.Septentrio.RTCMSignals signals = Utilities.Septentrio.RTCMSignals.None;
             Utilities.Septentrio.RTCMLevel level;
             float rtcmInterval;
