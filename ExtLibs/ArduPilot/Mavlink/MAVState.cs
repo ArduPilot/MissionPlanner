@@ -323,6 +323,11 @@ namespace MissionPlanner
         /// </summary>
         public mavlink_mission_item_int_t GuidedMode = new mavlink_mission_item_int_t();
 
+        /// <summary>
+        /// commands this vehicle has rejected as MAV_RESULT.UNSUPPORTED, so callers with a legacy fallback can skip straight to it
+        /// </summary>
+        public ConcurrentDictionary<MAV_CMD, bool> UnsupportedCommands = new ConcurrentDictionary<MAV_CMD, bool>();
+
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
