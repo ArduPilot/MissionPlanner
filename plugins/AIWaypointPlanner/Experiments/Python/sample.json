@@ -1,0 +1,8 @@
+{
+  "mission_type": "relative_route",
+  "home": { "latitude": 31.0, "longitude": 121.0 },
+  "legs": [
+    { "bearing_deg": 90, "distance_m": 100, "altitude_m": 50 },
+    { "bearing_deg": 0, "distance_m": 100, "altitude_m": 60 }
+  ]
+}
