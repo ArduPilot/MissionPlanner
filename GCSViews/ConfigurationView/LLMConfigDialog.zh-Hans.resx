@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="$this.Text" xml:space="preserve">
+    <value>LLM 翻译设置</value>
+  </data>
+  <data name="chkEnableTranslation.Text" xml:space="preserve">
+    <value>启用 LLM 翻译功能</value>
+  </data>
+  <data name="lblKey.Text" xml:space="preserve">
+    <value>API Key:</value>
+  </data>
+  <data name="lblUrl.Text" xml:space="preserve">
+    <value>API URL:</value>
+  </data>
+  <data name="lblModel.Text" xml:space="preserve">
+    <value>模型名:</value>
+  </data>
+  <data name="lblTemperature.Text" xml:space="preserve">
+    <value>Temperature:</value>
+  </data>
+  <data name="lblTemperatureHint.Text" xml:space="preserve">
+    <value>翻译建议 1.3（范围 0~2）</value>
+  </data>
+  <data name="lnkGetKey.Text" xml:space="preserve">
+    <value>获取 API Key（OpenAI 官网）</value>
+  </data>
+  <data name="lblSystemPrompt.Text" xml:space="preserve">
+    <value>自定义系统提示词 (System Prompt):</value>
+  </data>
+  <data name="btnResetPrompt.Text" xml:space="preserve">
+    <value>重置默认提示词</value>
+  </data>
+  <data name="lblHint.Text" xml:space="preserve">
+    <value>提示：修改提示词可改变翻译风格或输出语言。</value>
+  </data>
+  <data name="lblStatus.Text" xml:space="preserve">
+    <value>等待配置...</value>
+  </data>
+  <data name="btnSave.Text" xml:space="preserve">
+    <value>保存并测试</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="btnSave.testing" xml:space="preserve">
+    <value>测试中...</value>
+  </data>
+  <data name="status.disabled" xml:space="preserve">
+    <value>✗ 翻译功能已禁用</value>
+  </data>
+  <data name="status.configured" xml:space="preserve">
+    <value>✓ 已配置API</value>
+  </data>
+  <data name="status.noKey" xml:space="preserve">
+    <value>⚠ 未配置 API Key</value>
+  </data>
+  <data name="msg.error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="msg.badParameter" xml:space="preserve">
+    <value>参数错误</value>
+  </data>
+  <data name="msg.cannotOpenBrowser" xml:space="preserve">
+    <value>无法打开浏览器: {0}</value>
+  </data>
+  <data name="msg.badTemperature" xml:space="preserve">
+    <value>Temperature 请输入 0~2 之间的数字（建议翻译使用 1.3）</value>
+  </data>
+  <data name="msg.saveSuccess" xml:space="preserve">
+    <value>✓ API 配置成功！
+
+翻译功能已就绪，可以在参数表中使用。</value>
+  </data>
+  <data name="msg.successTitle" xml:space="preserve">
+    <value>配置成功</value>
+  </data>
+  <data name="msg.testFailed" xml:space="preserve">
+    <value>✗ API 连接测试失败
+
+请检查 API Key、API URL 和网络连接
+
+调试信息：
+</value>
+  </data>
+  <data name="msg.failureTitle" xml:space="preserve">
+    <value>配置失败</value>
+  </data>
+  <data name="msg.disabledSaved" xml:space="preserve">
+    <value>设置已保存，翻译功能已禁用。</value>
+  </data>
+  <data name="msg.savedTitle" xml:space="preserve">
+    <value>保存成功</value>
+  </data>
+  <data name="msg.needKey" xml:space="preserve">
+    <value>请输入 API Key</value>
+  </data>
+  <data name="msg.noticeTitle" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="translation.originalLabel" xml:space="preserve">
+    <value>原文：</value>
+  </data>
+</root>
