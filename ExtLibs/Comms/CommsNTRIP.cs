@@ -28,6 +28,24 @@ namespace MissionPlanner.Comms
         public double lat = 0;
         public double lng = 0;
         public bool ntrip_v1 = false;
+
+        /// <summary>
+        /// Optional live position source for the GGA sent to the caster.
+        /// When set and it returns a non-null value, it is used instead of the static lat/lng/alt.
+        /// </summary>
+        public Func<GgaInfo> GgaSource;
+
+        public class GgaInfo
+        {
+            public double Lat;
+            public double Lng;
+            public double Alt;
+            /// <summary>NMEA GGA fix quality (0 invalid, 1 GPS, 2 DGPS, 4 RTK fixed, 5 RTK float)</summary>
+            public int Quality = 1;
+            public int Sats = 10;
+            public double Hdop = 1;
+        }
+
         private IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private Uri remoteUri;
 
@@ -407,27 +425,43 @@ namespace MissionPlanner.Comms
 
         private void SendNMEA()
         {
-            if (lat != 0 || lng != 0)
-                if (_lastnmea.AddSeconds(30) < DateTime.Now)
-                {
-                    var latdms = (int) lat + (lat - (int) lat) * .6f;
-                    var lngdms = (int) lng + (lng - (int) lng) * .6f;
+            if (_lastnmea.AddSeconds(30) >= DateTime.Now)
+                return;
 
-                    var line = string.Format(CultureInfo.InvariantCulture,
-                        "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", "GGA",
-                        DateTime.Now.ToUniversalTime(),
-                        Math.Abs(latdms * 100).ToString("0000.00", CultureInfo.InvariantCulture), lat < 0 ? "S" : "N",
-                        Math.Abs(lngdms * 100).ToString("00000.00", CultureInfo.InvariantCulture), lng < 0 ? "W" : "E",
-                        1, 10,
-                        1, alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "0.0", "0");
+            GgaInfo info = null;
+            try
+            {
+                info = GgaSource?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                log.Warn("ntrip GgaSource failed", ex);
+            }
 
-                    var checksum = GetChecksum(line);
-                    WriteLine(line + "*" + checksum);
+            if (info == null)
+                info = new GgaInfo { Lat = lat, Lng = lng, Alt = alt };
 
-                    log.Info(line + "*" + checksum);
+            if (info.Lat == 0 && info.Lng == 0)
+                return;
 
-                    _lastnmea = DateTime.Now;
-                }
+            var latdms = (int) info.Lat + (info.Lat - (int) info.Lat) * .6f;
+            var lngdms = (int) info.Lng + (info.Lng - (int) info.Lng) * .6f;
+
+            var line = string.Format(CultureInfo.InvariantCulture,
+                "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", "GGA",
+                DateTime.Now.ToUniversalTime(),
+                Math.Abs(latdms * 100).ToString("0000.00", CultureInfo.InvariantCulture), info.Lat < 0 ? "S" : "N",
+                Math.Abs(lngdms * 100).ToString("00000.00", CultureInfo.InvariantCulture), info.Lng < 0 ? "W" : "E",
+                info.Quality, info.Sats.ToString("00", CultureInfo.InvariantCulture),
+                info.Hdop.ToString("0.0", CultureInfo.InvariantCulture),
+                info.Alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "", "");
+
+            var checksum = GetChecksum(line);
+            WriteLine(line + "*" + checksum);
+
+            log.Info(line + "*" + checksum);
+
+            _lastnmea = DateTime.Now;
         }
 
         // Calculates the checksum for a sentence
