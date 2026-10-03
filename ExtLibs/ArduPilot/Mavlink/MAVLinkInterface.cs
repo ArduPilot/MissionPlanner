@@ -5130,41 +5130,47 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     packetSeemValid = true;
                     // check if we lost pacakets based on seqno
-                    int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1) % 0x100);
+                    // seq is 8 bit: up to latePacketWindow behind the newest packet is taken as reordered on
+                    // the link (UDP over IP), anything else as a forward jump. Reordering is a matter of
+                    // milliseconds, so after a pause the seq has wrapped through an outage instead
+                    const int latePacketWindow = 64;
+                    int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
+                    int packetsBehind = (lastPacketSeqNo - packetSeqNo) & 0xFF;
+                    bool sincePreviousPacketIsShort =
+                        (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
 
                     {
-                        // the second part is to work around a 3dr radio bug sending dup seqno's
-                        if (packetSeqNo != expectedPacketSeqNo &&
-                            packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
+                        if (packetsBehind == 0)
                         {
-                            MAVlist[sysid, compid].synclost++; // actual sync loss's
-                            int numLost = 0;
+                            // work around a 3dr radio bug sending dup seqno's
+                        }
+                        else if (packetsBehind <= latePacketWindow && sincePreviousPacketIsShort)
+                        {
+                            // a late packet fills a hole that was counted as lost when the newer one came
+                            if (MAVlist[sysid, compid].packetslost >= 1)
+                                MAVlist[sysid, compid].packetslost--;
+                        }
+                        else
+                        {
+                            int numLost = (packetSeqNo - lastPacketSeqNo - 1) & 0xFF;
 
-                            if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
-                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
+                            if (numLost != 0)
                             {
-                                numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
-                            }
-                            else
-                            {
-                                numLost = packetSeqNo - expectedPacketSeqNo;
+                                MAVlist[sysid, compid].synclost++; // actual sync loss's
+                                MAVlist[sysid, compid].packetslost += numLost;
+                                WhenPacketLost.OnNext(numLost);
+
+                                if (!logreadmode)
+                                    log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
+                                        numLost,
+                                        sysid,
+                                        (lastPacketSeqNo + 1) & 0xFF, compid);
                             }
 
-                            MAVlist[sysid, compid].packetslost += numLost;
-                            WhenPacketLost.OnNext(numLost);
-
-                            if (!logreadmode)
-                                log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
-                                    numLost,
-                                    sysid,
-                                    expectedPacketSeqNo, compid);
+                            MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                         }
 
                         MAVlist[sysid, compid].packetsnotlost++;
-
-                        //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
-
-                        MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                     }
                     WhenPacketReceived.OnNext(1);
 
