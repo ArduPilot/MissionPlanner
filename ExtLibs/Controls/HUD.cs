@@ -2635,8 +2635,10 @@ namespace MissionPlanner.Controls
                         }
 
 
-                        // ground doesnt appear if we are not in view or below ground level
-                        if (a == Math.Round(groundalt) && groundalt != 0 && ground == false)
+                        // ground doesnt appear if we are not in view or below ground level.
+                        // home is 0 on the relative altitude tape; groundalt (HomeAlt) is the home altitude ASL,
+                        // so it only tells whether home is set
+                        if (a == 0 && groundalt != 0 && ground == false)
                         {
                             graphicsObject.FillRectangle(AltGroundBrush,
                                 new RectangleF(scrollbg.Left, scrollbg.Top - space * (a - start), scrollbg.Width,
