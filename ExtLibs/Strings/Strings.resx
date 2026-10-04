@@ -743,4 +743,7 @@ ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOU
   <data name="SomeItemsNotSent" xml:space="preserve">
     <value>Some items could not be sent:</value>
   </data>
+  <data name="SkippedAfterTimeout" xml:space="preserve">
+    <value>skipped, the vehicle stopped answering</value>
+  </data>
 </root>

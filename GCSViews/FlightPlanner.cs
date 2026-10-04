@@ -4218,9 +4218,18 @@ namespace MissionPlanner.GCSViews
                 {
                     if (sender.doWorkArgs.CancelRequested)
                         throw;
-                    // eg fence items not supported by this vehicle - keep going with the rest
                     log.Error(ex);
                     errors.Add(MissionTypePicker.TypeName(type) + ": " + ex.Message);
+
+                    // the vehicle stopped answering: the other types would only wait out the same
+                    // timeouts. What was read before that is still shown.
+                    if (IsTimeout(ex))
+                    {
+                        AddSkippedTypes(errors, allMissionTypes.Where(types.Contains).SkipWhile(t => t != type).Skip(1));
+                        break;
+                    }
+
+                    // eg fence items not supported by this vehicle - keep going with the rest
                 }
             }
 
@@ -4234,11 +4243,7 @@ namespace MissionPlanner.GCSViews
             WPtoScreen(allMissionTypes.SelectMany(t => parts[t]).ToList());
 
             if (errors.Count > 0)
-            {
-                // shown as the message itself, not as an unexpected error with a stack trace
-                sender.doWorkArgs.ErrorMessage = Strings.SomeItemsNotRead + "\n" + string.Join("\n", errors);
-                throw new Exception(sender.doWorkArgs.ErrorMessage);
-            }
+                throw PartialResult(sender, Strings.SomeItemsNotRead, errors);
         }
 
         /// <summary>
@@ -4274,22 +4279,22 @@ namespace MissionPlanner.GCSViews
                     {
                         var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
                         ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus((int)(percent), prefix + status); };
-                        if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
-                            return ftp.GetFile(
-                                "@MISSION/mission.dat", null, true, 110);
-                        if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
-                            return ftp.GetFile(
-                                "@MISSION/fence.dat", null, true, 110);
-                        if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
-                            return ftp.GetFile(
-                                "@MISSION/rally.dat", null, true, 110);
-                        return null;
+                        return ftp.GetFile(MissionFtpPath(type), null, true, 110);
                     });
-                    var values = missionpck.unpack(paramfileTask.GetAwaiter().GetResult().ToArray());
-                    var cache = GetMissionCache(type);
-                    cache.Clear();
-                    values.wps.ForEach(wp => cache[wp.seq] = wp);
-                    return values.wps.Select(a => (Locationwp)a).ToList();
+
+                    // null when the vehicle did not answer the open; the items are then read one
+                    // by one below, where a silent vehicle times out
+                    var file = paramfileTask.GetAwaiter().GetResult();
+                    if (file != null)
+                    {
+                        var values = missionpck.unpack(file.ToArray());
+                        var cache = GetMissionCache(type);
+                        cache.Clear();
+                        values.wps.ForEach(wp => cache[wp.seq] = wp);
+                        return values.wps.Select(a => (Locationwp)a).ToList();
+                    }
+
+                    log.Warn(prefix + "no MAVFTP reply, reading the items one by one");
                 }
                 catch (Exception ex)
                 {
@@ -6549,9 +6554,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         if (ordered.Count == 1 || sender.doWorkArgs.CancelRequested)
                             throw;
 
-                        // eg fence items rejected by this vehicle - still send the other types
                         log.Error(ex);
                         errors.Add(MissionTypePicker.TypeName(type) + ": " + ex.Message);
+
+                        // the vehicle stopped answering: the other types would wait out the same
+                        // timeouts, and could start while it is still inside this transfer
+                        if (IsTimeout(ex))
+                        {
+                            AddSkippedTypes(errors, ordered.Skip(i + 1));
+                            throw PartialResult(sender, Strings.SomeItemsNotSent, errors);
+                        }
+
+                        // eg fence items rejected by this vehicle - still send the other types
                     }
                 }
 
@@ -6606,11 +6620,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(100, "Done.");
 
                 if (errors.Count > 0)
-                {
-                    // shown as the message itself, not as an unexpected error with a stack trace
-                    sender.doWorkArgs.ErrorMessage = Strings.SomeItemsNotSent + "\n" + string.Join("\n", errors);
-                    throw new Exception(sender.doWorkArgs.ErrorMessage);
-                }
+                    throw PartialResult(sender, Strings.SomeItemsNotSent, errors);
             }
             catch (Exception ex)
             {
@@ -6652,6 +6662,57 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         }
 
         /// <summary>
+        /// The file ArduPilot serves an item type as over MAVFTP.
+        /// </summary>
+        private static string MissionFtpPath(MAVLink.MAV_MISSION_TYPE type)
+        {
+            switch (type)
+            {
+                case MAVLink.MAV_MISSION_TYPE.FENCE:
+                    return "@MISSION/fence.dat";
+                case MAVLink.MAV_MISSION_TYPE.RALLY:
+                    return "@MISSION/rally.dat";
+                default:
+                    return "@MISSION/mission.dat";
+            }
+        }
+
+        /// <summary>
+        /// True when the vehicle stopped answering rather than refusing: the mission protocol
+        /// throws TimeoutException once its retries run out, a refusal throws a plain exception.
+        /// </summary>
+        internal static bool IsTimeout(Exception ex)
+        {
+            for (var e = ex; e != null; e = e.InnerException)
+            {
+                if (e is TimeoutException)
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Names the item types that were not tried because the vehicle stopped answering.
+        /// </summary>
+        private static void AddSkippedTypes(List<string> errors, IEnumerable<MAVLink.MAV_MISSION_TYPE> skipped)
+        {
+            var names = skipped.Select(t => MissionTypePicker.TypeName(t)).ToList();
+            if (names.Count > 0)
+                errors.Add(string.Join(", ", names) + ": " + Strings.SkippedAfterTimeout);
+        }
+
+        /// <summary>
+        /// The error for a read or write that did part of its work. The dialog shows the message
+        /// itself rather than an unexpected error with a stack trace.
+        /// </summary>
+        private static Exception PartialResult(IProgressReporterDialogue sender, string heading, List<string> errors)
+        {
+            sender.doWorkArgs.ErrorMessage = heading + "\n" + string.Join("\n", errors);
+            return new Exception(sender.doWorkArgs.ErrorMessage);
+        }
+
+        /// <summary>
         /// Upload one item type to the vehicle, over MAVFTP when enabled, else item by item.
         /// </summary>
         /// <param name="commandlist">items of this type only, without home</param>
@@ -6683,24 +6744,35 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
                     // -1 asks the dialog for its indeterminate bar and must not be scaled
                     ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus(percent < 0 ? percent : scaleprogress(percent), prefix + status); };
-                    if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
-                        ftp.UploadFile("@MISSION/mission.dat", new MemoryStream(values), null);
-                    if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
-                        ftp.UploadFile("@MISSION/fence.dat", new MemoryStream(values), null);
-                    if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
-                        ftp.UploadFile("@MISSION/rally.dat", new MemoryStream(values), null);
 
-                    // keep the vehicle side cache in step, as the item by item path does
-                    var cache = GetMissionCache(type);
-                    cache.Clear();
-                    for (int i = 0; i < commandlist.Count; i++)
+                    // The steps of MAVFtp.UploadFile, which ignores their results, so a vehicle
+                    // that stopped answering looked like a finished upload. A refusal throws and no
+                    // reply returns false; either way the items then go one by one below, where a
+                    // silent vehicle times out and one without MAVFTP takes them. A session reset
+                    // with no answer (about 5 s) already means no MAVFTP, so the file steps (about
+                    // 30 s each without a reply) are not tried then.
+                    var file = MissionFtpPath(type);
+                    var size = 0;
+                    if (ftp.kCmdResetSessions() &&
+                        ftp.kCmdCreateFile(file, ref size, null) &&
+                        ftp.kCmdWriteFile(new MemoryStream(values), Path.GetFileName(file), null))
                     {
-                        var item = (MAVLink.mavlink_mission_item_int_t) commandlist[i];
-                        item.seq = (ushort) i;
-                        cache[i] = item;
+                        ftp.kCmdResetSessions();
+
+                        // keep the vehicle side cache in step, as the item by item path does
+                        var cache = GetMissionCache(type);
+                        cache.Clear();
+                        for (int i = 0; i < commandlist.Count; i++)
+                        {
+                            var item = (MAVLink.mavlink_mission_item_int_t) commandlist[i];
+                            item.seq = (ushort) i;
+                            cache[i] = item;
+                        }
+
+                        return false;
                     }
 
-                    return false;
+                    log.Warn(prefix + "no MAVFTP reply, sending the items one by one");
                 }
                 catch (Exception ex)
                 {

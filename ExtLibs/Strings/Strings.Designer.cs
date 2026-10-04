@@ -1891,5 +1891,14 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("SomeItemsNotSent", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to skipped, the vehicle stopped answering.
+        /// </summary>
+        public static string SkippedAfterTimeout {
+            get {
+                return ResourceManager.GetString("SkippedAfterTimeout", resourceCulture);
+            }
+        }
     }
 }
