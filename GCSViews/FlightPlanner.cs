@@ -256,6 +256,16 @@ namespace MissionPlanner.GCSViews
             Up.Image = Resources.up;
             Down.Image = Resources.down;
 
+            // the tick column, last on the right: a checkbox in its header ticks or clears every row
+            Check.CellTemplate.Value = false;
+            checkHeader = new CheckBoxHeaderCell();
+            checkHeader.CheckedChanged += checkHeader_CheckedChanged;
+            var checkHeaderText = Check.HeaderText; // lives in the header cell being replaced
+            Check.HeaderCell = checkHeader;
+            Check.HeaderText = checkHeaderText;
+            Commands.CurrentCellDirtyStateChanged += Commands_CurrentCellDirtyStateChanged;
+            Commands.CellValueChanged += Commands_CellValueChanged;
+
 
             Frame.DisplayMember = "Value";
             Frame.ValueMember = "Key";
@@ -1050,6 +1060,238 @@ namespace MissionPlanner.GCSViews
         }
 
 
+        /// <summary>
+        /// The altitude Verify Height gives a waypoint: Default Alt above the terrain under it,
+        /// expressed in the waypoint's frame. Terrain heights are metres; the result is in display
+        /// units (multiplier = CurrentState.multiplieralt).
+        /// </summary>
+        internal static int VerifiedAltitude(altmode frame, double terrainAtPoint, double terrainAtHome,
+            int defaultAlt, float multiplier)
+        {
+            switch (frame)
+            {
+                case altmode.Absolute:
+                    return (int) (terrainAtPoint * multiplier + defaultAlt);
+                case altmode.Terrain:
+                    return defaultAlt;
+                default: // relative to home
+                    return (int) ((terrainAtPoint - terrainAtHome) * multiplier + defaultAlt);
+            }
+        }
+
+        /// <summary>
+        /// The altmode a MAV_FRAME value maps to, or null for frames the Plan page does not use
+        /// (local, body, mission frames).
+        /// </summary>
+        internal static altmode? AltModeOfFrame(int frame)
+        {
+            switch ((MAVLink.MAV_FRAME) frame)
+            {
+                case MAVLink.MAV_FRAME.GLOBAL:
+                case MAVLink.MAV_FRAME.GLOBAL_INT:
+                    return altmode.Absolute;
+                case MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT:
+                case MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT:
+                    return altmode.Relative;
+                case MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT:
+                case MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT_INT:
+                    return altmode.Terrain;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Verify Height for one point: Default Alt above the terrain at lat/lng, in the given frame.
+        /// Returns false when there is no terrain data for the point (or for home, in the relative
+        /// frame), which happens while the SRTM tile is still downloading.
+        /// </summary>
+        private bool TryVerifyHeight(double lat, double lng, altmode frame, int defaultAlt, out int alt)
+        {
+            alt = defaultAlt;
+            if (frame == altmode.Terrain)
+                return true;
+
+            var point = srtm.getAltitude(lat, lng);
+            if (point.currenttype == srtm.tiletype.invalid)
+                return false;
+
+            double terrainAtHome = 0;
+            if (frame != altmode.Absolute)
+            {
+                var home = srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
+                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng);
+                if (home.currenttype == srtm.tiletype.invalid)
+                    return false;
+                terrainAtHome = home.alt;
+            }
+
+            alt = VerifiedAltitude(frame, point.alt, terrainAtHome, defaultAlt, CurrentState.multiplieralt);
+            return true;
+        }
+
+        /// <summary>
+        /// The frame of a grid row (its Frame cell), falling back to the Alt mode dropdown.
+        /// </summary>
+        private altmode RowAltMode(DataGridViewRow row)
+        {
+            try
+            {
+                var mode = AltModeOfFrame(Convert.ToInt32(row.Cells[Frame.Index].Value));
+                if (mode.HasValue)
+                    return mode.Value;
+            }
+            catch (Exception ex) when (ex is FormatException || ex is InvalidCastException ||
+                                       ex is OverflowException)
+            {
+                // not a frame number: use the dropdown
+            }
+
+            return (altmode) CMB_altmode.SelectedValue;
+        }
+
+        private CheckBoxHeaderCell checkHeader;
+
+        /// <summary>
+        /// The indexes of the rows whose tick box (the Check column) is on.
+        /// </summary>
+        internal List<int> CheckedRows()
+        {
+            var rows = new List<int>();
+            foreach (DataGridViewRow row in Commands.Rows)
+                if (true.Equals(row.Cells[Check.Index].Value))
+                    rows.Add(row.Index);
+            return rows;
+        }
+
+        /// <summary>
+        /// The header box ticks or clears every row.
+        /// </summary>
+        private void checkHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            // read the target once: each cell write below raises CellValueChanged, and the sync
+            // it triggers would otherwise flip the header back while the rows are half done
+            var tick = checkHeader.Checked;
+            tickingAllRows = true;
+            try
+            {
+                foreach (DataGridViewRow row in Commands.Rows)
+                    row.Cells[Check.Index].Value = tick;
+                Commands.EndEdit();
+            }
+            finally
+            {
+                tickingAllRows = false;
+            }
+
+            SyncCheckHeader();
+            Commands.Invalidate();
+        }
+
+        private bool tickingAllRows;
+
+        /// <summary>
+        /// The header box shows ticked only while every row is ticked.
+        /// </summary>
+        private void SyncCheckHeader()
+        {
+            if (checkHeader == null || tickingAllRows)
+                return;
+            checkHeader.SetChecked(Commands.RowCount > 0 && CheckedRows().Count == Commands.RowCount);
+        }
+
+        /// <summary>
+        /// A tick is committed as soon as it is clicked, so the header and the button see it without
+        /// the cell having to lose focus first.
+        /// </summary>
+        private void Commands_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (Commands.IsCurrentCellDirty && Commands.CurrentCell != null &&
+                Commands.CurrentCell.ColumnIndex == Check.Index)
+                Commands.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void Commands_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == Check.Index)
+                SyncCheckHeader();
+        }
+
+        /// <summary>
+        /// Verify Height for waypoints that are already in the grid: recalculates the Alt of the
+        /// ticked rows the way Verify Height sets a new waypoint, Default Alt above the terrain at
+        /// each point. Rows whose command has no position or no altitude are left alone, as are rows
+        /// whose terrain tile has not downloaded yet.
+        /// </summary>
+        public void BUT_verifyheight_Click(object sender, EventArgs e)
+        {
+            Commands.EndEdit();
+
+            var rows = CheckedRows();
+            if (rows.Count == 0)
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightTickRows, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            int defaultAlt;
+            if (!int.TryParse(TXT_DefaultAlt.Text, out defaultAlt) || defaultAlt == 0)
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightBadDefaultAlt, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            updateUndoBuffer(true);
+
+            int changed = 0, noTerrain = 0, noPosition = 0;
+            foreach (var index in rows)
+            {
+                var row = Commands.Rows[index];
+
+                // only commands whose seventh parameter is an altitude
+                var cmd = row.Cells[Command.Index].Value?.ToString();
+                string[] names;
+                if (cmd == null || !cmdParamNames.TryGetValue(cmd, out names) || names.Length < 7 ||
+                    !names[6].StartsWith("Alt", StringComparison.Ordinal))
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                double lat, lng;
+                if (!double.TryParse(row.Cells[Lat.Index].Value?.ToString(), out lat) ||
+                    !double.TryParse(row.Cells[Lon.Index].Value?.ToString(), out lng) ||
+                    (lat == 0 && lng == 0))
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                int alt;
+                if (!TryVerifyHeight(lat, lng, RowAltMode(row), defaultAlt, out alt))
+                {
+                    noTerrain++;
+                    continue;
+                }
+
+                row.Cells[Alt.Index].Value = alt;
+                changed++;
+            }
+
+            Commands.EndEdit();
+            writeKML();
+
+            if (noTerrain > 0 || noPosition > 0)
+            {
+                var msg = string.Format(Strings.VerifyHeightUpdated, changed);
+                if (noTerrain > 0)
+                    msg += "\n" + string.Format(Strings.VerifyHeightNoTerrain, noTerrain);
+                if (noPosition > 0)
+                    msg += "\n" + string.Format(Strings.VerifyHeightNoAltitude, noPosition);
+                CustomMessageBox.Show(msg, Strings.VerifyHeightTitle);
+            }
+        }
+
         public void updateUndoBuffer(bool noBlankRow)
         {
             try
@@ -1210,29 +1452,11 @@ namespace MissionPlanner.GCSViews
                     // not online and verify alt via srtm
                     if (CHK_verifyheight.Checked) // use srtm data
                     {
-                        // is absolute but no verify
-                        if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                        {
-                            //abs
-                            cell.Value =
-                                ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text)).ToString();
-                        }
-                        else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
-                        {
-                            cell.Value = int.Parse(TXT_DefaultAlt.Text);
-                        }
-                        else
-                        {
-                            //relative and verify
-                            cell.Value =
-                                ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text) -
-                                 (int)
-                                 srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
-                                .ToString();
-                        }
+                        int verified;
+                        if (TryVerifyHeight(lat, lng, (altmode) CMB_altmode.SelectedValue,
+                                int.Parse(TXT_DefaultAlt.Text), out verified))
+                            cell.Value = verified.ToString();
+                        // no terrain data for the point yet: the cell keeps Default Alt
                     }
 
                     cell.DataGridView.EndEdit();
@@ -1330,6 +1554,7 @@ namespace MissionPlanner.GCSViews
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
             CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+            BUT_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
 
             //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
             foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
@@ -2406,6 +2631,8 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            SyncCheckHeader();
+
             for (int i = 0; i < Commands.ColumnCount; i++)
             {
                 DataGridViewCell tcell = Commands.Rows[e.RowIndex].Cells[i];
@@ -2466,6 +2693,7 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
+            SyncCheckHeader();
             writeKML();
         }
 
