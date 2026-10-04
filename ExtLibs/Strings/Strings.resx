@@ -396,6 +396,24 @@ Do you wish to continue?</value>
   <data name="VerifyFirmware" xml:space="preserve">
     <value>Verify Firmware</value>
   </data>
+  <data name="VerifyHeightTitle" xml:space="preserve">
+    <value>Verify Height</value>
+  </data>
+  <data name="VerifyHeightTickRows" xml:space="preserve">
+    <value>Tick the box of each waypoint to verify, or the box in the column header for all of them.</value>
+  </data>
+  <data name="VerifyHeightBadDefaultAlt" xml:space="preserve">
+    <value>Your default alt is not valid</value>
+  </data>
+  <data name="VerifyHeightUpdated" xml:space="preserve">
+    <value>{0} row(s) updated.</value>
+  </data>
+  <data name="VerifyHeightNoTerrain" xml:space="preserve">
+    <value>{0} skipped: no terrain data yet. It downloads in the background, try again shortly.</value>
+  </data>
+  <data name="VerifyHeightNoAltitude" xml:space="preserve">
+    <value>{0} skipped: the command has no position or no altitude.</value>
+  </data>
   <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
     <value>Upload succeeded, but verify failed: exp {0} got {1} at </value>
   </data>
