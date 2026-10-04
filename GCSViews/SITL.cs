@@ -862,7 +862,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         private void but_sethome_Click(object sender, EventArgs e)
         {
-            var point = CoordsInputBox.Show(this, "Enter Home Location", HomeCoordSystem, out var hasAlt);
+            var point = CoordsInputBox.Show(this, Strings.EnterHomeLocation, HomeCoordSystem, out var hasAlt);
             if (point == null)
                 return;
 

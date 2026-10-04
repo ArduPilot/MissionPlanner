@@ -2966,7 +2966,7 @@ namespace MissionPlanner.GCSViews
 
             if (!TryParseHomeCoord(text, out var lat, out var lng))
             {
-                CustomMessageBox.Show("Invalid " + coords1.System + " coordinate: " + text, Strings.ERROR);
+                CustomMessageBox.Show(string.Format(Strings.InvalidCoordinate, coords1.System, text), Strings.ERROR);
                 updateHomeCoordText(true);
                 return;
             }

@@ -71,7 +71,7 @@ namespace MissionPlanner.Controls
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
 
             // row 0: coordinate system
-            layout.Controls.Add(new Label {Text = "Coordinate system", AutoSize = true, Anchor = AnchorStyles.Left}, 0, 0);
+            layout.Controls.Add(new Label {Text = Strings.CoordinateSystem, AutoSize = true, Anchor = AnchorStyles.Left}, 0, 0);
             cmbSystem = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
@@ -90,7 +90,7 @@ namespace MissionPlanner.Controls
             layout.SetColumnSpan(lblHint, 2);
 
             // row 2: coordinates
-            layout.Controls.Add(new Label {Text = "Coordinates", AutoSize = true, Anchor = AnchorStyles.Left}, 0, 2);
+            layout.Controls.Add(new Label {Text = Strings.Coordinates, AutoSize = true, Anchor = AnchorStyles.Left}, 0, 2);
             txtCoords = new TextBox {Width = 260};
             layout.Controls.Add(txtCoords, 1, 2);
 
@@ -98,7 +98,7 @@ namespace MissionPlanner.Controls
             layout.Controls.Add(
                 new Label
                 {
-                    Text = "Altitude (optional, " + CurrentState.AltUnit + ")", AutoSize = true,
+                    Text = string.Format(Strings.AltitudeOptional, CurrentState.AltUnit), AutoSize = true,
                     Anchor = AnchorStyles.Left
                 }, 0, 3);
             txtAlt = new TextBox {Width = 100};
@@ -113,8 +113,8 @@ namespace MissionPlanner.Controls
                 Dock = DockStyle.Fill,
                 Margin = new Padding(0, 12, 0, 0)
             };
-            var butCancel = new MyButton {Text = "Cancel", DialogResult = DialogResult.Cancel, Width = 75};
-            butOk = new MyButton {Text = "OK", Width = 75};
+            var butCancel = new MyButton {Text = Strings.Cancel, DialogResult = DialogResult.Cancel, Width = 75};
+            butOk = new MyButton {Text = Strings.OK, Width = 75};
             butOk.Click += ButOk_Click;
             buttons.Controls.Add(butCancel);
             buttons.Controls.Add(butOk);
@@ -136,18 +136,18 @@ namespace MissionPlanner.Controls
         private void UpdateHint()
         {
             if (SelectedSystem == Coords.CoordsSystems.UTM.ToString())
-                lblHint.Text = "Zone+band, easting and northing in metres, eg 29U 540660 5854629";
+                lblHint.Text = Strings.CoordsHintUTM;
             else if (SelectedSystem == Coords.CoordsSystems.MGRS.ToString())
-                lblHint.Text = "MGRS grid reference, eg 29UPU0406654629 (spaces allowed)";
+                lblHint.Text = Strings.CoordsHintMGRS;
             else
-                lblHint.Text = "Decimal degrees 'lat;long' or 'lat;long;alt', eg 52.829;-7.470";
+                lblHint.Text = Strings.CoordsHintGEO;
         }
 
         private void ButOk_Click(object sender, EventArgs e)
         {
             if (!TryParse(SelectedSystem, txtCoords.Text, out var lat, out var lng, out var inlineAlt))
             {
-                CustomMessageBox.Show("Invalid " + SelectedSystem + " coordinate: " + txtCoords.Text.Trim(),
+                CustomMessageBox.Show(string.Format(Strings.InvalidCoordinate, SelectedSystem, txtCoords.Text.Trim()),
                     Strings.ERROR);
                 return;
             }
@@ -158,7 +158,7 @@ namespace MissionPlanner.Controls
                 if (!double.TryParse(txtAlt.Text.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture,
                         out var typedAlt))
                 {
-                    CustomMessageBox.Show("Invalid altitude: " + txtAlt.Text.Trim(), Strings.ERROR);
+                    CustomMessageBox.Show(string.Format(Strings.InvalidAltitude, txtAlt.Text.Trim()), Strings.ERROR);
                     return;
                 }
 
