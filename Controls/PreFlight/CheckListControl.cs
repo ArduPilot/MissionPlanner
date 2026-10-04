@@ -258,6 +258,10 @@ namespace MissionPlanner.Controls.PreFlight
 
         public void Controls_Resize(object sender, EventArgs e)
         {
+            // Resize can run before the first Draw, or with an empty checklist.
+            if (groupboxes.Count == 0)
+                return;
+
             //initialize controls x and y
             int gbsX = 0;
             int gbsY = 0;

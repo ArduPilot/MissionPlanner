@@ -10,11 +10,11 @@ namespace MissionPlanner
     /// </summary>
     public class PacketInspector<T>
     {
-        Dictionary<uint, Dictionary<uint, T>> _history = new Dictionary<uint, Dictionary<uint, T>>();
+        Dictionary<ulong, Dictionary<uint, T>> _history = new Dictionary<ulong, Dictionary<uint, T>>();
 
-        Dictionary<uint, Dictionary<uint, List<irate>>> _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
+        Dictionary<ulong, Dictionary<uint, List<irate>>> _rate = new Dictionary<ulong, Dictionary<uint, List<irate>>>();
 
-        Dictionary<uint, Dictionary<uint, List<irate>>> _bps = new Dictionary<uint, Dictionary<uint, List<irate>>>();
+        Dictionary<ulong, Dictionary<uint, List<irate>>> _bps = new Dictionary<ulong, Dictionary<uint, List<irate>>>();
 
         public int RateHistory { get; set; } = 200;
 
@@ -34,9 +34,9 @@ namespace MissionPlanner
             }
         }
 
-        public List<byte> SeenSysid()
+        public List<uint> SeenSysid()
         {
-            List<byte> sysids = new List<byte>();
+            List<uint> sysids = new List<uint>();
             foreach (var id in toArray(_history.Keys))
             {
                 sysids.Add(GetFromID(id).sysid);
@@ -56,7 +56,7 @@ namespace MissionPlanner
             return compids;
         }
 
-        public double SeenRate(byte sysid, byte compid, uint msgid)
+        public double SeenRate(uint sysid, byte compid, uint msgid)
         {
             var id = GetID(sysid, compid);
             var end = DateTime.Now;
@@ -78,7 +78,7 @@ namespace MissionPlanner
             }
         }
 
-        public double SeenBps(byte sysid, byte compid, uint msgid)
+        public double SeenBps(uint sysid, byte compid, uint msgid)
         {
             var id = GetID(sysid, compid);
             var end = DateTime.Now;
@@ -100,7 +100,7 @@ namespace MissionPlanner
             }
         }
 
-        public double SeenBps(byte sysid, byte compid)
+        public double SeenBps(uint sysid, byte compid)
         {
             var id = GetID(sysid, compid);
             var end = DateTime.Now;
@@ -122,7 +122,7 @@ namespace MissionPlanner
             }
         }
 
-        public void Add(byte sysid, byte compid, uint msgid, T message, int size)
+        public void Add(uint sysid, byte compid, uint msgid, T message, int size)
         {
             var id = GetID(sysid, compid);
 
@@ -175,15 +175,15 @@ namespace MissionPlanner
         {
             lock (_lock)
             {
-                _history = new Dictionary<uint, Dictionary<uint, T>>();
-                _rate = new Dictionary<uint, Dictionary<uint, List<irate>>>();
-                _bps = new Dictionary<uint, Dictionary<uint, List<irate>>>();
+                _history = new Dictionary<ulong, Dictionary<uint, T>>();
+                _rate = new Dictionary<ulong, Dictionary<uint, List<irate>>>();
+                _bps = new Dictionary<ulong, Dictionary<uint, List<irate>>>();
             }
 
             NewSysidCompid?.Invoke(this, null);
         }
 
-        public void Clear(byte sysid, byte compid)
+        public void Clear(uint sysid, byte compid)
         {
             var id = GetID(sysid, compid);
             lock (_lock)
@@ -196,7 +196,7 @@ namespace MissionPlanner
             NewSysidCompid?.Invoke(this, null);
         }
 
-        public IEnumerable<T> this[byte sysid, byte compid]
+        public IEnumerable<T> this[uint sysid, byte compid]
         {
             get
             {
@@ -209,14 +209,14 @@ namespace MissionPlanner
             }
         }
 
-        uint GetID(byte sysid, byte compid)
+        ulong GetID(uint sysid, byte compid)
         {
-            return sysid * 256u + compid;
+            return ((ulong)sysid << 8) | compid;
         }
 
-        (byte sysid, byte compid) GetFromID(uint id)
+        (uint sysid, byte compid) GetFromID(ulong id)
         {
-            return ((byte)(id >> 8), (byte)(id & 0xff));
+            return ((uint)(id >> 8), (byte)(id & 0xff));
         }
     }
 }

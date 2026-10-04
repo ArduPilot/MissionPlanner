@@ -15,7 +15,8 @@ public partial class MAVLink
     public const byte MAVLINK_NUM_CHECKSUM_BYTES = 2;
     public const byte MAVLINK_NUM_NON_PAYLOAD_BYTES = (MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES);
 
-    public const int MAVLINK_MAX_PACKET_LEN = (MAVLINK_MAX_PAYLOAD_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN);///< Maximum packet length
+    public const int MAVLINK_MAX_HEADER_BYTES = MAVLINK_NUM_HEADER_BYTES + 7;
+    public const int MAVLINK_MAX_PACKET_LEN = (MAVLINK_MAX_PAYLOAD_LEN + MAVLINK_MAX_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN);///< Maximum packet length
     public const byte MAVLINK_SIGNATURE_BLOCK_LEN = 13;
 
     public const int MAVLINK_LITTLE_ENDIAN = 1;
@@ -393,7 +394,9 @@ public partial class MAVLink
     public const byte MAVLINK_VERSION = 2;
 
     public const byte MAVLINK_IFLAG_SIGNED=  0x01;
-    public const byte MAVLINK_IFLAG_MASK   = 0x01;
+    public const byte MAVLINK_IFLAG_SYSID32 = 0x02;
+    public const byte MAVLINK_IFLAG_TARGET32 = 0x04;
+    public const byte MAVLINK_IFLAG_MASK = MAVLINK_IFLAG_SIGNED | MAVLINK_IFLAG_SYSID32 | MAVLINK_IFLAG_TARGET32;
 
     public struct message_info
     {

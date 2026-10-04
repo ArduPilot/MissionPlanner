@@ -6,14 +6,14 @@ namespace MissionPlanner.Utilities
 {
     public interface IMAVLinkInterface
     {
-        int sysidcurrent { get; set; }
+        uint sysidcurrent { get; set; }
         int compidcurrent { get; set; }
 
-        void sendPacket(object indata, int sysid, int compid);
+        void sendPacket(object indata, uint sysid, int compid);
 
         int SubscribeToPacketType(
             MAVLink.MAVLINK_MSG_ID type,
-            Func<MAVLink.MAVLinkMessage, bool> function, byte sysid, byte compid, bool exclusive = false);
+            Func<MAVLink.MAVLinkMessage, bool> function, uint sysid, byte compid, bool exclusive = false);
 
         void UnSubscribeToPacketType(int msgid);
 

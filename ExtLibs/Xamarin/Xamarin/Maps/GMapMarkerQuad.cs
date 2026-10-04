@@ -14,12 +14,12 @@ namespace MissionPlanner.Maps
         float heading = 0;
         float cog = -1;
         float target = -1;
-        private int sysid = -1;
+        private long sysid = -1;
 
         public float warn = -1;
         public float danger = -1;
 
-        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, int sysid)
+        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, long sysid)
             : base(p)
         {
             this.heading = heading;
