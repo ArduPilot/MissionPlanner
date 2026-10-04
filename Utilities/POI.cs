@@ -83,7 +83,8 @@ namespace MissionPlanner.Utilities
         /// Read the saved file into the list. Several pages subscribe (Data, Plan); loading it once
         /// per subscriber duplicated every POI on each start, and the next save made the duplicates
         /// permanent. A read that fails, for example while another program holds the file, is
-        /// retried on the next subscription.
+        /// retried on the next subscription. Only a file that does not exist counts as nothing to
+        /// read; File.Exists cannot tell that apart from a file that cannot be read.
         /// </summary>
         /// <returns>true when the list was read now and the pages have been redrawn</returns>
         private static bool LoadSaved()
@@ -94,8 +95,11 @@ namespace MissionPlanner.Utilities
             int duplicates = 0;
             try
             {
-                if (File.Exists(filename))
-                    duplicates = LoadFile(filename);
+                duplicates = LoadFile(filename);
+            }
+            catch (Exception ex) when (ex is FileNotFoundException || ex is DirectoryNotFoundException)
+            {
+                // no saved file yet; the first save creates it
             }
             catch (Exception ex)
             {
