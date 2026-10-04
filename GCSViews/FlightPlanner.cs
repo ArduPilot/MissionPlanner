@@ -366,6 +366,21 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
+        /// The item type of a grid row, from its command. An UNKNOWN row keeps its numeric command
+        /// id in the Command cell's Tag, which is where the upload reads it from too.
+        /// </summary>
+        private MAVLink.MAV_MISSION_TYPE MissionTypeOfRow(int row)
+        {
+            var cell = Commands.Rows[row].Cells[Command.Index];
+            var cmdname = cell.Value?.ToString() ?? "";
+
+            if (cmdname.Contains("UNKNOWN"))
+                return cell.Tag is ushort id ? MissionTypeOf(id) : MAVLink.MAV_MISSION_TYPE.MISSION;
+
+            return MissionTypeOf(getCmdID(cmdname));
+        }
+
+        /// <summary>
         /// Mission, fence and rally items from the vehicle cache joined into one list, in the
         /// order they are shown when the dropdown is set to ALL. Home (mission seq 0) is kept
         /// at the front so processToScreen strips it the same way it does for MISSION.
@@ -731,7 +746,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    var prompt = "This will clear your existing points, Continue?";
+                    var prompt = Strings.ClearExistingPoints;
 
                     // a partial read (ALL mode) keeps the rows of the types that are not fetched
                     if (types != null && types.Count < allMissionTypes.Length)
@@ -827,8 +842,7 @@ namespace MissionPlanner.GCSViews
                 var cmdname = Commands.Rows[a].Cells[Command.Index].Value.ToString();
 
                 // the altitude checks only apply to rows that are being sent
-                var sending = types == null || cmdname.Contains("UNKNOWN") ||
-                              types.Contains(MissionTypeOf(getCmdID(cmdname)));
+                var sending = types == null || types.Contains(MissionTypeOfRow(a));
 
                 for (int b = 0; b < Commands.ColumnCount - 0; b++)
                 {
@@ -2400,10 +2414,7 @@ namespace MissionPlanner.GCSViews
                 BUT_Add.Visible = true;
                 processToScreen(GetAllCachedItems());
 
-                Common.MessageShowAgain("FlightPlan All",
-                    "Mission, Fence and Rally items are now shown together in one list. " +
-                    "The Command column tells them apart (RALLY_POINT and FENCE_* rows are not part of the mission). " +
-                    "Read and Write let you pick which of the three to send or receive.");
+                Common.MessageShowAgain("FlightPlan All", Strings.AllModeHint);
             }
             else
             {
@@ -4222,7 +4233,7 @@ namespace MissionPlanner.GCSViews
                         throw;
                     // eg fence items not supported by this vehicle - keep going with the rest
                     log.Error(ex);
-                    errors.Add(type + ": " + ex.Message);
+                    errors.Add(MissionTypePicker.TypeName(type) + ": " + ex.Message);
                 }
             }
 
@@ -4247,7 +4258,7 @@ namespace MissionPlanner.GCSViews
             WPtoScreen(allMissionTypes.SelectMany(t => parts[t]).ToList());
 
             if (errors.Count > 0)
-                throw new Exception("Some items could not be read:\n" + string.Join("\n", errors));
+                throw new Exception(Strings.SomeItemsNotRead + "\n" + string.Join("\n", errors));
         }
 
         /// <summary>
@@ -6558,7 +6569,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                         // eg fence items rejected by this vehicle - still send the other types
                         log.Error(ex);
-                        errors.Add(type + ": " + ex.Message);
+                        errors.Add(MissionTypePicker.TypeName(type) + ": " + ex.Message);
                     }
                 }
 
@@ -6601,7 +6612,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (errors.Count > 0)
                 {
                     MainV2.comPort.giveComport = false;
-                    throw new Exception("Some items could not be sent:\n" + string.Join("\n", errors));
+                    throw new Exception(Strings.SomeItemsNotSent + "\n" + string.Join("\n", errors));
                 }
             }
             catch (Exception ex)

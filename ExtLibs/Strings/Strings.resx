@@ -731,4 +731,16 @@ ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOU
   <data name="ReplaceExistingPoints" xml:space="preserve">
     <value>This will replace your existing {0} points, Continue?</value>
   </data>
+  <data name="ClearExistingPoints" xml:space="preserve">
+    <value>This will clear your existing points, Continue?</value>
+  </data>
+  <data name="AllModeHint" xml:space="preserve">
+    <value>Mission, Fence and Rally items are now shown together in one list. The Command column tells them apart (RALLY_POINT and FENCE_* rows are not part of the mission). Read and Write let you pick which of the three to send or receive.</value>
+  </data>
+  <data name="SomeItemsNotRead" xml:space="preserve">
+    <value>Some items could not be read:</value>
+  </data>
+  <data name="SomeItemsNotSent" xml:space="preserve">
+    <value>Some items could not be sent:</value>
+  </data>
 </root>

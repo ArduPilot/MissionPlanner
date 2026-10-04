@@ -1855,5 +1855,41 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("ReplaceExistingPoints", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This will clear your existing points, Continue?.
+        /// </summary>
+        public static string ClearExistingPoints {
+            get {
+                return ResourceManager.GetString("ClearExistingPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mission, Fence and Rally items are now shown together in one list. The Command column t....
+        /// </summary>
+        public static string AllModeHint {
+            get {
+                return ResourceManager.GetString("AllModeHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some items could not be read:.
+        /// </summary>
+        public static string SomeItemsNotRead {
+            get {
+                return ResourceManager.GetString("SomeItemsNotRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some items could not be sent:.
+        /// </summary>
+        public static string SomeItemsNotSent {
+            get {
+                return ResourceManager.GetString("SomeItemsNotSent", resourceCulture);
+            }
+        }
     }
 }
