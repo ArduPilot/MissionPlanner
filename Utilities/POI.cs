@@ -197,7 +197,9 @@ namespace MissionPlanner.Utilities
                     string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
                                   item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + NameOf(item) + "\t" +
                                   item.Alt.ToString(CultureInfo.InvariantCulture) + "\r\n";
-                    byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
+                    // UTF-8 so a name outside ASCII survives a save. The reader (StreamReader)
+                    // already decodes UTF-8, and files written as ASCII are valid UTF-8 too.
+                    byte[] buffer = Encoding.UTF8.GetBytes(line);
                     file.Write(buffer, 0, buffer.Length);
                 }
             }
@@ -228,7 +230,7 @@ namespace MissionPlanner.Utilities
                     {
                         string[] items = sr.ReadLine().Split('\t');
 
-                        if (items.Count() < 3)
+                        if (items.Length < 3)
                             continue;
 
                         double alt = 0;

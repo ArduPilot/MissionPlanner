@@ -326,6 +326,9 @@ namespace MissionPlanner.GCSViews
 
             updateDisplayView();
 
+            // POI labels carry the altitude unit, which may have changed on the Config screen
+            POI.UpdateOverlay(poioverlay, coords1.System);
+
             try
             {
                 int.Parse(TXT_DefaultAlt.Text);
@@ -2915,6 +2918,10 @@ namespace MissionPlanner.GCSViews
         {
             // GEO is shown in the Lat/Long boxes, the shared box only handles UTM and MGRS
             if (coords1.System == Coords.CoordsSystems.GEO.ToString())
+                return "";
+
+            // 0, 0 is how the planner holds "no home yet": show an empty box, not a grid reference
+            if (lat == 0 && lng == 0)
                 return "";
 
             return CoordsInputBox.Format(coords1.System, lat, lng);

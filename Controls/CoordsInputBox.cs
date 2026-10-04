@@ -171,15 +171,13 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
-        /// A location as text in the given coordinate system. Empty when the location is not
-        /// valid, is outside the UTM/MGRS grid, or the system is unknown.
+        /// A location as text in the given coordinate system. Empty when the location is outside
+        /// the UTM/MGRS grid or the system is unknown. 0, 0 is formatted like any other point;
+        /// callers that use it for "not set" check for it themselves.
         /// </summary>
         /// <param name="system">a Coords.CoordsSystems name</param>
         public static string Format(string system, double lat, double lng)
         {
-            if (lat == 0 && lng == 0)
-                return "";
-
             if (system == Coords.CoordsSystems.GEO.ToString())
                 return lat.ToString("0.0000000", CultureInfo.InvariantCulture) + ";" +
                        lng.ToString("0.0000000", CultureInfo.InvariantCulture);
@@ -284,7 +282,7 @@ namespace MissionPlanner.Controls
 
                 lat = geo.Latitude;
                 lng = geo.Longitude;
-                return !(lat == 0 && lng == 0);
+                return true;
             }
             catch
             {
