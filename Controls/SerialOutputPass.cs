@@ -366,8 +366,9 @@ namespace MissionPlanner.Controls
                 throw new ArgumentException("Select Type and Direction");
 
             var comPort = MainV2.comPort;
-            // the reader thread enumerates Mirrors, so replace the list instead of modifying it
-            comPort.Mirrors = new List<MAVLinkInterface.Mirror>(comPort.Mirrors) { mirror };
+            // AddMirror replaces the list under the interface's lock: the reader thread enumerates
+            // Mirrors, and the legacy MirrorStream setter may be replacing it from another thread
+            comPort.AddMirror(mirror);
 
             Active[key] = new ActiveMirror() { ComPort = comPort, Mirror = mirror, Listener = tcpListener };
         }
@@ -377,9 +378,7 @@ namespace MissionPlanner.Controls
             var active = Active[key];
             Active.Remove(key);
 
-            var mirrors = new List<MAVLinkInterface.Mirror>(active.ComPort.Mirrors);
-            mirrors.Remove(active.Mirror);
-            active.ComPort.Mirrors = mirrors;
+            active.ComPort.RemoveMirror(active.Mirror);
 
             try
             {
