@@ -1,4 +1,5 @@
 ﻿using GMap.NET.WindowsForms;
+using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Maps;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,6 +16,8 @@ namespace MissionPlanner.Utilities
 {
     public class POI
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Store points of interest
         /// </summary>
@@ -36,8 +40,9 @@ namespace MissionPlanner.Utilities
                 {
                     value(null, null);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error("A page failed to draw the POIs when it subscribed", ex);
                 }
             }
             remove { _POIModified -= value; }
@@ -92,8 +97,10 @@ namespace MissionPlanner.Utilities
                 if (File.Exists(filename))
                     duplicates = LoadFile(filename);
             }
-            catch
+            catch (Exception ex)
             {
+                // read again when the next page subscribes; until then the file is not written
+                log.Error("Failed to read " + filename + ", will try again on the next subscription", ex);
                 return false;
             }
 
@@ -110,8 +117,9 @@ namespace MissionPlanner.Utilities
                 if (_POIModified != null)
                     _POIModified(null, null);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error("Failed to rewrite or redraw the POIs after loading " + filename, ex);
             }
 
             return true;
@@ -220,8 +228,8 @@ namespace MissionPlanner.Utilities
             {
                 foreach (var item in POI.POIs)
                 {
-                    string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
-                                  item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag.Substring(0, item.Tag.IndexOf('\n')) + "\r\n";
+                    string line = CoordText(item.Lat) + "\t" + CoordText(item.Lng) + "\t" +
+                                  item.Tag.Substring(0, item.Tag.IndexOf('\n')) + "\r\n";
                     byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
                     file.Write(buffer, 0, buffer.Length);
                 }
@@ -268,7 +276,7 @@ namespace MissionPlanner.Utilities
                         {
                             string[] items = sr.ReadLine().Split('\t');
 
-                            if (items.Count() < 3)
+                            if (items.Length < 3)
                                 continue;
 
                             double lat, lng;
@@ -296,14 +304,23 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// Identifies a POI when skipping duplicates: the position as SaveFile writes it, and the
-        /// name. The file keeps 15 significant digits, so comparing the written text lets a point
-        /// placed on the map match the same point read back from a saved file.
+        /// Identifies a POI when skipping duplicates: the position exactly as SaveFile writes it,
+        /// and the name. Comparing the written text rather than the doubles lets a point placed on
+        /// the map match the same point read back from a saved file.
         /// </summary>
         private static string Key(double lat, double lng, string name)
         {
-            return lat.ToString(CultureInfo.InvariantCulture) + "\t" +
-                   lng.ToString(CultureInfo.InvariantCulture) + "\t" + name;
+            return CoordText(lat) + "\t" + CoordText(lng) + "\t" + name;
+        }
+
+        /// <summary>
+        /// A latitude or longitude as the file stores it. SaveFile and Key share this, so the key is
+        /// the text the file holds whatever digits the runtime's default double format keeps (15
+        /// significant on .NET Framework, the shortest round trip on newer runtimes).
+        /// </summary>
+        private static string CoordText(double value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
