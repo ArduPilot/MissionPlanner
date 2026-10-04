@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace MissionPlanner.Joystick
@@ -35,10 +36,15 @@ namespace MissionPlanner.Joystick
         int custom0 = 65535/2;
         int custom1 = 65535/2;
 
-        // per button toggle / cycle state for Aux_Function (index = system button number):
-        // the last switch level the vehicle accepted, or -1 when nothing has been sent yet so the
-        // first cycle press sends LOW and the first toggle press sends HIGH
-        int[] auxstate = Enumerable.Repeat(-1, 128).ToArray();
+        // Aux_Function toggle / cycle state: the last switch level each vehicle accepted, per aux
+        // function number, kept with the MAVState of the vehicle it was sent to. No entry means
+        // nothing has been sent yet, so the first toggle press sends HIGH and the first cycle press
+        // sends LOW. The vehicle keeps one switch position per function, not per button, so the level
+        // follows a function that is moved to another button and is shared by two buttons on the same
+        // function. A new connection (MAVLinkInterface.Open clears the MAV list) or another sysid is
+        // a new MAVState with no levels, and a MAVState that goes away takes its levels with it.
+        ConditionalWeakTable<MAVState, Dictionary<int, int>> auxstate =
+            new ConditionalWeakTable<MAVState, Dictionary<int, int>>();
 
 
         //no need for finalizer...
@@ -639,8 +645,12 @@ namespace MissionPlanner.Joystick
                                 const int MIDDLE = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.MIDDLE;
                                 const int HIGH = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.HIGH;
 
-                                // last level the vehicle accepted for this button, -1 = none yet
-                                int last = auxstate[but.buttonno];
+                                // the levels this vehicle has accepted so far, and the last one for
+                                // this aux function, -1 = none yet
+                                var levels = auxstate.GetOrCreateValue(Interface.MAV);
+                                int last;
+                                if (!levels.TryGetValue(function, out last))
+                                    last = -1;
 
                                 switch (trigger)
                                 {
@@ -686,7 +696,7 @@ namespace MissionPlanner.Joystick
 
                                 // remember the level only once the vehicle accepted it, so a rejected or
                                 // timed out command does not leave toggle/cycle out of step
-                                auxstate[but.buttonno] = level;
+                                levels[function] = level;
                             }
                             catch
                             {
