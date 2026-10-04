@@ -9,7 +9,8 @@ namespace MissionPlanner.Controls
     /// <summary>
     /// Small modal used by the Flight Planner when the mission type dropdown is set to ALL.
     /// Lets the user pick which of Mission / Fence / Rally should be read from or written to
-    /// the vehicle. Everything is ticked by default so "all" is a single click.
+    /// the vehicle. Every type that has items is ticked by default, so "all" is a single click
+    /// and a type the grid holds nothing of is not cleared on the vehicle by accident.
     /// </summary>
     public class MissionTypePicker : Form
     {
@@ -75,14 +76,16 @@ namespace MissionPlanner.Controls
 
             foreach (var type in order)
             {
+                var n = 0;
+                var counted = counts != null && counts.TryGetValue(type, out n);
                 var text = TypeName(type);
-                if (counts != null && counts.TryGetValue(type, out var n))
+                if (counted)
                     text += " (" + (n == 1 ? Strings.ItemCountOne : string.Format(Strings.ItemCountMany, n)) + ")";
 
                 var cb = new CheckBox
                 {
                     AutoSize = true,
-                    Checked = true,
+                    Checked = !counted || n > 0,
                     Text = text,
                     Margin = new Padding(8, 2, 0, 2)
                 };

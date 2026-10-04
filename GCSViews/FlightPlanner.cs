@@ -349,50 +349,30 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// true when the grid row holds a fence polygon vertex. Out of range rows are false.
-        /// </summary>
-        private bool IsFencePolygonVertexRow(int row)
-        {
-            if (row < 0 || row >= Commands.Rows.Count)
-                return false;
-            try
-            {
-                return IsFencePolygonVertex(DataViewtoLocationwp(row).id);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// The item type of a grid row, from its command. An UNKNOWN row keeps its numeric command
-        /// id in the Command cell's Tag, which is where the upload reads it from too.
-        /// </summary>
-        private MAVLink.MAV_MISSION_TYPE MissionTypeOfRow(int row)
-        {
-            var cell = Commands.Rows[row].Cells[Command.Index];
-            var cmdname = cell.Value?.ToString() ?? "";
-
-            if (cmdname.Contains("UNKNOWN"))
-                return cell.Tag is ushort id ? MissionTypeOf(id) : MAVLink.MAV_MISSION_TYPE.MISSION;
-
-            return MissionTypeOf(getCmdID(cmdname));
-        }
-
-        /// <summary>
         /// Mission, fence and rally items from the vehicle cache joined into one list, in the
-        /// order they are shown when the dropdown is set to ALL. Home (mission seq 0) is kept
-        /// at the front so processToScreen strips it the same way it does for MISSION.
+        /// order they are shown when the dropdown is set to ALL. processToScreen strips the first
+        /// row as home, so when no mission is cached a placeholder stands in for it; otherwise a
+        /// fence or rally row would be taken for home.
         /// </summary>
         private static List<Locationwp> GetAllCachedItems()
         {
-            var mav = MainV2.comPort.MAV;
-            var list = new List<Locationwp>();
-            list.AddRange(mav.wps.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
-            list.AddRange(mav.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
-            list.AddRange(mav.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value));
+            var list = allMissionTypes
+                .SelectMany(t => GetMissionCache(t).OrderBy(a => a.Key).Select(a => (Locationwp) a.Value))
+                .ToList();
+
+            if (GetMissionCache(MAVLink.MAV_MISSION_TYPE.MISSION).Count == 0)
+                list.Insert(0, HomePlaceholder());
+
             return list;
+        }
+
+        /// <summary>
+        /// A row for processToScreen to strip as home when a list has no real home in front. Its
+        /// position is 0, 0, which processToScreen never offers as a new home.
+        /// </summary>
+        private static Locationwp HomePlaceholder()
+        {
+            return new Locationwp {id = (ushort) MAVLink.MAV_CMD.WAYPOINT};
         }
 
         /// <summary>
@@ -689,12 +669,12 @@ namespace MissionPlanner.GCSViews
 
             selectedrow = Commands.Rows.Add();
 
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+            if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
                 Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.RALLY_POINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.RALLY_POINT.ToString());
             }
-            else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE)
+            else if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 Commands.Rows[selectedrow].Cells[Command.Index].Value =
                     MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString();
@@ -727,15 +707,17 @@ namespace MissionPlanner.GCSViews
 
             if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
             {
-                if (sender is FlightData)
-                {
-                    types = allMissionTypes.ToList();
-                }
-                else
+                if (sender == BUT_read)
                 {
                     types = MissionTypePicker.Show(this, false);
                     if (types == null || types.Count == 0)
                         return;
+                }
+                else
+                {
+                    // an automatic read (after a guided upload, on connect, from a plugin) fetches
+                    // the mission only, as before ALL existed; the fence and rally rows are kept
+                    types = new List<MAVLink.MAV_MISSION_TYPE> {MAVLink.MAV_MISSION_TYPE.MISSION};
                 }
             }
 
@@ -798,14 +780,9 @@ namespace MissionPlanner.GCSViews
             }
 
             // check home
-            Locationwp home = new Locationwp();
             try
             {
-                home.frame = (byte) MAVLink.MAV_FRAME.GLOBAL;
-                home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
-                home.lat = (double.Parse(TXT_homelat.Text));
-                home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
+                GetHomeFromText();
             }
             catch
             {
@@ -817,12 +794,16 @@ namespace MissionPlanner.GCSViews
             // the grid is checked, so rows of a type that is not being sent do not block it.
             List<MAVLink.MAV_MISSION_TYPE> types = null;
 
+            // the parsed grid, needed when the rows have to be told apart by type
+            List<Locationwp> commandlist = null;
+
             if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
             {
                 var counts = allMissionTypes.ToDictionary(t => t, t => 0);
                 try
                 {
-                    foreach (var item in GetCommandList())
+                    commandlist = GetCommandList();
+                    foreach (var item in commandlist)
                         counts[MissionTypeOf(item.id)]++;
                 }
                 catch (FormatException ex)
@@ -842,7 +823,7 @@ namespace MissionPlanner.GCSViews
                 var cmdname = Commands.Rows[a].Cells[Command.Index].Value.ToString();
 
                 // the altitude checks only apply to rows that are being sent
-                var sending = types == null || types.Contains(MissionTypeOfRow(a));
+                var sending = types == null || types.Contains(MissionTypeOf(commandlist[a].id));
 
                 for (int b = 0; b < Commands.ColumnCount - 0; b++)
                 {
@@ -1167,8 +1148,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var cmds = WaypointFile.ReadWaypointFile(file);
-                if ((MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.FENCE ||
-                    (MAVLink.MAV_MISSION_TYPE)cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
+                if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE ||
+                    SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
                 {
                     cmds.RemoveAt(0);
                 }
@@ -1554,6 +1535,9 @@ namespace MissionPlanner.GCSViews
         {
             public PointLatLngAlt now { get; set; }
             public PointLatLngAlt next { get; set; }
+
+            /// <summary>The kind of leg the marker sits on; decides what a drop inserts in ALL mode.</summary>
+            public MAVLink.MAV_MISSION_TYPE type { get; set; } = MAVLink.MAV_MISSION_TYPE.MISSION;
         }
 
         /// <summary>
@@ -1665,13 +1649,12 @@ namespace MissionPlanner.GCSViews
                         MainMap_OnMapZoomChanged();
                     }
 
-                    pointlist = wpOverlay.pointlist;
+                    // the mission legs only: the KML server and the 3D view draw this list as the track
+                    pointlist = missionpoints;
 
                     {
                         // mission midlines only join mission legs
-                        var midpoints = missionpoints;
-
-                        foreach (var pointLatLngAlt in midpoints.PrevNowNext())
+                        foreach (var pointLatLngAlt in missionpoints.PrevNowNext())
                         {
                             var prev = pointLatLngAlt.Item1;
                             var now = pointLatLngAlt.Item2;
@@ -1818,7 +1801,7 @@ namespace MissionPlanner.GCSViews
                     var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
 
                     var pnt = new GMapMarkerPlus(mid);
-                    pnt.Tag = new midline() {now = now, next = next};
+                    pnt.Tag = new midline() {now = now, next = next, type = MAVLink.MAV_MISSION_TYPE.FENCE};
                     ((midline) pnt.Tag).now.Tag = (startwp + a).ToString();
                     ((midline) pnt.Tag).next.Tag = (startwp + a + 1).ToString();
                     overlay.Markers.Add(pnt);
@@ -2116,7 +2099,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue != MAVLink.MAV_MISSION_TYPE.MISSION)
+            if (SelectedMissionType != MAVLink.MAV_MISSION_TYPE.MISSION)
             {
                 CustomMessageBox.Show("Only available for missions");
                 return;
@@ -4208,7 +4191,11 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         private void getWPs(IProgressReporterDialogue sender, List<MAVLink.MAV_MISSION_TYPE> types)
         {
-            var current = (List<Locationwp>) Invoke((Func<List<Locationwp>>) GetCommandList);
+            // a partial read keeps the grid rows of the types that are not fetched; a full read
+            // replaces everything, so the grid is not parsed (a half edited cell would fail it)
+            var current = types.Count < allMissionTypes.Length
+                ? (List<Locationwp>) Invoke((Func<List<Locationwp>>) GetCommandList)
+                : new List<Locationwp>();
 
             var parts = allMissionTypes.ToDictionary(t => t,
                 t => current.Where(a => MissionTypeOf(a.id) == t).ToList());
@@ -4223,7 +4210,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    parts[type] = DownloadMissionItems(sender, type, type + ": ");
+                    parts[type] = DownloadMissionItems(sender, type, MissionTypePicker.TypeName(type) + ": ");
                     if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                         refreshedmission = true;
                 }
@@ -4238,27 +4225,20 @@ namespace MissionPlanner.GCSViews
             }
 
             // a downloaded mission starts with home, and processToScreen strips the first row.
-            // When the mission part was not refreshed, or the vehicle has no mission, put the
-            // current home in front so a fence or rally row is not taken for home.
+            // When the mission part was not refreshed, or the vehicle has no mission, put a
+            // placeholder in front so a fence or rally row is not taken for home. Its position
+            // is 0, 0, which processToScreen never offers as a new home.
             if (!refreshedmission || parts[MAVLink.MAV_MISSION_TYPE.MISSION].Count == 0)
-            {
-                Locationwp home = new Locationwp();
-                home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
-                try
-                {
-                    home = (Locationwp) Invoke((Func<Locationwp>) GetHomeFromText);
-                }
-                catch
-                {
-                }
-
-                parts[MAVLink.MAV_MISSION_TYPE.MISSION].Insert(0, home);
-            }
+                parts[MAVLink.MAV_MISSION_TYPE.MISSION].Insert(0, HomePlaceholder());
 
             WPtoScreen(allMissionTypes.SelectMany(t => parts[t]).ToList());
 
             if (errors.Count > 0)
-                throw new Exception(Strings.SomeItemsNotRead + "\n" + string.Join("\n", errors));
+            {
+                // shown as the message itself, not as an unexpected error with a stack trace
+                sender.doWorkArgs.ErrorMessage = Strings.SomeItemsNotRead + "\n" + string.Join("\n", errors);
+                throw new Exception(sender.doWorkArgs.ErrorMessage);
+            }
         }
 
         /// <summary>
@@ -4267,7 +4247,7 @@ namespace MissionPlanner.GCSViews
         private static ConcurrentDictionary<int, MAVLink.mavlink_mission_item_int_t> GetMissionCache(
             MAVLink.MAV_MISSION_TYPE type)
         {
-            var mav = MainV2.comPort.MAVlist[MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid];
+            var mav = MainV2.comPort.MAV;
             switch (type)
             {
                 case MAVLink.MAV_MISSION_TYPE.FENCE:
@@ -6542,6 +6522,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 var ordered = allMissionTypes.Where(types.Contains).ToList();
 
                 var errors = new List<string>();
+                var refreshhome = false;
 
                 for (int i = 0; i < ordered.Count; i++)
                 {
@@ -6557,9 +6538,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                     try
                     {
-                        UploadMissionItems(sender, type, items, home,
-                            ordered.Count > 1 ? type + ": " : "",
-                            percent => (int) ((offset + percent * scale) * 0.95));
+                        if (UploadMissionItems(sender, type, items, home,
+                                ordered.Count > 1 ? MissionTypePicker.TypeName(type) + ": " : "",
+                                percent => (int) ((offset + percent * scale) * 0.95)))
+                            refreshhome = true;
                     }
                     catch (Exception ex)
                     {
@@ -6572,6 +6554,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         errors.Add(MissionTypePicker.TypeName(type) + ": " + ex.Message);
                     }
                 }
+
+                // home may have moved with the mission; one read back covers every type sent
+                if (refreshhome)
+                    RefreshHomeAfterUpload();
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
@@ -6595,7 +6581,17 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                 }
 
-                commandlist?.ForEach(pnt =>
+                // terrain under home and the mission legs that were sent; fence and rally rows are not flown
+                var terrainpoints = new List<Locationwp>();
+                if (ordered.Contains(MAVLink.MAV_MISSION_TYPE.MISSION))
+                {
+                    terrainpoints.Add(home);
+                    terrainpoints.AddRange(splitbycommand
+                        ? commandlist.Where(a => MissionTypeOf(a.id) == MAVLink.MAV_MISSION_TYPE.MISSION)
+                        : commandlist);
+                }
+
+                terrainpoints.ForEach(pnt =>
                 {
                     try
                     {
@@ -6611,8 +6607,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 if (errors.Count > 0)
                 {
-                    MainV2.comPort.giveComport = false;
-                    throw new Exception(Strings.SomeItemsNotSent + "\n" + string.Join("\n", errors));
+                    // shown as the message itself, not as an unexpected error with a stack trace
+                    sender.doWorkArgs.ErrorMessage = Strings.SomeItemsNotSent + "\n" + string.Join("\n", errors);
+                    throw new Exception(sender.doWorkArgs.ErrorMessage);
                 }
             }
             catch (Exception ex)
@@ -6620,8 +6617,38 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 log.Error(ex);
                 throw;
             }
+            finally
+            {
+                MainV2.comPort.giveComport = false;
+            }
+        }
 
-            MainV2.comPort.giveComport = false;
+        /// <summary>
+        /// Read home back after an item by item upload: the vehicle may have moved it with the mission.
+        /// </summary>
+        private static void RefreshHomeAfterUpload()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
+                        (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
+                }
+                catch (Exception ex2)
+                {
+                    log.Error(ex2);
+                    try
+                    {
+                        MainV2.comPort.getWP(MainV2.comPort.sysidcurrent,
+                            (byte) MainV2.comPort.compidcurrent, 0);
+                    }
+                    catch (Exception ex3)
+                    {
+                        log.Error(ex3);
+                    }
+                }
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -6630,7 +6657,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         /// <param name="commandlist">items of this type only, without home</param>
         /// <param name="prefix">prepended to progress text so the user can tell the types apart</param>
         /// <param name="scaleprogress">maps this upload's 0-100 onto the dialog's progress bar</param>
-        private void UploadMissionItems(IProgressReporterDialogue sender, MAVLink.MAV_MISSION_TYPE type,
+        /// <returns>true when the items went one by one, so home should be read back afterwards</returns>
+        private bool UploadMissionItems(IProgressReporterDialogue sender, MAVLink.MAV_MISSION_TYPE type,
             List<Locationwp> commandlist, Locationwp home, string prefix, Func<double, int> scaleprogress)
         {
             if (type == MAVLink.MAV_MISSION_TYPE.MISSION &&
@@ -6653,14 +6681,26 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     var values = missionpck.pack(commandlist.Select(a => (MAVLink.mavlink_mission_item_int_t)a).ToList(), type, 0);
                     var ftp = new MAVFtp(MainV2.comPort, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                    ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus(scaleprogress(percent), prefix + status); };
+                    // -1 asks the dialog for its indeterminate bar and must not be scaled
+                    ftp.Progress += (status, percent) => { sender.UpdateProgressAndStatus(percent < 0 ? percent : scaleprogress(percent), prefix + status); };
                     if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
                         ftp.UploadFile("@MISSION/mission.dat", new MemoryStream(values), null);
                     if (type == MAVLink.MAV_MISSION_TYPE.FENCE)
                         ftp.UploadFile("@MISSION/fence.dat", new MemoryStream(values), null);
                     if (type == MAVLink.MAV_MISSION_TYPE.RALLY)
                         ftp.UploadFile("@MISSION/rally.dat", new MemoryStream(values), null);
-                    return;
+
+                    // keep the vehicle side cache in step, as the item by item path does
+                    var cache = GetMissionCache(type);
+                    cache.Clear();
+                    for (int i = 0; i < commandlist.Count; i++)
+                    {
+                        var item = (MAVLink.mavlink_mission_item_int_t) commandlist[i];
+                        item.seq = (ushort) i;
+                        cache[i] = item;
+                    }
+
+                    return false;
                 }
                 catch (Exception ex)
                 {
@@ -6683,26 +6723,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                         sender.UpdateProgressAndStatus(scaleprogress(percent), prefix + status);
                     }).ConfigureAwait(false);
-
-                try
-                {
-                    await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
-                        (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
-                }
-                catch (Exception ex2)
-                {
-                    log.Error(ex2);
-                    try
-                    {
-                        MainV2.comPort.getWP(MainV2.comPort.sysidcurrent,
-                            (byte) MainV2.comPort.compidcurrent, 0);
-                    }
-                    catch (Exception ex3)
-                    {
-                        log.Error(ex3);
-                    }
-                }
             }).GetAwaiter().GetResult();
+
+            return true;
         }
 
         private void saveWPsFast(IProgressReporterDialogue sender)
@@ -8053,12 +8076,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             if (!int.TryParse(midline.now?.Tag, out pnt1))
                                 pnt1 = pnt2 - 1;
 
-                            // in ALL mode the midline belongs to the type of the row it starts from
+                            // in ALL mode the marker knows which kind of leg it was drawn on
                             var midtype = SelectedMissionType;
                             if (midtype == MAVLink.MAV_MISSION_TYPE.ALL)
-                                midtype = IsFencePolygonVertexRow(pnt1 - 1)
-                                    ? MAVLink.MAV_MISSION_TYPE.FENCE
-                                    : MAVLink.MAV_MISSION_TYPE.MISSION;
+                                midtype = midline.type;
 
                             if (midtype == MAVLink.MAV_MISSION_TYPE.FENCE)
                             {
@@ -8219,8 +8240,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 var type = currentlist[rowno].id;
 
-                if (type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
-                    type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                if (IsFencePolygonVertex(type))
                 {
                     var oldcount = int.Parse(Commands.Rows[rowno - 1].Cells[Param1.Index].Value.ToString());
                     var newcount = oldcount + 1;
@@ -8267,8 +8287,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 var type = currentlist[rowno].id;
 
-                if (type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
-                    type == (ushort) MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                if (IsFencePolygonVertex(type))
                 {
                     var rowdelete = currentlist[rowno];
                     var oldcount = int.Parse(Commands.Rows[rowno].Cells[Param1.Index].Value.ToString());

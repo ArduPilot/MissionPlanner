@@ -1866,7 +1866,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mission, Fence and Rally items are now shown together in one list. The Command column t....
+        ///   Looks up a localized string similar to Mission, Fence and Rally items are now shown together in one list. The Command column tells them apart (RALLY_POINT and FENCE_* rows are not part of the mission). Read and Write let you pick which of the three to send or receive..
         /// </summary>
         public static string AllModeHint {
             get {
