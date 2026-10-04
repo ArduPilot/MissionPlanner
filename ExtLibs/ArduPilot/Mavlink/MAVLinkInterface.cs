@@ -426,26 +426,61 @@ namespace MissionPlanner
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
 
+        // The reader thread enumerates Mirrors in ProcessMirrorStream without a lock, so the list is
+        // never modified in place: a change copies it and assigns the copy. Every writer takes
+        // mirrorslock around the copy and the assignment, otherwise two of them (the serial output
+        // list on the UI thread and a plugin setting MirrorStream from its own thread) can copy the
+        // same list and the later assignment drops the entry the other one added.
+        private readonly object mirrorslock = new object();
+
+        /// <summary>
+        /// Add a mirror that receives every packet read from the vehicle and, when its
+        /// MirrorStreamWrite is set, forwards what it receives to the vehicle.
+        /// </summary>
+        public void AddMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
+                Mirrors = new List<Mirror>(Mirrors) { mirror };
+        }
+
+        /// <summary>
+        /// Remove a mirror added with AddMirror or through the legacy MirrorStream property.
+        /// The caller closes its stream. Returns false when the mirror was not in the list.
+        /// </summary>
+        public bool RemoveMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
+            {
+                var mirrors = new List<Mirror>(Mirrors);
+                if (!mirrors.Remove(mirror))
+                    return false;
+
+                Mirrors = mirrors;
+                return true;
+            }
+        }
+
         // Legacy single-mirror view. It owns its own entry in Mirrors instead of using Mirrors[0],
-        // which may be a mirror started from the serial output list. The reader thread enumerates
-        // Mirrors in ProcessMirrorStream, so the list is never modified in place here: reading
-        // returns a default when there is no legacy mirror, and adding one replaces the list.
+        // which may be a mirror started from the serial output list. Reading returns a default when
+        // there is no legacy mirror; the first set creates the entry, later sets reuse it.
         private Mirror _legacyMirror;
 
         private Mirror LegacyMirror(bool create)
         {
-            var mirrors = Mirrors;
-            var legacy = _legacyMirror;
-            if (legacy != null && mirrors.Contains(legacy))
+            lock (mirrorslock)
+            {
+                var legacy = _legacyMirror;
+                if (legacy != null && Mirrors.Contains(legacy))
+                    return legacy;
+
+                if (!create)
+                    return null;
+
+                legacy = new Mirror();
+                Mirrors = new List<Mirror>(Mirrors) { legacy };
+                _legacyMirror = legacy;
                 return legacy;
-
-            if (!create)
-                return null;
-
-            legacy = new Mirror();
-            Mirrors = new List<Mirror>(mirrors) { legacy };
-            _legacyMirror = legacy;
-            return legacy;
+            }
         }
 
         public bool MirrorStreamWrite {
