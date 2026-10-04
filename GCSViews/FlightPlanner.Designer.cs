@@ -79,6 +79,7 @@ namespace MissionPlanner.GCSViews
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new System.Windows.Forms.Panel();
             this.chk_usemavftp = new System.Windows.Forms.CheckBox();
+            this.CHK_elevationgraph = new System.Windows.Forms.CheckBox();
             this.but_mincommands = new MissionPlanner.Controls.MyButton();
             this.CMB_altmode = new System.Windows.Forms.ComboBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
@@ -414,6 +415,7 @@ namespace MissionPlanner.GCSViews
             // panelWaypoints
             // 
             this.panelWaypoints.Controls.Add(this.chk_usemavftp);
+            this.panelWaypoints.Controls.Add(this.CHK_elevationgraph);
             this.panelWaypoints.Controls.Add(this.but_mincommands);
             this.panelWaypoints.Controls.Add(this.CMB_altmode);
             this.panelWaypoints.Controls.Add(this.CHK_splinedefault);
@@ -438,6 +440,14 @@ namespace MissionPlanner.GCSViews
             this.chk_usemavftp.Name = "chk_usemavftp";
             this.chk_usemavftp.UseVisualStyleBackColor = true;
             this.chk_usemavftp.CheckedChanged += new System.EventHandler(this.chk_usemavftp_CheckedChanged);
+            // 
+            // CHK_elevationgraph
+            // 
+            resources.ApplyResources(this.CHK_elevationgraph, "CHK_elevationgraph");
+            this.CHK_elevationgraph.Name = "CHK_elevationgraph";
+            this.toolTip1.SetToolTip(this.CHK_elevationgraph, resources.GetString("CHK_elevationgraph.ToolTip"));
+            this.CHK_elevationgraph.UseVisualStyleBackColor = true;
+            this.CHK_elevationgraph.CheckedChanged += new System.EventHandler(this.CHK_elevationgraph_CheckedChanged);
             // 
             // but_mincommands
             // 
@@ -1725,6 +1735,7 @@ namespace MissionPlanner.GCSViews
         private ToolStripMenuItem offsetPolygonToolStripMenuItem;
         private ToolStripMenuItem offsetPolygonToolStripMenuItem2;
         public CheckBox chk_usemavftp;
+        public CheckBox CHK_elevationgraph;
         private DataGridViewComboBoxColumn Command;
         private DataGridViewTextBoxColumn Param1;
         private DataGridViewTextBoxColumn Param2;

@@ -510,6 +510,120 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="BadorNoTerrainData" xml:space="preserve">
     <value>Bad or No Terrain Data</value>
   </data>
+  <data name="ElevationGraphTitle" xml:space="preserve">
+    <value>Elevation profile</value>
+  </data>
+  <data name="ElevationGraphHideTip" xml:space="preserve">
+    <value>Hide the elevation graph</value>
+  </data>
+  <data name="ElevationGraphResizeTip" xml:space="preserve">
+    <value>Drag to resize the graph, double-click to make it tall</value>
+  </data>
+  <data name="ElevationGraphExpandTip" xml:space="preserve">
+    <value>Make the graph tall</value>
+  </data>
+  <data name="ElevationGraphShrinkTip" xml:space="preserve">
+    <value>Make the graph short again</value>
+  </data>
+  <data name="ElevationGraphTerrain" xml:space="preserve">
+    <value>Terrain</value>
+  </data>
+  <data name="ElevationGraphPath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="ElevationGraphBelowTerrain" xml:space="preserve">
+    <value>Below terrain</value>
+  </data>
+  <data name="ElevationGraphWaypoints" xml:space="preserve">
+    <value>Waypoints</value>
+  </data>
+  <data name="ElevationGraphRallyPoints" xml:space="preserve">
+    <value>Rally points</value>
+  </data>
+  <data name="ElevationGraphRallyLabel" xml:space="preserve">
+    <value>R{0}</value>
+  </data>
+  <data name="ElevationGraphFenceCeiling" xml:space="preserve">
+    <value>Fence ceiling {0} above home</value>
+  </data>
+  <data name="ElevationGraphFenceFloor" xml:space="preserve">
+    <value>Fence floor {0} above home</value>
+  </data>
+  <data name="ElevationGraphFenceNote" xml:space="preserve">
+    <value>{0} ({1})</value>
+  </data>
+  <data name="ElevationGraphFenceNotInType" xml:space="preserve">
+    <value>not in FENCE_TYPE</value>
+  </data>
+  <data name="ElevationGraphFenceFloorArms" xml:space="preserve">
+    <value>active once above it</value>
+  </data>
+  <data name="ElevationGraphFenceEnabled" xml:space="preserve">
+    <value>Fence enabled</value>
+  </data>
+  <data name="ElevationGraphFenceDisabled" xml:space="preserve">
+    <value>Fence disabled</value>
+  </data>
+  <data name="ElevationGraphFenceReportOnly" xml:space="preserve">
+    <value>Fence only reports breaches</value>
+  </data>
+  <data name="ElevationGraphFenceAfterTakeoff" xml:space="preserve">
+    <value>Fence enables after takeoff</value>
+  </data>
+  <data name="ElevationGraphFenceWhenArmed" xml:space="preserve">
+    <value>Fence enables when armed</value>
+  </data>
+  <data name="ElevationGraphDistanceAxis" xml:space="preserve">
+    <value>Distance along the path ({0})</value>
+  </data>
+  <data name="ElevationGraphAltitudeAxis" xml:space="preserve">
+    <value>Altitude AMSL ({0})</value>
+  </data>
+  <data name="ElevationGraphNoWaypoints" xml:space="preserve">
+    <value>No waypoints to draw</value>
+  </data>
+  <data name="ElevationGraphSummary" xml:space="preserve">
+    <value>{0} long, lowest clearance {1}</value>
+  </data>
+  <data name="ElevationGraphSummaryNoClearance" xml:space="preserve">
+    <value>{0} long</value>
+  </data>
+  <data name="ElevationGraphBelowTerrainWarning" xml:space="preserve">
+    <value>The path goes below the terrain</value>
+  </data>
+  <data name="ElevationGraphNoHome" xml:space="preserve">
+    <value>Set home to draw altitudes relative to home</value>
+  </data>
+  <data name="ElevationGraphTerrainLoading" xml:space="preserve">
+    <value>Loading terrain data...</value>
+  </data>
+  <data name="ElevationGraphTerrainMissing" xml:space="preserve">
+    <value>No terrain data for part of the path</value>
+  </data>
+  <data name="ElevationGraphHomeTip" xml:space="preserve">
+    <value>Home: {0} AMSL</value>
+  </data>
+  <data name="ElevationGraphWaypointTip" xml:space="preserve">
+    <value>Waypoint {0}: {1} AMSL, clearance {2}</value>
+  </data>
+  <data name="ElevationGraphWaypointTipNoTerrain" xml:space="preserve">
+    <value>Waypoint {0}: {1} AMSL</value>
+  </data>
+  <data name="ElevationGraphRallyTip" xml:space="preserve">
+    <value>Rally point {0}: {1} AMSL, clearance {2}, {3} from the path</value>
+  </data>
+  <data name="ElevationGraphRallyTipNoTerrain" xml:space="preserve">
+    <value>Rally point {0}: {1} AMSL, {2} from the path</value>
+  </data>
+  <data name="ElevationGraphSampleTip" xml:space="preserve">
+    <value>{0}: path {1}, terrain {2}, clearance {3}</value>
+  </data>
+  <data name="ElevationGraphSampleTipNoTerrain" xml:space="preserve">
+    <value>{0}: path {1}</value>
+  </data>
+  <data name="ElevationGraphSampleTipTerrainOnly" xml:space="preserve">
+    <value>{0}: terrain {1}</value>
+  </data>
   <data name="GeofenceBreach" xml:space="preserve">
     <value>Geofence Breach</value>
   </data>
