@@ -472,7 +472,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param.ContainsKey(param_name))
             {
-                bool ans = MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, param_name, val);
+                bool ans = MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, param_name, val);
                 if (!ans)
                 {
                     CustomMessageBox.Show("Unable to set parameter " + param_name);

@@ -143,7 +143,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 return Task.FromResult(false);
             }
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
                 float.NaN, // pitch angle
@@ -162,7 +162,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 return Task.FromResult(false);
             }
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
                 float.NaN, // pitch angle
@@ -183,7 +183,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
 
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
                 float.NaN, // pitch angle
@@ -242,7 +242,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
 
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
                 (float)wrap_180(pitch),
@@ -281,7 +281,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
 
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_GIMBAL_MANAGER_PITCHYAW,
                 float.NaN, // pitch angle
@@ -317,7 +317,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             }
 
             return mavint.doCommandIntAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_LOCATION,
                 gimbal_device_id,
@@ -331,22 +331,26 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public Task<bool> SetROINoneAsync(byte gimbal_device_id = 0)
         {
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_NONE,
                 gimbal_device_id,
                 0, 0, 0, 0, 0, 0);
         }
 
-        public Task<bool> SetROISysIDAsync(byte sysid, byte gimbal_device_id = 0)
+        public Task<bool> SetROISysIDAsync(uint sysid, byte gimbal_device_id = 0)
         {
             if (!HasCapability(MAVLink.GIMBAL_MANAGER_CAP_FLAGS.CAN_POINT_LOCATION_GLOBAL))
             {
                 return Task.FromResult(false);
             }
 
+            // This ID is carried in a float command parameter, not the packet header.
+            if (sysid > 0x1000000)
+                throw new ArgumentOutOfRangeException(nameof(sysid), "ROI system ID exceeds the command's exact integer range");
+
             return mavint.doCommandAsync(
-                (byte)mavint.sysidcurrent,
+                mavint.sysidcurrent,
                 (byte)mavint.compidcurrent,
                 MAVLink.MAV_CMD.DO_SET_ROI_SYSID,
                 sysid,

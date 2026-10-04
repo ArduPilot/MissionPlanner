@@ -11,7 +11,7 @@
     <Company>MissionPlanner.Drawing.Common</Company>
     <Product>MissionPlanner.Drawing.Common</Product>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>open.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>Open.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>

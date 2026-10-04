@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using System.IO;
 
 public partial class MAVLink
 {
@@ -29,8 +30,36 @@ public partial class MAVLink
         public byte compat_flags { get; internal set; }
 
         public byte seq { get; internal set; }
-        public byte sysid { get; internal set; }
+        public uint sysid { get; internal set; }
         public byte compid { get; internal set; }
+
+        public int headerlength { get; private set; }
+        public uint? target_system { get; private set; }
+
+        // A wide header target takes precedence over the legacy payload byte.
+        public uint? GetTargetSystem()
+        {
+            if (target_system.HasValue) return target_system;
+            var type = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type;
+            if (type == null) return null;
+            var field = GetTargetSystemField(type);
+            return field == null ? (uint?)null : Convert.ToUInt32(field.GetValue(data));
+        }
+
+        public byte? GetTargetComponent()
+        {
+            var type = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type;
+            var field = type?.GetField("target_component");
+            return field == null ? (byte?)null : Convert.ToByte(field.GetValue(data));
+        }
+
+        public bool IsTargetedTo(uint system, byte component)
+        {
+            uint? targetSystem = GetTargetSystem();
+            byte? targetComponent = GetTargetComponent();
+            return (!targetSystem.HasValue || targetSystem == 0 || targetSystem == system) &&
+                (!targetComponent.HasValue || targetComponent == 0 || targetComponent == component);
+        }
 
         public uint msgid { get; internal set; }
 
@@ -74,7 +103,7 @@ public partial class MAVLink
                         // fill in the data of the object
                         if (ismavlink2)
                         {
-                            _data = MavlinkUtil.ByteArrayToStructureGC(buffer, typeinfo.type, MAVLINK_NUM_HEADER_BYTES,
+                            _data = MavlinkUtil.ByteArrayToStructureGC(buffer, typeinfo.type, (byte)headerlength,
                                 payloadlength);
                             //MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
                         }
@@ -160,51 +189,58 @@ public partial class MAVLink
         internal void processBuffer(byte[] buffer)
         {
             _data = null;
-
-            if (buffer[0] == MAVLINK_STX)
+            sig = null;
+            target_system = null;
+            incompat_flags = compat_flags = 0;
+            if (buffer == null || buffer.Length < 2)
+                throw new InvalidDataException("Truncated MAVLink frame");
+            header = buffer[0];
+            payloadlength = buffer[1];
+            if (header == MAVLINK_STX)
             {
-                if (buffer.Length < 10)
-                {
-                    return;
-                }
-                header = buffer[0];
-                payloadlength = buffer[1];
+                if (buffer.Length < MAVLINK_NUM_HEADER_BYTES)
+                    throw new InvalidDataException("Truncated MAVLink header");
                 incompat_flags = buffer[2];
                 compat_flags = buffer[3];
+                if ((incompat_flags & ~MAVLINK_SUPPORTED_IFLAGS) != 0)
+                    throw new InvalidDataException("Unsupported MAVLink incompatible flags");
+                headerlength = GetHeaderLength(incompat_flags);
+            }
+            else if (header == MAVLINK_STX_MAVLINK1)
+                headerlength = 6;
+            else
+                throw new InvalidDataException("Invalid MAVLink magic");
+
+            int signatureLength = (incompat_flags & MAVLINK_IFLAG_SIGNED) != 0 ? MAVLINK_SIGNATURE_BLOCK_LEN : 0;
+            if (buffer.Length != headerlength + payloadlength + 2 + signatureLength)
+                throw new InvalidDataException("Invalid MAVLink frame length");
+            if (header == MAVLINK_STX)
+            {
                 seq = buffer[4];
-                sysid = buffer[5];
-                compid = buffer[6];
-                msgid = (uint) ((buffer[9] << 16) + (buffer[8] << 8) + buffer[7]);
-
-                var crc1 = MAVLINK_CORE_HEADER_LEN + payloadlength + 1;
-                var crc2 = MAVLINK_CORE_HEADER_LEN + payloadlength + 2;
-
-                crc16 = (ushort) ((buffer[crc2] << 8) + buffer[crc1]);
-
-                if ((incompat_flags & MAVLINK_IFLAG_SIGNED) > 0)
+                bool wide = (incompat_flags & MAVLINK_IFLAG_SYSID32) != 0;
+                int offset = 5;
+                sysid = ReadSystemId(buffer, ref offset, wide);
+                compid = buffer[offset++];
+                msgid = (uint)(buffer[offset] | buffer[offset + 1] << 8 | buffer[offset + 2] << 16);
+                offset += 3;
+                if ((incompat_flags & MAVLINK_IFLAG_TARGET32) != 0)
                 {
-                    sig = new byte[MAVLINK_SIGNATURE_BLOCK_LEN];
-                    Array.ConstrainedCopy(buffer, buffer.Length - MAVLINK_SIGNATURE_BLOCK_LEN, sig, 0,
-                        MAVLINK_SIGNATURE_BLOCK_LEN);
+                    target_system = ReadSystemId(buffer, ref offset, true);
                 }
             }
-            else if (buffer[0] == MAVLINK_STX_MAVLINK1)
+            else
             {
-                if (buffer.Length < 6)
-                {
-                    return;
-                }
-                header = buffer[0];
-                payloadlength = buffer[1];
                 seq = buffer[2];
                 sysid = buffer[3];
                 compid = buffer[4];
                 msgid = buffer[5];
-
-                var crc1 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 1;
-                var crc2 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 2;
-
-                crc16 = (ushort) ((buffer[crc2] << 8) + buffer[crc1]);
+            }
+            int crcOffset = headerlength + payloadlength;
+            crc16 = (ushort)(buffer[crcOffset] | buffer[crcOffset + 1] << 8);
+            if (signatureLength != 0)
+            {
+                sig = new byte[signatureLength];
+                Array.Copy(buffer, crcOffset + 2, sig, 0, signatureLength);
             }
         }
 
