@@ -132,6 +132,10 @@ namespace MissionPlanner.GCSViews
             else
                 homemarker.Position = MainV2.comPort.MAV.cs.PlannedHomeLocation;
 
+            // the marker is back at the planned home, so an altitude typed for another location
+            // no longer applies: back to the terrain height
+            homeAltOverride = null;
+
             myGMAP1.Position = homemarker.Position;
 
             myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
