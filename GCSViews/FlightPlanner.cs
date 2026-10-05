@@ -349,21 +349,73 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Mission, fence and rally items from the vehicle cache joined into one list, in the
-        /// order they are shown when the dropdown is set to ALL. processToScreen strips the first
-        /// row as home, so when no mission is cached a placeholder stands in for it; otherwise a
-        /// fence or rally row would be taken for home.
+        /// The grid's rows of each item type as they were when the dropdown last showed that
+        /// type, so choosing the type again brings them back as they were, sent to the vehicle
+        /// or not. A type with no entry has not been shown yet and comes from the vehicle's copy.
         /// </summary>
-        private static List<Locationwp> GetAllCachedItems()
+        private readonly Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>> keptRows =
+            new Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>();
+
+        /// <summary>The type the dropdown showed until its latest change: the rows in the grid are its.</summary>
+        private MAVLink.MAV_MISSION_TYPE shownMissionType = MAVLink.MAV_MISSION_TYPE.MISSION;
+
+        /// <summary>
+        /// Keep the grid's rows for the type the dropdown has been showing (all three types in
+        /// ALL mode, each type's rows apart), for when it is chosen again.
+        /// </summary>
+        private void KeepGridRows(MAVLink.MAV_MISSION_TYPE shown)
         {
-            var list = allMissionTypes
-                .SelectMany(t => GetMissionCache(t).OrderBy(a => a.Key).Select(a => (Locationwp) a.Value))
+            List<Locationwp> rows;
+            try
+            {
+                rows = GetCommandList();
+            }
+            catch (FormatException)
+            {
+                // a cell that is not a number: writeKML has said so, and the rows as last kept stay
+                return;
+            }
+
+            var types = shown == MAVLink.MAV_MISSION_TYPE.ALL ? allMissionTypes : new[] {shown};
+            foreach (var type in types)
+                keptRows[type] = rows.Where(a => MissionTypeOf(a.id) == type).ToList();
+        }
+
+        /// <summary>
+        /// The rows the grid shows for a type: as kept from the last time the dropdown showed it,
+        /// else the vehicle's copy. A mission list starts with home, which processToScreen
+        /// strips; kept rows get a placeholder for it.
+        /// </summary>
+        private List<Locationwp> RowsToShow(MAVLink.MAV_MISSION_TYPE type)
+        {
+            List<Locationwp> kept;
+            if (keptRows.TryGetValue(type, out kept))
+            {
+                var rows = kept.ToList();
+                if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
+                    rows.Insert(0, HomePlaceholder());
+                return rows;
+            }
+
+            return GetMissionCache(type).OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
+        }
+
+        /// <summary>
+        /// Mission, fence and rally rows joined into one list, in the order they are shown when
+        /// the dropdown is set to ALL. processToScreen strips the first row as home, so when the
+        /// mission part is empty a placeholder stands in for it; otherwise a fence or rally row
+        /// would be taken for home.
+        /// </summary>
+        private List<Locationwp> AllRowsToShow()
+        {
+            var mission = RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
+            if (mission.Count == 0)
+                mission.Add(HomePlaceholder());
+
+            return mission
+                .Concat(RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE))
+                .Concat(RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY))
                 .ToList();
-
-            if (GetMissionCache(MAVLink.MAV_MISSION_TYPE.MISSION).Count == 0)
-                list.Insert(0, HomePlaceholder());
-
-            return list;
         }
 
         /// <summary>
@@ -2364,6 +2416,10 @@ namespace MissionPlanner.GCSViews
 
         public void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // the rows of the type shown until now come back when it is chosen again
+            KeepGridRows(shownMissionType);
+            shownMissionType = SelectedMissionType;
+
             // switch the mavcmd list and init
             Activate();
 
@@ -2379,13 +2435,13 @@ namespace MissionPlanner.GCSViews
             if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
                 BUT_Add.Visible = false;
-                processToScreen(MainV2.comPort.MAV.rallypoints.Select(a => (Locationwp) a.Value).ToList());
+                processToScreen(RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY));
 
             }
             else if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE)
             {
                 BUT_Add.Visible = false;
-                processToScreen(MainV2.comPort.MAV.fencepoints.Select(a => (Locationwp) a.Value).ToList());
+                processToScreen(RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE));
 
                 Common.MessageShowAgain("FlightPlan Fence", "Please use the Polygon drawing tool to draw " +
                                                             "Inclusion and Exclusion areas (round circle to the left)," +
@@ -2395,14 +2451,14 @@ namespace MissionPlanner.GCSViews
             else if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL)
             {
                 BUT_Add.Visible = true;
-                processToScreen(GetAllCachedItems());
+                processToScreen(AllRowsToShow());
 
                 Common.MessageShowAgain("FlightPlan All", Strings.AllModeHint);
             }
             else
             {
                 BUT_Add.Visible = true;
-                processToScreen(MainV2.comPort.MAV.wps.Select(a => (Locationwp) a.Value).ToList());
+                processToScreen(RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION));
             }
 
             writeKML();
