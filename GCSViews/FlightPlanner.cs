@@ -384,7 +384,9 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// The rows the grid shows for a type: as kept from the last time the dropdown showed it,
         /// else the vehicle's copy. A mission list starts with home, which processToScreen
-        /// strips; kept rows get a placeholder for it.
+        /// strips; kept rows get a placeholder for it. An empty list stays empty: processToScreen
+        /// shows it without touching the grid, which matters while the page is being built (the
+        /// dropdown's first event runs before the page has a handle to Invoke on).
         /// </summary>
         private List<Locationwp> RowsToShow(MAVLink.MAV_MISSION_TYPE type)
         {
@@ -392,7 +394,7 @@ namespace MissionPlanner.GCSViews
             if (keptRows.TryGetValue(type, out kept))
             {
                 var rows = kept.ToList();
-                if (type == MAVLink.MAV_MISSION_TYPE.MISSION)
+                if (type == MAVLink.MAV_MISSION_TYPE.MISSION && rows.Count > 0)
                     rows.Insert(0, HomePlaceholder());
                 return rows;
             }
@@ -404,18 +406,20 @@ namespace MissionPlanner.GCSViews
         /// Mission, fence and rally rows joined into one list, in the order they are shown when
         /// the dropdown is set to ALL. processToScreen strips the first row as home, so when the
         /// mission part is empty a placeholder stands in for it; otherwise a fence or rally row
-        /// would be taken for home.
+        /// would be taken for home. With nothing to show at all the list is empty.
         /// </summary>
         private List<Locationwp> AllRowsToShow()
         {
             var mission = RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
+            var others = RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE)
+                .Concat(RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY))
+                .ToList();
+            if (others.Count == 0)
+                return mission;
             if (mission.Count == 0)
                 mission.Add(HomePlaceholder());
 
-            return mission
-                .Concat(RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE))
-                .Concat(RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY))
-                .ToList();
+            return mission.Concat(others).ToList();
         }
 
         /// <summary>
