@@ -13,8 +13,9 @@ namespace MissionPlanner.Controls
 {
     /// <summary>
     /// The Plan screen's elevation graph: the terrain under the mission, the planned path and its
-    /// waypoints, the rally points in purple, and the vehicle's fence ceiling and floor. It lies
-    /// over the bottom of the map; drag its title bar to resize it, or use the arrow to make it tall.
+    /// waypoints, the rally points in purple, the vehicle's fence ceiling and floor, and where the
+    /// path crosses its fence circle. It lies over the bottom of the map; drag its title bar to
+    /// resize it, or use the arrow to make it tall.
     /// </summary>
     public class PlanElevationGraph : UserControl
     {
@@ -222,6 +223,7 @@ namespace MissionPlanner.Controls
                 false, axisMin, axisMax);
             AddFenceLine(pane, profile.FenceFloor, profile.FenceFloorAlt, Strings.ElevationGraphFenceFloor,
                 true, axisMin, axisMax);
+            AddFenceCircleCrossings(pane, axisMin, axisMax);
 
             // a line through the rally points is not flown, so it has no path to draw
             LineItem pathCurve = null;
@@ -462,6 +464,47 @@ namespace MissionPlanner.Controls
             text.FontSpec.Fill.IsVisible = false;
             text.IsClippedToChartRect = true;
             pane.GraphObjList.Add(text);
+        }
+
+        /// <summary>
+        /// Where the path crosses the fence circle, a dashed red line from top to bottom with the
+        /// radius written beside it. Only while the vehicle will hold to the circle: a circle the
+        /// fence does not use, or a fence that is off, draws nothing.
+        /// </summary>
+        private void AddFenceCircleCrossings(GraphPane pane, double xmin, double xmax)
+        {
+            if (!profile.Enforces(profile.FenceCircle))
+                return;
+
+            var label = string.Format(Strings.ElevationGraphFenceRadius, FormatDistance(profile.FenceCircle.Radius));
+            var width = xmax - xmin;
+            var lastLabel = double.NegativeInfinity;
+            foreach (var dist in profile.FenceCircleCrossings)
+            {
+                var x = dist * distScale;
+                var line = new LineObj(FenceColor, x, 0, x, 1);
+                line.Location.CoordinateFrame = CoordType.XScaleYChartFraction;
+                line.Line.Style = DashStyle.Dash;
+                line.Line.Width = 1.5f;
+                line.IsClippedToChartRect = true;
+                line.ZOrder = ZOrder.E_BehindCurves;
+                pane.GraphObjList.Add(line);
+
+                // one label for crossings close together; on the right of the graph it goes on
+                // the line's left, so it is not cut off
+                if (x - lastLabel < width * 0.15)
+                    continue;
+                lastLabel = x;
+                var right = width > 0 && (x - xmin) / width > 0.75;
+                var text = new TextObj(label, x, 0.02, CoordType.XScaleYChartFraction,
+                    right ? AlignH.Right : AlignH.Left, AlignV.Top);
+                text.FontSpec.Size = 8;
+                text.FontSpec.FontColor = FenceColor;
+                text.FontSpec.Border.IsVisible = false;
+                text.FontSpec.Fill.IsVisible = false;
+                text.IsClippedToChartRect = true;
+                pane.GraphObjList.Add(text);
+            }
         }
 
         private string Graph_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)

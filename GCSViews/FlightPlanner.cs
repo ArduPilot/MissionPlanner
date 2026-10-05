@@ -288,6 +288,10 @@ namespace MissionPlanner.GCSViews
             panelMap.Controls.Add(elevationGraph);
             elevationGraph.BringToFront();
 
+            // the connected vehicle's fence circle, drawn by timer1 while the fence is active
+            fenceCircleOverlay = new GMapOverlay("fencecircle");
+            MainMap.Overlays.Add(fenceCircleOverlay);
+
             // marks on the map the point of the path under the mouse on the graph
             elevationGraphCursor = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.yellow)
                 {IsHitTestVisible = false, IsVisible = false};
@@ -3455,8 +3459,8 @@ namespace MissionPlanner.GCSViews
         /// The plan as the elevation graph shows it. The grid holds the item types the dropdown is
         /// editing (all three in ALL mode); mission or rally points it does not hold come from the
         /// vehicle cache, as the map shows the vehicle's fence while a mission is edited. The
-        /// fence ceiling and floor come from the vehicle's parameters while connected, and whether
-        /// the fence is on from what the vehicle reports in SYS_STATUS.
+        /// fence ceiling, floor and circle come from the vehicle's parameters while connected, and
+        /// whether the fence is on from what the vehicle reports in SYS_STATUS.
         /// Throws FormatException when a grid cell does not hold a number.
         /// </summary>
         internal ElevationGraphInput GetElevationGraphInput()
@@ -3487,19 +3491,78 @@ namespace MissionPlanner.GCSViews
                 var mav = MainV2.comPort.MAV;
                 Func<string, double?> param = name => mav.param[name]?.Value;
                 ElevationGraphInput.FenceAltLimits(param, out input.FenceCeiling, out input.FenceFloor);
+                input.FenceCircle = ElevationGraphInput.FenceCircleOf(param);
 
-                if (input.FenceCeiling != null || input.FenceFloor != null)
-                {
-                    // SYS_STATUS says whether the fence is on, once it reports one at all
-                    var present = mav.cs.sensors_present;
-                    var reported = present.seen && present.geofence
-                        ? mav.cs.sensors_enabled.geofence
-                        : (bool?) null;
-                    input.FenceState = ElevationGraphInput.FenceStateOf(param, reported);
-                }
+                if (input.FenceCeiling != null || input.FenceFloor != null || input.FenceCircle != null)
+                    input.FenceState = ElevationGraphInput.FenceStateOf(param, ReportedFenceEnabled(mav));
             }
 
             return input;
+        }
+
+        /// <summary>
+        /// The geofence bit of the vehicle's SYS_STATUS enabled sensors, or null until it reports a
+        /// fence at all (no SYS_STATUS yet, or its geofence present bit clear).
+        /// </summary>
+        private static bool? ReportedFenceEnabled(MAVState mav)
+        {
+            var present = mav.cs.sensors_present;
+            return present.seen && present.geofence ? mav.cs.sensors_enabled.geofence : (bool?) null;
+        }
+
+        /// <summary>Corners of the polygon that draws the fence circle on the map.</summary>
+        private const int FenceCircleCorners = 90;
+
+        private static readonly Pen FenceCirclePen = new Pen(Color.Red, 2) {DashStyle = DashStyle.Dash};
+
+        private GMapOverlay fenceCircleOverlay;
+
+        /// <summary>The circle on the map now, as text (home and radius); "" for none.</summary>
+        private string fenceCircleShown = "";
+
+        /// <summary>
+        /// Draw the connected vehicle's fence circle on the map, FENCE_RADIUS around home, while it
+        /// is active: FENCE_TYPE has the circle and the fence is on, or turns itself on at takeoff
+        /// or arming. A fence that is off, or does not use the circle, draws nothing. Runs on the
+        /// page's timer, so a change of parameters, fence state or home shows within a second or two.
+        /// </summary>
+        private void UpdateFenceCircle()
+        {
+            var home = GetPlannedHome();
+            ElevationGraphFenceCircle circle = null;
+            if (home != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+            {
+                var mav = MainV2.comPort.MAV;
+                circle = ElevationGraphInput.ActiveFenceCircle(name => mav.param[name]?.Value,
+                    ReportedFenceEnabled(mav));
+            }
+
+            var shown = circle == null
+                ? ""
+                : string.Join(",", home.Lat.ToString("R", CultureInfo.InvariantCulture),
+                    home.Lng.ToString("R", CultureInfo.InvariantCulture),
+                    circle.Radius.ToString("R", CultureInfo.InvariantCulture));
+            if (shown == fenceCircleShown)
+                return;
+            fenceCircleShown = shown;
+
+            var old = fenceCircleOverlay.Polygons.ToList();
+            fenceCircleOverlay.Polygons.Clear();
+            old.ForEach(a => a.Dispose());
+            if (circle != null)
+            {
+                var corners = Enumerable.Range(0, FenceCircleCorners)
+                    .Select(a => (PointLatLng) home.newpos(a * 360.0 / FenceCircleCorners, circle.Radius))
+                    .ToList();
+                fenceCircleOverlay.Polygons.Add(new GMapPolygon(corners, "fencecircle")
+                {
+                    Stroke = FenceCirclePen,
+                    Fill = Brushes.Transparent,
+                    IsHitTestVisible = false
+                });
+            }
+
+            MainMap.Invalidate();
         }
 
         /// <summary>
@@ -7213,6 +7276,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 if (isMouseDown || CurentRectMarker != null)
                     return;
+
+                UpdateFenceCircle();
 
                 prop.alt = MainV2.comPort.MAV.cs.alt;
                 prop.altasl = MainV2.comPort.MAV.cs.altasl;

@@ -81,6 +81,21 @@ namespace MissionPlanner.Controls
     }
 
     /// <summary>
+    /// The circle fence from the vehicle's parameters: FENCE_RADIUS around home.
+    /// </summary>
+    public class ElevationGraphFenceCircle
+    {
+        /// <summary>Metres from home.</summary>
+        public double Radius;
+
+        /// <summary>
+        /// The fence uses the circle: FENCE_TYPE has bit 1. Whether the fence is on at all is
+        /// <see cref="ElevationGraphFenceState"/>.
+        /// </summary>
+        public bool Used;
+    }
+
+    /// <summary>
     /// Whether the vehicle's fence is on.
     /// </summary>
     public enum ElevationGraphFenceState
@@ -118,6 +133,9 @@ namespace MissionPlanner.Controls
 
         /// <summary>null when not connected, or the vehicle has no such parameter.</summary>
         public ElevationGraphFenceLimit FenceFloor;
+
+        /// <summary>null when not connected, or the vehicle has no such parameter.</summary>
+        public ElevationGraphFenceCircle FenceCircle;
 
         /// <summary>null when not known (not connected).</summary>
         public ElevationGraphFenceState? FenceState;
@@ -242,6 +260,54 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
+        /// The circle fence from the vehicle's parameters, or null when the vehicle has no
+        /// FENCE_RADIUS (older Plane firmware). AC_Fence uses it when FENCE_TYPE has bit 1, and
+        /// centres it on home.
+        /// </summary>
+        /// <param name="param">a parameter's value, or null when the vehicle does not have it</param>
+        public static ElevationGraphFenceCircle FenceCircleOf(Func<string, double?> param)
+        {
+            var radius = param("FENCE_RADIUS");
+            if (!radius.HasValue)
+                return null;
+
+            var type = param("FENCE_TYPE");
+            var bits = type.HasValue ? (int) type.Value : 0;
+            return new ElevationGraphFenceCircle {Radius = radius.Value, Used = (bits & 2) != 0};
+        }
+
+        /// <summary>
+        /// The vehicle will hold to its fence on this flight: the fence is on, or turns itself on
+        /// at takeoff or arming. Not knowing the fence state counts as on.
+        /// </summary>
+        public static bool FenceActive(ElevationGraphFenceState? state)
+        {
+            switch (state)
+            {
+                case ElevationGraphFenceState.Disabled:
+                case ElevationGraphFenceState.ReportOnly:
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
+        /// <summary>
+        /// The circle fence the vehicle will hold to on this flight, or null when there is none:
+        /// FENCE_TYPE has the circle, the radius is above 0 and the fence is active
+        /// (<see cref="FenceActive"/>).
+        /// </summary>
+        /// <param name="param">a parameter's value, or null when the vehicle does not have it</param>
+        /// <param name="reportedEnabled">as for <see cref="FenceStateOf"/></param>
+        public static ElevationGraphFenceCircle ActiveFenceCircle(Func<string, double?> param, bool? reportedEnabled)
+        {
+            var circle = FenceCircleOf(param);
+            if (circle == null || !circle.Used || !(circle.Radius > 0))
+                return null;
+            return FenceActive(FenceStateOf(param, reportedEnabled)) ? circle : null;
+        }
+
+        /// <summary>
         /// Whether the fence is on. The vehicle's own report (the geofence bit of SYS_STATUS's
         /// enabled sensors) follows FENCE_ENABLE, an RC switch, a DO_FENCE_ENABLE command and
         /// auto-enable alike, so it decides when there is one; FENCE_ENABLE stands in otherwise.
@@ -311,6 +377,13 @@ namespace MissionPlanner.Controls
                     add(limit.Alt);
                     sb.Append(limit.Used ? 'u' : '-');
                 }
+            }
+
+            sb.Append('|');
+            if (FenceCircle != null)
+            {
+                add(FenceCircle.Radius);
+                sb.Append(FenceCircle.Used ? 'u' : '-');
             }
 
             sb.Append('|').Append(FenceState);
@@ -413,6 +486,14 @@ namespace MissionPlanner.Controls
         /// <summary>The fence floor AMSL, NaN when there is none or home is not set.</summary>
         public double FenceFloorAlt { get; private set; } = double.NaN;
 
+        public ElevationGraphFenceCircle FenceCircle { get; private set; }
+
+        /// <summary>
+        /// Metres along the path where it crosses the circle fence, in order; empty when the
+        /// fence does not use the circle or home is not set.
+        /// </summary>
+        public List<double> FenceCircleCrossings { get; } = new List<double>();
+
         /// <summary>Whether the fence is on; null when not known.</summary>
         public ElevationGraphFenceState? FenceState { get; private set; }
 
@@ -423,16 +504,14 @@ namespace MissionPlanner.Controls
         /// </summary>
         public bool Enforces(ElevationGraphFenceLimit limit)
         {
-            if (limit == null || !limit.Used)
-                return false;
-            switch (FenceState)
-            {
-                case ElevationGraphFenceState.Disabled:
-                case ElevationGraphFenceState.ReportOnly:
-                    return false;
-                default:
-                    return true;
-            }
+            return limit != null && limit.Used && ElevationGraphInput.FenceActive(FenceState);
+        }
+
+        /// <summary>The vehicle will hold to the circle fence on this flight, as for a limit.</summary>
+        public bool Enforces(ElevationGraphFenceCircle circle)
+        {
+            return circle != null && circle.Used && circle.Radius > 0 &&
+                   ElevationGraphInput.FenceActive(FenceState);
         }
 
         /// <summary>Some terrain lookups found no data (an SRTM tile still downloading, or none).</summary>
@@ -468,6 +547,7 @@ namespace MissionPlanner.Controls
                 HomeSet = input.Home != null,
                 FenceCeiling = input.FenceCeiling,
                 FenceFloor = input.FenceFloor,
+                FenceCircle = input.FenceCircle,
                 FenceState = input.FenceState
             };
 
@@ -590,7 +670,37 @@ namespace MissionPlanner.Controls
             if (input.FenceFloor != null)
                 profile.FenceFloorAlt = homeAlt + input.FenceFloor.Alt;
 
+            // the circle fence is centred on home
+            var circle = input.FenceCircle;
+            if (input.Home != null && circle != null && circle.Used && circle.Radius > 0)
+                profile.FindCircleCrossings(input.Home, circle.Radius);
+
             return profile;
+        }
+
+        /// <summary>
+        /// Note where the line through the samples crosses the circle of <paramref name="radius"/>
+        /// metres around <paramref name="centre"/>, going out or coming back in.
+        /// </summary>
+        private void FindCircleCrossings(PointLatLngAlt centre, double radius)
+        {
+            var middle = new PointLatLngAlt(centre.Lat, centre.Lng);
+            Sample prev = null;
+            var prevOver = 0.0;
+            foreach (var sample in Samples)
+            {
+                // metres outside the circle, negative inside
+                var over = middle.GetDistance(new PointLatLngAlt(sample.Lat, sample.Lng)) - radius;
+                if (prev != null && (prevOver > 0) != (over > 0))
+                {
+                    // the signs differ, so the difference is not 0
+                    var f = prevOver / (prevOver - over);
+                    FenceCircleCrossings.Add(prev.Dist + (sample.Dist - prev.Dist) * f);
+                }
+
+                prev = sample;
+                prevOver = over;
+            }
         }
 
         /// <summary>

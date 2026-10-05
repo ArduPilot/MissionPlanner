@@ -629,6 +629,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fence radius {0}.
+        /// </summary>
+        public static string ElevationGraphFenceRadius {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fence only reports breaches.
         /// </summary>
         public static string ElevationGraphFenceReportOnly {

@@ -558,6 +558,9 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="ElevationGraphFenceFloorArms" xml:space="preserve">
     <value>active once above it</value>
   </data>
+  <data name="ElevationGraphFenceRadius" xml:space="preserve">
+    <value>Fence radius {0}</value>
+  </data>
   <data name="ElevationGraphFenceEnabled" xml:space="preserve">
     <value>Fence enabled</value>
   </data>
