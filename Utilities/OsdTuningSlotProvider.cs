@@ -30,17 +30,17 @@ namespace MissionPlanner.Utilities
         public OsdTuningSlotProvider()
         {
             sub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_SHOW_CONFIG_REPLY,
-                    HandleParamShowResponse, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    HandleParamShowResponse, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.OSD_PARAM_CONFIG_REPLY,
-                    HandleParamSetResponse, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                    HandleParamSetResponse, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
         }
 
         public void ParamShow(byte screen, byte index)
         {
             MainV2.comPort.sendPacket(new MAVLink.mavlink_osd_param_show_config_t(++request,
                     (byte)MainV2.comPort.sysidcurrent,
-                    (byte)MainV2.comPort.compidcurrent, screen, index), (byte)MainV2.comPort.sysidcurrent,
+                    (byte)MainV2.comPort.compidcurrent, screen, index), MainV2.comPort.sysidcurrent,
                 (byte)MainV2.comPort.compidcurrent);
 
             if (!paramShowRequests.TryAdd(request, (screen, index)))
@@ -52,7 +52,7 @@ namespace MissionPlanner.Utilities
             MainV2.comPort.sendPacket(new MAVLink.mavlink_osd_param_config_t(++request, min, max, increment,
                     (byte)MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent, screen, index, name.ToCharArray().ToByteArray(),
-                    (byte)type), (byte)MainV2.comPort.sysidcurrent,
+                    (byte)type), MainV2.comPort.sysidcurrent,
                 (byte)MainV2.comPort.compidcurrent);
 
             if (!paramSetRequests.TryAdd(request, (screen, index)))

@@ -302,7 +302,7 @@ namespace MissionPlanner.Log
             public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = GetBitmap(imgfile); return image; } } }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
-            public int Aircraft { get; set; }
+            public uint Aircraft { get; set; }
             public long Size { get; set; }
             public PointLatLngAlt Home { get; set; }
 

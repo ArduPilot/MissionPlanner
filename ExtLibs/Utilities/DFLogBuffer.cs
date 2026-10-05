@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -160,7 +159,7 @@ namespace MissionPlanner.Utilities
                         {
                             if (buffer[offset] == '\n')
                             {
-                                linestartoffset.Add((uint)(startpos + 1 + offset));
+                                linestartoffset.Add(startpos + 1 + offset);
                                 lineCount++;
                             }
 
@@ -331,14 +330,11 @@ namespace MissionPlanner.Utilities
             indexcachelineno = -1;
         }
 
-        [Serializable]
-        struct cache
-        {
-            public List<long>[] messageindex;
-            public List<long>[] messageindexline;
-            public List<long> linestartoffset;
-            public long lineCount;
-        }
+        // any mismatch (old BinaryFormatter caches included) just rebuilds the index
+        private const int CacheVersion = 1;
+        private static readonly byte[] CacheMagic = Encoding.ASCII.GetBytes("MPDFIDX");
+        // BinaryWriter/Reader move 8 bytes per call; unbuffered, every call is a separate deflate call
+        private const int CacheBufferSize = 1024 * 1024;
 
         private string CachePath
         {
@@ -362,56 +358,115 @@ namespace MissionPlanner.Utilities
             // save cache if file is over 300mb
             if (basestream.Length < 1024 * 1024 * 300)
                 return;
-            //save cache
-            cache cache = new cache();
-            cache.messageindex = messageindex;
-            cache.messageindexline = messageindexline;
-            cache.linestartoffset = linestartoffset;
-            cache.lineCount = _count;
-
-            using (var file = File.OpenWrite(CachePath))
+            //save cache, it is optional so a failure must not stop the log from opening
+            try
             {
-                using (GZipStream gs = new GZipStream(file, CompressionMode.Compress))
+                using (var file = File.Create(CachePath))
+                using (var gs = new GZipStream(file, CompressionMode.Compress))
+                using (var bs = new BufferedStream(gs, CacheBufferSize))
+                using (var bw = new BinaryWriter(bs))
                 {
-                    BinaryFormatter serializer = new BinaryFormatter();
-                    serializer.Serialize(gs, cache);
+                    bw.Write(CacheMagic);
+                    bw.Write(CacheVersion);
+                    bw.Write(_count);
+                    WriteCacheList(bw, linestartoffset);
+                    bw.Write(messageindex.Length);
+                    for (int a = 0; a < messageindex.Length; a++)
+                    {
+                        WriteCacheList(bw, messageindex[a]);
+                        WriteCacheList(bw, messageindexline[a]);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("DFLogBuffer: failed to save cache " + ex.Message);
             }
         }
 
         private bool LoadCache()
         {
-            if (File.Exists(CachePath))
+            if (!File.Exists(CachePath))
+                return false;
+
+            long lineCount;
+            List<long> lineStarts;
+            var index = new List<long>[messageindex.Length];
+            var indexLine = new List<long>[messageindexline.Length];
+
+            //load cache
+            try
             {
-                //load cache
-                cache cache = new cache();
-                BinaryFormatter deserializer = new BinaryFormatter();
                 using (var file = File.OpenRead(CachePath))
+                using (var gs = new GZipStream(file, CompressionMode.Decompress))
+                using (var bs = new BufferedStream(gs, CacheBufferSize))
+                using (var br = new BinaryReader(bs))
                 {
-                    using (GZipStream gs = new GZipStream(file, CompressionMode.Decompress))
-                    {
-                        try
-                        {
-                            cache = (cache)deserializer.Deserialize(gs);
-                        }
-                        catch
-                        {
+                    if (!br.ReadBytes(CacheMagic.Length).SequenceEqual(CacheMagic) || br.ReadInt32() != CacheVersion)
+                        return false;
+
+                    // every line is at least one byte, so a valid count never exceeds the log size
+                    long length = basestream.Length;
+                    lineCount = br.ReadInt64();
+                    if (lineCount < 0 || lineCount > length)
+                        return false;
+
+                    // text logs also store the leading 0 offset. the indexers use these to seek and
+                    // size reads, so they must be in the log and in order
+                    lineStarts = ReadCacheList(br, lineCount + 1, length);
+                    if (lineStarts.Count != lineCount + (binary ? 0 : 1))
+                        return false;
+                    for (int i = 1; i < lineStarts.Count; i++)
+                        if (lineStarts[i] < lineStarts[i - 1])
                             return false;
-                        }
+
+                    if (br.ReadInt32() != index.Length)
+                        return false;
+
+                    for (int a = 0; a < index.Length; a++)
+                    {
+                        index[a] = ReadCacheList(br, lineCount, length);
+                        indexLine[a] = ReadCacheList(br, lineCount, lineCount - 1);
                     }
                 }
-
-                messageindex = cache.messageindex;
-                messageindexline = cache.messageindexline;
-                linestartoffset = cache.linestartoffset;
-                _count = cache.lineCount;
-
-                // build fmt line database to pre seed the FMT message
-                messageindexline[128].ForEach(a => dflog.FMTLine(this[(int)a]));
-                return true;
+            }
+            catch
+            {
+                return false;
             }
 
-            return false;
+            messageindex = index;
+            messageindexline = indexLine;
+            linestartoffset = lineStarts;
+            _count = lineCount;
+
+            // build fmt line database to pre seed the FMT message
+            messageindexline[128].ForEach(a => dflog.FMTLine(this[(int)a]));
+            return true;
+        }
+
+        private static void WriteCacheList(BinaryWriter bw, List<long> list)
+        {
+            bw.Write(list.Count);
+            foreach (var item in list)
+                bw.Write(item);
+        }
+
+        private static List<long> ReadCacheList(BinaryReader br, long maxCount, long maxValue)
+        {
+            var count = br.ReadInt32();
+            if (count < 0 || count > maxCount)
+                throw new InvalidDataException("bad DFLogBuffer cache");
+
+            var list = new List<long>(count);
+            for (int i = 0; i < count; i++)
+            {
+                var item = br.ReadInt64();
+                if (item < 0 || item > maxValue)
+                    throw new InvalidDataException("bad DFLogBuffer cache");
+                list.Add(item);
+            }
+            return list;
         }
 
         public void SplitLog(int pieces = 0)

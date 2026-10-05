@@ -22,7 +22,7 @@ namespace MissionPlanner.Controls
         {
             _can = can;
             _nodeid = nodeid;
-            /*_mavftp = new MAVFtp(_mav, (byte) _mav.sysidcurrent, (byte) mav.compidcurrent);
+            /*_mavftp = new MAVFtp(_mav, _mav.sysidcurrent, (byte) mav.compidcurrent);
             _mavftp.Progress += (percent) =>
             {
                 if (toolStripProgressBar1.Value == percent)
