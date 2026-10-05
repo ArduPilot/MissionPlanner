@@ -588,6 +588,21 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="ElevationGraphSummaryNoClearance" xml:space="preserve">
     <value>{0} long</value>
   </data>
+  <data name="ElevationGraphRallySummary" xml:space="preserve">
+    <value>Rally points: {0}, lowest clearance {1}</value>
+  </data>
+  <data name="ElevationGraphRallySummaryNoClearance" xml:space="preserve">
+    <value>Rally points: {0}</value>
+  </data>
+  <data name="ElevationGraphRallyChainTip" xml:space="preserve">
+    <value>Rally point {0}: {1} AMSL, clearance {2}</value>
+  </data>
+  <data name="ElevationGraphRallyChainTipNoTerrain" xml:space="preserve">
+    <value>Rally point {0}: {1} AMSL</value>
+  </data>
+  <data name="ElevationGraphRallyDistanceAxis" xml:space="preserve">
+    <value>Distance along the line through the rally points ({0})</value>
+  </data>
   <data name="ElevationGraphBelowTerrainWarning" xml:space="preserve">
     <value>The path goes below the terrain</value>
   </data>

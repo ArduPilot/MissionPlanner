@@ -223,8 +223,13 @@ namespace MissionPlanner.Controls
             AddFenceLine(pane, profile.FenceFloor, profile.FenceFloorAlt, Strings.ElevationGraphFenceFloor,
                 true, axisMin, axisMax);
 
-            var pathCurve = pane.AddCurve(Strings.ElevationGraphPath, path, pathColor, SymbolType.None);
-            pathCurve.Line.Width = 2;
+            // a line through the rally points is not flown, so it has no path to draw
+            LineItem pathCurve = null;
+            if (!profile.RallyChain)
+            {
+                pathCurve = pane.AddCurve(Strings.ElevationGraphPath, path, pathColor, SymbolType.None);
+                pathCurve.Line.Width = 2;
+            }
 
             LineItem belowCurve = null;
             if (anyBelow)
@@ -256,12 +261,15 @@ namespace MissionPlanner.Controls
 
             var legendAt = 0;
             LegendStandIn(pane, terrainCurve, legendAt++);
-            LegendStandIn(pane, pathCurve, legendAt++);
+            if (pathCurve != null)
+                LegendStandIn(pane, pathCurve, legendAt++);
             if (belowCurve != null)
                 LegendStandIn(pane, belowCurve, legendAt);
             pane.Legend.Fill.IsVisible = false;
 
-            pane.XAxis.Title.Text = string.Format(Strings.ElevationGraphDistanceAxis, distUnit);
+            pane.XAxis.Title.Text = string.Format(
+                profile.RallyChain ? Strings.ElevationGraphRallyDistanceAxis : Strings.ElevationGraphDistanceAxis,
+                distUnit);
             pane.YAxis.Title.Text = string.Format(Strings.ElevationGraphAltitudeAxis, AltUnit);
             pane.XAxis.Scale.MinAuto = false;
             pane.XAxis.Scale.MaxAuto = false;
@@ -290,8 +298,13 @@ namespace MissionPlanner.Controls
             var waypoints = profile.Waypoints.Exists(a => a.Item != null);
             var anything = waypoints || profile.RallyPoints.Count > 0;
 
-            // rally points alone make no path to measure
-            if (!waypoints)
+            // rally points alone make no path to measure: their own clearance is what counts
+            if (profile.RallyChain)
+                summary.Text = double.IsNaN(profile.LowestClearance)
+                    ? string.Format(Strings.ElevationGraphRallySummaryNoClearance, profile.RallyPoints.Count)
+                    : string.Format(Strings.ElevationGraphRallySummary, profile.RallyPoints.Count,
+                        FormatAltitude(profile.LowestClearance));
+            else if (!waypoints)
                 summary.Text = Strings.ElevationGraphNoWaypoints;
             else if (double.IsNaN(profile.LowestClearance))
                 summary.Text = string.Format(Strings.ElevationGraphSummaryNoClearance,
@@ -464,6 +477,16 @@ namespace MissionPlanner.Controls
                     return string.Format(Strings.ElevationGraphHomeTip, FormatAltitude(marker.Alt));
 
                 var clearance = marker.Alt - marker.Terrain;
+                if (curve == rallyCurve && profile.RallyChain)
+                {
+                    // on its own line, a rally point is not off any path
+                    return double.IsNaN(clearance)
+                        ? string.Format(Strings.ElevationGraphRallyChainTipNoTerrain, marker.Item.Row,
+                            FormatAltitude(marker.Alt))
+                        : string.Format(Strings.ElevationGraphRallyChainTip, marker.Item.Row,
+                            FormatAltitude(marker.Alt), FormatAltitude(clearance));
+                }
+
                 if (curve == rallyCurve)
                 {
                     return double.IsNaN(clearance)

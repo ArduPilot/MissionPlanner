@@ -438,10 +438,19 @@ namespace MissionPlanner.Controls
         /// <summary>Some terrain lookups found no data (an SRTM tile still downloading, or none).</summary>
         public bool TerrainMissing { get; private set; }
 
-        /// <summary>The smallest height above the terrain on airborne legs, NaN when unknown.</summary>
+        /// <summary>
+        /// The smallest height above the terrain on airborne legs (of the rally points
+        /// themselves when <see cref="RallyChain"/>), NaN when unknown.
+        /// </summary>
         public double LowestClearance { get; private set; } = double.NaN;
 
         public double LowestClearanceDist { get; private set; } = double.NaN;
+
+        /// <summary>
+        /// There is no mission path, so the terrain runs along a line through the rally points
+        /// instead, home first. Nothing flies along that line, so it has no path.
+        /// </summary>
+        public bool RallyChain { get; private set; }
 
         /// <summary>
         /// Lay the mission out along its path and sample the terrain under it. A leg into a
@@ -521,52 +530,10 @@ namespace MissionPlanner.Controls
                 nodes.Add(node);
             }
 
-            profile.TotalDistance = nodes.Count > 0 ? nodes[nodes.Count - 1].Dist : 0;
-
-            if (nodes.Count > 0)
-            {
-                var first = nodes[0];
-                profile.Samples.Add(new Sample
-                {
-                    Lat = first.Lat,
-                    Lng = first.Lng,
-                    Terrain = first.Terrain,
-                    Alt = first.Alt,
-                    Airborne = !IsOnGround(first)
-                });
-            }
-
-            var spacing = Math.Max(profile.TotalDistance / Math.Max(1, maxSamples), MinSampleSpacing);
-            for (int i = 1; i < nodes.Count; i++)
-            {
-                var from = nodes[i - 1];
-                var to = nodes[i];
-                var length = to.Dist - from.Dist;
-                var steps = Math.Max(1, (int) Math.Ceiling(length / spacing));
-                var follow = to.Item.Frame == ElevationGraphAltFrame.Terrain;
-                var fromHeight = from.Alt - from.Terrain;
-                var airborne = !IsOnGround(from) && !IsOnGround(to);
-
-                for (int s = 1; s <= steps; s++)
-                {
-                    var f = (double) s / steps;
-                    var lat = from.Lat + (to.Lat - from.Lat) * f;
-                    var lng = from.Lng + (to.Lng - from.Lng) * f;
-                    var ground = s == steps ? to.Terrain : terrain(lat, lng);
-
-                    profile.Samples.Add(new Sample
-                    {
-                        Dist = from.Dist + length * f,
-                        Lat = lat,
-                        Lng = lng,
-                        Terrain = ground,
-                        Alt = follow
-                            ? ground + fromHeight + (to.Item.Alt - fromHeight) * f
-                            : from.Alt + (to.Alt - from.Alt) * f,
-                        Airborne = airborne
-                    });
-                }
-            }
+            // Rally points sit on the path at its nearest point. Without a path (rally points
+            // planned before the mission, or on their own) the terrain is laid out along a line
+            // through them instead, home first, so each shows over the ground under it.
+            profile.RallyChain = input.RallyPoints.Count > 0 && !nodes.Exists(a => a.Item != null);
 
             foreach (var item in input.RallyPoints)
             {
@@ -580,8 +547,41 @@ namespace MissionPlanner.Controls
                     Terrain = ground,
                     Alt = AltitudeAmsl(item.Frame, item.Alt, homeAlt, ground)
                 };
-                PlaceOnPath(nodes, marker);
+                if (!profile.RallyChain)
+                    PlaceOnPath(nodes, marker);
                 profile.RallyPoints.Add(marker);
+            }
+
+            if (profile.RallyChain)
+            {
+                var chain = new List<Marker>(nodes);
+                foreach (var marker in profile.RallyPoints)
+                {
+                    if (chain.Count > 0)
+                    {
+                        var prev = chain[chain.Count - 1];
+                        marker.Dist = prev.Dist +
+                                      new PointLatLngAlt(prev.Lat, prev.Lng).GetDistance(new PointLatLngAlt(marker.Lat, marker.Lng));
+                    }
+
+                    chain.Add(marker);
+                }
+
+                SampleLegs(profile, chain, terrain, maxSamples, false);
+
+                // nothing flies between the points, so the clearance is the points' own
+                foreach (var marker in profile.RallyPoints)
+                    profile.NoteClearance(marker.Alt - marker.Terrain, marker.Dist);
+            }
+            else
+            {
+                SampleLegs(profile, nodes, terrain, maxSamples, true);
+
+                foreach (var sample in profile.Samples)
+                {
+                    if (sample.Airborne)
+                        profile.NoteClearance(sample.Alt - sample.Terrain, sample.Dist);
+                }
             }
 
             // fence altitudes are measured from home
@@ -590,19 +590,79 @@ namespace MissionPlanner.Controls
             if (input.FenceFloor != null)
                 profile.FenceFloorAlt = homeAlt + input.FenceFloor.Alt;
 
-            foreach (var sample in profile.Samples)
+            return profile;
+        }
+
+        /// <summary>
+        /// Sample the terrain along the legs between <paramref name="nodes"/>, with the path's
+        /// altitude at each sample when the legs are <paramref name="flown"/>: a leg into a
+        /// terrain frame point follows the ground, its height above the ground changing evenly
+        /// from one end to the other, as ArduPilot flies it; any other leg is a straight line
+        /// between the altitudes of its ends. Legs that are not flown get the terrain alone.
+        /// </summary>
+        private static void SampleLegs(ElevationGraphProfile profile, List<Marker> nodes,
+            Func<double, double, double> terrain, int maxSamples, bool flown)
+        {
+            profile.TotalDistance = nodes.Count > 0 ? nodes[nodes.Count - 1].Dist : 0;
+
+            if (nodes.Count > 0)
             {
-                var clearance = sample.Alt - sample.Terrain;
-                if (!sample.Airborne || double.IsNaN(clearance))
-                    continue;
-                if (double.IsNaN(profile.LowestClearance) || clearance < profile.LowestClearance)
+                var first = nodes[0];
+                profile.Samples.Add(new Sample
                 {
-                    profile.LowestClearance = clearance;
-                    profile.LowestClearanceDist = sample.Dist;
-                }
+                    Lat = first.Lat,
+                    Lng = first.Lng,
+                    Terrain = first.Terrain,
+                    Alt = flown ? first.Alt : double.NaN,
+                    Airborne = flown && !IsOnGround(first)
+                });
             }
 
-            return profile;
+            var spacing = Math.Max(profile.TotalDistance / Math.Max(1, maxSamples), MinSampleSpacing);
+            for (int i = 1; i < nodes.Count; i++)
+            {
+                var from = nodes[i - 1];
+                var to = nodes[i];
+                var length = to.Dist - from.Dist;
+                var steps = Math.Max(1, (int) Math.Ceiling(length / spacing));
+                var follow = to.Item.Frame == ElevationGraphAltFrame.Terrain;
+                var fromHeight = from.Alt - from.Terrain;
+                var airborne = flown && !IsOnGround(from) && !IsOnGround(to);
+
+                for (int s = 1; s <= steps; s++)
+                {
+                    var f = (double) s / steps;
+                    var lat = from.Lat + (to.Lat - from.Lat) * f;
+                    var lng = from.Lng + (to.Lng - from.Lng) * f;
+                    var ground = s == steps ? to.Terrain : terrain(lat, lng);
+                    var alt = double.NaN;
+                    if (flown)
+                        alt = follow
+                            ? ground + fromHeight + (to.Item.Alt - fromHeight) * f
+                            : from.Alt + (to.Alt - from.Alt) * f;
+
+                    profile.Samples.Add(new Sample
+                    {
+                        Dist = from.Dist + length * f,
+                        Lat = lat,
+                        Lng = lng,
+                        Terrain = ground,
+                        Alt = alt,
+                        Airborne = airborne
+                    });
+                }
+            }
+        }
+
+        private void NoteClearance(double clearance, double dist)
+        {
+            if (double.IsNaN(clearance))
+                return;
+            if (double.IsNaN(LowestClearance) || clearance < LowestClearance)
+            {
+                LowestClearance = clearance;
+                LowestClearanceDist = dist;
+            }
         }
 
         /// <summary>

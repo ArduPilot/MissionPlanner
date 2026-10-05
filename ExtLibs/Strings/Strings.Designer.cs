@@ -692,6 +692,33 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL, clearance {2}.
+        /// </summary>
+        public static string ElevationGraphRallyChainTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyChainTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL.
+        /// </summary>
+        public static string ElevationGraphRallyChainTipNoTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyChainTipNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distance along the line through the rally points ({0}).
+        /// </summary>
+        public static string ElevationGraphRallyDistanceAxis {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyDistanceAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to R{0}.
         /// </summary>
         public static string ElevationGraphRallyLabel {
@@ -706,6 +733,24 @@ namespace MissionPlanner {
         public static string ElevationGraphRallyPoints {
             get {
                 return ResourceManager.GetString("ElevationGraphRallyPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally points: {0}, lowest clearance {1}.
+        /// </summary>
+        public static string ElevationGraphRallySummary {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallySummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally points: {0}.
+        /// </summary>
+        public static string ElevationGraphRallySummaryNoClearance {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallySummaryNoClearance", resourceCulture);
             }
         }
         
