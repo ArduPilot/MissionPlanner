@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
@@ -37,25 +38,34 @@ namespace MissionPlanner.Joystick
 
         static string auxDisplay(int aux, string name)
         {
-            return "RC_OPTION " + aux + ": " + name;
+            return "RCx_OPTION " + aux + ": " + name;
         }
+
+        // the dropdown entries, shared by every button row and built once per vehicle firmware:
+        // the RCx_OPTION list is a parameter metadata lookup
+        List<ButtonFunctionItem> buttonFunctionItems;
+        Firmwares buttonFunctionItemsFirmware;
 
         /// <summary>
         /// Built in functions followed by the RCx_OPTION list for the last connected vehicle
         /// </summary>
-        static List<ButtonFunctionItem> getButtonFunctionItems()
+        List<ButtonFunctionItem> getButtonFunctionItems()
         {
+            var firmware = MainV2.comPort.MAV.cs.firmware;
+            if (buttonFunctionItems != null && buttonFunctionItemsFirmware == firmware)
+                return buttonFunctionItems;
+
             var items = new List<ButtonFunctionItem>();
 
             foreach (buttonfunction f in Enum.GetValues(typeof(buttonfunction)))
             {
-                // Aux_Function is represented by the individual RC_OPTION entries below
+                // Aux_Function is represented by the individual RCx_OPTION entries below
                 if (f == buttonfunction.Aux_Function)
                     continue;
                 items.Add(new ButtonFunctionItem() { function = f, display = f.ToString() });
             }
 
-            foreach (var opt in AuxFunction.GetList(MainV2.comPort.MAV.cs.firmware))
+            foreach (var opt in AuxFunction.GetList(firmware))
             {
                 items.Add(new ButtonFunctionItem()
                 {
@@ -65,6 +75,8 @@ namespace MissionPlanner.Joystick
                 });
             }
 
+            buttonFunctionItems = items;
+            buttonFunctionItemsFirmware = firmware;
             return items;
         }
 

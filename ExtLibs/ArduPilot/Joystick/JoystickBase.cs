@@ -675,9 +675,13 @@ namespace MissionPlanner.Joystick
                                             level = LOW;
                                         break;
                                     case auxfunctiontrigger.CycleLowMiddleHigh:
-                                        // first press sends LOW, then MIDDLE, HIGH, LOW ...
+                                        // first press sends LOW, then MIDDLE, HIGH, LOW ... : the level
+                                        // after the last accepted one, or the first when there is none
                                         if (buttondown)
-                                            level = (last + 1) % 3;
+                                        {
+                                            var cycle = new[] {LOW, MIDDLE, HIGH};
+                                            level = cycle[(Array.IndexOf(cycle, last) + 1) % cycle.Length];
+                                        }
                                         break;
                                 }
 
@@ -698,9 +702,10 @@ namespace MissionPlanner.Joystick
                                 // timed out command does not leave toggle/cycle out of step
                                 levels[function] = level;
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                CustomMessageBox.Show("Failed to Aux_Function");
+                                log.Error("Joystick Aux_Function " + but.p1 + " failed", ex);
+                                CustomMessageBox.Show("Failed to Aux_Function: " + ex.Message, "Aux_Function");
                             }
                         }, null);
                         break;
