@@ -3433,6 +3433,9 @@ namespace MissionPlanner.GCSViews
                 log.Debug(ex);
             }
 
+            // the page is going away, so nothing else will say why a build failed
+            if (task.IsFaulted)
+                log.Error(task.Exception);
             elevationGraphBusy = false;
         }
 

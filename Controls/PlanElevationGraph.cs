@@ -41,6 +41,9 @@ namespace MissionPlanner.Controls
         private readonly ToolTip toolTip = new ToolTip();
         private readonly ZedGraphControl graph = new ZedGraphControl();
 
+        /// <summary>Bold for the title and the outside-the-fence warning; made here, so disposed here.</summary>
+        private readonly Font boldFont;
+
         /// <summary>The least height the graph is worth drawing at.</summary>
         public const int MinimumHeight = 90;
 
@@ -113,13 +116,14 @@ namespace MissionPlanner.Controls
 
             title.AutoSize = true;
             title.Location = new Point(4, 4);
-            title.Font = new Font(Font, FontStyle.Bold);
+            boldFont = new Font(Font, FontStyle.Bold);
+            title.Font = boldFont;
             title.Text = Strings.ElevationGraphTitle;
 
             summary.AutoSize = true;
             fence.AutoSize = true;
             outsideFence.AutoSize = true;
-            outsideFence.Font = new Font(Font, FontStyle.Bold);
+            outsideFence.Font = boldFont;
             outsideFence.ForeColor = FenceColor;
             status.AutoSize = true;
             // the theme leaves a "custom" label's colour alone; these set their own
@@ -776,6 +780,9 @@ namespace MissionPlanner.Controls
             if (disposing)
                 toolTip.Dispose();
             base.Dispose(disposing);
+            // once the labels that use it are gone
+            if (disposing)
+                boldFont.Dispose();
         }
     }
 }
