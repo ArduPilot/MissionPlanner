@@ -314,6 +314,10 @@ namespace MissionPlanner.Controls
                 }
             }
 
+            foreach (var icon in iconCache.Values)
+                icon.Dispose();
+            iconCache.Clear();
+
             base.Dispose(disposing);
         }
 
