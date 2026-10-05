@@ -147,6 +147,8 @@ namespace MissionPlanner
 
             var t = Type.GetType("Mono.Runtime");
             MONO = (t != null);
+            if (MONO && Settings.isUnix)
+                MonoTableLayoutSettingsConverter.Register();
 
             Directory.SetCurrentDirectory(Settings.GetRunningDirectory());
 
@@ -248,7 +250,7 @@ namespace MissionPlanner
                     {
                         ptr = MissionPlanner.Utilities.NativeLibrary.dlopen(file + ".so",
                             MissionPlanner.Utilities.NativeLibrary.RTLD_NOW);
-                        log.Info("Skia Error " + MissionPlanner.Utilities.NativeLibrary.dlerror());
+                        log.Info("Skia Error " + Marshal.PtrToStringAnsi(MissionPlanner.Utilities.NativeLibrary.dlerror()));
                     }
 
                     if (ptr == IntPtr.Zero)

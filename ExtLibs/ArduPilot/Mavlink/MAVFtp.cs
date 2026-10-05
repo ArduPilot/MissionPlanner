@@ -34,7 +34,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly byte _compid;
         private readonly MAVLinkInterface _mavint;
-        private readonly byte _sysid;
+        private readonly uint _sysid;
 
         private MAVLink.mavlink_file_transfer_protocol_t fileTransferProtocol =
             new MAVLink.mavlink_file_transfer_protocol_t();
@@ -42,12 +42,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// incremented anytime its not a retransmit
         private uint16_t seq_no = 0;
 
-        static Dictionary<(int, int), object> locker = new Dictionary<(int, int), object>();
+        static Dictionary<(uint, int), object> locker = new Dictionary<(uint, int), object>();
 
         /// set once the vehicle has NAKed ListDirectoryWithTime, so later listings skip straight to ListDirectory
         private bool listDirectoryWithTimeUnsupported = false;
 
-        public MAVFtp(MAVLinkInterface mavint, byte sysid, byte compid)
+        public MAVFtp(MAVLinkInterface mavint, uint sysid, byte compid)
         {
             _mavint = mavint;
             _sysid = sysid;
@@ -591,9 +591,48 @@ namespace MissionPlanner.ArduPilot.Mavlink
             kCmdResetSessions();
         }
 
+        /// <summary>
+        /// Remove a directory and everything in it. The remove commands only take an empty
+        /// directory: ArduPilot hands both to FatFs, which refuses a directory that still holds
+        /// anything with EACCES. So the files and sub-directories go first, then the directory.
+        /// </summary>
+        /// <returns>False when cancelled or when a request times out.</returns>
+        /// <exception cref="Exception">Thrown when the vehicle reports a remove failure with an errno.</exception>
+        /// <exception cref="FileNotFoundException">Thrown when a path is not found.</exception>
+        public bool RemoveDirectoryRecursive(string dir, CancellationTokenSource cancel)
+        {
+            dir = dir.Replace("//", "/");
+            if (dir.Length > 1)
+                dir = dir.TrimEnd('/');
+
+            foreach (var entry in kCmdListDirectory(dir, cancel))
+            {
+                if (cancel != null && cancel.IsCancellationRequested)
+                    return false;
+
+                // SITL's posix filesystem lists "." and "..", and a nameless entry stands for one
+                // the vehicle skipped
+                if (entry.Name == "" || entry.Name == "." || entry.Name == "..")
+                    continue;
+
+                var path = (dir.EndsWith("/") ? dir : dir + "/") + entry.Name;
+                Progress?.Invoke("Delete " + path, -1);
+                var removed = entry.isDirectory
+                    ? RemoveDirectoryRecursive(path, cancel)
+                    : kCmdRemoveFile(path, cancel);
+                if (!removed)
+                    return false;
+            }
+
+            if (cancel != null && cancel.IsCancellationRequested)
+                return false;
+            Progress?.Invoke("Delete " + dir, -1);
+            return kCmdRemoveDirectory(dir, cancel);
+        }
+
         public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -694,7 +733,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = rwSize)
         {
             RetryTimeout timeout = new RetryTimeout();
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -913,7 +952,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCalcFileCRC32(string file, ref uint crc32, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1045,7 +1084,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCreateDirectory(string file, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1138,7 +1177,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdCreateFile(string file, ref int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1270,7 +1309,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 dir = dir.TrimEnd('/');
 
             List<FtpFileInfo> answer = new List<FtpFileInfo>();
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1447,7 +1486,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdOpenFileWO(string file, ref int size, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1661,7 +1700,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public bool kCmdRemoveDirectory(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1695,7 +1734,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         var _ftp_errno = (errno) ftphead.data[1];
                         log.Error(ftphead.req_opcode + " " + errorcode + " " + _ftp_errno);
                         timeout.Retries = 0;
-                        ex = new Exception("Failed to OpenFile - " + ftphead.req_opcode + " " + errorcode + " " +
+                        ex = new Exception("Failed to remove " + file + " - " + ftphead.req_opcode + " " + errorcode + " " +
                                            _ftp_errno);
                     }
                     else
@@ -1746,7 +1785,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public bool kCmdRemoveFile(string file, CancellationTokenSource cancel)
         {
             file = file.Replace("//", "/");
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -1780,7 +1819,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         var _ftp_errno = (errno) ftphead.data[1];
                         log.Error(ftphead.req_opcode + " " + errorcode + " " + _ftp_errno);
                         timeout.Retries = 0;
-                        ex = new Exception("Failed to OpenFile - " + ftphead.req_opcode + " " + errorcode + " " +
+                        ex = new Exception("Failed to remove " + file + " - " + ftphead.req_opcode + " " + errorcode + " " +
                                            _ftp_errno);
                     }
                     else
@@ -1830,7 +1869,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdRename(string src, string dest, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
@@ -2017,7 +2056,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public bool kCmdTruncateFile(string file, CancellationTokenSource cancel)
         {
-            fileTransferProtocol.target_system = _sysid;
+            fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
             var payload = new FTPPayloadHeader()
