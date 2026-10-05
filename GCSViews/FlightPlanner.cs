@@ -284,8 +284,6 @@ namespace MissionPlanner.GCSViews
             elevationGraph.CloseClicked += (sender, e) => CHK_elevationgraph.Checked = false;
             elevationGraph.ExpandedChanged += (sender, e) => LayoutElevationGraph();
             elevationGraph.HeightDragged += ElevationGraph_HeightDragged;
-            elevationGraph.HeightDragEnded += (sender, e) =>
-                Settings.Instance["fp_elevationgraph_height"] = elevationGraphHeight.ToString();
             elevationGraph.HoverChanged += ElevationGraph_HoverChanged;
             panelMap.Controls.Add(elevationGraph);
             elevationGraph.BringToFront();
@@ -3293,7 +3291,9 @@ namespace MissionPlanner.GCSViews
         // It redraws shortly after each change to the plan (writeKML), and while it is shown it
         // looks about once a second for changes the grid does not see: the fence parameters,
         // a download into the vehicle cache, terrain tiles arriving.
-        private const int ElevationGraphMinHeight = 90;
+
+        /// <summary>The map keeps at least this many pixels in view above the graph.</summary>
+        private const int ElevationGraphMapMargin = 40;
 
         /// <summary>Looks for missing terrain this many times, about a second apart, before saying there is none.</summary>
         private const int ElevationGraphTerrainTries = 30;
@@ -3314,7 +3314,6 @@ namespace MissionPlanner.GCSViews
             if (elevationGraph == null)
                 return;
 
-            elevationGraph.Visible = CHK_elevationgraph.Checked;
             LayoutElevationGraph();
             UpdateElevationGraphTimer();
         }
@@ -3405,34 +3404,45 @@ namespace MissionPlanner.GCSViews
             }
 
             elevationGraphBusy = true;
-            Task.Run(() => ElevationGraphProfile.Build(input, ElevationGraphTerrainAt)).ContinueWith(task =>
+            Task.Run(() => ElevationGraphProfile.Build(input, ElevationGraphTerrainAt))
+                .ContinueWith(task => ElevationGraphBuilt(task, signature));
+        }
+
+        /// <summary>
+        /// Hands a built profile to the UI thread. Whatever happens, the busy flag is cleared, or
+        /// the graph would never be rebuilt again.
+        /// </summary>
+        private void ElevationGraphBuilt(Task<ElevationGraphProfile> task, string signature)
+        {
+            try
             {
                 // without a handle the page is closing, and there is nothing to draw on
-                if (IsDisposed || !IsHandleCreated)
+                if (!IsDisposed && IsHandleCreated)
+                {
+                    BeginInvoke((Action) (() => ShowElevationGraph(task, signature)));
                     return;
-
-                try
-                {
-                    BeginInvoke((Action) (() =>
-                    {
-                        elevationGraphBusy = false;
-                        if (task.IsFaulted)
-                        {
-                            log.Error(task.Exception);
-                            return;
-                        }
-
-                        elevationGraphSignature = signature;
-                        elevationGraph.ShowProfile(task.Result,
-                            elevationGraphTerrainTry < ElevationGraphTerrainTries);
-                    }));
                 }
-                catch (InvalidOperationException ex)
-                {
-                    // the handle went in the meantime
-                    log.Debug(ex);
-                }
-            });
+            }
+            catch (InvalidOperationException ex)
+            {
+                // the handle went in the meantime
+                log.Debug(ex);
+            }
+
+            elevationGraphBusy = false;
+        }
+
+        private void ShowElevationGraph(Task<ElevationGraphProfile> task, string signature)
+        {
+            elevationGraphBusy = false;
+            if (task.IsFaulted)
+            {
+                log.Error(task.Exception);
+                return;
+            }
+
+            elevationGraphSignature = signature;
+            elevationGraph.ShowProfile(task.Result, elevationGraphTerrainTry < ElevationGraphTerrainTries);
         }
 
         private static double? ElevationGraphTerrainAt(double lat, double lng)
@@ -3507,23 +3517,47 @@ namespace MissionPlanner.GCSViews
 
         /// <summary>
         /// Lay the graph along the bottom of the map: the height the user dragged it to, or two
-        /// thirds of the map when expanded, never so tall that the map disappears.
+        /// thirds of the map when expanded, never so tall that the map disappears. A map too short
+        /// for even the smallest graph hides it until there is room again.
         /// </summary>
         private void LayoutElevationGraph()
         {
-            // not elevationGraph.Visible: that stays false while the page or the map panel is
-            // hidden, which is when a graph restored at startup gets its first layout
-            if (elevationGraph == null || !CHK_elevationgraph.Checked)
+            if (elevationGraph == null)
                 return;
 
-            var height = elevationGraph.Expanded ? MainMap.Height * 2 / 3 : elevationGraphHeight;
-            height = Math.Max(ElevationGraphMinHeight, Math.Min(height, MainMap.Height - 40));
+            // not elevationGraph.Visible: that stays false while the page or the map panel is
+            // hidden, which is when a graph restored at startup gets its first layout
+            var height = ElevationGraphHeightFor(MainMap.Height, elevationGraphHeight, elevationGraph.Expanded);
+            var show = CHK_elevationgraph.Checked && height > 0;
+            elevationGraph.Visible = show;
+            if (!show)
+                return;
+
+            elevationGraph.MaximumHeight = MainMap.Height - ElevationGraphMapMargin;
             elevationGraph.SetBounds(MainMap.Left, MainMap.Bottom - height, MainMap.Width, height);
         }
 
+        /// <summary>
+        /// How tall the graph is on a map <paramref name="mapHeight"/> tall: <paramref name="wanted"/>,
+        /// or two thirds of the map when <paramref name="expanded"/>, kept between the smallest
+        /// useful graph and the map less the strip that stays in view; 0 when the map is too short
+        /// for even the smallest graph.
+        /// </summary>
+        internal static int ElevationGraphHeightFor(int mapHeight, int wanted, bool expanded)
+        {
+            var room = mapHeight - ElevationGraphMapMargin;
+            if (room < PlanElevationGraph.MinimumHeight)
+                return 0;
+
+            var height = expanded ? mapHeight * 2 / 3 : wanted;
+            return Math.Max(PlanElevationGraph.MinimumHeight, Math.Min(height, room));
+        }
+
+        /// <summary>The title bar was dragged to a new height: keep it, and lay the graph out at it.</summary>
         private void ElevationGraph_HeightDragged(object sender, int height)
         {
-            elevationGraphHeight = Math.Max(ElevationGraphMinHeight, Math.Min(height, MainMap.Height - 40));
+            elevationGraphHeight = height;
+            Settings.Instance["fp_elevationgraph_height"] = height.ToString();
             elevationGraph.Expanded = false;
             LayoutElevationGraph();
         }

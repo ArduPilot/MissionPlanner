@@ -39,12 +39,24 @@ namespace MissionPlanner.Controls
         private readonly ToolTip toolTip = new ToolTip();
         private readonly ZedGraphControl graph = new ZedGraphControl();
 
+        /// <summary>The least height the graph is worth drawing at.</summary>
+        public const int MinimumHeight = 90;
+
+        /// <summary>The bar that follows the mouse while the title bar is dragged, as thick as a splitter.</summary>
+        private const int DragBarThickness = 3;
+
         private ElevationGraphProfile profile;
         private LineItem rallyCurve;
         private bool expanded;
+
+        // the title bar drag: as with the splitter above the waypoint list, a bar follows the mouse
+        // and the graph changes height once, when the button is released
         private bool dragging;
         private int dragStartY;
         private int dragStartHeight;
+        private int dragHeight;
+        private bool dragBarShown;
+        private Rectangle dragBar;
 
         /// <summary>display units per metre along the path</summary>
         private double distScale = 1;
@@ -56,13 +68,14 @@ namespace MissionPlanner.Controls
 
         public event EventHandler CloseClicked;
 
-        /// <summary>The title bar is being dragged; the argument is the height asked for.</summary>
+        /// <summary>The title bar was dragged and let go; the argument is the height it was dragged to.</summary>
         public event EventHandler<int> HeightDragged;
-
-        public event EventHandler HeightDragEnded;
 
         /// <summary>The mouse is over the graph: the point of the path under it, or null when it left.</summary>
         public event EventHandler<PointLatLngAlt> HoverChanged;
+
+        /// <summary>The tallest the title bar can be dragged to; the owner sets it from the room the map has.</summary>
+        public int MaximumHeight { get; set; } = int.MaxValue;
 
         public PlanElevationGraph()
         {
@@ -131,6 +144,7 @@ namespace MissionPlanner.Controls
                 bar.MouseDown += Header_MouseDown;
                 bar.MouseMove += Header_MouseMove;
                 bar.MouseUp += Header_MouseUp;
+                bar.MouseCaptureChanged += Header_MouseCaptureChanged;
                 bar.DoubleClick += (sender, e) => Expanded = !Expanded;
                 toolTip.SetToolTip(bar, Strings.ElevationGraphResizeTip);
             }
@@ -502,28 +516,83 @@ namespace MissionPlanner.Controls
             HoverChanged(this, profile.PositionAt(x / distScale));
         }
 
+        // Dragging the title bar works like the splitter above the waypoint list: a bar follows the
+        // mouse while the button is down, and the graph takes its new height once, on release,
+        // instead of being laid out and redrawn at every pixel of the drag.
         private void Header_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
+            // the second press of a double click toggles Expanded instead
+            if (e.Button != MouseButtons.Left || e.Clicks != 1)
                 return;
-            // screen coordinates: the bar moves while it is dragged
+            // coordinates of the control under the mouse, which holds the mouse and stays put
+            // until the button is released
             dragging = true;
-            dragStartY = Cursor.Position.Y;
+            dragStartY = e.Y;
             dragStartHeight = Height;
+            dragHeight = Height;
         }
 
         private void Header_MouseMove(object sender, MouseEventArgs e)
         {
-            if (dragging)
-                HeightDragged?.Invoke(this, dragStartHeight + dragStartY - Cursor.Position.Y);
+            if (!dragging)
+                return;
+
+            var height = ClampHeight(dragStartHeight + dragStartY - e.Y);
+            if (height == dragHeight && dragBarShown)
+                return;
+
+            HideDragBar();
+            dragHeight = height;
+            ShowDragBar();
         }
 
         private void Header_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!dragging)
-                return;
+            if (dragging)
+                EndDrag(true);
+        }
+
+        private void Header_MouseCaptureChanged(object sender, EventArgs e)
+        {
+            // the mouse was taken away mid-drag (another window, a dialog): nothing changes
+            if (dragging && !((Control) sender).Capture)
+                EndDrag(false);
+        }
+
+        private void EndDrag(bool apply)
+        {
             dragging = false;
-            HeightDragEnded?.Invoke(this, EventArgs.Empty);
+            HideDragBar();
+            if (apply && dragHeight != dragStartHeight)
+                HeightDragged?.Invoke(this, dragHeight);
+        }
+
+        private int ClampHeight(int height)
+        {
+            return Math.Max(MinimumHeight, Math.Min(height, MaximumHeight));
+        }
+
+        /// <summary>
+        /// The bar is drawn straight on the screen, as a splitter's is, and drawing it a second
+        /// time at the same place takes it away again. The graph keeps its bottom edge, so the bar
+        /// sits where the top edge will be.
+        /// </summary>
+        private void ShowDragBar()
+        {
+            if (dragBarShown || Parent == null)
+                return;
+            dragBar = Parent.RectangleToScreen(
+                new Rectangle(Left, Bottom - dragHeight - 1, Width, DragBarThickness));
+            ControlPaint.FillReversibleRectangle(dragBar, BackColor);
+            dragBarShown = true;
+        }
+
+        private void HideDragBar()
+        {
+            if (!dragBarShown)
+                return;
+            ControlPaint.FillReversibleRectangle(dragBar, BackColor);
+            dragBarShown = false;
         }
 
         /// <summary>Metres along the path as km (or miles) once the path is long, else the distance unit.</summary>
