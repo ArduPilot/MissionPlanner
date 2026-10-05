@@ -1197,7 +1197,20 @@ namespace MissionPlanner.GCSViews
         {
             if (checkHeader == null || tickingAllRows)
                 return;
-            checkHeader.SetChecked(Commands.RowCount > 0 && CheckedRows().Count == Commands.RowCount);
+            checkHeader.SetChecked(AllRowsChecked());
+        }
+
+        /// <summary>
+        /// True while the grid has rows and every one of them is ticked; stops at the first that is not.
+        /// </summary>
+        private bool AllRowsChecked()
+        {
+            if (Commands.RowCount == 0)
+                return false;
+            foreach (DataGridViewRow row in Commands.Rows)
+                if (!true.Equals(row.Cells[Check.Index].Value))
+                    return false;
+            return true;
         }
 
         /// <summary>

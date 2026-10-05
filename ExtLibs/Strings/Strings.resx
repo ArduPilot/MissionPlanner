@@ -403,7 +403,7 @@ Do you wish to continue?</value>
     <value>Tick the box of each waypoint to verify, or the box in the column header for all of them.</value>
   </data>
   <data name="VerifyHeightBadDefaultAlt" xml:space="preserve">
-    <value>Your default alt is not valid</value>
+    <value>Default Alt must be a whole number other than 0, in the same unit as the Alt column.</value>
   </data>
   <data name="VerifyHeightUpdated" xml:space="preserve">
     <value>{0} row(s) updated.</value>

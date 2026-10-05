@@ -1632,7 +1632,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your default alt is not valid.
+        ///   Looks up a localized string similar to Default Alt must be a whole number other than 0, in the same unit as the Alt column..
         /// </summary>
         public static string VerifyHeightBadDefaultAlt {
             get {
