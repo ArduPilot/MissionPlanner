@@ -1952,7 +1952,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
             }
             catch
             {
