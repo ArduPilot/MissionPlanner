@@ -483,13 +483,16 @@ namespace MissionPlanner
             }
         }
 
+        // The setters assign under mirrorslock as well, so the lookup (or creation) of the legacy
+        // entry and the write to it are one step: the list cannot be replaced in between, and the
+        // mirror written is the one in Mirrors.
         public bool MirrorStreamWrite {
             get { return LegacyMirror(false)?.MirrorStreamWrite ?? false; }
-            set { LegacyMirror(true).MirrorStreamWrite = value; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStreamWrite = value; }
         }
         public ICommsSerial MirrorStream {
             get { return LegacyMirror(false)?.MirrorStream; }
-            set { LegacyMirror(true).MirrorStream = value; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStream = value; }
         }
 
 

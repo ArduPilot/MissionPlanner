@@ -79,10 +79,9 @@ namespace MissionPlanner.Controls
                                     return;
                                 listener = new TcpListener(System.Net.IPAddress.Any, port);
                                 listener.Start(0);
-                                // the legacy mirror is not necessarily Mirrors[0] when list mirrors are running;
                                 // the callback only needs the stream to hand the accepted client to
                                 listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback),
-                                    (listener, new MAVLinkInterface.Mirror() { MirrorStream = stream }));
+                                    (listener, stream));
                                 BUT_connect.Text = Strings.Stop;
                                 return;
                             }
@@ -142,19 +141,16 @@ namespace MissionPlanner.Controls
 
         void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
-            // Get the listener that handles the client request.
-            var state = (ValueTuple<TcpListener, MAVLinkInterface.Mirror>)ar.AsyncState;
+            // the listener that accepted the client and the stream the client is handed to
+            var state = (ValueTuple<TcpListener, TcpSerial>)ar.AsyncState;
             TcpListener listener = state.Item1;
-            MAVLinkInterface.Mirror mirror = state.Item2;
+            TcpSerial tcp = state.Item2;
 
             TcpClient client = null;
             try
             {
-                // End the operation and display the received data on  
-                // the console.
                 client = listener.EndAcceptTcpClient(ar);
 
-                var tcp = (TcpSerial)mirror.MirrorStream;
                 var previous = tcp.client;
                 tcp.client = client;
                 previous?.Close();
@@ -323,10 +319,11 @@ namespace MissionPlanner.Controls
             {
                 if (direction == "Inbound")
                 {
-                    mirror.MirrorStream = new TcpSerial();
+                    var tcp = new TcpSerial();
+                    mirror.MirrorStream = tcp;
                     tcpListener = new TcpListener(System.Net.IPAddress.Any, int.Parse(port));
                     tcpListener.Start(0);
-                    tcpListener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), (tcpListener, mirror));
+                    tcpListener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), (tcpListener, tcp));
                 }
                 else if (direction == "Outbound")
                 {
