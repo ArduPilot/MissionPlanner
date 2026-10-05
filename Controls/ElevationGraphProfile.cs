@@ -96,6 +96,66 @@ namespace MissionPlanner.Controls
     }
 
     /// <summary>
+    /// An area of the polygon fence, from the fence items in the plan: a polygon, or a circle
+    /// around a point. The vehicle stays inside an inclusion area and out of an exclusion area.
+    /// </summary>
+    public class ElevationGraphFenceArea
+    {
+        public bool Inclusion;
+
+        /// <summary>The polygon's corners in order; null for a circle.</summary>
+        public List<PointLatLngAlt> Vertices;
+
+        /// <summary>A circle's centre; null for a polygon.</summary>
+        public PointLatLngAlt Centre;
+
+        /// <summary>A circle's radius in metres.</summary>
+        public double Radius;
+
+        /// <summary>The area holds the point: inside the polygon, or no further than the radius from the centre.</summary>
+        public bool Contains(double lat, double lng)
+        {
+            if (Vertices == null)
+                return Centre.GetDistance(new PointLatLngAlt(lat, lng)) <= Radius;
+
+            // a ray from the point crosses the edges an odd number of times when it is inside
+            var inside = false;
+            for (int i = 0, j = Vertices.Count - 1; i < Vertices.Count; j = i++)
+            {
+                var a = Vertices[i];
+                var b = Vertices[j];
+                if ((a.Lat > lat) != (b.Lat > lat) &&
+                    lng < (b.Lng - a.Lng) * (lat - a.Lat) / (b.Lat - a.Lat) + a.Lng)
+                    inside = !inside;
+            }
+
+            return inside;
+        }
+    }
+
+    /// <summary>
+    /// Why a point of the plan is outside the fence the vehicle will hold to.
+    /// </summary>
+    [Flags]
+    public enum ElevationGraphFenceBreach
+    {
+        None = 0,
+        AboveCeiling = 1,
+
+        /// <summary>below the floor once the path has been above it, which is when ArduPilot arms the floor</summary>
+        BelowFloor = 2,
+
+        /// <summary>further from home than FENCE_RADIUS</summary>
+        OutsideCircle = 4,
+
+        /// <summary>outside an inclusion polygon or circle (outside all of them with FENCE_OPTIONS bit 1)</summary>
+        OutsideInclusion = 8,
+
+        /// <summary>inside an exclusion polygon or circle</summary>
+        InsideExclusion = 16
+    }
+
+    /// <summary>
     /// Whether the vehicle's fence is on.
     /// </summary>
     public enum ElevationGraphFenceState
@@ -136,6 +196,15 @@ namespace MissionPlanner.Controls
 
         /// <summary>null when not connected, or the vehicle has no such parameter.</summary>
         public ElevationGraphFenceCircle FenceCircle;
+
+        /// <summary>The polygon fence: the inclusion and exclusion areas among the fence items.</summary>
+        public List<ElevationGraphFenceArea> FenceAreas = new List<ElevationGraphFenceArea>();
+
+        /// <summary>FENCE_TYPE has bit 2 (polygon); true when not known, as for a plan made offline.</summary>
+        public bool FencePolygonUsed = true;
+
+        /// <summary>FENCE_OPTIONS bit 1: inside any one inclusion area is enough, instead of inside all of them.</summary>
+        public bool FenceInclusionUnion;
 
         /// <summary>null when not known (not connected).</summary>
         public ElevationGraphFenceState? FenceState;
@@ -277,6 +346,64 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
+        /// The areas of the polygon fence among a list of plan items (the fence list, or the ALL
+        /// list that mixes every type), as ArduPilot loads them: a polygon's vertices follow one
+        /// another, each with the polygon's vertex count in param 1, and a circle has its radius in
+        /// param 1. Polygons with fewer than three vertices and circles without a radius are left out.
+        /// </summary>
+        public static List<ElevationGraphFenceArea> FenceAreasOf(IList<Locationwp> items)
+        {
+            var areas = new List<ElevationGraphFenceArea>();
+            ElevationGraphFenceArea polygon = null;
+            var count = 0;
+            foreach (var item in items)
+            {
+                var id = (MAVLink.MAV_CMD) item.id;
+                if (id == MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION ||
+                    id == MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION)
+                {
+                    var inclusion = id == MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION;
+                    if (polygon == null || polygon.Inclusion != inclusion || polygon.Vertices.Count >= count)
+                    {
+                        count = (int) item.p1;
+                        polygon = new ElevationGraphFenceArea {Inclusion = inclusion, Vertices = new List<PointLatLngAlt>()};
+                        areas.Add(polygon);
+                    }
+
+                    polygon.Vertices.Add(new PointLatLngAlt(item.lat, item.lng));
+                    continue;
+                }
+
+                polygon = null;
+                if ((id == MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION || id == MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION) &&
+                    item.p1 > 0)
+                {
+                    areas.Add(new ElevationGraphFenceArea
+                    {
+                        Inclusion = id == MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION,
+                        Centre = new PointLatLngAlt(item.lat, item.lng),
+                        Radius = item.p1
+                    });
+                }
+            }
+
+            areas.RemoveAll(a => a.Vertices != null && a.Vertices.Count < 3);
+            return areas;
+        }
+
+        /// <summary>
+        /// How the vehicle uses the polygon fence: FENCE_TYPE bit 2 (true when the vehicle has no
+        /// FENCE_TYPE), and FENCE_OPTIONS bit 1, the union of the inclusion areas.
+        /// </summary>
+        /// <param name="param">a parameter's value, or null when the vehicle does not have it</param>
+        public static void FencePolygonOptions(Func<string, double?> param, out bool used, out bool inclusionUnion)
+        {
+            var type = param("FENCE_TYPE");
+            used = !type.HasValue || ((int) type.Value & 4) != 0;
+            inclusionUnion = ((int) (param("FENCE_OPTIONS") ?? 0) & 2) != 0;
+        }
+
+        /// <summary>
         /// The vehicle will hold to its fence on this flight: the fence is on, or turns itself on
         /// at takeoff or arming. Not knowing the fence state counts as on.
         /// </summary>
@@ -386,6 +513,28 @@ namespace MissionPlanner.Controls
                 sb.Append(FenceCircle.Used ? 'u' : '-');
             }
 
+            sb.Append('|').Append(FencePolygonUsed ? 'u' : '-').Append(FenceInclusionUnion ? 'n' : '-');
+            foreach (var area in FenceAreas)
+            {
+                sb.Append(area.Inclusion ? 'i' : 'e');
+                if (area.Vertices == null)
+                {
+                    add(area.Centre.Lat);
+                    add(area.Centre.Lng);
+                    add(area.Radius);
+                }
+                else
+                {
+                    foreach (var vertex in area.Vertices)
+                    {
+                        add(vertex.Lat);
+                        add(vertex.Lng);
+                    }
+                }
+
+                sb.Append(';');
+            }
+
             sb.Append('|').Append(FenceState);
             return sb.ToString();
         }
@@ -463,6 +612,9 @@ namespace MissionPlanner.Controls
 
             /// <summary>Rally points: metres from the nearest point of the path.</summary>
             public double OffPath;
+
+            /// <summary>How the point is outside the fence the vehicle will hold to; None when inside.</summary>
+            public ElevationGraphFenceBreach Breach;
         }
 
         public List<Sample> Samples { get; } = new List<Sample>();
@@ -494,6 +646,19 @@ namespace MissionPlanner.Controls
         /// </summary>
         public List<double> FenceCircleCrossings { get; } = new List<double>();
 
+        /// <summary>The polygon fence's areas.</summary>
+        public List<ElevationGraphFenceArea> FenceAreas { get; private set; } = new List<ElevationGraphFenceArea>();
+
+        public bool FencePolygonUsed { get; private set; } = true;
+
+        public bool FenceInclusionUnion { get; private set; }
+
+        /// <summary>
+        /// The waypoints and rally points outside the fence the vehicle will hold to, waypoints
+        /// first, in order; each says how in <see cref="Marker.Breach"/>.
+        /// </summary>
+        public List<Marker> OutsideFence { get; } = new List<Marker>();
+
         /// <summary>Whether the fence is on; null when not known.</summary>
         public ElevationGraphFenceState? FenceState { get; private set; }
 
@@ -512,6 +677,12 @@ namespace MissionPlanner.Controls
         {
             return circle != null && circle.Used && circle.Radius > 0 &&
                    ElevationGraphInput.FenceActive(FenceState);
+        }
+
+        /// <summary>The vehicle will hold to the polygon fence on this flight, as for a limit.</summary>
+        public bool EnforcesPolygon
+        {
+            get { return FencePolygonUsed && FenceAreas.Count > 0 && ElevationGraphInput.FenceActive(FenceState); }
         }
 
         /// <summary>Some terrain lookups found no data (an SRTM tile still downloading, or none).</summary>
@@ -548,6 +719,9 @@ namespace MissionPlanner.Controls
                 FenceCeiling = input.FenceCeiling,
                 FenceFloor = input.FenceFloor,
                 FenceCircle = input.FenceCircle,
+                FenceAreas = input.FenceAreas,
+                FencePolygonUsed = input.FencePolygonUsed,
+                FenceInclusionUnion = input.FenceInclusionUnion,
                 FenceState = input.FenceState
             };
 
@@ -675,7 +849,69 @@ namespace MissionPlanner.Controls
             if (input.Home != null && circle != null && circle.Used && circle.Radius > 0)
                 profile.FindCircleCrossings(input.Home, circle.Radius);
 
+            profile.CheckFence(input.Home);
             return profile;
+        }
+
+        /// <summary>
+        /// Note which waypoints and rally points are outside the fence the vehicle will hold to,
+        /// and how, as ArduPilot checks it: above the ceiling; below the floor once the path has
+        /// been above it (the floor arms itself only then, and rally points are reached from the
+        /// air); further from home than the circle; outside an inclusion area (outside all of them
+        /// with FENCE_OPTIONS bit 1) or inside an exclusion area. Home and landings are on the
+        /// ground and checked for neither ceiling nor floor.
+        /// </summary>
+        private void CheckFence(PointLatLngAlt home)
+        {
+            var ceiling = Enforces(FenceCeiling);
+            var floor = Enforces(FenceFloor);
+            var circle = Enforces(FenceCircle) && home != null;
+            var polygon = EnforcesPolygon;
+            if (!ceiling && !floor && !circle && !polygon)
+                return;
+
+            var centre = home != null ? new PointLatLngAlt(home.Lat, home.Lng) : null;
+            var inclusions = FenceAreas.FindAll(a => a.Inclusion);
+            var exclusions = FenceAreas.FindAll(a => !a.Inclusion);
+            Func<Marker, bool, ElevationGraphFenceBreach> check = (marker, floorArmed) =>
+            {
+                var breach = ElevationGraphFenceBreach.None;
+                var onGround = marker.Item.OnGround;
+                if (ceiling && !onGround && marker.Alt > FenceCeilingAlt)
+                    breach |= ElevationGraphFenceBreach.AboveCeiling;
+                if (floor && floorArmed && !onGround && marker.Alt < FenceFloorAlt)
+                    breach |= ElevationGraphFenceBreach.BelowFloor;
+                if (circle && centre.GetDistance(new PointLatLngAlt(marker.Lat, marker.Lng)) > FenceCircle.Radius)
+                    breach |= ElevationGraphFenceBreach.OutsideCircle;
+                if (polygon)
+                {
+                    var outside = inclusions.FindAll(a => !a.Contains(marker.Lat, marker.Lng)).Count;
+                    if (FenceInclusionUnion ? outside > 0 && outside == inclusions.Count : outside > 0)
+                        breach |= ElevationGraphFenceBreach.OutsideInclusion;
+                    if (exclusions.Exists(a => a.Contains(marker.Lat, marker.Lng)))
+                        breach |= ElevationGraphFenceBreach.InsideExclusion;
+                }
+
+                return breach;
+            };
+
+            var armed = false;
+            foreach (var marker in Waypoints)
+            {
+                if (marker.Item == null)
+                    continue;
+                marker.Breach = check(marker, armed);
+                if (marker.Breach != ElevationGraphFenceBreach.None)
+                    OutsideFence.Add(marker);
+                armed |= marker.Alt > FenceFloorAlt;
+            }
+
+            foreach (var marker in RallyPoints)
+            {
+                marker.Breach = check(marker, true);
+                if (marker.Breach != ElevationGraphFenceBreach.None)
+                    OutsideFence.Add(marker);
+            }
         }
 
         /// <summary>

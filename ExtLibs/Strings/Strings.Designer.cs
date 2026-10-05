@@ -539,6 +539,51 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to above the ceiling.
+        /// </summary>
+        public static string ElevationGraphBreachCeiling {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachCeiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to outside the circle.
+        /// </summary>
+        public static string ElevationGraphBreachCircle {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachCircle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to inside an exclusion zone.
+        /// </summary>
+        public static string ElevationGraphBreachExclusion {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachExclusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to below the floor.
+        /// </summary>
+        public static string ElevationGraphBreachFloor {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to outside the fence area.
+        /// </summary>
+        public static string ElevationGraphBreachInclusion {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachInclusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distance along the path ({0}).
         /// </summary>
         public static string ElevationGraphDistanceAxis {
@@ -688,6 +733,24 @@ namespace MissionPlanner {
         public static string ElevationGraphNoWaypoints {
             get {
                 return ResourceManager.GetString("ElevationGraphNoWaypoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outside the fence: {0}.
+        /// </summary>
+        public static string ElevationGraphOutsideFence {
+            get {
+                return ResourceManager.GetString("ElevationGraphOutsideFence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outside the fence.
+        /// </summary>
+        public static string ElevationGraphOutsideFenceLegend {
+            get {
+                return ResourceManager.GetString("ElevationGraphOutsideFenceLegend", resourceCulture);
             }
         }
         

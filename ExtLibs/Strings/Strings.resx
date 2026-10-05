@@ -561,6 +561,27 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="ElevationGraphFenceRadius" xml:space="preserve">
     <value>Fence radius {0}</value>
   </data>
+  <data name="ElevationGraphOutsideFence" xml:space="preserve">
+    <value>Outside the fence: {0}</value>
+  </data>
+  <data name="ElevationGraphOutsideFenceLegend" xml:space="preserve">
+    <value>Outside the fence</value>
+  </data>
+  <data name="ElevationGraphBreachCeiling" xml:space="preserve">
+    <value>above the ceiling</value>
+  </data>
+  <data name="ElevationGraphBreachFloor" xml:space="preserve">
+    <value>below the floor</value>
+  </data>
+  <data name="ElevationGraphBreachCircle" xml:space="preserve">
+    <value>outside the circle</value>
+  </data>
+  <data name="ElevationGraphBreachInclusion" xml:space="preserve">
+    <value>outside the fence area</value>
+  </data>
+  <data name="ElevationGraphBreachExclusion" xml:space="preserve">
+    <value>inside an exclusion zone</value>
+  </data>
   <data name="ElevationGraphFenceEnabled" xml:space="preserve">
     <value>Fence enabled</value>
   </data>

@@ -13,9 +13,9 @@ namespace MissionPlanner.Controls
 {
     /// <summary>
     /// The Plan screen's elevation graph: the terrain under the mission, the planned path and its
-    /// waypoints, the rally points in purple, the vehicle's fence ceiling and floor, and where the
-    /// path crosses its fence circle. It lies over the bottom of the map; drag its title bar to
-    /// resize it, or use the arrow to make it tall.
+    /// waypoints, the rally points in purple, the vehicle's fence ceiling and floor, where the
+    /// path crosses its fence circle, and a red ring around each point outside the fence. It lies
+    /// over the bottom of the map; drag its title bar to resize it, or use the arrow to make it tall.
     /// </summary>
     public class PlanElevationGraph : UserControl
     {
@@ -34,6 +34,7 @@ namespace MissionPlanner.Controls
         private readonly Label title = new Label();
         private readonly Label summary = new Label();
         private readonly Label fence = new Label();
+        private readonly Label outsideFence = new Label();
         private readonly Label status = new Label();
         private readonly MyButton expandButton = new MyButton();
         private readonly MyButton closeButton = new MyButton();
@@ -46,8 +47,10 @@ namespace MissionPlanner.Controls
         /// <summary>The bar that follows the mouse while the title bar is dragged, as thick as a splitter.</summary>
         private const int DragBarThickness = 3;
 
+        /// <summary>More points outside the fence than this and the title bar names only the first few.</summary>
+        private const int MaxOutsideNamed = 12;
+
         private ElevationGraphProfile profile;
-        private LineItem rallyCurve;
         private bool expanded;
 
         // the title bar drag: as with the splitter above the waypoint list, a bar follows the mouse
@@ -115,9 +118,13 @@ namespace MissionPlanner.Controls
 
             summary.AutoSize = true;
             fence.AutoSize = true;
+            outsideFence.AutoSize = true;
+            outsideFence.Font = new Font(Font, FontStyle.Bold);
+            outsideFence.ForeColor = FenceColor;
             status.AutoSize = true;
-            // the theme leaves a "custom" label's colour alone; these two set their own
+            // the theme leaves a "custom" label's colour alone; these set their own
             fence.Tag = "custom";
+            outsideFence.Tag = "custom";
             status.Tag = "custom";
 
             expandButton.Size = new Size(26, 18);
@@ -133,13 +140,14 @@ namespace MissionPlanner.Controls
             header.Controls.Add(closeButton);
             header.Controls.Add(expandButton);
             header.Controls.Add(status);
+            header.Controls.Add(outsideFence);
             header.Controls.Add(fence);
             header.Controls.Add(summary);
             header.Controls.Add(title);
             header.Resize += (sender, e) => LayoutHeader();
 
             // the title bar resizes the graph: drag it, or double click it to make the graph tall
-            foreach (var bar in new Control[] {header, title, summary, fence, status})
+            foreach (var bar in new Control[] {header, title, summary, fence, outsideFence, status})
             {
                 bar.Cursor = Cursors.SizeNS;
                 bar.MouseDown += Header_MouseDown;
@@ -187,7 +195,6 @@ namespace MissionPlanner.Controls
             var pane = graph.GraphPane;
             pane.CurveList.Clear();
             pane.GraphObjList.Clear();
-            rallyCurve = null;
 
             // the theme fills the chart; pick line and text colours that show on it
             var dark = pane.Chart.Fill.Color.GetBrightness() < 0.5f;
@@ -253,12 +260,23 @@ namespace MissionPlanner.Controls
 
             if (profile.RallyPoints.Count > 0)
             {
-                rallyCurve = pane.AddCurve(Strings.ElevationGraphRallyPoints, MarkerPoints(profile.RallyPoints),
+                var rallyCurve = pane.AddCurve(Strings.ElevationGraphRallyPoints, MarkerPoints(profile.RallyPoints),
                     RallyColor, SymbolType.Diamond);
                 rallyCurve.Line.IsVisible = false;
                 rallyCurve.Symbol.Size = 10;
                 rallyCurve.Symbol.Fill = new Fill(RallyColor);
                 AddLabels(pane, profile.RallyPoints, RallyColor);
+            }
+
+            // a red ring around each point outside the fence, drawn over the points themselves
+            if (profile.OutsideFence.Count > 0)
+            {
+                var outsideCurve = pane.AddCurve(Strings.ElevationGraphOutsideFenceLegend,
+                    MarkerPoints(profile.OutsideFence), FenceColor, SymbolType.Circle);
+                outsideCurve.Line.IsVisible = false;
+                outsideCurve.Symbol.Size = 16;
+                outsideCurve.Symbol.Border.Width = 2.5f;
+                outsideCurve.Symbol.Fill = new Fill(Color.Transparent);
             }
 
             var legendAt = 0;
@@ -338,6 +356,17 @@ namespace MissionPlanner.Controls
                     break;
             }
 
+            // the points outside the fence by name, so they can be found even when crowded
+            var named = profile.OutsideFence.ConvertAll(a => a.Label);
+            if (named.Count > MaxOutsideNamed)
+            {
+                named.RemoveRange(MaxOutsideNamed, named.Count - MaxOutsideNamed);
+                named.Add("...");
+            }
+            outsideFence.Text = named.Count > 0
+                ? string.Format(Strings.ElevationGraphOutsideFence, string.Join(", ", named))
+                : "";
+
             status.ForeColor = Color.DarkOrange;
             if (belowTerrain)
             {
@@ -372,7 +401,8 @@ namespace MissionPlanner.Controls
             expandButton.Location = new Point(closeButton.Left - expandButton.Width - 2, 2);
             summary.Location = new Point(title.Right + 10, title.Top);
             fence.Location = new Point(summary.Right + 10, title.Top);
-            status.Location = new Point(fence.Right + (fence.Text == "" ? 0 : 10), title.Top);
+            outsideFence.Location = new Point(fence.Right + (fence.Text == "" ? 0 : 10), title.Top);
+            status.Location = new Point(outsideFence.Right + (outsideFence.Text == "" ? 0 : 10), title.Top);
         }
 
         private void UpdateExpandButton()
@@ -391,21 +421,37 @@ namespace MissionPlanner.Controls
             return list;
         }
 
+        /// <summary>
+        /// Write each point's label above it, in <paramref name="color"/>, or white on red for a
+        /// point outside the fence. A point outside the fence is always labelled, however many there are.
+        /// </summary>
         private void AddLabels(GraphPane pane, List<ElevationGraphProfile.Marker> markers, Color color)
         {
             var every = Math.Max(1, (int) Math.Ceiling(markers.Count / (double) MaxLabels));
-            for (int i = 0; i < markers.Count; i += every)
+            for (int i = 0; i < markers.Count; i++)
             {
                 var marker = markers[i];
-                if (double.IsNaN(marker.Alt))
+                var outside = marker.Breach != ElevationGraphFenceBreach.None;
+                if (double.IsNaN(marker.Alt) || (i % every != 0 && !outside))
                     continue;
 
                 var text = new TextObj(marker.Label, marker.Dist * distScale, ToAxis(marker.Alt),
                     CoordType.AxisXYScale, AlignH.Center, AlignV.Bottom);
                 text.FontSpec.Size = 8;
-                text.FontSpec.FontColor = color;
                 text.FontSpec.Border.IsVisible = false;
-                text.FontSpec.Fill.IsVisible = false;
+                if (outside)
+                {
+                    // white on red, so it reads over the red ring around the point
+                    text.FontSpec.IsBold = true;
+                    text.FontSpec.FontColor = Color.White;
+                    text.FontSpec.Fill = new Fill(FenceColor);
+                }
+                else
+                {
+                    text.FontSpec.FontColor = color;
+                    text.FontSpec.Fill.IsVisible = false;
+                }
+
                 text.IsClippedToChartRect = true;
                 pane.GraphObjList.Add(text);
             }
@@ -516,34 +562,10 @@ namespace MissionPlanner.Controls
             {
                 if (double.IsNaN(marker.Alt))
                     return "";
-                if (marker.Item == null)
-                    return string.Format(Strings.ElevationGraphHomeTip, FormatAltitude(marker.Alt));
-
-                var clearance = marker.Alt - marker.Terrain;
-                if (curve == rallyCurve && profile.RallyChain)
-                {
-                    // on its own line, a rally point is not off any path
-                    return double.IsNaN(clearance)
-                        ? string.Format(Strings.ElevationGraphRallyChainTipNoTerrain, marker.Item.Row,
-                            FormatAltitude(marker.Alt))
-                        : string.Format(Strings.ElevationGraphRallyChainTip, marker.Item.Row,
-                            FormatAltitude(marker.Alt), FormatAltitude(clearance));
-                }
-
-                if (curve == rallyCurve)
-                {
-                    return double.IsNaN(clearance)
-                        ? string.Format(Strings.ElevationGraphRallyTipNoTerrain, marker.Item.Row,
-                            FormatAltitude(marker.Alt), FormatDistance(marker.OffPath))
-                        : string.Format(Strings.ElevationGraphRallyTip, marker.Item.Row, FormatAltitude(marker.Alt),
-                            FormatAltitude(clearance), FormatDistance(marker.OffPath));
-                }
-
-                return double.IsNaN(clearance)
-                    ? string.Format(Strings.ElevationGraphWaypointTipNoTerrain, marker.Item.Row,
-                        FormatAltitude(marker.Alt))
-                    : string.Format(Strings.ElevationGraphWaypointTip, marker.Item.Row, FormatAltitude(marker.Alt),
-                        FormatAltitude(clearance));
+                var tip = MarkerTip(marker);
+                return marker.Breach == ElevationGraphFenceBreach.None
+                    ? tip
+                    : tip + "\n" + string.Format(Strings.ElevationGraphOutsideFence, BreachText(marker.Breach));
             }
 
             var sample = tag as ElevationGraphProfile.Sample;
@@ -563,6 +585,56 @@ namespace MissionPlanner.Controls
 
             // a fence line carries its own label
             return tag as string ?? "";
+        }
+
+        private string MarkerTip(ElevationGraphProfile.Marker marker)
+        {
+            if (marker.Item == null)
+                return string.Format(Strings.ElevationGraphHomeTip, FormatAltitude(marker.Alt));
+
+            var clearance = marker.Alt - marker.Terrain;
+            var rally = profile.RallyPoints.Contains(marker);
+            if (rally && profile.RallyChain)
+            {
+                // on its own line, a rally point is not off any path
+                return double.IsNaN(clearance)
+                    ? string.Format(Strings.ElevationGraphRallyChainTipNoTerrain, marker.Item.Row,
+                        FormatAltitude(marker.Alt))
+                    : string.Format(Strings.ElevationGraphRallyChainTip, marker.Item.Row,
+                        FormatAltitude(marker.Alt), FormatAltitude(clearance));
+            }
+
+            if (rally)
+            {
+                return double.IsNaN(clearance)
+                    ? string.Format(Strings.ElevationGraphRallyTipNoTerrain, marker.Item.Row,
+                        FormatAltitude(marker.Alt), FormatDistance(marker.OffPath))
+                    : string.Format(Strings.ElevationGraphRallyTip, marker.Item.Row, FormatAltitude(marker.Alt),
+                        FormatAltitude(clearance), FormatDistance(marker.OffPath));
+            }
+
+            return double.IsNaN(clearance)
+                ? string.Format(Strings.ElevationGraphWaypointTipNoTerrain, marker.Item.Row,
+                    FormatAltitude(marker.Alt))
+                : string.Format(Strings.ElevationGraphWaypointTip, marker.Item.Row, FormatAltitude(marker.Alt),
+                    FormatAltitude(clearance));
+        }
+
+        /// <summary>How a point is outside the fence, as a list: "above the ceiling, outside the circle".</summary>
+        private static string BreachText(ElevationGraphFenceBreach breach)
+        {
+            var reasons = new List<string>();
+            if ((breach & ElevationGraphFenceBreach.AboveCeiling) != 0)
+                reasons.Add(Strings.ElevationGraphBreachCeiling);
+            if ((breach & ElevationGraphFenceBreach.BelowFloor) != 0)
+                reasons.Add(Strings.ElevationGraphBreachFloor);
+            if ((breach & ElevationGraphFenceBreach.OutsideCircle) != 0)
+                reasons.Add(Strings.ElevationGraphBreachCircle);
+            if ((breach & ElevationGraphFenceBreach.OutsideInclusion) != 0)
+                reasons.Add(Strings.ElevationGraphBreachInclusion);
+            if ((breach & ElevationGraphFenceBreach.InsideExclusion) != 0)
+                reasons.Add(Strings.ElevationGraphBreachExclusion);
+            return string.Join(", ", reasons);
         }
 
         private void Graph_MouseMove(object sender, MouseEventArgs e)

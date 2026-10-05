@@ -3458,9 +3458,10 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// The plan as the elevation graph shows it. The grid holds the item types the dropdown is
         /// editing (all three in ALL mode); mission or rally points it does not hold come from the
-        /// vehicle cache, as the map shows the vehicle's fence while a mission is edited. The
-        /// fence ceiling, floor and circle come from the vehicle's parameters while connected, and
-        /// whether the fence is on from what the vehicle reports in SYS_STATUS.
+        /// vehicle cache, as the map shows the vehicle's fence while a mission is edited; the
+        /// fence items give the polygon fence, checked offline too. The fence ceiling, floor and
+        /// circle come from the vehicle's parameters while connected, and whether the fence is on
+        /// from what the vehicle reports in SYS_STATUS.
         /// Throws FormatException when a grid cell does not hold a number.
         /// </summary>
         internal ElevationGraphInput GetElevationGraphInput()
@@ -3478,12 +3479,16 @@ namespace MissionPlanner.GCSViews
             var rally = type == MAVLink.MAV_MISSION_TYPE.RALLY || all
                 ? grid
                 : MainV2.comPort.MAV.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
+            var fence = type == MAVLink.MAV_MISSION_TYPE.FENCE || all
+                ? grid
+                : MainV2.comPort.MAV.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
 
             var input = new ElevationGraphInput
             {
                 Home = GetPlannedHome(),
                 Waypoints = ElevationGraphInput.WaypointsOf(mission),
-                RallyPoints = ElevationGraphInput.RallyPointsOf(rally)
+                RallyPoints = ElevationGraphInput.RallyPointsOf(rally),
+                FenceAreas = ElevationGraphInput.FenceAreasOf(fence)
             };
 
             if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
@@ -3492,8 +3497,11 @@ namespace MissionPlanner.GCSViews
                 Func<string, double?> param = name => mav.param[name]?.Value;
                 ElevationGraphInput.FenceAltLimits(param, out input.FenceCeiling, out input.FenceFloor);
                 input.FenceCircle = ElevationGraphInput.FenceCircleOf(param);
+                ElevationGraphInput.FencePolygonOptions(param, out input.FencePolygonUsed,
+                    out input.FenceInclusionUnion);
 
-                if (input.FenceCeiling != null || input.FenceFloor != null || input.FenceCircle != null)
+                if (input.FenceCeiling != null || input.FenceFloor != null || input.FenceCircle != null ||
+                    input.FenceAreas.Count > 0)
                     input.FenceState = ElevationGraphInput.FenceStateOf(param, ReportedFenceEnabled(mav));
             }
 
