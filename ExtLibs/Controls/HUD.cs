@@ -1505,7 +1505,8 @@ namespace MissionPlanner.Controls
 
         // HUDT's image getters go through ResourceManager.GetObject, which decodes the PNG resource into a new
         // Bitmap on every call. The HUD asks for its status icons several times a frame, so each icon is decoded
-        // once per HUD and kept as 32bpp ARGB, the format DrawImage locks it in
+        // once per HUD and kept in a copy made by new Bitmap(Image), which renders into a 32bpp ARGB bitmap,
+        // the format DrawImage locks it in
         private readonly Dictionary<string, Bitmap> iconCache = new Dictionary<string, Bitmap>();
 
         private Bitmap GetIcon(string name)
