@@ -98,6 +98,7 @@ namespace MissionPlanner
             this.aptype = 0;
             this.apname = 0;
             this.recvpacketcount = 0;
+            this.recvpacketmask = 0;
             this.VersionString = "";
             this.SoftwareVersions = "";
             this.SerialString = "";
@@ -326,6 +327,10 @@ namespace MissionPlanner
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
+        /// <summary>
+        /// bit n set: seq (recvpacketcount - n - 1) has been received, used to tell late packets from seq wraps
+        /// </summary>
+        internal ulong recvpacketmask = 0;
         public Int64 time_offset_ns { get; set; }
         public CameraProtocol Camera { get; set; }
         
