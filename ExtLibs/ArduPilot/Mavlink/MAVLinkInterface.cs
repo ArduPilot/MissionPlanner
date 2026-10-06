@@ -5018,8 +5018,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     // create an item - hidden
                     MAVlist.AddHiddenList(sysid, compid);
-                    // prevent packetloss counter on connect
-                    MAVlist[sysid, compid].recvpacketcount = unchecked(packetSeqNo - (byte)1);
+                    // prevent packetloss counter on connect: the first packet is taken as a dup of itself, so the
+                    // packet before it, never seen, is not marked as received in recvpacketmask
+                    MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                 }
 
                 // once set it cannot be reverted
@@ -5130,29 +5131,36 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     packetSeemValid = true;
                     // check if we lost pacakets based on seqno
-                    // seq is 8 bit: up to latePacketWindow behind the newest packet is taken as reordered on
-                    // the link (UDP over IP), anything else as a forward jump. Reordering is a matter of
-                    // milliseconds, so after a pause the seq has wrapped through an outage instead
+                    // seq is 8 bit, so a packet up to latePacketWindow behind the newest one is either late
+                    // (reordered on the link, UDP over IP) or the next one after 191..254 lost packets. It is
+                    // late only if it fills a hole in the mask of recently received seqs. Reordering is a
+                    // matter of milliseconds, so after a pause the seq has wrapped through an outage instead
                     const int latePacketWindow = 64;
                     int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
-                    int packetsBehind = (lastPacketSeqNo - packetSeqNo) & 0xFF;
+                    int delta = (packetSeqNo - lastPacketSeqNo) & 0xFF;
+                    int packetsBehind = 0x100 - delta;
+                    // bit n set: seq (lastPacketSeqNo - n - 1) has been received
+                    ulong lateBit = packetsBehind <= latePacketWindow ? 1UL << (packetsBehind - 1) : 0;
                     bool sincePreviousPacketIsShort =
                         (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
 
                     {
-                        if (packetsBehind == 0)
+                        if (delta == 0)
                         {
                             // work around a 3dr radio bug sending dup seqno's
                         }
-                        else if (packetsBehind <= latePacketWindow && sincePreviousPacketIsShort)
+                        else if (lateBit != 0 && (MAVlist[sysid, compid].recvpacketmask & lateBit) == 0 &&
+                                 sincePreviousPacketIsShort)
                         {
                             // a late packet fills a hole that was counted as lost when the newer one came
+                            MAVlist[sysid, compid].recvpacketmask |= lateBit;
                             if (MAVlist[sysid, compid].packetslost >= 1)
                                 MAVlist[sysid, compid].packetslost--;
                         }
                         else
                         {
-                            int numLost = (packetSeqNo - lastPacketSeqNo - 1) & 0xFF;
+                            // in order (delta 1) or a forward gap of delta - 1 lost packets
+                            int numLost = delta - 1;
 
                             if (numLost != 0)
                             {
@@ -5167,6 +5175,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                         (lastPacketSeqNo + 1) & 0xFF, compid);
                             }
 
+                            // shift the mask by delta, the previous newest packet is now delta behind
+                            // (a ulong shift by 64 or more is taken mod 64 in C#, so clear it explicitly)
+                            ulong mask = delta < 64 ? MAVlist[sysid, compid].recvpacketmask << delta : 0;
+                            if (delta <= latePacketWindow)
+                                mask |= 1UL << (delta - 1);
+                            MAVlist[sysid, compid].recvpacketmask = mask;
                             MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                         }
 
