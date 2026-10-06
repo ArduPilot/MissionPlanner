@@ -2868,6 +2868,13 @@ namespace MissionPlanner.GCSViews
         /// (coords1). GEO uses the Lat/Long boxes, UTM and MGRS a single text box in their place.
         /// The Lat/Long boxes stay the source of truth and are only hidden.
         /// </summary>
+        /// <summary>
+        /// Whether home is shown in the UTM/MGRS box rather than the Lat/Long boxes. Decided by the
+        /// coordinate system, not by TXT_homecoord.Visible, which reads false while the page itself
+        /// is hidden and left the box empty when home was set before the page was first shown.
+        /// </summary>
+        private bool HomeCoordBoxShown => coords1.System != Coords.CoordsSystems.GEO.ToString();
+
         private void updateHomeCoordMode()
         {
             var geo = coords1.System == Coords.CoordsSystems.GEO.ToString();
@@ -2890,7 +2897,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="force">also rewrite while the box has focus (normally left alone while typing)</param>
         private void updateHomeCoordText(bool force = false)
         {
-            if (!TXT_homecoord.Visible)
+            if (!HomeCoordBoxShown)
                 return;
             if (TXT_homecoord.Focused && !force)
                 return;
@@ -2941,7 +2948,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         private void applyHomeCoordText()
         {
-            if (updatinghomecoord || !TXT_homecoord.Visible)
+            if (updatinghomecoord || !HomeCoordBoxShown)
                 return;
 
             var text = TXT_homecoord.Text.Trim();
@@ -7371,6 +7378,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 writeKML();
             }
+
+            // the UTM/MGRS box follows even when the Lat/Long text did not change
+            updateHomeCoordText(true);
         }
 
         private void updateMapPosition(PointLatLng currentloc)
