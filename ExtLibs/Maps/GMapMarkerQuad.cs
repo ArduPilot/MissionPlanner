@@ -15,7 +15,7 @@ namespace MissionPlanner.Maps
         float heading = 0;
         float cog = -1;
         float target = -1;
-        private int sysid = -1;
+        private long sysid = -1;
 
         public float warn = -1;
         public float danger = -1;
@@ -98,7 +98,7 @@ namespace MissionPlanner.Maps
         public float Heading { get => heading; set => heading = value; }
         public float Cog { get => cog; set => cog = value; }
         public float Target { get => target; set => target = value; }
-        public int Sysid { get => sysid; set => sysid = value; }
+        public long Sysid { get => sysid; set => sysid = value; }
         public float framerotation { get; set; } = 0;
 
         static GMapMarkerQuad()
@@ -109,7 +109,7 @@ namespace MissionPlanner.Maps
             textbrush = new SolidBrush(Color.Red);
         }
 
-        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, int sysid)
+        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, long sysid)
             : base(p)
         {
             this.Heading = heading;

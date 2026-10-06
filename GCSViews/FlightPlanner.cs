@@ -1920,7 +1920,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
             }
             catch
             {
@@ -2100,7 +2100,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "RALLY_TOTAL", 0);
             }
             catch (Exception ex)
@@ -2119,7 +2119,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ENABLE", 0);
             }
             catch
@@ -2130,7 +2130,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ACTION", 0);
             }
             catch
@@ -2141,7 +2141,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_TOTAL", 0);
             }
             catch
@@ -3941,10 +3941,10 @@ namespace MissionPlanner.GCSViews
             try
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MINALT"))
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_MINALT", minalt);
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MAXALT"))
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_MAXALT", maxalt);
             }
             catch (Exception ex)
@@ -3958,7 +3958,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ACTION", 0);
             }
             catch
@@ -3973,7 +3973,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_TOTAL", pointcount);
             }
             catch
@@ -3998,7 +3998,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_ACTION", oldaction);
                 }
                 catch
@@ -6091,7 +6091,7 @@ namespace MissionPlanner.GCSViews
         {
             byte count = 0;
 
-            MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+            MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                 "RALLY_TOTAL", rallypointoverlay.Markers.Count);
 
             foreach (GMapMarkerRallyPt pnt in rallypointoverlay.Markers)
@@ -6428,7 +6428,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                     try
                     {
-                        await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                        await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
                     }
                     catch (Exception ex2)
@@ -6436,7 +6436,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         log.Error(ex2);
                         try
                         {
-                            MainV2.comPort.getWP((byte) MainV2.comPort.sysidcurrent,
+                            MainV2.comPort.getWP(MainV2.comPort.sysidcurrent,
                                 (byte) MainV2.comPort.compidcurrent, 0);
                         }
                         catch (Exception ex3)
@@ -6506,13 +6506,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     result = ans;
                     Console.WriteLine("MISSION_ACK " + ans + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
                 message =>
@@ -6523,13 +6522,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             var sub3 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT,
                 message =>
@@ -6540,13 +6538,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST_INT " + reqno + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set total wps ");
             MainV2.comPort.setWPTotal(totalwpcountforupload);
@@ -6676,7 +6673,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 MAVLink.mavlink_mission_item_int_t req = new MAVLink.mavlink_mission_item_int_t();
 
-                req.target_system = MainV2.comPort.MAV.sysid;
+                req.target_system = (byte)(MainV2.comPort.MAV.sysid);
                 req.target_component = MainV2.comPort.MAV.compid;
 
                 req.command = loc.id;
@@ -6721,7 +6718,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             MainV2.comPort.setWPACK();
 
-            _ = MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+            _ = MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
 
             commandlist?.ForEach(pnt =>

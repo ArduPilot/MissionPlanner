@@ -174,9 +174,21 @@ namespace MissionPlanner.MsgBox
                     };
                     linklbl.Click += (sender, args) =>
                     {
+                        var target = ((LinkLabel)sender).Tag.ToString();
+                        // The [link;...] markup can arrive from the wire: a failed arm renders the
+                        // vehicle's STATUSTEXT as this dialog's body. Process.Start() defaults to
+                        // UseShellExecute, which also resolves UNC paths, local executables and any
+                        // registered protocol handler, so only allow what the markup is for.
+                        if (!target.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
+                            !target.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                        {
+                            Show("Refusing to open link " + target);
+                            return;
+                        }
+
                         try
                         {
-                            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+                            System.Diagnostics.Process.Start(target);
                         }
                         catch (Exception)
                         {

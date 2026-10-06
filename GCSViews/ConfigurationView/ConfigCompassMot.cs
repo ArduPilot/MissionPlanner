@@ -26,7 +26,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             BUT_compassmot.Text = lbl_start.Text;
 
-            sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS, ProcessCompassMotMSG, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS, ProcessCompassMotMSG, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
         }
 
         public void Deactivate()
@@ -63,7 +63,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 current.Clear();
                 try
                 {
-                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
                 }
                 catch
                 {

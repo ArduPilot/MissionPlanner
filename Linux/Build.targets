@@ -1,0 +1,21 @@
+<Project>
+  <!-- Restore/build only the desktop-compatible target of each dependency. -->
+  <PropertyGroup>
+    <TargetFrameworks Condition="$([System.String]::Copy('$(TargetFrameworks)').Contains('net472'))">net472</TargetFrameworks>
+    <TargetFrameworks Condition="$([System.String]::Copy('$(TargetFrameworks)').Contains('net461'))">net472</TargetFrameworks>
+    <TargetFrameworks Condition="$([System.String]::Copy('$(TargetFrameworks)').Contains('netstandard2.0'))">netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'MissionPlanner'">
+    <!-- Match the application's managed SkiaSharp version. -->
+    <PackageReference Update="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" GeneratePathProperty="true" />
+    <Reference Include="Mono.Posix">
+      <HintPath>$(MonoPosixPath)</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- The package's desktop targets copy glibc and musl to the same path.
+       Select glibc explicitly for the Ubuntu/Debian download. -->
+  <Target Name="CopyLinuxSkia" AfterTargets="Build" Condition="'$(MSBuildProjectName)' == 'MissionPlanner'">
+    <Copy SourceFiles="$(PkgSkiaSharp_NativeAssets_Linux_NoDependencies)/runtimes/linux-x64/native/libSkiaSharp.so"
+          DestinationFiles="$(TargetDir)x64/libSkiaSharp.so" />
+  </Target>
+</Project>

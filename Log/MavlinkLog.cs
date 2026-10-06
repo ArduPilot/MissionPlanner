@@ -98,7 +98,7 @@ namespace MissionPlanner.Log
                             mine.speechenabled = false;
 
                             bool newsample = false;
-                            int sysidsample = 0;
+                            uint sysidsample = 0;
                             int compidsample = 0;
 
                             mine.OnPacketReceived += ((o, message) =>
@@ -112,8 +112,8 @@ namespace MissionPlanner.Log
                             });
 
                             int appui = 0;
-                            Dictionary<int, List<CurrentState>> flightdataDictionary =
-                                new Dictionary<int, List<CurrentState>>();
+                            Dictionary<uint, List<CurrentState>> flightdataDictionary =
+                                new Dictionary<uint, List<CurrentState>>();
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {

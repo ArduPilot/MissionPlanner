@@ -58,8 +58,10 @@ To build the code:
 - Open MissionPlanner.sln with Visual Studio
 - From the Build menu, select "Build MissionPlanner"
 
-### On other systems
-Building Mission Planner on other systems isn't support currently.
+### On Linux
+
+See [Linux build and download instructions](Linux/README.md). Build with
+`./Linux/build.sh` and launch with `./Linux/run.sh`.
 
 ## Launching Mission Planner on other system
 
@@ -70,20 +72,11 @@ For MacOS users it is recommended to use Mission Planner for Windows via Boot Ca
 
 ### On Linux
 
-#### Requirements
+Download the precompiled Linux archive and install the runtime packages listed in
+[Linux/README.md](Linux/README.md), then extract it and run `./run.sh`.
+No SDK or compiler is needed for the download.
 
-Those instructions were tested on Ubuntu 20.04.
-Please install Mono, either :
-- `sudo apt install mono-complete mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms4.0-cil libmono-corlib4.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil`
-
-#### Launching
-
-- Get the lastest zipped version of Mission Planner here : https://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.zip
-- Unzip in the directory you want
-- Go into the directory
-- run with `mono MissionPlanner.exe`
-
-You can debug Mission Planner on Mono with `MONO_LOG_LEVEL=debug mono MissionPlanner.exe`
+You can debug startup with `MONO_LOG_LEVEL=debug ./run.sh`.
 
 ### External Services Used
 
