@@ -39,11 +39,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var type = (MAVLink.VIDEO_STREAM_TYPE)stream.type;
             var uri = System.Text.Encoding.UTF8.GetString(stream.uri).Split('\0')[0];
 
-            // Allow a uri that starts with "gst://" to be used directly as a GStreamer pipeline
-            // (this is my personal hack to allow for custom pipelines for testing)
+            // A "gst://" uri used to be returned as a raw pipeline for gst_parse_launch().
+            // That string arrives in VIDEO_STREAM_INFORMATION from an unauthenticated peer,
+            // and gst_parse_launch() instantiates whatever elements it names, so it let a
+            // vehicle run filesrc/filesink/curlhttpsink inside Mission Planner. Build the
+            // pipeline from the declared stream type instead.
             if (uri.StartsWith("gst://"))
             {
-                return uri.Substring("gst://".Length);
+                log.Error("Ignoring gst:// video stream uri from vehicle");
+                return "";
             }
 
             // For the UDP transports, extract the port number from the URI. The URI should be only the port number,
