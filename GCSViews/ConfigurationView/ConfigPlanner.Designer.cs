@@ -535,7 +535,6 @@
             // 
             resources.ApplyResources(this.BUT_Joystick, "BUT_Joystick");
             this.BUT_Joystick.Name = "BUT_Joystick";
-            this.BUT_Joystick.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Joystick.UseVisualStyleBackColor = true;
             this.BUT_Joystick.Click += new System.EventHandler(this.BUT_Joystick_Click);
             // 
@@ -543,7 +542,6 @@
             // 
             resources.ApplyResources(this.BUT_videostop, "BUT_videostop");
             this.BUT_videostop.Name = "BUT_videostop";
-            this.BUT_videostop.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_videostop.UseVisualStyleBackColor = true;
             this.BUT_videostop.Click += new System.EventHandler(this.BUT_videostop_Click);
             // 
@@ -551,7 +549,6 @@
             // 
             resources.ApplyResources(this.BUT_videostart, "BUT_videostart");
             this.BUT_videostart.Name = "BUT_videostart";
-            this.BUT_videostart.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_videostart.UseVisualStyleBackColor = true;
             this.BUT_videostart.Click += new System.EventHandler(this.BUT_videostart_Click);
             // 
@@ -569,7 +566,6 @@
             // 
             resources.ApplyResources(this.BUT_logdirbrowse, "BUT_logdirbrowse");
             this.BUT_logdirbrowse.Name = "BUT_logdirbrowse";
-            this.BUT_logdirbrowse.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_logdirbrowse.UseVisualStyleBackColor = true;
             this.BUT_logdirbrowse.Click += new System.EventHandler(this.BUT_logdirbrowse_Click);
             // 
@@ -590,7 +586,6 @@
             // 
             resources.ApplyResources(this.BUT_themecustom, "BUT_themecustom");
             this.BUT_themecustom.Name = "BUT_themecustom";
-            this.BUT_themecustom.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_themecustom.UseVisualStyleBackColor = true;
             this.BUT_themecustom.Click += new System.EventHandler(this.BUT_themecustom_Click);
             // 
@@ -605,7 +600,6 @@
             // 
             resources.ApplyResources(this.BUT_Vario, "BUT_Vario");
             this.BUT_Vario.Name = "BUT_Vario";
-            this.BUT_Vario.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Vario.UseVisualStyleBackColor = true;
             this.BUT_Vario.Click += new System.EventHandler(this.BUT_Vario_Click);
             // 
@@ -880,7 +874,6 @@
             // 
             resources.ApplyResources(this.BUT_mapCacheDir, "BUT_mapCacheDir");
             this.BUT_mapCacheDir.Name = "BUT_mapCacheDir";
-            this.BUT_mapCacheDir.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_mapCacheDir.UseVisualStyleBackColor = true;
             this.BUT_mapCacheDir.Click += new System.EventHandler(this.BUT_mapCacheDir_Click);
             // 

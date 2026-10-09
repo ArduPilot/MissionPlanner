@@ -174,7 +174,6 @@
             this.but_uavcaninspector.Size = new System.Drawing.Size(57, 23);
             this.but_uavcaninspector.TabIndex = 85;
             this.but_uavcaninspector.Text = "Inspector";
-            this.but_uavcaninspector.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_uavcaninspector.UseVisualStyleBackColor = true;
             this.but_uavcaninspector.Click += new System.EventHandler(this.But_uavcaninspector_Click);
             // 
@@ -445,7 +444,6 @@
             this.but_filter.Size = new System.Drawing.Size(42, 23);
             this.but_filter.TabIndex = 92;
             this.but_filter.Text = "Filter";
-            this.but_filter.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_filter.UseVisualStyleBackColor = true;
             this.but_filter.Click += new System.EventHandler(this.but_filter_Click);
             // 
@@ -456,7 +454,6 @@
             this.but_stats.Size = new System.Drawing.Size(42, 23);
             this.but_stats.TabIndex = 93;
             this.but_stats.Text = "Stats";
-            this.but_stats.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_stats.UseVisualStyleBackColor = true;
             this.but_stats.Click += new System.EventHandler(this.but_stats_Click);
             // 
@@ -485,7 +482,6 @@
             this.but_connect.Size = new System.Drawing.Size(75, 23);
             this.but_connect.TabIndex = 98;
             this.but_connect.Text = "Connect";
-            this.but_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_connect.UseVisualStyleBackColor = true;
             this.but_connect.Click += new System.EventHandler(this.but_connect_Click);
             // 
