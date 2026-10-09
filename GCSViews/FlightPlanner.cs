@@ -778,16 +778,18 @@ namespace MissionPlanner.GCSViews
 
         public T DeepClone<T>(T obj)
         {
-            using (var ms = new MemoryStream())
+            if (ReferenceEquals(obj, null))
+                return default;
+
+            var settings = new JsonSerializerSettings
             {
-                var formatter = new BinaryFormatter();
+                ObjectCreationHandling = ObjectCreationHandling.Replace,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                TypeNameHandling = TypeNameHandling.All
+            };
 
-                formatter.Serialize(ms, obj);
-
-                ms.Position = 0;
-
-                return (T) formatter.Deserialize(ms);
-            }
+            var json = JsonConvert.SerializeObject(obj, settings);
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
 
         /// <summary>
