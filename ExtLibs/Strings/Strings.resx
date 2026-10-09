@@ -180,6 +180,33 @@
   <data name="InvalidField" xml:space="preserve">
     <value>Invalid Field</value>
   </data>
+  <data name="AltitudeOptional" xml:space="preserve">
+    <value>Altitude (optional, {0})</value>
+  </data>
+  <data name="Coordinates" xml:space="preserve">
+    <value>Coordinates</value>
+  </data>
+  <data name="CoordinateSystem" xml:space="preserve">
+    <value>Coordinate system</value>
+  </data>
+  <data name="CoordsHintGEO" xml:space="preserve">
+    <value>Decimal degrees 'lat;long' or 'lat;long;alt', eg 52.829;-7.470</value>
+  </data>
+  <data name="CoordsHintMGRS" xml:space="preserve">
+    <value>MGRS grid reference, eg 29UPU0406654629 (spaces allowed)</value>
+  </data>
+  <data name="CoordsHintUTM" xml:space="preserve">
+    <value>Zone+band, easting and northing in metres, eg 29U 540660 5854629</value>
+  </data>
+  <data name="EnterHomeLocation" xml:space="preserve">
+    <value>Enter Home Location</value>
+  </data>
+  <data name="InvalidAltitude" xml:space="preserve">
+    <value>Invalid altitude: {0}</value>
+  </data>
+  <data name="InvalidCoordinate" xml:space="preserve">
+    <value>Invalid {0} coordinate: {1}</value>
+  </data>
   <data name="InvalidFileName" xml:space="preserve">
     <value>Invalid FileName</value>
   </data>
