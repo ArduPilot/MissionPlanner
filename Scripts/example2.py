@@ -1,4 +1,5 @@
-﻿
+﻿from __future__ import print_function
+
 import clr
 import MissionPlanner
 clr.AddReference("MAVLink")
@@ -9,11 +10,11 @@ from MAVLink import mavlink_command_long_t
 
 import MAVLink
 
-print 'Start Script'
+print('Start Script')
 
 def OtherMethod(message):
-    print "got HB";
-    print dir(message.data)
+    print("got HB");
+    print(dir(message.data))
     return True
 
 sub = MAV.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.HEARTBEAT.value__, Func[MAVLink.MAVLinkMessage, bool] (OtherMethod))
