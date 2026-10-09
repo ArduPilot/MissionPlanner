@@ -512,6 +512,465 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Altitude AMSL ({0}).
+        /// </summary>
+        public static string ElevationGraphAltitudeAxis {
+            get {
+                return ResourceManager.GetString("ElevationGraphAltitudeAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Below terrain.
+        /// </summary>
+        public static string ElevationGraphBelowTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphBelowTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The path goes below the terrain.
+        /// </summary>
+        public static string ElevationGraphBelowTerrainWarning {
+            get {
+                return ResourceManager.GetString("ElevationGraphBelowTerrainWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to above the ceiling.
+        /// </summary>
+        public static string ElevationGraphBreachCeiling {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachCeiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to outside the circle.
+        /// </summary>
+        public static string ElevationGraphBreachCircle {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachCircle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to inside an exclusion zone.
+        /// </summary>
+        public static string ElevationGraphBreachExclusion {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachExclusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to below the floor.
+        /// </summary>
+        public static string ElevationGraphBreachFloor {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to outside the fence area.
+        /// </summary>
+        public static string ElevationGraphBreachInclusion {
+            get {
+                return ResourceManager.GetString("ElevationGraphBreachInclusion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distance along the path ({0}).
+        /// </summary>
+        public static string ElevationGraphDistanceAxis {
+            get {
+                return ResourceManager.GetString("ElevationGraphDistanceAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make the graph tall.
+        /// </summary>
+        public static string ElevationGraphExpandTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphExpandTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence enables after takeoff.
+        /// </summary>
+        public static string ElevationGraphFenceAfterTakeoff {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceAfterTakeoff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence ceiling {0} above home.
+        /// </summary>
+        public static string ElevationGraphFenceCeiling {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceCeiling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence disabled.
+        /// </summary>
+        public static string ElevationGraphFenceDisabled {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence enabled.
+        /// </summary>
+        public static string ElevationGraphFenceEnabled {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence floor {0} above home.
+        /// </summary>
+        public static string ElevationGraphFenceFloor {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to active once above it.
+        /// </summary>
+        public static string ElevationGraphFenceFloorArms {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceFloorArms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} ({1}).
+        /// </summary>
+        public static string ElevationGraphFenceNote {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not in FENCE_TYPE.
+        /// </summary>
+        public static string ElevationGraphFenceNotInType {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceNotInType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence radius {0}.
+        /// </summary>
+        public static string ElevationGraphFenceRadius {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence only reports breaches.
+        /// </summary>
+        public static string ElevationGraphFenceReportOnly {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceReportOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fence enables when armed.
+        /// </summary>
+        public static string ElevationGraphFenceWhenArmed {
+            get {
+                return ResourceManager.GetString("ElevationGraphFenceWhenArmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide the elevation graph.
+        /// </summary>
+        public static string ElevationGraphHideTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphHideTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Home: {0} AMSL.
+        /// </summary>
+        public static string ElevationGraphHomeTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphHomeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set home to draw altitudes relative to home.
+        /// </summary>
+        public static string ElevationGraphNoHome {
+            get {
+                return ResourceManager.GetString("ElevationGraphNoHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No waypoints to draw.
+        /// </summary>
+        public static string ElevationGraphNoWaypoints {
+            get {
+                return ResourceManager.GetString("ElevationGraphNoWaypoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outside the fence: {0}.
+        /// </summary>
+        public static string ElevationGraphOutsideFence {
+            get {
+                return ResourceManager.GetString("ElevationGraphOutsideFence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outside the fence.
+        /// </summary>
+        public static string ElevationGraphOutsideFenceLegend {
+            get {
+                return ResourceManager.GetString("ElevationGraphOutsideFenceLegend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        public static string ElevationGraphPath {
+            get {
+                return ResourceManager.GetString("ElevationGraphPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL, clearance {2}.
+        /// </summary>
+        public static string ElevationGraphRallyChainTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyChainTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL.
+        /// </summary>
+        public static string ElevationGraphRallyChainTipNoTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyChainTipNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distance along the line through the rally points ({0}).
+        /// </summary>
+        public static string ElevationGraphRallyDistanceAxis {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyDistanceAxis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to R{0}.
+        /// </summary>
+        public static string ElevationGraphRallyLabel {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally points.
+        /// </summary>
+        public static string ElevationGraphRallyPoints {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally points: {0}, lowest clearance {1}.
+        /// </summary>
+        public static string ElevationGraphRallySummary {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallySummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally points: {0}.
+        /// </summary>
+        public static string ElevationGraphRallySummaryNoClearance {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallySummaryNoClearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL, clearance {2}, {3} from the path.
+        /// </summary>
+        public static string ElevationGraphRallyTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rally point {0}: {1} AMSL, {2} from the path.
+        /// </summary>
+        public static string ElevationGraphRallyTipNoTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphRallyTipNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drag to resize the graph, double-click to make it tall.
+        /// </summary>
+        public static string ElevationGraphResizeTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphResizeTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: path {1}, terrain {2}, clearance {3}.
+        /// </summary>
+        public static string ElevationGraphSampleTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphSampleTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: path {1}.
+        /// </summary>
+        public static string ElevationGraphSampleTipNoTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphSampleTipNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}: terrain {1}.
+        /// </summary>
+        public static string ElevationGraphSampleTipTerrainOnly {
+            get {
+                return ResourceManager.GetString("ElevationGraphSampleTipTerrainOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make the graph short again.
+        /// </summary>
+        public static string ElevationGraphShrinkTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphShrinkTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} long, lowest clearance {1}.
+        /// </summary>
+        public static string ElevationGraphSummary {
+            get {
+                return ResourceManager.GetString("ElevationGraphSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} long.
+        /// </summary>
+        public static string ElevationGraphSummaryNoClearance {
+            get {
+                return ResourceManager.GetString("ElevationGraphSummaryNoClearance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terrain.
+        /// </summary>
+        public static string ElevationGraphTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading terrain data....
+        /// </summary>
+        public static string ElevationGraphTerrainLoading {
+            get {
+                return ResourceManager.GetString("ElevationGraphTerrainLoading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No terrain data for part of the path.
+        /// </summary>
+        public static string ElevationGraphTerrainMissing {
+            get {
+                return ResourceManager.GetString("ElevationGraphTerrainMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevation profile.
+        /// </summary>
+        public static string ElevationGraphTitle {
+            get {
+                return ResourceManager.GetString("ElevationGraphTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waypoints.
+        /// </summary>
+        public static string ElevationGraphWaypoints {
+            get {
+                return ResourceManager.GetString("ElevationGraphWaypoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waypoint {0}: {1} AMSL, clearance {2}.
+        /// </summary>
+        public static string ElevationGraphWaypointTip {
+            get {
+                return ResourceManager.GetString("ElevationGraphWaypointTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waypoint {0}: {1} AMSL.
+        /// </summary>
+        public static string ElevationGraphWaypointTipNoTerrain {
+            get {
+                return ResourceManager.GetString("ElevationGraphWaypointTipNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ensure your props are not on the Plane/Quad.
         /// </summary>
         public static string EnsurePropsNotOn {
