@@ -171,7 +171,7 @@ namespace MissionPlanner.Controls
 
                             if (CoTStream != null && CoTStream.IsOpen)
                             {
-                                CoTStream.WriteLine(xmlStr.Replace("\r", ""));
+                                CoTStream.Write(xmlStr.Replace("\r", ""));
                             }
                         });
                     });
