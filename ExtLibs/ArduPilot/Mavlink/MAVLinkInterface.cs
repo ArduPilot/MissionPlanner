@@ -426,38 +426,73 @@ namespace MissionPlanner
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
 
-        public bool MirrorStreamWrite { 
-            get {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStreamWrite;
+        // The reader thread enumerates Mirrors in ProcessMirrorStream without a lock, so the list is
+        // never modified in place: a change copies it and assigns the copy. Every writer takes
+        // mirrorslock around the copy and the assignment, otherwise two of them (the serial output
+        // list on the UI thread and a plugin setting MirrorStream from its own thread) can copy the
+        // same list and the later assignment drops the entry the other one added.
+        private readonly object mirrorslock = new object();
 
-                Mirrors.Add(new Mirror());
-                return MirrorStreamWrite;
-            } 
-            set 
+        /// <summary>
+        /// Add a mirror that receives every packet read from the vehicle and, when its
+        /// MirrorStreamWrite is set, forwards what it receives to the vehicle.
+        /// </summary>
+        public void AddMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
+                Mirrors = new List<Mirror>(Mirrors) { mirror };
+        }
+
+        /// <summary>
+        /// Remove a mirror added with AddMirror or through the legacy MirrorStream property.
+        /// The caller closes its stream. Returns false when the mirror was not in the list.
+        /// </summary>
+        public bool RemoveMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
             {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStreamWrite = value;
-                else
-                    Mirrors.Add(new Mirror() { MirrorStreamWrite = value });
-            } 
+                var mirrors = new List<Mirror>(Mirrors);
+                if (!mirrors.Remove(mirror))
+                    return false;
+
+                Mirrors = mirrors;
+                return true;
+            }
+        }
+
+        // Legacy single-mirror view. It owns its own entry in Mirrors instead of using Mirrors[0],
+        // which may be a mirror started from the serial output list. Reading returns a default when
+        // there is no legacy mirror; the first set creates the entry, later sets reuse it.
+        private Mirror _legacyMirror;
+
+        private Mirror LegacyMirror(bool create)
+        {
+            lock (mirrorslock)
+            {
+                var legacy = _legacyMirror;
+                if (legacy != null && Mirrors.Contains(legacy))
+                    return legacy;
+
+                if (!create)
+                    return null;
+
+                legacy = new Mirror();
+                Mirrors = new List<Mirror>(Mirrors) { legacy };
+                _legacyMirror = legacy;
+                return legacy;
+            }
+        }
+
+        // The setters assign under mirrorslock as well, so the lookup (or creation) of the legacy
+        // entry and the write to it are one step: the list cannot be replaced in between, and the
+        // mirror written is the one in Mirrors.
+        public bool MirrorStreamWrite {
+            get { return LegacyMirror(false)?.MirrorStreamWrite ?? false; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStreamWrite = value; }
         }
         public ICommsSerial MirrorStream {
-            get
-            {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStream;
-
-                Mirrors.Add(new Mirror());
-                return MirrorStream;
-            }
-            set
-            {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStream = value;
-                else
-                    Mirrors.Add(new Mirror() { MirrorStream = value });
-            }
+            get { return LegacyMirror(false)?.MirrorStream; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStream = value; }
         }
 
 
