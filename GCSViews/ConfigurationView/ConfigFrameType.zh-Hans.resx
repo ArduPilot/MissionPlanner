@@ -131,7 +131,7 @@
     <value>19, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>十</value>
+    <value>'+'</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 129</value>
@@ -201,7 +201,7 @@
     <value>131, 47</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>注意：X和H是不可互换的，螺旋桨方向有变化</value>
+    <value>注意：X和H不可互换，螺旋桨旋转方向不同</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>33, 402</value>
@@ -210,7 +210,7 @@
     <value>26, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>新Y</value>
+    <value>'Y6B'</value>
   </data>
   <data name="radioButton_Y.Location" type="System.Drawing.Point, System.Drawing">
     <value>62, 402</value>
@@ -228,7 +228,7 @@
     <value>142, 47</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>注意：此为新Y，螺旋桨旋转方向与旧Y不同（旧Y使用'X'的旋转方向）</value>
+    <value>注意：此为Y6B机型，螺旋桨旋转方向较旧版Y6A有所更改</value>
   </data>
   <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 20</value>

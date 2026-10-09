@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lbl_minshutter.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>最低快门速度：</value>
+  </data>
+  <data name="lbl_gndelev.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>地面标高：</value>
+  </data>
+  <data name="lbl_turnrad.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>转Dia（45度时）：</value>
+  </data>
+  <data name="lbl_photoevery.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>每张照片（预估）：</value>
+  </data>
+  <data name="lbl_flighttime.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>预计飞行时间：</value>
+  </data>
+  <data name="lbl_distbetweenlines.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>行距：</value>
+  </data>
+  <data name="lbl_footprint.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>足迹：</value>
+  </data>
+  <data name="lbl_strips.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="lbl_pictures.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>试纸条数量：</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>图片：</value>
+  </data>
+  <data name="lbl_grndres.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>地面分辨率：</value>
+  </data>
+  <data name="lbl_spacing.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>图像间距：</value>
+  </data>
+  <data name="lbl_distance.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="lbl_area.Text" xml:space="preserve">
+    <value>0.00</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>距离：</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>统计</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>舵机</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>脉宽调制 H</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>PWM L</value>
+  </data>
+  <data name="rad_do_set_servo.Text" xml:space="preserve">
+    <value>设置伺服</value>
+  </data>
+  <data name="chk_stopstart.Text" xml:space="preserve">
+    <value>分手开始</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>脉宽调制</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>循环时间 [秒]</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>舵机</value>
+  </data>
+  <data name="rad_digicam.Text" xml:space="preserve">
+    <value>执行数码相机控制</value>
+  </data>
+  <data name="rad_repeatservo.Text" xml:space="preserve">
+    <value>重复执行舵机指令</value>
+  </data>
+  <data name="rad_trigdist.Text" xml:space="preserve">
+    <value>摄像头触发距离</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>触发方式</value>
+  </data>
+  <data name="BUT_samplephoto.Text" xml:space="preserve">
+    <value>载入示例照片</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>计算值</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>垂直视场 [米]</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>水平视场 [m]</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>厘米/像素</value>
+  </data>
+  <data name="TXT_sensheight.Text" xml:space="preserve">
+    <value>4.62</value>
+  </data>
+  <data name="TXT_senswidth.Text" xml:space="preserve">
+    <value>6.16</value>
+  </data>
+  <data name="TXT_imgheight.Text" xml:space="preserve">
+    <value>3456</value>
+  </data>
+  <data name="TXT_imgwidth.Text" xml:space="preserve">
+    <value>4608</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>传感器高度 [毫米]</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>传感器宽度 [mm]</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>图像高度 [像素]</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>图像宽度 [像素]</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>焦距 [毫米]</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>相机选项</value>
+  </data>
+  <data name="tabCamera.Text" xml:space="preserve">
+    <value>相机配置</value>
+  </data>
+  <data name="TXT_headinghold.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_headingholdplus.Text" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="LBL_copter_delay.Text" xml:space="preserve">
+    <value>WP延迟（秒）</value>
+  </data>
+  <data name="groupBox_copter.Text" xml:space="preserve">
+    <value>直升机选项</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>重叠 [%]</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>侧向搭接 [%]</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>网格选项</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>每隔 [m] 拍一张照片</value>
+  </data>
+  <data name="tabGrid.Text" xml:space="preserve">
+    <value>网格选项</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Control-S 保存到文件  
+Control-O 从文件加载表单</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>分成 x 段</value>
+  </data>
+  <data name="CHK_usespeed.Text" xml:space="preserve">
+    <value>用速度完成这次任务。</value>
+  </data>
+  <data name="CHK_toandland_RTL.Text" xml:space="preserve">
+    <value>使用从右到左布局</value>
+  </data>
+  <data name="CHK_toandland.Text" xml:space="preserve">
+    <value>添加起飞和降落航点</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>飞行速度（预估）</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>相机</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>角度 [度]</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>简单选项</value>
+  </data>
+  <data name="CHK_grid.Text" xml:space="preserve">
+    <value>网格</value>
+  </data>
+  <data name="CHK_markers.Text" xml:space="preserve">
+    <value>标记笔</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="BUT_Accept.Text" xml:space="preserve">
+    <value>接受</value>
+  </data>
+  <data name="tabSimple.Text" xml:space="preserve">
+    <value>简单</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>测绘（网格）</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>面积：</value>
+  </data>
+  <data name="LBL_laps.Text" xml:space="preserve">
+    <value>圈数</value>
+  </data>
+  <data name="CHK_match_spiral_perimeter.Text" xml:space="preserve">
+    <value>匹配周长至多边形</value>
+  </data>
+  <data name="LBL_clockwise_laps.Text" xml:space="preserve">
+    <value>顺时针绕圈次数</value>
+  </data>
+  <data name="LBL_clockwise_laps1.Text" xml:space="preserve">
+    <value>(-1 表示顺时针螺旋)</value>
+  </data>
+  <data name="groupBoxSpiral.Text" xml:space="preserve">
+    <value>螺旋选项</value>
+  </data>
+  <data name="chk_optimize_for_distance.Text" xml:space="preserve">
+    <value>距离优化</value>
+  </data>
+  <data name="LBL_Alternating_lanes.Text" xml:space="preserve">
+    <value>备用航线</value>
+  </data>
+  <data name="LBL_Lane_Dist.Text" xml:space="preserve">
+    <value>最小航线间距</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>固定翼选项</value>
+  </data>
+  <data name="chk_spline.Text" xml:space="preserve">
+    <value>样条曲线出口/入口</value>
+  </data>
+  <data name="BUT_headingholdminus.Text" xml:space="preserve">
+    <value>zh-CN: --</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Text" xml:space="preserve">
+    <value>从网格解锁</value>
+  </data>
+  <data name="CHK_copter_headinghold.Text" xml:space="preserve">
+    <value>航向保持</value>
+  </data>
+  <data name="chk_spiral.Text" xml:space="preserve">
+    <value>螺旋</value>
+  </data>
+  <data name="chk_Corridor.Text" xml:space="preserve">
+    <value>走廊</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>走廊宽度 [m]</value>
+  </data>
+  <data name="chk_crossgrid.Text" xml:space="preserve">
+    <value>交叉网格</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>前置距离 [m]</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>开始于</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>超出量 [m]</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>行间距 [m]</value>
+  </data>
+  <data name="CHK_camdirection.Text" xml:space="preserve">
+    <value>相机顶部朝前</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="CHK_advanced.Text" xml:space="preserve">
+    <value>高级选项</value>
+  </data>
+  <data name="CHK_footprints.Text" xml:space="preserve">
+    <value>足迹</value>
+  </data>
+  <data name="CHK_internals.Text" xml:space="preserve">
+    <value>内部</value>
+  </data>
+  <data name="CHK_boundary.Text" xml:space="preserve">
+    <value>边界</value>
+  </data>
+</root>

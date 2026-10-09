@@ -117,4 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Field</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Comparison</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Color True</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Description / Value</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Color False</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>PreFlight CheckListEditor</value>
+  </data>
 </root>

@@ -122,5 +122,7 @@
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
     <value>加载参数</value>
+  </data><data name="CMB_paramfiles.Text" xml:space="preserve">
+    <value>正在加载</value>
   </data>
 </root>

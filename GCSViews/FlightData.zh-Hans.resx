@@ -122,13 +122,13 @@
     <value>168, 22</value>
   </data>
   <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
-    <value>录制Hud至AVI</value>
+    <value>录制HUD为AVI</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 22</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
-    <value>停止记录</value>
+    <value>停止录制</value>
   </data>
   <data name="setMJPEGSourceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 22</value>
@@ -146,13 +146,13 @@
     <value>168, 22</value>
   </data>
   <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
-    <value>使用项目</value>
+    <value>用户项目</value>
   </data>
   <data name="russianHudToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 22</value>
   </data>
   <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
-    <value>俄国Hud</value>
+    <value>俄国平视显示器</value>
   </data>
   <data name="swapWithMapToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>168, 22</value>
@@ -194,7 +194,7 @@
     <value>166, 46</value>
   </data>
   <data name="quickView1.ToolTip" xml:space="preserve">
-    <value>双击我修改</value>
+    <value>双击我进行修改</value>
   </data>
   <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
@@ -212,7 +212,7 @@
     <value>设置挂载</value>
   </data>
   <data name="BUT_mountmode.ToolTip" xml:space="preserve">
-    <value>改变为左侧的模式</value>
+    <value>左侧模式变更</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
     <value>解锁/锁定</value>
@@ -221,23 +221,22 @@
     <value>解锁Mav</value>
   </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
-    <value>游戏
-摇杆</value>
+    <value>摇杆</value>
   </data>
   <data name="BUT_joystick.ToolTip" xml:space="preserve">
-    <value>设置与启用你的游戏摇杆</value>
+    <value>设置并启用你的游戏摇杆</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
     <value>手动</value>
   </data>
   <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>改变模式为手动/自稳</value>
+    <value>切换至手动/自稳模式</value>
   </data>
   <data name="BUT_quickrtl.Text" xml:space="preserve">
     <value>返航</value>
   </data>
   <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>改变模式为返航</value>
+    <value>更改为返航模式</value>
   </data>
   <data name="BUT_quickauto.Text" xml:space="preserve">
     <value>自动</value>
@@ -261,42 +260,40 @@
     <value>清除轨迹</value>
   </data>
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>在地图上清除记录路径</value>
+    <value>清除地图上记录的路径</value>
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>设置
-家的高度</value>
+    <value>设置起始高度</value>
   </data>
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>设置当前显示高度为0，或者家的高度显示为0</value>
+    <value>将当前显示高度设为0，即原点高度显示为0。</value>
   </data>
   <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>原始传感器查看</value>
+    <value>原始传感器视图</value>
   </data>
   <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>查看陀螺仪和加速度计原始数据，及数传原始收发</value>
+    <value>查看陀螺仪和加速度计原始数据，以及原始遥控输入/输出</value>
   </data>
   <data name="BUTrestartmission.Text" xml:space="preserve">
-    <value>重新开始
-任务</value>
+    <value>重新开始任务</value>
   </data>
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
-    <value>重新从头开始任务</value>
+    <value>从头开始重新启动任务</value>
   </data>
   <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>执行动作</value>
+    <value>执行</value>
   </data>
   <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>预先在左侧形成动作</value>
+    <value>执行左侧的操作</value>
   </data>
   <data name="tabActions.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
   </data>
   <data name="tabActions.Text" xml:space="preserve">
-    <value>动作</value>
+    <value>操作</value>
   </data>
   <data name="myButton1.Text" xml:space="preserve">
-    <value>留待</value>
+    <value>闲逛</value>
   </data>
   <data name="myButton2.Text" xml:space="preserve">
     <value>返航</value>
@@ -308,7 +305,7 @@
     <value>350, 163</value>
   </data>
   <data name="tabActionsSimple.Text" xml:space="preserve">
-    <value>简单动作</value>
+    <value>操作</value>
   </data>
   <data name="checkListControl1.Size" type="System.Drawing.Size, System.Drawing">
     <value>344, 157</value>
@@ -320,7 +317,7 @@
     <value>起飞前检查</value>
   </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
-    <value>双击我改变最大值</value>
+    <value>双击我以更改最大值</value>
   </data>
   <data name="tabGauges.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -341,7 +338,7 @@
     <value>350, 163</value>
   </data>
   <data name="tabServo.Text" xml:space="preserve">
-    <value>舵机</value>
+    <value>舵机/继电器</value>
   </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
     <value>加载日志</value>
@@ -359,7 +356,7 @@
     <value>330, 24</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Tlog &gt; Kml 或图像</value>
+    <value>Tlog &gt; Kml 或 Graph</value>
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>播放/暂停</value>
@@ -386,8 +383,7 @@
     <value>自动分析</value>
   </data>
   <data name="BUT_DFMavlink.Text" xml:space="preserve">
-    <value>通过Mavlink
-下载闪存日志</value>
+    <value>通过Mavlink下载DataFlash日志</value>
   </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
     <value>创建KML + gpx</value>
@@ -399,7 +395,7 @@
     <value>创建Matlab文件</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>回顾日志</value>
+    <value>查看日志</value>
   </data>
   <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>350, 163</value>
@@ -426,7 +422,7 @@
     <value>运行脚本</value>
   </data>
   <data name="BUT_abort_script.Text" xml:space="preserve">
-    <value>忽略运行中的脚本</value>
+    <value>中止运行中的脚本</value>
   </data>
   <data name="labelScriptStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 12</value>
@@ -469,7 +465,7 @@
     <value>172, 22</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>飞行至此</value>
+    <value>飞到这里</value>
   </data>
   <data name="flyToHereAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 22</value>
@@ -517,7 +513,7 @@
     <value>83, 12</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>GPS追踪（黑）</value>
+    <value>GPS追踪（黑色）</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>225, 393</value>
@@ -544,13 +540,13 @@
     <value>53, 12</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>当前指向</value>
+    <value>当前航向</value>
   </data>
   <data name="lbl_hdop.Location" type="System.Drawing.Point, System.Drawing">
     <value>-1, 377</value>
   </data>
   <data name="lbl_hdop.ToolTip" xml:space="preserve">
-    <value>GPS 水平误差</value>
+    <value>GPS水平精度因子</value>
   </data>
   <data name="lbl_sats.Location" type="System.Drawing.Point, System.Drawing">
     <value>-1, 394</value>
@@ -568,7 +564,7 @@
     <value>634, 421</value>
   </data>
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>改变放大级别</value>
+    <value>更改缩放级别</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>缩放</value>
@@ -592,7 +588,7 @@
     <value>调试</value>
   </data>
   <data name="CB_tuning.ToolTip" xml:space="preserve">
-    <value>显示调试图表，咬合目标高度和实际高度</value>
+    <value>显示调试图表，对比目标姿态与实际姿态。</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 429</value>
@@ -611,5 +607,159 @@
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>1008, 462</value>
+  </data><data name="openScriptDialog.Filter" xml:space="preserve">
+    <value>Python 文件|*.py|所有文件|*.*</value>
+  </data><data name="lbl_sats.Text" xml:space="preserve">
+    <value>卫星数：0</value>
+  </data><data name="lbl_hdop.Text" xml:space="preserve">
+    <value>水平精度因子：0</value>
+  </data><data name="but_disablejoystick.Text" xml:space="preserve">
+    <value>禁用摇杆</value>
+  </data><data name="gimbalVideoToolStripMenuItem.Text" xml:space="preserve">
+    <value>云台视频</value>
+  </data><data name="gimbalVideoPopOutToolStripMenuItem.Text" xml:space="preserve">
+    <value>弹出</value>
+  </data><data name="gimbalVideoMiniToolStripMenuItem.Text" xml:space="preserve">
+    <value>迷你</value>
+  </data><data name="gimbalVideoFullSizedToolStripMenuItem.Text" xml:space="preserve">
+    <value>全尺寸</value>
+  </data><data name="jumpToTagToolStripMenuItem.Text" xml:space="preserve">
+    <value>跳转至标签</value>
+  </data><data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
+    <value>相机重叠</value>
+  </data><data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
+    <value>起飞</value>
+  </data><data name="setHomeHereToolStripMenuItem1.Text" xml:space="preserve">
+    <value>在此处设为家</value>
+  </data><data name="setEKFHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>在此设置EKF原点</value>
+  </data><data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>将相机对准坐标点</value>
+  </data><data name="addPoiToolStripMenuItem.Text" xml:space="preserve">
+    <value>添加兴趣点</value>
+  </data><data name="poiatcoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>坐标</value>
+  </data><data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>加载文件</value>
+  </data><data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>保存文件</value>
+  </data><data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>删除</value>
+  </data><data name="flyToCoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞至坐标</value>
+  </data><data name="BUT_georefimage.Text" xml:space="preserve">
+    <value>地理参考图像</value>
+  </data><data name="lbl_logpercent.Text" xml:space="preserve">
+    <value>0.00%</value>
+  </data><data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>x 1.0</value>
+  </data><data name="BUT_speed1_10.Text" xml:space="preserve">
+    <value>0.1</value>
+  </data><data name="BUT_speed1_4.Text" xml:space="preserve">
+    <value>0.25</value>
+  </data><data name="BUT_speed1_2.Text" xml:space="preserve">
+    <value>0.5</value>
+  </data><data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1x</value>
+  </data><data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2倍</value>
+  </data><data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5x</value>
+  </data><data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10x</value>
+  </data><data name="tabPayload.Text" xml:space="preserve">
+    <value>有效载荷控制</value>
+  </data><data name="groupBoxPitch.Text" xml:space="preserve">
+    <value>倾斜</value>
+  </data><data name="BUT_resetGimbalPos.Text" xml:space="preserve">
+    <value>复位位置</value>
+  </data><data name="groupBoxYaw.Text" xml:space="preserve">
+    <value>平移</value>
+  </data><data name="groupBoxRoll.Text" xml:space="preserve">
+    <value>横滚</value>
+  </data><data name="BUT_GimbalVideo.Text" xml:space="preserve">
+    <value>视频控制</value>
+  </data><data name="tabAuxFunction.Text" xml:space="preserve">
+    <value>辅助功能</value>
+  </data><data name="tabTransponder.Text" xml:space="preserve">
+    <value>应答机</value>
+  </data><data name="Mode_clb.Items3" xml:space="preserve">
+    <value>1090ES ADS-B OUT</value>
+  </data><data name="Mode_clb.Items2" xml:space="preserve">
+    <value>S模式</value>
+  </data><data name="Mode_clb.Items1" xml:space="preserve">
+    <value>C模式</value>
+  </data><data name="Mode_clb.Items" xml:space="preserve">
+    <value>模式A</value>
+  </data><data name="ON_btn.Text" xml:space="preserve">
+    <value>开</value>
+  </data><data name="STBY_btn.Text" xml:space="preserve">
+    <value>待机</value>
+  </data><data name="ALT_btn.Text" xml:space="preserve">
+    <value>替代文本</value>
+  </data><data name="IDENT_btn.Text" xml:space="preserve">
+    <value>标识</value>
+  </data><data name="FlightID_label.Text" xml:space="preserve">
+    <value>航班号</value>
+  </data><data name="Squawk_label.Text" xml:space="preserve">
+    <value>Squawk</value>
+  </data><data name="XPDRConnect_btn.Text" xml:space="preserve">
+    <value>连接到应答器</value>
+  </data><data name="fault_clb.Items4" xml:space="preserve">
+    <value>在地面上</value>
+  </data><data name="fault_clb.Items3" xml:space="preserve">
+    <value>发送系统故障。</value>
+  </data><data name="fault_clb.Items2" xml:space="preserve">
+    <value>GPS无信号</value>
+  </data><data name="fault_clb.Items1" xml:space="preserve">
+    <value>GPS 不可用。</value>
+  </data><data name="fault_clb.Items" xml:space="preserve">
+    <value>维护请求</value>
+  </data><data name="NIC_lbl.Text" xml:space="preserve">
+    <value>网卡</value>
+  </data><data name="NACp_lbl.Text" xml:space="preserve">
+    <value>NACp</value>
+  </data><data name="myButton3.ToolTip" xml:space="preserve">
+    <value>切换至自动模式</value>
+  </data><data name="myButton2.ToolTip" xml:space="preserve">
+    <value>切换至RTL模式</value>
+  </data><data name="myButton1.ToolTip" xml:space="preserve">
+    <value>将模式更改为手动/稳定</value>
+  </data><data name="CMB_setwp.Items" xml:space="preserve">
+    <value>家高度=0</value>
+  </data><data name="BUT_abortland.ToolTip" xml:space="preserve">
+    <value>仅限飞机</value>
+  </data><data name="BUT_abortland.Text" xml:space="preserve">
+    <value>中止着陆</value>
+  </data><data name="BUT_SendMSG.ToolTip" xml:space="preserve">
+    <value>发送消息以保存到车辆日志中</value>
+  </data><data name="BUT_SendMSG.Text" xml:space="preserve">
+    <value>消息</value>
+  </data><data name="undockToolStripMenuItem.Text" xml:space="preserve">
+    <value>取消停靠</value>
+  </data><data name="setViewCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置查看次数</value>
+  </data><data name="multiLineToolStripMenuItem.Text" xml:space="preserve">
+    <value>多行</value>
+  </data><data name="customizeToolStripMenuItem.Text" xml:space="preserve">
+    <value>自定义</value>
+  </data><data name="showIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>显示图标</value>
+  </data><data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>电池单体电压</value>
+  </data><data name="groundColorToolStripMenuItem.Text" xml:space="preserve">
+    <value>底色</value>
+  </data><data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
+    <value>与地图交换</value>
+  </data><data name="videoToolStripMenuItem.Text" xml:space="preserve">
+    <value>视频</value>
+  </data><data name="gStreamerStopToolStripMenuItem.Text" xml:space="preserve">
+    <value>GStreamer 停止</value>
+  </data><data name="hereLinkVideoToolStripMenuItem.Text" xml:space="preserve">
+    <value>HereLink视频</value>
+  </data><data name="setGStreamerSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置 GStreamer 源</value>
+  </data><data name="startCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>开启摄像头</value>
   </data>
 </root>

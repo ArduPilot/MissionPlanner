@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>以下页面是在你有这些硬件或有其它要求时才需额外配置的。</value>
+    <value>以下页面为可选配置，请根据您是否拥有额外硬件或其他需求进行设置。</value>
   </data>
 </root>

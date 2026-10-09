@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>低电量时MP警告 </value>
+    <value>低电量时MP警告</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>mAh</value>
@@ -136,22 +136,22 @@
     <value>校准</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>5. 电流(计算过)：</value>
+    <value>5. 电流(计算值)</value>
   </data>
   <data name="TXT_battcapacity.Text" xml:space="preserve">
     <value>2200</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>监控器</value>
+    <value>监控</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
     <value>1. 测量电池电压：</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>3. 电压分压器(计算过)：</value>
+    <value>3. 电压分压器（已计算）：</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>2. 电池电压(计算过)：</value>
+    <value>2. 电池电压（计算值）：</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>6. 安培每伏：</value>
@@ -160,12 +160,55 @@
     <value>传感器</value>
   </data>
   <data name="CMB_batmontype.Items" xml:space="preserve">
-    <value>0: 关闭监测</value>
+    <value>0: 禁用</value>
   </data>
   <data name="CMB_batmontype.Items1" xml:space="preserve">
     <value>3: 电池电压</value>
   </data>
   <data name="CMB_batmontype.Items2" xml:space="preserve">
     <value>4: 电压及电流</value>
+  </data><data name="CMB_batmonsensortype.Items" xml:space="preserve">
+    <value>0: 其他</value>
+  </data><data name="CMB_batmonsensortype.Items1" xml:space="preserve">
+    <value>1: AttoPilot 45A</value>
+  </data><data name="CMB_batmonsensortype.Items2" xml:space="preserve">
+    <value>2: AttoPilot 90A</value>
+  </data><data name="CMB_batmonsensortype.Items3" xml:space="preserve">
+    <value>3: AttoPilot 180A</value>
+  </data><data name="CMB_batmonsensortype.Items4" xml:space="preserve">
+    <value>4: 3DR电源模块</value>
+  </data><data name="CMB_batmonsensortype.Items5" xml:space="preserve">
+    <value>5: 3DR 四合一电调</value>
+  </data><data name="CMB_batmonsensortype.Items6" xml:space="preserve">
+    <value>6：3DR高压电源模块APM</value>
+  </data><data name="CMB_batmonsensortype.Items7" xml:space="preserve">
+    <value>7: 3DR HV Power Module PX4</value>
+  </data><data name="CMB_batmonsensortype.Items8" xml:space="preserve">
+    <value>8: CUAV HV PM</value>
+  </data><data name="CMB_batmonsensortype.Items9" xml:space="preserve">
+    <value>9: Holybro电源模块</value>
+  </data><data name="CMB_HWVersion.Items" xml:space="preserve">
+    <value>0: CUAV V5/Pixhawk4 或 APM1</value>
+  </data><data name="CMB_HWVersion.Items1" xml:space="preserve">
+    <value>en-US: 1: APM2 - 2.5 non 3DR
+zh-CN: 1: APM2 - 2.5 非 3DR 版</value>
+  </data><data name="CMB_HWVersion.Items2" xml:space="preserve">
+    <value>2: APM2.5+/ZealotF427 - 3DR 电源模块</value>
+  </data><data name="CMB_HWVersion.Items3" xml:space="preserve">
+    <value>3: PX4</value>
+  </data><data name="CMB_HWVersion.Items4" xml:space="preserve">
+    <value>4: Cube或Pixhawk</value>
+  </data><data name="CMB_HWVersion.Items5" xml:space="preserve">
+    <value>5: VR Brain 4.5 - 5</value>
+  </data><data name="CMB_HWVersion.Items6" xml:space="preserve">
+    <value>6: VR Micro Brain 5</value>
+  </data><data name="CMB_HWVersion.Items7" xml:space="preserve">
+    <value>7: VR Brain 4</value>
+  </data><data name="CMB_HWVersion.Items8" xml:space="preserve">
+    <value>8: Cube Orange</value>
+  </data><data name="CMB_HWVersion.Items9" xml:space="preserve">
+    <value>9：Durandal/ZealotH743</value>
+  </data><data name="CMB_HWVersion.Items10" xml:space="preserve">
+    <value>10：Pixhawk 6C/Pix32 v6</value>
   </data>
 </root>

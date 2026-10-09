@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DE_ERROR_CONVERTFROM" xml:space="preserve">
+    <value>不允许在 {0} 和 {1} 之间进行类型转换。</value>
+  </data>
+  <data name="DE_ERROR_GAUSS_EAST" xml:space="preserve">
+    <value>德国定义的高斯-克吕格坐标系之外的横坐标值：  
+地理经度：东经5至16度。</value>
+  </data>
+  <data name="DE_ERROR_GAUSS_NORTH" xml:space="preserve">
+    <value>德国定义的高斯-克吕格投影系统之外的高纬度地区：
+地理纬度：北纬46°至55°。</value>
+  </data>
+  <data name="DE_ERROR_GEO2UTM" xml:space="preserve">
+    <value>WGS84 坐标系中定义的数值范围：  
+经度：-180 至 +180 度；纬度：-80 至 +84 度。</value>
+  </data>
+  <data name="DE_ERROR_GEO_LATITUDE" xml:space="preserve">
+    <value>纬度无效。有效范围：-80（南纬）至 +84（北纬）。</value>
+  </data>
+  <data name="DE_ERROR_GEO_LONGITUDE" xml:space="preserve">
+    <value>经度无效。定义范围：-180（西）至+180（东）。</value>
+  </data>
+  <data name="ERROR_GAUSS_EAST" xml:space="preserve">
+    <value>高斯-克吕格坐标系东向值超出范围：  
+经度：5 至 16 东经。</value>
+  </data>
+  <data name="ERROR_CONVERTFROM" xml:space="preserve">
+    <value>{0} 和 {1} 之间的类型转换是不允许的。</value>
+  </data>
+  <data name="DE_NO_ERROR_MESSAGE" xml:space="preserve">
+    <value>有关错误的详细信息不可用。</value>
+  </data>
+  <data name="DE_MS_NO_IMAGE" xml:space="preserve">
+    <value>此缩放级别下无卫星图像。</value>
+  </data>
+  <data name="DE_GEOGRAPHIC_STRING" xml:space="preserve">
+    <value>长度：{0}；宽度：{1}</value>
+  </data>
+  <data name="DE_GAUSS_SHORT_STRING" xml:space="preserve">
+    <value>R: {0}   H: {1}</value>
+  </data>
+  <data name="DE_GAUSS_LONG_STRING" xml:space="preserve">
+    <value>右：{0}；上：{1}</value>
+  </data>
+  <data name="DE_ERROR_UTM_ZONE2" xml:space="preserve">
+    <value>区域无效。定义范围：1 到 60。</value>
+  </data>
+  <data name="DE_ERROR_UTM_ZONE" xml:space="preserve">
+    <value>{0}{1} 是一个无效的 UTM 区域。</value>
+  </data>
+  <data name="DE_ERROR_UTM_STRING" xml:space="preserve">
+    <value>无法识别UTM字符串（格式未知）。</value>
+  </data>
+  <data name="DE_ERROR_UTM_NORTH" xml:space="preserve">
+    <value>北值无效。默认范围：约 0 至 9300000（北），约 1100000 至 10000000（南）</value>
+  </data>
+  <data name="DE_ERROR_UTM_EAST" xml:space="preserve">
+    <value>东向值无效。有效范围约为200000至800000。</value>
+  </data>
+  <data name="DE_ERROR_UTM_BAND" xml:space="preserve">
+    <value>条码无效。定义范围：C 至 X（不含 I 和 O）。</value>
+  </data>
+  <data name="DE_ERROR_TILE" xml:space="preserve">
+    <value>MapServiceTileBase 派生参数中存在无效值。</value>
+  </data>
+  <data name="DE_ERROR_MGRS_NORTH" xml:space="preserve">
+    <value>北纬无效。</value>
+  </data>
+  <data name="DE_ERROR_MGRS_GRID" xml:space="preserve">
+    <value>网格值无效。它由2个字母组成。</value>
+  </data>
+  <data name="DE_ERROR_MGRS_EAST" xml:space="preserve">
+    <value>东向值无效。</value>
+  </data>
+  <data name="DE_ERROR_MGRS" xml:space="preserve">
+    <value>MGRS坐标字符串格式无法识别或超出有效范围。</value>
+  </data>
+  <data name="DE_ERROR_MAPDIMENSION" xml:space="preserve">
+    <value>卫星图像内部密钥无效。</value>
+  </data>
+  <data name="DE_ERROR_GK_OUT_OF_RANGE" xml:space="preserve">
+    <value>超出德国定义的高斯-克吕格系统范围的值：
+经度：5至16东经；纬度：46至55北纬。</value>
+  </data>
+  <data name="ERROR_UTM_ZONE" xml:space="preserve">
+    <value>{0}{1} 是一个无效的utm区域。</value>
+  </data>
+  <data name="ERROR_UTM_ZONE2" xml:space="preserve">
+    <value>区域无效。范围：1 到 60。</value>
+  </data>
+  <data name="GAUSS_SHORT_STRING" xml:space="preserve">
+    <value>东 {0}  北 {1}</value>
+  </data>
+  <data name="GAUSS_LONG_STRING" xml:space="preserve">
+    <value>东：{0}；北：{1}</value>
+  </data>
+  <data name="GEOGRAPHIC_STRING" xml:space="preserve">
+    <value>经度：{0}；纬度：{1}</value>
+  </data>
+  <data name="MS_NO_IMAGE" xml:space="preserve">
+    <value>此缩放级别下卫星图像不可用。</value>
+  </data>
+  <data name="NO_ERROR_MESSAGE" xml:space="preserve">
+    <value>没有可用的错误详细信息。</value>
+  </data>
+  <data name="ERROR_GAUSS_NORTH" xml:space="preserve">
+    <value>高斯-克吕格投影系统中北向值超出范围：
+纬度：北纬46度至55度。</value>
+  </data>
+  <data name="ERROR_GEO2UTM" xml:space="preserve">
+    <value>UTM坐标值超出范围：
+经度：东经-180至+180；纬度：北纬-80至+84。</value>
+  </data>
+  <data name="ERROR_GEO_LATITUDE" xml:space="preserve">
+    <value>纬度无效。范围：-80（南）至+84（北）</value>
+  </data>
+  <data name="ERROR_GEO_LONGITUDE" xml:space="preserve">
+    <value>经度无效。范围：-180（西）至 +180（东）</value>
+  </data>
+  <data name="ERROR_GK_OUT_OF_RANGE" xml:space="preserve">
+    <value>高斯-克吕格系统中数值超出范围：  
+经度：东经5度至16度；纬度：北纬46度至55度。</value>
+  </data>
+  <data name="ERROR_MAPDIMENSION" xml:space="preserve">
+    <value>卫星图片内部密钥无效。</value>
+  </data>
+  <data name="ERROR_MGRS" xml:space="preserve">
+    <value>MGRS字符串格式无法解析或超出范围。</value>
+  </data>
+  <data name="ERROR_MGRS_EAST" xml:space="preserve">
+    <value>东值无效。</value>
+  </data>
+  <data name="ERROR_MGRS_GRID" xml:space="preserve">
+    <value>网格值无效。需要两个字母。</value>
+  </data>
+  <data name="ERROR_MGRS_NORTH" xml:space="preserve">
+    <value>北向值无效。</value>
+  </data>
+  <data name="ERROR_TILE" xml:space="preserve">
+    <value>您的地图服务瓦片基类派生对象包含无效值。</value>
+  </data>
+  <data name="ERROR_UTM_BAND" xml:space="preserve">
+    <value>频段无效。范围：C至X（不含I和O）。</value>
+  </data>
+  <data name="ERROR_UTM_EAST" xml:space="preserve">
+    <value>东向数值无效。范围：约200000至800000。</value>
+  </data>
+  <data name="ERROR_UTM_NORTH" xml:space="preserve">
+    <value>北值无效。范围：约0至9300000（北），约1100000至10000000（南）</value>
+  </data>
+  <data name="ERROR_UTM_STRING" xml:space="preserve">
+    <value>UTM 字符串无法解析（格式未知）。</value>
+  </data>
+</root>

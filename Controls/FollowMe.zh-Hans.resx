@@ -118,6 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>这是什么。 1. 从nmea gps获得当前gps记录。 2. 以你选的频率发送引导模式航点至APM。 （记住这限制了你用什么gps) 如何使用 1. 连接APM。 2. 起飞，测试引导模式正常工作。 3. 打开这个然后为你的nmea gps选择COM口和波特率。 4. 它现在就回跟着你了</value>
+    <value>功能说明
+1. 从NMEA协议GPS设备获取当前坐标。
+2. 按设定频率（赫兹）向自动驾驶仪发送制导模式航点（注意：实际频率受所用GPS设备性能限制）。
+
+使用方法
+1. 连接自动驾驶仪。
+2. 起飞并验证制导模式运行正常。
+3. 打开本程序，选择NMEA GPS的串行端口与波特率。
+4. 此时飞行器应开始跟随移动。
+
+注意：需手动将自动驾驶仪切换至制导模式</value>
   </data>
 </root>

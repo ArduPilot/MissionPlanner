@@ -128,7 +128,7 @@
     <value>102, 16</value>
   </data>
   <data name="CHK_elevonch2rev.Text" xml:space="preserve">
-    <value>副翼通道2反转</value>
+    <value>副翼通道2反向</value>
   </data>
   <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 16</value>
@@ -140,7 +140,7 @@
     <value>102, 16</value>
   </data>
   <data name="CHK_elevonch1rev.Text" xml:space="preserve">
-    <value>副翼通道1反转</value>
+    <value>副翼通道1反向</value>
   </data>
   <data name="groupBoxElevons.Text" xml:space="preserve">
     <value>副翼配置</value>
@@ -149,25 +149,25 @@
     <value>48, 16</value>
   </data>
   <data name="CHK_revch3.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
   <data name="CHK_revch4.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
   <data name="CHK_revch2.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
   </data>
   <data name="CHK_revch1.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="BUT_BindDSM8.Text" xml:space="preserve">
     <value>DSM8对频</value>

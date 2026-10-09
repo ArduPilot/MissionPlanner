@@ -209,7 +209,7 @@
     <value>131, 12</value>
   </data>
   <data name="linkLabel_mavlink.Text" xml:space="preserve">
-    <value>用于标准Mavlink的设置</value>
+    <value>标准Mavlink设置</value>
   </data>
   <data name="linkLabel_mavlink.ToolTip" xml:space="preserve">
     <value />
@@ -218,7 +218,7 @@
     <value>65, 12</value>
   </data>
   <data name="linkLabel_lowlatency.Text" xml:space="preserve">
-    <value>低延时设置</value>
+    <value>低延迟设置</value>
   </data>
   <data name="linkLabel_lowlatency.ToolTip" xml:space="preserve">
     <value />
@@ -448,18 +448,23 @@
     <value />
   </data>
   <data name="RSSI.ToolTip" xml:space="preserve">
-    <value>RSSI转换至dBm图像查看的说明。在尾部的数字是: txe: 发送错误的数量(如发送超时) rxe: 接收错误的数量（crc错误，框架错误等） stx: 串行发送溢出的数量 rrx: 串行接收溢出的数量 ecc: 成功被戈莱码纠正的结果有效的12位语句数据包CRC的数量</value>
+    <value>请参阅RSSI转dBm图表规范。末尾的数字含义如下：  
+txe：发送错误次数（例如：发送超时）  
+rxe：接收错误次数（CRC错误、帧错误等）  
+stx：串口发送溢出次数  
+rrx：串口接收溢出次数  
+ecc：通过golay码成功纠正的12位字数  
+（最终形成有效数据包CRC）</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>LED状态含义</value>
+    <value>状态指示灯</value>
   </data>
   <data name="linkLabel1.ToolTip" xml:space="preserve">
-    <value>3DR 电台有2个状态指示灯，一个红色，另一个绿色
-绿色灯闪烁 - 搜索另一个电台
-绿色灯常亮 - 与另一电台的链路已经建立
-红色灯闪烁 - 传输数据
-红色灯常亮 - 固件更新模式
-</value>
+    <value>3DR无线电设备配备2个状态指示灯，一红一绿。  
+绿灯闪烁——正在搜索其他无线电设备  
+绿灯常亮——已与其他无线电设备建立连接  
+红灯闪烁——正在传输数据  
+红灯常亮——处于固件更新模式</value>
   </data>
   <data name="RTI.ToolTip" xml:space="preserve">
     <value />
@@ -492,20 +497,20 @@
     <value />
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
-    <value>注意：在修改后始终点击“复制所需项目至远端”
-将确保您不会丢失无线电链路</value>
+    <value>注意：修改时务必点击“复制到远程”
+这将确保你不会丢失无线电链路</value>
   </data>
   <data name="lbl_status.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_upload.Text" xml:space="preserve">
-    <value>加载固件（本地）</value>
+    <value>上传固件（标准）</value>
   </data>
   <data name="BUT_upload.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_Syncoptions.Text" xml:space="preserve">
-    <value>复制所需项目至远端</value>
+    <value>复制到远程所需</value>
   </data>
   <data name="BUT_Syncoptions.ToolTip" xml:space="preserve">
     <value />
@@ -544,18 +549,956 @@
     <value />
   </data>
   <data name="BUT_resettodefault.Text" xml:space="preserve">
-    <value>重置为默认</value>
+    <value>重置为默认值</value>
   </data>
   <data name="BUT_resettodefault.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_loadcustom.Text" xml:space="preserve">
-    <value>上传自定义固件</value>
+    <value>上传固件（自定义）</value>
   </data>
   <data name="BUT_loadcustom.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data><data name="RSERIAL_SPEED.Items8" xml:space="preserve">
+    <value>1</value>
+  </data><data name="RSERIAL_SPEED.Items7" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RSERIAL_SPEED.Items6" xml:space="preserve">
+    <value>4</value>
+  </data><data name="RSERIAL_SPEED.Items5" xml:space="preserve">
+    <value>9</value>
+  </data><data name="RMAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="RMAX_WINDOW.Items1" xml:space="preserve">
+    <value>1</value>
+  </data><data name="RMAX_WINDOW.Items2" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RMAX_WINDOW.Items3" xml:space="preserve">
+    <value>3</value>
+  </data><data name="RMAX_WINDOW.Items4" xml:space="preserve">
+    <value>4</value>
+  </data><data name="RMAX_WINDOW.Items5" xml:space="preserve">
+    <value>5</value>
+  </data><data name="RMAX_WINDOW.Items6" xml:space="preserve">
+    <value>6</value>
+  </data><data name="RMAX_WINDOW.Items7" xml:space="preserve">
+    <value>7</value>
+  </data><data name="RMAX_WINDOW.Items8" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RMAX_WINDOW.Items9" xml:space="preserve">
+    <value>9</value>
+  </data><data name="RMAX_WINDOW.Items10" xml:space="preserve">
+    <value>10</value>
+  </data><data name="RMAX_WINDOW.Items15" xml:space="preserve">
+    <value>15</value>
+  </data><data name="RMAX_WINDOW.Items20" xml:space="preserve">
+    <value>20</value>
+  </data><data name="RMAX_WINDOW.Items25" xml:space="preserve">
+    <value>25</value>
+  </data><data name="RMAX_WINDOW.Items30" xml:space="preserve">
+    <value>30</value>
+  </data><data name="RNUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data><data name="RNUM_CHANNELS.Items1" xml:space="preserve">
+    <value>6</value>
+  </data><data name="RNUM_CHANNELS.Items2" xml:space="preserve">
+    <value>7</value>
+  </data><data name="RNUM_CHANNELS.Items3" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RNUM_CHANNELS.Items4" xml:space="preserve">
+    <value>9</value>
+  </data><data name="RNUM_CHANNELS.Items5" xml:space="preserve">
+    <value>10</value>
+  </data><data name="RNUM_CHANNELS.Items10" xml:space="preserve">
+    <value>15</value>
+  </data><data name="RNUM_CHANNELS.Items15" xml:space="preserve">
+    <value>20</value>
+  </data><data name="RNUM_CHANNELS.Items16" xml:space="preserve">
+    <value>30</value>
+  </data><data name="RNUM_CHANNELS.Items18" xml:space="preserve">
+    <value>50</value>
+  </data><data name="RDUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data><data name="RDUTY_CYCLE.Items1" xml:space="preserve">
+    <value>20</value>
+  </data><data name="RDUTY_CYCLE.Items2" xml:space="preserve">
+    <value>30</value>
+  </data><data name="RDUTY_CYCLE.Items4" xml:space="preserve">
+    <value>50</value>
+  </data><data name="RDUTY_CYCLE.Items8" xml:space="preserve">
+    <value>90</value>
+  </data><data name="RDUTY_CYCLE.Items9" xml:space="preserve">
+    <value>100</value>
+  </data><data name="RLBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="RLBT_RSSI.Items1" xml:space="preserve">
+    <value>25</value>
+  </data><data name="RLBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data><data name="RLBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data><data name="RAIR_SPEED.Items10" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RAIR_SPEED.Items11" xml:space="preserve">
+    <value>4</value>
+  </data><data name="RAIR_SPEED.Items12" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RNETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data><data name="RNETID.Items1" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RNETID.Items2" xml:space="preserve">
+    <value>3</value>
+  </data><data name="RNETID.Items3" xml:space="preserve">
+    <value>4</value>
+  </data><data name="RNETID.Items4" xml:space="preserve">
+    <value>5</value>
+  </data><data name="RNETID.Items5" xml:space="preserve">
+    <value>6</value>
+  </data><data name="RNETID.Items6" xml:space="preserve">
+    <value>7</value>
+  </data><data name="RNETID.Items7" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RNETID.Items8" xml:space="preserve">
+    <value>9</value>
+  </data><data name="RNETID.Items9" xml:space="preserve">
+    <value>10</value>
+  </data><data name="RNETID.Items14" xml:space="preserve">
+    <value>15</value>
+  </data><data name="RNETID.Items19" xml:space="preserve">
+    <value>20</value>
+  </data><data name="RNETID.Items24" xml:space="preserve">
+    <value>25</value>
+  </data><data name="RNETID.Items29" xml:space="preserve">
+    <value>30</value>
+  </data><data name="RTXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data><data name="RTXPOWER.Items1" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RTXPOWER.Items2" xml:space="preserve">
+    <value>5</value>
+  </data><data name="RTXPOWER.Items3" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RTXPOWER.Items7" xml:space="preserve">
+    <value>20</value>
+  </data><data name="MAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="MAX_WINDOW.Items1" xml:space="preserve">
+    <value>1</value>
+  </data><data name="MAX_WINDOW.Items2" xml:space="preserve">
+    <value>2</value>
+  </data><data name="MAX_WINDOW.Items3" xml:space="preserve">
+    <value>3</value>
+  </data><data name="MAX_WINDOW.Items4" xml:space="preserve">
+    <value>4</value>
+  </data><data name="MAX_WINDOW.Items5" xml:space="preserve">
+    <value>5</value>
+  </data><data name="MAX_WINDOW.Items6" xml:space="preserve">
+    <value>6</value>
+  </data><data name="MAX_WINDOW.Items7" xml:space="preserve">
+    <value>7</value>
+  </data><data name="MAX_WINDOW.Items8" xml:space="preserve">
+    <value>8</value>
+  </data><data name="MAX_WINDOW.Items9" xml:space="preserve">
+    <value>9</value>
+  </data><data name="MAX_WINDOW.Items10" xml:space="preserve">
+    <value>10</value>
+  </data><data name="MAX_WINDOW.Items15" xml:space="preserve">
+    <value>15</value>
+  </data><data name="MAX_WINDOW.Items20" xml:space="preserve">
+    <value>20</value>
+  </data><data name="MAX_WINDOW.Items25" xml:space="preserve">
+    <value>25</value>
+  </data><data name="MAX_WINDOW.Items30" xml:space="preserve">
+    <value>30</value>
+  </data><data name="NUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data><data name="NUM_CHANNELS.Items1" xml:space="preserve">
+    <value>6</value>
+  </data><data name="NUM_CHANNELS.Items2" xml:space="preserve">
+    <value>7</value>
+  </data><data name="NUM_CHANNELS.Items3" xml:space="preserve">
+    <value>8</value>
+  </data><data name="NUM_CHANNELS.Items4" xml:space="preserve">
+    <value>9</value>
+  </data><data name="NUM_CHANNELS.Items5" xml:space="preserve">
+    <value>10</value>
+  </data><data name="NUM_CHANNELS.Items10" xml:space="preserve">
+    <value>15</value>
+  </data><data name="NUM_CHANNELS.Items15" xml:space="preserve">
+    <value>20</value>
+  </data><data name="NUM_CHANNELS.Items16" xml:space="preserve">
+    <value>30</value>
+  </data><data name="NUM_CHANNELS.Items18" xml:space="preserve">
+    <value>50</value>
+  </data><data name="LBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="LBT_RSSI.Items1" xml:space="preserve">
+    <value>25</value>
+  </data><data name="LBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data><data name="LBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data><data name="DUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data><data name="DUTY_CYCLE.Items1" xml:space="preserve">
+    <value>20</value>
+  </data><data name="DUTY_CYCLE.Items2" xml:space="preserve">
+    <value>30</value>
+  </data><data name="DUTY_CYCLE.Items4" xml:space="preserve">
+    <value>50</value>
+  </data><data name="DUTY_CYCLE.Items8" xml:space="preserve">
+    <value>90</value>
+  </data><data name="DUTY_CYCLE.Items9" xml:space="preserve">
+    <value>100</value>
+  </data><data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>MAVLink</value>
+  </data><data name="SERIAL_SPEED.Items5" xml:space="preserve">
+    <value>9</value>
+  </data><data name="SERIAL_SPEED.Items6" xml:space="preserve">
+    <value>4</value>
+  </data><data name="SERIAL_SPEED.Items7" xml:space="preserve">
+    <value>2</value>
+  </data><data name="SERIAL_SPEED.Items8" xml:space="preserve">
+    <value>1</value>
+  </data><data name="AIR_SPEED.Items10" xml:space="preserve">
+    <value>8</value>
+  </data><data name="AIR_SPEED.Items11" xml:space="preserve">
+    <value>4</value>
+  </data><data name="AIR_SPEED.Items12" xml:space="preserve">
+    <value>2</value>
+  </data><data name="NETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data><data name="NETID.Items1" xml:space="preserve">
+    <value>2</value>
+  </data><data name="NETID.Items2" xml:space="preserve">
+    <value>3</value>
+  </data><data name="NETID.Items3" xml:space="preserve">
+    <value>4</value>
+  </data><data name="NETID.Items4" xml:space="preserve">
+    <value>5</value>
+  </data><data name="NETID.Items5" xml:space="preserve">
+    <value>6</value>
+  </data><data name="NETID.Items6" xml:space="preserve">
+    <value>7</value>
+  </data><data name="NETID.Items7" xml:space="preserve">
+    <value>8</value>
+  </data><data name="NETID.Items8" xml:space="preserve">
+    <value>9</value>
+  </data><data name="NETID.Items9" xml:space="preserve">
+    <value>10</value>
+  </data><data name="NETID.Items14" xml:space="preserve">
+    <value>15</value>
+  </data><data name="NETID.Items19" xml:space="preserve">
+    <value>20</value>
+  </data><data name="NETID.Items24" xml:space="preserve">
+    <value>25</value>
+  </data><data name="NETID.Items29" xml:space="preserve">
+    <value>30</value>
+  </data><data name="TXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data><data name="TXPOWER.Items1" xml:space="preserve">
+    <value>2</value>
+  </data><data name="TXPOWER.Items2" xml:space="preserve">
+    <value>5</value>
+  </data><data name="TXPOWER.Items3" xml:space="preserve">
+    <value>8</value>
+  </data><data name="TXPOWER.Items7" xml:space="preserve">
+    <value>20</value>
+  </data><data name="ENCRYPTION_LEVEL.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="ENCRYPTION_LEVEL.Items1" xml:space="preserve">
+    <value>1</value>
+  </data><data name="ENCRYPTION_LEVEL.Items2" xml:space="preserve">
+    <value>2</value>
+  </data><data name="ENCRYPTION_LEVEL.Items3" xml:space="preserve">
+    <value>3</value>
+  </data><data name="ENCRYPTION_LEVEL.Items4" xml:space="preserve">
+    <value>4</value>
+  </data><data name="ENCRYPTION_LEVEL.Items5" xml:space="preserve">
+    <value>5</value>
+  </data><data name="ENCRYPTION_LEVEL.Items6" xml:space="preserve">
+    <value>6</value>
+  </data><data name="ENCRYPTION_LEVEL.Items7" xml:space="preserve">
+    <value>7</value>
+  </data><data name="ENCRYPTION_LEVEL.Items8" xml:space="preserve">
+    <value>8</value>
+  </data><data name="ENCRYPTION_LEVEL.Items9" xml:space="preserve">
+    <value>9</value>
+  </data><data name="ENCRYPTION_LEVEL.Items10" xml:space="preserve">
+    <value>10</value>
+  </data><data name="ENCRYPTION_LEVEL.Items15" xml:space="preserve">
+    <value>15</value>
+  </data><data name="ENCRYPTION_LEVEL.Items20" xml:space="preserve">
+    <value>20</value>
+  </data><data name="ENCRYPTION_LEVEL.Items25" xml:space="preserve">
+    <value>25</value>
+  </data><data name="ENCRYPTION_LEVEL.Items30" xml:space="preserve">
+    <value>30</value>
+  </data><data name="RENCRYPTION_LEVEL.Items" xml:space="preserve">
+    <value>0</value>
+  </data><data name="RENCRYPTION_LEVEL.Items1" xml:space="preserve">
+    <value>1</value>
+  </data><data name="RENCRYPTION_LEVEL.Items2" xml:space="preserve">
+    <value>2</value>
+  </data><data name="RENCRYPTION_LEVEL.Items3" xml:space="preserve">
+    <value>3</value>
+  </data><data name="RENCRYPTION_LEVEL.Items4" xml:space="preserve">
+    <value>4</value>
+  </data><data name="RENCRYPTION_LEVEL.Items5" xml:space="preserve">
+    <value>5</value>
+  </data><data name="RENCRYPTION_LEVEL.Items6" xml:space="preserve">
+    <value>6</value>
+  </data><data name="RENCRYPTION_LEVEL.Items7" xml:space="preserve">
+    <value>7</value>
+  </data><data name="RENCRYPTION_LEVEL.Items8" xml:space="preserve">
+    <value>8</value>
+  </data><data name="RENCRYPTION_LEVEL.Items9" xml:space="preserve">
+    <value>9</value>
+  </data><data name="RENCRYPTION_LEVEL.Items10" xml:space="preserve">
+    <value>10</value>
+  </data><data name="RENCRYPTION_LEVEL.Items15" xml:space="preserve">
+    <value>15</value>
+  </data><data name="RENCRYPTION_LEVEL.Items20" xml:space="preserve">
+    <value>20</value>
+  </data><data name="RENCRYPTION_LEVEL.Items25" xml:space="preserve">
+    <value>25</value>
+  </data><data name="RENCRYPTION_LEVEL.Items30" xml:space="preserve">
+    <value>30</value>
+  </data><data name="lblMAVLINK.Text" xml:space="preserve">
+    <value>MAVLink</value>
+  </data><data name="lblRMAVLINK.Text" xml:space="preserve">
+    <value>MAVLink</value>
+  </data><data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>启用或禁用硬件流控制</value>
+  </data><data name="RMAX_WINDOW.Items11" xml:space="preserve">
+    <value>11</value>
+  </data><data name="RMAX_WINDOW.Items12" xml:space="preserve">
+    <value>12</value>
+  </data><data name="RMAX_WINDOW.Items13" xml:space="preserve">
+    <value>13</value>
+  </data><data name="RMAX_WINDOW.Items14" xml:space="preserve">
+    <value>14</value>
+  </data><data name="RMAX_WINDOW.Items16" xml:space="preserve">
+    <value>16</value>
+  </data><data name="RMAX_WINDOW.Items17" xml:space="preserve">
+    <value>17</value>
+  </data><data name="RMAX_WINDOW.Items18" xml:space="preserve">
+    <value>18</value>
+  </data><data name="RMAX_WINDOW.Items19" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RMAX_WINDOW.Items21" xml:space="preserve">
+    <value>21</value>
+  </data><data name="RMAX_WINDOW.Items22" xml:space="preserve">
+    <value>22</value>
+  </data><data name="RMAX_WINDOW.Items23" xml:space="preserve">
+    <value>23</value>
+  </data><data name="RMAX_WINDOW.Items24" xml:space="preserve">
+    <value>24</value>
+  </data><data name="RMAX_WINDOW.Items26" xml:space="preserve">
+    <value>26</value>
+  </data><data name="RMAX_WINDOW.Items27" xml:space="preserve">
+    <value>27</value>
+  </data><data name="RMAX_WINDOW.Items28" xml:space="preserve">
+    <value>28</value>
+  </data><data name="RMAX_WINDOW.Items29" xml:space="preserve">
+    <value>29</value>
+  </data><data name="RMAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data><data name="RMAX_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data><data name="RMAX_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data><data name="RMAX_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data><data name="RMAX_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data><data name="RMAX_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data><data name="RMAX_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data><data name="RMAX_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data><data name="RMAX_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data><data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>最大频率（kHz）</value>
+  </data><data name="RNUM_CHANNELS.Items6" xml:space="preserve">
+    <value>11</value>
+  </data><data name="RNUM_CHANNELS.Items7" xml:space="preserve">
+    <value>12</value>
+  </data><data name="RNUM_CHANNELS.Items8" xml:space="preserve">
+    <value>13</value>
+  </data><data name="RNUM_CHANNELS.Items9" xml:space="preserve">
+    <value>14</value>
+  </data><data name="RNUM_CHANNELS.Items11" xml:space="preserve">
+    <value>16</value>
+  </data><data name="RNUM_CHANNELS.Items12" xml:space="preserve">
+    <value>17</value>
+  </data><data name="RNUM_CHANNELS.Items13" xml:space="preserve">
+    <value>18</value>
+  </data><data name="RNUM_CHANNELS.Items14" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RNUM_CHANNELS.Items17" xml:space="preserve">
+    <value>40</value>
+  </data><data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>跳频信道数</value>
+  </data><data name="RDUTY_CYCLE.Items3" xml:space="preserve">
+    <value>40</value>
+  </data><data name="RDUTY_CYCLE.Items5" xml:space="preserve">
+    <value>60</value>
+  </data><data name="RDUTY_CYCLE.Items6" xml:space="preserve">
+    <value>70</value>
+  </data><data name="RDUTY_CYCLE.Items7" xml:space="preserve">
+    <value>80</value>
+  </data><data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>允许传输的时间百分比</value>
+  </data><data name="RLBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data><data name="RLBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data><data name="RLBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
+  </data><data name="RLBT_RSSI.ToolTip" xml:space="preserve">
+    <value>先听后说阈值</value>
+  </data><data name="RMIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data><data name="RMIN_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data><data name="RMIN_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data><data name="RMIN_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data><data name="RMIN_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data><data name="RMIN_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data><data name="RMIN_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data><data name="RMIN_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data><data name="RMIN_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data><data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>最小频率（kHz）</value>
+  </data><data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT 将GPIO 1.1设置为R/C(PPM)输出</value>
+  </data><data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/CIN 将 GPIO 1.1 设置为遥控器(PPM)输入</value>
+  </data><data name="RSERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data><data name="RSERIAL_SPEED.Items1" xml:space="preserve">
+    <value>111</value>
+  </data><data name="RSERIAL_SPEED.Items2" xml:space="preserve">
+    <value>57</value>
+  </data><data name="RSERIAL_SPEED.Items3" xml:space="preserve">
+    <value>38</value>
+  </data><data name="RSERIAL_SPEED.Items4" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>串口波特率以千比特每秒（kbps）的整数表示。例如，57 表示 57600。</value>
+  </data><data name="RAIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data><data name="RAIR_SPEED.Items1" xml:space="preserve">
+    <value>192</value>
+  </data><data name="RAIR_SPEED.Items2" xml:space="preserve">
+    <value>128</value>
+  </data><data name="RAIR_SPEED.Items3" xml:space="preserve">
+    <value>96</value>
+  </data><data name="RAIR_SPEED.Items4" xml:space="preserve">
+    <value>64</value>
+  </data><data name="RAIR_SPEED.Items5" xml:space="preserve">
+    <value>48</value>
+  </data><data name="RAIR_SPEED.Items6" xml:space="preserve">
+    <value>32</value>
+  </data><data name="RAIR_SPEED.Items7" xml:space="preserve">
+    <value>24</value>
+  </data><data name="RAIR_SPEED.Items8" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RAIR_SPEED.Items9" xml:space="preserve">
+    <value>16</value>
+  </data><data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 是指无线电台间的数据速率，单位为四舍五入后的千比特每秒（kbps）。例如，128 表示 128kbps。最大值为 192，最小值为 2。不建议设置低于 16 的值，因为跳频和时分复用同步时间会变得过长。</value>
+  </data><data name="RNETID.Items10" xml:space="preserve">
+    <value>11</value>
+  </data><data name="RNETID.Items11" xml:space="preserve">
+    <value>12</value>
+  </data><data name="RNETID.Items12" xml:space="preserve">
+    <value>13</value>
+  </data><data name="RNETID.Items13" xml:space="preserve">
+    <value>14</value>
+  </data><data name="RNETID.Items15" xml:space="preserve">
+    <value>16</value>
+  </data><data name="RNETID.Items16" xml:space="preserve">
+    <value>17</value>
+  </data><data name="RNETID.Items17" xml:space="preserve">
+    <value>18</value>
+  </data><data name="RNETID.Items18" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RNETID.Items20" xml:space="preserve">
+    <value>21</value>
+  </data><data name="RNETID.Items21" xml:space="preserve">
+    <value>22</value>
+  </data><data name="RNETID.Items22" xml:space="preserve">
+    <value>23</value>
+  </data><data name="RNETID.Items23" xml:space="preserve">
+    <value>24</value>
+  </data><data name="RNETID.Items25" xml:space="preserve">
+    <value>26</value>
+  </data><data name="RNETID.Items26" xml:space="preserve">
+    <value>27</value>
+  </data><data name="RNETID.Items27" xml:space="preserve">
+    <value>28</value>
+  </data><data name="RNETID.Items28" xml:space="preserve">
+    <value>29</value>
+  </data><data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID是一个16位的“网络ID”。它用于生成跳频序列的种子，并识别数据包是否来自正确的无线电设备。请确保您使用的NETID与在同一区域运行同类型无线电设备的其他用户不同。</value>
+  </data><data name="RTXPOWER.Items4" xml:space="preserve">
+    <value>11</value>
+  </data><data name="RTXPOWER.Items5" xml:space="preserve">
+    <value>14</value>
+  </data><data name="RTXPOWER.Items6" xml:space="preserve">
+    <value>17</value>
+  </data><data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER是发射功率，单位为dBm。20dBm对应100mW。在短距离测试时，将其设置为较低水平很有用。</value>
+  </data><data name="RECC.ToolTip" xml:space="preserve">
+    <value>ECC（纠错码）用于启用或禁用Golay纠错编码，默认处于关闭状态。启用后，每个数据包的传输字节数将增加一倍，因此空中带宽会减少一半，但它能够在每12位数据中纠正最多3位错误。此功能适用于远距离通信，通常与较低的空中数据传输速率结合使用。Golay解码每传输字节耗时20微秒（每用户数据字节40微秒），这意味着在最高空中数据传输速率下，CPU资源也会受到一定限制。因此，Golay编码通常在128kbps或更低的速率下使用。</value>
+  </data><data name="MAX_WINDOW.Items11" xml:space="preserve">
+    <value>11</value>
+  </data><data name="NUM_CHANNELS.Items6" xml:space="preserve">
+    <value>11</value>
+  </data><data name="DUTY_CYCLE.Items5" xml:space="preserve">
+    <value>60</value>
+  </data><data name="NETID.Items10" xml:space="preserve">
+    <value>11</value>
+  </data><data name="TXPOWER.Items4" xml:space="preserve">
+    <value>11</value>
+  </data><data name="ENCRYPTION_LEVEL.Items11" xml:space="preserve">
+    <value>11</value>
+  </data><data name="RENCRYPTION_LEVEL.Items11" xml:space="preserve">
+    <value>11</value>
+  </data><data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“机会性重传”。启用时，如果串行输入缓冲区中的数据少于256字节，无线电将发送数据包两次。第二次发送会被标记为重传，若接收方已成功接收第一个数据包，则会丢弃重传包。这对链路质量有显著改善，尤其对于上行链路命令。</value>
+  </data><data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>启用或禁用硬件流控制</value>
+  </data><data name="MAX_WINDOW.Items12" xml:space="preserve">
+    <value>12</value>
+  </data><data name="MAX_WINDOW.Items13" xml:space="preserve">
+    <value>13</value>
+  </data><data name="MAX_WINDOW.Items14" xml:space="preserve">
+    <value>14</value>
+  </data><data name="MAX_WINDOW.Items16" xml:space="preserve">
+    <value>16</value>
+  </data><data name="MAX_WINDOW.Items17" xml:space="preserve">
+    <value>17</value>
+  </data><data name="MAX_WINDOW.Items18" xml:space="preserve">
+    <value>18</value>
+  </data><data name="MAX_WINDOW.Items19" xml:space="preserve">
+    <value>19</value>
+  </data><data name="MAX_WINDOW.Items21" xml:space="preserve">
+    <value>21</value>
+  </data><data name="MAX_WINDOW.Items22" xml:space="preserve">
+    <value>22</value>
+  </data><data name="MAX_WINDOW.Items23" xml:space="preserve">
+    <value>23</value>
+  </data><data name="MAX_WINDOW.Items24" xml:space="preserve">
+    <value>24</value>
+  </data><data name="MAX_WINDOW.Items26" xml:space="preserve">
+    <value>26</value>
+  </data><data name="MAX_WINDOW.Items27" xml:space="preserve">
+    <value>27</value>
+  </data><data name="MAX_WINDOW.Items28" xml:space="preserve">
+    <value>28</value>
+  </data><data name="MAX_WINDOW.Items29" xml:space="preserve">
+    <value>29</value>
+  </data><data name="MAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data><data name="MAX_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data><data name="MAX_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data><data name="MAX_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data><data name="MAX_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data><data name="MAX_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data><data name="MAX_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data><data name="MAX_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data><data name="MAX_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data><data name="MAX_FREQ.ToolTip" xml:space="preserve">
+    <value>最大频率（kHz）</value>
+  </data><data name="NUM_CHANNELS.Items7" xml:space="preserve">
+    <value>12</value>
+  </data><data name="NUM_CHANNELS.Items8" xml:space="preserve">
+    <value>13</value>
+  </data><data name="NUM_CHANNELS.Items9" xml:space="preserve">
+    <value>14</value>
+  </data><data name="NUM_CHANNELS.Items11" xml:space="preserve">
+    <value>16</value>
+  </data><data name="NUM_CHANNELS.Items12" xml:space="preserve">
+    <value>17</value>
+  </data><data name="NUM_CHANNELS.Items13" xml:space="preserve">
+    <value>18</value>
+  </data><data name="NUM_CHANNELS.Items14" xml:space="preserve">
+    <value>19</value>
+  </data><data name="NUM_CHANNELS.Items17" xml:space="preserve">
+    <value>40</value>
+  </data><data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>跳频信道数</value>
+  </data><data name="LBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data><data name="LBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data><data name="LBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
+  </data><data name="LBT_RSSI.ToolTip" xml:space="preserve">
+    <value>先听后说阈值</value>
+  </data><data name="MIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data><data name="MIN_FREQ.Items1" xml:space="preserve">
+    <value>907500</value>
+  </data><data name="MIN_FREQ.Items2" xml:space="preserve">
+    <value>915000</value>
+  </data><data name="MIN_FREQ.Items3" xml:space="preserve">
+    <value>921000</value>
+  </data><data name="MIN_FREQ.Items4" xml:space="preserve">
+    <value>928000</value>
+  </data><data name="MIN_FREQ.Items5" xml:space="preserve">
+    <value>433050</value>
+  </data><data name="MIN_FREQ.Items6" xml:space="preserve">
+    <value>434040</value>
+  </data><data name="MIN_FREQ.Items7" xml:space="preserve">
+    <value>434790</value>
+  </data><data name="MIN_FREQ.Items8" xml:space="preserve">
+    <value>435000</value>
+  </data><data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>最小频率（千赫兹）</value>
+  </data><data name="DUTY_CYCLE.Items3" xml:space="preserve">
+    <value>40</value>
+  </data><data name="DUTY_CYCLE.Items6" xml:space="preserve">
+    <value>70</value>
+  </data><data name="DUTY_CYCLE.Items7" xml:space="preserve">
+    <value>80</value>
+  </data><data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>允许传输的时间百分比</value>
+  </data><data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT 将GPIO 1.1设置为遥控器(PPM)输出</value>
+  </data><data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/CIN 将GPIO 1.1设置为遥控器(PPM)输入</value>
+  </data><data name="SERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data><data name="SERIAL_SPEED.Items1" xml:space="preserve">
+    <value>111</value>
+  </data><data name="SERIAL_SPEED.Items2" xml:space="preserve">
+    <value>57</value>
+  </data><data name="SERIAL_SPEED.Items3" xml:space="preserve">
+    <value>38</value>
+  </data><data name="SERIAL_SPEED.Items4" xml:space="preserve">
+    <value>19</value>
+  </data><data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>串口波特率以千位每秒（kbps）的整数表示。例如，57 表示 57600。</value>
+  </data><data name="AIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data><data name="AIR_SPEED.Items1" xml:space="preserve">
+    <value>192</value>
+  </data><data name="AIR_SPEED.Items2" xml:space="preserve">
+    <value>128</value>
+  </data><data name="AIR_SPEED.Items3" xml:space="preserve">
+    <value>96</value>
+  </data><data name="AIR_SPEED.Items4" xml:space="preserve">
+    <value>64</value>
+  </data><data name="AIR_SPEED.Items5" xml:space="preserve">
+    <value>48</value>
+  </data><data name="AIR_SPEED.Items6" xml:space="preserve">
+    <value>32</value>
+  </data><data name="AIR_SPEED.Items7" xml:space="preserve">
+    <value>24</value>
+  </data><data name="AIR_SPEED.Items8" xml:space="preserve">
+    <value>19</value>
+  </data><data name="AIR_SPEED.Items9" xml:space="preserve">
+    <value>16</value>
+  </data><data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED是无线电台间的数据速率，单位为千比特每秒（kbps），取整数值。例如，128表示128kbps。最大值为192，最小值为2。不建议将数值设为16以下，因为跳频和时分复用同步时间会变得过长。</value>
+  </data><data name="NETID.Items11" xml:space="preserve">
+    <value>12</value>
+  </data><data name="NETID.Items12" xml:space="preserve">
+    <value>13</value>
+  </data><data name="NETID.Items13" xml:space="preserve">
+    <value>14</value>
+  </data><data name="NETID.Items15" xml:space="preserve">
+    <value>16</value>
+  </data><data name="NETID.Items16" xml:space="preserve">
+    <value>17</value>
+  </data><data name="NETID.Items17" xml:space="preserve">
+    <value>18</value>
+  </data><data name="NETID.Items18" xml:space="preserve">
+    <value>19</value>
+  </data><data name="NETID.Items20" xml:space="preserve">
+    <value>21</value>
+  </data><data name="NETID.Items21" xml:space="preserve">
+    <value>22</value>
+  </data><data name="NETID.Items22" xml:space="preserve">
+    <value>23</value>
+  </data><data name="NETID.Items23" xml:space="preserve">
+    <value>24</value>
+  </data><data name="NETID.Items25" xml:space="preserve">
+    <value>26</value>
+  </data><data name="NETID.Items26" xml:space="preserve">
+    <value>27</value>
+  </data><data name="NETID.Items27" xml:space="preserve">
+    <value>28</value>
+  </data><data name="NETID.Items28" xml:space="preserve">
+    <value>29</value>
+  </data><data name="NETID.ToolTip" xml:space="preserve">
+    <value>NETID是一个16位的“网络标识符”。它用于生成跳频序列，并识别数据包是否来自正确的无线电设备。请确保您使用的NETID与同一区域内运行同类无线电设备的其他用户不同。</value>
+  </data><data name="TXPOWER.Items5" xml:space="preserve">
+    <value>14</value>
+  </data><data name="TXPOWER.Items6" xml:space="preserve">
+    <value>17</value>
+  </data><data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER是发射功率，单位为dBm。20dBm对应100mW。在短距离测试时，将其设置为较低水平很有用。</value>
+  </data><data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC用于启用或禁用戈莱纠错码，默认为关闭状态。启用后，数据包传输所需字节数将翻倍，因此空中带宽会减半，但每12位数据最多可纠正3位错误。建议在远距离通信时启用此功能，通常需配合较低的空中数据传输速率使用。戈莱解码耗时约为每传输字节20微秒（每用户数据字节40微秒），这意味着在最高空中数据速率下CPU资源也会受到一定限制。因此通常建议在128kbps或更低的速率下使用戈莱纠错码。</value>
+  </data><data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“机会性重发”功能。启用后，如果串行输入缓冲区中的数据量少于256字节，无线电将发送两次数据包。第二次发送会被标记为重发数据包，若接收方已成功接收第一个数据包，则会丢弃该重发包。这一功能可显著提升链路质量，尤其对于上行链路指令的传输效果改善明显。</value>
+  </data><data name="ENCRYPTION_LEVEL.Items12" xml:space="preserve">
+    <value>12</value>
+  </data><data name="ENCRYPTION_LEVEL.Items13" xml:space="preserve">
+    <value>13</value>
+  </data><data name="ENCRYPTION_LEVEL.Items14" xml:space="preserve">
+    <value>14</value>
+  </data><data name="ENCRYPTION_LEVEL.Items16" xml:space="preserve">
+    <value>16</value>
+  </data><data name="ENCRYPTION_LEVEL.Items17" xml:space="preserve">
+    <value>17</value>
+  </data><data name="ENCRYPTION_LEVEL.Items18" xml:space="preserve">
+    <value>18</value>
+  </data><data name="ENCRYPTION_LEVEL.Items19" xml:space="preserve">
+    <value>19</value>
+  </data><data name="ENCRYPTION_LEVEL.Items21" xml:space="preserve">
+    <value>21</value>
+  </data><data name="ENCRYPTION_LEVEL.Items22" xml:space="preserve">
+    <value>22</value>
+  </data><data name="ENCRYPTION_LEVEL.Items23" xml:space="preserve">
+    <value>23</value>
+  </data><data name="ENCRYPTION_LEVEL.Items24" xml:space="preserve">
+    <value>24</value>
+  </data><data name="ENCRYPTION_LEVEL.Items26" xml:space="preserve">
+    <value>26</value>
+  </data><data name="ENCRYPTION_LEVEL.Items27" xml:space="preserve">
+    <value>27</value>
+  </data><data name="ENCRYPTION_LEVEL.Items28" xml:space="preserve">
+    <value>28</value>
+  </data><data name="ENCRYPTION_LEVEL.Items29" xml:space="preserve">
+    <value>29</value>
+  </data><data name="ENCRYPTION_LEVEL.ToolTip" xml:space="preserve">
+    <value>AES加密级别</value>
+  </data><data name="RENCRYPTION_LEVEL.Items12" xml:space="preserve">
+    <value>12</value>
+  </data><data name="RENCRYPTION_LEVEL.Items13" xml:space="preserve">
+    <value>13</value>
+  </data><data name="RENCRYPTION_LEVEL.Items14" xml:space="preserve">
+    <value>14</value>
+  </data><data name="RENCRYPTION_LEVEL.Items16" xml:space="preserve">
+    <value>16</value>
+  </data><data name="RENCRYPTION_LEVEL.Items17" xml:space="preserve">
+    <value>17</value>
+  </data><data name="RENCRYPTION_LEVEL.Items18" xml:space="preserve">
+    <value>18</value>
+  </data><data name="RENCRYPTION_LEVEL.Items19" xml:space="preserve">
+    <value>19</value>
+  </data><data name="RENCRYPTION_LEVEL.Items21" xml:space="preserve">
+    <value>21</value>
+  </data><data name="RENCRYPTION_LEVEL.Items22" xml:space="preserve">
+    <value>22</value>
+  </data><data name="RENCRYPTION_LEVEL.Items23" xml:space="preserve">
+    <value>23</value>
+  </data><data name="RENCRYPTION_LEVEL.Items24" xml:space="preserve">
+    <value>24</value>
+  </data><data name="RENCRYPTION_LEVEL.Items26" xml:space="preserve">
+    <value>26</value>
+  </data><data name="RENCRYPTION_LEVEL.Items27" xml:space="preserve">
+    <value>27</value>
+  </data><data name="RENCRYPTION_LEVEL.Items28" xml:space="preserve">
+    <value>28</value>
+  </data><data name="RENCRYPTION_LEVEL.Items29" xml:space="preserve">
+    <value>29</value>
+  </data><data name="RENCRYPTION_LEVEL.ToolTip" xml:space="preserve">
+    <value>AES 加密级别</value>
+  </data><data name="FSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>进入故障保护前SBUS或PPM缺失的输出帧数。</value>
+  </data><data name="RFSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>进入故障保护前SBUS或PPM缺失的输出帧数。</value>
+  </data><data name="label12.Text" xml:space="preserve">
+    <value>接收信号强度指示</value>
+  </data><data name="groupBoxLocal.Text" xml:space="preserve">
+    <value>本地</value>
+  </data><data name="label54.Text" xml:space="preserve">
+    <value>失控保护：框架丢失</value>
+  </data><data name="lblGPO1_3AUXOUT.Text" xml:space="preserve">
+    <value>GPO1_3AUXOUT</value>
+  </data><data name="lblGPI1_2AUXIN.Text" xml:space="preserve">
+    <value>GPI1_2AUXIN</value>
+  </data><data name="lblGPIO1_1FUNC.Text" xml:space="preserve">
+    <value>GPIO1_1功能</value>
+  </data><data name="lblGPO1_0TXEN485.Text" xml:space="preserve">
+    <value>GPO1_0TXEN485</value>
+  </data><data name="lblGPO1_3STATLED.Text" xml:space="preserve">
+    <value>GPO1_3STATLED</value>
+  </data><data name="label49.Text" xml:space="preserve">
+    <value>国家：</value>
+  </data><data name="label45.Text" xml:space="preserve">
+    <value>速率/频段</value>
+  </data><data name="lblSBUSOUT.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT:</value>
+  </data><data name="lblSBUSIN.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data><data name="btnRandom.Text" xml:space="preserve">
+    <value>随机</value>
+  </data><data name="lblRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>接收机编码</value>
+  </data><data name="lblTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>发送编码</value>
+  </data><data name="lblDESTID.Text" xml:space="preserve">
+    <value>目标ID</value>
+  </data><data name="lblNODEID.Text" xml:space="preserve">
+    <value>节点ID</value>
+  </data><data name="lblGPO1_1R_COUT.Text" xml:space="preserve">
+    <value>GPO1_1R/COUT</value>
+  </data><data name="lblGPI1_1R_CIN.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data><data name="lblNETID.Text" xml:space="preserve">
+    <value>网络ID</value>
+  </data><data name="lblTXPOWER.Text" xml:space="preserve">
+    <value>发射功率</value>
+  </data><data name="lblECC.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data><data name="lblOPPRESEND.Text" xml:space="preserve">
+    <value>操作重发</value>
+  </data><data name="lblANT_MODE.Text" xml:space="preserve">
+    <value>天线模式</value>
+  </data><data name="lblSER_BRK_DETMS.Text" xml:space="preserve">
+    <value>中断检测</value>
+  </data><data name="lblGLOBAL_RETRIES.Text" xml:space="preserve">
+    <value>全局重试</value>
+  </data><data name="lblMAX_RETRIES.Text" xml:space="preserve">
+    <value>最大重试次数</value>
+  </data><data name="lblMAX_DATA.Text" xml:space="preserve">
+    <value>最大数据</value>
+  </data><data name="lblENCRYPTION_LEVEL.Text" xml:space="preserve">
+    <value>AES加密</value>
+  </data><data name="label35.Text" xml:space="preserve">
+    <value>AES密钥</value>
+  </data><data name="lblRTSCTS.Text" xml:space="preserve">
+    <value>RTS CTS</value>
+  </data><data name="lblMAX_WINDOW.Text" xml:space="preserve">
+    <value>最大窗口（毫秒）</value>
+  </data><data name="lblMIN_FREQ.Text" xml:space="preserve">
+    <value>最小频率</value>
+  </data><data name="lblLBT_RSSI.Text" xml:space="preserve">
+    <value>LBT信号强度指示</value>
+  </data><data name="lblDUTY_CYCLE.Text" xml:space="preserve">
+    <value>占空比</value>
+  </data><data name="lblNUM_CHANNELS.Text" xml:space="preserve">
+    <value>通道数</value>
+  </data><data name="lblMAX_FREQ.Text" xml:space="preserve">
+    <value>最大频率</value>
+  </data><data name="btnRemoteLoadFromFile.Text" xml:space="preserve">
+    <value>从文件加载...</value>
+  </data><data name="btnRemoteSaveToFile.Text" xml:space="preserve">
+    <value>保存到文件...</value>
+  </data><data name="lblRFSFRAMELOSS.Text" xml:space="preserve">
+    <value>失控保护框架丢失</value>
+  </data><data name="lblRGPO1_3AUXOUT.Text" xml:space="preserve">
+    <value>GPO1_3辅助输出</value>
+  </data><data name="lblRGPI1_2AUXIN.Text" xml:space="preserve">
+    <value>GPI1_2AUXIN</value>
+  </data><data name="lblRGPIO1_1FUNC.Text" xml:space="preserve">
+    <value>GPIO1_1功能</value>
+  </data><data name="lblRGPO1_0TXEN485.Text" xml:space="preserve">
+    <value>GPO1_0TXEN485</value>
+  </data><data name="lblRGPO1_3STATLED.Text" xml:space="preserve">
+    <value>GPO1_3状态LED</value>
+  </data><data name="BUT_SetPPMFailSafeRemote.Text" xml:space="preserve">
+    <value>设置PPM故障保护</value>
+  </data><data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
+    <value>为PPM输出（飞行器端）记录默认PPM流</value>
+  </data><data name="label50.Text" xml:space="preserve">
+    <value>国家：</value>
+  </data><data name="lblRSBUSOUT.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT:</value>
+  </data><data name="lblRSBUSIN.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data><data name="label46.Text" xml:space="preserve">
+    <value>速率/频带</value>
+  </data><data name="lblRRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>接收端编码封装</value>
+  </data><data name="lblRTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>发送端编码</value>
+  </data><data name="lblRDESTID.Text" xml:space="preserve">
+    <value>目标ID</value>
+  </data><data name="lblRNODEID.Text" xml:space="preserve">
+    <value>节点ID</value>
+  </data><data name="lblRGPO1_1R_COUT.Text" xml:space="preserve">
+    <value>GPO1_1R/COUT</value>
+  </data><data name="lblRGPI1_1R_CIN.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data><data name="lblROPPRESEND.Text" xml:space="preserve">
+    <value>操作重发</value>
+  </data><data name="lblRECC.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data><data name="lblRTXPOWER.Text" xml:space="preserve">
+    <value>发射功率</value>
+  </data><data name="lblRNETID.Text" xml:space="preserve">
+    <value>网络ID</value>
+  </data><data name="lblRANT_MODE.Text" xml:space="preserve">
+    <value>天线模式</value>
+  </data><data name="lblRSER_BRK_DETMS.Text" xml:space="preserve">
+    <value>中断检测</value>
+  </data><data name="lblRGLOBAL_RETRIES.Text" xml:space="preserve">
+    <value>全局重试次数</value>
+  </data><data name="lblRMAX_RETRIES.Text" xml:space="preserve">
+    <value>最大重试次数</value>
+  </data><data name="lblRMAX_DATA.Text" xml:space="preserve">
+    <value>最大数据</value>
+  </data><data name="label38.Text" xml:space="preserve">
+    <value>AES密钥</value>
+  </data><data name="lblRENCRYPTION_LEVEL.Text" xml:space="preserve">
+    <value>AES 加密</value>
+  </data><data name="lblRRTSCTS.Text" xml:space="preserve">
+    <value>RTS CTS</value>
+  </data><data name="lblRMAX_WINDOW.Text" xml:space="preserve">
+    <value>最大窗口（毫秒）</value>
+  </data><data name="lblRMIN_FREQ.Text" xml:space="preserve">
+    <value>最小频率</value>
+  </data><data name="lblRMAX_FREQ.Text" xml:space="preserve">
+    <value>最大频率</value>
+  </data><data name="lblRNUM_CHANNELS.Text" xml:space="preserve">
+    <value>通道数量</value>
+  </data><data name="lblRDUTY_CYCLE.Text" xml:space="preserve">
+    <value>占空比</value>
+  </data><data name="lblRLBT_RSSI.Text" xml:space="preserve">
+    <value>LBT 接收信号强度指示</value>
+  </data><data name="groupBoxRemote.Text" xml:space="preserve">
+    <value>远程</value>
+  </data><data name="dlgSave.Filter" xml:space="preserve">
+    <value>INI 文件|*.ini</value>
+  </data><data name="dlgOpen.Filter" xml:space="preserve">
+    <value>INI 文件|*.ini</value>
+  </data><data name="BUT_SetPPMFailSafe.Text" xml:space="preserve">
+    <value>设置PPM失效保护</value>
+  </data><data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
+    <value>记录用于PPM输出的默认PPM流（飞行器端）</value>
+  </data><data name="btnSaveToFile.Text" xml:space="preserve">
+    <value>保存到文件...</value>
+  </data><data name="btnLoadFromFile.Text" xml:space="preserve">
+    <value>从文件加载...</value>
   </data>
 </root>

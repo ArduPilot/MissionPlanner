@@ -163,7 +163,7 @@
     <value>0</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>游戏摇杆</value>
+    <value>摇杆</value>
   </data>
   <data name="expo_ch5.Text" xml:space="preserve">
     <value>0</value>
@@ -175,7 +175,7 @@
     <value>0</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>反转</value>
+    <value>反向</value>
   </data>
   <data name="expo_ch4.Text" xml:space="preserve">
     <value>30</value>
@@ -215,5 +215,13 @@
   </data>
   <data name="BUT_enable.Text" xml:space="preserve">
     <value>启用</value>
+  </data><data name="label14.Text" xml:space="preserve">
+    <value>加载配置用于</value>
+  </data><data name="chk_manualcontrol.Text" xml:space="preserve">
+    <value>手动控制</value>
+  </data><data name="but_export.Text" xml:space="preserve">
+    <value>导出</value>
+  </data><data name="but_import.Text" xml:space="preserve">
+    <value>导入</value>
   </data>
 </root>
