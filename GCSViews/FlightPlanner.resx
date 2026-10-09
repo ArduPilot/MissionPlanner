@@ -1181,6 +1181,21 @@
   <data name="TagData.Width" type="System.Int32, mscorlib">
     <value>74</value>
   </data>
+  <metadata name="Check.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Check.HeaderText" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Check.MinimumWidth" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="Check.ToolTipText" xml:space="preserve">
+    <value>Tick the rows Verify WP Height should change. The box in the header ticks or clears every row.</value>
+  </data>
+  <data name="Check.Width" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
   <data name="Commands.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 40</value>
   </data>
@@ -1237,6 +1252,36 @@
   </data>
   <data name="&gt;&gt;BUT_Add.ZOrder" xml:space="preserve">
     <value>14</value>
+  </data>
+  <data name="BUT_verifyheight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_verifyheight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>664, 8</value>
+  </data>
+  <data name="BUT_verifyheight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 23</value>
+  </data>
+  <data name="BUT_verifyheight.TabIndex" type="System.Int32, mscorlib">
+    <value>57</value>
+  </data>
+  <data name="BUT_verifyheight.Text" xml:space="preserve">
+    <value>Verify WP Height</value>
+  </data>
+  <data name="BUT_verifyheight.ToolTip" xml:space="preserve">
+    <value>Recalculate the Alt of the ticked rows from terrain data, the way Verify Height sets a new waypoint (Default Alt above the ground, in each row's frame). Tick the box in the column header to do every row.</value>
+  </data>
+  <data name="&gt;&gt;BUT_verifyheight.Name" xml:space="preserve">
+    <value>BUT_verifyheight</value>
+  </data>
+  <data name="&gt;&gt;BUT_verifyheight.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_verifyheight.Parent" xml:space="preserve">
+    <value>panelWaypoints</value>
+  </data>
+  <data name="&gt;&gt;BUT_verifyheight.ZOrder" xml:space="preserve">
+    <value>15</value>
   </data>
   <data name="panelWaypoints.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>

@@ -1632,6 +1632,60 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Alt must be a whole number other than 0, in the same unit as the Alt column..
+        /// </summary>
+        public static string VerifyHeightBadDefaultAlt {
+            get {
+                return ResourceManager.GetString("VerifyHeightBadDefaultAlt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} skipped: the command has no position or no altitude..
+        /// </summary>
+        public static string VerifyHeightNoAltitude {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoAltitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} skipped: no terrain data yet. It downloads in the background, try again shortly..
+        /// </summary>
+        public static string VerifyHeightNoTerrain {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tick the box of each waypoint to verify, or the box in the column header for all of them..
+        /// </summary>
+        public static string VerifyHeightTickRows {
+            get {
+                return ResourceManager.GetString("VerifyHeightTickRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Height.
+        /// </summary>
+        public static string VerifyHeightTitle {
+            get {
+                return ResourceManager.GetString("VerifyHeightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} row(s) updated..
+        /// </summary>
+        public static string VerifyHeightUpdated {
+            get {
+                return ResourceManager.GetString("VerifyHeightUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string Warning {
