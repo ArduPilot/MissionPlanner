@@ -33,11 +33,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             pictureBoxHeli.Tag = APFirmware.MAV_TYPE.HELICOPTER;
             pictureBoxSub.Tag = APFirmware.MAV_TYPE.SUBMARINE;
             pictureBoxRover.Tag = APFirmware.MAV_TYPE.GROUND_ROVER;
-            pictureBoxOctaQuad.Tag = APFirmware.MAV_TYPE.Copter;
-            pictureBoxOcta.Tag = APFirmware.MAV_TYPE.Copter;
-            pictureBoxY6.Tag = APFirmware.MAV_TYPE.Copter;
-            pictureBoxTri.Tag = APFirmware.MAV_TYPE.Copter;
-            pictureBoxHexa.Tag = APFirmware.MAV_TYPE.Copter;
             pictureBoxQuad.Tag = APFirmware.MAV_TYPE.Copter;
             pictureBoxPlane.Tag = APFirmware.MAV_TYPE.FIXED_WING;
         }
@@ -81,12 +76,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     options.First(a => a.MavType == APFirmware.MAV_TYPE.SUBMARINE.ToString()));
                 UpdateIconName(pictureBoxRover,
                     options.First(a => a.MavType == APFirmware.MAV_TYPE.GROUND_ROVER.ToString()));
-                UpdateIconName(pictureBoxOctaQuad,
-                    options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
-                UpdateIconName(pictureBoxOcta, options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
-                UpdateIconName(pictureBoxY6, options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
-                UpdateIconName(pictureBoxTri, options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
-                UpdateIconName(pictureBoxHexa, options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
                 UpdateIconName(pictureBoxQuad, options.First(a => a.MavType == APFirmware.MAV_TYPE.Copter.ToString()));
                 UpdateIconName(pictureBoxPlane,
                     options.First(a => a.MavType == APFirmware.MAV_TYPE.FIXED_WING.ToString()));
