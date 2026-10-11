@@ -4726,7 +4726,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                         throw new TimeoutException("Timeout");
                                     }
 
-                                    await Task.Delay(1).ConfigureAwait(false);
+                                    await PollDelay.Wait().ConfigureAwait(false);
                                     if (debug)
                                         Console.WriteLine(DateTime.Now.Millisecond + " SR0b " +
                                                           BaseStream?.BytesToRead);
@@ -4819,7 +4819,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                await Task.Delay(1).ConfigureAwait(false);
+                                await PollDelay.Wait().ConfigureAwait(false);
                             }
 
                             if (debug)
@@ -4871,7 +4871,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                             throw new TimeoutException("Incomplete MAVLink frame");
                                         if (BaseStream.BytesToRead == 0)
                                         {
-                                            await Task.Delay(1).ConfigureAwait(false);
+                                            await PollDelay.Wait().ConfigureAwait(false);
                                             continue;
                                         }
                                         int read = BaseStream.Read(buffer, offset, length - offset);

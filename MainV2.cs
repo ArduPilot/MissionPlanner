@@ -2623,7 +2623,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    await Task.Delay(1).ConfigureAwait(false); // was 5
+                    await PollDelay.Wait().ConfigureAwait(false); // was 5
 
                     try
                     {
