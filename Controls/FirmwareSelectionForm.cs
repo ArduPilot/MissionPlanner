@@ -63,6 +63,7 @@ namespace MissionPlanner.Controls
             {
                 Text = Strings.FirmwareSelectionPrompt,
                 AutoSize = true,
+                Dock = DockStyle.Fill,
                 Margin = new Padding(3, 3, 3, 8)
             }, 0, 0);
 
@@ -159,6 +160,14 @@ namespace MissionPlanner.Controls
             CancelButton = cancel;
 
             RefreshAll();
+
+            // the grid selects its first row when shown; only keep that when it is the only match
+            Shown += (sender, e) =>
+            {
+                if (_grid.Rows.Count > 1)
+                    _grid.ClearSelection();
+                UpdateUploadEnabled();
+            };
 
             ThemeManager.ApplyThemeTo(this);
         }
