@@ -33,7 +33,7 @@ namespace MissionPlanner.Comms
         /// Optional live position source for the GGA sent to the caster.
         /// When set and it returns a non-null value, it is used instead of the static lat/lng/alt.
         /// </summary>
-        public Func<GgaInfo> GgaSource;
+        public Func<GgaInfo> GgaSource { get; set; }
 
         public class GgaInfo
         {
