@@ -4421,7 +4421,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 if (setguidedmode)
                 {
                     // fix for followme change
-                    if (MAVlist[sysid, compid].cs.mode.ToUpper() != "GUIDED")
+                    if (!string.Equals(MAVlist[sysid, compid].cs.mode, "GUIDED", StringComparison.OrdinalIgnoreCase))
                         setMode(sysid, compid, "GUIDED");
                 }
 
@@ -6634,7 +6634,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 foreach (KeyValuePair<int, string> pair in modelist)
                 {
-                    if (pair.Value.ToLower() == modein.ToLower())
+                    if (string.Equals(pair.Value, modein, StringComparison.OrdinalIgnoreCase))
                     {
                         mode.base_mode = (byte) MAV_MODE_FLAG.CUSTOM_MODE_ENABLED;
                         mode.custom_mode = (uint) pair.Key;
