@@ -65,7 +65,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (e.ColumnIndex == GPS1.Index)
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "GPS1_CAN_OVRIDE",
                         int.Parse(myDataGridView1[nodeIDDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString()));
                     Activate();
@@ -73,7 +73,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (e.ColumnIndex == GPS2.Index)
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "GPS2_CAN_OVRIDE",
                         int.Parse(myDataGridView1[nodeIDDataGridViewTextBoxColumn.Index, e.RowIndex].Value.ToString()));
                     Activate();

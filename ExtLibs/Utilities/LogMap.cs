@@ -32,7 +32,7 @@ namespace MissionPlanner.Log
 
             bool sitl = false;
 
-            Dictionary<int, List<PointLatLngAlt>> loc_list = new Dictionary<int, List<PointLatLngAlt>>();
+            Dictionary<ulong, List<PointLatLngAlt>> loc_list = new Dictionary<ulong, List<PointLatLngAlt>>();
 
             try
             {
@@ -67,7 +67,7 @@ namespace MissionPlanner.Log
                                     if (loc.lat == 0 || loc.lon == 0)
                                         continue;
 
-                                    var id = packet.sysid * 256 + packet.compid;
+                                    var id = (ulong)packet.sysid * 256 + packet.compid;
 
                                     if (!loc_list.ContainsKey(id))
                                         loc_list[id] = new List<PointLatLngAlt>();

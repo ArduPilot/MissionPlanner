@@ -57,7 +57,7 @@ namespace ModeChange
                 currentmode = modecmb.SelectedItem.ToString();
                 if(setwithnosend)
                     return;
-                MainV2.comPort.setMode((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setMode(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     modecmb.SelectedItem?.ToString());
             }
             catch

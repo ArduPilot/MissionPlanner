@@ -29,7 +29,7 @@ namespace MissionPlanner.Controls
         public MavFTPUI(MAVLinkInterface mav)
         {
             _mav = mav;
-            _mavftp = new MAVFtp(_mav, (byte)_mav.sysidcurrent, (byte)mav.compidcurrent);
+            _mavftp = new MAVFtp(_mav, _mav.sysidcurrent, (byte)mav.compidcurrent);
             DateTime nextupdate = DateTime.UtcNow;
             _mavftp.Progress += (message, percent) =>
             {
@@ -139,6 +139,15 @@ namespace MissionPlanner.Controls
             }
         }
 
+        /// <summary>Format a listing time for display, in local time; blank when the
+        /// vehicle did not report one.</summary>
+        private static string ModifiedString(DateTime? modifiedutc)
+        {
+            if (modifiedutc == null)
+                return "";
+            return modifiedutc.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
         private async void TreeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node == null)
@@ -162,7 +171,8 @@ namespace MissionPlanner.Controls
                 subItems = new ListViewItem.ListViewSubItem[]
                 {
                     new ListViewItem.ListViewSubItem(item, "Directory"),
-                    new ListViewItem.ListViewSubItem(item, "".ToString())
+                    new ListViewItem.ListViewSubItem(item, "".ToString()),
+                    new ListViewItem.ListViewSubItem(item, ModifiedString(dir.ModifiedUtc))
                 };
                 item.Tag = nodeDirInfo;
                 item.SubItems.AddRange(subItems);
@@ -175,7 +185,8 @@ namespace MissionPlanner.Controls
                 subItems = new ListViewItem.ListViewSubItem[]
                 {
                     new ListViewItem.ListViewSubItem(item, "File"),
-                    new ListViewItem.ListViewSubItem(item, file.Size.ToSizeUnits())
+                    new ListViewItem.ListViewSubItem(item, file.Size.ToSizeUnits()),
+                    new ListViewItem.ListViewSubItem(item, ModifiedString(file.ModifiedUtc))
                 };
                 item.Tag = nodeDirInfo;
                 item.SubItems.AddRange(subItems);
@@ -197,11 +208,15 @@ namespace MissionPlanner.Controls
             private readonly MAVFtp _mavftp;
             private List<MAVFtp.FtpFileInfo> cache;
 
-            public DirectoryInfo(string dir, MAVFtp mavftp)
+            public DirectoryInfo(string dir, MAVFtp mavftp, DateTime? modifiedutc = null)
             {
                 _mavftp = mavftp;
                 FullPath = dir;
+                ModifiedUtc = modifiedutc;
             }
+
+            /// <summary>Last modification time, or null if the vehicle did not report one.</summary>
+            public DateTime? ModifiedUtc { get; }
 
             public override string Name
             {
@@ -229,8 +244,9 @@ namespace MissionPlanner.Controls
                             cache = _mavftp.kCmdListDirectory(FullPath, new CancellationTokenSource());
                         }
                     }).ConfigureAwait(true);
-                    return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != "..")
-                        .Select(a => new DirectoryInfo(a.FullName, _mavftp)).ToArray();
+                    // a nameless entry is the placeholder for one the vehicle skipped
+                    return cache.Where(a => a.isDirectory && a.Name != "." && a.Name != ".." && a.Name != "")
+                        .Select(a => new DirectoryInfo(a.FullName, _mavftp, a.ModifiedUtc)).ToArray();
 
                 }
                 catch (Exception e)
@@ -433,6 +449,15 @@ namespace MissionPlanner.Controls
 
         private void DeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // a folder is deleted with everything in it, so ask first
+            var folders = listView1.SelectedItems.Cast<ListViewItem>().Where(IsDirectory).ToList();
+            if (folders.Count > 0 &&
+                CustomMessageBox.Show(folders.Count == 1
+                        ? "Delete the folder " + folders[0].Text + " and everything in it?"
+                        : "Delete " + folders.Count + " folders and everything in them?",
+                    "Delete", MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+                return;
+
             foreach (ListViewItem listView1SelectedItem in listView1.SelectedItems)
             {
                 toolStripStatusLabel1.Text = "Delete " + listView1SelectedItem.Text;
@@ -444,23 +469,43 @@ namespace MissionPlanner.Controls
                     cancel.Cancel();
                     _mavftp.kCmdResetSessions();
                 };
-                prd.doWorkArgs.ForceExit = false; 
+                prd.doWorkArgs.ForceExit = false;
                 string fullName = ((DirectoryInfo)listView1SelectedItem.Tag).FullName;
                 string text = listView1SelectedItem.Text;
+                bool isDirectory = IsDirectory(listView1SelectedItem);
+                Action<string, int> progress = (message, i) => prd.UpdateProgressAndStatus(-1, message);
+                _mavftp.Progress += progress;
                 prd.DoWork += (iprd) =>
-                {                   
-                    var success = _mavftp.kCmdRemoveFile(fullName + "/" +
-                                                         text, cancel);
+                {
+                    bool success;
+                    // the vehicle only removes an empty folder, so a folder's contents go first
+                    lock (_mavftp)
+                        success = isDirectory
+                            ? _mavftp.RemoveDirectoryRecursive(fullName + "/" + text, cancel)
+                            : _mavftp.kCmdRemoveFile(fullName + "/" + text, cancel);
+                    if (cancel.IsCancellationRequested)
+                    {
+                        iprd.doWorkArgs.CancelAcknowledged = true;
+                        iprd.doWorkArgs.CancelRequested = true;
+                        return;
+                    }
+
                     if (!success)
-                        CustomMessageBox.Show("Failed to delete file", text);
+                        CustomMessageBox.Show(isDirectory ? "Failed to delete folder" : "Failed to delete file", text);
                 };
 
                 prd.RunBackgroundOperationAsync();
+                _mavftp.Progress -= progress;
             }
 
             TreeView1_NodeMouseClick(null,
                 new TreeNodeMouseClickEventArgs(treeView1.SelectedNode, MouseButtons.Left, 1, 1, 1));
             toolStripStatusLabel1.Text = "Ready";
+        }
+
+        private static bool IsDirectory(ListViewItem item)
+        {
+            return item.SubItems.Count > 1 && item.SubItems[1].Text == "Directory";
         }
 
         private void RenameToolStripMenuItem_Click(object sender, EventArgs e)

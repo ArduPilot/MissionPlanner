@@ -276,6 +276,8 @@ messageName = {
     [286] = 'AUTOPILOT_STATE_FOR_GIMBAL_DEVICE',
     [287] = 'GIMBAL_MANAGER_SET_PITCHYAW',
     [288] = 'GIMBAL_MANAGER_SET_MANUAL_CONTROL',
+    [295] = 'AIRSPEED',
+    [296] = 'GLOBAL_POSITION_SENSOR',
     [299] = 'WIFI_CONFIG_AP',
     [301] = 'AIS_VESSEL',
     [310] = 'UAVCAN_NODE_STATUS',
@@ -294,6 +296,7 @@ messageName = {
     [340] = 'UTM_GLOBAL_POSITION',
     [345] = 'PARAM_ERROR',
     [350] = 'DEBUG_FLOAT_ARRAY',
+    [360] = 'ORBIT_EXECUTION_STATUS',
     [370] = 'SMART_BATTERY_INFO',
     [373] = 'GENERATOR_STATUS',
     [375] = 'ACTUATOR_OUTPUT_STATUS',
@@ -302,6 +305,7 @@ messageName = {
     [386] = 'CAN_FRAME',
     [387] = 'CANFD_FRAME',
     [388] = 'CAN_FILTER_MODIFY',
+    [390] = 'ONBOARD_COMPUTER_STATUS',
     [9000] = 'WHEEL_DISTANCE',
     [9005] = 'WINCH_STATUS',
     [12900] = 'OPEN_DRONE_ID_BASIC_ID',
@@ -310,17 +314,17 @@ messageName = {
     [12903] = 'OPEN_DRONE_ID_SELF_ID',
     [12904] = 'OPEN_DRONE_ID_SYSTEM',
     [12905] = 'OPEN_DRONE_ID_OPERATOR_ID',
-    [12918] = 'OPEN_DRONE_ID_ARM_STATUS',
     [12915] = 'OPEN_DRONE_ID_MESSAGE_PACK',
+    [12918] = 'OPEN_DRONE_ID_ARM_STATUS',
     [12919] = 'OPEN_DRONE_ID_SYSTEM_UPDATE',
     [12920] = 'HYGROMETER_SENSOR',
     [53] = 'MISSION_CHECKSUM',
-    [295] = 'AIRSPEED',
     [420] = 'RADIO_RC_CHANNELS',
     [435] = 'AVAILABLE_MODES',
     [436] = 'CURRENT_MODE',
     [437] = 'AVAILABLE_MODES_MONITOR',
     [441] = 'GNSS_INTEGRITY',
+    [513] = 'RANGING_BEACON',
     [42000] = 'ICAROUS_HEARTBEAT',
     [42001] = 'ICAROUS_KINEMATIC_BANDS',
     [0] = 'HEARTBEAT',
@@ -383,11 +387,6 @@ local enumEntryName = {
         [16777215] = "ACCELCAL_VEHICLE_POS_SUCCESS",
         [16777216] = "ACCELCAL_VEHICLE_POS_FAILED",
     },
-    ["HEADING_TYPE"] = {
-        [0] = "HEADING_TYPE_COURSE_OVER_GROUND",
-        [1] = "HEADING_TYPE_HEADING",
-        [2] = "HEADING_TYPE_DEFAULT",
-    },
     ["MAV_CMD"] = {
         [16] = "MAV_CMD_NAV_WAYPOINT",
         [17] = "MAV_CMD_NAV_LOITER_UNLIM",
@@ -403,6 +402,8 @@ local enumEntryName = {
         [31] = "MAV_CMD_NAV_LOITER_TO_ALT",
         [32] = "MAV_CMD_DO_FOLLOW",
         [33] = "MAV_CMD_DO_FOLLOW_REPOSITION",
+        [34] = "MAV_CMD_DO_ORBIT",
+        [35] = "MAV_CMD_DO_FIGURE_EIGHT",
         [36] = "MAV_CMD_NAV_ARC_WAYPOINT",
         [80] = "MAV_CMD_NAV_ROI",
         [81] = "MAV_CMD_NAV_PATHPLANNING",
@@ -430,6 +431,7 @@ local enumEntryName = {
         [184] = "MAV_CMD_DO_REPEAT_SERVO",
         [185] = "MAV_CMD_DO_FLIGHTTERMINATION",
         [186] = "MAV_CMD_DO_CHANGE_ALTITUDE",
+        [187] = "MAV_CMD_DO_SET_ACTUATOR",
         [188] = "MAV_CMD_DO_RETURN_PATH_START",
         [189] = "MAV_CMD_DO_LAND_START",
         [190] = "MAV_CMD_DO_RALLY_LAND",
@@ -475,9 +477,14 @@ local enumEntryName = {
         [260] = "MAV_CMD_OBLIQUE_SURVEY",
         [262] = "MAV_CMD_DO_SET_STANDARD_MODE",
         [300] = "MAV_CMD_MISSION_START",
+        [310] = "MAV_CMD_ACTUATOR_TEST",
+        [311] = "MAV_CMD_CONFIGURE_ACTUATOR",
         [400] = "MAV_CMD_COMPONENT_ARM_DISARM",
         [401] = "MAV_CMD_RUN_PREARM_CHECKS",
+        [405] = "MAV_CMD_ILLUMINATOR_ON_OFF",
+        [406] = "MAV_CMD_DO_ILLUMINATOR_CONFIGURE",
         [410] = "MAV_CMD_GET_HOME_POSITION",
+        [420] = "MAV_CMD_INJECT_FAILURE",
         [500] = "MAV_CMD_START_RX_PAIR",
         [510] = "MAV_CMD_GET_MESSAGE_INTERVAL",
         [511] = "MAV_CMD_SET_MESSAGE_INTERVAL",
@@ -504,10 +511,13 @@ local enumEntryName = {
         [1001] = "MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE",
         [2000] = "MAV_CMD_IMAGE_START_CAPTURE",
         [2001] = "MAV_CMD_IMAGE_STOP_CAPTURE",
+        [2002] = "MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE",
         [2003] = "MAV_CMD_DO_TRIGGER_CONTROL",
         [2004] = "MAV_CMD_CAMERA_TRACK_POINT",
         [2005] = "MAV_CMD_CAMERA_TRACK_RECTANGLE",
         [2010] = "MAV_CMD_CAMERA_STOP_TRACKING",
+        [2020] = "MAV_CMD_CAMERA_START_MTI",
+        [2021] = "MAV_CMD_CAMERA_STOP_MTI",
         [2500] = "MAV_CMD_VIDEO_START_CAPTURE",
         [2501] = "MAV_CMD_VIDEO_STOP_CAPTURE",
         [2502] = "MAV_CMD_VIDEO_START_STREAMING",
@@ -523,6 +533,7 @@ local enumEntryName = {
         [3001] = "MAV_CMD_ARM_AUTHORIZATION_REQUEST",
         [4000] = "MAV_CMD_SET_GUIDED_SUBMODE_STANDARD",
         [4001] = "MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE",
+        [4501] = "MAV_CMD_CONDITION_GATE",
         [5000] = "MAV_CMD_NAV_FENCE_RETURN_POINT",
         [5001] = "MAV_CMD_NAV_FENCE_POLYGON_VERTEX_INCLUSION",
         [5002] = "MAV_CMD_NAV_FENCE_POLYGON_VERTEX_EXCLUSION",
@@ -859,6 +870,16 @@ local enumEntryName = {
         [4] = "PID_TUNING_ACCZ",
         [5] = "PID_TUNING_STEER",
         [6] = "PID_TUNING_LANDING",
+        [7] = "PID_TUNING_WHEEL_LEFT",
+        [8] = "PID_TUNING_WHEEL_RIGHT",
+        [9] = "PID_TUNING_SAIL_HEEL",
+        [10] = "PID_TUNING_VEL_NORTH",
+        [11] = "PID_TUNING_VEL_EAST",
+        [12] = "PID_TUNING_VEL_DOWN",
+        [13] = "PID_TUNING_POS_NORTH",
+        [14] = "PID_TUNING_POS_EAST",
+        [15] = "PID_TUNING_POS_DOWN",
+        [16] = "PID_TUNING_YAW_ANGLE",
     },
     ["MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS"] = {
         [2147483645] = "MAV_REMOTE_LOG_DATA_BLOCK_STOP",
@@ -936,7 +957,6 @@ local enumEntryName = {
         [26] = "COPTER_MODE_AUTOROTATE",
         [27] = "COPTER_MODE_AUTO_RTL",
         [28] = "COPTER_MODE_TURTLE",
-        [29] = "COPTER_MODE_RATE_ACRO",
     },
     ["SUB_MODE"] = {
         [0] = "SUB_MODE_STABILIZE",
@@ -1071,6 +1091,11 @@ local enumEntryName = {
         [268435456] = "MAV_SYS_STATUS_PREARM_CHECK",
         [536870912] = "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE",
         [1073741824] = "MAV_SYS_STATUS_SENSOR_PROPULSION",
+        [2147483648] = "MAV_SYS_STATUS_EXTENSION_USED",
+    },
+    ["MAV_SYS_STATUS_SENSOR_EXTENDED"] = {
+        [1] = "MAV_SYS_STATUS_RECOVERY_SYSTEM",
+        [2] = "MAV_SYS_STATUS_SENSOR_LEAK",
     },
     ["MAV_FRAME"] = {
         [0] = "MAV_FRAME_GLOBAL",
@@ -1129,6 +1154,7 @@ local enumEntryName = {
         [4] = "MAV_MOUNT_MODE_GPS_POINT",
         [5] = "MAV_MOUNT_MODE_SYSID_TARGET",
         [6] = "MAV_MOUNT_MODE_HOME_LOCATION",
+        [7] = "MAV_MOUNT_MODE_WPNEXT_OFFSET",
     },
     ["GIMBAL_DEVICE_CAP_FLAGS"] = {
         [1] = "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT",
@@ -1145,6 +1171,8 @@ local enumEntryName = {
         [2048] = "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW",
         [4096] = "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME",
         [8192] = "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS",
+        [65536] = "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL",
+        [131072] = "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL",
     },
     ["GIMBAL_MANAGER_CAP_FLAGS"] = {
         [1] = "GIMBAL_MANAGER_CAP_FLAGS_HAS_RETRACT",
@@ -1203,6 +1231,7 @@ local enumEntryName = {
     ["GRIPPER_ACTIONS"] = {
         [0] = "GRIPPER_ACTION_RELEASE",
         [1] = "GRIPPER_ACTION_GRAB",
+        [2] = "GRIPPER_ACTION_HOLD",
     },
     ["WINCH_ACTIONS"] = {
         [0] = "WINCH_RELAXED",
@@ -1214,6 +1243,7 @@ local enumEntryName = {
         [6] = "WINCH_RETRACT",
         [7] = "WINCH_LOAD_LINE",
         [8] = "WINCH_ABANDON_LINE",
+        [9] = "WINCH_LOAD_PAYLOAD",
     },
     ["UAVCAN_NODE_HEALTH"] = {
         [0] = "UAVCAN_NODE_HEALTH_OK",
@@ -1251,10 +1281,101 @@ local enumEntryName = {
         [4] = "STORAGE_USAGE_FLAG_VIDEO",
         [8] = "STORAGE_USAGE_FLAG_LOGS",
     },
+    ["ORBIT_YAW_BEHAVIOUR"] = {
+        [0] = "ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TO_CIRCLE_CENTER",
+        [1] = "ORBIT_YAW_BEHAVIOUR_HOLD_INITIAL_HEADING",
+        [2] = "ORBIT_YAW_BEHAVIOUR_UNCONTROLLED",
+        [3] = "ORBIT_YAW_BEHAVIOUR_HOLD_FRONT_TANGENT_TO_CIRCLE",
+        [4] = "ORBIT_YAW_BEHAVIOUR_RC_CONTROLLED",
+        [5] = "ORBIT_YAW_BEHAVIOUR_UNCHANGED",
+    },
+    ["ACTUATOR_CONFIGURATION"] = {
+        [0] = "ACTUATOR_CONFIGURATION_NONE",
+        [1] = "ACTUATOR_CONFIGURATION_BEEP",
+        [2] = "ACTUATOR_CONFIGURATION_3D_MODE_ON",
+        [3] = "ACTUATOR_CONFIGURATION_3D_MODE_OFF",
+        [4] = "ACTUATOR_CONFIGURATION_SPIN_DIRECTION1",
+        [5] = "ACTUATOR_CONFIGURATION_SPIN_DIRECTION2",
+    },
+    ["ACTUATOR_OUTPUT_FUNCTION"] = {
+        [0] = "ACTUATOR_OUTPUT_FUNCTION_NONE",
+        [1] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR1",
+        [2] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR2",
+        [3] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR3",
+        [4] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR4",
+        [5] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR5",
+        [6] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR6",
+        [7] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR7",
+        [8] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR8",
+        [9] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR9",
+        [10] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR10",
+        [11] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR11",
+        [12] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR12",
+        [13] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR13",
+        [14] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR14",
+        [15] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR15",
+        [16] = "ACTUATOR_OUTPUT_FUNCTION_MOTOR16",
+        [33] = "ACTUATOR_OUTPUT_FUNCTION_SERVO1",
+        [34] = "ACTUATOR_OUTPUT_FUNCTION_SERVO2",
+        [35] = "ACTUATOR_OUTPUT_FUNCTION_SERVO3",
+        [36] = "ACTUATOR_OUTPUT_FUNCTION_SERVO4",
+        [37] = "ACTUATOR_OUTPUT_FUNCTION_SERVO5",
+        [38] = "ACTUATOR_OUTPUT_FUNCTION_SERVO6",
+        [39] = "ACTUATOR_OUTPUT_FUNCTION_SERVO7",
+        [40] = "ACTUATOR_OUTPUT_FUNCTION_SERVO8",
+        [41] = "ACTUATOR_OUTPUT_FUNCTION_SERVO9",
+        [42] = "ACTUATOR_OUTPUT_FUNCTION_SERVO10",
+        [43] = "ACTUATOR_OUTPUT_FUNCTION_SERVO11",
+        [44] = "ACTUATOR_OUTPUT_FUNCTION_SERVO12",
+        [45] = "ACTUATOR_OUTPUT_FUNCTION_SERVO13",
+        [46] = "ACTUATOR_OUTPUT_FUNCTION_SERVO14",
+        [47] = "ACTUATOR_OUTPUT_FUNCTION_SERVO15",
+        [48] = "ACTUATOR_OUTPUT_FUNCTION_SERVO16",
+    },
     ["AUTOTUNE_AXIS"] = {
         [1] = "AUTOTUNE_AXIS_ROLL",
         [2] = "AUTOTUNE_AXIS_PITCH",
         [4] = "AUTOTUNE_AXIS_YAW",
+    },
+    ["PREFLIGHT_STORAGE_PARAMETER_ACTION"] = {
+        [0] = "PARAM_READ_PERSISTENT",
+        [1] = "PARAM_WRITE_PERSISTENT",
+        [2] = "PARAM_RESET_FACTORY_DEFAULT",
+        [3] = "PARAM_RESET_SENSOR_DEFAULT",
+        [4] = "PARAM_RESET_ALL_DEFAULT",
+    },
+    ["PREFLIGHT_STORAGE_MISSION_ACTION"] = {
+        [0] = "MISSION_READ_PERSISTENT",
+        [1] = "MISSION_WRITE_PERSISTENT",
+        [2] = "MISSION_RESET_DEFAULT",
+    },
+    ["REBOOT_SHUTDOWN_ACTION"] = {
+        [0] = "REBOOT_SHUTDOWN_ACTION_NONE",
+        [1] = "REBOOT_SHUTDOWN_ACTION_REBOOT",
+        [2] = "REBOOT_SHUTDOWN_ACTION_SHUTDOWN",
+        [3] = "REBOOT_SHUTDOWN_ACTION_REBOOT_TO_BOOTLOADER",
+        [4] = "REBOOT_SHUTDOWN_ACTION_POWER_ON",
+        [5] = "REBOOT_SHUTDOWN_ACTION_REBOOT_TO_MASS_STORAGE",
+    },
+    ["REBOOT_SHUTDOWN_CONDITIONS"] = {
+        [0] = "REBOOT_SHUTDOWN_CONDITIONS_SAFETY_INTERLOCKED",
+        [20190226] = "REBOOT_SHUTDOWN_CONDITIONS_FORCE",
+    },
+    ["PREFLIGHT_CALIBRATION_MAGNETOMETER"] = {
+        [0] = "PREFLIGHT_CALIBRATION_MAGNETOMETER_NONE",
+        [1] = "PREFLIGHT_CALIBRATION_MAGNETOMETER_START",
+        [76] = "PREFLIGHT_CALIBRATION_MAGNETOMETER_FORCE_SAVE",
+    },
+    ["PREFLIGHT_CALIBRATION_ACCELEROMETER"] = {
+        [0] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_NONE",
+        [1] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_FULL",
+        [2] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_TRIM",
+        [3] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_TEMPERATURE",
+        [4] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_SIMPLE",
+        [76] = "PREFLIGHT_CALIBRATION_ACCELEROMETER_FORCE_SAVE",
+    },
+    ["NAV_TAKEOFF_FLAGS"] = {
+        [1] = "NAV_TAKEOFF_FLAGS_HORIZONTAL_POSITION_NOT_REQUIRED",
     },
     ["MAV_DATA_STREAM"] = {
         [0] = "MAV_DATA_STREAM_ALL",
@@ -1457,7 +1578,7 @@ local enumEntryName = {
         [1] = "MAV_BATTERY_FUNCTION_ALL",
         [2] = "MAV_BATTERY_FUNCTION_PROPULSION",
         [3] = "MAV_BATTERY_FUNCTION_AVIONICS",
-        [4] = "MAV_BATTERY_TYPE_PAYLOAD",
+        [4] = "MAV_BATTERY_FUNCTION_PAYLOAD",
     },
     ["MAV_BATTERY_CHARGE_STATE"] = {
         [0] = "MAV_BATTERY_CHARGE_STATE_UNDEFINED",
@@ -1564,12 +1685,18 @@ local enumEntryName = {
     },
     ["MAV_DO_REPOSITION_FLAGS"] = {
         [1] = "MAV_DO_REPOSITION_FLAGS_CHANGE_MODE",
+        [2] = "MAV_DO_REPOSITION_FLAGS_RELATIVE_YAW",
     },
     ["SPEED_TYPE"] = {
         [0] = "SPEED_TYPE_AIRSPEED",
         [1] = "SPEED_TYPE_GROUNDSPEED",
         [2] = "SPEED_TYPE_CLIMB_SPEED",
         [3] = "SPEED_TYPE_DESCENT_SPEED",
+    },
+    ["HEADING_TYPE"] = {
+        [0] = "HEADING_TYPE_COURSE_OVER_GROUND",
+        [1] = "HEADING_TYPE_HEADING",
+        [2] = "HEADING_TYPE_DEFAULT",
     },
     ["ESTIMATOR_STATUS_FLAGS"] = {
         [1] = "ESTIMATOR_ATTITUDE",
@@ -1666,6 +1793,7 @@ local enumEntryName = {
         [1024] = "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE",
         [2048] = "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS",
         [4096] = "CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE",
+        [8192] = "CAMERA_CAP_FLAGS_HAS_MTI",
     },
     ["VIDEO_STREAM_STATUS_FLAGS"] = {
         [1] = "VIDEO_STREAM_STATUS_FLAGS_RUNNING",
@@ -1677,6 +1805,7 @@ local enumEntryName = {
         [1] = "VIDEO_STREAM_TYPE_RTPUDP",
         [2] = "VIDEO_STREAM_TYPE_TCP_MPEG",
         [3] = "VIDEO_STREAM_TYPE_MPEG_TS",
+        [4] = "VIDEO_STREAM_TYPE_WHEP",
     },
     ["VIDEO_STREAM_ENCODING"] = {
         [0] = "VIDEO_STREAM_ENCODING_UNKNOWN",
@@ -1687,6 +1816,8 @@ local enumEntryName = {
         [0] = "CAMERA_TRACKING_STATUS_FLAGS_IDLE",
         [1] = "CAMERA_TRACKING_STATUS_FLAGS_ACTIVE",
         [2] = "CAMERA_TRACKING_STATUS_FLAGS_ERROR",
+        [4] = "CAMERA_TRACKING_STATUS_FLAGS_MTI",
+        [8] = "CAMERA_TRACKING_STATUS_FLAGS_COASTING",
     },
     ["CAMERA_TRACKING_MODE"] = {
         [0] = "CAMERA_TRACKING_MODE_NONE",
@@ -1703,6 +1834,7 @@ local enumEntryName = {
         [1] = "ZOOM_TYPE_CONTINUOUS",
         [2] = "ZOOM_TYPE_RANGE",
         [3] = "ZOOM_TYPE_FOCAL_LENGTH",
+        [4] = "ZOOM_TYPE_HORIZONTAL_FOV",
     },
     ["SET_FOCUS_TYPE"] = {
         [0] = "FOCUS_TYPE_STEP",
@@ -1739,8 +1871,13 @@ local enumEntryName = {
         [5] = "MAV_ARM_AUTH_DENIED_REASON_BAD_WEATHER",
     },
     ["RC_TYPE"] = {
-        [0] = "RC_TYPE_SPEKTRUM_DSM2",
-        [1] = "RC_TYPE_SPEKTRUM_DSMX",
+        [0] = "RC_TYPE_SPEKTRUM",
+        [1] = "RC_TYPE_CRSF",
+    },
+    ["RC_SUB_TYPE"] = {
+        [0] = "RC_SUB_TYPE_SPEKTRUM_DSM2",
+        [1] = "RC_SUB_TYPE_SPEKTRUM_DSMX",
+        [2] = "RC_SUB_TYPE_SPEKTRUM_DSMX8",
     },
     ["ENGINE_CONTROL_OPTIONS"] = {
         [1] = "ENGINE_CONTROL_OPTIONS_ALLOW_START_WHILE_DISARMED",
@@ -1805,6 +1942,9 @@ local enumEntryName = {
         [207] = "MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED7",
         [208] = "MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED8",
         [209] = "MAV_TUNNEL_PAYLOAD_TYPE_STORM32_RESERVED9",
+        [210] = "MAV_TUNNEL_PAYLOAD_TYPE_MODALAI_REMOTE_OSD",
+        [211] = "MAV_TUNNEL_PAYLOAD_TYPE_MODALAI_ESC_UART_PASSTHRU",
+        [212] = "MAV_TUNNEL_PAYLOAD_TYPE_MODALAI_IO_UART_PASSTHRU",
     },
     ["MAV_ODID_ID_TYPE"] = {
         [0] = "MAV_ODID_ID_TYPE_NONE",
@@ -2000,12 +2140,12 @@ local enumEntryName = {
         [60] = "AIS_TYPE_PASSENGER",
         [61] = "AIS_TYPE_PASSENGER_HAZARDOUS_A",
         [62] = "AIS_TYPE_PASSENGER_HAZARDOUS_B",
-        [63] = "AIS_TYPE_AIS_TYPE_PASSENGER_HAZARDOUS_C",
+        [63] = "AIS_TYPE_PASSENGER_HAZARDOUS_C",
         [64] = "AIS_TYPE_PASSENGER_HAZARDOUS_D",
         [65] = "AIS_TYPE_PASSENGER_RESERVED_1",
         [66] = "AIS_TYPE_PASSENGER_RESERVED_2",
         [67] = "AIS_TYPE_PASSENGER_RESERVED_3",
-        [68] = "AIS_TYPE_AIS_TYPE_PASSENGER_RESERVED_4",
+        [68] = "AIS_TYPE_PASSENGER_RESERVED_4",
         [69] = "AIS_TYPE_PASSENGER_UNKNOWN",
         [70] = "AIS_TYPE_CARGO",
         [71] = "AIS_TYPE_CARGO_HAZARDOUS_A",
@@ -2039,22 +2179,22 @@ local enumEntryName = {
         [99] = "AIS_TYPE_OTHER_UNKNOWN",
     },
     ["AIS_NAV_STATUS"] = {
-        [0] = "UNDER_WAY",
-        [1] = "AIS_NAV_ANCHORED",
-        [2] = "AIS_NAV_UN_COMMANDED",
-        [3] = "AIS_NAV_RESTRICTED_MANOEUVERABILITY",
-        [4] = "AIS_NAV_DRAUGHT_CONSTRAINED",
-        [5] = "AIS_NAV_MOORED",
-        [6] = "AIS_NAV_AGROUND",
-        [7] = "AIS_NAV_FISHING",
-        [8] = "AIS_NAV_SAILING",
-        [9] = "AIS_NAV_RESERVED_HSC",
-        [10] = "AIS_NAV_RESERVED_WIG",
-        [11] = "AIS_NAV_RESERVED_1",
-        [12] = "AIS_NAV_RESERVED_2",
-        [13] = "AIS_NAV_RESERVED_3",
-        [14] = "AIS_NAV_AIS_SART",
-        [15] = "AIS_NAV_UNKNOWN",
+        [0] = "AIS_NAV_STATUS_UNDER_WAY",
+        [1] = "AIS_NAV_STATUS_ANCHORED",
+        [2] = "AIS_NAV_STATUS_UN_COMMANDED",
+        [3] = "AIS_NAV_STATUS_RESTRICTED_MANOEUVERABILITY",
+        [4] = "AIS_NAV_STATUS_DRAUGHT_CONSTRAINED",
+        [5] = "AIS_NAV_STATUS_MOORED",
+        [6] = "AIS_NAV_STATUS_AGROUND",
+        [7] = "AIS_NAV_STATUS_FISHING",
+        [8] = "AIS_NAV_STATUS_SAILING",
+        [9] = "AIS_NAV_STATUS_RESERVED_HSC",
+        [10] = "AIS_NAV_STATUS_RESERVED_WIG",
+        [11] = "AIS_NAV_STATUS_RESERVED_1",
+        [12] = "AIS_NAV_STATUS_RESERVED_2",
+        [13] = "AIS_NAV_STATUS_RESERVED_3",
+        [14] = "AIS_NAV_STATUS_AIS_SART",
+        [15] = "AIS_NAV_STATUS_UNKNOWN",
     },
     ["AIS_FLAGS"] = {
         [1] = "AIS_FLAGS_POSITION_ACCURACY",
@@ -2071,6 +2211,38 @@ local enumEntryName = {
         [2048] = "AIS_FLAGS_VALID_CALLSIGN",
         [4096] = "AIS_FLAGS_VALID_NAME",
     },
+    ["FAILURE_UNIT"] = {
+        [0] = "FAILURE_UNIT_SENSOR_GYRO",
+        [1] = "FAILURE_UNIT_SENSOR_ACCEL",
+        [2] = "FAILURE_UNIT_SENSOR_MAG",
+        [3] = "FAILURE_UNIT_SENSOR_BARO",
+        [4] = "FAILURE_UNIT_SENSOR_GPS",
+        [5] = "FAILURE_UNIT_SENSOR_OPTICAL_FLOW",
+        [6] = "FAILURE_UNIT_SENSOR_VIO",
+        [7] = "FAILURE_UNIT_SENSOR_DISTANCE_SENSOR",
+        [8] = "FAILURE_UNIT_SENSOR_AIRSPEED",
+        [100] = "FAILURE_UNIT_SYSTEM_BATTERY",
+        [101] = "FAILURE_UNIT_SYSTEM_MOTOR",
+        [102] = "FAILURE_UNIT_SYSTEM_SERVO",
+        [103] = "FAILURE_UNIT_SYSTEM_AVOIDANCE",
+        [104] = "FAILURE_UNIT_SYSTEM_RC_SIGNAL",
+        [105] = "FAILURE_UNIT_SYSTEM_MAVLINK_SIGNAL",
+    },
+    ["FAILURE_TYPE"] = {
+        [0] = "FAILURE_TYPE_OK",
+        [1] = "FAILURE_TYPE_OFF",
+        [2] = "FAILURE_TYPE_STUCK",
+        [3] = "FAILURE_TYPE_GARBAGE",
+        [4] = "FAILURE_TYPE_WRONG",
+        [5] = "FAILURE_TYPE_SLOW",
+        [6] = "FAILURE_TYPE_DELAYED",
+        [7] = "FAILURE_TYPE_INTERMITTENT",
+    },
+    ["NAV_VTOL_LAND_OPTIONS"] = {
+        [0] = "NAV_VTOL_LAND_OPTIONS_DEFAULT",
+        [1] = "NAV_VTOL_LAND_OPTIONS_FW_SPIRAL_APPROACH",
+        [2] = "NAV_VTOL_LAND_OPTIONS_FW_APPROACH",
+    },
     ["MAV_WINCH_STATUS_FLAG"] = {
         [1] = "MAV_WINCH_STATUS_HEALTHY",
         [2] = "MAV_WINCH_STATUS_FULLY_RETRACTED",
@@ -2084,18 +2256,80 @@ local enumEntryName = {
         [3] = "MAG_CAL_RUNNING_STEP_TWO",
         [4] = "MAG_CAL_SUCCESS",
         [5] = "MAG_CAL_FAILED",
-        [6] = "MAG_CAL_BAD_ORIENTATION",
-        [7] = "MAG_CAL_BAD_RADIUS",
+        [6] = "MAG_CAL_FAILED_ORIENTATION",
+        [7] = "MAG_CAL_FAILED_RADIUS",
+        [8] = "MAG_CAL_FAILED_OFFSETS",
+        [9] = "MAG_CAL_FAILED_DIAG_SCALING",
+        [10] = "MAG_CAL_FAILED_RESIDUALS_HIGH",
+    },
+    ["HIL_SENSOR_UPDATED_FLAGS"] = {
+        [1] = "HIL_SENSOR_UPDATED_XACC",
+        [2] = "HIL_SENSOR_UPDATED_YACC",
+        [4] = "HIL_SENSOR_UPDATED_ZACC",
+        [8] = "HIL_SENSOR_UPDATED_XGYRO",
+        [16] = "HIL_SENSOR_UPDATED_YGYRO",
+        [32] = "HIL_SENSOR_UPDATED_ZGYRO",
+        [64] = "HIL_SENSOR_UPDATED_XMAG",
+        [128] = "HIL_SENSOR_UPDATED_YMAG",
+        [256] = "HIL_SENSOR_UPDATED_ZMAG",
+        [512] = "HIL_SENSOR_UPDATED_ABS_PRESSURE",
+        [1024] = "HIL_SENSOR_UPDATED_DIFF_PRESSURE",
+        [2048] = "HIL_SENSOR_UPDATED_PRESSURE_ALT",
+        [4096] = "HIL_SENSOR_UPDATED_TEMPERATURE",
+        [2147483648] = "HIL_SENSOR_UPDATED_RESET",
+    },
+    ["HIGHRES_IMU_UPDATED_FLAGS"] = {
+        [1] = "HIGHRES_IMU_UPDATED_XACC",
+        [2] = "HIGHRES_IMU_UPDATED_YACC",
+        [4] = "HIGHRES_IMU_UPDATED_ZACC",
+        [8] = "HIGHRES_IMU_UPDATED_XGYRO",
+        [16] = "HIGHRES_IMU_UPDATED_YGYRO",
+        [32] = "HIGHRES_IMU_UPDATED_ZGYRO",
+        [64] = "HIGHRES_IMU_UPDATED_XMAG",
+        [128] = "HIGHRES_IMU_UPDATED_YMAG",
+        [256] = "HIGHRES_IMU_UPDATED_ZMAG",
+        [512] = "HIGHRES_IMU_UPDATED_ABS_PRESSURE",
+        [1024] = "HIGHRES_IMU_UPDATED_DIFF_PRESSURE",
+        [2048] = "HIGHRES_IMU_UPDATED_PRESSURE_ALT",
+        [4096] = "HIGHRES_IMU_UPDATED_TEMPERATURE",
     },
     ["CAN_FILTER_OP"] = {
         [0] = "CAN_FILTER_REPLACE",
         [1] = "CAN_FILTER_ADD",
         [2] = "CAN_FILTER_REMOVE",
     },
-    ["NAV_VTOL_LAND_OPTIONS"] = {
-        [0] = "NAV_VTOL_LAND_OPTIONS_DEFAULT",
-        [1] = "NAV_VTOL_LAND_OPTIONS_FW_SPIRAL_APPROACH",
-        [2] = "NAV_VTOL_LAND_OPTIONS_FW_APPROACH",
+    ["MAV_FTP_ERR"] = {
+        [0] = "MAV_FTP_ERR_NONE",
+        [1] = "MAV_FTP_ERR_FAIL",
+        [2] = "MAV_FTP_ERR_FAILERRNO",
+        [3] = "MAV_FTP_ERR_INVALIDDATASIZE",
+        [4] = "MAV_FTP_ERR_INVALIDSESSION",
+        [5] = "MAV_FTP_ERR_NOSESSIONSAVAILABLE",
+        [6] = "MAV_FTP_ERR_EOF",
+        [7] = "MAV_FTP_ERR_UNKNOWNCOMMAND",
+        [8] = "MAV_FTP_ERR_FILEEXISTS",
+        [9] = "MAV_FTP_ERR_FILEPROTECTED",
+        [10] = "MAV_FTP_ERR_FILENOTFOUND",
+    },
+    ["MAV_FTP_OPCODE"] = {
+        [0] = "MAV_FTP_OPCODE_NONE",
+        [1] = "MAV_FTP_OPCODE_TERMINATESESSION",
+        [2] = "MAV_FTP_OPCODE_RESETSESSION",
+        [3] = "MAV_FTP_OPCODE_LISTDIRECTORY",
+        [4] = "MAV_FTP_OPCODE_OPENFILERO",
+        [5] = "MAV_FTP_OPCODE_READFILE",
+        [6] = "MAV_FTP_OPCODE_CREATEFILE",
+        [7] = "MAV_FTP_OPCODE_WRITEFILE",
+        [8] = "MAV_FTP_OPCODE_REMOVEFILE",
+        [9] = "MAV_FTP_OPCODE_CREATEDIRECTORY",
+        [10] = "MAV_FTP_OPCODE_REMOVEDIRECTORY",
+        [11] = "MAV_FTP_OPCODE_OPENFILEWO",
+        [12] = "MAV_FTP_OPCODE_TRUNCATEFILE",
+        [13] = "MAV_FTP_OPCODE_RENAME",
+        [14] = "MAV_FTP_OPCODE_CALCFILECRC",
+        [15] = "MAV_FTP_OPCODE_BURSTREADFILE",
+        [128] = "MAV_FTP_OPCODE_ACK",
+        [129] = "MAV_FTP_OPCODE_NAK",
     },
     ["MISSION_STATE"] = {
         [0] = "MISSION_STATE_UNKNOWN",
@@ -2109,13 +2343,15 @@ local enumEntryName = {
         [0] = "SAFETY_SWITCH_STATE_SAFE",
         [1] = "SAFETY_SWITCH_STATE_DANGEROUS",
     },
-    ["AIRSPEED_SENSOR_FLAGS"] = {
-        [1] = "AIRSPEED_SENSOR_UNHEALTHY",
-        [2] = "AIRSPEED_SENSOR_USING",
+    ["ILLUMINATOR_MODE"] = {
+        [0] = "ILLUMINATOR_MODE_UNKNOWN",
+        [1] = "ILLUMINATOR_MODE_INTERNAL_CONTROL",
+        [2] = "ILLUMINATOR_MODE_EXTERNAL_SYNC",
     },
-    ["RADIO_RC_CHANNELS_FLAGS"] = {
-        [1] = "RADIO_RC_CHANNELS_FLAGS_FAILSAFE",
-        [2] = "RADIO_RC_CHANNELS_FLAGS_OUTDATED",
+    ["ILLUMINATOR_ERROR_FLAGS"] = {
+        [1] = "ILLUMINATOR_ERROR_FLAGS_THERMAL_THROTTLING",
+        [2] = "ILLUMINATOR_ERROR_FLAGS_OVER_TEMPERATURE_SHUTDOWN",
+        [4] = "ILLUMINATOR_ERROR_FLAGS_THERMISTOR_FAILURE",
     },
     ["MAV_STANDARD_MODE"] = {
         [0] = "MAV_STANDARD_MODE_NON_STANDARD",
@@ -2123,11 +2359,40 @@ local enumEntryName = {
         [2] = "MAV_STANDARD_MODE_ORBIT",
         [3] = "MAV_STANDARD_MODE_CRUISE",
         [4] = "MAV_STANDARD_MODE_ALTITUDE_HOLD",
-        [5] = "MAV_STANDARD_MODE_RETURN_HOME",
-        [6] = "MAV_STANDARD_MODE_SAFE_RECOVERY",
-        [7] = "MAV_STANDARD_MODE_MISSION",
-        [8] = "MAV_STANDARD_MODE_LAND",
-        [9] = "MAV_STANDARD_MODE_TAKEOFF",
+        [5] = "MAV_STANDARD_MODE_SAFE_RECOVERY",
+        [6] = "MAV_STANDARD_MODE_MISSION",
+        [7] = "MAV_STANDARD_MODE_LAND",
+        [8] = "MAV_STANDARD_MODE_TAKEOFF",
+    },
+    ["HIL_ACTUATOR_CONTROLS_FLAGS"] = {
+        [1] = "HIL_ACTUATOR_CONTROLS_FLAGS_LOCKSTEP",
+    },
+    ["COMPUTER_STATUS_FLAGS"] = {
+        [1] = "COMPUTER_STATUS_FLAGS_UNDER_VOLTAGE",
+        [2] = "COMPUTER_STATUS_FLAGS_CPU_THROTTLE",
+        [4] = "COMPUTER_STATUS_FLAGS_THERMAL_THROTTLE",
+        [8] = "COMPUTER_STATUS_FLAGS_DISK_FULL",
+    },
+    ["AIRSPEED_SENSOR_FLAGS"] = {
+        [1] = "AIRSPEED_SENSOR_UNHEALTHY",
+        [2] = "AIRSPEED_SENSOR_USING",
+    },
+    ["GLOBAL_POSITION_SRC"] = {
+        [0] = "GLOBAL_POSITION_SRC_UNKNOWN",
+        [1] = "GLOBAL_POSITION_SRC_GNSS",
+        [2] = "GLOBAL_POSITION_SRC_VISION",
+        [3] = "GLOBAL_POSITION_SRC_PSEUDOLITES",
+        [4] = "GLOBAL_POSITION_SRC_TERRAIN",
+        [5] = "GLOBAL_POSITION_SRC_MAGNETIC",
+        [6] = "GLOBAL_POSITION_SRC_ESTIMATOR",
+    },
+    ["GLOBAL_POSITION_FLAGS"] = {
+        [1] = "GLOBAL_POSITION_UNHEALTHY",
+        [2] = "GLOBAL_POSITION_PRIMARY",
+    },
+    ["RADIO_RC_CHANNELS_FLAGS"] = {
+        [1] = "RADIO_RC_CHANNELS_FLAGS_FAILSAFE",
+        [2] = "RADIO_RC_CHANNELS_FLAGS_OUTDATED",
     },
     ["MAV_MODE_PROPERTY"] = {
         [1] = "MAV_MODE_PROPERTY_ADVANCED",
@@ -2151,13 +2416,13 @@ local enumEntryName = {
     },
     ["GPS_JAMMING_STATE"] = {
         [0] = "GPS_JAMMING_STATE_UNKNOWN",
-        [1] = "GPS_JAMMING_STATE_OK",
+        [1] = "GPS_JAMMING_STATE_NOT_JAMMED",
         [2] = "GPS_JAMMING_STATE_MITIGATED",
         [3] = "GPS_JAMMING_STATE_DETECTED",
     },
     ["GPS_SPOOFING_STATE"] = {
         [0] = "GPS_SPOOFING_STATE_UNKNOWN",
-        [1] = "GPS_SPOOFING_STATE_OK",
+        [1] = "GPS_SPOOFING_STATE_NOT_SPOOFED",
         [2] = "GPS_SPOOFING_STATE_MITIGATED",
         [3] = "GPS_SPOOFING_STATE_DETECTED",
     },
@@ -2166,6 +2431,13 @@ local enumEntryName = {
         [1] = "GPS_RAIM_STATE_DISABLED",
         [2] = "GPS_RAIM_STATE_OK",
         [3] = "GPS_RAIM_STATE_FAILED",
+    },
+    ["RANGING_BEACON_ALT_TYPE"] = {
+        [0] = "RANGING_BEACON_ALT_TYPE_WGS84",
+        [1] = "RANGING_BEACON_ALT_TYPE_MSL",
+    },
+    ["RANGING_BEACON_STATUS_FLAG"] = {
+        [1] = "RANGING_BEACON_STATUS_FLAG_STATION_SIGNAL_POOR",
     },
     ["ICAROUS_TRACK_BAND_TYPES"] = {
         [0] = "ICAROUS_TRACK_BAND_TYPE_NONE",
@@ -2750,6 +3022,9 @@ f.cmd_MAV_CMD_NAV_LAND_param6 = ProtoField.new("param6: Longitude (float)", "mav
 f.cmd_MAV_CMD_NAV_LAND_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_LAND_param7", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_NAV_TAKEOFF_param1 = ProtoField.new("param1: Pitch (float)", "mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_NAV_TAKEOFF_param3 = ProtoField.new("param3: Flags (NAV_TAKEOFF_FLAGS)", "mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param3", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_NAV_TAKEOFF_param3_flagNAV_TAKEOFF_FLAGS_HORIZONTAL_POSITION_NOT_REQUIRED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param3.NAV_TAKEOFF_FLAGS_HORIZONTAL_POSITION_NOT_REQUIRED", "NAV_TAKEOFF_FLAGS_HORIZONTAL_POSITION_NOT_REQUIRED", 2, nil, 1)
+f.cmd_MAV_CMD_NAV_TAKEOFF_param3_flagNAV_TAKEOFF_FLAGS_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param3.NAV_TAKEOFF_FLAGS_ENUM_END", "NAV_TAKEOFF_FLAGS_ENUM_END", 2, nil, 2)
 f.cmd_MAV_CMD_NAV_TAKEOFF_param4 = ProtoField.new("param4: Yaw (float)", "mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param4", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_TAKEOFF_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_TAKEOFF_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_TAKEOFF_param6", ftypes.FLOAT, nil)
@@ -2803,6 +3078,21 @@ f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param5 = ProtoField.new("param5: Altitude Off
 f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param6 = ProtoField.new("param6: X Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7 = ProtoField.new("param7: Y Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_DO_ORBIT_param1 = ProtoField.new("param1: Radius (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ORBIT_param2 = ProtoField.new("param2: Velocity (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ORBIT_param3 = ProtoField.new("param3: Yaw Behavior (ORBIT_YAW_BEHAVIOUR)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param3", ftypes.UINT32, enumEntryName.ORBIT_YAW_BEHAVIOUR)
+f.cmd_MAV_CMD_DO_ORBIT_param4 = ProtoField.new("param4: Orbits (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param4", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ORBIT_param5 = ProtoField.new("param5: Latitude/X (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ORBIT_param6 = ProtoField.new("param6: Longitude/Y (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ORBIT_param7 = ProtoField.new("param7: Altitude/Z (float)", "mavlink_proto.cmd_MAV_CMD_DO_ORBIT_param7", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param1 = ProtoField.new("param1: Major Radius (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param2 = ProtoField.new("param2: Minor Radius (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param4 = ProtoField.new("param4: Orientation (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param4", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param5 = ProtoField.new("param5: Latitude/X (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param6 = ProtoField.new("param6: Longitude/Y (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param7 = ProtoField.new("param7: Altitude/Z (float)", "mavlink_proto.cmd_MAV_CMD_DO_FIGURE_EIGHT_param7", ftypes.FLOAT, nil)
+
 f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1 = ProtoField.new("param1: Arc Angle (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_ARC_WAYPOINT_param6", ftypes.FLOAT, nil)
@@ -2837,6 +3127,7 @@ f.cmd_MAV_CMD_NAV_VTOL_TAKEOFF_param5 = ProtoField.new("param5: Latitude (float)
 f.cmd_MAV_CMD_NAV_VTOL_TAKEOFF_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_TAKEOFF_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_VTOL_TAKEOFF_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_TAKEOFF_param7", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_NAV_VTOL_LAND_param1 = ProtoField.new("param1: Land Options (NAV_VTOL_LAND_OPTIONS)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_LAND_param1", ftypes.UINT32, enumEntryName.NAV_VTOL_LAND_OPTIONS)
 f.cmd_MAV_CMD_NAV_VTOL_LAND_param3 = ProtoField.new("param3: Approach Altitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_LAND_param3", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_VTOL_LAND_param4 = ProtoField.new("param4: Yaw (float)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_LAND_param4", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_VTOL_LAND_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_VTOL_LAND_param5", ftypes.FLOAT, nil)
@@ -2873,7 +3164,15 @@ f.cmd_MAV_CMD_CONDITION_YAW_param4_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_
 f.cmd_MAV_CMD_CONDITION_YAW_param4_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_CONDITION_YAW_param4.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
 
-f.cmd_MAV_CMD_DO_SET_MODE_param1 = ProtoField.new("param1: Mode (MAV_MODE)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1", ftypes.UINT32, enumEntryName.MAV_MODE)
+f.cmd_MAV_CMD_DO_SET_MODE_param1 = ProtoField.new("param1: Mode (MAV_MODE_FLAG)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_CUSTOM_MODE_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED", "MAV_MODE_FLAG_CUSTOM_MODE_ENABLED", 8, nil, 1)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_TEST_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_TEST_ENABLED", "MAV_MODE_FLAG_TEST_ENABLED", 8, nil, 2)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_AUTO_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_AUTO_ENABLED", "MAV_MODE_FLAG_AUTO_ENABLED", 8, nil, 4)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_GUIDED_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_GUIDED_ENABLED", "MAV_MODE_FLAG_GUIDED_ENABLED", 8, nil, 8)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_STABILIZE_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_STABILIZE_ENABLED", "MAV_MODE_FLAG_STABILIZE_ENABLED", 8, nil, 16)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_HIL_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_HIL_ENABLED", "MAV_MODE_FLAG_HIL_ENABLED", 8, nil, 32)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_MANUAL_INPUT_ENABLED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_MANUAL_INPUT_ENABLED", "MAV_MODE_FLAG_MANUAL_INPUT_ENABLED", 8, nil, 64)
+f.cmd_MAV_CMD_DO_SET_MODE_param1_flagMAV_MODE_FLAG_SAFETY_ARMED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param1.MAV_MODE_FLAG_SAFETY_ARMED", "MAV_MODE_FLAG_SAFETY_ARMED", 8, nil, 128)
 f.cmd_MAV_CMD_DO_SET_MODE_param2 = ProtoField.new("param2: Custom Mode (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_MODE_param3 = ProtoField.new("param3: Custom Submode (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MODE_param3", ftypes.FLOAT, nil)
 
@@ -2883,7 +3182,6 @@ f.cmd_MAV_CMD_DO_JUMP_param2 = ProtoField.new("param2: Repeat (float)", "mavlink
 f.cmd_MAV_CMD_DO_CHANGE_SPEED_param1 = ProtoField.new("param1: Speed Type (SPEED_TYPE)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_SPEED_param1", ftypes.UINT32, enumEntryName.SPEED_TYPE)
 f.cmd_MAV_CMD_DO_CHANGE_SPEED_param2 = ProtoField.new("param2: Speed (float)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_SPEED_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_CHANGE_SPEED_param3 = ProtoField.new("param3: Throttle (float)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_SPEED_param3", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_DO_CHANGE_SPEED_param4 = ProtoField.new("param4: Relative (float)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_SPEED_param4", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_SET_HOME_param1 = ProtoField.new("param1: Use Current (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_DO_SET_HOME_param1", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_DO_SET_HOME_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_HOME_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
@@ -2915,6 +3213,14 @@ f.cmd_MAV_CMD_DO_FLIGHTTERMINATION_param1 = ProtoField.new("param1: Terminate (f
 f.cmd_MAV_CMD_DO_CHANGE_ALTITUDE_param1 = ProtoField.new("param1: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_ALTITUDE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_CHANGE_ALTITUDE_param2 = ProtoField.new("param2: Frame (MAV_FRAME)", "mavlink_proto.cmd_MAV_CMD_DO_CHANGE_ALTITUDE_param2", ftypes.UINT32, enumEntryName.MAV_FRAME)
 
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param1 = ProtoField.new("param1: Actuator 1 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param2 = ProtoField.new("param2: Actuator 2 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param3 = ProtoField.new("param3: Actuator 3 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param4 = ProtoField.new("param4: Actuator 4 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param4", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param5 = ProtoField.new("param5: Actuator 5 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param6 = ProtoField.new("param6: Actuator 6 (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ACTUATOR_param7 = ProtoField.new("param7: Index (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ACTUATOR_param7", ftypes.FLOAT, nil)
+
 f.cmd_MAV_CMD_DO_RETURN_PATH_START_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_RETURN_PATH_START_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_RETURN_PATH_START_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_RETURN_PATH_START_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_RETURN_PATH_START_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_RETURN_PATH_START_param7", ftypes.FLOAT, nil)
@@ -2931,7 +3237,7 @@ f.cmd_MAV_CMD_DO_GO_AROUND_param1 = ProtoField.new("param1: Altitude (float)", "
 f.cmd_MAV_CMD_DO_REPOSITION_param1 = ProtoField.new("param1: Speed (float)", "mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_REPOSITION_param2 = ProtoField.new("param2: Bitmask (MAV_DO_REPOSITION_FLAGS)", "mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param2", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_DO_REPOSITION_param2_flagMAV_DO_REPOSITION_FLAGS_CHANGE_MODE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param2.MAV_DO_REPOSITION_FLAGS_CHANGE_MODE", "MAV_DO_REPOSITION_FLAGS_CHANGE_MODE", 2, nil, 1)
-f.cmd_MAV_CMD_DO_REPOSITION_param2_flagMAV_DO_REPOSITION_FLAGS_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param2.MAV_DO_REPOSITION_FLAGS_ENUM_END", "MAV_DO_REPOSITION_FLAGS_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_DO_REPOSITION_param2_flagMAV_DO_REPOSITION_FLAGS_RELATIVE_YAW = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param2.MAV_DO_REPOSITION_FLAGS_RELATIVE_YAW", "MAV_DO_REPOSITION_FLAGS_RELATIVE_YAW", 2, nil, 2)
 f.cmd_MAV_CMD_DO_REPOSITION_param3 = ProtoField.new("param3: Radius (float)", "mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param3", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_REPOSITION_param4 = ProtoField.new("param4: Yaw (float)", "mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param4", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_REPOSITION_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_REPOSITION_param5", ftypes.FLOAT, nil)
@@ -2946,16 +3252,20 @@ f.cmd_MAV_CMD_DO_SET_REVERSE_param1 = ProtoField.new("param1: Reverse (MAV_BOOL)
 f.cmd_MAV_CMD_DO_SET_REVERSE_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_REVERSE_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_DO_SET_REVERSE_param1_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_REVERSE_param1.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
+f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param1 = ProtoField.new("param1: Gimbal device ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param7", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param1 = ProtoField.new("param1: Gimbal device ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param5 = ProtoField.new("param5: Pitch Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param6 = ProtoField.new("param6: Roll Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param7 = ProtoField.new("param7: Yaw Offset (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param7", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_DO_SET_ROI_NONE_param1 = ProtoField.new("param1: Gimbal device ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_NONE_param1", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param1 = ProtoField.new("param1: System ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_SYSID_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param2 = ProtoField.new("param2: Gimbal device ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_ROI_SYSID_param2", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_CONTROL_VIDEO_param1 = ProtoField.new("param1: ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_CONTROL_VIDEO_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_CONTROL_VIDEO_param2 = ProtoField.new("param2: Transmission (float)", "mavlink_proto.cmd_MAV_CMD_DO_CONTROL_VIDEO_param2", ftypes.FLOAT, nil)
@@ -3000,6 +3310,7 @@ f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param2 = ProtoField.new("param2: Shutter (fl
 f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3 = ProtoField.new("param3: Trigger (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param4 = ProtoField.new("param4: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param4", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_FENCE_ENABLE_param1 = ProtoField.new("param1: Enable (float)", "mavlink_proto.cmd_MAV_CMD_DO_FENCE_ENABLE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_FENCE_ENABLE_param2 = ProtoField.new("param2: Types (FENCE_TYPE)", "mavlink_proto.cmd_MAV_CMD_DO_FENCE_ENABLE_param2", ftypes.UINT32, nil)
@@ -3021,7 +3332,7 @@ f.cmd_MAV_CMD_DO_INVERTED_FLIGHT_param1 = ProtoField.new("param1: Inverted (MAV_
 f.cmd_MAV_CMD_DO_INVERTED_FLIGHT_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_INVERTED_FLIGHT_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_DO_INVERTED_FLIGHT_param1_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_INVERTED_FLIGHT_param1.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
-f.cmd_MAV_CMD_DO_GRIPPER_param1 = ProtoField.new("param1: Instance (float)", "mavlink_proto.cmd_MAV_CMD_DO_GRIPPER_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_GRIPPER_param1 = ProtoField.new("param1: Gripper ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_GRIPPER_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_GRIPPER_param2 = ProtoField.new("param2: Action (GRIPPER_ACTIONS)", "mavlink_proto.cmd_MAV_CMD_DO_GRIPPER_param2", ftypes.UINT32, enumEntryName.GRIPPER_ACTIONS)
 
 f.cmd_MAV_CMD_DO_AUTOTUNE_ENABLE_param1 = ProtoField.new("param1: Enable (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_DO_AUTOTUNE_ENABLE_param1", ftypes.UINT32, nil)
@@ -3040,6 +3351,7 @@ f.cmd_MAV_CMD_NAV_SET_YAW_SPEED_param3_flagMAV_BOOL_ENUM_END = ProtoField.bool("
 
 f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param1 = ProtoField.new("param1: Trigger Cycle (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param2 = ProtoField.new("param2: Shutter Integration (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param3 = ProtoField.new("param3: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param3", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_SET_RESUME_REPEAT_DIST_param1 = ProtoField.new("param1: Distance (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_RESUME_REPEAT_DIST_param1", ftypes.FLOAT, nil)
 
@@ -3073,20 +3385,23 @@ f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param2 = ProtoField.new("param2: Cold Start (MAV
 f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param2_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param2.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param2_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param2.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param3 = ProtoField.new("param3: Height Delay (float)", "mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param3", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4 = ProtoField.new("param4: Options (ENGINE_CONTROL_OPTIONS)", "mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4", ftypes.UINT32, enumEntryName.ENGINE_CONTROL_OPTIONS)
+f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4 = ProtoField.new("param4: Options (ENGINE_CONTROL_OPTIONS)", "mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4_flagENGINE_CONTROL_OPTIONS_ALLOW_START_WHILE_DISARMED = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4.ENGINE_CONTROL_OPTIONS_ALLOW_START_WHILE_DISARMED", "ENGINE_CONTROL_OPTIONS_ALLOW_START_WHILE_DISARMED", 2, nil, 1)
+f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4_flagENGINE_CONTROL_OPTIONS_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4.ENGINE_CONTROL_OPTIONS_ENUM_END", "ENGINE_CONTROL_OPTIONS_ENUM_END", 2, nil, 2)
 
 f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param1 = ProtoField.new("param1: Number (float)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2 = ProtoField.new("param2: Reset Mission (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
+f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
 
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param1 = ProtoField.new("param1: Gyro Temperature (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param1", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2 = ProtoField.new("param2: Magnetometer (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2", ftypes.UINT32, nil)
-f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
-f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2 = ProtoField.new("param2: Magnetometer (PREFLIGHT_CALIBRATION_MAGNETOMETER)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2", ftypes.UINT32, enumEntryName.PREFLIGHT_CALIBRATION_MAGNETOMETER)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3 = ProtoField.new("param3: Ground Pressure (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param4 = ProtoField.new("param4: Remote Control (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param4", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param5 = ProtoField.new("param5: Accelerometer (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param5 = ProtoField.new("param5: Accelerometer (PREFLIGHT_CALIBRATION_ACCELEROMETER)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param5", ftypes.UINT32, enumEntryName.PREFLIGHT_CALIBRATION_ACCELEROMETER)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param6 = ProtoField.new("param6: Compmot or Airspeed (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param6", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param7 = ProtoField.new("param7: ESC or Baro (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param7", ftypes.FLOAT, nil)
 
@@ -3100,12 +3415,15 @@ f.cmd_MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS_param7 = ProtoField.new("param7: 6th 
 
 f.cmd_MAV_CMD_PREFLIGHT_UAVCAN_param1 = ProtoField.new("param1: Actuator ID (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_UAVCAN_param1", ftypes.FLOAT, nil)
 
-f.cmd_MAV_CMD_PREFLIGHT_STORAGE_param1 = ProtoField.new("param1: Parameter Storage (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_STORAGE_param1", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_PREFLIGHT_STORAGE_param2 = ProtoField.new("param2: Mission Storage (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_STORAGE_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_PREFLIGHT_STORAGE_param1 = ProtoField.new("param1: Parameter Storage (PREFLIGHT_STORAGE_PARAMETER_ACTION)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_STORAGE_param1", ftypes.UINT32, enumEntryName.PREFLIGHT_STORAGE_PARAMETER_ACTION)
+f.cmd_MAV_CMD_PREFLIGHT_STORAGE_param2 = ProtoField.new("param2: Mission Storage (PREFLIGHT_STORAGE_MISSION_ACTION)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_STORAGE_param2", ftypes.UINT32, enumEntryName.PREFLIGHT_STORAGE_MISSION_ACTION)
 f.cmd_MAV_CMD_PREFLIGHT_STORAGE_param3 = ProtoField.new("param3: Logging Rate (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_STORAGE_param3", ftypes.FLOAT, nil)
 
-f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param1 = ProtoField.new("param1: Autopilot (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param1", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2 = ProtoField.new("param2: Companion (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param1 = ProtoField.new("param1: Autopilot (REBOOT_SHUTDOWN_ACTION)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param1", ftypes.UINT32, enumEntryName.REBOOT_SHUTDOWN_ACTION)
+f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2 = ProtoField.new("param2: Companion (REBOOT_SHUTDOWN_ACTION)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2", ftypes.UINT32, enumEntryName.REBOOT_SHUTDOWN_ACTION)
+f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param3 = ProtoField.new("param3: Component Action (REBOOT_SHUTDOWN_ACTION)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param3", ftypes.UINT32, enumEntryName.REBOOT_SHUTDOWN_ACTION)
+f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param4 = ProtoField.new("param4: Component ID (float)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param4", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param6 = ProtoField.new("param6: Conditions (REBOOT_SHUTDOWN_CONDITIONS)", "mavlink_proto.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param6", ftypes.UINT32, enumEntryName.REBOOT_SHUTDOWN_CONDITIONS)
 
 f.cmd_MAV_CMD_OVERRIDE_GOTO_param1 = ProtoField.new("param1: Continue (MAV_GOTO)", "mavlink_proto.cmd_MAV_CMD_OVERRIDE_GOTO_param1", ftypes.UINT32, enumEntryName.MAV_GOTO)
 f.cmd_MAV_CMD_OVERRIDE_GOTO_param2 = ProtoField.new("param2: Position (MAV_GOTO)", "mavlink_proto.cmd_MAV_CMD_OVERRIDE_GOTO_param2", ftypes.UINT32, enumEntryName.MAV_GOTO)
@@ -3127,15 +3445,35 @@ f.cmd_MAV_CMD_DO_SET_STANDARD_MODE_param1 = ProtoField.new("param1: Standard Mod
 f.cmd_MAV_CMD_MISSION_START_param1 = ProtoField.new("param1: First Item (float)", "mavlink_proto.cmd_MAV_CMD_MISSION_START_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_MISSION_START_param2 = ProtoField.new("param2: Last Item (float)", "mavlink_proto.cmd_MAV_CMD_MISSION_START_param2", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_ACTUATOR_TEST_param1 = ProtoField.new("param1: Value (float)", "mavlink_proto.cmd_MAV_CMD_ACTUATOR_TEST_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_ACTUATOR_TEST_param2 = ProtoField.new("param2: Timeout (float)", "mavlink_proto.cmd_MAV_CMD_ACTUATOR_TEST_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_ACTUATOR_TEST_param5 = ProtoField.new("param5: Output Function (ACTUATOR_OUTPUT_FUNCTION)", "mavlink_proto.cmd_MAV_CMD_ACTUATOR_TEST_param5", ftypes.UINT32, enumEntryName.ACTUATOR_OUTPUT_FUNCTION)
+
+f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param1 = ProtoField.new("param1: Configuration (ACTUATOR_CONFIGURATION)", "mavlink_proto.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param1", ftypes.UINT32, enumEntryName.ACTUATOR_CONFIGURATION)
+f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param5 = ProtoField.new("param5: Output Function (ACTUATOR_OUTPUT_FUNCTION)", "mavlink_proto.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param5", ftypes.UINT32, enumEntryName.ACTUATOR_OUTPUT_FUNCTION)
+
 f.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1 = ProtoField.new("param1: Arm (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param1.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 f.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param2 = ProtoField.new("param2: Force (float)", "mavlink_proto.cmd_MAV_CMD_COMPONENT_ARM_DISARM_param2", ftypes.FLOAT, nil)
 
 
+f.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1 = ProtoField.new("param1: Enable (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
+f.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
-f.cmd_MAV_CMD_START_RX_PAIR_param1 = ProtoField.new("param1: Spektrum (float)", "mavlink_proto.cmd_MAV_CMD_START_RX_PAIR_param1", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_START_RX_PAIR_param2 = ProtoField.new("param2: RC Type (RC_TYPE)", "mavlink_proto.cmd_MAV_CMD_START_RX_PAIR_param2", ftypes.UINT32, enumEntryName.RC_TYPE)
+f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param1 = ProtoField.new("param1: Mode (ILLUMINATOR_MODE)", "mavlink_proto.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param1", ftypes.UINT32, enumEntryName.ILLUMINATOR_MODE)
+f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param2 = ProtoField.new("param2: Brightness (float)", "mavlink_proto.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param3 = ProtoField.new("param3: Strobe Period (float)", "mavlink_proto.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param4 = ProtoField.new("param4: Strobe Duty (float)", "mavlink_proto.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param4", ftypes.FLOAT, nil)
+
+
+f.cmd_MAV_CMD_INJECT_FAILURE_param1 = ProtoField.new("param1: Failure unit (FAILURE_UNIT)", "mavlink_proto.cmd_MAV_CMD_INJECT_FAILURE_param1", ftypes.UINT32, enumEntryName.FAILURE_UNIT)
+f.cmd_MAV_CMD_INJECT_FAILURE_param2 = ProtoField.new("param2: Failure type (FAILURE_TYPE)", "mavlink_proto.cmd_MAV_CMD_INJECT_FAILURE_param2", ftypes.UINT32, enumEntryName.FAILURE_TYPE)
+f.cmd_MAV_CMD_INJECT_FAILURE_param3 = ProtoField.new("param3: Instance (float)", "mavlink_proto.cmd_MAV_CMD_INJECT_FAILURE_param3", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_START_RX_PAIR_param1 = ProtoField.new("param1: RC Type (RC_TYPE)", "mavlink_proto.cmd_MAV_CMD_START_RX_PAIR_param1", ftypes.UINT32, enumEntryName.RC_TYPE)
+f.cmd_MAV_CMD_START_RX_PAIR_param2 = ProtoField.new("param2: RC Sub Type (RC_SUB_TYPE)", "mavlink_proto.cmd_MAV_CMD_START_RX_PAIR_param2", ftypes.UINT32, enumEntryName.RC_SUB_TYPE)
 
 f.cmd_MAV_CMD_GET_MESSAGE_INTERVAL_param1 = ProtoField.new("param1: Message ID (float)", "mavlink_proto.cmd_MAV_CMD_GET_MESSAGE_INTERVAL_param1", ftypes.FLOAT, nil)
 
@@ -3176,6 +3514,9 @@ f.cmd_MAV_CMD_STORAGE_FORMAT_param1 = ProtoField.new("param1: Storage ID (float)
 f.cmd_MAV_CMD_STORAGE_FORMAT_param2 = ProtoField.new("param2: Format (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param2", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_STORAGE_FORMAT_param2_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param2.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_STORAGE_FORMAT_param2_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param2.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_STORAGE_FORMAT_param3 = ProtoField.new("param3: Reset Image Log (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param3", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_STORAGE_FORMAT_param3_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param3.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
+f.cmd_MAV_CMD_STORAGE_FORMAT_param3_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_STORAGE_FORMAT_param3.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
 
 f.cmd_MAV_CMD_REQUEST_CAMERA_CAPTURE_STATUS_param1 = ProtoField.new("param1: Capture Status (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_REQUEST_CAMERA_CAPTURE_STATUS_param1", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_REQUEST_CAMERA_CAPTURE_STATUS_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_REQUEST_CAMERA_CAPTURE_STATUS_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
@@ -3188,17 +3529,25 @@ f.cmd_MAV_CMD_REQUEST_FLIGHT_INFORMATION_param1_flagMAV_BOOL_ENUM_END = ProtoFie
 f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1 = ProtoField.new("param1: Reset (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1", ftypes.UINT32, nil)
 f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
 f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param2 = ProtoField.new("param2: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param2", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_SET_CAMERA_MODE_param1 = ProtoField.new("param1: id (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_MODE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_SET_CAMERA_MODE_param2 = ProtoField.new("param2: Camera Mode (CAMERA_MODE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_MODE_param2", ftypes.UINT32, enumEntryName.CAMERA_MODE)
 
 f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1 = ProtoField.new("param1: Zoom Type (CAMERA_ZOOM_TYPE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_ZOOM_param1", ftypes.UINT32, enumEntryName.CAMERA_ZOOM_TYPE)
 f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2 = ProtoField.new("param2: Zoom Value (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param3 = ProtoField.new("param3: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_ZOOM_param3", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1 = ProtoField.new("param1: Focus Type (SET_FOCUS_TYPE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_FOCUS_param1", ftypes.UINT32, enumEntryName.SET_FOCUS_TYPE)
 f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2 = ProtoField.new("param2: Focus Value (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param3 = ProtoField.new("param3: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_FOCUS_param3", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_SET_STORAGE_USAGE_param1 = ProtoField.new("param1: Storage ID (float)", "mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param1", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2 = ProtoField.new("param2: Usage (STORAGE_USAGE_FLAG)", "mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2", ftypes.UINT32, enumEntryName.STORAGE_USAGE_FLAG)
+f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2 = ProtoField.new("param2: Usage (STORAGE_USAGE_FLAG)", "mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2_flagSTORAGE_USAGE_FLAG_SET = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2.STORAGE_USAGE_FLAG_SET", "STORAGE_USAGE_FLAG_SET", 4, nil, 1)
+f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2_flagSTORAGE_USAGE_FLAG_PHOTO = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2.STORAGE_USAGE_FLAG_PHOTO", "STORAGE_USAGE_FLAG_PHOTO", 4, nil, 2)
+f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2_flagSTORAGE_USAGE_FLAG_VIDEO = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2.STORAGE_USAGE_FLAG_VIDEO", "STORAGE_USAGE_FLAG_VIDEO", 4, nil, 4)
+f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2_flagSTORAGE_USAGE_FLAG_LOGS = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_SET_STORAGE_USAGE_param2.STORAGE_USAGE_FLAG_LOGS", "STORAGE_USAGE_FLAG_LOGS", 4, nil, 8)
 
 f.cmd_MAV_CMD_SET_CAMERA_SOURCE_param1 = ProtoField.new("param1: device id (float)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_SOURCE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_SET_CAMERA_SOURCE_param2 = ProtoField.new("param2: primary source (CAMERA_SOURCE)", "mavlink_proto.cmd_MAV_CMD_SET_CAMERA_SOURCE_param2", ftypes.UINT32, enumEntryName.CAMERA_SOURCE)
@@ -3240,35 +3589,49 @@ f.cmd_MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE_param3 = ProtoField.new("param3: sysid
 f.cmd_MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE_param4 = ProtoField.new("param4: compid secondary control (float)", "mavlink_proto.cmd_MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE_param4", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE_param7 = ProtoField.new("param7: Gimbal device ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_GIMBAL_MANAGER_CONFIGURE_param7", ftypes.FLOAT, nil)
 
-f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param1 = ProtoField.new("param1: id (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_START_CAPTURE_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param1 = ProtoField.new("param1: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_START_CAPTURE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param2 = ProtoField.new("param2: Interval (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_START_CAPTURE_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param3 = ProtoField.new("param3: Total Images (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_START_CAPTURE_param3", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_IMAGE_START_CAPTURE_param4 = ProtoField.new("param4: Sequence Number (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_START_CAPTURE_param4", ftypes.FLOAT, nil)
 
-f.cmd_MAV_CMD_IMAGE_STOP_CAPTURE_param1 = ProtoField.new("param1: id (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_STOP_CAPTURE_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_IMAGE_STOP_CAPTURE_param1 = ProtoField.new("param1: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_IMAGE_STOP_CAPTURE_param1", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE_param1 = ProtoField.new("param1: Number (float)", "mavlink_proto.cmd_MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE_param1", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param1 = ProtoField.new("param1: Enable (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2 = ProtoField.new("param2: Reset (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3 = ProtoField.new("param3: Pause (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param4 = ProtoField.new("param4: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param4", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1 = ProtoField.new("param1: Point x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2 = ProtoField.new("param2: Point y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3 = ProtoField.new("param3: Radius (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param4 = ProtoField.new("param4: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_POINT_param4", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1 = ProtoField.new("param1: Top left corner x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2 = ProtoField.new("param2: Top left corner y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param2", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3 = ProtoField.new("param3: Bottom right corner x (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param3", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4 = ProtoField.new("param4: Bottom right corner y (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param5 = ProtoField.new("param5: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param5", ftypes.FLOAT, nil)
 
+f.cmd_MAV_CMD_CAMERA_STOP_TRACKING_param1 = ProtoField.new("param1: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_STOP_TRACKING_param1", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_CAMERA_START_MTI_param1 = ProtoField.new("param1: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_START_MTI_param1", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_CAMERA_STOP_MTI_param1 = ProtoField.new("param1: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_CAMERA_STOP_MTI_param1", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_CAPTURE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2 = ProtoField.new("param2: Status Frequency (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param3 = ProtoField.new("param3: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_CAPTURE_param3", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param2 = ProtoField.new("param2: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param2", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_VIDEO_START_STREAMING_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_STREAMING_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_VIDEO_START_STREAMING_param2 = ProtoField.new("param2: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_START_STREAMING_param2", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param2 = ProtoField.new("param2: Target Camera ID (float)", "mavlink_proto.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param2", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_REQUEST_VIDEO_STREAM_INFORMATION_param1 = ProtoField.new("param1: Stream ID (float)", "mavlink_proto.cmd_MAV_CMD_REQUEST_VIDEO_STREAM_INFORMATION_param1", ftypes.FLOAT, nil)
 
@@ -3297,6 +3660,14 @@ f.cmd_MAV_CMD_ARM_AUTHORIZATION_REQUEST_param1 = ProtoField.new("param1: System 
 f.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param1 = ProtoField.new("param1: Radius (float)", "mavlink_proto.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_SET_GUIDED_SUBMODE_CIRCLE_param6", ftypes.FLOAT, nil)
+
+f.cmd_MAV_CMD_CONDITION_GATE_param1 = ProtoField.new("param1: Geometry (float)", "mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param1", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CONDITION_GATE_param2 = ProtoField.new("param2: UseAltitude (MAV_BOOL)", "mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param2", ftypes.UINT32, nil)
+f.cmd_MAV_CMD_CONDITION_GATE_param2_flagMAV_BOOL_TRUE = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param2.MAV_BOOL_TRUE", "MAV_BOOL_TRUE", 2, nil, 1)
+f.cmd_MAV_CMD_CONDITION_GATE_param2_flagMAV_BOOL_ENUM_END = ProtoField.bool("mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param2.MAV_BOOL_ENUM_END", "MAV_BOOL_ENUM_END", 2, nil, 2)
+f.cmd_MAV_CMD_CONDITION_GATE_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param5", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CONDITION_GATE_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param6", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_CONDITION_GATE_param7 = ProtoField.new("param7: Altitude (float)", "mavlink_proto.cmd_MAV_CMD_CONDITION_GATE_param7", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_NAV_FENCE_RETURN_POINT_param5 = ProtoField.new("param5: Latitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_RETURN_POINT_param5", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_NAV_FENCE_RETURN_POINT_param6 = ProtoField.new("param6: Longitude (float)", "mavlink_proto.cmd_MAV_CMD_NAV_FENCE_RETURN_POINT_param6", ftypes.FLOAT, nil)
@@ -3467,9 +3838,9 @@ f.cmd_MAV_CMD_GUIDED_CHANGE_SPEED_param3 = ProtoField.new("param3: speed rate-of
 f.cmd_MAV_CMD_GUIDED_CHANGE_ALTITUDE_param3 = ProtoField.new("param3: alt rate-of-change (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_ALTITUDE_param3", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_GUIDED_CHANGE_ALTITUDE_param7 = ProtoField.new("param7: target alt (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_ALTITUDE_param7", ftypes.FLOAT, nil)
 
-f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param1 = ProtoField.new("param1: heading type (HEADING_TYPE)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param1", ftypes.UINT32, enumEntryName.HEADING_TYPE)
-f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param2 = ProtoField.new("param2: heading target (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param2", ftypes.FLOAT, nil)
-f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param3 = ProtoField.new("param3: heading rate-of-change (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param3", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param1 = ProtoField.new("param1: Heading Type (HEADING_TYPE)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param1", ftypes.UINT32, enumEntryName.HEADING_TYPE)
+f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param2 = ProtoField.new("param2: Heading Target (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param2", ftypes.FLOAT, nil)
+f.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param3 = ProtoField.new("param3: Heading Rate of Change (float)", "mavlink_proto.cmd_MAV_CMD_GUIDED_CHANGE_HEADING_param3", ftypes.FLOAT, nil)
 
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param1 = ProtoField.new("param1: transmission_time (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param1", ftypes.FLOAT, nil)
 f.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param2 = ProtoField.new("param2: processing_time (float)", "mavlink_proto.cmd_MAV_CMD_EXTERNAL_POSITION_ESTIMATE_param2", ftypes.FLOAT, nil)
@@ -5577,101 +5948,104 @@ f.SENSOR_AIRFLOW_ANGLES_sideslip = ProtoField.new("sideslip (float)", "mavlink_p
 f.SENSOR_AIRFLOW_ANGLES_sideslip_valid = ProtoField.new("sideslip_valid (uint8_t)", "mavlink_proto.SENSOR_AIRFLOW_ANGLES_sideslip_valid", ftypes.UINT8, nil)
 
 f.SYS_STATUS_onboard_control_sensors_present = ProtoField.new("onboard_control_sensors_present (MAV_SYS_STATUS_SENSOR)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_present", ftypes.UINT32, nil)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 31, nil, 1)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 31, nil, 2)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 31, nil, 4)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 31, nil, 8)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 31, nil, 16)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 31, nil, 32)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 31, nil, 64)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 31, nil, 128)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 31, nil, 256)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 31, nil, 512)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 31, nil, 1024)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 31, nil, 2048)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 31, nil, 4096)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 31, nil, 8192)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 31, nil, 16384)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 31, nil, 32768)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 31, nil, 65536)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 31, nil, 131072)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 31, nil, 262144)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 31, nil, 524288)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 31, nil, 1048576)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 31, nil, 2097152)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 31, nil, 4194304)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 31, nil, 8388608)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 31, nil, 16777216)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 31, nil, 33554432)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 31, nil, 67108864)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 31, nil, 134217728)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 31, nil, 268435456)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 31, nil, 536870912)
-f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 31, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 32, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 32, nil, 2)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 32, nil, 4)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 32, nil, 8)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 32, nil, 16)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 32, nil, 32)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 32, nil, 64)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 32, nil, 128)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 32, nil, 256)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 32, nil, 512)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 32, nil, 1024)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 32, nil, 2048)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 32, nil, 4096)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 32, nil, 8192)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 32, nil, 16384)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 32, nil, 32768)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 32, nil, 65536)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 32, nil, 131072)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 32, nil, 262144)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 32, nil, 524288)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 32, nil, 1048576)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 32, nil, 2097152)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 32, nil, 4194304)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 32, nil, 8388608)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 32, nil, 16777216)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 32, nil, 33554432)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 32, nil, 67108864)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 32, nil, 134217728)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 32, nil, 268435456)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 32, nil, 536870912)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 32, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_present_flagMAV_SYS_STATUS_EXTENSION_USED = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present.MAV_SYS_STATUS_EXTENSION_USED", "MAV_SYS_STATUS_EXTENSION_USED", 32, nil, 2147483648)
 f.SYS_STATUS_onboard_control_sensors_enabled = ProtoField.new("onboard_control_sensors_enabled (MAV_SYS_STATUS_SENSOR)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled", ftypes.UINT32, nil)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 31, nil, 1)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 31, nil, 2)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 31, nil, 4)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 31, nil, 8)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 31, nil, 16)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 31, nil, 32)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 31, nil, 64)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 31, nil, 128)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 31, nil, 256)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 31, nil, 512)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 31, nil, 1024)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 31, nil, 2048)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 31, nil, 4096)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 31, nil, 8192)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 31, nil, 16384)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 31, nil, 32768)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 31, nil, 65536)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 31, nil, 131072)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 31, nil, 262144)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 31, nil, 524288)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 31, nil, 1048576)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 31, nil, 2097152)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 31, nil, 4194304)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 31, nil, 8388608)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 31, nil, 16777216)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 31, nil, 33554432)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 31, nil, 67108864)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 31, nil, 134217728)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 31, nil, 268435456)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 31, nil, 536870912)
-f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 31, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 32, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 32, nil, 2)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 32, nil, 4)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 32, nil, 8)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 32, nil, 16)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 32, nil, 32)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 32, nil, 64)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 32, nil, 128)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 32, nil, 256)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 32, nil, 512)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 32, nil, 1024)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 32, nil, 2048)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 32, nil, 4096)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 32, nil, 8192)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 32, nil, 16384)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 32, nil, 32768)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 32, nil, 65536)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 32, nil, 131072)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 32, nil, 262144)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 32, nil, 524288)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 32, nil, 1048576)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 32, nil, 2097152)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 32, nil, 4194304)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 32, nil, 8388608)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 32, nil, 16777216)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 32, nil, 33554432)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 32, nil, 67108864)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 32, nil, 134217728)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 32, nil, 268435456)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 32, nil, 536870912)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 32, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_enabled_flagMAV_SYS_STATUS_EXTENSION_USED = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled.MAV_SYS_STATUS_EXTENSION_USED", "MAV_SYS_STATUS_EXTENSION_USED", 32, nil, 2147483648)
 f.SYS_STATUS_onboard_control_sensors_health = ProtoField.new("onboard_control_sensors_health (MAV_SYS_STATUS_SENSOR)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_health", ftypes.UINT32, nil)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 31, nil, 1)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 31, nil, 2)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 31, nil, 4)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 31, nil, 8)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 31, nil, 16)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 31, nil, 32)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 31, nil, 64)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 31, nil, 128)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 31, nil, 256)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 31, nil, 512)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 31, nil, 1024)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 31, nil, 2048)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 31, nil, 4096)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 31, nil, 8192)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 31, nil, 16384)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 31, nil, 32768)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 31, nil, 65536)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 31, nil, 131072)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 31, nil, 262144)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 31, nil, 524288)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 31, nil, 1048576)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 31, nil, 2097152)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 31, nil, 4194304)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 31, nil, 8388608)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 31, nil, 16777216)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 31, nil, 33554432)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 31, nil, 67108864)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 31, nil, 134217728)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 31, nil, 268435456)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 31, nil, 536870912)
-f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 31, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_GYRO = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_GYRO", "MAV_SYS_STATUS_SENSOR_3D_GYRO", 32, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_ACCEL", "MAV_SYS_STATUS_SENSOR_3D_ACCEL", 32, nil, 2)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_MAG = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_MAG", "MAV_SYS_STATUS_SENSOR_3D_MAG", 32, nil, 4)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", "MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE", 32, nil, 8)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", "MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE", 32, nil, 16)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_GPS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_GPS", "MAV_SYS_STATUS_SENSOR_GPS", 32, nil, 32)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_OPTICAL_FLOW = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", "MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW", 32, nil, 64)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_VISION_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_VISION_POSITION", "MAV_SYS_STATUS_SENSOR_VISION_POSITION", 32, nil, 128)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_LASER_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_LASER_POSITION", "MAV_SYS_STATUS_SENSOR_LASER_POSITION", 32, nil, 256)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", "MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH", 32, nil, 512)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", "MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL", 32, nil, 1024)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", "MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION", 32, nil, 2048)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_YAW_POSITION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_YAW_POSITION", "MAV_SYS_STATUS_SENSOR_YAW_POSITION", 32, nil, 4096)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", "MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL", 32, nil, 8192)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", "MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL", 32, nil, 16384)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", "MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS", 32, nil, 32768)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_RC_RECEIVER = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_RC_RECEIVER", "MAV_SYS_STATUS_SENSOR_RC_RECEIVER", 32, nil, 65536)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_GYRO2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_GYRO2", "MAV_SYS_STATUS_SENSOR_3D_GYRO2", 32, nil, 131072)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_ACCEL2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_ACCEL2", "MAV_SYS_STATUS_SENSOR_3D_ACCEL2", 32, nil, 262144)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_3D_MAG2 = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_3D_MAG2", "MAV_SYS_STATUS_SENSOR_3D_MAG2", 32, nil, 524288)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_GEOFENCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_GEOFENCE", "MAV_SYS_STATUS_GEOFENCE", 32, nil, 1048576)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_AHRS = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_AHRS", "MAV_SYS_STATUS_AHRS", 32, nil, 2097152)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_TERRAIN = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_TERRAIN", "MAV_SYS_STATUS_TERRAIN", 32, nil, 4194304)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_REVERSE_MOTOR = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_REVERSE_MOTOR", "MAV_SYS_STATUS_REVERSE_MOTOR", 32, nil, 8388608)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_LOGGING = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_LOGGING", "MAV_SYS_STATUS_LOGGING", 32, nil, 16777216)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_BATTERY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_BATTERY", "MAV_SYS_STATUS_SENSOR_BATTERY", 32, nil, 33554432)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_PROXIMITY = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_PROXIMITY", "MAV_SYS_STATUS_SENSOR_PROXIMITY", 32, nil, 67108864)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_SATCOM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_SATCOM", "MAV_SYS_STATUS_SENSOR_SATCOM", 32, nil, 134217728)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_PREARM_CHECK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_PREARM_CHECK", "MAV_SYS_STATUS_PREARM_CHECK", 32, nil, 268435456)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", "MAV_SYS_STATUS_OBSTACLE_AVOIDANCE", 32, nil, 536870912)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_SENSOR_PROPULSION = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_SENSOR_PROPULSION", "MAV_SYS_STATUS_SENSOR_PROPULSION", 32, nil, 1073741824)
+f.SYS_STATUS_onboard_control_sensors_health_flagMAV_SYS_STATUS_EXTENSION_USED = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health.MAV_SYS_STATUS_EXTENSION_USED", "MAV_SYS_STATUS_EXTENSION_USED", 32, nil, 2147483648)
 f.SYS_STATUS_load = ProtoField.new("load (uint16_t)", "mavlink_proto.SYS_STATUS_load", ftypes.UINT16, nil)
 f.SYS_STATUS_voltage_battery = ProtoField.new("voltage_battery (uint16_t)", "mavlink_proto.SYS_STATUS_voltage_battery", ftypes.UINT16, nil)
 f.SYS_STATUS_current_battery = ProtoField.new("current_battery (int16_t)", "mavlink_proto.SYS_STATUS_current_battery", ftypes.INT16, nil)
@@ -5682,6 +6056,15 @@ f.SYS_STATUS_errors_count1 = ProtoField.new("errors_count1 (uint16_t)", "mavlink
 f.SYS_STATUS_errors_count2 = ProtoField.new("errors_count2 (uint16_t)", "mavlink_proto.SYS_STATUS_errors_count2", ftypes.UINT16, nil)
 f.SYS_STATUS_errors_count3 = ProtoField.new("errors_count3 (uint16_t)", "mavlink_proto.SYS_STATUS_errors_count3", ftypes.UINT16, nil)
 f.SYS_STATUS_errors_count4 = ProtoField.new("errors_count4 (uint16_t)", "mavlink_proto.SYS_STATUS_errors_count4", ftypes.UINT16, nil)
+f.SYS_STATUS_onboard_control_sensors_present_extended = ProtoField.new("onboard_control_sensors_present_extended (MAV_SYS_STATUS_SENSOR_EXTENDED)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_present_extended", ftypes.UINT32, nil)
+f.SYS_STATUS_onboard_control_sensors_present_extended_flagMAV_SYS_STATUS_RECOVERY_SYSTEM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present_extended.MAV_SYS_STATUS_RECOVERY_SYSTEM", "MAV_SYS_STATUS_RECOVERY_SYSTEM", 2, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_present_extended_flagMAV_SYS_STATUS_SENSOR_LEAK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_present_extended.MAV_SYS_STATUS_SENSOR_LEAK", "MAV_SYS_STATUS_SENSOR_LEAK", 2, nil, 2)
+f.SYS_STATUS_onboard_control_sensors_enabled_extended = ProtoField.new("onboard_control_sensors_enabled_extended (MAV_SYS_STATUS_SENSOR_EXTENDED)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled_extended", ftypes.UINT32, nil)
+f.SYS_STATUS_onboard_control_sensors_enabled_extended_flagMAV_SYS_STATUS_RECOVERY_SYSTEM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled_extended.MAV_SYS_STATUS_RECOVERY_SYSTEM", "MAV_SYS_STATUS_RECOVERY_SYSTEM", 2, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_enabled_extended_flagMAV_SYS_STATUS_SENSOR_LEAK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_enabled_extended.MAV_SYS_STATUS_SENSOR_LEAK", "MAV_SYS_STATUS_SENSOR_LEAK", 2, nil, 2)
+f.SYS_STATUS_onboard_control_sensors_health_extended = ProtoField.new("onboard_control_sensors_health_extended (MAV_SYS_STATUS_SENSOR_EXTENDED)", "mavlink_proto.SYS_STATUS_onboard_control_sensors_health_extended", ftypes.UINT32, nil)
+f.SYS_STATUS_onboard_control_sensors_health_extended_flagMAV_SYS_STATUS_RECOVERY_SYSTEM = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health_extended.MAV_SYS_STATUS_RECOVERY_SYSTEM", "MAV_SYS_STATUS_RECOVERY_SYSTEM", 2, nil, 1)
+f.SYS_STATUS_onboard_control_sensors_health_extended_flagMAV_SYS_STATUS_SENSOR_LEAK = ProtoField.bool("mavlink_proto.SYS_STATUS_onboard_control_sensors_health_extended.MAV_SYS_STATUS_SENSOR_LEAK", "MAV_SYS_STATUS_SENSOR_LEAK", 2, nil, 2)
 
 f.SYSTEM_TIME_time_unix_usec = ProtoField.new("time_unix_usec (uint64_t)", "mavlink_proto.SYSTEM_TIME_time_unix_usec", ftypes.UINT64, nil)
 f.SYSTEM_TIME_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.SYSTEM_TIME_time_boot_ms", ftypes.UINT32, nil)
@@ -6214,11 +6597,11 @@ f.RC_CHANNELS_rssi = ProtoField.new("rssi (uint8_t)", "mavlink_proto.RC_CHANNELS
 
 f.REQUEST_DATA_STREAM_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.REQUEST_DATA_STREAM_target_system", ftypes.UINT8, nil)
 f.REQUEST_DATA_STREAM_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.REQUEST_DATA_STREAM_target_component", ftypes.UINT8, nil)
-f.REQUEST_DATA_STREAM_req_stream_id = ProtoField.new("req_stream_id (uint8_t)", "mavlink_proto.REQUEST_DATA_STREAM_req_stream_id", ftypes.UINT8, nil)
+f.REQUEST_DATA_STREAM_req_stream_id = ProtoField.new("req_stream_id (MAV_DATA_STREAM)", "mavlink_proto.REQUEST_DATA_STREAM_req_stream_id", ftypes.UINT8, enumEntryName.MAV_DATA_STREAM)
 f.REQUEST_DATA_STREAM_req_message_rate = ProtoField.new("req_message_rate (uint16_t)", "mavlink_proto.REQUEST_DATA_STREAM_req_message_rate", ftypes.UINT16, nil)
 f.REQUEST_DATA_STREAM_start_stop = ProtoField.new("start_stop (uint8_t)", "mavlink_proto.REQUEST_DATA_STREAM_start_stop", ftypes.UINT8, nil)
 
-f.DATA_STREAM_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.DATA_STREAM_stream_id", ftypes.UINT8, nil)
+f.DATA_STREAM_stream_id = ProtoField.new("stream_id (MAV_DATA_STREAM)", "mavlink_proto.DATA_STREAM_stream_id", ftypes.UINT8, enumEntryName.MAV_DATA_STREAM)
 f.DATA_STREAM_message_rate = ProtoField.new("message_rate (uint16_t)", "mavlink_proto.DATA_STREAM_message_rate", ftypes.UINT16, nil)
 f.DATA_STREAM_on_off = ProtoField.new("on_off (uint8_t)", "mavlink_proto.DATA_STREAM_on_off", ftypes.UINT8, nil)
 
@@ -6548,7 +6931,9 @@ f.HIL_ACTUATOR_CONTROLS_mode_flagMAV_MODE_FLAG_STABILIZE_ENABLED = ProtoField.bo
 f.HIL_ACTUATOR_CONTROLS_mode_flagMAV_MODE_FLAG_HIL_ENABLED = ProtoField.bool("mavlink_proto.HIL_ACTUATOR_CONTROLS_mode.MAV_MODE_FLAG_HIL_ENABLED", "MAV_MODE_FLAG_HIL_ENABLED", 8, nil, 32)
 f.HIL_ACTUATOR_CONTROLS_mode_flagMAV_MODE_FLAG_MANUAL_INPUT_ENABLED = ProtoField.bool("mavlink_proto.HIL_ACTUATOR_CONTROLS_mode.MAV_MODE_FLAG_MANUAL_INPUT_ENABLED", "MAV_MODE_FLAG_MANUAL_INPUT_ENABLED", 8, nil, 64)
 f.HIL_ACTUATOR_CONTROLS_mode_flagMAV_MODE_FLAG_SAFETY_ARMED = ProtoField.bool("mavlink_proto.HIL_ACTUATOR_CONTROLS_mode.MAV_MODE_FLAG_SAFETY_ARMED", "MAV_MODE_FLAG_SAFETY_ARMED", 8, nil, 128)
-f.HIL_ACTUATOR_CONTROLS_flags = ProtoField.new("flags (uint64_t)", "mavlink_proto.HIL_ACTUATOR_CONTROLS_flags", ftypes.UINT64, nil)
+f.HIL_ACTUATOR_CONTROLS_flags = ProtoField.new("flags (HIL_ACTUATOR_CONTROLS_FLAGS)", "mavlink_proto.HIL_ACTUATOR_CONTROLS_flags", ftypes.UINT64, nil)
+f.HIL_ACTUATOR_CONTROLS_flags_flagHIL_ACTUATOR_CONTROLS_FLAGS_LOCKSTEP = ProtoField.bool("mavlink_proto.HIL_ACTUATOR_CONTROLS_flags.HIL_ACTUATOR_CONTROLS_FLAGS_LOCKSTEP", "HIL_ACTUATOR_CONTROLS_FLAGS_LOCKSTEP", 2, nil, 1)
+f.HIL_ACTUATOR_CONTROLS_flags_flagHIL_ACTUATOR_CONTROLS_FLAGS_ENUM_END = ProtoField.bool("mavlink_proto.HIL_ACTUATOR_CONTROLS_flags.HIL_ACTUATOR_CONTROLS_FLAGS_ENUM_END", "HIL_ACTUATOR_CONTROLS_FLAGS_ENUM_END", 2, nil, 2)
 
 f.OPTICAL_FLOW_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.OPTICAL_FLOW_time_usec", ftypes.UINT64, nil)
 f.OPTICAL_FLOW_sensor_id = ProtoField.new("sensor_id (uint8_t)", "mavlink_proto.OPTICAL_FLOW_sensor_id", ftypes.UINT8, nil)
@@ -6679,7 +7064,20 @@ f.HIGHRES_IMU_abs_pressure = ProtoField.new("abs_pressure (float)", "mavlink_pro
 f.HIGHRES_IMU_diff_pressure = ProtoField.new("diff_pressure (float)", "mavlink_proto.HIGHRES_IMU_diff_pressure", ftypes.FLOAT, nil)
 f.HIGHRES_IMU_pressure_alt = ProtoField.new("pressure_alt (float)", "mavlink_proto.HIGHRES_IMU_pressure_alt", ftypes.FLOAT, nil)
 f.HIGHRES_IMU_temperature = ProtoField.new("temperature (float)", "mavlink_proto.HIGHRES_IMU_temperature", ftypes.FLOAT, nil)
-f.HIGHRES_IMU_fields_updated = ProtoField.new("fields_updated (uint16_t)", "mavlink_proto.HIGHRES_IMU_fields_updated", ftypes.UINT16, nil)
+f.HIGHRES_IMU_fields_updated = ProtoField.new("fields_updated (HIGHRES_IMU_UPDATED_FLAGS)", "mavlink_proto.HIGHRES_IMU_fields_updated", ftypes.UINT16, nil)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_XACC = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_XACC", "HIGHRES_IMU_UPDATED_XACC", 13, nil, 1)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_YACC = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_YACC", "HIGHRES_IMU_UPDATED_YACC", 13, nil, 2)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_ZACC = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_ZACC", "HIGHRES_IMU_UPDATED_ZACC", 13, nil, 4)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_XGYRO = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_XGYRO", "HIGHRES_IMU_UPDATED_XGYRO", 13, nil, 8)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_YGYRO = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_YGYRO", "HIGHRES_IMU_UPDATED_YGYRO", 13, nil, 16)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_ZGYRO = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_ZGYRO", "HIGHRES_IMU_UPDATED_ZGYRO", 13, nil, 32)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_XMAG = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_XMAG", "HIGHRES_IMU_UPDATED_XMAG", 13, nil, 64)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_YMAG = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_YMAG", "HIGHRES_IMU_UPDATED_YMAG", 13, nil, 128)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_ZMAG = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_ZMAG", "HIGHRES_IMU_UPDATED_ZMAG", 13, nil, 256)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_ABS_PRESSURE = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_ABS_PRESSURE", "HIGHRES_IMU_UPDATED_ABS_PRESSURE", 13, nil, 512)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_DIFF_PRESSURE = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_DIFF_PRESSURE", "HIGHRES_IMU_UPDATED_DIFF_PRESSURE", 13, nil, 1024)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_PRESSURE_ALT = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_PRESSURE_ALT", "HIGHRES_IMU_UPDATED_PRESSURE_ALT", 13, nil, 2048)
+f.HIGHRES_IMU_fields_updated_flagHIGHRES_IMU_UPDATED_TEMPERATURE = ProtoField.bool("mavlink_proto.HIGHRES_IMU_fields_updated.HIGHRES_IMU_UPDATED_TEMPERATURE", "HIGHRES_IMU_UPDATED_TEMPERATURE", 13, nil, 4096)
 f.HIGHRES_IMU_id = ProtoField.new("id (uint8_t)", "mavlink_proto.HIGHRES_IMU_id", ftypes.UINT8, nil)
 
 f.OPTICAL_FLOW_RAD_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.OPTICAL_FLOW_RAD_time_usec", ftypes.UINT64, nil)
@@ -6709,7 +7107,21 @@ f.HIL_SENSOR_abs_pressure = ProtoField.new("abs_pressure (float)", "mavlink_prot
 f.HIL_SENSOR_diff_pressure = ProtoField.new("diff_pressure (float)", "mavlink_proto.HIL_SENSOR_diff_pressure", ftypes.FLOAT, nil)
 f.HIL_SENSOR_pressure_alt = ProtoField.new("pressure_alt (float)", "mavlink_proto.HIL_SENSOR_pressure_alt", ftypes.FLOAT, nil)
 f.HIL_SENSOR_temperature = ProtoField.new("temperature (float)", "mavlink_proto.HIL_SENSOR_temperature", ftypes.FLOAT, nil)
-f.HIL_SENSOR_fields_updated = ProtoField.new("fields_updated (uint32_t)", "mavlink_proto.HIL_SENSOR_fields_updated", ftypes.UINT32, nil)
+f.HIL_SENSOR_fields_updated = ProtoField.new("fields_updated (HIL_SENSOR_UPDATED_FLAGS)", "mavlink_proto.HIL_SENSOR_fields_updated", ftypes.UINT32, nil)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_XACC = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_XACC", "HIL_SENSOR_UPDATED_XACC", 32, nil, 1)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_YACC = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_YACC", "HIL_SENSOR_UPDATED_YACC", 32, nil, 2)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_ZACC = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_ZACC", "HIL_SENSOR_UPDATED_ZACC", 32, nil, 4)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_XGYRO = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_XGYRO", "HIL_SENSOR_UPDATED_XGYRO", 32, nil, 8)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_YGYRO = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_YGYRO", "HIL_SENSOR_UPDATED_YGYRO", 32, nil, 16)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_ZGYRO = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_ZGYRO", "HIL_SENSOR_UPDATED_ZGYRO", 32, nil, 32)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_XMAG = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_XMAG", "HIL_SENSOR_UPDATED_XMAG", 32, nil, 64)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_YMAG = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_YMAG", "HIL_SENSOR_UPDATED_YMAG", 32, nil, 128)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_ZMAG = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_ZMAG", "HIL_SENSOR_UPDATED_ZMAG", 32, nil, 256)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_ABS_PRESSURE = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_ABS_PRESSURE", "HIL_SENSOR_UPDATED_ABS_PRESSURE", 32, nil, 512)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_DIFF_PRESSURE = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_DIFF_PRESSURE", "HIL_SENSOR_UPDATED_DIFF_PRESSURE", 32, nil, 1024)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_PRESSURE_ALT = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_PRESSURE_ALT", "HIL_SENSOR_UPDATED_PRESSURE_ALT", 32, nil, 2048)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_TEMPERATURE = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_TEMPERATURE", "HIL_SENSOR_UPDATED_TEMPERATURE", 32, nil, 4096)
+f.HIL_SENSOR_fields_updated_flagHIL_SENSOR_UPDATED_RESET = ProtoField.bool("mavlink_proto.HIL_SENSOR_fields_updated.HIL_SENSOR_UPDATED_RESET", "HIL_SENSOR_UPDATED_RESET", 32, nil, 2147483648)
 f.HIL_SENSOR_id = ProtoField.new("id (uint8_t)", "mavlink_proto.HIL_SENSOR_id", ftypes.UINT8, nil)
 
 f.SIM_STATE_q1 = ProtoField.new("q1 (float)", "mavlink_proto.SIM_STATE_q1", ftypes.FLOAT, nil)
@@ -9057,27 +9469,30 @@ f.CAMERA_INFORMATION_resolution_h = ProtoField.new("resolution_h (uint16_t)", "m
 f.CAMERA_INFORMATION_resolution_v = ProtoField.new("resolution_v (uint16_t)", "mavlink_proto.CAMERA_INFORMATION_resolution_v", ftypes.UINT16, nil)
 f.CAMERA_INFORMATION_lens_id = ProtoField.new("lens_id (uint8_t)", "mavlink_proto.CAMERA_INFORMATION_lens_id", ftypes.UINT8, nil)
 f.CAMERA_INFORMATION_flags = ProtoField.new("flags (CAMERA_CAP_FLAGS)", "mavlink_proto.CAMERA_INFORMATION_flags", ftypes.UINT32, nil)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_VIDEO = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_VIDEO", "CAMERA_CAP_FLAGS_CAPTURE_VIDEO", 13, nil, 1)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_IMAGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_IMAGE", "CAMERA_CAP_FLAGS_CAPTURE_IMAGE", 13, nil, 2)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_MODES = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_MODES", "CAMERA_CAP_FLAGS_HAS_MODES", 13, nil, 4)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", 13, nil, 8)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", 13, nil, 16)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", "CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", 13, nil, 32)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_ZOOM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", "CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", 13, nil, 64)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_FOCUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", "CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", 13, nil, 128)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_VIDEO_STREAM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", "CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", 13, nil, 256)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_POINT = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", "CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", 13, nil, 512)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", 13, nil, 1024)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", 13, nil, 2048)
-f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_THERMAL_RANGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", "CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", 13, nil, 4096)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_VIDEO = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_VIDEO", "CAMERA_CAP_FLAGS_CAPTURE_VIDEO", 14, nil, 1)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAPTURE_IMAGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAPTURE_IMAGE", "CAMERA_CAP_FLAGS_CAPTURE_IMAGE", 14, nil, 2)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_MODES = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_MODES", "CAMERA_CAP_FLAGS_HAS_MODES", 14, nil, 4)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_IMAGE_IN_VIDEO_MODE", 14, nil, 8)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", "CAMERA_CAP_FLAGS_CAN_CAPTURE_VIDEO_IN_IMAGE_MODE", 14, nil, 16)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", "CAMERA_CAP_FLAGS_HAS_IMAGE_SURVEY_MODE", 14, nil, 32)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_ZOOM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", "CAMERA_CAP_FLAGS_HAS_BASIC_ZOOM", 14, nil, 64)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_BASIC_FOCUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", "CAMERA_CAP_FLAGS_HAS_BASIC_FOCUS", 14, nil, 128)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_VIDEO_STREAM = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", "CAMERA_CAP_FLAGS_HAS_VIDEO_STREAM", 14, nil, 256)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_POINT = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", "CAMERA_CAP_FLAGS_HAS_TRACKING_POINT", 14, nil, 512)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", "CAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE", 14, nil, 1024)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", "CAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS", 14, nil, 2048)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_THERMAL_RANGE = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", "CAMERA_CAP_FLAGS_HAS_THERMAL_RANGE", 14, nil, 4096)
+f.CAMERA_INFORMATION_flags_flagCAMERA_CAP_FLAGS_HAS_MTI = ProtoField.bool("mavlink_proto.CAMERA_INFORMATION_flags.CAMERA_CAP_FLAGS_HAS_MTI", "CAMERA_CAP_FLAGS_HAS_MTI", 14, nil, 8192)
 f.CAMERA_INFORMATION_cam_definition_version = ProtoField.new("cam_definition_version (uint16_t)", "mavlink_proto.CAMERA_INFORMATION_cam_definition_version", ftypes.UINT16, nil)
 f.CAMERA_INFORMATION_cam_definition_uri = ProtoField.new("cam_definition_uri (char)", "mavlink_proto.CAMERA_INFORMATION_cam_definition_uri", ftypes.STRING, nil)
 f.CAMERA_INFORMATION_gimbal_device_id = ProtoField.new("gimbal_device_id (uint8_t)", "mavlink_proto.CAMERA_INFORMATION_gimbal_device_id", ftypes.UINT8, nil)
+f.CAMERA_INFORMATION_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_INFORMATION_camera_device_id", ftypes.UINT8, nil)
 
 f.CAMERA_SETTINGS_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_SETTINGS_time_boot_ms", ftypes.UINT32, nil)
 f.CAMERA_SETTINGS_mode_id = ProtoField.new("mode_id (CAMERA_MODE)", "mavlink_proto.CAMERA_SETTINGS_mode_id", ftypes.UINT8, enumEntryName.CAMERA_MODE)
 f.CAMERA_SETTINGS_zoomLevel = ProtoField.new("zoomLevel (float)", "mavlink_proto.CAMERA_SETTINGS_zoomLevel", ftypes.FLOAT, nil)
 f.CAMERA_SETTINGS_focusLevel = ProtoField.new("focusLevel (float)", "mavlink_proto.CAMERA_SETTINGS_focusLevel", ftypes.FLOAT, nil)
+f.CAMERA_SETTINGS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_SETTINGS_camera_device_id", ftypes.UINT8, nil)
 
 f.STORAGE_INFORMATION_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.STORAGE_INFORMATION_time_boot_ms", ftypes.UINT32, nil)
 f.STORAGE_INFORMATION_storage_id = ProtoField.new("storage_id (uint8_t)", "mavlink_proto.STORAGE_INFORMATION_storage_id", ftypes.UINT8, nil)
@@ -9090,6 +9505,11 @@ f.STORAGE_INFORMATION_read_speed = ProtoField.new("read_speed (float)", "mavlink
 f.STORAGE_INFORMATION_write_speed = ProtoField.new("write_speed (float)", "mavlink_proto.STORAGE_INFORMATION_write_speed", ftypes.FLOAT, nil)
 f.STORAGE_INFORMATION_type = ProtoField.new("type (STORAGE_TYPE)", "mavlink_proto.STORAGE_INFORMATION_type", ftypes.UINT8, enumEntryName.STORAGE_TYPE)
 f.STORAGE_INFORMATION_name = ProtoField.new("name (char)", "mavlink_proto.STORAGE_INFORMATION_name", ftypes.STRING, nil)
+f.STORAGE_INFORMATION_storage_usage = ProtoField.new("storage_usage (STORAGE_USAGE_FLAG)", "mavlink_proto.STORAGE_INFORMATION_storage_usage", ftypes.UINT8, nil)
+f.STORAGE_INFORMATION_storage_usage_flagSTORAGE_USAGE_FLAG_SET = ProtoField.bool("mavlink_proto.STORAGE_INFORMATION_storage_usage.STORAGE_USAGE_FLAG_SET", "STORAGE_USAGE_FLAG_SET", 4, nil, 1)
+f.STORAGE_INFORMATION_storage_usage_flagSTORAGE_USAGE_FLAG_PHOTO = ProtoField.bool("mavlink_proto.STORAGE_INFORMATION_storage_usage.STORAGE_USAGE_FLAG_PHOTO", "STORAGE_USAGE_FLAG_PHOTO", 4, nil, 2)
+f.STORAGE_INFORMATION_storage_usage_flagSTORAGE_USAGE_FLAG_VIDEO = ProtoField.bool("mavlink_proto.STORAGE_INFORMATION_storage_usage.STORAGE_USAGE_FLAG_VIDEO", "STORAGE_USAGE_FLAG_VIDEO", 4, nil, 4)
+f.STORAGE_INFORMATION_storage_usage_flagSTORAGE_USAGE_FLAG_LOGS = ProtoField.bool("mavlink_proto.STORAGE_INFORMATION_storage_usage.STORAGE_USAGE_FLAG_LOGS", "STORAGE_USAGE_FLAG_LOGS", 4, nil, 8)
 
 f.CAMERA_CAPTURE_STATUS_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_CAPTURE_STATUS_time_boot_ms", ftypes.UINT32, nil)
 f.CAMERA_CAPTURE_STATUS_image_status = ProtoField.new("image_status (uint8_t)", "mavlink_proto.CAMERA_CAPTURE_STATUS_image_status", ftypes.UINT8, nil)
@@ -9098,6 +9518,7 @@ f.CAMERA_CAPTURE_STATUS_image_interval = ProtoField.new("image_interval (float)"
 f.CAMERA_CAPTURE_STATUS_recording_time_ms = ProtoField.new("recording_time_ms (uint32_t)", "mavlink_proto.CAMERA_CAPTURE_STATUS_recording_time_ms", ftypes.UINT32, nil)
 f.CAMERA_CAPTURE_STATUS_available_capacity = ProtoField.new("available_capacity (float)", "mavlink_proto.CAMERA_CAPTURE_STATUS_available_capacity", ftypes.FLOAT, nil)
 f.CAMERA_CAPTURE_STATUS_image_count = ProtoField.new("image_count (int32_t)", "mavlink_proto.CAMERA_CAPTURE_STATUS_image_count", ftypes.INT32, nil)
+f.CAMERA_CAPTURE_STATUS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_CAPTURE_STATUS_camera_device_id", ftypes.UINT8, nil)
 
 f.CAMERA_IMAGE_CAPTURED_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_IMAGE_CAPTURED_time_boot_ms", ftypes.UINT32, nil)
 f.CAMERA_IMAGE_CAPTURED_time_utc = ProtoField.new("time_utc (uint64_t)", "mavlink_proto.CAMERA_IMAGE_CAPTURED_time_utc", ftypes.UINT64, nil)
@@ -9120,6 +9541,7 @@ f.FLIGHT_INFORMATION_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "m
 f.FLIGHT_INFORMATION_arming_time_utc = ProtoField.new("arming_time_utc (uint64_t)", "mavlink_proto.FLIGHT_INFORMATION_arming_time_utc", ftypes.UINT64, nil)
 f.FLIGHT_INFORMATION_takeoff_time_utc = ProtoField.new("takeoff_time_utc (uint64_t)", "mavlink_proto.FLIGHT_INFORMATION_takeoff_time_utc", ftypes.UINT64, nil)
 f.FLIGHT_INFORMATION_flight_uuid = ProtoField.new("flight_uuid (uint64_t)", "mavlink_proto.FLIGHT_INFORMATION_flight_uuid", ftypes.UINT64, nil)
+f.FLIGHT_INFORMATION_landing_time = ProtoField.new("landing_time (uint32_t)", "mavlink_proto.FLIGHT_INFORMATION_landing_time", ftypes.UINT32, nil)
 
 f.MOUNT_ORIENTATION_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.MOUNT_ORIENTATION_time_boot_ms", ftypes.UINT32, nil)
 f.MOUNT_ORIENTATION_roll = ProtoField.new("roll (float)", "mavlink_proto.MOUNT_ORIENTATION_roll", ftypes.FLOAT, nil)
@@ -9657,6 +10079,7 @@ f.VIDEO_STREAM_INFORMATION_hfov = ProtoField.new("hfov (uint16_t)", "mavlink_pro
 f.VIDEO_STREAM_INFORMATION_name = ProtoField.new("name (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION_name", ftypes.STRING, nil)
 f.VIDEO_STREAM_INFORMATION_uri = ProtoField.new("uri (char)", "mavlink_proto.VIDEO_STREAM_INFORMATION_uri", ftypes.STRING, nil)
 f.VIDEO_STREAM_INFORMATION_encoding = ProtoField.new("encoding (VIDEO_STREAM_ENCODING)", "mavlink_proto.VIDEO_STREAM_INFORMATION_encoding", ftypes.UINT8, enumEntryName.VIDEO_STREAM_ENCODING)
+f.VIDEO_STREAM_INFORMATION_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_INFORMATION_camera_device_id", ftypes.UINT8, nil)
 
 f.VIDEO_STREAM_STATUS_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_STATUS_stream_id", ftypes.UINT8, nil)
 f.VIDEO_STREAM_STATUS_flags = ProtoField.new("flags (VIDEO_STREAM_STATUS_FLAGS)", "mavlink_proto.VIDEO_STREAM_STATUS_flags", ftypes.UINT16, nil)
@@ -9669,6 +10092,7 @@ f.VIDEO_STREAM_STATUS_resolution_v = ProtoField.new("resolution_v (uint16_t)", "
 f.VIDEO_STREAM_STATUS_bitrate = ProtoField.new("bitrate (uint32_t)", "mavlink_proto.VIDEO_STREAM_STATUS_bitrate", ftypes.UINT32, nil)
 f.VIDEO_STREAM_STATUS_rotation = ProtoField.new("rotation (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_rotation", ftypes.UINT16, nil)
 f.VIDEO_STREAM_STATUS_hfov = ProtoField.new("hfov (uint16_t)", "mavlink_proto.VIDEO_STREAM_STATUS_hfov", ftypes.UINT16, nil)
+f.VIDEO_STREAM_STATUS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.VIDEO_STREAM_STATUS_camera_device_id", ftypes.UINT8, nil)
 
 f.CAMERA_FOV_STATUS_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_FOV_STATUS_time_boot_ms", ftypes.UINT32, nil)
 f.CAMERA_FOV_STATUS_lat_camera = ProtoField.new("lat_camera (int32_t)", "mavlink_proto.CAMERA_FOV_STATUS_lat_camera", ftypes.INT32, nil)
@@ -9683,8 +10107,13 @@ f.CAMERA_FOV_STATUS_q_2 = ProtoField.new("q[2] (float)", "mavlink_proto.CAMERA_F
 f.CAMERA_FOV_STATUS_q_3 = ProtoField.new("q[3] (float)", "mavlink_proto.CAMERA_FOV_STATUS_q_3", ftypes.FLOAT, nil)
 f.CAMERA_FOV_STATUS_hfov = ProtoField.new("hfov (float)", "mavlink_proto.CAMERA_FOV_STATUS_hfov", ftypes.FLOAT, nil)
 f.CAMERA_FOV_STATUS_vfov = ProtoField.new("vfov (float)", "mavlink_proto.CAMERA_FOV_STATUS_vfov", ftypes.FLOAT, nil)
+f.CAMERA_FOV_STATUS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_FOV_STATUS_camera_device_id", ftypes.UINT8, nil)
 
-f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_STATUS_FLAGS)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status", ftypes.UINT8, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_ACTIVE = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_ACTIVE", "CAMERA_TRACKING_STATUS_FLAGS_ACTIVE", 4, nil, 1)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_ERROR = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_ERROR", "CAMERA_TRACKING_STATUS_FLAGS_ERROR", 4, nil, 2)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_MTI = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_MTI", "CAMERA_TRACKING_STATUS_FLAGS_MTI", 4, nil, 4)
+f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_COASTING = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_COASTING", "CAMERA_TRACKING_STATUS_FLAGS_COASTING", 4, nil, 8)
 f.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode = ProtoField.new("tracking_mode (CAMERA_TRACKING_MODE)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_MODE)
 f.CAMERA_TRACKING_IMAGE_STATUS_target_data = ProtoField.new("target_data (CAMERA_TRACKING_TARGET_DATA)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_target_data", ftypes.UINT8, nil)
 f.CAMERA_TRACKING_IMAGE_STATUS_target_data_flagCAMERA_TRACKING_TARGET_DATA_EMBEDDED = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_target_data.CAMERA_TRACKING_TARGET_DATA_EMBEDDED", "CAMERA_TRACKING_TARGET_DATA_EMBEDDED", 3, nil, 1)
@@ -9697,8 +10126,13 @@ f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_x = ProtoField.new("rec_top_x (float)", "
 f.CAMERA_TRACKING_IMAGE_STATUS_rec_top_y = ProtoField.new("rec_top_y (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_top_y", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_x = ProtoField.new("rec_bottom_x (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_x", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y = ProtoField.new("rec_bottom_y (float)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_IMAGE_STATUS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_TRACKING_IMAGE_STATUS_camera_device_id", ftypes.UINT8, nil)
 
-f.CAMERA_TRACKING_GEO_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status", ftypes.UINT8, enumEntryName.CAMERA_TRACKING_STATUS_FLAGS)
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status = ProtoField.new("tracking_status (CAMERA_TRACKING_STATUS_FLAGS)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status", ftypes.UINT8, nil)
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_ACTIVE = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_ACTIVE", "CAMERA_TRACKING_STATUS_FLAGS_ACTIVE", 4, nil, 1)
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_ERROR = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_ERROR", "CAMERA_TRACKING_STATUS_FLAGS_ERROR", 4, nil, 2)
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_MTI = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_MTI", "CAMERA_TRACKING_STATUS_FLAGS_MTI", 4, nil, 4)
+f.CAMERA_TRACKING_GEO_STATUS_tracking_status_flagCAMERA_TRACKING_STATUS_FLAGS_COASTING = ProtoField.bool("mavlink_proto.CAMERA_TRACKING_GEO_STATUS_tracking_status.CAMERA_TRACKING_STATUS_FLAGS_COASTING", "CAMERA_TRACKING_STATUS_FLAGS_COASTING", 4, nil, 8)
 f.CAMERA_TRACKING_GEO_STATUS_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_lat", ftypes.INT32, nil)
 f.CAMERA_TRACKING_GEO_STATUS_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_lon", ftypes.INT32, nil)
 f.CAMERA_TRACKING_GEO_STATUS_alt = ProtoField.new("alt (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_alt", ftypes.FLOAT, nil)
@@ -9711,6 +10145,7 @@ f.CAMERA_TRACKING_GEO_STATUS_vel_acc = ProtoField.new("vel_acc (float)", "mavlin
 f.CAMERA_TRACKING_GEO_STATUS_dist = ProtoField.new("dist (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_dist", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_GEO_STATUS_hdg = ProtoField.new("hdg (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg", ftypes.FLOAT, nil)
 f.CAMERA_TRACKING_GEO_STATUS_hdg_acc = ProtoField.new("hdg_acc (float)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_hdg_acc", ftypes.FLOAT, nil)
+f.CAMERA_TRACKING_GEO_STATUS_camera_device_id = ProtoField.new("camera_device_id (uint8_t)", "mavlink_proto.CAMERA_TRACKING_GEO_STATUS_camera_device_id", ftypes.UINT8, nil)
 
 f.CAMERA_THERMAL_RANGE_time_boot_ms = ProtoField.new("time_boot_ms (uint32_t)", "mavlink_proto.CAMERA_THERMAL_RANGE_time_boot_ms", ftypes.UINT32, nil)
 f.CAMERA_THERMAL_RANGE_stream_id = ProtoField.new("stream_id (uint8_t)", "mavlink_proto.CAMERA_THERMAL_RANGE_stream_id", ftypes.UINT8, nil)
@@ -9796,20 +10231,22 @@ f.GIMBAL_DEVICE_INFORMATION_firmware_version = ProtoField.new("firmware_version 
 f.GIMBAL_DEVICE_INFORMATION_hardware_version = ProtoField.new("hardware_version (uint32_t)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_hardware_version", ftypes.UINT32, nil)
 f.GIMBAL_DEVICE_INFORMATION_uid = ProtoField.new("uid (uint64_t)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_uid", ftypes.UINT64, nil)
 f.GIMBAL_DEVICE_INFORMATION_cap_flags = ProtoField.new("cap_flags (GIMBAL_DEVICE_CAP_FLAGS)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags", ftypes.UINT16, nil)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", 14, nil, 1)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", "GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", 14, nil, 2)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", 14, nil, 4)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", 14, nil, 8)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", 14, nil, 16)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", 14, nil, 32)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", 14, nil, 64)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", 14, nil, 128)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", 14, nil, 256)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", 14, nil, 512)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", 14, nil, 1024)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", 14, nil, 2048)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", 14, nil, 4096)
-f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", 14, nil, 8192)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", 18, nil, 1)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", "GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", 18, nil, 2)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", 18, nil, 4)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", 18, nil, 8)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", 18, nil, 16)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", 18, nil, 32)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", 18, nil, 64)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", 18, nil, 128)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", 18, nil, 256)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", 18, nil, 512)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", 18, nil, 1024)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", 18, nil, 2048)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", 18, nil, 4096)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", 18, nil, 8192)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", 18, nil, 65536)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", 18, nil, 131072)
 f.GIMBAL_DEVICE_INFORMATION_custom_cap_flags = ProtoField.new("custom_cap_flags (uint16_t)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_custom_cap_flags", ftypes.UINT16, nil)
 f.GIMBAL_DEVICE_INFORMATION_roll_min = ProtoField.new("roll_min (float)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_roll_min", ftypes.FLOAT, nil)
 f.GIMBAL_DEVICE_INFORMATION_roll_max = ProtoField.new("roll_max (float)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_roll_max", ftypes.FLOAT, nil)
@@ -9818,6 +10255,23 @@ f.GIMBAL_DEVICE_INFORMATION_pitch_max = ProtoField.new("pitch_max (float)", "mav
 f.GIMBAL_DEVICE_INFORMATION_yaw_min = ProtoField.new("yaw_min (float)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_yaw_min", ftypes.FLOAT, nil)
 f.GIMBAL_DEVICE_INFORMATION_yaw_max = ProtoField.new("yaw_max (float)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_yaw_max", ftypes.FLOAT, nil)
 f.GIMBAL_DEVICE_INFORMATION_gimbal_device_id = ProtoField.new("gimbal_device_id (uint8_t)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_gimbal_device_id", ftypes.UINT8, nil)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2 = ProtoField.new("cap_flags2 (GIMBAL_DEVICE_CAP_FLAGS)", "mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2", ftypes.UINT32, nil)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", 18, nil, 1)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", "GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", 18, nil, 2)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", 18, nil, 4)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", 18, nil, 8)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", 18, nil, 16)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", 18, nil, 32)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", 18, nil, 64)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", 18, nil, 128)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", 18, nil, 256)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", 18, nil, 512)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", 18, nil, 1024)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", 18, nil, 2048)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", 18, nil, 4096)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", 18, nil, 8192)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", 18, nil, 65536)
+f.GIMBAL_DEVICE_INFORMATION_cap_flags2_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL = ProtoField.bool("mavlink_proto.GIMBAL_DEVICE_INFORMATION_cap_flags2.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", 18, nil, 131072)
 
 f.GIMBAL_DEVICE_SET_ATTITUDE_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.GIMBAL_DEVICE_SET_ATTITUDE_target_system", ftypes.UINT8, nil)
 f.GIMBAL_DEVICE_SET_ATTITUDE_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.GIMBAL_DEVICE_SET_ATTITUDE_target_component", ftypes.UINT8, nil)
@@ -9942,6 +10396,30 @@ f.GIMBAL_MANAGER_SET_MANUAL_CONTROL_pitch = ProtoField.new("pitch (float)", "mav
 f.GIMBAL_MANAGER_SET_MANUAL_CONTROL_yaw = ProtoField.new("yaw (float)", "mavlink_proto.GIMBAL_MANAGER_SET_MANUAL_CONTROL_yaw", ftypes.FLOAT, nil)
 f.GIMBAL_MANAGER_SET_MANUAL_CONTROL_pitch_rate = ProtoField.new("pitch_rate (float)", "mavlink_proto.GIMBAL_MANAGER_SET_MANUAL_CONTROL_pitch_rate", ftypes.FLOAT, nil)
 f.GIMBAL_MANAGER_SET_MANUAL_CONTROL_yaw_rate = ProtoField.new("yaw_rate (float)", "mavlink_proto.GIMBAL_MANAGER_SET_MANUAL_CONTROL_yaw_rate", ftypes.FLOAT, nil)
+
+f.AIRSPEED_id = ProtoField.new("id (uint8_t)", "mavlink_proto.AIRSPEED_id", ftypes.UINT8, nil)
+f.AIRSPEED_airspeed = ProtoField.new("airspeed (float)", "mavlink_proto.AIRSPEED_airspeed", ftypes.FLOAT, nil)
+f.AIRSPEED_temperature = ProtoField.new("temperature (int16_t)", "mavlink_proto.AIRSPEED_temperature", ftypes.INT16, nil)
+f.AIRSPEED_raw_press = ProtoField.new("raw_press (float)", "mavlink_proto.AIRSPEED_raw_press", ftypes.FLOAT, nil)
+f.AIRSPEED_flags = ProtoField.new("flags (AIRSPEED_SENSOR_FLAGS)", "mavlink_proto.AIRSPEED_flags", ftypes.UINT8, nil)
+f.AIRSPEED_flags_flagAIRSPEED_SENSOR_UNHEALTHY = ProtoField.bool("mavlink_proto.AIRSPEED_flags.AIRSPEED_SENSOR_UNHEALTHY", "AIRSPEED_SENSOR_UNHEALTHY", 2, nil, 1)
+f.AIRSPEED_flags_flagAIRSPEED_SENSOR_USING = ProtoField.bool("mavlink_proto.AIRSPEED_flags.AIRSPEED_SENSOR_USING", "AIRSPEED_SENSOR_USING", 2, nil, 2)
+
+f.GLOBAL_POSITION_SENSOR_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_target_system", ftypes.UINT8, nil)
+f.GLOBAL_POSITION_SENSOR_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_target_component", ftypes.UINT8, nil)
+f.GLOBAL_POSITION_SENSOR_id = ProtoField.new("id (uint8_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_id", ftypes.UINT8, nil)
+f.GLOBAL_POSITION_SENSOR_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_time_usec", ftypes.UINT64, nil)
+f.GLOBAL_POSITION_SENSOR_processing_time = ProtoField.new("processing_time (uint32_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_processing_time", ftypes.UINT32, nil)
+f.GLOBAL_POSITION_SENSOR_source = ProtoField.new("source (GLOBAL_POSITION_SRC)", "mavlink_proto.GLOBAL_POSITION_SENSOR_source", ftypes.UINT8, enumEntryName.GLOBAL_POSITION_SRC)
+f.GLOBAL_POSITION_SENSOR_flags = ProtoField.new("flags (GLOBAL_POSITION_FLAGS)", "mavlink_proto.GLOBAL_POSITION_SENSOR_flags", ftypes.UINT8, nil)
+f.GLOBAL_POSITION_SENSOR_flags_flagGLOBAL_POSITION_UNHEALTHY = ProtoField.bool("mavlink_proto.GLOBAL_POSITION_SENSOR_flags.GLOBAL_POSITION_UNHEALTHY", "GLOBAL_POSITION_UNHEALTHY", 2, nil, 1)
+f.GLOBAL_POSITION_SENSOR_flags_flagGLOBAL_POSITION_PRIMARY = ProtoField.bool("mavlink_proto.GLOBAL_POSITION_SENSOR_flags.GLOBAL_POSITION_PRIMARY", "GLOBAL_POSITION_PRIMARY", 2, nil, 2)
+f.GLOBAL_POSITION_SENSOR_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_lat", ftypes.INT32, nil)
+f.GLOBAL_POSITION_SENSOR_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.GLOBAL_POSITION_SENSOR_lon", ftypes.INT32, nil)
+f.GLOBAL_POSITION_SENSOR_alt_ellipsoid = ProtoField.new("alt_ellipsoid (float)", "mavlink_proto.GLOBAL_POSITION_SENSOR_alt_ellipsoid", ftypes.FLOAT, nil)
+f.GLOBAL_POSITION_SENSOR_alt = ProtoField.new("alt (float)", "mavlink_proto.GLOBAL_POSITION_SENSOR_alt", ftypes.FLOAT, nil)
+f.GLOBAL_POSITION_SENSOR_eph = ProtoField.new("eph (float)", "mavlink_proto.GLOBAL_POSITION_SENSOR_eph", ftypes.FLOAT, nil)
+f.GLOBAL_POSITION_SENSOR_epv = ProtoField.new("epv (float)", "mavlink_proto.GLOBAL_POSITION_SENSOR_epv", ftypes.FLOAT, nil)
 
 f.WIFI_CONFIG_AP_ssid = ProtoField.new("ssid (char)", "mavlink_proto.WIFI_CONFIG_AP_ssid", ftypes.STRING, nil)
 f.WIFI_CONFIG_AP_password = ProtoField.new("password (char)", "mavlink_proto.WIFI_CONFIG_AP_password", ftypes.STRING, nil)
@@ -10392,6 +10870,13 @@ f.DEBUG_FLOAT_ARRAY_data_55 = ProtoField.new("data[55] (float)", "mavlink_proto.
 f.DEBUG_FLOAT_ARRAY_data_56 = ProtoField.new("data[56] (float)", "mavlink_proto.DEBUG_FLOAT_ARRAY_data_56", ftypes.FLOAT, nil)
 f.DEBUG_FLOAT_ARRAY_data_57 = ProtoField.new("data[57] (float)", "mavlink_proto.DEBUG_FLOAT_ARRAY_data_57", ftypes.FLOAT, nil)
 
+f.ORBIT_EXECUTION_STATUS_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.ORBIT_EXECUTION_STATUS_time_usec", ftypes.UINT64, nil)
+f.ORBIT_EXECUTION_STATUS_radius = ProtoField.new("radius (float)", "mavlink_proto.ORBIT_EXECUTION_STATUS_radius", ftypes.FLOAT, nil)
+f.ORBIT_EXECUTION_STATUS_frame = ProtoField.new("frame (MAV_FRAME)", "mavlink_proto.ORBIT_EXECUTION_STATUS_frame", ftypes.UINT8, enumEntryName.MAV_FRAME)
+f.ORBIT_EXECUTION_STATUS_x = ProtoField.new("x (int32_t)", "mavlink_proto.ORBIT_EXECUTION_STATUS_x", ftypes.INT32, nil)
+f.ORBIT_EXECUTION_STATUS_y = ProtoField.new("y (int32_t)", "mavlink_proto.ORBIT_EXECUTION_STATUS_y", ftypes.INT32, nil)
+f.ORBIT_EXECUTION_STATUS_z = ProtoField.new("z (float)", "mavlink_proto.ORBIT_EXECUTION_STATUS_z", ftypes.FLOAT, nil)
+
 f.SMART_BATTERY_INFO_id = ProtoField.new("id (uint8_t)", "mavlink_proto.SMART_BATTERY_INFO_id", ftypes.UINT8, nil)
 f.SMART_BATTERY_INFO_battery_function = ProtoField.new("battery_function (MAV_BATTERY_FUNCTION)", "mavlink_proto.SMART_BATTERY_INFO_battery_function", ftypes.UINT8, enumEntryName.MAV_BATTERY_FUNCTION)
 f.SMART_BATTERY_INFO_type = ProtoField.new("type (MAV_BATTERY_TYPE)", "mavlink_proto.SMART_BATTERY_INFO_type", ftypes.UINT8, enumEntryName.MAV_BATTERY_TYPE)
@@ -10723,6 +11208,104 @@ f.CAN_FILTER_MODIFY_ids_13 = ProtoField.new("ids[13] (uint16_t)", "mavlink_proto
 f.CAN_FILTER_MODIFY_ids_14 = ProtoField.new("ids[14] (uint16_t)", "mavlink_proto.CAN_FILTER_MODIFY_ids_14", ftypes.UINT16, nil)
 f.CAN_FILTER_MODIFY_ids_15 = ProtoField.new("ids[15] (uint16_t)", "mavlink_proto.CAN_FILTER_MODIFY_ids_15", ftypes.UINT16, nil)
 
+f.ONBOARD_COMPUTER_STATUS_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_time_usec", ftypes.UINT64, nil)
+f.ONBOARD_COMPUTER_STATUS_uptime = ProtoField.new("uptime (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_uptime", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_type = ProtoField.new("type (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_type", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_0 = ProtoField.new("cpu_cores[0] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_0", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_1 = ProtoField.new("cpu_cores[1] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_1", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_2 = ProtoField.new("cpu_cores[2] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_2", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_3 = ProtoField.new("cpu_cores[3] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_3", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_4 = ProtoField.new("cpu_cores[4] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_4", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_5 = ProtoField.new("cpu_cores[5] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_5", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_6 = ProtoField.new("cpu_cores[6] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_6", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_cores_7 = ProtoField.new("cpu_cores[7] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_cores_7", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_0 = ProtoField.new("cpu_combined[0] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_0", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_1 = ProtoField.new("cpu_combined[1] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_1", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_2 = ProtoField.new("cpu_combined[2] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_2", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_3 = ProtoField.new("cpu_combined[3] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_3", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_4 = ProtoField.new("cpu_combined[4] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_4", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_5 = ProtoField.new("cpu_combined[5] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_5", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_6 = ProtoField.new("cpu_combined[6] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_6", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_7 = ProtoField.new("cpu_combined[7] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_7", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_8 = ProtoField.new("cpu_combined[8] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_8", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_cpu_combined_9 = ProtoField.new("cpu_combined[9] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_cpu_combined_9", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_cores_0 = ProtoField.new("gpu_cores[0] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_cores_0", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_cores_1 = ProtoField.new("gpu_cores[1] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_cores_1", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_cores_2 = ProtoField.new("gpu_cores[2] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_cores_2", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_cores_3 = ProtoField.new("gpu_cores[3] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_cores_3", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_0 = ProtoField.new("gpu_combined[0] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_0", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_1 = ProtoField.new("gpu_combined[1] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_1", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_2 = ProtoField.new("gpu_combined[2] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_2", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_3 = ProtoField.new("gpu_combined[3] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_3", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_4 = ProtoField.new("gpu_combined[4] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_4", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_5 = ProtoField.new("gpu_combined[5] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_5", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_6 = ProtoField.new("gpu_combined[6] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_6", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_7 = ProtoField.new("gpu_combined[7] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_7", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_8 = ProtoField.new("gpu_combined[8] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_8", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_gpu_combined_9 = ProtoField.new("gpu_combined[9] (uint8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_gpu_combined_9", ftypes.UINT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_board = ProtoField.new("temperature_board (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_board", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_0 = ProtoField.new("temperature_core[0] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_0", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_1 = ProtoField.new("temperature_core[1] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_1", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_2 = ProtoField.new("temperature_core[2] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_2", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_3 = ProtoField.new("temperature_core[3] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_3", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_4 = ProtoField.new("temperature_core[4] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_4", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_5 = ProtoField.new("temperature_core[5] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_5", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_6 = ProtoField.new("temperature_core[6] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_6", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_temperature_core_7 = ProtoField.new("temperature_core[7] (int8_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_temperature_core_7", ftypes.INT8, nil)
+f.ONBOARD_COMPUTER_STATUS_fan_speed_0 = ProtoField.new("fan_speed[0] (int16_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_fan_speed_0", ftypes.INT16, nil)
+f.ONBOARD_COMPUTER_STATUS_fan_speed_1 = ProtoField.new("fan_speed[1] (int16_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_fan_speed_1", ftypes.INT16, nil)
+f.ONBOARD_COMPUTER_STATUS_fan_speed_2 = ProtoField.new("fan_speed[2] (int16_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_fan_speed_2", ftypes.INT16, nil)
+f.ONBOARD_COMPUTER_STATUS_fan_speed_3 = ProtoField.new("fan_speed[3] (int16_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_fan_speed_3", ftypes.INT16, nil)
+f.ONBOARD_COMPUTER_STATUS_ram_usage = ProtoField.new("ram_usage (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_ram_usage", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_ram_total = ProtoField.new("ram_total (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_ram_total", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_type_0 = ProtoField.new("storage_type[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_type_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_type_1 = ProtoField.new("storage_type[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_type_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_type_2 = ProtoField.new("storage_type[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_type_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_type_3 = ProtoField.new("storage_type[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_type_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_usage_0 = ProtoField.new("storage_usage[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_usage_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_usage_1 = ProtoField.new("storage_usage[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_usage_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_usage_2 = ProtoField.new("storage_usage[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_usage_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_usage_3 = ProtoField.new("storage_usage[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_usage_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_total_0 = ProtoField.new("storage_total[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_total_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_total_1 = ProtoField.new("storage_total[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_total_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_total_2 = ProtoField.new("storage_total[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_total_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_storage_total_3 = ProtoField.new("storage_total[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_storage_total_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_0 = ProtoField.new("link_type[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_1 = ProtoField.new("link_type[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_2 = ProtoField.new("link_type[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_3 = ProtoField.new("link_type[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_4 = ProtoField.new("link_type[4] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_4", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_type_5 = ProtoField.new("link_type[5] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_type_5", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_0 = ProtoField.new("link_tx_rate[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_1 = ProtoField.new("link_tx_rate[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_2 = ProtoField.new("link_tx_rate[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_3 = ProtoField.new("link_tx_rate[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_4 = ProtoField.new("link_tx_rate[4] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_4", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_rate_5 = ProtoField.new("link_tx_rate[5] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_rate_5", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_0 = ProtoField.new("link_rx_rate[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_1 = ProtoField.new("link_rx_rate[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_2 = ProtoField.new("link_rx_rate[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_3 = ProtoField.new("link_rx_rate[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_4 = ProtoField.new("link_rx_rate[4] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_4", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_rate_5 = ProtoField.new("link_rx_rate[5] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_rate_5", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_0 = ProtoField.new("link_tx_max[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_1 = ProtoField.new("link_tx_max[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_2 = ProtoField.new("link_tx_max[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_3 = ProtoField.new("link_tx_max[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_4 = ProtoField.new("link_tx_max[4] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_4", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_tx_max_5 = ProtoField.new("link_tx_max[5] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_tx_max_5", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_0 = ProtoField.new("link_rx_max[0] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_0", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_1 = ProtoField.new("link_rx_max[1] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_1", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_2 = ProtoField.new("link_rx_max[2] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_2", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_3 = ProtoField.new("link_rx_max[3] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_3", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_4 = ProtoField.new("link_rx_max[4] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_4", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_link_rx_max_5 = ProtoField.new("link_rx_max[5] (uint32_t)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_link_rx_max_5", ftypes.UINT32, nil)
+f.ONBOARD_COMPUTER_STATUS_status_flags = ProtoField.new("status_flags (COMPUTER_STATUS_FLAGS)", "mavlink_proto.ONBOARD_COMPUTER_STATUS_status_flags", ftypes.UINT16, nil)
+f.ONBOARD_COMPUTER_STATUS_status_flags_flagCOMPUTER_STATUS_FLAGS_UNDER_VOLTAGE = ProtoField.bool("mavlink_proto.ONBOARD_COMPUTER_STATUS_status_flags.COMPUTER_STATUS_FLAGS_UNDER_VOLTAGE", "COMPUTER_STATUS_FLAGS_UNDER_VOLTAGE", 4, nil, 1)
+f.ONBOARD_COMPUTER_STATUS_status_flags_flagCOMPUTER_STATUS_FLAGS_CPU_THROTTLE = ProtoField.bool("mavlink_proto.ONBOARD_COMPUTER_STATUS_status_flags.COMPUTER_STATUS_FLAGS_CPU_THROTTLE", "COMPUTER_STATUS_FLAGS_CPU_THROTTLE", 4, nil, 2)
+f.ONBOARD_COMPUTER_STATUS_status_flags_flagCOMPUTER_STATUS_FLAGS_THERMAL_THROTTLE = ProtoField.bool("mavlink_proto.ONBOARD_COMPUTER_STATUS_status_flags.COMPUTER_STATUS_FLAGS_THERMAL_THROTTLE", "COMPUTER_STATUS_FLAGS_THERMAL_THROTTLE", 4, nil, 4)
+f.ONBOARD_COMPUTER_STATUS_status_flags_flagCOMPUTER_STATUS_FLAGS_DISK_FULL = ProtoField.bool("mavlink_proto.ONBOARD_COMPUTER_STATUS_status_flags.COMPUTER_STATUS_FLAGS_DISK_FULL", "COMPUTER_STATUS_FLAGS_DISK_FULL", 4, nil, 8)
+
 f.WHEEL_DISTANCE_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.WHEEL_DISTANCE_time_usec", ftypes.UINT64, nil)
 f.WHEEL_DISTANCE_count = ProtoField.new("count (uint8_t)", "mavlink_proto.WHEEL_DISTANCE_count", ftypes.UINT8, nil)
 f.WHEEL_DISTANCE_distance_0 = ProtoField.new("distance[0] (double)", "mavlink_proto.WHEEL_DISTANCE_distance_0", ftypes.DOUBLE, nil)
@@ -10975,9 +11558,6 @@ f.OPEN_DRONE_ID_OPERATOR_ID_id_or_mac_19 = ProtoField.new("id_or_mac[19] (uint8_
 f.OPEN_DRONE_ID_OPERATOR_ID_operator_id_type = ProtoField.new("operator_id_type (MAV_ODID_OPERATOR_ID_TYPE)", "mavlink_proto.OPEN_DRONE_ID_OPERATOR_ID_operator_id_type", ftypes.UINT8, enumEntryName.MAV_ODID_OPERATOR_ID_TYPE)
 f.OPEN_DRONE_ID_OPERATOR_ID_operator_id = ProtoField.new("operator_id (char)", "mavlink_proto.OPEN_DRONE_ID_OPERATOR_ID_operator_id", ftypes.STRING, nil)
 
-f.OPEN_DRONE_ID_ARM_STATUS_status = ProtoField.new("status (MAV_ODID_ARM_STATUS)", "mavlink_proto.OPEN_DRONE_ID_ARM_STATUS_status", ftypes.UINT8, enumEntryName.MAV_ODID_ARM_STATUS)
-f.OPEN_DRONE_ID_ARM_STATUS_error = ProtoField.new("error (char)", "mavlink_proto.OPEN_DRONE_ID_ARM_STATUS_error", ftypes.STRING, nil)
-
 f.OPEN_DRONE_ID_MESSAGE_PACK_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_MESSAGE_PACK_target_system", ftypes.UINT8, nil)
 f.OPEN_DRONE_ID_MESSAGE_PACK_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_MESSAGE_PACK_target_component", ftypes.UINT8, nil)
 f.OPEN_DRONE_ID_MESSAGE_PACK_id_or_mac_0 = ProtoField.new("id_or_mac[0] (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_MESSAGE_PACK_id_or_mac_0", ftypes.UINT8, nil)
@@ -11228,6 +11808,9 @@ f.OPEN_DRONE_ID_MESSAGE_PACK_messages_222 = ProtoField.new("messages[222] (uint8
 f.OPEN_DRONE_ID_MESSAGE_PACK_messages_223 = ProtoField.new("messages[223] (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_MESSAGE_PACK_messages_223", ftypes.UINT8, nil)
 f.OPEN_DRONE_ID_MESSAGE_PACK_messages_224 = ProtoField.new("messages[224] (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_MESSAGE_PACK_messages_224", ftypes.UINT8, nil)
 
+f.OPEN_DRONE_ID_ARM_STATUS_status = ProtoField.new("status (MAV_ODID_ARM_STATUS)", "mavlink_proto.OPEN_DRONE_ID_ARM_STATUS_status", ftypes.UINT8, enumEntryName.MAV_ODID_ARM_STATUS)
+f.OPEN_DRONE_ID_ARM_STATUS_error = ProtoField.new("error (char)", "mavlink_proto.OPEN_DRONE_ID_ARM_STATUS_error", ftypes.STRING, nil)
+
 f.OPEN_DRONE_ID_SYSTEM_UPDATE_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_SYSTEM_UPDATE_target_system", ftypes.UINT8, nil)
 f.OPEN_DRONE_ID_SYSTEM_UPDATE_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.OPEN_DRONE_ID_SYSTEM_UPDATE_target_component", ftypes.UINT8, nil)
 f.OPEN_DRONE_ID_SYSTEM_UPDATE_operator_latitude = ProtoField.new("operator_latitude (int32_t)", "mavlink_proto.OPEN_DRONE_ID_SYSTEM_UPDATE_operator_latitude", ftypes.INT32, nil)
@@ -11241,14 +11824,6 @@ f.HYGROMETER_SENSOR_humidity = ProtoField.new("humidity (uint16_t)", "mavlink_pr
 
 f.MISSION_CHECKSUM_mission_type = ProtoField.new("mission_type (MAV_MISSION_TYPE)", "mavlink_proto.MISSION_CHECKSUM_mission_type", ftypes.UINT8, enumEntryName.MAV_MISSION_TYPE)
 f.MISSION_CHECKSUM_checksum = ProtoField.new("checksum (uint32_t)", "mavlink_proto.MISSION_CHECKSUM_checksum", ftypes.UINT32, nil)
-
-f.AIRSPEED_id = ProtoField.new("id (uint8_t)", "mavlink_proto.AIRSPEED_id", ftypes.UINT8, nil)
-f.AIRSPEED_airspeed = ProtoField.new("airspeed (float)", "mavlink_proto.AIRSPEED_airspeed", ftypes.FLOAT, nil)
-f.AIRSPEED_temperature = ProtoField.new("temperature (int16_t)", "mavlink_proto.AIRSPEED_temperature", ftypes.INT16, nil)
-f.AIRSPEED_raw_press = ProtoField.new("raw_press (float)", "mavlink_proto.AIRSPEED_raw_press", ftypes.FLOAT, nil)
-f.AIRSPEED_flags = ProtoField.new("flags (AIRSPEED_SENSOR_FLAGS)", "mavlink_proto.AIRSPEED_flags", ftypes.UINT8, nil)
-f.AIRSPEED_flags_flagAIRSPEED_SENSOR_UNHEALTHY = ProtoField.bool("mavlink_proto.AIRSPEED_flags.AIRSPEED_SENSOR_UNHEALTHY", "AIRSPEED_SENSOR_UNHEALTHY", 2, nil, 1)
-f.AIRSPEED_flags_flagAIRSPEED_SENSOR_USING = ProtoField.bool("mavlink_proto.AIRSPEED_flags.AIRSPEED_SENSOR_USING", "AIRSPEED_SENSOR_USING", 2, nil, 2)
 
 f.RADIO_RC_CHANNELS_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.RADIO_RC_CHANNELS_target_system", ftypes.UINT8, nil)
 f.RADIO_RC_CHANNELS_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.RADIO_RC_CHANNELS_target_component", ftypes.UINT8, nil)
@@ -11324,6 +11899,24 @@ f.GNSS_INTEGRITY_corrections_quality = ProtoField.new("corrections_quality (uint
 f.GNSS_INTEGRITY_system_status_summary = ProtoField.new("system_status_summary (uint8_t)", "mavlink_proto.GNSS_INTEGRITY_system_status_summary", ftypes.UINT8, nil)
 f.GNSS_INTEGRITY_gnss_signal_quality = ProtoField.new("gnss_signal_quality (uint8_t)", "mavlink_proto.GNSS_INTEGRITY_gnss_signal_quality", ftypes.UINT8, nil)
 f.GNSS_INTEGRITY_post_processing_quality = ProtoField.new("post_processing_quality (uint8_t)", "mavlink_proto.GNSS_INTEGRITY_post_processing_quality", ftypes.UINT8, nil)
+
+f.RANGING_BEACON_time_usec = ProtoField.new("time_usec (uint64_t)", "mavlink_proto.RANGING_BEACON_time_usec", ftypes.UINT64, nil)
+f.RANGING_BEACON_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.RANGING_BEACON_target_system", ftypes.UINT8, nil)
+f.RANGING_BEACON_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.RANGING_BEACON_target_component", ftypes.UINT8, nil)
+f.RANGING_BEACON_beacon_id = ProtoField.new("beacon_id (uint16_t)", "mavlink_proto.RANGING_BEACON_beacon_id", ftypes.UINT16, nil)
+f.RANGING_BEACON_range = ProtoField.new("range (uint32_t)", "mavlink_proto.RANGING_BEACON_range", ftypes.UINT32, nil)
+f.RANGING_BEACON_lat = ProtoField.new("lat (int32_t)", "mavlink_proto.RANGING_BEACON_lat", ftypes.INT32, nil)
+f.RANGING_BEACON_lon = ProtoField.new("lon (int32_t)", "mavlink_proto.RANGING_BEACON_lon", ftypes.INT32, nil)
+f.RANGING_BEACON_alt = ProtoField.new("alt (float)", "mavlink_proto.RANGING_BEACON_alt", ftypes.FLOAT, nil)
+f.RANGING_BEACON_alt_type = ProtoField.new("alt_type (RANGING_BEACON_ALT_TYPE)", "mavlink_proto.RANGING_BEACON_alt_type", ftypes.UINT8, enumEntryName.RANGING_BEACON_ALT_TYPE)
+f.RANGING_BEACON_hacc_est = ProtoField.new("hacc_est (uint32_t)", "mavlink_proto.RANGING_BEACON_hacc_est", ftypes.UINT32, nil)
+f.RANGING_BEACON_vacc_est = ProtoField.new("vacc_est (uint32_t)", "mavlink_proto.RANGING_BEACON_vacc_est", ftypes.UINT32, nil)
+f.RANGING_BEACON_carrier_freq = ProtoField.new("carrier_freq (uint16_t)", "mavlink_proto.RANGING_BEACON_carrier_freq", ftypes.UINT16, nil)
+f.RANGING_BEACON_range_accuracy = ProtoField.new("range_accuracy (uint32_t)", "mavlink_proto.RANGING_BEACON_range_accuracy", ftypes.UINT32, nil)
+f.RANGING_BEACON_sequence = ProtoField.new("sequence (uint8_t)", "mavlink_proto.RANGING_BEACON_sequence", ftypes.UINT8, nil)
+f.RANGING_BEACON_status = ProtoField.new("status (RANGING_BEACON_STATUS_FLAG)", "mavlink_proto.RANGING_BEACON_status", ftypes.UINT8, nil)
+f.RANGING_BEACON_status_flagRANGING_BEACON_STATUS_FLAG_STATION_SIGNAL_POOR = ProtoField.bool("mavlink_proto.RANGING_BEACON_status.RANGING_BEACON_STATUS_FLAG_STATION_SIGNAL_POOR", "RANGING_BEACON_STATUS_FLAG_STATION_SIGNAL_POOR", 2, nil, 1)
+f.RANGING_BEACON_status_flagRANGING_BEACON_STATUS_FLAG_ENUM_END = ProtoField.bool("mavlink_proto.RANGING_BEACON_status.RANGING_BEACON_STATUS_FLAG_ENUM_END", "RANGING_BEACON_STATUS_FLAG_ENUM_END", 2, nil, 2)
 
 f.ICAROUS_HEARTBEAT_status = ProtoField.new("status (ICAROUS_FMS_STATE)", "mavlink_proto.ICAROUS_HEARTBEAT_status", ftypes.UINT8, enumEntryName.ICAROUS_FMS_STATE)
 
@@ -11706,20 +12299,22 @@ f.LOWEHEISER_GOV_EFI_efi_status = ProtoField.new("efi_status (uint16_t)", "mavli
 
 f.STORM32_GIMBAL_MANAGER_INFORMATION_gimbal_id = ProtoField.new("gimbal_id (uint8_t)", "mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_gimbal_id", ftypes.UINT8, nil)
 f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags = ProtoField.new("device_cap_flags (GIMBAL_DEVICE_CAP_FLAGS)", "mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags", ftypes.UINT32, nil)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", 14, nil, 1)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", "GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", 14, nil, 2)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", 14, nil, 4)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", 14, nil, 8)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", 14, nil, 16)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", 14, nil, 32)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", 14, nil, 64)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", 14, nil, 128)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", 14, nil, 256)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", 14, nil, 512)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", 14, nil, 1024)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", 14, nil, 2048)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", 14, nil, 4096)
-f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", 14, nil, 8192)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RETRACT", 18, nil, 1)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", "GIMBAL_DEVICE_CAP_FLAGS_HAS_NEUTRAL", 18, nil, 2)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_AXIS", 18, nil, 4)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_FOLLOW", 18, nil, 8)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_ROLL_LOCK", 18, nil, 16)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_AXIS", 18, nil, 32)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_FOLLOW", 18, nil, 64)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_PITCH_LOCK", 18, nil, 128)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_AXIS", 18, nil, 256)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_FOLLOW", 18, nil, 512)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", "GIMBAL_DEVICE_CAP_FLAGS_HAS_YAW_LOCK", 18, nil, 1024)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW", 18, nil, 2048)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", "GIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME", 18, nil, 4096)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", "GIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS", 18, nil, 8192)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL", 18, nil, 65536)
+f.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_device_cap_flags.GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", "GIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL", 18, nil, 131072)
 f.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags = ProtoField.new("manager_cap_flags (MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS)", "mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags", ftypes.UINT32, nil)
 f.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags_flagMAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_HAS_PROFILES = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags.MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_HAS_PROFILES", "MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_HAS_PROFILES", 2, nil, 1)
 f.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags_flagMAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_ENUM_END = ProtoField.bool("mavlink_proto.STORM32_GIMBAL_MANAGER_INFORMATION_manager_cap_flags.MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_ENUM_END", "MAV_STORM32_GIMBAL_MANAGER_CAP_FLAGS_ENUM_END", 2, nil, 2)
@@ -12555,6 +13150,12 @@ function dissect_flags_MAV_SYS_STATUS_SENSOR(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_SYS_STATUS_PREARM_CHECK"], tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_SYS_STATUS_OBSTACLE_AVOIDANCE"], tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_SYS_STATUS_SENSOR_PROPULSION"], tvbrange, value)
+    tree:add_le(f[name .. "_flagMAV_SYS_STATUS_EXTENSION_USED"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_MAV_SYS_STATUS_SENSOR_EXTENDED(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagMAV_SYS_STATUS_RECOVERY_SYSTEM"], tvbrange, value)
+    tree:add_le(f[name .. "_flagMAV_SYS_STATUS_SENSOR_LEAK"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_FENCE_TYPE(tree, name, tvbrange, value)
@@ -12579,6 +13180,8 @@ function dissect_flags_GIMBAL_DEVICE_CAP_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_INFINITE_YAW"], tvbrange, value)
     tree:add_le(f[name .. "_flagGIMBAL_DEVICE_CAP_FLAGS_SUPPORTS_YAW_IN_EARTH_FRAME"], tvbrange, value)
     tree:add_le(f[name .. "_flagGIMBAL_DEVICE_CAP_FLAGS_HAS_RC_INPUTS"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_LOCAL"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGIMBAL_DEVICE_CAP_FLAGS_CAN_POINT_LOCATION_GLOBAL"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_GIMBAL_MANAGER_CAP_FLAGS(tree, name, tvbrange, value)
@@ -12639,10 +13242,22 @@ function dissect_flags_GIMBAL_DEVICE_ERROR_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagGIMBAL_DEVICE_ERROR_FLAGS_NO_MANAGER"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_STORAGE_USAGE_FLAG(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagSTORAGE_USAGE_FLAG_SET"], tvbrange, value)
+    tree:add_le(f[name .. "_flagSTORAGE_USAGE_FLAG_PHOTO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagSTORAGE_USAGE_FLAG_VIDEO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagSTORAGE_USAGE_FLAG_LOGS"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_AUTOTUNE_AXIS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagAUTOTUNE_AXIS_ROLL"], tvbrange, value)
     tree:add_le(f[name .. "_flagAUTOTUNE_AXIS_PITCH"], tvbrange, value)
     tree:add_le(f[name .. "_flagAUTOTUNE_AXIS_YAW"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_NAV_TAKEOFF_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagNAV_TAKEOFF_FLAGS_HORIZONTAL_POSITION_NOT_REQUIRED"], tvbrange, value)
+    tree:add_le(f[name .. "_flagNAV_TAKEOFF_FLAGS_ENUM_END"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_MAV_POWER_STATUS(tree, name, tvbrange, value)
@@ -12715,7 +13330,7 @@ end
 -- dissect flag field
 function dissect_flags_MAV_DO_REPOSITION_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_DO_REPOSITION_FLAGS_CHANGE_MODE"], tvbrange, value)
-    tree:add_le(f[name .. "_flagMAV_DO_REPOSITION_FLAGS_ENUM_END"], tvbrange, value)
+    tree:add_le(f[name .. "_flagMAV_DO_REPOSITION_FLAGS_RELATIVE_YAW"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_ESTIMATOR_STATUS_FLAGS(tree, name, tvbrange, value)
@@ -12758,6 +13373,7 @@ function dissect_flags_CAMERA_CAP_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_TRACKING_RECTANGLE"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_TRACKING_GEO_STATUS"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_THERMAL_RANGE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_CAP_FLAGS_HAS_MTI"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_VIDEO_STREAM_STATUS_FLAGS(tree, name, tvbrange, value)
@@ -12766,10 +13382,22 @@ function dissect_flags_VIDEO_STREAM_STATUS_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagVIDEO_STREAM_STATUS_FLAGS_THERMAL_RANGE_ENABLED"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_CAMERA_TRACKING_STATUS_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_TRACKING_STATUS_FLAGS_ACTIVE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_TRACKING_STATUS_FLAGS_ERROR"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_TRACKING_STATUS_FLAGS_MTI"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCAMERA_TRACKING_STATUS_FLAGS_COASTING"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_CAMERA_TRACKING_TARGET_DATA(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_TRACKING_TARGET_DATA_EMBEDDED"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_TRACKING_TARGET_DATA_RENDERED"], tvbrange, value)
     tree:add_le(f[name .. "_flagCAMERA_TRACKING_TARGET_DATA_IN_STATUS"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_ENGINE_CONTROL_OPTIONS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagENGINE_CONTROL_OPTIONS_ALLOW_START_WHILE_DISARMED"], tvbrange, value)
+    tree:add_le(f[name .. "_flagENGINE_CONTROL_OPTIONS_ENUM_END"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_POSITION_TARGET_TYPEMASK(tree, name, tvbrange, value)
@@ -12829,9 +13457,65 @@ function dissect_flags_MAV_WINCH_STATUS_FLAG(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagMAV_WINCH_STATUS_CLUTCH_ENGAGED"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_HIL_SENSOR_UPDATED_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_XACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_YACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_ZACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_XGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_YGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_ZGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_XMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_YMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_ZMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_ABS_PRESSURE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_DIFF_PRESSURE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_PRESSURE_ALT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_TEMPERATURE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_SENSOR_UPDATED_RESET"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_HIGHRES_IMU_UPDATED_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_XACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_YACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_ZACC"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_XGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_YGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_ZGYRO"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_XMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_YMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_ZMAG"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_ABS_PRESSURE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_DIFF_PRESSURE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_PRESSURE_ALT"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIGHRES_IMU_UPDATED_TEMPERATURE"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_ILLUMINATOR_ERROR_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagILLUMINATOR_ERROR_FLAGS_THERMAL_THROTTLING"], tvbrange, value)
+    tree:add_le(f[name .. "_flagILLUMINATOR_ERROR_FLAGS_OVER_TEMPERATURE_SHUTDOWN"], tvbrange, value)
+    tree:add_le(f[name .. "_flagILLUMINATOR_ERROR_FLAGS_THERMISTOR_FAILURE"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_HIL_ACTUATOR_CONTROLS_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_ACTUATOR_CONTROLS_FLAGS_LOCKSTEP"], tvbrange, value)
+    tree:add_le(f[name .. "_flagHIL_ACTUATOR_CONTROLS_FLAGS_ENUM_END"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_COMPUTER_STATUS_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagCOMPUTER_STATUS_FLAGS_UNDER_VOLTAGE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCOMPUTER_STATUS_FLAGS_CPU_THROTTLE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCOMPUTER_STATUS_FLAGS_THERMAL_THROTTLE"], tvbrange, value)
+    tree:add_le(f[name .. "_flagCOMPUTER_STATUS_FLAGS_DISK_FULL"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_AIRSPEED_SENSOR_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagAIRSPEED_SENSOR_UNHEALTHY"], tvbrange, value)
     tree:add_le(f[name .. "_flagAIRSPEED_SENSOR_USING"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_GLOBAL_POSITION_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagGLOBAL_POSITION_UNHEALTHY"], tvbrange, value)
+    tree:add_le(f[name .. "_flagGLOBAL_POSITION_PRIMARY"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_RADIO_RC_CHANNELS_FLAGS(tree, name, tvbrange, value)
@@ -12852,6 +13536,11 @@ function dissect_flags_GPS_SYSTEM_ERROR_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_EVENT_CONGESTION"], tvbrange, value)
     tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_CPU_OVERLOAD"], tvbrange, value)
     tree:add_le(f[name .. "_flagGPS_SYSTEM_ERROR_OUTPUT_CONGESTION"], tvbrange, value)
+end
+-- dissect flag field
+function dissect_flags_RANGING_BEACON_STATUS_FLAG(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagRANGING_BEACON_STATUS_FLAG_STATION_SIGNAL_POOR"], tvbrange, value)
+    tree:add_le(f[name .. "_flagRANGING_BEACON_STATUS_FLAG_ENUM_END"], tvbrange, value)
 end
 -- dissect flag field
 function dissect_flags_MAV_MODE_FLAG(tree, name, tvbrange, value)
@@ -19784,9 +20473,9 @@ end
 -- dissect payload of message type SYS_STATUS
 function payload_fns.payload_1(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 31 > limit) then
+    if (offset + 43 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 31)
+        padded:set_size(offset + 43)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -19833,6 +20522,18 @@ function payload_fns.payload_1(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 28, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.SYS_STATUS_errors_count4, tvbrange, value)
+    tvbrange = padded(offset + 31, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.SYS_STATUS_onboard_control_sensors_present_extended, tvbrange, value)
+    dissect_flags_MAV_SYS_STATUS_SENSOR_EXTENDED(subtree, "SYS_STATUS_onboard_control_sensors_present_extended", tvbrange, value)
+    tvbrange = padded(offset + 35, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.SYS_STATUS_onboard_control_sensors_enabled_extended, tvbrange, value)
+    dissect_flags_MAV_SYS_STATUS_SENSOR_EXTENDED(subtree, "SYS_STATUS_onboard_control_sensors_enabled_extended", tvbrange, value)
+    tvbrange = padded(offset + 39, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.SYS_STATUS_onboard_control_sensors_health_extended, tvbrange, value)
+    dissect_flags_MAV_SYS_STATUS_SENSOR_EXTENDED(subtree, "SYS_STATUS_onboard_control_sensors_health_extended", tvbrange, value)
 end
 -- dissect payload of message type SYSTEM_TIME
 function payload_fns.payload_2(buffer, tree, msgid, offset, limit, pinfo)
@@ -22370,7 +23071,8 @@ function payload_fns.payload_75_cmd22(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_TAKEOFF_param3, tvbrange, value)
+    dissect_flags_NAV_TAKEOFF_FLAGS(subtree, "cmd_MAV_CMD_NAV_TAKEOFF_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_NAV_TAKEOFF_param4, tvbrange, value)
@@ -22735,6 +23437,106 @@ function payload_fns.payload_75_cmd33(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_ORBIT
+function payload_fns.payload_75_cmd34(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_FIGURE_EIGHT
+function payload_fns.payload_75_cmd35(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_ARC_WAYPOINT
 function payload_fns.payload_75_cmd36(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -23065,7 +23867,7 @@ function payload_fns.payload_75_cmd85(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_VTOL_LAND_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
@@ -23568,6 +24370,7 @@ function payload_fns.payload_75_cmd176(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MODE_param1, tvbrange, value)
+    dissect_flags_MAV_MODE_FLAG(subtree, "cmd_MAV_CMD_DO_SET_MODE_param1", tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MODE_param2, tvbrange, value)
@@ -23676,7 +24479,7 @@ function payload_fns.payload_75_cmd178(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_CHANGE_SPEED_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.cmd_MAV_CMD_DO_CHANGE_SPEED_param4, tvbrange, value)
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
@@ -24088,6 +24891,56 @@ function payload_fns.payload_75_cmd186(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_SET_ACTUATOR
+function payload_fns.payload_75_cmd187(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_RETURN_PATH_START
 function payload_fns.payload_75_cmd188(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -24471,7 +25324,7 @@ function payload_fns.payload_75_cmd195(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
@@ -24521,7 +25374,7 @@ function payload_fns.payload_75_cmd196(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
@@ -24571,7 +25424,7 @@ function payload_fns.payload_75_cmd197(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_NONE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
@@ -24624,7 +25477,7 @@ function payload_fns.payload_75_cmd198(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -24984,7 +25837,7 @@ function payload_fns.payload_75_cmd206(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
@@ -25386,7 +26239,7 @@ function payload_fns.payload_75_cmd214(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -25792,6 +26645,7 @@ function payload_fns.payload_75_cmd223(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4, tvbrange, value)
+    dissect_flags_ENGINE_CONTROL_OPTIONS(subtree, "cmd_MAV_CMD_DO_ENGINE_CONTROL_param4", tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
@@ -25835,7 +26689,8 @@ function payload_fns.payload_75_cmd224(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -25936,7 +26791,6 @@ function payload_fns.payload_75_cmd241(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2, tvbrange, value)
-    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3, tvbrange, value)
@@ -26140,16 +26994,16 @@ function payload_fns.payload_75_cmd246(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
     tvbrange = padded(offset + 20, 4)
     value = tvbrange:le_int()
-    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param6, tvbrange, value)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
@@ -26354,6 +27208,106 @@ function payload_fns.payload_75_cmd300(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_ACTUATOR_TEST
+function payload_fns.payload_75_cmd310(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CONFIGURE_ACTUATOR
+function payload_fns.payload_75_cmd311(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_COMPONENT_ARM_DISARM
 function payload_fns.payload_75_cmd400(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -26455,6 +27409,107 @@ function payload_fns.payload_75_cmd401(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_ILLUMINATOR_ON_OFF
+function payload_fns.payload_75_cmd405(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1", tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_ILLUMINATOR_CONFIGURE
+function payload_fns.payload_75_cmd406(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_GET_HOME_POSITION
 function payload_fns.payload_75_cmd410(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -26492,6 +27547,56 @@ function payload_fns.payload_75_cmd410(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_INJECT_FAILURE
+function payload_fns.payload_75_cmd420(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -26997,7 +28102,8 @@ function payload_fns.payload_75_cmd526(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_STORAGE_FORMAT_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_STORAGE_FORMAT_param3, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_STORAGE_FORMAT_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -27147,7 +28253,7 @@ function payload_fns.payload_75_cmd529(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1", tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -27194,7 +28300,7 @@ function payload_fns.payload_75_cmd530(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_MODE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_MODE_param2, tvbrange, value)
@@ -27250,7 +28356,7 @@ function payload_fns.payload_75_cmd531(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -27300,7 +28406,7 @@ function payload_fns.payload_75_cmd532(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -27348,6 +28454,7 @@ function payload_fns.payload_75_cmd533(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2, tvbrange, value)
+    dissect_flags_STORAGE_USAGE_FLAG(subtree, "cmd_MAV_CMD_SET_STORAGE_USAGE_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -27815,6 +28922,56 @@ function payload_fns.payload_75_cmd2001(buffer, tree, msgid, offset, limit, pinf
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE
+function payload_fns.payload_75_cmd2002(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_DO_TRIGGER_CONTROL
 function payload_fns.payload_75_cmd2003(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -27854,7 +29011,7 @@ function payload_fns.payload_75_cmd2003(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
@@ -27904,7 +29061,7 @@ function payload_fns.payload_75_cmd2004(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
@@ -27957,7 +29114,7 @@ function payload_fns.payload_75_cmd2005(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_int()
-    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param5, tvbrange, value)
     tvbrange = padded(offset + 20, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
@@ -27995,7 +29152,107 @@ function payload_fns.payload_75_cmd2010(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_STOP_TRACKING_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CAMERA_START_MTI
+function payload_fns.payload_75_cmd2020(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_START_MTI_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_x, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.COMMAND_INT_y, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CAMERA_STOP_MTI
+function payload_fns.payload_75_cmd2021(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_STOP_MTI_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
@@ -28051,7 +29308,7 @@ function payload_fns.payload_75_cmd2500(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
@@ -28098,7 +29355,7 @@ function payload_fns.payload_75_cmd2501(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -28148,7 +29405,7 @@ function payload_fns.payload_75_cmd2502(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_STREAMING_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_STREAMING_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -28198,7 +29455,7 @@ function payload_fns.payload_75_cmd2503(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_INT_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
@@ -28765,6 +30022,57 @@ function payload_fns.payload_75_cmd4001(buffer, tree, msgid, offset, limit, pinf
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_INT_z, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_INT with command MAV_CMD_CONDITION_GATE
+function payload_fns.payload_75_cmd4501(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 35 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 35)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_target_component, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_frame, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_command, tvbrange, value)
+    tvbrange = padded(offset + 33, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_current, tvbrange, value)
+    tvbrange = padded(offset + 34, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_INT_autocontinue, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param2, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_CONDITION_GATE_param2", tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_INT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param7, tvbrange, value)
 end
 -- dissect payload of message type COMMAND_INT with command MAV_CMD_NAV_FENCE_RETURN_POINT
 function payload_fns.payload_75_cmd5000(buffer, tree, msgid, offset, limit, pinfo)
@@ -32772,7 +34080,8 @@ function payload_fns.payload_76_cmd22(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_TAKEOFF_param3, tvbrange, value)
+    dissect_flags_NAV_TAKEOFF_FLAGS(subtree, "cmd_MAV_CMD_NAV_TAKEOFF_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_NAV_TAKEOFF_param4, tvbrange, value)
@@ -33095,6 +34404,94 @@ function payload_fns.payload_76_cmd33(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_FOLLOW_REPOSITION_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_ORBIT
+function payload_fns.payload_76_cmd34(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ORBIT_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_FIGURE_EIGHT
+function payload_fns.payload_76_cmd35(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_FIGURE_EIGHT_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_NAV_ARC_WAYPOINT
 function payload_fns.payload_76_cmd36(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -33383,7 +34780,7 @@ function payload_fns.payload_76_cmd85(buffer, tree, msgid, offset, limit, pinfo)
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_NAV_VTOL_LAND_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
@@ -33826,6 +35223,7 @@ function payload_fns.payload_76_cmd176(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MODE_param1, tvbrange, value)
+    dissect_flags_MAV_MODE_FLAG(subtree, "cmd_MAV_CMD_DO_SET_MODE_param1", tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MODE_param2, tvbrange, value)
@@ -33922,7 +35320,7 @@ function payload_fns.payload_76_cmd178(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_CHANGE_SPEED_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.cmd_MAV_CMD_DO_CHANGE_SPEED_param4, tvbrange, value)
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
@@ -34286,6 +35684,50 @@ function payload_fns.payload_76_cmd186(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_SET_ACTUATOR
+function payload_fns.payload_76_cmd187(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ACTUATOR_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_RETURN_PATH_START
 function payload_fns.payload_76_cmd188(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -34621,7 +36063,7 @@ function payload_fns.payload_76_cmd195(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_LOCATION_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
@@ -34665,7 +36107,7 @@ function payload_fns.payload_76_cmd196(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_WPNEXT_OFFSET_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
@@ -34709,7 +36151,7 @@ function payload_fns.payload_76_cmd197(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_NONE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
@@ -34756,7 +36198,7 @@ function payload_fns.payload_76_cmd198(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_ROI_SYSID_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -35074,7 +36516,7 @@ function payload_fns.payload_76_cmd206(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_DIST_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
@@ -35428,7 +36870,7 @@ function payload_fns.payload_76_cmd214(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_CAM_TRIGG_INTERVAL_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -35786,6 +37228,7 @@ function payload_fns.payload_76_cmd223(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_ENGINE_CONTROL_param4, tvbrange, value)
+    dissect_flags_ENGINE_CONTROL_OPTIONS(subtree, "cmd_MAV_CMD_DO_ENGINE_CONTROL_param4", tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
@@ -35823,7 +37266,8 @@ function payload_fns.payload_76_cmd224(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_DO_SET_MISSION_CURRENT_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -35912,7 +37356,6 @@ function payload_fns.payload_76_cmd241(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2, tvbrange, value)
-    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_CALIBRATION_param3, tvbrange, value)
@@ -36092,16 +37535,16 @@ function payload_fns.payload_76_cmd246(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
     tvbrange = padded(offset + 20, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_PREFLIGHT_REBOOT_SHUTDOWN_param6, tvbrange, value)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
@@ -36282,6 +37725,94 @@ function payload_fns.payload_76_cmd300(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_ACTUATOR_TEST
+function payload_fns.payload_76_cmd310(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ACTUATOR_TEST_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CONFIGURE_ACTUATOR
+function payload_fns.payload_76_cmd311(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONFIGURE_ACTUATOR_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_COMPONENT_ARM_DISARM
 function payload_fns.payload_76_cmd400(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -36371,6 +37902,95 @@ function payload_fns.payload_76_cmd401(buffer, tree, msgid, offset, limit, pinfo
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_ILLUMINATOR_ON_OFF
+function payload_fns.payload_76_cmd405(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_ILLUMINATOR_ON_OFF_param1", tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_ILLUMINATOR_CONFIGURE
+function payload_fns.payload_76_cmd406(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_ILLUMINATOR_CONFIGURE_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_GET_HOME_POSITION
 function payload_fns.payload_76_cmd410(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -36402,6 +38022,50 @@ function payload_fns.payload_76_cmd410(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_INJECT_FAILURE
+function payload_fns.payload_76_cmd420(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_INJECT_FAILURE_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -36847,7 +38511,8 @@ function payload_fns.payload_76_cmd526(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_STORAGE_FORMAT_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_STORAGE_FORMAT_param3, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_STORAGE_FORMAT_param3", tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -36979,7 +38644,7 @@ function payload_fns.payload_76_cmd529(buffer, tree, msgid, offset, limit, pinfo
     dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param1", tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_RESET_CAMERA_SETTINGS_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -37020,7 +38685,7 @@ function payload_fns.payload_76_cmd530(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_MODE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_MODE_param2, tvbrange, value)
@@ -37070,7 +38735,7 @@ function payload_fns.payload_76_cmd531(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_ZOOM_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -37114,7 +38779,7 @@ function payload_fns.payload_76_cmd532(buffer, tree, msgid, offset, limit, pinfo
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_SET_CAMERA_FOCUS_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -37156,6 +38821,7 @@ function payload_fns.payload_76_cmd533(buffer, tree, msgid, offset, limit, pinfo
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.cmd_MAV_CMD_SET_STORAGE_USAGE_param2, tvbrange, value)
+    dissect_flags_STORAGE_USAGE_FLAG(subtree, "cmd_MAV_CMD_SET_STORAGE_USAGE_param2", tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -37569,6 +39235,50 @@ function payload_fns.payload_76_cmd2001(buffer, tree, msgid, offset, limit, pinf
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
 end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE
+function payload_fns.payload_76_cmd2002(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_REQUEST_CAMERA_IMAGE_CAPTURE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_DO_TRIGGER_CONTROL
 function payload_fns.payload_76_cmd2003(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -37602,7 +39312,7 @@ function payload_fns.payload_76_cmd2003(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_DO_TRIGGER_CONTROL_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
@@ -37646,7 +39356,7 @@ function payload_fns.payload_76_cmd2004(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_POINT_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
@@ -37693,7 +39403,7 @@ function payload_fns.payload_76_cmd2005(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param4, tvbrange, value)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_TRACK_RECTANGLE_param5, tvbrange, value)
     tvbrange = padded(offset + 20, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
@@ -37725,7 +39435,95 @@ function payload_fns.payload_76_cmd2010(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param1, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_STOP_TRACKING_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CAMERA_START_MTI
+function payload_fns.payload_76_cmd2020(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_START_MTI_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CAMERA_STOP_MTI
+function payload_fns.payload_76_cmd2021(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CAMERA_STOP_MTI_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
@@ -37775,7 +39573,7 @@ function payload_fns.payload_76_cmd2500(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_CAPTURE_param3, tvbrange, value)
     tvbrange = padded(offset + 12, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
@@ -37816,7 +39614,7 @@ function payload_fns.payload_76_cmd2501(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_CAPTURE_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -37860,7 +39658,7 @@ function payload_fns.payload_76_cmd2502(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_STREAMING_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_START_STREAMING_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -37904,7 +39702,7 @@ function payload_fns.payload_76_cmd2503(buffer, tree, msgid, offset, limit, pinf
     subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param1, tvbrange, value)
     tvbrange = padded(offset + 4, 4)
     value = tvbrange:le_float()
-    subtree = tree:add_le(f.COMMAND_LONG_param2, tvbrange, value)
+    subtree = tree:add_le(f.cmd_MAV_CMD_VIDEO_STOP_STREAMING_param2, tvbrange, value)
     tvbrange = padded(offset + 8, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
@@ -38405,6 +40203,51 @@ function payload_fns.payload_76_cmd4001(buffer, tree, msgid, offset, limit, pinf
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.COMMAND_LONG_param7, tvbrange, value)
+end
+-- dissect payload of message type COMMAND_LONG with command MAV_CMD_CONDITION_GATE
+function payload_fns.payload_76_cmd4501(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 33 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 33)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 30, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_system, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_target_component, tvbrange, value)
+    tvbrange = padded(offset + 28, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_command, tvbrange, value)
+    tvbrange = padded(offset + 32, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.COMMAND_LONG_confirmation, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param1, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param2, tvbrange, value)
+    dissect_flags_MAV_BOOL(subtree, "cmd_MAV_CMD_CONDITION_GATE_param2", tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.COMMAND_LONG_param4, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param5, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param6, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.cmd_MAV_CMD_CONDITION_GATE_param7, tvbrange, value)
 end
 -- dissect payload of message type COMMAND_LONG with command MAV_CMD_NAV_FENCE_RETURN_POINT
 function payload_fns.payload_76_cmd5000(buffer, tree, msgid, offset, limit, pinfo)
@@ -42314,6 +44157,7 @@ function payload_fns.payload_93(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 8, 8)
     value = tvbrange:le_uint64()
     subtree = tree:add_le(f.HIL_ACTUATOR_CONTROLS_flags, tvbrange, value)
+    dissect_flags_HIL_ACTUATOR_CONTROLS_FLAGS(subtree, "HIL_ACTUATOR_CONTROLS_flags", tvbrange, value)
 end
 -- dissect payload of message type OPTICAL_FLOW
 function payload_fns.payload_100(buffer, tree, msgid, offset, limit, pinfo)
@@ -42755,6 +44599,7 @@ function payload_fns.payload_105(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 60, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.HIGHRES_IMU_fields_updated, tvbrange, value)
+    dissect_flags_HIGHRES_IMU_UPDATED_FLAGS(subtree, "HIGHRES_IMU_fields_updated", tvbrange, value)
     tvbrange = padded(offset + 62, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.HIGHRES_IMU_id, tvbrange, value)
@@ -42861,6 +44706,7 @@ function payload_fns.payload_107(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 60, 4)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.HIL_SENSOR_fields_updated, tvbrange, value)
+    dissect_flags_HIL_SENSOR_UPDATED_FLAGS(subtree, "HIL_SENSOR_fields_updated", tvbrange, value)
     tvbrange = padded(offset + 64, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.HIL_SENSOR_id, tvbrange, value)
@@ -49999,9 +51845,9 @@ end
 -- dissect payload of message type CAMERA_INFORMATION
 function payload_fns.payload_259(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 236 > limit) then
+    if (offset + 237 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 236)
+        padded:set_size(offset + 237)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -50235,13 +52081,16 @@ function payload_fns.payload_259(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 235, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.CAMERA_INFORMATION_gimbal_device_id, tvbrange, value)
+    tvbrange = padded(offset + 236, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_INFORMATION_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_SETTINGS
 function payload_fns.payload_260(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 13 > limit) then
+    if (offset + 14 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 13)
+        padded:set_size(offset + 14)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -50258,13 +52107,16 @@ function payload_fns.payload_260(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 9, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.CAMERA_SETTINGS_focusLevel, tvbrange, value)
+    tvbrange = padded(offset + 13, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_SETTINGS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type STORAGE_INFORMATION
 function payload_fns.payload_261(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 60 > limit) then
+    if (offset + 61 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 60)
+        padded:set_size(offset + 61)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -50302,13 +52154,17 @@ function payload_fns.payload_261(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 28, 32)
     value = tvbrange:string()
     subtree = tree:add_le(f.STORAGE_INFORMATION_name, tvbrange, value)
+    tvbrange = padded(offset + 60, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.STORAGE_INFORMATION_storage_usage, tvbrange, value)
+    dissect_flags_STORAGE_USAGE_FLAG(subtree, "STORAGE_INFORMATION_storage_usage", tvbrange, value)
 end
 -- dissect payload of message type CAMERA_CAPTURE_STATUS
 function payload_fns.payload_262(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 22 > limit) then
+    if (offset + 23 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 22)
+        padded:set_size(offset + 23)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -50334,6 +52190,9 @@ function payload_fns.payload_262(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 18, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.CAMERA_CAPTURE_STATUS_image_count, tvbrange, value)
+    tvbrange = padded(offset + 22, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_CAPTURE_STATUS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_IMAGE_CAPTURED
 function payload_fns.payload_263(buffer, tree, msgid, offset, limit, pinfo)
@@ -50392,9 +52251,9 @@ end
 -- dissect payload of message type FLIGHT_INFORMATION
 function payload_fns.payload_264(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 28 > limit) then
+    if (offset + 32 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 28)
+        padded:set_size(offset + 32)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -50411,6 +52270,9 @@ function payload_fns.payload_264(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 16, 8)
     value = tvbrange:le_uint64()
     subtree = tree:add_le(f.FLIGHT_INFORMATION_flight_uuid, tvbrange, value)
+    tvbrange = padded(offset + 28, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.FLIGHT_INFORMATION_landing_time, tvbrange, value)
 end
 -- dissect payload of message type MOUNT_ORIENTATION
 function payload_fns.payload_265(buffer, tree, msgid, offset, limit, pinfo)
@@ -52007,9 +53869,9 @@ end
 -- dissect payload of message type VIDEO_STREAM_INFORMATION
 function payload_fns.payload_269(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 214 > limit) then
+    if (offset + 215 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 214)
+        padded:set_size(offset + 215)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52054,13 +53916,16 @@ function payload_fns.payload_269(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 213, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION_encoding, tvbrange, value)
+    tvbrange = padded(offset + 214, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_INFORMATION_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type VIDEO_STREAM_STATUS
 function payload_fns.payload_270(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 19 > limit) then
+    if (offset + 20 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 19)
+        padded:set_size(offset + 20)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52090,13 +53955,16 @@ function payload_fns.payload_270(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 16, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.VIDEO_STREAM_STATUS_hfov, tvbrange, value)
+    tvbrange = padded(offset + 19, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.VIDEO_STREAM_STATUS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_FOV_STATUS
 function payload_fns.payload_271(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 52 > limit) then
+    if (offset + 53 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 52)
+        padded:set_size(offset + 53)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52140,13 +54008,16 @@ function payload_fns.payload_271(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 48, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.CAMERA_FOV_STATUS_vfov, tvbrange, value)
+    tvbrange = padded(offset + 52, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_FOV_STATUS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_TRACKING_IMAGE_STATUS
 function payload_fns.payload_275(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 31 > limit) then
+    if (offset + 32 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 31)
+        padded:set_size(offset + 32)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52154,6 +54025,7 @@ function payload_fns.payload_275(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 28, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_tracking_status, tvbrange, value)
+    dissect_flags_CAMERA_TRACKING_STATUS_FLAGS(subtree, "CAMERA_TRACKING_IMAGE_STATUS_tracking_status", tvbrange, value)
     tvbrange = padded(offset + 29, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_tracking_mode, tvbrange, value)
@@ -52182,13 +54054,16 @@ function payload_fns.payload_275(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 24, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_rec_bottom_y, tvbrange, value)
+    tvbrange = padded(offset + 31, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_TRACKING_IMAGE_STATUS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_TRACKING_GEO_STATUS
 function payload_fns.payload_276(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 49 > limit) then
+    if (offset + 50 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 49)
+        padded:set_size(offset + 50)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52196,6 +54071,7 @@ function payload_fns.payload_276(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 48, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_tracking_status, tvbrange, value)
+    dissect_flags_CAMERA_TRACKING_STATUS_FLAGS(subtree, "CAMERA_TRACKING_GEO_STATUS_tracking_status", tvbrange, value)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_int()
     subtree = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_lat, tvbrange, value)
@@ -52232,6 +54108,9 @@ function payload_fns.payload_276(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 44, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_hdg_acc, tvbrange, value)
+    tvbrange = padded(offset + 49, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.CAMERA_TRACKING_GEO_STATUS_camera_device_id, tvbrange, value)
 end
 -- dissect payload of message type CAMERA_THERMAL_RANGE
 function payload_fns.payload_277(buffer, tree, msgid, offset, limit, pinfo)
@@ -52391,9 +54270,9 @@ end
 -- dissect payload of message type GIMBAL_DEVICE_INFORMATION
 function payload_fns.payload_283(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 145 > limit) then
+    if (offset + 149 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 145)
+        padded:set_size(offset + 149)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -52447,6 +54326,10 @@ function payload_fns.payload_283(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 144, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.GIMBAL_DEVICE_INFORMATION_gimbal_device_id, tvbrange, value)
+    tvbrange = padded(offset + 145, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GIMBAL_DEVICE_INFORMATION_cap_flags2, tvbrange, value)
+    dissect_flags_GIMBAL_DEVICE_CAP_FLAGS(subtree, "GIMBAL_DEVICE_INFORMATION_cap_flags2", tvbrange, value)
 end
 -- dissect payload of message type GIMBAL_DEVICE_SET_ATTITUDE
 function payload_fns.payload_284(buffer, tree, msgid, offset, limit, pinfo)
@@ -52679,6 +54562,84 @@ function payload_fns.payload_288(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 16, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.GIMBAL_MANAGER_SET_MANUAL_CONTROL_yaw_rate, tvbrange, value)
+end
+-- dissect payload of message type AIRSPEED
+function payload_fns.payload_295(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 12 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 12)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 10, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.AIRSPEED_id, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.AIRSPEED_airspeed, tvbrange, value)
+    tvbrange = padded(offset + 8, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.AIRSPEED_temperature, tvbrange, value)
+    tvbrange = padded(offset + 4, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.AIRSPEED_raw_press, tvbrange, value)
+    tvbrange = padded(offset + 11, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.AIRSPEED_flags, tvbrange, value)
+    dissect_flags_AIRSPEED_SENSOR_FLAGS(subtree, "AIRSPEED_flags", tvbrange, value)
+end
+-- dissect payload of message type GLOBAL_POSITION_SENSOR
+function payload_fns.payload_296(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 41 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 41)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 36, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_target_system, tvbrange, value)
+    tvbrange = padded(offset + 37, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_target_component, tvbrange, value)
+    tvbrange = padded(offset + 38, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_id, tvbrange, value)
+    tvbrange = padded(offset + 0, 8)
+    value = tvbrange:le_uint64()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_time_usec, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_processing_time, tvbrange, value)
+    tvbrange = padded(offset + 39, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_source, tvbrange, value)
+    tvbrange = padded(offset + 40, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_flags, tvbrange, value)
+    dissect_flags_GLOBAL_POSITION_FLAGS(subtree, "GLOBAL_POSITION_SENSOR_flags", tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_lat, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_lon, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_alt_ellipsoid, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_alt, tvbrange, value)
+    tvbrange = padded(offset + 28, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_eph, tvbrange, value)
+    tvbrange = padded(offset + 32, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.GLOBAL_POSITION_SENSOR_epv, tvbrange, value)
 end
 -- dissect payload of message type WIFI_CONFIG_AP
 function payload_fns.payload_299(buffer, tree, msgid, offset, limit, pinfo)
@@ -54110,6 +56071,35 @@ function payload_fns.payload_350(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.DEBUG_FLOAT_ARRAY_data_57, tvbrange, value)
 end
+-- dissect payload of message type ORBIT_EXECUTION_STATUS
+function payload_fns.payload_360(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 25 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 25)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 8)
+    value = tvbrange:le_uint64()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_time_usec, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_radius, tvbrange, value)
+    tvbrange = padded(offset + 24, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_frame, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_x, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_y, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.ORBIT_EXECUTION_STATUS_z, tvbrange, value)
+end
 -- dissect payload of message type SMART_BATTERY_INFO
 function payload_fns.payload_370(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -55099,6 +57089,297 @@ function payload_fns.payload_388(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.CAN_FILTER_MODIFY_ids_15, tvbrange, value)
 end
+-- dissect payload of message type ONBOARD_COMPUTER_STATUS
+function payload_fns.payload_390(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 240 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 240)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 8)
+    value = tvbrange:le_uint64()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_time_usec, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_uptime, tvbrange, value)
+    tvbrange = padded(offset + 196, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_type, tvbrange, value)
+    tvbrange = padded(offset + 197, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_0, tvbrange, value)
+    tvbrange = padded(offset + 198, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_1, tvbrange, value)
+    tvbrange = padded(offset + 199, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_2, tvbrange, value)
+    tvbrange = padded(offset + 200, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_3, tvbrange, value)
+    tvbrange = padded(offset + 201, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_4, tvbrange, value)
+    tvbrange = padded(offset + 202, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_5, tvbrange, value)
+    tvbrange = padded(offset + 203, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_6, tvbrange, value)
+    tvbrange = padded(offset + 204, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_cores_7, tvbrange, value)
+    tvbrange = padded(offset + 205, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_0, tvbrange, value)
+    tvbrange = padded(offset + 206, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_1, tvbrange, value)
+    tvbrange = padded(offset + 207, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_2, tvbrange, value)
+    tvbrange = padded(offset + 208, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_3, tvbrange, value)
+    tvbrange = padded(offset + 209, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_4, tvbrange, value)
+    tvbrange = padded(offset + 210, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_5, tvbrange, value)
+    tvbrange = padded(offset + 211, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_6, tvbrange, value)
+    tvbrange = padded(offset + 212, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_7, tvbrange, value)
+    tvbrange = padded(offset + 213, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_8, tvbrange, value)
+    tvbrange = padded(offset + 214, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_cpu_combined_9, tvbrange, value)
+    tvbrange = padded(offset + 215, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_cores_0, tvbrange, value)
+    tvbrange = padded(offset + 216, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_cores_1, tvbrange, value)
+    tvbrange = padded(offset + 217, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_cores_2, tvbrange, value)
+    tvbrange = padded(offset + 218, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_cores_3, tvbrange, value)
+    tvbrange = padded(offset + 219, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_0, tvbrange, value)
+    tvbrange = padded(offset + 220, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_1, tvbrange, value)
+    tvbrange = padded(offset + 221, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_2, tvbrange, value)
+    tvbrange = padded(offset + 222, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_3, tvbrange, value)
+    tvbrange = padded(offset + 223, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_4, tvbrange, value)
+    tvbrange = padded(offset + 224, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_5, tvbrange, value)
+    tvbrange = padded(offset + 225, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_6, tvbrange, value)
+    tvbrange = padded(offset + 226, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_7, tvbrange, value)
+    tvbrange = padded(offset + 227, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_8, tvbrange, value)
+    tvbrange = padded(offset + 228, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_gpu_combined_9, tvbrange, value)
+    tvbrange = padded(offset + 229, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_board, tvbrange, value)
+    tvbrange = padded(offset + 230, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_0, tvbrange, value)
+    tvbrange = padded(offset + 231, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_1, tvbrange, value)
+    tvbrange = padded(offset + 232, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_2, tvbrange, value)
+    tvbrange = padded(offset + 233, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_3, tvbrange, value)
+    tvbrange = padded(offset + 234, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_4, tvbrange, value)
+    tvbrange = padded(offset + 235, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_5, tvbrange, value)
+    tvbrange = padded(offset + 236, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_6, tvbrange, value)
+    tvbrange = padded(offset + 237, 1)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_temperature_core_7, tvbrange, value)
+    tvbrange = padded(offset + 188, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_fan_speed_0, tvbrange, value)
+    tvbrange = padded(offset + 190, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_fan_speed_1, tvbrange, value)
+    tvbrange = padded(offset + 192, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_fan_speed_2, tvbrange, value)
+    tvbrange = padded(offset + 194, 2)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_fan_speed_3, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_ram_usage, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_ram_total, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_type_0, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_type_1, tvbrange, value)
+    tvbrange = padded(offset + 28, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_type_2, tvbrange, value)
+    tvbrange = padded(offset + 32, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_type_3, tvbrange, value)
+    tvbrange = padded(offset + 36, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_usage_0, tvbrange, value)
+    tvbrange = padded(offset + 40, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_usage_1, tvbrange, value)
+    tvbrange = padded(offset + 44, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_usage_2, tvbrange, value)
+    tvbrange = padded(offset + 48, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_usage_3, tvbrange, value)
+    tvbrange = padded(offset + 52, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_total_0, tvbrange, value)
+    tvbrange = padded(offset + 56, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_total_1, tvbrange, value)
+    tvbrange = padded(offset + 60, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_total_2, tvbrange, value)
+    tvbrange = padded(offset + 64, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_storage_total_3, tvbrange, value)
+    tvbrange = padded(offset + 68, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_0, tvbrange, value)
+    tvbrange = padded(offset + 72, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_1, tvbrange, value)
+    tvbrange = padded(offset + 76, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_2, tvbrange, value)
+    tvbrange = padded(offset + 80, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_3, tvbrange, value)
+    tvbrange = padded(offset + 84, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_4, tvbrange, value)
+    tvbrange = padded(offset + 88, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_type_5, tvbrange, value)
+    tvbrange = padded(offset + 92, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_0, tvbrange, value)
+    tvbrange = padded(offset + 96, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_1, tvbrange, value)
+    tvbrange = padded(offset + 100, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_2, tvbrange, value)
+    tvbrange = padded(offset + 104, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_3, tvbrange, value)
+    tvbrange = padded(offset + 108, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_4, tvbrange, value)
+    tvbrange = padded(offset + 112, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_rate_5, tvbrange, value)
+    tvbrange = padded(offset + 116, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_0, tvbrange, value)
+    tvbrange = padded(offset + 120, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_1, tvbrange, value)
+    tvbrange = padded(offset + 124, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_2, tvbrange, value)
+    tvbrange = padded(offset + 128, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_3, tvbrange, value)
+    tvbrange = padded(offset + 132, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_4, tvbrange, value)
+    tvbrange = padded(offset + 136, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_rate_5, tvbrange, value)
+    tvbrange = padded(offset + 140, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_0, tvbrange, value)
+    tvbrange = padded(offset + 144, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_1, tvbrange, value)
+    tvbrange = padded(offset + 148, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_2, tvbrange, value)
+    tvbrange = padded(offset + 152, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_3, tvbrange, value)
+    tvbrange = padded(offset + 156, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_4, tvbrange, value)
+    tvbrange = padded(offset + 160, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_tx_max_5, tvbrange, value)
+    tvbrange = padded(offset + 164, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_0, tvbrange, value)
+    tvbrange = padded(offset + 168, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_1, tvbrange, value)
+    tvbrange = padded(offset + 172, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_2, tvbrange, value)
+    tvbrange = padded(offset + 176, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_3, tvbrange, value)
+    tvbrange = padded(offset + 180, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_4, tvbrange, value)
+    tvbrange = padded(offset + 184, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_link_rx_max_5, tvbrange, value)
+    tvbrange = padded(offset + 238, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ONBOARD_COMPUTER_STATUS_status_flags, tvbrange, value)
+    dissect_flags_COMPUTER_STATUS_FLAGS(subtree, "ONBOARD_COMPUTER_STATUS_status_flags", tvbrange, value)
+end
 -- dissect payload of message type WHEEL_DISTANCE
 function payload_fns.payload_9000(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -55908,23 +58189,6 @@ function payload_fns.payload_12905(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:string()
     subtree = tree:add_le(f.OPEN_DRONE_ID_OPERATOR_ID_operator_id, tvbrange, value)
 end
--- dissect payload of message type OPEN_DRONE_ID_ARM_STATUS
-function payload_fns.payload_12918(buffer, tree, msgid, offset, limit, pinfo)
-    local padded, field_offset, value, subtree, tvbrange
-    if (offset + 51 > limit) then
-        padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 51)
-        padded = padded:tvb("Untruncated payload")
-    else
-        padded = buffer
-    end
-    tvbrange = padded(offset + 0, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.OPEN_DRONE_ID_ARM_STATUS_status, tvbrange, value)
-    tvbrange = padded(offset + 1, 50)
-    value = tvbrange:string()
-    subtree = tree:add_le(f.OPEN_DRONE_ID_ARM_STATUS_error, tvbrange, value)
-end
 -- dissect payload of message type OPEN_DRONE_ID_MESSAGE_PACK
 function payload_fns.payload_12915(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -56683,6 +58947,23 @@ function payload_fns.payload_12915(buffer, tree, msgid, offset, limit, pinfo)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.OPEN_DRONE_ID_MESSAGE_PACK_messages_224, tvbrange, value)
 end
+-- dissect payload of message type OPEN_DRONE_ID_ARM_STATUS
+function payload_fns.payload_12918(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 51 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 51)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.OPEN_DRONE_ID_ARM_STATUS_status, tvbrange, value)
+    tvbrange = padded(offset + 1, 50)
+    value = tvbrange:string()
+    subtree = tree:add_le(f.OPEN_DRONE_ID_ARM_STATUS_error, tvbrange, value)
+end
 -- dissect payload of message type OPEN_DRONE_ID_SYSTEM_UPDATE
 function payload_fns.payload_12919(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -56748,33 +59029,6 @@ function payload_fns.payload_53(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.MISSION_CHECKSUM_checksum, tvbrange, value)
-end
--- dissect payload of message type AIRSPEED
-function payload_fns.payload_295(buffer, tree, msgid, offset, limit, pinfo)
-    local padded, field_offset, value, subtree, tvbrange
-    if (offset + 12 > limit) then
-        padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 12)
-        padded = padded:tvb("Untruncated payload")
-    else
-        padded = buffer
-    end
-    tvbrange = padded(offset + 10, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.AIRSPEED_id, tvbrange, value)
-    tvbrange = padded(offset + 0, 4)
-    value = tvbrange:le_float()
-    subtree = tree:add_le(f.AIRSPEED_airspeed, tvbrange, value)
-    tvbrange = padded(offset + 8, 2)
-    value = tvbrange:le_int()
-    subtree = tree:add_le(f.AIRSPEED_temperature, tvbrange, value)
-    tvbrange = padded(offset + 4, 4)
-    value = tvbrange:le_float()
-    subtree = tree:add_le(f.AIRSPEED_raw_press, tvbrange, value)
-    tvbrange = padded(offset + 11, 1)
-    value = tvbrange:le_uint()
-    subtree = tree:add_le(f.AIRSPEED_flags, tvbrange, value)
-    dissect_flags_AIRSPEED_SENSOR_FLAGS(subtree, "AIRSPEED_flags", tvbrange, value)
 end
 -- dissect payload of message type RADIO_RC_CHANNELS
 function payload_fns.payload_420(buffer, tree, msgid, offset, limit, pinfo)
@@ -57010,6 +59264,63 @@ function payload_fns.payload_441(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 16, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.GNSS_INTEGRITY_post_processing_quality, tvbrange, value)
+end
+-- dissect payload of message type RANGING_BEACON
+function payload_fns.payload_513(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 45 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 45)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 0, 8)
+    value = tvbrange:le_uint64()
+    subtree = tree:add_le(f.RANGING_BEACON_time_usec, tvbrange, value)
+    tvbrange = padded(offset + 40, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_target_system, tvbrange, value)
+    tvbrange = padded(offset + 41, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_target_component, tvbrange, value)
+    tvbrange = padded(offset + 36, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_beacon_id, tvbrange, value)
+    tvbrange = padded(offset + 8, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_range, tvbrange, value)
+    tvbrange = padded(offset + 12, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.RANGING_BEACON_lat, tvbrange, value)
+    tvbrange = padded(offset + 16, 4)
+    value = tvbrange:le_int()
+    subtree = tree:add_le(f.RANGING_BEACON_lon, tvbrange, value)
+    tvbrange = padded(offset + 20, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.RANGING_BEACON_alt, tvbrange, value)
+    tvbrange = padded(offset + 42, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_alt_type, tvbrange, value)
+    tvbrange = padded(offset + 24, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_hacc_est, tvbrange, value)
+    tvbrange = padded(offset + 28, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_vacc_est, tvbrange, value)
+    tvbrange = padded(offset + 38, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_carrier_freq, tvbrange, value)
+    tvbrange = padded(offset + 32, 4)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_range_accuracy, tvbrange, value)
+    tvbrange = padded(offset + 43, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_sequence, tvbrange, value)
+    tvbrange = padded(offset + 44, 1)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.RANGING_BEACON_status, tvbrange, value)
+    dissect_flags_RANGING_BEACON_STATUS_FLAG(subtree, "RANGING_BEACON_status", tvbrange, value)
 end
 -- dissect payload of message type ICAROUS_HEARTBEAT
 function payload_fns.payload_42000(buffer, tree, msgid, offset, limit, pinfo)

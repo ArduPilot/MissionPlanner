@@ -32,7 +32,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         public MAVLink.mavlink_camera_fov_status_t CameraFOVStatus { get; private set; }
         public MAVLink.mavlink_camera_tracking_image_status_t CameraTrackingImageStatus { get; private set; }
 
-        public static ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t> VideoStreams { get; private set; } = new ConcurrentDictionary<(byte, byte, byte), MAVLink.mavlink_video_stream_information_t>();
+        public static ConcurrentDictionary<(uint, byte, byte), MAVLink.mavlink_video_stream_information_t> VideoStreams { get; private set; } = new ConcurrentDictionary<(uint, byte, byte), MAVLink.mavlink_video_stream_information_t>();
 
         public static string GStreamerPipeline(MAVLink.mavlink_video_stream_information_t stream)
         {

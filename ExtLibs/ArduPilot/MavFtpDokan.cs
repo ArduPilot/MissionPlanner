@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Threading;
 
@@ -36,6 +37,7 @@ namespace MissionPlanner.ArduPilot
         {
             public string RemotePath;
             public int FileSize = -1;          // -1 = not yet known
+            public DateTime? ModifiedUtc;      // null = vehicle did not report one
             public byte[] Cache;               // populated on first ReadFile
             public MemoryStream WriteBuffer;   // non-null for write-only opens
             public bool IsWrite;
@@ -53,6 +55,42 @@ namespace MissionPlanner.ArduPilot
         private static string _currentMountPoint;
         private static readonly object _mountLock = new object();
 
+        /// <summary>Native library DokanNet binds to; installed by the Dokan driver setup, not shipped with the package.</summary>
+        private const string DokanNativeLibrary = "dokan2.dll";
+
+        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
+
+        [DllImport("kernel32", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool FreeLibrary(IntPtr hModule);
+
+        /// <summary>
+        /// True when the Dokan native library can be loaded, i.e. the Dokan driver is installed.
+        /// The DokanNet <see cref="Dokan"/> class calls into the native library from both its
+        /// constructor and its finalizer, so constructing it without the driver present throws
+        /// a DllNotFoundException twice: once on the caller's thread and again on the finalizer
+        /// thread, where it is unhandled and takes the process down. Probe first so the object
+        /// is never allocated when the driver is missing.
+        /// </summary>
+        public static bool IsDriverInstalled()
+        {
+            try
+            {
+                var handle = LoadLibrary(DokanNativeLibrary);
+                if (handle == IntPtr.Zero)
+                    return false;
+                FreeLibrary(handle);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // kernel32 itself is unavailable (Mono on Linux/macOS) or the probe failed
+                log.Debug("Dokan probe failed", ex);
+                return false;
+            }
+        }
+
         /// <summary>Mount the MAVFtp filesystem at the given drive letter (e.g. "M:\\").</summary>
         public static void Mount(MAVFtp mavftp, string mountPoint)
         {
@@ -60,6 +98,11 @@ namespace MissionPlanner.ArduPilot
             {
                 if (_dokanInstance != null && !_dokanInstance.IsDisposed)
                     throw new InvalidOperationException("Already mounted.");
+
+                if (!IsDriverInstalled())
+                    throw new DllNotFoundException(
+                        "The Dokan driver is not installed (" + DokanNativeLibrary + " could not be loaded). " +
+                        "Install Dokan 2.x from https://github.com/dokan-dev/dokany/releases and try again.");
 
                 var ops = new MavFtpDokan(mavftp);
                 _dokan = new Dokan(new NullLogger());
@@ -123,6 +166,8 @@ namespace MissionPlanner.ArduPilot
                 List<MAVFtp.FtpFileInfo> entries;
                 lock (_mavftp)
                     entries = _mavftp.kCmdListDirectory(ftpPath, NewCancel());
+                // a nameless entry is the placeholder for one the vehicle skipped
+                entries = entries.Where(e => e.Name != "").ToList();
 
                 lock (_dirCacheLock)
                     _dirCache[ftpPath] = (entries, DateTime.UtcNow.Add(DirCacheTtl));
@@ -234,7 +279,8 @@ namespace MissionPlanner.ArduPilot
             info.Context = new FileContext
             {
                 RemotePath = ftpPath,
-                FileSize = (int)entry.Size   // size from directory listing
+                FileSize = (int)entry.Size,  // size from directory listing
+                ModifiedUtc = entry.ModifiedUtc
             };
             return DokanResult.Success;
         }
@@ -336,7 +382,7 @@ namespace MissionPlanner.ArduPilot
                     Attributes = FileAttributes.Normal,
                     CreationTime = DateTime.UtcNow,
                     LastAccessTime = DateTime.UtcNow,
-                    LastWriteTime = DateTime.UtcNow,
+                    LastWriteTime = ctx.ModifiedUtc ?? DateTime.UtcNow,
                     Length = ctx.FileSize
                 };
                 return DokanResult.Success;
@@ -352,7 +398,8 @@ namespace MissionPlanner.ArduPilot
                 Attributes = entry.isDirectory ? FileAttributes.Directory : FileAttributes.Normal,
                 CreationTime = DateTime.UtcNow,
                 LastAccessTime = DateTime.UtcNow,
-                LastWriteTime = DateTime.UtcNow,
+                // the vehicle only reports a modification time when it knows one
+                LastWriteTime = entry.ModifiedUtc ?? DateTime.UtcNow,
                 Length = (long)entry.Size
             };
             return DokanResult.Success;
@@ -374,7 +421,8 @@ namespace MissionPlanner.ArduPilot
                     Attributes = e.isDirectory ? FileAttributes.Directory : FileAttributes.Normal,
                     CreationTime = DateTime.UtcNow,
                     LastAccessTime = DateTime.UtcNow,
-                    LastWriteTime = DateTime.UtcNow,
+                    // the vehicle only reports a modification time when it knows one
+                    LastWriteTime = e.ModifiedUtc ?? DateTime.UtcNow,
                     Length = (long)e.Size
                 });
             }

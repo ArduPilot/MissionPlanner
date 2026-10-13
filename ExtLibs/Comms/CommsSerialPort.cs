@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using log4net;
 using Microsoft.Win32.SafeHandles;
 
@@ -204,8 +205,6 @@ namespace MissionPlanner.Comms
 
         private static readonly Dictionary<string, string> comportnamecache = new Dictionary<string, string>();
 
-        private static string portnamenice = "";
-
         public new static string[] GetPortNames()
         {
             // prevent hammering
@@ -316,8 +315,6 @@ namespace MissionPlanner.Comms
             // make sure we are exclusive
             lock (locker)
             {
-                portnamenice = "";
-
                 if (port == "AUTO" || port == "UDP" || port == "UDPCl" || port == "TCP" || port == "WS")
                     return "";
 
@@ -327,21 +324,18 @@ namespace MissionPlanner.Comms
                     return comportnamecache[port];
                 }
 
-                try
-                {
-                    log.Info("start GetNiceName " + port);
+                log.Info("start GetNiceName " + port);
 
-                    CallWithTimeout(GetName, 1000, port);
-                }
-                catch
-                {
-                }
+                // on timeout the lookup is left to finish on its own: aborting it mid WMI/COM call is unsafe,
+                // and its late result is discarded, so it cannot leak into the next port's lookup
+                var lookup = Task.Run(() => GetName(port));
+                var portnamenice = lookup.Wait(1000) ? lookup.Result : "";
 
                 log.Info("done GetNiceName " + port + " = " + portnamenice);
 
                 comportnamecache[port] = portnamenice;
 
-                return (string) portnamenice.Clone();
+                return portnamenice;
             }
         }
 
@@ -349,43 +343,19 @@ namespace MissionPlanner.Comms
 
         public static event EventArgsDeviceName GetDeviceName;
 
-        private static void GetName(string port)
+        private static string GetName(string port)
         {
             try
             {
                 var ans = GetDeviceName?.Invoke(port);
                 if (!String.IsNullOrEmpty(ans))
-                {
-                    portnamenice = ans;
-                    return;
-                }
+                    return ans;
             }
             catch
             {
             }
 
-            portnamenice = "";
-        }
-
-        private static void CallWithTimeout<T>(Action<T> action, int timeoutMilliseconds, T data)
-        {
-            Thread threadToKill = null;
-            Action wrappedAction = () =>
-            {
-                threadToKill = Thread.CurrentThread;
-                action(data);
-            };
-
-            var result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
-            {
-                wrappedAction.EndInvoke(result);
-            }
-            else
-            {
-                threadToKill.Abort();
-                throw new TimeoutException();
-            }
+            return "";
         }
 
         // .NET bug: sometimes bluetooth ports are enumerated with bogus characters

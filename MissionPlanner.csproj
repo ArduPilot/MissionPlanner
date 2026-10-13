@@ -60,6 +60,8 @@
     <Compile Remove="obj2\**" />
     <Compile Remove="obj\**" />
     <Compile Remove="plugins\**" />
+    <Compile Remove="Plugins\**" />
+    <Compile Remove="Linux\**" />
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
@@ -95,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="BitMiracle.LibTiff.NetStandard">
-      <HintPath>.\extlibs\BitMiracle.LibTiff.NetStandard.dll</HintPath>
+      <HintPath>.\ExtLibs\BitMiracle.LibTiff.NetStandard.dll</HintPath>
       <Private>true</Private>
     </Reference>
     <Reference Include="System.Configuration" />
@@ -363,7 +365,7 @@
     <None Update="Drivers\cubeorangeplus.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example10-canlogfile.cs">
+    <None Include="Plugins\example10-canlogfile.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="plugins\example11-trace.cs">
@@ -375,34 +377,34 @@
     <None Include="plugins\example13-herelink2.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example14-mass.cs">
+    <None Include="Plugins\example14-mass.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example15-leds.cs">
+    <None Include="Plugins\example15-leds.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example16-donate.cs">
+    <None Include="Plugins\example16-donate.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example17-menuremove.cs">
+    <None Include="Plugins\example17-menuremove.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example18-externalapi.cs">
+    <None Include="Plugins\example18-externalapi.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example19-multiforward.cs">
+    <None Include="Plugins\example19-multiforward.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example21-persistentsimple.cs">
+    <None Include="Plugins\example21-persistentsimple.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example20-multiplepositions.cs">
+    <None Include="Plugins\example20-multiplepositions.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example23-switch.cs">
+    <None Include="Plugins\example23-switch.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="plugins\example22-payloadconfig.cs">
+    <None Include="Plugins\example22-payloadconfig.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Update="Utilities\AirMarket.cs">
@@ -753,7 +755,7 @@
     <Content Include="Drivers\devcon.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Drivers\DriverCleanup.exe">
+    <Content Include="Drivers\DriverCleanup.exe" Condition="Exists('Drivers\DriverCleanup.exe')">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Drivers\Holybro.inf">
@@ -1044,7 +1046,7 @@
       <DependentUpon Condition="Exists($([System.String]::Copy('%(Filename)').ToLower().Replace('.designer','.cs')))">$([System.Text.RegularExpressions.Regex]::Replace('%(FileName)', '\.[a-zA-Z\-]+', '')).cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(MissionPlannerLinuxBuild)' != 'true'">
     <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;&#xD;&#xA;copy &quot;$(ProjectDir)ExtLibs\System.Speech.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;&#xD;&#xA;cd &quot;$(TargetDir)&quot;&#xD;&#xA;for /f %%f in ('dir /a-d /b plugins') do if exist .\%%f del .\plugins\%%f&#xD;&#xA;" />
   </Target>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
@@ -1185,7 +1187,7 @@
 
   </ItemGroup>
   <ItemGroup>
-    <None Include="plugins\AnonymizeBinlogPlugin.cs">
+    <None Include="Plugins\AnonymizeBinlogPlugin.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="SikRadio\ISikRadioForm.cs" />
@@ -1199,6 +1201,6 @@
     <Compile Include="SikRadio\RFDLib\Text.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="plugins\example23-switch.resx" />
+    <EmbeddedResource Include="Plugins\example23-switch.resx" />
   </ItemGroup>
 </Project>

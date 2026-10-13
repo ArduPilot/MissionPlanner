@@ -3311,10 +3311,13 @@ namespace MissionPlanner
                             if (gps.satellites_visible != byte.MaxValue)
                                 satcount = gps.satellites_visible;
 
-                            if (gps.vel != ushort.MaxValue)
+                            // without a fix vel is 0 while VFR_HUD keeps the EKF speed, so GS would flicker
+                            var gpsfix = gps.fix_type >= (byte)MAVLink.GPS_FIX_TYPE._2D_FIX;
+
+                            if (gpsfix && gps.vel != ushort.MaxValue)
                                 groundspeed = gps.vel * 1.0e-2f;
 
-                            if (groundspeed > 0.5 && gps.cog != ushort.MaxValue)
+                            if (gpsfix && groundspeed > 0.5 && gps.cog != ushort.MaxValue)
                                 groundcourse = gps.cog * 1.0e-2f;
 
                             if (mavLinkMessage.ismavlink2)
