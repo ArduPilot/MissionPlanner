@@ -85,7 +85,7 @@ namespace MissionPlanner.Log
                     }
                     cf.Close();
                 }
-                else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
+                else if (logfile.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) || logfile.EndsWith(".log", StringComparison.OrdinalIgnoreCase))
                 {
                     using (
                         DFLogBuffer colbuf =

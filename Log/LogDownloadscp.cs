@@ -92,7 +92,7 @@ namespace MissionPlanner.Log
 
                     foreach (var sftpFile in files)
                     {
-                        if (sftpFile.Name.ToLower().EndsWith(".bin"))
+                        if (sftpFile.Name.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                             logEntries.Add(sftpFile);
                     }
 

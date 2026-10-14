@@ -1159,7 +1159,7 @@ namespace MissionPlanner.GCSViews
                         {
                             StreamReader tr;
 
-                            if (logfile.ToLower().EndsWith(".bin"))
+                            if (logfile.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                             {
                                 using (tr = new StreamReader(logfile))
                                 {
@@ -1322,7 +1322,7 @@ namespace MissionPlanner.GCSViews
                 {
                     string newlogfile = null;
 
-                    if (ofd.FileName.ToLower().EndsWith(".bin"))
+                    if (ofd.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                     {
                         newlogfile = Path.GetTempFileName() + ".log";
 

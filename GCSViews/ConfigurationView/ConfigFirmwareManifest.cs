@@ -445,7 +445,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 return;
                             }
                         }
-                        else if(fd.FileName.ToLower().EndsWith(".bin"))
+                        else if(fd.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                         {
                             DFU.Progress = fw_Progress1;
                             if (CustomMessageBox.Show("Flashing image to 0x08000000", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)
