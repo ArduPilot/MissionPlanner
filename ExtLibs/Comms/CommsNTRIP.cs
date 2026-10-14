@@ -423,6 +423,20 @@ namespace MissionPlanner.Comms
             VerifyConnected();
         }
 
+        /// <summary>Decimal degrees to NMEA ddmm.mm (unsigned; hemisphere is sent separately).</summary>
+        internal static double ToNmeaDegMin(double degrees)
+        {
+            var abs = Math.Abs(degrees);
+            var whole = Math.Floor(abs);
+            var minutes = Math.Round((abs - whole) * 60, 2);
+            if (minutes >= 60)
+            {
+                whole += 1;
+                minutes = 0;
+            }
+            return whole * 100 + minutes;
+        }
+
         private void SendNMEA()
         {
             if (_lastnmea.AddSeconds(30) >= DateTime.Now)
@@ -444,17 +458,14 @@ namespace MissionPlanner.Comms
             if (info.Lat == 0 && info.Lng == 0)
                 return;
 
-            var latdms = (int) info.Lat + (info.Lat - (int) info.Lat) * .6f;
-            var lngdms = (int) info.Lng + (info.Lng - (int) info.Lng) * .6f;
-
             var line = string.Format(CultureInfo.InvariantCulture,
                 "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}", "GGA",
                 DateTime.Now.ToUniversalTime(),
-                Math.Abs(latdms * 100).ToString("0000.00", CultureInfo.InvariantCulture), info.Lat < 0 ? "S" : "N",
-                Math.Abs(lngdms * 100).ToString("00000.00", CultureInfo.InvariantCulture), info.Lng < 0 ? "W" : "E",
+                ToNmeaDegMin(info.Lat).ToString("0000.00", CultureInfo.InvariantCulture), info.Lat < 0 ? "S" : "N",
+                ToNmeaDegMin(info.Lng).ToString("00000.00", CultureInfo.InvariantCulture), info.Lng < 0 ? "W" : "E",
                 info.Quality, info.Sats.ToString("00", CultureInfo.InvariantCulture),
                 info.Hdop.ToString("0.0", CultureInfo.InvariantCulture),
-                info.Alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "", "");
+                info.Alt.ToString("0.00", CultureInfo.InvariantCulture), "M", 0, "M", "0.0", "0");
 
             var checksum = GetChecksum(line);
             WriteLine(line + "*" + checksum);
