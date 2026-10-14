@@ -3690,7 +3690,7 @@ namespace MissionPlanner
                     FlightData.BUT_playlog_Click(null, null);
                 }
                 else if (cmds.ContainsKey("file") && File.Exists(cmds["file"]) &&
-                         (cmds["file"].ToLower().EndsWith(".log") || cmds["file"].ToLower().EndsWith(".bin")))
+                         (cmds["file"].EndsWith(".log", StringComparison.OrdinalIgnoreCase) || cmds["file"].EndsWith(".bin", StringComparison.OrdinalIgnoreCase)))
                 {
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);

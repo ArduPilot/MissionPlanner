@@ -80,7 +80,7 @@ namespace MissionPlanner.Log
                     var aptype = MAVLink.MAV_TYPE.GENERIC;
                     var packetsseen = 0;
 
-                    if (logfile.ToLower().EndsWith(".bin")|| logfile.ToLower().EndsWith(".log"))
+                    if (logfile.EndsWith(".bin", StringComparison.OrdinalIgnoreCase)|| logfile.EndsWith(".log", StringComparison.OrdinalIgnoreCase))
                     {
                         var logBuffer = new DFLogBuffer(logfile);
 
