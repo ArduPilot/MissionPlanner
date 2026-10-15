@@ -353,11 +353,15 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.EsriArcticOceanBase.Instance);
 
 
+#if LIB
             if(Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Desktop || Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Unknown)
                 ZedGraph.PaneBase.Default.IsFontsScaled = false;
 
             if(Xamarin.Essentials.DeviceInfo.Platform != Xamarin.Essentials.DevicePlatform.Unknown)
                 log.Info(typeof(Xamarin.Essentials.DeviceInfo).ToJSON());
+#else
+            ZedGraph.PaneBase.Default.IsFontsScaled = false;
+#endif
 
             Console.WriteLine("Setup GoogleMapProvider API");
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];

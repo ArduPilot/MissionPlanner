@@ -695,4 +695,49 @@ On ArduPlane, zero altitudes may interpreted in two different ways: actual zero 
 
 ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOUR CASE (use a simulator to be sure).[link;https://ardupilot.org/plane/docs/common-mavlink-mission-command-messages-mav_cmd.html;Command Documentation]</value>
   </data>
+  <data name="FirmwareSelectionTitle" xml:space="preserve">
+    <value>Select Firmware</value>
+  </data>
+  <data name="FirmwareSelectionPrompt" xml:space="preserve">
+    <value>More than one firmware matches this board. Use the filters to narrow it down to the one you want.</value>
+  </data>
+  <data name="FirmwareSelectionAny" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="FirmwareSelectionTooMany" xml:space="preserve">
+    <value>Too many matches ({0}) - apply more filters</value>
+  </data>
+  <data name="FirmwareSelectionNoMatches" xml:space="preserve">
+    <value>No firmware matches the current filters</value>
+  </data>
+  <data name="FirmwareSelectionUpload" xml:space="preserve">
+    <value>Upload Firmware</value>
+  </data>
+  <data name="FirmwareSelectionVehicleType" xml:space="preserve">
+    <value>Vehicle Type</value>
+  </data>
+  <data name="FirmwareSelectionReleaseType" xml:space="preserve">
+    <value>Release Type</value>
+  </data>
+  <data name="FirmwareSelectionPlatform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="FirmwareSelectionVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="FirmwareSelectionFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="FirmwareSelectionUsbId" xml:space="preserve">
+    <value>USB ID</value>
+  </data>
+  <data name="FirmwareSelectionBoardId" xml:space="preserve">
+    <value>Board ID</value>
+  </data>
+  <data name="FirmwareSelectionBootloaderId" xml:space="preserve">
+    <value>Bootloader ID</value>
+  </data>
+  <data name="FirmwareSelectionFile" xml:space="preserve">
+    <value>File</value>
+  </data>
 </root>
