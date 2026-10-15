@@ -330,6 +330,7 @@ namespace MissionPlanner.Controls
             }
             catch (Exception ex)
             {
+                log.Error("Failed to start or stop mirror " + key, ex);
                 CustomMessageBox.Show("Error: " + ex.Message);
             }
 
