@@ -30,6 +30,7 @@ namespace MissionPlanner.Controls
             Go.DefaultCellStyle.NullValue = Strings.Go;
             myDataGridView1.UserDeletingRow += myDataGridView1_UserDeletingRow;
             myDataGridView1.UserDeletedRow += myDataGridView1_UserDeletedRow;
+            myDataGridView1.CurrentCellDirtyStateChanged += myDataGridView1_CurrentCellDirtyStateChanged;
 
             chk_write.Checked = MainV2.comPort.MirrorStreamWrite;
 
@@ -204,6 +205,14 @@ namespace MissionPlanner.Controls
 
             Save();
             UpdateRowStates();
+        }
+
+        private void myDataGridView1_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            // a check box is committed only when the cell is left, so end the edit now: CellEndEdit then applies
+            // Write to a running mirror and saves it even if the form is closed right after the click
+            if (myDataGridView1.IsCurrentCellDirty && myDataGridView1.CurrentCell?.ColumnIndex == Write.Index)
+                myDataGridView1.EndEdit();
         }
 
         private void Save() 
