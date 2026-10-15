@@ -5018,8 +5018,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     // create an item - hidden
                     MAVlist.AddHiddenList(sysid, compid);
-                    // prevent packetloss counter on connect
-                    MAVlist[sysid, compid].recvpacketcount = unchecked(packetSeqNo - (byte)1);
+                    // prevent packetloss counter on connect: the first packet is taken as a dup of itself, so the
+                    // packet before it, never seen, is not marked as received in recvpacketmask
+                    MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                 }
 
                 // once set it cannot be reverted
@@ -5130,41 +5131,60 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     packetSeemValid = true;
                     // check if we lost pacakets based on seqno
-                    int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1) % 0x100);
+                    // seq is 8 bit, so a packet up to latePacketWindow behind the newest one is either late
+                    // (reordered on the link, UDP over IP) or the next one after 191..254 lost packets. It is
+                    // late only if it fills a hole in the mask of recently received seqs. Reordering is a
+                    // matter of milliseconds, so after a pause the seq has wrapped through an outage instead
+                    const int latePacketWindow = 64;
+                    int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
+                    int delta = (packetSeqNo - lastPacketSeqNo) & 0xFF;
+                    int packetsBehind = 0x100 - delta;
+                    // bit n set: seq (lastPacketSeqNo - n - 1) has been received
+                    ulong lateBit = packetsBehind <= latePacketWindow ? 1UL << (packetsBehind - 1) : 0;
+                    bool sincePreviousPacketIsShort =
+                        (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
 
                     {
-                        // the second part is to work around a 3dr radio bug sending dup seqno's
-                        if (packetSeqNo != expectedPacketSeqNo &&
-                            packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
+                        if (delta == 0)
                         {
-                            MAVlist[sysid, compid].synclost++; // actual sync loss's
-                            int numLost = 0;
+                            // work around a 3dr radio bug sending dup seqno's
+                        }
+                        else if (lateBit != 0 && (MAVlist[sysid, compid].recvpacketmask & lateBit) == 0 &&
+                                 sincePreviousPacketIsShort)
+                        {
+                            // a late packet fills a hole that was counted as lost when the newer one came
+                            MAVlist[sysid, compid].recvpacketmask |= lateBit;
+                            if (MAVlist[sysid, compid].packetslost >= 1)
+                                MAVlist[sysid, compid].packetslost--;
+                        }
+                        else
+                        {
+                            // in order (delta 1) or a forward gap of delta - 1 lost packets
+                            int numLost = delta - 1;
 
-                            if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
-                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
+                            if (numLost != 0)
                             {
-                                numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
-                            }
-                            else
-                            {
-                                numLost = packetSeqNo - expectedPacketSeqNo;
+                                MAVlist[sysid, compid].synclost++; // actual sync loss's
+                                MAVlist[sysid, compid].packetslost += numLost;
+                                WhenPacketLost.OnNext(numLost);
+
+                                if (!logreadmode)
+                                    log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
+                                        numLost,
+                                        sysid,
+                                        (lastPacketSeqNo + 1) & 0xFF, compid);
                             }
 
-                            MAVlist[sysid, compid].packetslost += numLost;
-                            WhenPacketLost.OnNext(numLost);
-
-                            if (!logreadmode)
-                                log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
-                                    numLost,
-                                    sysid,
-                                    expectedPacketSeqNo, compid);
+                            // shift the mask by delta, the previous newest packet is now delta behind
+                            // (a ulong shift by 64 or more is taken mod 64 in C#, so clear it explicitly)
+                            ulong mask = delta < 64 ? MAVlist[sysid, compid].recvpacketmask << delta : 0;
+                            if (delta <= latePacketWindow)
+                                mask |= 1UL << (delta - 1);
+                            MAVlist[sysid, compid].recvpacketmask = mask;
+                            MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                         }
 
                         MAVlist[sysid, compid].packetsnotlost++;
-
-                        //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
-
-                        MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                     }
                     WhenPacketReceived.OnNext(1);
 
