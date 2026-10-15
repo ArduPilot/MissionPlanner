@@ -69,7 +69,7 @@ namespace MissionPlanner.Controls
                 var sysidnodes = treeView1.Nodes.Find(mavLinkMessage.sysid.ToString(), false);
                 if (sysidnodes.Length == 0)
                 {
-                    sysidnode = new TreeNode("Vehicle " + mavLinkMessage.sysid)
+                    sysidnode = new TreeNode("System " + mavLinkMessage.sysid)
                     {
                         Name = mavLinkMessage.sysid.ToString()
                     };
