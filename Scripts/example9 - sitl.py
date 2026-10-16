@@ -14,12 +14,12 @@ import System
 from System.Diagnostics import Process
 
 for i in range(20):
-	workdir = 'C:\Users\michael\Documents\Mission Planner\sitl\d' + str(i)
+	workdir = r'C:\Users\michael\Documents\Mission Planner\sitl\d' + str(i)
 	if not os.path.exists(workdir):
 		os.makedirs(workdir)
 	proc = Process()
 	proc.StartInfo.WorkingDirectory = workdir
-	proc.StartInfo.FileName ='C:\Users\michael\Documents\Mission Planner\sitl\ArduCopter.exe'
+	proc.StartInfo.FileName = r'C:\Users\michael\Documents\Mission Planner\sitl\ArduCopter.exe'
 	proc.StartInfo.Arguments	= ' -M+ -s1 --serial0 tcp:0 --defaults ..\default_params\copter.parm --instance ' + str(i) + ' --home -35.363261,'+ str(149.165330 + 0.000001 * i) +',584,353'
 	proc.Start()
 
