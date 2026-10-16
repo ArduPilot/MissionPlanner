@@ -537,7 +537,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // connect to mavlink
             var mav = new MAVLinkInterface();
             MainV2.instance.doConnect(mav, MainV2._connectionControl.CMB_serialport.Text,
-                MainV2._connectionControl.CMB_baudrate.Text, false);
+                MainV2._connectionControl.CMB_baudrate.Text, false, RTSEnable: MainV2._connectionControl.chk_RTSEnable.Checked);
 
             if (mav.BaseStream == null || !mav.BaseStream.IsOpen)
             {
