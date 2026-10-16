@@ -29,6 +29,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static readonly ILog log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static readonly ComponentResourceManager l10n =
+            new ComponentResourceManager(typeof(ConfigRawParams));
+
+        // 读取本地化字符串；缺失时回退到内置英文
+        private static string L(string key, string fallback)
+        {
+            try
+            {
+                var value = l10n.GetString(key);
+                return string.IsNullOrEmpty(value) ? fallback : value;
+            }
+            catch (Exception)
+            {
+                return fallback;
+            }
+        }
+
         private static Hashtable tooltips = new Hashtable();
         // Changes made to the params between writing to the copter
         private readonly Hashtable _changes = new Hashtable();
@@ -41,14 +58,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string filterPrefix = "";
 
         private NaturalStringComparer naturalsorter = new NaturalStringComparer();
+        private readonly Dictionary<string, string> translatedDescriptions = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private bool isTranslating;
+        private CancellationTokenSource batchTranslateCancellation;
 
         public ConfigRawParams()
         {
             InitializeComponent();
+            InitializeTranslationButtons();
+            ConfigureLLMFromSettings();
         }
 
         public void Activate()
         {
+            ConfigureLLMFromSettings();
+
             if ((rowlist.Count == 0) || (!Settings.Instance.GetBoolean("SlowMachine", false))) startup = true;
             //If we connected to another vehicle the do a full refresh
             if (rowlist.Count != MainV2.comPort.MAV.param.Count()) startup = true;
@@ -94,6 +118,327 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
 
             txt_search.Focus();
+        }
+
+        private void InitializeTranslationButtons()
+        {
+            toolTip1.SetToolTip(BUT_llmSettings, L("llm.tip.settings", "Configure the LLM translation API"));
+            toolTip1.SetToolTip(BUT_translateSelected, L("llm.tip.translateSelected", "Translate the description of the selected parameter(s)"));
+            toolTip1.SetToolTip(BUT_translateAll, L("llm.tip.translateAll", "Translate every parameter description (calls the LLM API)"));
+            toolTip1.SetToolTip(BUT_stopTranslate, L("llm.tip.stop", "Stop the running translation job"));
+
+            UpdateTranslationButtonState();
+        }
+
+        private MyButton CreateTranslationButton(string text, EventHandler clickHandler, string toolTip)
+        {
+            var button = new MyButton
+            {
+                Text = text,
+                AutoSize = false,
+                Height = 28,
+                MinimumSize = new Size(0, 28),
+                Dock = DockStyle.Fill,
+                Margin = new Padding(3),
+                TextColorNotEnabled = Color.FromArgb(64, 87, 4)
+            };
+
+            button.Click += clickHandler;
+            toolTip1.SetToolTip(button, toolTip);
+
+            return button;
+        }
+
+        private void AddTranslationButton(Control button)
+        {
+            var rowIndex = tableLayoutPanel1.RowCount;
+            tableLayoutPanel1.RowCount++;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle());
+            tableLayoutPanel1.Controls.Add(button, 0, rowIndex);
+        }
+
+        private void ConfigureLLMFromSettings()
+        {
+            var enabled = Settings.Instance.GetBoolean("LLM_ENABLE", true);
+            var apiKey = Settings.Instance.GetString("LLM_API_KEY", "");
+            var apiUrl = Settings.Instance.GetString("LLM_API_URL", LLMTranslationService.DefaultApiUrl);
+            var model = Settings.Instance.GetString("LLM_MODEL", "");
+            var temperatureText = Settings.Instance.GetString("LLM_TEMPERATURE", "1.3");
+
+            double temperature;
+            if (!double.TryParse(temperatureText, NumberStyles.Float, CultureInfo.InvariantCulture, out temperature))
+                temperature = 1.3;
+
+            if (enabled && !string.IsNullOrWhiteSpace(apiKey))
+            {
+                LLMTranslationService.Configure(apiKey, apiUrl, model, temperature);
+            }
+            else
+            {
+                LLMTranslationService.Configure(string.Empty, apiUrl, model, temperature);
+            }
+
+            UpdateTranslationButtonState();
+            RefreshDescriptionColumn();
+        }
+
+        private void UpdateTranslationButtonState()
+        {
+            if (BUT_translateSelected == null || BUT_translateAll == null || BUT_llmSettings == null || BUT_stopTranslate == null)
+                return;
+
+            BUT_llmSettings.Enabled = !isTranslating;
+            BUT_translateSelected.Enabled = !isTranslating;
+            BUT_translateAll.Enabled = !isTranslating;
+            BUT_stopTranslate.Enabled = isTranslating;
+            // 按钮文本由 Designer 资源 (BUT_translateSelected.Text 等) 本地化，不要在这里覆盖
+        }
+
+        private void RefreshDescriptionColumn()
+        {
+            if (Params == null || Params.Rows == null || Params.Rows.Count == 0)
+                return;
+
+            foreach (DataGridViewRow row in Params.Rows)
+            {
+                var paramName = row.Cells[Command.Index].Value?.ToString();
+                if (string.IsNullOrEmpty(paramName))
+                    continue;
+
+                var description = GetDisplayDescription(paramName, GetParameterDescription(paramName));
+                if (string.IsNullOrEmpty(description))
+                    continue;
+
+                row.Cells[Desc.Index].Value = description;
+                row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(description);
+            }
+        }
+
+        private string GetParameterDescription(string paramName)
+        {
+            if (string.IsNullOrEmpty(paramName))
+                return string.Empty;
+
+            return ParameterMetaDataRepository.GetParameterMetaData(paramName,
+                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()) ?? string.Empty;
+        }
+
+        private string GetDisplayDescription(string paramName, string originalDescription)
+        {
+            if (string.IsNullOrEmpty(originalDescription))
+                return string.Empty;
+
+            if (Settings.Instance.GetBoolean("LLM_ENABLE", true) &&
+                translatedDescriptions.TryGetValue(paramName, out var translatedDescription) &&
+                !string.IsNullOrWhiteSpace(translatedDescription))
+            {
+                return translatedDescription;
+            }
+
+            return originalDescription;
+        }
+
+        private void ApplyTranslatedDescription(DataGridViewRow row, string paramName, string description)
+        {
+            if (row == null || string.IsNullOrWhiteSpace(paramName) || string.IsNullOrWhiteSpace(description))
+                return;
+
+            translatedDescriptions[paramName] = description;
+            row.Cells[Desc.Index].Value = description;
+            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(description);
+        }
+
+        private bool EnsureLLMConfigured()
+        {
+            ConfigureLLMFromSettings();
+
+            if (LLMTranslationService.IsConfigured)
+                return true;
+
+            if (CustomMessageBox.Show(
+                    L("llm.msg.needConfig", "No LLM API is configured. Configure it now?"),
+                    L("llm.title.config", "LLM configuration"),
+                    MessageBoxButtons.YesNo) == (int)DialogResult.Yes)
+            {
+                BUT_llmSettings_Click(this, EventArgs.Empty);
+            }
+
+            return LLMTranslationService.IsConfigured;
+        }
+
+        private static bool ContainsChinese(string text)
+        {
+            return !string.IsNullOrEmpty(text) && Regex.IsMatch(text, "[\u4e00-\u9fff]");
+        }
+
+        private async void BUT_translateSelected_Click(object sender, EventArgs e)
+        {
+            if (isTranslating || !EnsureLLMConfigured())
+                return;
+
+            var rows = Params.SelectedRows.Cast<DataGridViewRow>()
+                .Where(row => row.Index >= 0)
+                .OrderBy(row => row.Index)
+                .ToList();
+
+            if (rows.Count == 0 && Params.CurrentRow != null)
+            {
+                rows.Add(Params.CurrentRow);
+            }
+
+            if (rows.Count == 0)
+            {
+                CustomMessageBox.Show(L("llm.msg.selectParams", "Please select the parameter(s) to translate."),
+                    L("llm.title.notice", "Notice"), MessageBoxButtons.OK);
+                return;
+            }
+
+            await TranslateRows(rows, false);
+        }
+
+        private async void BUT_translateAll_Click(object sender, EventArgs e)
+        {
+            if (isTranslating || !EnsureLLMConfigured())
+                return;
+
+            var rowsToTranslate = Params.Rows.Cast<DataGridViewRow>()
+                .Where(row => row.Index >= 0)
+                .Where(ShouldTranslateRow)
+                .OrderBy(row => row.Index)
+                .ToList();
+
+            if (rowsToTranslate.Count == 0)
+            {
+                CustomMessageBox.Show(L("llm.msg.nothingToTranslate", "There are no parameters that need translation."),
+                    L("llm.title.notice", "Notice"), MessageBoxButtons.OK);
+                return;
+            }
+
+            if (CustomMessageBox.Show(
+                    string.Format(L("llm.msg.confirmAll", "About to translate {0} parameter(s) using the LLM API. Continue?"), rowsToTranslate.Count),
+                    L("llm.title.confirm", "Confirm translation"), MessageBoxButtons.YesNo) != (int)DialogResult.Yes)
+            {
+                return;
+            }
+
+            await TranslateRows(rowsToTranslate, true);
+        }
+
+        private bool ShouldTranslateRow(DataGridViewRow row)
+        {
+            var paramName = row.Cells[Command.Index].Value?.ToString();
+            var description = GetParameterDescription(paramName);
+
+            return !string.IsNullOrWhiteSpace(paramName) &&
+                   !string.IsNullOrWhiteSpace(description) &&
+                   !ContainsChinese(description) &&
+                   !translatedDescriptions.ContainsKey(paramName);
+        }
+
+        private async Task TranslateRows(List<DataGridViewRow> rows, bool showBatchMessage)
+        {
+            isTranslating = true;
+            batchTranslateCancellation = new CancellationTokenSource();
+            UpdateTranslationButtonState();
+
+            var translatedCount = 0;
+            var cancelled = false;
+
+            try
+            {
+                for (var i = 0; i < rows.Count; i++)
+                {
+                    if (batchTranslateCancellation.IsCancellationRequested)
+                    {
+                        cancelled = true;
+                        break;
+                    }
+
+                    var row = rows[i];
+                    var paramName = row.Cells[Command.Index].Value?.ToString();
+                    var originalDescription = GetParameterDescription(paramName);
+
+                    if (string.IsNullOrWhiteSpace(paramName) || string.IsNullOrWhiteSpace(originalDescription))
+                        continue;
+
+                    if (ContainsChinese(originalDescription))
+                    {
+                        row.Cells[Desc.Index].Value = originalDescription;
+                        row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(originalDescription);
+                        continue;
+                    }
+
+                    if (translatedDescriptions.TryGetValue(paramName, out var cachedDescription) &&
+                        !string.IsNullOrWhiteSpace(cachedDescription))
+                    {
+                        ApplyTranslatedDescription(row, paramName, cachedDescription);
+                        continue;
+                    }
+
+                    row.Cells[Desc.Index].Value = L("llm.msg.translating", "Translating...");
+                    row.Cells[Desc.Index].ToolTipText = string.Empty;
+
+                    var translated = await LLMTranslationService.TranslateAsync(originalDescription, paramName);
+
+                    if (batchTranslateCancellation.IsCancellationRequested)
+                    {
+                        cancelled = true;
+                        break;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(translated) && !string.Equals(translated, originalDescription))
+                    {
+                        ApplyTranslatedDescription(row, paramName, translated);
+                        translatedCount++;
+                    }
+                    else
+                    {
+                        row.Cells[Desc.Index].Value = originalDescription;
+                        row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(originalDescription);
+                    }
+                }
+            }
+            finally
+            {
+                isTranslating = false;
+                batchTranslateCancellation.Dispose();
+                batchTranslateCancellation = null;
+                UpdateTranslationButtonState();
+            }
+
+            if (cancelled)
+            {
+                CustomMessageBox.Show(
+                    string.Format(L("llm.msg.stopped", "Translation stopped. {0} parameter(s) translated."), translatedCount),
+                    L("llm.title.result", "LLM translation"), MessageBoxButtons.OK);
+            }
+            else if (showBatchMessage)
+            {
+                CustomMessageBox.Show(
+                    string.Format(L("llm.msg.done", "Translation finished. {0} parameter(s) translated."), translatedCount),
+                    L("llm.title.result", "LLM translation"), MessageBoxButtons.OK);
+            }
+        }
+
+        private void BUT_stopTranslate_Click(object sender, EventArgs e)
+        {
+            if (batchTranslateCancellation != null && isTranslating)
+            {
+                batchTranslateCancellation.Cancel();
+            }
+        }
+
+        private void BUT_llmSettings_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new LLMConfigDialog())
+            {
+                ThemeManager.ApplyThemeTo(dialog);
+
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    ConfigureLLMFromSettings();
+                }
+            }
         }
 
         public void Deactivate()
@@ -640,8 +985,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 }
                                 row.Cells[Options.Index].ToolTipText = ans.ToInvariantString();
                             }
-                            row.Cells[Desc.Index].Value = metaDataDescription;
-                            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(metaDataDescription);
+                            var displayDescription = GetDisplayDescription(value, metaDataDescription);
+                            row.Cells[Desc.Index].Value = displayDescription;
+                            row.Cells[Desc.Index].ToolTipText = AddNewLinesForTooltip(displayDescription);
                         }
                     }
                     catch (Exception ex)
