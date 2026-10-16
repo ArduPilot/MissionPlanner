@@ -48,6 +48,7 @@ namespace MissionPlanner.Controls
         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
         public Color TextColorNotEnabled { get { return (_TextColorNotEnabled.IsEmpty) ? _TextColor : _TextColorNotEnabled; } set { _TextColorNotEnabled = value; this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]

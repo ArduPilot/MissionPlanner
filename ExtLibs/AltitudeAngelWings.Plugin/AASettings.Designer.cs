@@ -155,7 +155,6 @@ namespace AltitudeAngelWings.Plugin
             this.but_Disable.Size = new System.Drawing.Size(75, 23);
             this.but_Disable.TabIndex = 46;
             this.but_Disable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsDisableText;
-            this.but_Disable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_Disable.UseVisualStyleBackColor = true;
             this.but_Disable.Click += new System.EventHandler(this.but_Disable_Click);
             // 
@@ -166,7 +165,6 @@ namespace AltitudeAngelWings.Plugin
             this.but_Enable.Size = new System.Drawing.Size(75, 23);
             this.but_Enable.TabIndex = 45;
             this.but_Enable.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsEnableText;
-            this.but_Enable.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_Enable.UseVisualStyleBackColor = true;
             this.but_Enable.Click += new System.EventHandler(this.but_Enable_Click);
             // 
@@ -258,7 +256,6 @@ namespace AltitudeAngelWings.Plugin
             this.but_SignOut.Size = new System.Drawing.Size(75, 23);
             this.but_SignOut.TabIndex = 3;
             this.but_SignOut.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsSignOutText;
-            this.but_SignOut.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_SignOut.UseVisualStyleBackColor = true;
             this.but_SignOut.Click += new System.EventHandler(this.but_SignOut_Click);
             // 
@@ -269,7 +266,6 @@ namespace AltitudeAngelWings.Plugin
             this.but_SignIn.Size = new System.Drawing.Size(75, 23);
             this.but_SignIn.TabIndex = 2;
             this.but_SignIn.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsSignInText;
-            this.but_SignIn.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_SignIn.UseVisualStyleBackColor = true;
             this.but_SignIn.Click += new System.EventHandler(this.but_SignIn_Click);
             // 
@@ -354,7 +350,6 @@ namespace AltitudeAngelWings.Plugin
             this.btn_DefaultLayers.Size = new System.Drawing.Size(75, 31);
             this.btn_DefaultLayers.TabIndex = 44;
             this.btn_DefaultLayers.Text = global::AltitudeAngelWings.Plugin.Properties.Resources.SettingsDefaultLayersText;
-            this.btn_DefaultLayers.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.btn_DefaultLayers.UseVisualStyleBackColor = true;
             this.btn_DefaultLayers.Click += new System.EventHandler(this.btn_DefaultLayers_Click);
             // 

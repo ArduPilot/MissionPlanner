@@ -56,7 +56,6 @@
             this._btnCancel.Size = new System.Drawing.Size(143, 23);
             this._btnCancel.TabIndex = 8;
             this._btnCancel.Text = "Cancel";
-            this._btnCancel.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this._btnCancel.UseVisualStyleBackColor = true;
             this._btnCancel.Click += new System.EventHandler(this._btnCancel_Click);
             // 

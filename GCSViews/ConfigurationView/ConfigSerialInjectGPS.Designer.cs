@@ -629,7 +629,6 @@
             // 
             resources.ApplyResources(this.button_septentriortcminterval, "button_septentriortcminterval");
             this.button_septentriortcminterval.Name = "button_septentriortcminterval";
-            this.button_septentriortcminterval.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.button_septentriortcminterval.UseVisualStyleBackColor = true;
             this.button_septentriortcminterval.Click += new System.EventHandler(this.button_septentriortcminterval_Click);
             // 
@@ -637,7 +636,6 @@
             // 
             resources.ApplyResources(this.button_septentriosetposition, "button_septentriosetposition");
             this.button_septentriosetposition.Name = "button_septentriosetposition";
-            this.button_septentriosetposition.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.button_septentriosetposition.UseVisualStyleBackColor = true;
             this.button_septentriosetposition.Click += new System.EventHandler(this.button_septentriosetposition_Click);
             // 
@@ -645,7 +643,6 @@
             // 
             resources.ApplyResources(this.but_restartsvin, "but_restartsvin");
             this.but_restartsvin.Name = "but_restartsvin";
-            this.but_restartsvin.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.but_restartsvin, resources.GetString("but_restartsvin.ToolTip"));
             this.but_restartsvin.UseVisualStyleBackColor = true;
             this.but_restartsvin.Click += new System.EventHandler(this.but_restartsvin_Click);
@@ -654,7 +651,6 @@
             // 
             resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
             this.but_save_basepos.Name = "but_save_basepos";
-            this.but_save_basepos.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.but_save_basepos, resources.GetString("but_save_basepos.ToolTip"));
             this.but_save_basepos.UseVisualStyleBackColor = true;
             this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
@@ -663,7 +659,6 @@
             // 
             resources.ApplyResources(this.BUT_connect, "BUT_connect");
             this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
