@@ -118,6 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="textBox1.Text" xml:space="preserve">
-    <value>这是什么。 1. 从nmea gps中获取当前GPS记录。 2. 在地图上更新家的位置。（注意不要在MAV上更新家的位置） 如何使用 1. 连接到飞控。 2. 打开这个，为你的nmea gps选择COM口和波特率。 3. 现在已经更新家的位置了。</value>
+    <value>这是做什么的。
+1. 从NMEA GPS获取当前GPS坐标。
+2. 在地图上更新返航点位置（注意：不会更新飞行控制器MAV中的返航点）。
+
+如何使用
+1. 连接到自动驾驶仪。
+2. 打开此程序，为您的NMEA GPS选择串口和波特率。
+3. 现在应开始更新返航点。</value>
   </data>
 </root>

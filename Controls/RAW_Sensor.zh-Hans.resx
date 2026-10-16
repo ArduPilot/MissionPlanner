@@ -121,7 +121,7 @@
     <value>原始传感器</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>原始传感器</value>
+    <value>RAW传感器</value>
   </data>
   <data name="CMB_rawupdaterate.Text" xml:space="preserve">
     <value>更新速度</value>
@@ -130,9 +130,7 @@
     <value>舵机/电机输出</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>注意：
-当通过Xbee
-@ 50hz查看时有延时</value>
+    <value>注意：通过Xbee @ 50Hz查看时存在延迟。</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>遥控输入</value>
@@ -147,13 +145,13 @@
     <value>加速度 Y</value>
   </data>
   <data name="tabRadio.Text" xml:space="preserve">
-    <value>遥控</value>
+    <value>无线电</value>
   </data>
   <data name="tabOrientation.Text" xml:space="preserve">
     <value>飞行数据</value>
   </data>
   <data name="BUT_savecsv.Text" xml:space="preserve">
-    <value>保存 CSV</value>
+    <value>保存CSV</value>
   </data>
   <data name="chkgz.Text" xml:space="preserve">
     <value>陀螺仪 Z</value>
@@ -163,5 +161,11 @@
   </data>
   <data name="chkgy.Text" xml:space="preserve">
     <value>陀螺仪 Y</value>
+  </data><data name="CMB_rawupdaterate.Items2" xml:space="preserve">
+    <value>50</value>
+  </data><data name="CMB_rawupdaterate.Items1" xml:space="preserve">
+    <value>10</value>
+  </data><data name="CMB_rawupdaterate.Items" xml:space="preserve">
+    <value>3</value>
   </data>
 </root>

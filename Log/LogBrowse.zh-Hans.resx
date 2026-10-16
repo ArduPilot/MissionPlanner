@@ -133,9 +133,35 @@
     <value>移除项目</value>
   </data>
   <data name="BUT_Graphit.Text" xml:space="preserve">
-    <value>在左侧绘制这个数据</value>
+    <value>zh-CN: 在左侧绘制这个数据</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>清除图表</value>
+  </data><data name="chk_time.Text" xml:space="preserve">
+    <value>时间</value>
+  </data><data name="chk_mode.Text" xml:space="preserve">
+    <value>模式</value>
+  </data><data name="exportVisibleToolStripMenuItem.Text" xml:space="preserve">
+    <value>导出可见项</value>
+  </data><data name="exportFilesToolStripMenuItem.Text" xml:space="preserve">
+    <value>导出文件</value>
+  </data><data name="label4.Text" xml:space="preserve">
+    <value>GPSB</value>
+  </data><data name="label3.Text" xml:space="preserve">
+    <value>POS</value>
+  </data><data name="label2.Text" xml:space="preserve">
+    <value>GPS2</value>
+  </data><data name="label1.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data><data name="chk_params.Text" xml:space="preserve">
+    <value>显示参数</value>
+  </data><data name="chk_events.Text" xml:space="preserve">
+    <value>事件</value>
+  </data><data name="chk_datagrid.Text" xml:space="preserve">
+    <value>数据表</value>
+  </data><data name="chk_msg.Text" xml:space="preserve">
+    <value>消息</value>
+  </data><data name="chk_errors.Text" xml:space="preserve">
+    <value>错误</value>
   </data>
 </root>

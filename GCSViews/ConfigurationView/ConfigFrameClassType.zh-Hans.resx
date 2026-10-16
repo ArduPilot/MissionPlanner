@@ -131,7 +131,7 @@
     <value>19, 13</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>十</value>
+    <value>加</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>15, 129</value>
@@ -201,7 +201,7 @@
     <value>131, 47</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>注意：X和H是不可互换的，螺旋桨方向有变化</value>
+    <value>注意：X和H不可互换，螺旋桨旋转方向会发生变化</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>33, 402</value>
@@ -210,7 +210,7 @@
     <value>26, 13</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>新Y</value>
+    <value>'Y6B'</value>
   </data>
   <data name="radioButton_Y.Location" type="System.Drawing.Point, System.Drawing">
     <value>62, 402</value>
@@ -228,7 +228,7 @@
     <value>142, 47</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>注意：此为新Y，螺旋桨旋转方向与旧Y不同（旧Y使用'X'的旋转方向）</value>
+    <value>注意：这是Y6B，螺旋桨旋转方向相较旧版Y6A已改变</value>
   </data>
   <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 20</value>
@@ -271,5 +271,25 @@
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>787, 462</value>
+  </data><data name="radio_type_other.Text" xml:space="preserve">
+    <value>其他</value>
+  </data><data name="groupBox3.Text" xml:space="preserve">
+    <value>框架类别</value>
+  </data><data name="radioButtonOctaQuad.Text" xml:space="preserve">
+    <value>八轴四旋翼</value>
+  </data><data name="radioButtonTri.Text" xml:space="preserve">
+    <value>三</value>
+  </data><data name="radioButtonHeli.Text" xml:space="preserve">
+    <value>直升机</value>
+  </data><data name="radioButtonY6.Text" xml:space="preserve">
+    <value>Y6</value>
+  </data><data name="radioButtonOcta.Text" xml:space="preserve">
+    <value>八旋翼</value>
+  </data><data name="radioButtonHexa.Text" xml:space="preserve">
+    <value>Hexa</value>
+  </data><data name="radioButtonQuad.Text" xml:space="preserve">
+    <value>四轴</value>
+  </data><data name="radioButtonUndef.Text" xml:space="preserve">
+    <value>未定义</value>
   </data>
 </root>

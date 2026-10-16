@@ -9,14 +9,19 @@ namespace MissionPlanner.Utilities
 {
     public static class L10NU
     {
-        public static Dictionary<string, string> strings;
+        private static Dictionary<string, string> strings;
+        private static string loadedLang;
 
-        static L10NU()
+        private static void EnsureLoaded()
         {
+            var lang = System.Globalization.CultureInfo.CurrentUICulture.Name;
+            if (strings != null && loadedLang == lang)
+                return;
+
             strings = new Dictionary<string, string>();
+            loadedLang = lang;
             string[] lines = null;
 
-            string lang = System.Globalization.CultureInfo.CurrentUICulture.Name;
             switch (lang)
             {
                 case "zh-CN":
@@ -47,14 +52,12 @@ namespace MissionPlanner.Utilities
 
         public static string GetString(string key, string defaultTo)
         {
-            if (strings.ContainsKey(key))
+            EnsureLoaded();
+            if (strings.TryGetValue(key, out var value))
             {
-                return strings[key];
+                return value;
             }
-            else
-            {
-                return defaultTo;
-            }
+            return defaultTo;
         }
 
         public static string GetString(string key)

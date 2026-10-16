@@ -134,7 +134,7 @@
     <value>41, 12</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>字节/s</value>
+    <value>字节/秒</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 43</value>
@@ -179,7 +179,7 @@
     <value>41, 12</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>字节/s</value>
+    <value>字节/秒</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
     <value>129, 43</value>
@@ -188,7 +188,7 @@
     <value>53, 12</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>数据包/s</value>
+    <value>数据包/秒</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>下载</value>
@@ -204,5 +204,11 @@
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>上传</value>
+  </data><data name="but_reset.Text" xml:space="preserve">
+    <value>重置</value>
+  </data><data name="chk_mavlink2.Text" xml:space="preserve">
+    <value>Mavlink 2</value>
+  </data><data name="chk_signing.Text" xml:space="preserve">
+    <value>签署</value>
   </data>
 </root>

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AskToEnableAltitudeAngel" xml:space="preserve">
+    <value>您是否希望启用Altitude Angel插件？
+
+点击“是”将直接在Mission Planner地图上为您提供Altitude Angel的空域和地面危险数据，  
+让您更轻松地了解哪些区域可飞行或禁飞，从而规划更安全的飞行任务。系统将提示您使用Altitude Angel账户登录，若无账户可注册新账号。
+
+您随时可通过右键点击地图并选择“Altitude Angel设置”来访问此插件的配置选项。
+
+更多信息、隐私政策及条款与条件，请访问：[链接；https://www.altitudeangel.com；www.altitudeangel.com]</value>
+  </data>
+  <data name="ExplicitClickPrefix" xml:space="preserve">
+    <value>Altitude Angel 当前已禁用。</value>
+  </data>
+  <data name="AskToEnableCaption" xml:space="preserve">
+    <value>Altitude Angel 插件</value>
+  </data>
+  <data name="SettingsMenuItemText" xml:space="preserve">
+    <value>Altitude Angel 设置</value>
+  </data>
+  <data name="SettingsAccountTabText" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="SettingsURLDomainSuffixText" xml:space="preserve">
+    <value>URL域名后缀</value>
+  </data>
+  <data name="SettingsClientSecretText" xml:space="preserve">
+    <value>客户端密钥</value>
+  </data>
+  <data name="SettingsClientIDText" xml:space="preserve">
+    <value>客户端ID</value>
+  </data>
+  <data name="SettingsOverrideClientSettingsText" xml:space="preserve">
+    <value>覆盖客户端设置</value>
+  </data>
+  <data name="SettingsWhatIsThisText" xml:space="preserve">
+    <value>这是什么？</value>
+  </data>
+  <data name="SettingsEnableFlightReportingText" xml:space="preserve">
+    <value>启用飞行报告</value>
+  </data>
+  <data name="SettingsSignOutText" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="SettingsSignInText" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="SettingsMapLayersText" xml:space="preserve">
+    <value>地图图层</value>
+  </data>
+  <data name="SettingsPlanMapText" xml:space="preserve">
+    <value>平面图</value>
+  </data>
+  <data name="SettingsDataMapText" xml:space="preserve">
+    <value>数据地图</value>
+  </data>
+  <data name="SettingsDefaultLayersText" xml:space="preserve">
+    <value>默认图层</value>
+  </data>
+  <data name="SettingsOpacityAdjustText" xml:space="preserve">
+    <value>不透明度调整</value>
+  </data>
+  <data name="SettingsGroundDataText" xml:space="preserve">
+    <value>地面数据</value>
+  </data>
+  <data name="SettingsFlightReportingTabText" xml:space="preserve">
+    <value>航班报告</value>
+  </data>
+  <data name="SettingsFlightReportDescriptionText" xml:space="preserve">
+    <value>航班报告描述</value>
+  </data>
+  <data name="SettingsUseLocalConflictScopeText" xml:space="preserve">
+    <value>使用本地冲突范围</value>
+  </data>
+  <data name="SettingsSerialNumberText" xml:space="preserve">
+    <value>序列号</value>
+  </data>
+  <data name="SettingsAllowSMSContactText" xml:space="preserve">
+    <value>允许短信联系</value>
+  </data>
+  <data name="SettingsICAOAddressText" xml:space="preserve">
+    <value>ICAO 地址</value>
+  </data>
+  <data name="SettingsUseExistingFlightPlanIDText" xml:space="preserve">
+    <value>使用现有飞行计划ID</value>
+  </data>
+  <data name="SettingsCommercialFlightText" xml:space="preserve">
+    <value>商业航班</value>
+  </data>
+  <data name="SettingsFlightReportDurationText" xml:space="preserve">
+    <value>飞行报告时长（分钟）</value>
+  </data>
+  <data name="SettingsContactPhoneNumberText" xml:space="preserve">
+    <value>联系电话</value>
+  </data>
+  <data name="SettingsFlightReportNameText" xml:space="preserve">
+    <value>航班报告名称</value>
+  </data>
+  <data name="SettingsAboutTabText" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="SettingsDisableText" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="SettingsEnableText" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="SettingsWindowTitleText" xml:space="preserve">
+    <value>Altitude Angel 设置</value>
+  </data>
+  <data name="PluginAuthor" xml:space="preserve">
+    <value>Altitude Angel</value>
+  </data>
+  <data name="PluginName" xml:space="preserve">
+    <value>Altitude Angel</value>
+  </data>
+  <data name="MissionPlannerAdapterNotifyMessageTitle" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="MissionPlannerAdapterMessageBoxDefaultCaption" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="LoginWindowTitleText" xml:space="preserve">
+    <value>Altitude Angel 登录</value>
+  </data>
+  <data name="WaitWindowTitle" xml:space="preserve">
+    <value>Altitude Angel</value>
+  </data>
+  <data name="MessageCtrlClickPlannerMap" xml:space="preserve">
+    <value>使用 Ctrl + 单击可在飞行规划地图上显示或隐藏 Altitude Angel 地图信息。</value>
+  </data>
+</root>

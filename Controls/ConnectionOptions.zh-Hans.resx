@@ -198,6 +198,40 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>串口输出 - Mavlink</value>
+    <value>连接</value>
+  </data><data name="CMB_baudrate.Items16" xml:space="preserve">
+    <value>1500000</value>
+  </data><data name="CMB_baudrate.Items15" xml:space="preserve">
+    <value>1000000</value>
+  </data><data name="CMB_baudrate.Items14" xml:space="preserve">
+    <value>921600</value>
+  </data><data name="CMB_baudrate.Items13" xml:space="preserve">
+    <value>625000</value>
+  </data><data name="CMB_baudrate.Items12" xml:space="preserve">
+    <value>500000</value>
+  </data><data name="CMB_baudrate.Items11" xml:space="preserve">
+    <value>460800</value>
+  </data><data name="CMB_baudrate.Items10" xml:space="preserve">
+    <value>230400</value>
+  </data><data name="CMB_baudrate.Items9" xml:space="preserve">
+    <value>115200</value>
+  </data><data name="CMB_baudrate.Items8" xml:space="preserve">
+    <value>111100</value>
+  </data><data name="CMB_baudrate.Items7" xml:space="preserve">
+    <value>57600</value>
+  </data><data name="CMB_baudrate.Items6" xml:space="preserve">
+    <value>38400</value>
+  </data><data name="CMB_baudrate.Items5" xml:space="preserve">
+    <value>28800</value>
+  </data><data name="CMB_baudrate.Items4" xml:space="preserve">
+    <value>19200</value>
+  </data><data name="CMB_baudrate.Items3" xml:space="preserve">
+    <value>9600</value>
+  </data><data name="CMB_baudrate.Items2" xml:space="preserve">
+    <value>4800</value>
+  </data><data name="CMB_baudrate.Items1" xml:space="preserve">
+    <value>2400</value>
+  </data><data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>1200</value>
   </data>
 </root>

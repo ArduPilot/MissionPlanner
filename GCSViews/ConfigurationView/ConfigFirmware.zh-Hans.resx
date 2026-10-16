@@ -125,7 +125,7 @@
     <value>图片由Max Levine提供</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>请点击上方图片选择飞机种类</value>
+    <value>请点击上方图片选择“飞行版本”</value>
   </data>
   <data name="CMB_history_label.Text" xml:space="preserve">
     <value>选择以前的固件</value>
@@ -137,10 +137,10 @@
     <value>测试版固件</value>
   </data>
   <data name="lbl_dlfw.Text" xml:space="preserve">
-    <value>从网页下载固件</value>
+    <value>下载固件</value>
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
-    <value>刷写PX4 Bootloader</value>
+    <value>强制刷写PX4 Bootloader</value>
   </data>
   <data name="lbl_licence.Text" xml:space="preserve">
     <value>Ardupilot是自由软件。点击这里阅读开源固件许可。</value>

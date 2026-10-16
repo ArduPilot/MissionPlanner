@@ -156,4 +156,7 @@
   <data name="print" xml:space="preserve">
     <value>打印...</value>
   </data>
+  <data name="unscroll" xml:space="preserve">
+    <value>撤销滚动</value>
+  </data>
 </root>

@@ -118,14 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BadCoords" xml:space="preserve">
-    <value>有问题的经度/纬度</value>
+    <value>错误的纬度/经度</value>
   </data>
   <data name="CannotGraphField" xml:space="preserve">
-    <value>不能绘制这一区域</value>
+    <value>无法绘制此字段</value>
   </data>
   <data name="CommandFailed" xml:space="preserve">
-    <value>命令执行失败
-</value>
+    <value>命令执行失败</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>错误</value>
@@ -134,33 +133,31 @@
     <value>关闭日志文件时错误</value>
   </data>
   <data name="ErrorCommunicating" xml:space="preserve">
-    <value>与自动驾驶仪通讯时错误</value>
+    <value>与自动驾驶仪通信错误</value>
   </data>
   <data name="ErrorConnecting" xml:space="preserve">
-    <value>连接错误
-</value>
+    <value>连接错误</value>
   </data>
   <data name="ErrorFeatureNotEnabled" xml:space="preserve">
-    <value>这个功能在您的固件没有启用</value>
+    <value>此功能在您的固件中未启用</value>
   </data>
   <data name="ErrorFirmwareFile" xml:space="preserve">
-    <value>加载固件时错误</value>
+    <value>加载固件文件时出错</value>
   </data>
   <data name="ErrorLogList" xml:space="preserve">
     <value>接收日志列表时错误</value>
   </data>
   <data name="ErrorNoResponse" xml:space="preserve">
-    <value>错误: 没有来自飞行器的响应</value>
+    <value>错误：MAV无响应</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
-    <value>您还没有连接。</value>
+    <value>您尚未连接。</value>
   </data>
   <data name="ErrorReceivingParams" xml:space="preserve">
-    <value>接收列表时错误
-</value>
+    <value>接收列表错误</value>
   </data>
   <data name="ErrorRejectedByMAV" xml:space="preserve">
-    <value>错误: 飞行器拒绝了命令</value>
+    <value>错误: 命令被MAV拒绝</value>
   </data>
   <data name="ErrorRenameFile" xml:space="preserve">
     <value>重命名文件时出错</value>
@@ -178,29 +175,28 @@
     <value>无效的波特率</value>
   </data>
   <data name="InvalidField" xml:space="preserve">
-    <value>无效的 Field</value>
+    <value>无效的字段</value>
   </data>
   <data name="InvalidFileName" xml:space="preserve">
     <value>无效的文件名</value>
   </data>
   <data name="InvalidNumberEntered" xml:space="preserve">
-    <value>输入的数字无效
-</value>
+    <value>输入的数字无效</value>
   </data>
   <data name="InvalidPanRange" xml:space="preserve">
     <value>无效的 Pan 范围</value>
   </data>
   <data name="InvalidPortName" xml:space="preserve">
-    <value>无效的串口名</value>
+    <value>无效的端口名</value>
   </data>
   <data name="InvalidTiltRange" xml:space="preserve">
     <value>无效的倾斜范围</value>
   </data>
   <data name="InvalidUpdateRate" xml:space="preserve">
-    <value>无效的刷新率</value>
+    <value>无效的更新率</value>
   </data>
   <data name="NoFMTMessage" xml:space="preserve">
-    <value>没有格式(FMT)信息 for</value>
+    <value>没有FMT消息 for</value>
   </data>
   <data name="PleaseConnect" xml:space="preserve">
     <value>请先连接</value>
@@ -209,31 +205,30 @@
     <value>请加载一个有效的文件</value>
   </data>
   <data name="PleaseSelectCell" xml:space="preserve">
-    <value>Please select a cell first</value>
+    <value>请先选择一个单元格</value>
   </data>
   <data name="SelectComport" xml:space="preserve">
-    <value>请先选择一个串口</value>
+    <value>请选择串口</value>
   </data>
   <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
-    <value>日志浏览因您的日志中没有格式(FMT)信息而不能正确工作。
-这些似乎是从您的日志里丢失的。</value>
+    <value>日志浏览功能需要日志中的FMT消息才能正常运行。
+您的日志中似乎缺少这些消息。</value>
   </data>
   <data name="WarningUpdateParamList" xml:space="preserve">
-    <value>更新参数
-如果您的载具在空中，请不要这么做！
-</value>
+    <value>更新参数  
+如果您的载具在空中，请不要这么做！</value>
   </data>
   <data name="Checking" xml:space="preserve">
-    <value>正在检查 </value>
+    <value>正在检查</value>
   </data>
   <data name="DownloadedFromInternet" xml:space="preserve">
-    <value>下载完毕</value>
+    <value>从互联网下载</value>
   </data>
   <data name="Getting" xml:space="preserve">
-    <value>正在获取 </value>
+    <value>正在获取</value>
   </data>
   <data name="GettingUpdatedParams" xml:space="preserve">
-    <value>正在获取更新的参数列表</value>
+    <value>正在获取更新的参数</value>
   </data>
   <data name="AdvancedParams" xml:space="preserve">
     <value>高级参数</value>
@@ -251,10 +246,10 @@
     <value>飞行模式</value>
   </data>
   <data name="FullParameterList" xml:space="preserve">
-    <value>全部参数表</value>
+    <value>完整参数列表</value>
   </data>
   <data name="FullParameterTree" xml:space="preserve">
-    <value>全部参数树</value>
+    <value>完整参数树</value>
   </data>
   <data name="GeoFence" xml:space="preserve">
     <value>地理围栏</value>
@@ -275,24 +270,22 @@
     <value>断开连接</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>创建日志失败 - 将不会记录本次会话</value>
+    <value>创建地面站日志失败 - 本次会话将不记录日志</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>新固件</value>
   </data>
   <data name="NewFirmwareA" xml:space="preserve">
-    <value>有新固件可用
-</value>
+    <value>有新固件可用</value>
   </data>
   <data name="Pleaseup" xml:space="preserve">
-    <value>
-请升级</value>
+    <value>请升级</value>
   </data>
   <data name="Stillmoving" xml:space="preserve">
-    <value>您的模型仍然在移动，确认断开连接？</value>
+    <value>您的模型仍在移动，确定要断开连接吗？</value>
   </data>
   <data name="Timeout" xml:space="preserve">
-    <value>自动扫描超时或者没有mavlink设备</value>
+    <value>等待自动扫描超时/未连接 Mavlink 设备</value>
   </data>
   <data name="ConnectFailed" xml:space="preserve">
     <value>连接失败</value>
@@ -310,7 +303,7 @@
     <value>正在获取参数...</value>
   </data>
   <data name="Gotparam" xml:space="preserve">
-    <value>获得参数 </value>
+    <value>已获取参数</value>
   </data>
   <data name="MavlinkConnecting" xml:space="preserve">
     <value>Mavlink 正在连接...</value>
@@ -319,21 +312,21 @@
     <value>只接收到一次Heartbeat</value>
   </data>
   <data name="Only1HbD" xml:space="preserve">
-    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
-Mission Planner waits for 2 valid heartbeat packets before connecting</value>
+    <value>仅从该端口读取到1个Mavlink心跳数据包——请确认硬件配置正确
+Mission Planner需接收到2个有效心跳数据包后方可建立连接</value>
   </data>
   <data name="Trying" xml:space="preserve">
-    <value>尝试连接。
-在{0}秒后超时</value>
+    <value>正在尝试连接。
+超时时间：{0}</value>
   </data>
   <data name="CantDetectBoardVersion" xml:space="preserve">
-    <value>不能检测到您控制板的版本。 请检查连接</value>
+    <value>无法检测到您的控制板版本。请检查接线。</value>
   </data>
   <data name="CheckPortSettingsOr" xml:space="preserve">
-    <value>检查端口设置或者正在使用端口？</value>
+    <value>检查端口设置或端口正在使用？</value>
   </data>
   <data name="CommunicationErrorNoConnection" xml:space="preserve">
-    <value>通信错误 - 没有连接</value>
+    <value>通信错误 - 无连接</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
     <value>检测到一个</value>
@@ -342,23 +335,22 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在检测控制板的版本</value>
   </data>
   <data name="DownloadingFromInternet" xml:space="preserve">
-    <value>正在下载</value>
+    <value>正在从互联网下载</value>
   </data>
   <data name="EppromChanged" xml:space="preserve">
-    <value>Epprom更改了, 您所有的设置将在更新中丢失,
-您希望继续吗？</value>
+    <value>EEPROM已更改，更新期间您的所有设置将丢失，是否继续？</value>
   </data>
   <data name="EppromFormatChanged" xml:space="preserve">
-    <value>Epprom格式已更改 ({0) vs {1})</value>
+    <value>EEPROM格式已更改 ({0} 对比 {1})</value>
   </data>
   <data name="FailedDownload" xml:space="preserve">
     <value>下载失败</value>
   </data>
   <data name="FailedReadHEX" xml:space="preserve">
-    <value>读取十六进制文件失败</value>
+    <value>读取HEX失败</value>
   </data>
   <data name="FailedToReadHex" xml:space="preserve">
-    <value>读取firmware.hex失败 :</value>
+    <value>读取firmware.hex失败：</value>
   </data>
   <data name="FailedUpload" xml:space="preserve">
     <value>上传失败</value>
@@ -373,19 +365,19 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>无效的控制板类型</value>
   </data>
   <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
-    <value>请在配置选项卡连接并备份配置。</value>
+    <value>请在配置选项卡中连接并备份您的配置。</value>
   </data>
   <data name="ReadingHexFile" xml:space="preserve">
-    <value>正在读取十六进制文件</value>
+    <value>正在读取Hex文件</value>
   </data>
   <data name="ReceivedList" xml:space="preserve">
-    <value>获取列表完成</value>
+    <value>接收列表</value>
   </data>
   <data name="UploadComplete" xml:space="preserve">
     <value>上传完成</value>
   </data>
   <data name="UploadingBytesToBoard" xml:space="preserve">
-    <value>正在上传 {0}字节 到您的控制板</value>
+    <value>正在上传 {0} bytes 到控制板：</value>
   </data>
   <data name="VerifyComplete" xml:space="preserve">
     <value>校验完成</value>
@@ -394,52 +386,52 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>校验固件</value>
   </data>
   <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
-    <value>上传成功，但是校验失败: 输出 {0} 获得 {1} 位于 </value>
+    <value>上传成功，但校验失败：预期 {0} 实际 {1} 位于</value>
   </data>
   <data name="ReadingHex" xml:space="preserve">
-    <value>正在读取十六进制文件</value>
+    <value>正在读取Hex</value>
   </data>
   <data name="Warningrallypointdistance" xml:space="preserve">
-    <value>警告，集结点放置在了比RALLY_LIMIT_KM还大的地方</value>
+    <value>警告：集结点距离超出 RALLY_LIMIT_KM 限制</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>警告</value>
   </data>
   <data name="WarningAC32" xml:space="preserve">
-    <value>警告，如果您是第一次安装AC 3.2，您“必须”重做一次罗盘校准。</value>
+    <value>警告，如果您是第一次安装AC 3.2，您必须重做一次罗盘校准。</value>
   </data>
   <data name="WarningAC31" xml:space="preserve">
-    <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
+    <value>警告，从AC 3.1起，电机将在解锁后转动，可通过MOT_SPIN_ARMED参数配置。</value>
   </data>
   <data name="MagCalibMsg" xml:space="preserve">
     <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
   </data>
   <data name="MissingDataPoints" xml:space="preserve">
-    <value>还缺少数据点。您无论如何也想结束校准吗？</value>
+    <value>缺少数据点。是否仍要继续执行校准？</value>
   </data>
   <data name="RunAnyway" xml:space="preserve">
-    <value>非要运行</value>
+    <value>无论如何运行</value>
   </data>
   <data name="UpdateFound" xml:space="preserve">
     <value>发现更新
 
-您希望现在更新吗？ [link;</value>
+您希望现在更新吗？</value>
   </data>
   <data name="UpdateNow" xml:space="preserve">
-    <value>现在更新</value>
+    <value>立即更新</value>
   </data>
   <data name="RawParamWarning" xml:space="preserve">
     <value>原始参数警告</value>
   </data>
   <data name="RawParamWarningi" xml:space="preserve">
-    <value>本页面所有的值都不会进行大小检查。请再三检查您输入的值。
-如想安全地设置，请使用标准/高级参数</value>
+    <value>本页面所有数值均不进行最小值/最大值验证。请仔细核对您的输入。
+为确保设置安全，请使用标准/高级参数。</value>
   </data>
   <data name="ShowMeAgain" xml:space="preserve">
     <value>再次显示？</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>好的</value>
+    <value>确定</value>
   </data>
   <data name="LinkStats" xml:space="preserve">
     <value>链接统计</value>
@@ -454,22 +446,22 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>开始</value>
   </data>
   <data name="AreYouSureYouWantToUpload" xml:space="preserve">
-    <value>您确认要升级到</value>
+    <value>您确定要上传吗？</value>
   </data>
   <data name="Beta" xml:space="preserve">
-    <value>测试版</value>
+    <value>Beta</value>
   </data>
   <data name="BetaWarning" xml:space="preserve">
-    <value>这些是测试版固件，请您自担风险！！！</value>
+    <value>这是测试版固件，使用风险自负！！！</value>
   </data>
   <data name="CanNotConnectToComPortAnd" xml:space="preserve">
-    <value>不能连接COM口检测控制板类型</value>
+    <value>无法连接到串行端口并检测电路板类型</value>
   </data>
   <data name="Continue" xml:space="preserve">
     <value>继续</value>
   </data>
   <data name="ErrorUploadingFirmware" xml:space="preserve">
-    <value>上载固件错误</value>
+    <value>固件上传错误</value>
   </data>
   <data name="QuestionMark" xml:space="preserve">
     <value>吗？</value>
@@ -484,7 +476,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>自动航点</value>
   </data>
   <data name="EnsurePropsNotOn" xml:space="preserve">
-    <value>确保飞行器没有安装螺旋桨</value>
+    <value>确保您的螺旋桨未安装在飞机/四轴飞行器上</value>
   </data>
   <data name="FailSafe" xml:space="preserve">
     <value>故障保护</value>
@@ -493,7 +485,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>对频错误</value>
   </data>
   <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
-    <value>请将发射机置于对频(bind)模式。接收机正在等待。</value>
+    <value>请将发射机置于对频模式。接收机正在等待。</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>完成</value>
@@ -505,7 +497,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>保存中</value>
   </data>
   <data name="InvalidCert" xml:space="preserve">
-    <value>证书无效</value>
+    <value>无效证书</value>
   </data>
   <data name="Note" xml:space="preserve">
     <value>注意</value>
@@ -515,18 +507,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
 Mission Planner将会在30秒内寻找控制板。</value>
   </data>
   <data name="ThisBoardHasBeenRetired" xml:space="preserve">
-    <value>此控制板已经退出历史舞台了，Mission Planner将会上传最后一个支持的版本到您控制板。</value>
+    <value>此控制板已停止支持，Mission Planner 将为您上传最后可用的版本 (AC 3.2.1/AP 3.4.0)。</value>
   </data>
   <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
     <value>您正在使用不受支持的硬件。
-此控制板没有包含真伪性的有效证书。
-请就为您的硬件签名联系您的硬件提供商。</value>
+此控制板没有有效的真伪性证书。
+请联系您的硬件提供商以进行硬件签名。</value>
   </data>
   <data name="NoNeedToUpload" xml:space="preserve">
     <value>无需上传。当前固件已经安装在控制板上。</value>
   </data>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
-    <value>请在音乐播放完后再点击OK。</value>
+    <value>请等待音乐提示音播放完毕后再点击OK。</value>
   </data>
   <data name="ObtainFromModule" xml:space="preserve">
     <value>从模块获取</value>
@@ -535,19 +527,19 @@ Mission Planner将会在30秒内寻找控制板。</value>
     <value>设置在这</value>
   </data>
   <data name="TrackerHome" xml:space="preserve">
-    <value>追踪器的家</value>
+    <value>追踪器归位</value>
   </data>
   <data name="velocity_variance" xml:space="preserve">
-    <value>velocity variance</value>
+    <value>速度方差</value>
   </data>
   <data name="compass_variance" xml:space="preserve">
-    <value>compass variance</value>
+    <value>罗盘方差</value>
   </data>
   <data name="pos_horiz_variance" xml:space="preserve">
-    <value>pos horiz variance</value>
+    <value>水平位置方差</value>
   </data>
   <data name="pos_vert_variance" xml:space="preserve">
-    <value>pos vert variance</value>
+    <value>垂直位置方差</value>
   </data>
   <data name="terrain_alt_variance" xml:space="preserve">
     <value>地形高度差异</value>
@@ -559,12 +551,99 @@ Mission Planner将会在30秒内寻找控制板。</value>
     <value>无效的家位置</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
-    <value>转换bin文件到log文件</value>
+    <value>正在将bin文件转换为log文件</value>
   </data>
   <data name="UpdateNotFound" xml:space="preserve">
     <value>没有可用更新</value>
   </data>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>无法连接到SITL实例</value>
+  </data><data name="ProgrammedOK" xml:space="preserve">
+    <value>成功写入</value>
+  </data><data name="BadGPSHealth" xml:space="preserve">
+    <value>GPS信号异常</value>
+  </data><data name="BadAirspeed" xml:space="preserve">
+    <value>空速传感器异常</value>
+  </data><data name="BadGyroHealth" xml:space="preserve">
+    <value>陀螺仪状态异常</value>
+  </data><data name="BadAccelHealth" xml:space="preserve">
+    <value>加速度计状态异常</value>
+  </data><data name="BadCompassHealth" xml:space="preserve">
+    <value>罗盘状态异常</value>
+  </data><data name="BadBaroHealth" xml:space="preserve">
+    <value>气压计状态不良</value>
+  </data><data name="BadLiDARHealth" xml:space="preserve">
+    <value>LiDAR 状态异常</value>
+  </data><data name="BadOptFlowHealth" xml:space="preserve">
+    <value>OptFlow状态异常</value>
+  </data><data name="BadorNoTerrainData" xml:space="preserve">
+    <value>地形数据错误或缺失</value>
+  </data><data name="GeofenceBreach" xml:space="preserve">
+    <value>地理围栏违规</value>
+  </data><data name="BadAHRS" xml:space="preserve">
+    <value>AHRS异常</value>
+  </data><data name="NORCReceiver" xml:space="preserve">
+    <value>无RC接收器</value>
+  </data><data name="Scanning_File" xml:space="preserve">
+    <value>正在扫描文件</value>
+  </data><data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
+    <value>放大到中心还是已加载文件的中心？</value>
+  </data><data name="Zoom_To" xml:space="preserve">
+    <value>放大至</value>
+  </data><data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
+    <value>是否要将其加载到飞行数据屏幕？</value>
+  </data><data name="Load_data" xml:space="preserve">
+    <value>加载数据</value>
+  </data><data name="Bad_KML_File" xml:space="preserve">
+    <value>KML文件错误：</value>
+  </data><data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
+    <value>端口未读取到有效心跳信号</value>
+  </data><data name="Bad_Vision_Position" xml:space="preserve">
+    <value>视觉定位不良</value>
+  </data><data name="BadLogging" xml:space="preserve">
+    <value>日志记录错误</value>
+  </data><data name="ParamRefreshRequired" xml:space="preserve">
+    <value>需要参数刷新 - 请按F5键  
+旧值 #{0}  新值 #{1}</value>
+  </data><data name="Failed_to_download_the_SITL_image" xml:space="preserve">
+    <value>下载SITL镜像失败</value>
+  </data><data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
+    <value>当用作Windows应用商店应用时不可用</value>
+  </data><data name="No_firmware_available_for_this_board" xml:space="preserve">
+    <value>此主板无可用固件！</value>
+  </data><data name="OnboardOSD" xml:space="preserve">
+    <value>板载OSD</value>
+  </data><data name="User_Params" xml:space="preserve">
+    <value>用户参数</value>
+  </data><data name="Planner" xml:space="preserve">
+    <value>任务规划器</value>
+  </data><data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data><data name="No_valid_sik_radio" xml:space="preserve">
+    <value>无有效SiK无线电</value>
+  </data><data name="MAVFtp" xml:space="preserve">
+    <value>MAVFtp</value>
+  </data><data name="Bad_Battery" xml:space="preserve">
+    <value>电池故障</value>
+  </data><data name="Bad_Proximity" xml:space="preserve">
+    <value>错误的接近传感器值</value>
+  </data><data name="Bad_SatCom" xml:space="preserve">
+    <value>卫星通信不良</value>
+  </data><data name="Prearm_check_failed" xml:space="preserve">
+    <value>预解锁检查失败 - 请查看消息</value>
+  </data><data name="Invalid_Location" xml:space="preserve">
+    <value>无效位置</value>
+  </data><data name="Loading" xml:space="preserve">
+    <value>正在加载</value>
+  </data><data name="ZeroAltWarningCopter" xml:space="preserve">
+    <value>航点#{0}的海拔高度为零，这意味着没有高度变化！如果您需要零海拔高度，请将其更改为0.01。您要继续还是取消航点上载？</value>
+  </data><data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value>零高度警告</value>
+  </data><data name="ZeroAltWarningPlane" xml:space="preserve">
+    <value>航点编号 {0} 的海拔高度为零。若确实需要零海拔高度，请将其改为 0.01 以确保行为可预测。
+
+在 ArduPlane 中，零海拔高度可能有两种解释方式：实际零海拔高度，或保持当前海拔高度。WAYPOINT 指令通常会遵循零海拔高度设置，而 LOITER 指令通常会将其解释为"使用当前海拔高度"——但仅当高度参照系设为"相对"时成立。未来版本可能存在更多例外情况或变更。
+
+仅在完全理解当前情况下将发生的具体行为时方可设置为零（建议通过模拟器确认）。[链接;https://ardupilot.org/plane/docs/common-mavlink-mission-command-messages-mav_cmd.html;指令文档]</value>
   </data>
 </root>

@@ -121,7 +121,7 @@
     <value>命令</value>
   </data>
   <data name="Command.ToolTipText" xml:space="preserve">
-    <value>APM的命令</value>
+    <value>APM命令</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
     <value>纬度</value>
@@ -165,7 +165,7 @@
 </value>
   </data>
   <data name="Down.ToolTipText" xml:space="preserve">
-    <value>将此行下移</value>
+    <value>向下移动行</value>
   </data>
   <data name="Grad.HeaderText" xml:space="preserve">
     <value>坡度</value>
@@ -219,7 +219,7 @@
     <value>53, 12</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>悬停半径</value>
+    <value>盘旋半径</value>
   </data>
   <data name="label5.ToolTip" xml:space="preserve">
     <value />
@@ -349,7 +349,7 @@
     <value>在下方添加</value>
   </data>
   <data name="BUT_Add.ToolTip" xml:space="preserve">
-    <value>在网格下添加一行</value>
+    <value>在下方网格中添加一行</value>
   </data>
   <data name="panelWaypoints.Text" xml:space="preserve">
     <value>航点</value>
@@ -370,7 +370,7 @@
     <value />
   </data>
   <data name="comboBoxMapType.ToolTip" xml:space="preserve">
-    <value>改变当前地图类型</value>
+    <value>更改当前地图类型</value>
   </data>
   <data name="lnk_kml.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 12</value>
@@ -388,13 +388,13 @@
     <value />
   </data>
   <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>加载航点文件</value>
+    <value>加载文件</value>
   </data>
   <data name="BUT_loadwpfile.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_saveWPFile.Text" xml:space="preserve">
-    <value>保存航点文件</value>
+    <value>保存文件</value>
   </data>
   <data name="BUT_saveWPFile.ToolTip" xml:space="preserve">
     <value />
@@ -406,7 +406,7 @@
     <value />
   </data>
   <data name="panelAction.Text" xml:space="preserve">
-    <value>行动</value>
+    <value>操作</value>
   </data>
   <data name="panelAction.ToolTip" xml:space="preserve">
     <value />
@@ -433,7 +433,7 @@
     <value>41, 12</value>
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
-    <value>上一点</value>
+    <value>上一航点</value>
   </data>
   <data name="lbl_prevdist.ToolTip" xml:space="preserve">
     <value />
@@ -460,7 +460,7 @@
     <value>100, 22</value>
   </data>
   <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
-    <value>永远</value>
+    <value>永久</value>
   </data>
   <data name="loitertimeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 22</value>
@@ -478,7 +478,7 @@
     <value>153, 22</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
-    <value>Loiter留待</value>
+    <value>留待模式</value>
   </data>
   <data name="jumpstartToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>124, 22</value>
@@ -520,7 +520,7 @@
     <value>153, 22</value>
   </data>
   <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
-    <value>设定兴趣区域</value>
+    <value>设定ROI</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -535,7 +535,7 @@
     <value>148, 22</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>添加多边形点</value>
+    <value>绘制多边形</value>
   </data>
   <data name="clearPolygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
@@ -553,13 +553,13 @@
     <value>148, 22</value>
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
-    <value>下载</value>
+    <value>加载多边形</value>
   </data>
   <data name="fromSHPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
   </data>
   <data name="fromSHPToolStripMenuItem.Text" xml:space="preserve">
-    <value>来自SHP</value>
+    <value>从SHP</value>
   </data>
   <data name="polygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -571,7 +571,7 @@
     <value>172, 22</value>
   </data>
   <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>设定集结点</value>
+    <value>设置集结点</value>
   </data>
   <data name="getRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>172, 22</value>
@@ -601,7 +601,7 @@
     <value>172, 22</value>
   </data>
   <data name="loadFromFileToolStripMenuItem1.Text" xml:space="preserve">
-    <value>下载档案</value>
+    <value>从文件加载集结点</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -622,7 +622,7 @@
     <value>148, 22</value>
   </data>
   <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
-    <value>上载</value>
+    <value>上传</value>
   </data>
   <data name="GeoFencedownloadToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
@@ -634,7 +634,7 @@
     <value>148, 22</value>
   </data>
   <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>设置返回位置</value>
+    <value>设置返航位置</value>
   </data>
   <data name="loadFromFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 22</value>
@@ -652,7 +652,7 @@
     <value>153, 22</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
-    <value>极限范围</value>
+    <value>地理围栏</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 22</value>
@@ -670,7 +670,7 @@
     <value>136, 22</value>
   </data>
   <data name="createSplineCircleToolStripMenuItem.Text" xml:space="preserve">
-    <value>创建曲线圈</value>
+    <value>创建样条曲线圆</value>
   </data>
   <data name="autoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -700,13 +700,13 @@
     <value>216, 22</value>
   </data>
   <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
-    <value>读取</value>
+    <value>预取</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 22</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
-    <value>预读取航点路径(离线地图)</value>
+    <value>预读取航点路径</value>
   </data>
   <data name="kMLOverlayToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>216, 22</value>
@@ -742,7 +742,7 @@
     <value>150, 22</value>
   </data>
   <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
-    <value>下载与附加</value>
+    <value>加载并追加</value>
   </data>
   <data name="saveWPFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
@@ -766,7 +766,7 @@
     <value>153, 22</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
-    <value>档案下载/保存</value>
+    <value>文件加载/保存</value>
   </data>
   <data name="poiaddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 22</value>
@@ -796,7 +796,7 @@
     <value>153, 22</value>
   </data>
   <data name="trackerHomeToolStripMenuItem.Text" xml:space="preserve">
-    <value>追踪器的家</value>
+    <value>追踪器归位</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
@@ -814,13 +814,13 @@
     <value>153, 22</value>
   </data>
   <data name="enterUTMCoordToolStripMenuItem.Text" xml:space="preserve">
-    <value>进入UTM坐标</value>
+    <value>输入UTM坐标</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>153, 22</value>
   </data>
   <data name="switchDockingToolStripMenuItem.Text" xml:space="preserve">
-    <value>交换停靠菜单</value>
+    <value>切换停靠界面</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>154, 494</value>
@@ -835,7 +835,7 @@
     <value />
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>放大</value>
+    <value>缩放</value>
   </data>
   <data name="label11.ToolTip" xml:space="preserve">
     <value />
@@ -851,5 +851,107 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data><data name="but_writewpfast.Text" xml:space="preserve">
+    <value>快速写入</value>
+  </data><data name="TXT_loiterrad.Text" xml:space="preserve">
+    <value>45</value>
+  </data><data name="TXT_DefaultAlt.Text" xml:space="preserve">
+    <value>100</value>
+  </data><data name="TXT_WPRad.Text" xml:space="preserve">
+    <value>30</value>
+  </data><data name="chk_usemavftp.Text" xml:space="preserve">
+    <value>MAVFTP</value>
+  </data><data name="but_mincommands.Text" xml:space="preserve">
+    <value>˅</value>
+  </data><data name="CMB_altmode.Text" xml:space="preserve">
+    <value>相对的</value>
+  </data><data name="TXT_altwarn.Text" xml:space="preserve">
+    <value>0</value>
+  </data><data name="Param1.HeaderText" xml:space="preserve">
+    <value>参数1</value>
+  </data><data name="Param2.HeaderText" xml:space="preserve">
+    <value>参数2</value>
+  </data><data name="Param3.HeaderText" xml:space="preserve">
+    <value>参数3</value>
+  </data><data name="Param4.HeaderText" xml:space="preserve">
+    <value>参数4</value>
+  </data><data name="Frame.HeaderText" xml:space="preserve">
+    <value>参考系</value>
+  </data><data name="coordZone.HeaderText" xml:space="preserve">
+    <value>区域</value>
+  </data><data name="coordEasting.HeaderText" xml:space="preserve">
+    <value>东距</value>
+  </data><data name="coordNorthing.HeaderText" xml:space="preserve">
+    <value>北向</value>
+  </data><data name="MGRS.HeaderText" xml:space="preserve">
+    <value>MGRS</value>
+  </data><data name="Angle.HeaderText" xml:space="preserve">
+    <value>角度</value>
+  </data><data name="TagData.HeaderText" xml:space="preserve">
+    <value>标签数据</value>
+  </data><data name="BUT_InjectCustomMap.Text" xml:space="preserve">
+    <value>注入自定义地图</value>
+  </data><data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>更改缩放级别</value>
+  </data><data name="offsetPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>偏移多边形</value>
+  </data><data name="fromCurrentWaypointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>从当前航点</value>
+  </data><data name="fromSHPToolStripMenuItem2.Text" xml:space="preserve">
+    <value>从SHP</value>
+  </data><data name="loadPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>加载多边形</value>
+  </data><data name="savePolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>保存多边形</value>
+  </data><data name="clearPolygonToolStripMenuItem2.Text" xml:space="preserve">
+    <value>清除多边形</value>
+  </data><data name="addPolygonPointToolStripMenuItem2.Text" xml:space="preserve">
+    <value>绘制多边形</value>
+  </data><data name="currentPositionToolStripMenuItem.Text" xml:space="preserve">
+    <value>在当前位置</value>
+  </data><data name="cmb_missiontype.Items2" xml:space="preserve">
+    <value>集结</value>
+  </data><data name="cmb_missiontype.Items1" xml:space="preserve">
+    <value>围栏</value>
+  </data><data name="cmb_missiontype.Items" xml:space="preserve">
+    <value>任务</value>
+  </data><data name="lbl_wpfile.Text" xml:space="preserve">
+    <value>...</value>
+  </data><data name="areaToolStripMenuItem2.Text" xml:space="preserve">
+    <value>区域</value>
+  </data><data name="clearToolStripMenuItem.Text" xml:space="preserve">
+    <value>清除</value>
+  </data><data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>在此处设为家</value>
+  </data><data name="convertWPToPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>从当前航点</value>
+  </data><data name="offsetPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>偏移多边形</value>
+  </data><data name="drawAPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>绘制多边形</value>
+  </data><data name="toolStripMenuItem3.Text" xml:space="preserve">
+    <value>1</value>
+  </data><data name="areaToolStripMenuItem1.Text" xml:space="preserve">
+    <value>区域</value>
+  </data><data name="textToolStripMenuItem.Text" xml:space="preserve">
+    <value>文本</value>
+  </data><data name="createCircleSurveyToolStripMenuItem.Text" xml:space="preserve">
+    <value>创建圆形测绘区域</value>
+  </data><data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>测绘（网格）</value>
+  </data><data name="gDALOpacityToolStripMenuItem.Text" xml:space="preserve">
+    <value>GDAL不透明度</value>
+  </data><data name="fenceInclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>围栏包含</value>
+  </data><data name="fenceExclusionToolStripMenuItem.Text" xml:space="preserve">
+    <value>围栏排除</value>
+  </data><data name="testToolStripMenuItem.Text" xml:space="preserve">
+    <value>测试</value>
+  </data><data name="zoomToVehicleToolStripMenuItem.Text" xml:space="preserve">
+    <value>缩放到载具位置</value>
+  </data><data name="zoomToMissionToolStripMenuItem.Text" xml:space="preserve">
+    <value>缩放到任务</value>
+  </data><data name="zoomToHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>缩放到返航点</value>
   </data>
 </root>
