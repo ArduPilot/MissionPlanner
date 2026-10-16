@@ -383,6 +383,7 @@ namespace MissionPlanner.GCSViews
             {
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
+                MainV2.comPort.MAV.wps.Clear();
                 MainV2.comPort.MAV.wps[0] = new Locationwp().Set(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng, MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt, 0);
                 int a = 1;
