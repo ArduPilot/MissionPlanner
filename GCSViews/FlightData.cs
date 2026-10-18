@@ -4370,8 +4370,9 @@ namespace MissionPlanner.GCSViews
                         prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
                             MainV2.comPort.MAV.cs.battery_kmleft);
 
-                        prop.alt = MainV2.comPort.MAV.cs.alt;
-                        prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                        // in metres, like the terrain they are compared with
+                        prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                        prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                         prop.center = gMapControl1.Position;
 
                         // Update camera bounds

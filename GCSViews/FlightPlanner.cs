@@ -6893,10 +6893,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (isMouseDown || CurentRectMarker != null)
                     return;
 
-                prop.alt = MainV2.comPort.MAV.cs.alt;
-                prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                // in metres, like the terrain they are compared with; the planned home altitude
+                // is kept in display units, as typed in the home alt box
+                prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                 prop.center = MainMap.Position;
-                prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
+                var plannedhome = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation);
+                plannedhome.Alt /= CurrentState.multiplieralt;
+                prop.Update(plannedhome, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
                 // clear every 10 seconds
