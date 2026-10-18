@@ -1063,7 +1063,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// The altitude Verify Height gives a waypoint: Default Alt above the terrain under it,
         /// expressed in the waypoint's frame. Terrain heights are metres; the result is in display
-        /// units (multiplier = CurrentState.multiplieralt).
+        /// units (multiplier = CurrentState.multiplieralt), rounded to the nearest whole unit.
         /// </summary>
         internal static int VerifiedAltitude(altmode frame, double terrainAtPoint, double terrainAtHome,
             int defaultAlt, float multiplier)
@@ -1071,12 +1071,19 @@ namespace MissionPlanner.GCSViews
             switch (frame)
             {
                 case altmode.Absolute:
-                    return (int) (terrainAtPoint * multiplier + defaultAlt);
+                    return RoundAltitude(terrainAtPoint * multiplier + defaultAlt);
                 case altmode.Terrain:
                     return defaultAlt;
                 default: // relative to home
-                    return (int) ((terrainAtPoint - terrainAtHome) * multiplier + defaultAlt);
+                    return RoundAltitude((terrainAtPoint - terrainAtHome) * multiplier + defaultAlt);
             }
+        }
+
+        // a cast truncates toward zero: every positive result would lose up to a whole unit of
+        // clearance, and a negative one would gain it
+        static int RoundAltitude(double alt)
+        {
+            return (int) Math.Round(alt, MidpointRounding.AwayFromZero);
         }
 
         /// <summary>
