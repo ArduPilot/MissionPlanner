@@ -694,7 +694,7 @@ namespace MissionPlanner.Joystick
                                 if (!Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_AUX_FUNCTION, function, level, 0, 0, 0, 0, 0))
                                 {
                                     // leave auxstate as it was: the vehicle did not change
-                                    CustomMessageBox.Show("Aux function " + function + " was rejected by the vehicle (needs ArduPilot 4.1 or later, and the option must be supported by this vehicle)", "Aux_Function");
+                                    CustomMessageBox.Show("Aux function " + function + " was rejected by the vehicle (needs ArduPilot 4.1 or later, and the option must be supported by this vehicle)", "Aux Function");
                                     return;
                                 }
 
@@ -705,7 +705,7 @@ namespace MissionPlanner.Joystick
                             catch (Exception ex)
                             {
                                 log.Error("Joystick Aux_Function " + but.p1 + " failed", ex);
-                                CustomMessageBox.Show("Failed to Aux_Function: " + ex.Message, "Aux_Function");
+                                CustomMessageBox.Show("Aux function " + (int) but.p1 + " failed: " + ex.Message, "Aux Function");
                             }
                         }, null);
                         break;
