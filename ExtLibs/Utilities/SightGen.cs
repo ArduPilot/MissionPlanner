@@ -24,8 +24,9 @@ namespace MissionPlanner.Utilities
         double base_height;
 
         /// <summary>
-        /// True when a bearing stopped early because its terrain is not loaded yet (the tile is
-        /// still downloading, or the map is offline). The outline should be worked out again later.
+        /// True when the terrain at home or along a bearing is not loaded yet (the tile is still
+        /// downloading, or the map is offline), so the outline stopped early and should be worked
+        /// out again later.
         /// </summary>
         public bool MissingTerrain { get; private set; }
 
@@ -66,17 +67,26 @@ namespace MissionPlanner.Utilities
             // The home altitude is a GPS or typed value and can be metres off the terrain model,
             // enough to put the antenna underground so that every bearing ends at home.
             var ground = srtm.getAltitude(location.Lat, location.Lng);
-            if (ground.currenttype != srtm.tiletype.invalid)
+            var homeknown = ground.currenttype != srtm.tiletype.invalid;
+            if (homeknown)
             {
                 drone_alt += ground.alt - homealt;
                 homealt = ground.alt;
+            }
+            else
+            {
+                // No terrain at home yet, so the antenna cannot be placed: every bearing stops at
+                // home and the outline is worked out again later. Without this, a tile that arrives
+                // between this sample and the bearings would give an outline measured from the GPS
+                // home altitude, with nothing to ask for it again.
+                MissingTerrain = true;
             }
 
             SortedDictionary<double,PointLatLngAlt> sortedlist = new SortedDictionary<double, PointLatLngAlt>();
 
             Parallel.ForEach(Extensions.SteppedRange(0, 360, rotational), bearing =>  //Terrain intercept scan full 360
             {
-                var point = getSRTMAltPath(location, bearing);
+                var point = homeknown ? getSRTMAltPath(location, bearing) : new PointLatLngAlt(location);
 
                 lock(sortedlist)
                     sortedlist.Add(bearing, point);
