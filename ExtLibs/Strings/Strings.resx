@@ -201,6 +201,9 @@
   <data name="EnterHomeLocation" xml:space="preserve">
     <value>Enter Home Location</value>
   </data>
+  <data name="EnterPOICoords" xml:space="preserve">
+    <value>Enter POI Coords</value>
+  </data>
   <data name="InvalidAltitude" xml:space="preserve">
     <value>Invalid altitude: {0}</value>
   </data>

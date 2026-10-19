@@ -5172,6 +5172,12 @@ namespace MissionPlanner.GCSViews
             POI.POIAdd(point);
         }
 
+        public void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // frame defaults to whatever the mouse position readout is showing
+            CoordsInputBox.AddPOI(this, coords1.System);
+        }
+
         public void poideleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (CurrentPOIMarker == null)

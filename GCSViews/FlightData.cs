@@ -6135,18 +6135,7 @@ namespace MissionPlanner.GCSViews
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // frame defaults to whatever the mouse position readout is showing
-            var point = CoordsInputBox.Show(this, "Enter POI Coords", coords1.System, out var hasAlt);
-            if (point == null)
-                return;
-
-            // POI altitude is metres. Typed altitude is in the display unit; otherwise use the
-            // ground height at the POI itself.
-            if (hasAlt)
-                point.Alt = point.Alt / CurrentState.multiplieralt;
-            else
-                point.Alt = srtm.getAltitude(point.Lat, point.Lng).alt;
-
-            POI.POIAdd(point);
+            CoordsInputBox.AddPOI(this, coords1.System);
         }
 
         private void hud1_Load(object sender, EventArgs e)

@@ -2315,6 +2315,12 @@
   <data name="poiaddToolStripMenuItem.Text" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="poiatcoordsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 22</value>
+  </data>
+  <data name="poiatcoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Coords</value>
+  </data>
   <data name="poideleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>107, 22</value>
   </data>
@@ -3102,6 +3108,12 @@
     <value>poiaddToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;poiaddToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;poiatcoordsToolStripMenuItem.Name" xml:space="preserve">
+    <value>poiatcoordsToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;poiatcoordsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;poideleteToolStripMenuItem.Name" xml:space="preserve">

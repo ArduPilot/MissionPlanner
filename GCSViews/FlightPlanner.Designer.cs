@@ -198,6 +198,7 @@ namespace MissionPlanner.GCSViews
             this.loadSHPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poiaddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.poiatcoordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poideleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poieditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1366,6 +1367,7 @@ namespace MissionPlanner.GCSViews
             // 
             this.pOIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.poiaddToolStripMenuItem,
+            this.poiatcoordsToolStripMenuItem,
             this.poideleteToolStripMenuItem,
             this.poieditToolStripMenuItem});
             this.pOIToolStripMenuItem.Name = "pOIToolStripMenuItem";
@@ -1376,6 +1378,12 @@ namespace MissionPlanner.GCSViews
             this.poiaddToolStripMenuItem.Name = "poiaddToolStripMenuItem";
             resources.ApplyResources(this.poiaddToolStripMenuItem, "poiaddToolStripMenuItem");
             this.poiaddToolStripMenuItem.Click += new System.EventHandler(this.poiaddToolStripMenuItem_Click);
+            // 
+            // poiatcoordsToolStripMenuItem
+            // 
+            this.poiatcoordsToolStripMenuItem.Name = "poiatcoordsToolStripMenuItem";
+            resources.ApplyResources(this.poiatcoordsToolStripMenuItem, "poiatcoordsToolStripMenuItem");
+            this.poiatcoordsToolStripMenuItem.Click += new System.EventHandler(this.poiatcoordsToolStripMenuItem_Click);
             // 
             // poideleteToolStripMenuItem
             // 
@@ -1680,6 +1688,7 @@ namespace MissionPlanner.GCSViews
         public TextBox TXT_altwarn;
         public ToolStripMenuItem pOIToolStripMenuItem;
         public ToolStripMenuItem poiaddToolStripMenuItem;
+        public ToolStripMenuItem poiatcoordsToolStripMenuItem;
         public ToolStripMenuItem poideleteToolStripMenuItem;
         public ToolStripMenuItem poieditToolStripMenuItem;
         public ToolStripMenuItem enterUTMCoordToolStripMenuItem;

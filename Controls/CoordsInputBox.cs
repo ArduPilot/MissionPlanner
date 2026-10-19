@@ -48,6 +48,26 @@ namespace MissionPlanner.Controls
             }
         }
 
+        /// <summary>
+        /// Ask for a POI position and add it. POI altitudes are metres: a typed altitude is taken
+        /// in the display unit, otherwise the POI gets the ground height at its own position.
+        /// </summary>
+        /// <param name="owner">owning window</param>
+        /// <param name="defaultSystem">Coords.CoordsSystems name to preselect (GEO, UTM, MGRS)</param>
+        public static void AddPOI(IWin32Window owner, string defaultSystem)
+        {
+            var point = Show(owner, Strings.EnterPOICoords, defaultSystem, out var hasAlt);
+            if (point == null)
+                return;
+
+            if (hasAlt)
+                point.Alt = point.Alt / CurrentState.multiplieralt;
+            else
+                point.Alt = srtm.getAltitude(point.Lat, point.Lng).alt;
+
+            POI.POIAdd(point);
+        }
+
         private CoordsInputBox(string title, string defaultSystem)
         {
             Text = title;

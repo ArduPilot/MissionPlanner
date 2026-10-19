@@ -584,6 +584,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter POI Coords.
+        /// </summary>
+        public static string EnterPOICoords {
+            get {
+                return ResourceManager.GetString("EnterPOICoords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Epprom changed, all your setting will be lost during the update,
         ///Do you wish to continue?.
         /// </summary>
