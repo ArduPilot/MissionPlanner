@@ -116,11 +116,11 @@ namespace MissionPlanner.ArduPilot
                 case Field.Format:
                     return new[] { fw.Format };
                 case Field.UsbId:
-                    return fw.Usbid ?? new string[0];
+                    return fw.Usbid ?? Array.Empty<string>();
                 case Field.BoardId:
                     return new[] { fw.BoardId.ToString() };
                 case Field.BootloaderStr:
-                    return fw.BootloaderStr ?? new string[0];
+                    return fw.BootloaderStr ?? Array.Empty<string>();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(field));
             }

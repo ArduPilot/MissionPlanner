@@ -40,7 +40,10 @@ namespace MissionPlanner.Controls
 
             if (knownDevice)
             {
-                var platform = device.Value.board.Replace("-BL", "");
+                // a board in its bootloader reports "<platform>-BL"
+                var platform = device.Value.board;
+                if (platform.EndsWith("-BL", StringComparison.Ordinal))
+                    platform = platform.Substring(0, platform.Length - 3);
                 if (_filter.GetOptions(Field.Platform).Contains(platform))
                     _filter.Set(Field.Platform, platform);
             }
