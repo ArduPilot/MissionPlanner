@@ -180,7 +180,8 @@ namespace MissionPlanner.Controls
         public APFirmware.FirmwareInfo SelectedFirmware { get; private set; }
 
         /// <summary>
-        /// For a detected board only platform, and release type/version when there is a real choice, are shown.
+        /// For a detected board only platform, and vehicle type/release type/version when there is a real choice, are shown.
+        /// Vehicle type only has a choice on the "all options" path, which passes the whole manifest.
         /// </summary>
         private bool ShowForKnownDevice(Field field)
         {
@@ -188,6 +189,7 @@ namespace MissionPlanner.Controls
             {
                 case Field.Platform:
                     return true;
+                case Field.MavType:
                 case Field.VersionType:
                 case Field.Version:
                     return _filter.GetOptions(field).Count > 1;
