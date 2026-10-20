@@ -106,6 +106,28 @@ namespace MissionPlanner.ArduPilot.Tests
         }
 
         [TestMethod()]
+        public void BootloaderStrField()
+        {
+            var list = Sample();
+            list[0].BootloaderStr = new[] { "CubeOrange-BL", "CubeOrange" };
+            list[1].BootloaderStr = new[] { "CubeOrange-BL" };
+            list[5].BootloaderStr = null;
+            var filter = new FirmwareFilter(list);
+
+            // entries with no or null bootloader strings are skipped, not an empty option
+            CollectionAssert.AreEqual(new[] { "CubeOrange", "CubeOrange-BL" },
+                filter.GetOptions(Field.BootloaderStr));
+
+            filter.Set(Field.BootloaderStr, "CubeOrange-BL");
+            Assert.AreEqual(2, filter.GetMatches().Count);
+
+            filter.Set(Field.BootloaderStr, "CubeOrange");
+            var matches = filter.GetMatches();
+            Assert.AreEqual(1, matches.Count);
+            Assert.AreEqual("CubeOrange", matches[0].Platform);
+        }
+
+        [TestMethod()]
         public void NumericOrdering()
         {
             var list = new List<APFirmware.FirmwareInfo>
