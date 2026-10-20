@@ -30,6 +30,8 @@ namespace MissionPlanner.Controls
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private GimbalControlSettings preferences = new GimbalControlSettings();
+        private CameraCustomSettingsForm customSettingsForm;
+        private Tuple<uint, byte> settingsCameraAddress;
 
         private readonly GStreamer _stream = new GStreamer();
 
@@ -293,6 +295,7 @@ namespace MissionPlanner.Controls
         {
             if (disposing)
             {
+                customSettingsForm?.Dispose();
                 Stop();
                 if (components != null)
                 {
@@ -328,6 +331,8 @@ namespace MissionPlanner.Controls
             };
             if (form.ShowDialog() == DialogResult.OK)
             {
+                settingsCameraAddress = form.CameraAddress.HasValue
+                    ? Tuple.Create(form.CameraAddress.Value.System, form.CameraAddress.Value.Component) : null;
                 _stream.Start(form.gstreamer_pipeline);
             }
         }
@@ -701,6 +706,7 @@ namespace MissionPlanner.Controls
             takePictureToolStripMenuItem.Enabled = selectedCamera?.CanCaptureImage ?? false;
             startRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
             stopRecordingToolStripMenuItem.Enabled = selectedCamera?.CanCaptureVideo ?? false;
+            customSettingsToolStripMenuItem.Enabled = ResolveSettingsCamera()?.MavState != null;
 
             if (selectedCamera != null)
             {
@@ -762,6 +768,51 @@ namespace MissionPlanner.Controls
             }
         }
 
+        private CameraProtocol ResolveSettingsCamera()
+        {
+            var port = MainV2.comPort;
+            if (port == null) return null;
+            var address = settingsCameraAddress;
+            if (address != null)
+            {
+                if (port.MAVlist.Contains(address.Item1, address.Item2))
+                {
+                    var camera = port.MAVlist[address.Item1, address.Item2].Camera;
+                    if (camera?.MavState != null) return camera;
+                }
+                return null;
+            }
+            if (_selectedCamera != null) return _selectedCamera;
+            var cameras = port.MAVlist.Where(m => m.sysid == port.sysidcurrent && m.Camera?.MavState != null).ToList();
+            string uri = Settings.Instance["gimbal_video_stream", ""];
+            foreach (var stream in CameraProtocol.VideoStreams)
+                if (stream.Key.Item1 == port.sysidcurrent && System.Text.Encoding.UTF8.GetString(stream.Value.uri).Split('\0')[0] == uri)
+                {
+                    var camera = cameras.FirstOrDefault(m => m.compid == stream.Key.Item2)?.Camera;
+                    if (camera != null) return camera;
+                }
+            return cameras.Select(m => m.Camera).FirstOrDefault(c => c.CameraInformation.cam_definition_uri?.Any(b => b != 0) == true)
+                ?? selectedCamera;
+        }
+
+        private void customSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var camera = ResolveSettingsCamera();
+            if (camera?.MavState == null) return;
+            if (customSettingsForm != null && !customSettingsForm.IsDisposed)
+            {
+                if (ReferenceEquals(customSettingsForm.Camera, camera))
+                {
+                    customSettingsForm.BringToFront();
+                    customSettingsForm.Activate();
+                    return;
+                }
+                customSettingsForm.Close();
+            }
+            customSettingsForm = new CameraCustomSettingsForm(camera);
+            customSettingsForm.Show(FindForm());
+        }
+
         private void AutoConnectTimerCallback(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (CameraProtocol.VideoStreams.Count < 1)
@@ -778,17 +829,20 @@ namespace MissionPlanner.Controls
 
             string previous_stream = Settings.Instance["gimbal_video_stream", ""];
             // See if any of the streams are the last one used
-            foreach (var stream in CameraProtocol.VideoStreams.Values)
+            foreach (var stream in CameraProtocol.VideoStreams)
             {
-                if (System.Text.Encoding.UTF8.GetString(stream.uri).Split('\0')[0] == previous_stream)
+                if (System.Text.Encoding.UTF8.GetString(stream.Value.uri).Split('\0')[0] == previous_stream)
                 {
-                    _stream.Start(CameraProtocol.GStreamerPipeline(stream));
+                    settingsCameraAddress = Tuple.Create(stream.Key.Item1, stream.Key.Item2);
+                    _stream.Start(CameraProtocol.GStreamerPipeline(stream.Value));
                     return;
                 }
             }
 
             // If not, just use the first one
-            var first_stream = CameraProtocol.VideoStreams.First().Value;
+            var first = CameraProtocol.VideoStreams.First();
+            settingsCameraAddress = Tuple.Create(first.Key.Item1, first.Key.Item2);
+            var first_stream = first.Value;
             Settings.Instance["gimbal_video_stream"] = System.Text.Encoding.UTF8.GetString(first_stream.uri).Split('\0')[0];
             _stream.Start(CameraProtocol.GStreamerPipeline(first_stream));
             return;
