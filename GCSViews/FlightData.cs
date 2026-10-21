@@ -686,7 +686,14 @@ namespace MissionPlanner.GCSViews
 
                     log.Info("Open logfile " + file);
 
-                    MainV2.comPort.getHeartBeat();
+                    // the GCS that recorded the log may have another sysid than ours, and if its heartbeat comes
+                    // first it becomes the current MAV; getHeartBeat skips GCS heartbeats, so take the vehicle from it
+                    var hb = MainV2.comPort.getHeartBeat();
+                    if (hb.Length > 5)
+                    {
+                        MainV2.comPort.sysidcurrent = hb.sysid;
+                        MainV2.comPort.compidcurrent = hb.compid;
+                    }
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
