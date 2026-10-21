@@ -79,7 +79,9 @@ namespace MissionPlanner.ArduPilot
                     return values.OrderBy(a => { long l; return long.TryParse(a, out l) ? l : long.MaxValue; })
                         .ThenBy(a => a, StringComparer.Ordinal).ToList();
                 case Field.Version:
-                    return values.OrderBy(a => { Version v; return Version.TryParse(a, out v) ? v : new Version(); })
+                    // unparseable versions go last, as unparseable board ids do
+                    return values.OrderBy(a => { Version v; return Version.TryParse(a, out v) ? 0 : 1; })
+                        .ThenBy(a => { Version v; return Version.TryParse(a, out v) ? v : null; })
                         .ThenBy(a => a, StringComparer.Ordinal).ToList();
                 default:
                     return values.OrderBy(a => a, StringComparer.OrdinalIgnoreCase).ToList();
