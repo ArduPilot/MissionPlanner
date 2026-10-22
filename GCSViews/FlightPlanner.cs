@@ -1110,8 +1110,8 @@ namespace MissionPlanner.GCSViews
 
         /// <summary>
         /// Verify Height for one point: Default Alt above the terrain at lat/lng, in the given frame.
-        /// Returns false when there is no terrain data for the point (or for home, in the relative
-        /// frame), which happens while the SRTM tile is still downloading.
+        /// Returns false, with alt at Default Alt, when there is no terrain data for the point (or
+        /// for home, in the relative frame), which happens while the SRTM tile is still downloading.
         /// </summary>
         private bool TryVerifyHeight(double lat, double lng, altmode frame, int defaultAlt, out int alt)
         {
@@ -1138,23 +1138,22 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// The frame of a grid row (its Frame cell), falling back to the Alt mode dropdown.
+        /// The frame of a grid row (its Frame cell), falling back to the Alt mode dropdown when the
+        /// cell holds no frame number. Null for a frame the Plan page does not use (local, body,
+        /// mission frames), whose X and Y are not a latitude and longitude.
         /// </summary>
-        private altmode RowAltMode(DataGridViewRow row)
+        private altmode? RowAltMode(DataGridViewRow row)
         {
             try
             {
-                var mode = AltModeOfFrame(Convert.ToInt32(row.Cells[Frame.Index].Value));
-                if (mode.HasValue)
-                    return mode.Value;
+                return AltModeOfFrame(Convert.ToInt32(row.Cells[Frame.Index].Value));
             }
             catch (Exception ex) when (ex is FormatException || ex is InvalidCastException ||
                                        ex is OverflowException)
             {
                 // not a frame number: use the dropdown
+                return (altmode) CMB_altmode.SelectedValue;
             }
-
-            return (altmode) CMB_altmode.SelectedValue;
         }
 
         private CheckBoxHeaderCell checkHeader;
@@ -1268,11 +1267,22 @@ namespace MissionPlanner.GCSViews
             {
                 var row = Commands.Rows[index];
 
-                // only commands whose seventh parameter is an altitude
+                // only commands with a position and an altitude (Lat, Long and Alt in their fifth to
+                // seventh parameters): CONTINUE_AND_CHANGE_ALT has an altitude but no position, and
+                // the row may still hold the coordinates of the command it was changed from
                 var cmd = row.Cells[Command.Index].Value?.ToString();
                 string[] names;
                 if (cmd == null || !cmdParamNames.TryGetValue(cmd, out names) || names.Length < 7 ||
+                    names[4] != "Lat" || names[5] != "Long" ||
                     !names[6].StartsWith("Alt", StringComparison.Ordinal))
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                // a local, body or mission frame has no latitude and longitude in X and Y either
+                var frame = RowAltMode(row);
+                if (frame == null)
                 {
                     noPosition++;
                     continue;
@@ -1288,7 +1298,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 int alt;
-                if (!TryVerifyHeight(lat, lng, RowAltMode(row), defaultAlt, out alt))
+                if (!TryVerifyHeight(lat, lng, frame.Value, defaultAlt, out alt))
                 {
                     noTerrain++;
                     continue;
@@ -1472,11 +1482,12 @@ namespace MissionPlanner.GCSViews
                     // not online and verify alt via srtm
                     if (CHK_verifyheight.Checked) // use srtm data
                     {
+                        // Default Alt above the terrain, or Default Alt itself while there is no
+                        // terrain data for the point yet, whatever altitude the caller passed in
                         int verified;
-                        if (TryVerifyHeight(lat, lng, (altmode) CMB_altmode.SelectedValue,
-                                int.Parse(TXT_DefaultAlt.Text), out verified))
-                            cell.Value = verified.ToString();
-                        // no terrain data for the point yet: the cell keeps Default Alt
+                        TryVerifyHeight(lat, lng, (altmode) CMB_altmode.SelectedValue,
+                            int.Parse(TXT_DefaultAlt.Text), out verified);
+                        cell.Value = verified.ToString();
                     }
 
                     cell.DataGridView.EndEdit();
