@@ -663,7 +663,6 @@ namespace MissionPlanner
             ShowAirports = true;
 
             // setup adsb
-            Utilities.adsb.ApplicationVersion = System.Windows.Forms.Application.ProductVersion;
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
@@ -2624,7 +2623,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    await Task.Delay(1).ConfigureAwait(false); // was 5
+                    await PollDelay.Wait().ConfigureAwait(false); // was 5
 
                     try
                     {
@@ -3691,7 +3690,7 @@ namespace MissionPlanner
                     FlightData.BUT_playlog_Click(null, null);
                 }
                 else if (cmds.ContainsKey("file") && File.Exists(cmds["file"]) &&
-                         (cmds["file"].ToLower().EndsWith(".log") || cmds["file"].ToLower().EndsWith(".bin")))
+                         (cmds["file"].EndsWith(".log", StringComparison.OrdinalIgnoreCase) || cmds["file"].EndsWith(".bin", StringComparison.OrdinalIgnoreCase)))
                 {
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);

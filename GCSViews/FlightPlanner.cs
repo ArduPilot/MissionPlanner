@@ -7290,10 +7290,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 UpdateFenceCircle();
 
-                prop.alt = MainV2.comPort.MAV.cs.alt;
-                prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                // in metres, like the terrain they are compared with; the planned home altitude
+                // is kept in display units, as typed in the home alt box
+                prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                 prop.center = MainMap.Position;
-                prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
+                var plannedhome = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation);
+                plannedhome.Alt /= CurrentState.multiplieralt;
+                prop.Update(plannedhome, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
                 // clear every 10 seconds
@@ -7595,7 +7599,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString("0.00");
+                // the vehicle home is in metres; the box, like the grid, is in display units
+                TXT_homealt.Text = (MainV2.comPort.MAV.cs.HomeLocation.Alt * CurrentState.multiplieralt).ToString("0.00");
 
                 writeKML();
             }
