@@ -6844,7 +6844,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             Terrain?.UnSub();
             Terrain = null;
 
-            Mirrors.Clear();
+            // replaced, not cleared in place: Close does not wait for the reader thread, which may
+            // still be enumerating the list in ProcessMirrorStream
+            lock (mirrorslock)
+            {
+                Mirrors = new List<Mirror>();
+                _legacyMirror = null;
+            }
 
             logreadmode = false;
             logplaybackfile = null;
