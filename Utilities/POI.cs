@@ -110,20 +110,30 @@ namespace MissionPlanner.Utilities
 
             loaded = true;
 
+            // write the file back without its duplicates, which repairs files that grew before the
+            // list was loaded once. A failed write must not stop the redraw below: the caller is
+            // told the pages have been drawn, and draws nothing itself.
+            if (duplicates > 0)
+            {
+                try
+                {
+                    SaveFile(filename);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Failed to rewrite " + filename + " without its duplicate POIs", ex);
+                }
+            }
+
+            // redraw now
             try
             {
-                // write the file back without its duplicates, which repairs files that grew
-                // before the list was loaded once
-                if (duplicates > 0)
-                    SaveFile(filename);
-
-                // redraw now
                 if (_POIModified != null)
                     _POIModified(null, null);
             }
             catch (Exception ex)
             {
-                log.Error("Failed to rewrite or redraw the POIs after loading " + filename, ex);
+                log.Error("A page failed to draw the POIs after loading " + filename, ex);
             }
 
             return true;
