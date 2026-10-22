@@ -72,6 +72,8 @@ namespace MissionPlanner.GCSViews
             this.TXT_homealt = new System.Windows.Forms.TextBox();
             this.TXT_homelng = new System.Windows.Forms.TextBox();
             this.TXT_homelat = new System.Windows.Forms.TextBox();
+            this.TXT_homecoord = new System.Windows.Forms.TextBox();
+            this.LBL_homecoord = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.label6 = new System.Windows.Forms.Label();
@@ -196,6 +198,7 @@ namespace MissionPlanner.GCSViews
             this.loadSHPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poiaddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.poiatcoordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poideleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poieditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -327,8 +330,24 @@ namespace MissionPlanner.GCSViews
             this.panel1.Controls.Add(this.TXT_homealt);
             this.panel1.Controls.Add(this.TXT_homelng);
             this.panel1.Controls.Add(this.TXT_homelat);
+            this.panel1.Controls.Add(this.TXT_homecoord);
+            this.panel1.Controls.Add(this.LBL_homecoord);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
+            //
+            // LBL_homecoord
+            //
+            resources.ApplyResources(this.LBL_homecoord, "LBL_homecoord");
+            this.LBL_homecoord.Name = "LBL_homecoord";
+            //
+            // TXT_homecoord
+            //
+            resources.ApplyResources(this.TXT_homecoord, "TXT_homecoord");
+            this.TXT_homecoord.Name = "TXT_homecoord";
+            this.TXT_homecoord.Enter += new System.EventHandler(this.TXT_homelat_Enter);
+            this.TXT_homecoord.TextChanged += new System.EventHandler(this.TXT_homecoord_TextChanged);
+            this.TXT_homecoord.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXT_homecoord_KeyDown);
+            this.TXT_homecoord.Leave += new System.EventHandler(this.TXT_homecoord_Leave);
             // 
             // label4
             // 
@@ -1348,6 +1367,7 @@ namespace MissionPlanner.GCSViews
             // 
             this.pOIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.poiaddToolStripMenuItem,
+            this.poiatcoordsToolStripMenuItem,
             this.poideleteToolStripMenuItem,
             this.poieditToolStripMenuItem});
             this.pOIToolStripMenuItem.Name = "pOIToolStripMenuItem";
@@ -1358,6 +1378,12 @@ namespace MissionPlanner.GCSViews
             this.poiaddToolStripMenuItem.Name = "poiaddToolStripMenuItem";
             resources.ApplyResources(this.poiaddToolStripMenuItem, "poiaddToolStripMenuItem");
             this.poiaddToolStripMenuItem.Click += new System.EventHandler(this.poiaddToolStripMenuItem_Click);
+            // 
+            // poiatcoordsToolStripMenuItem
+            // 
+            this.poiatcoordsToolStripMenuItem.Name = "poiatcoordsToolStripMenuItem";
+            resources.ApplyResources(this.poiatcoordsToolStripMenuItem, "poiatcoordsToolStripMenuItem");
+            this.poiatcoordsToolStripMenuItem.Click += new System.EventHandler(this.poiatcoordsToolStripMenuItem_Click);
             // 
             // poideleteToolStripMenuItem
             // 
@@ -1599,6 +1625,8 @@ namespace MissionPlanner.GCSViews
         public TextBox TXT_homealt;
         public TextBox TXT_homelng;
         public TextBox TXT_homelat;
+        public TextBox TXT_homecoord;
+        public Label LBL_homecoord;
         public DataGridViewImageColumn dataGridViewImageColumn1;
         public DataGridViewImageColumn dataGridViewImageColumn2;
         public Label label6;
@@ -1660,6 +1688,7 @@ namespace MissionPlanner.GCSViews
         public TextBox TXT_altwarn;
         public ToolStripMenuItem pOIToolStripMenuItem;
         public ToolStripMenuItem poiaddToolStripMenuItem;
+        public ToolStripMenuItem poiatcoordsToolStripMenuItem;
         public ToolStripMenuItem poideleteToolStripMenuItem;
         public ToolStripMenuItem poieditToolStripMenuItem;
         public ToolStripMenuItem enterUTMCoordToolStripMenuItem;

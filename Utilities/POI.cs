@@ -14,7 +14,8 @@ namespace MissionPlanner.Utilities
     public class POI
     {
         /// <summary>
-        /// Store points of interest
+        /// Store points of interest. Tag holds the name only; Alt is metres above sea level.
+        /// The map label is built when drawn so it follows the selected coordinate frame.
         /// </summary>
         static ObservableCollection<PointLatLngAlt> POIs = new ObservableCollection<PointLatLngAlt>();
 
@@ -56,12 +57,44 @@ namespace MissionPlanner.Utilities
             catch { }
         }
 
+        /// <summary>
+        /// The POI name. Older versions stored "name\nlat,lng,..." in Tag, so only the first
+        /// line counts.
+        /// </summary>
+        private static string NameOf(PointLatLngAlt pnt)
+        {
+            var tag = pnt.Tag ?? "";
+            var nl = tag.IndexOf('\n');
+            return nl >= 0 ? tag.Substring(0, nl) : tag;
+        }
+
+        /// <summary>
+        /// Text shown on the map marker: name, position in the given coordinate frame, altitude.
+        /// </summary>
+        /// <param name="coordSystem">a Coords.CoordsSystems name, null for lat/long</param>
+        public static string Label(PointLatLngAlt pnt, string coordSystem)
+        {
+            var coords = "";
+
+            if (coordSystem != null && coordSystem != Coords.CoordsSystems.GEO.ToString())
+                coords = CoordsInputBox.Format(coordSystem, pnt.Lat, pnt.Lng);
+
+            // GEO, or outside the UTM/MGRS grid
+            if (coords == "")
+                coords = pnt.Lat.ToString("0.0000000", CultureInfo.InvariantCulture) + ", " +
+                         pnt.Lng.ToString("0.0000000", CultureInfo.InvariantCulture);
+
+            var alt = (pnt.Alt * CurrentState.multiplieralt).ToString("0") + CurrentState.AltUnit;
+
+            return NameOf(pnt) + "\n" + coords + "\n" + alt;
+        }
+
         public static void POIAdd(PointLatLngAlt Point, string tag)
         {
             // local copy
             PointLatLngAlt pnt = Point;
 
-            pnt.Tag = tag + "\n" + pnt.ToString();
+            pnt.Tag = tag;
 
             POI.POIs.Add(pnt);
 
@@ -84,21 +117,35 @@ namespace MissionPlanner.Utilities
             POIAdd(Point, output);
         }
 
-        public static void POIDelete(GMapMarkerPOI Point)
+        /// <summary>
+        /// The index of the POI a marker was drawn from, which UpdateOverlay puts in the marker's
+        /// Tag, or -1 when the list no longer holds it. Found by reference: two POIs with the same
+        /// position, altitude and name are equal to IndexOf, and two at the same position are
+        /// equal to a position match, so either would find the first of them.
+        /// </summary>
+        private static int IndexOfMarker(GMapMarkerPOI marker)
         {
-            if (Point == null)
-                return;
-
-            for (int a = 0; a < POI.POIs.Count; a++)
+            if (marker?.Tag is PointLatLngAlt pnt)
             {
-                if (POI.POIs[a].Point() == Point.Position)
+                for (int a = 0; a < POIs.Count; a++)
                 {
-                    POI.POIs.RemoveAt(a);
-                    if (_POIModified != null)
-                        _POIModified(null, null);
-                    return;
+                    if (ReferenceEquals(POIs[a], pnt))
+                        return a;
                 }
             }
+
+            return -1;
+        }
+
+        public static void POIDelete(GMapMarkerPOI Point)
+        {
+            var a = IndexOfMarker(Point);
+            if (a < 0)
+                return;
+
+            POI.POIs.RemoveAt(a);
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POIEdit(GMapMarkerPOI Point)
@@ -111,29 +158,23 @@ namespace MissionPlanner.Utilities
             if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
                 return;
 
-            for (int a = 0; a < POI.POIs.Count; a++)
-            {
-                if (POI.POIs[a].Point() == Point.Position)
-                {
-                    POI.POIs[a].Tag = output + "\n" + Point.Position.ToString();
-                    if (_POIModified != null)
-                        _POIModified(null, null);
-                    return;
-                }
-            }
+            var a = IndexOfMarker(Point);
+            if (a < 0)
+                return;
+
+            POI.POIs[a].Tag = output;
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POIMove(GMapMarkerPOI Point)
         {
-            for (int a = 0; a < POI.POIs.Count; a++)
+            // the marker's Position is already where it was dropped
+            var a = IndexOfMarker(Point);
+            if (a >= 0)
             {
-                if (POIs[a].Tag == Point.ToolTipText)
-                {
-                    POIs[a].Lat = Point.Position.Lat;
-                    POIs[a].Lng = Point.Position.Lng;
-                    POIs[a].Tag = POIs[a].Tag.Substring(0, POIs[a].Tag.IndexOf('\n')) + "\n" + Point.Position.ToString();
-                    break;
-                }
+                POIs[a].Lat = Point.Position.Lat;
+                POIs[a].Lng = Point.Position.Lng;
             }
 
             if (_POIModified != null)
@@ -159,9 +200,13 @@ namespace MissionPlanner.Utilities
             {
                 foreach (var item in POI.POIs)
                 {
+                    // lat, lng, name, alt (metres). Older files have no alt column.
                     string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
-                                  item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag.Substring(0, item.Tag.IndexOf('\n')) + "\r\n";
-                    byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
+                                  item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + NameOf(item) + "\t" +
+                                  item.Alt.ToString(CultureInfo.InvariantCulture) + "\r\n";
+                    // UTF-8 so a name outside ASCII survives a save. The reader (StreamReader)
+                    // already decodes UTF-8, and files written as ASCII are valid UTF-8 too.
+                    byte[] buffer = Encoding.UTF8.GetBytes(line);
                     file.Write(buffer, 0, buffer.Length);
                 }
             }
@@ -192,11 +237,15 @@ namespace MissionPlanner.Utilities
                     {
                         string[] items = sr.ReadLine().Split('\t');
 
-                        if (items.Count() < 3)
+                        if (items.Length < 3)
                             continue;
 
+                        double alt = 0;
+                        if (items.Length > 3)
+                            double.TryParse(items[3], NumberStyles.Float, CultureInfo.InvariantCulture, out alt);
+
                         POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
-                            , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
+                            , double.Parse(items[1], CultureInfo.InvariantCulture), alt), items[2]);
                     }
                 }
             }
@@ -206,7 +255,11 @@ namespace MissionPlanner.Utilities
                 _POIModified(null, null);
         }
 
-        public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
+        /// <summary>
+        /// Redraw the POI markers.
+        /// </summary>
+        /// <param name="coordSystem">Coords.CoordsSystems name used for the marker labels (null = lat/long)</param>
+        public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay, string coordSystem = null)
         {
             if (poioverlay == null)
                 return;
@@ -218,7 +271,8 @@ namespace MissionPlanner.Utilities
                 poioverlay.Markers.Add(new GMapMarkerPOI(pnt)
                 {
                     ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                    ToolTipText = pnt.Tag
+                    ToolTipText = Label(pnt, coordSystem),
+                    Tag = pnt
                 });
             }
         }
