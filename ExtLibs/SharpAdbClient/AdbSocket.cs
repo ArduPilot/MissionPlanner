@@ -395,7 +395,7 @@ namespace SharpAdbClient
             string result;
             try
             {
-                result = Encoding.Default.GetString(reply);
+                result = AdbClient.Encoding.GetString(reply);
             }
             catch (DecoderFallbackException uee)
             {
