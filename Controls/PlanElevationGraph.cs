@@ -215,6 +215,8 @@ namespace MissionPlanner.Controls
             var path = new PointPairList();
             var below = new PointPairList();
             var anyBelow = false;
+            ElevationGraphProfile.Sample prev = null;
+            var prevUnder = false;
             foreach (var sample in profile.Samples)
             {
                 var x = sample.Dist * distScale;
@@ -222,7 +224,19 @@ namespace MissionPlanner.Controls
                 anyBelow |= under;
                 terrain.Add(new PointPair(x, ToAxis(sample.Terrain)) {Tag = sample});
                 path.Add(new PointPair(x, ToAxis(sample.Alt)) {Tag = sample});
+
+                // the red line runs from where the path goes into the ground to where it comes out,
+                // so a stretch with a single sample under the ground still shows
+                if (prev != null && under != prevUnder && prev.Airborne && sample.Airborne &&
+                    HasClearance(prev) && HasClearance(sample))
+                {
+                    var crossing = GroundCrossing(prev, sample);
+                    below.Add(new PointPair(crossing.Dist * distScale, ToAxis(crossing.Alt)) {Tag = crossing});
+                }
+
                 below.Add(new PointPair(x, under ? ToAxis(sample.Alt) : PointPair.Missing) {Tag = sample});
+                prev = sample;
+                prevUnder = under;
             }
 
             // added bottom layer first: this copy of ZedGraph draws the curve list in order
@@ -763,6 +777,33 @@ namespace MissionPlanner.Controls
         private static double ToAxis(double metres)
         {
             return double.IsNaN(metres) ? PointPair.Missing : metres * CurrentState.multiplieralt;
+        }
+
+        private static bool HasClearance(ElevationGraphProfile.Sample sample)
+        {
+            return !double.IsNaN(sample.Alt) && !double.IsNaN(sample.Terrain);
+        }
+
+        /// <summary>
+        /// Where the path meets the ground between two samples, one under the terrain and the
+        /// other not, both with an altitude and a terrain height.
+        /// </summary>
+        private static ElevationGraphProfile.Sample GroundCrossing(ElevationGraphProfile.Sample a,
+            ElevationGraphProfile.Sample b)
+        {
+            var clearanceA = a.Alt - a.Terrain;
+            var clearanceB = b.Alt - b.Terrain;
+            // one is below 0 and the other is not, so they differ
+            var f = clearanceA / (clearanceA - clearanceB);
+            return new ElevationGraphProfile.Sample
+            {
+                Dist = a.Dist + (b.Dist - a.Dist) * f,
+                Lat = a.Lat + (b.Lat - a.Lat) * f,
+                Lng = a.Lng + (b.Lng - a.Lng) * f,
+                Terrain = a.Terrain + (b.Terrain - a.Terrain) * f,
+                Alt = a.Alt + (b.Alt - a.Alt) * f,
+                Airborne = true
+            };
         }
 
         private string FormatDistance(double metres)

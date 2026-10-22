@@ -3475,10 +3475,12 @@ namespace MissionPlanner.GCSViews
             var all = type == MAVLink.MAV_MISSION_TYPE.ALL;
             var grid = GetCommandList();
 
-            // the vehicle's mission starts with home, which the grid does not show either
+            // on ArduPilot the vehicle's mission starts with home (saveWPs puts it there), which the
+            // grid does not show either; on other autopilots item 0 is a real item
+            var skipHome = MainV2.comPort.MAV.apname == MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA ? 1 : 0;
             var mission = type == MAVLink.MAV_MISSION_TYPE.MISSION || all
                 ? grid
-                : MainV2.comPort.MAV.wps.OrderBy(a => a.Key).Skip(1).Select(a => (Locationwp) a.Value).ToList();
+                : MainV2.comPort.MAV.wps.OrderBy(a => a.Key).Skip(skipHome).Select(a => (Locationwp) a.Value).ToList();
             var rally = type == MAVLink.MAV_MISSION_TYPE.RALLY || all
                 ? grid
                 : MainV2.comPort.MAV.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
