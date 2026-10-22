@@ -4319,7 +4319,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                Process.Start("http://127.0.0.1:56781/network.kml");
+                Process.Start(new ProcessStartInfo("http://127.0.0.1:56781/network.kml") { UseShellExecute = true });
             }
             catch
             {

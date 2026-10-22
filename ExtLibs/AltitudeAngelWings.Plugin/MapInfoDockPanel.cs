@@ -111,7 +111,7 @@ namespace AltitudeAngelWings.Plugin
             ((SHDocVw.WebBrowser)browser.ActiveXInstance).NewWindow3 +=
                 (ref object o, ref bool b, uint u, string s, string url) =>
                 {
-                    Process.Start(url);
+                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
                 };
             _parent.Controls.Add(browser);
             _parent.Resize += (sender, args) => SetPanelLocation(browser);
