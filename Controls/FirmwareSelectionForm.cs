@@ -52,10 +52,11 @@ namespace MissionPlanner.Controls
             {
                 Dock = DockStyle.Fill,
                 ColumnCount = 1,
-                RowCount = 5,
+                RowCount = 6,
                 Padding = new Padding(8)
             };
             root.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             root.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             root.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
@@ -107,6 +108,14 @@ namespace MissionPlanner.Controls
 
             root.Controls.Add(filters, 0, 1);
 
+            root.Controls.Add(new Label
+            {
+                Text = Strings.FirmwareSelectionPickFile,
+                AutoSize = true,
+                Dock = DockStyle.Fill,
+                Margin = new Padding(3, 8, 3, 3)
+            }, 0, 2);
+
             _grid = new DataGridView
             {
                 Dock = DockStyle.Fill,
@@ -131,10 +140,10 @@ namespace MissionPlanner.Controls
                 if (e.RowIndex >= 0)
                     Accept();
             };
-            root.Controls.Add(_grid, 0, 2);
+            root.Controls.Add(_grid, 0, 3);
 
             _status = new Label { AutoSize = true, Margin = new Padding(3, 6, 3, 3) };
-            root.Controls.Add(_status, 0, 3);
+            root.Controls.Add(_status, 0, 4);
 
             var buttons = new FlowLayoutPanel
             {
@@ -156,7 +165,7 @@ namespace MissionPlanner.Controls
             _upload.Click += (sender, e) => Accept();
             buttons.Controls.Add(cancel);
             buttons.Controls.Add(_upload);
-            root.Controls.Add(buttons, 0, 4);
+            root.Controls.Add(buttons, 0, 5);
 
             Controls.Add(root);
             AcceptButton = _upload;

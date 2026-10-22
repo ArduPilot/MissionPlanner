@@ -740,4 +740,7 @@ ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOU
   <data name="FirmwareSelectionFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="FirmwareSelectionPickFile" xml:space="preserve">
+    <value>Please pick a file to download and upload (.apj)</value>
+  </data>
 </root>

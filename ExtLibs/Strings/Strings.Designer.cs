@@ -1882,5 +1882,14 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("FirmwareSelectionFile", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pick a file to download and upload (.apj).
+        /// </summary>
+        public static string FirmwareSelectionPickFile {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPickFile", resourceCulture);
+            }
+        }
     }
 }
