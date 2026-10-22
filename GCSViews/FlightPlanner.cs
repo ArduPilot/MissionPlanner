@@ -32,7 +32,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -774,20 +773,6 @@ namespace MissionPlanner.GCSViews
             }
             updateUndoBuffer(true);
             setfromMap(lat, lng, alt);
-        }
-
-        public T DeepClone<T>(T obj)
-        {
-            using (var ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-
-                formatter.Serialize(ms, obj);
-
-                ms.Position = 0;
-
-                return (T) formatter.Deserialize(ms);
-            }
         }
 
         /// <summary>
