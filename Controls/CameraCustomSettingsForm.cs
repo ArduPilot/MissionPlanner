@@ -148,14 +148,15 @@ namespace MissionPlanner.Controls
             settings.Enabled = false;
             session = null;
             status.Text = "Requesting camera information…";
-            var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(60));
+            var cancel = new CancellationTokenSource();
             download = cancel;
             try
             {
+                if (target.parent.ReadOnly) throw new InvalidOperationException("Link is read-only; disable ReadOnly link mode to request or change camera settings");
                 var request = new TaskCompletionSource<MAVLink.mavlink_camera_information_t>(TaskCreationOptions.RunContinuationsAsynchronously);
                 Interlocked.Exchange(ref informationRequest, request);
                 // The packet, rather than COMMAND_ACK, supplies the definition URI.
-                var command = Camera.RequestCameraInformationAsync(requireAck: false);
+                _ = Camera.RequestCameraInformationAsync(requireAck: false);
                 await Task.WhenAny(request.Task, Task.Delay(5000, cancel.Token));
                 cancel.Token.ThrowIfCancellationRequested();
                 var info = request.Task.IsCompleted ? await request.Task : Camera.HasCameraInformation ? Camera.CameraInformation
@@ -165,7 +166,11 @@ namespace MissionPlanner.Controls
                 definitionVersion = info.cam_definition_version;
                 if (uri.Length == 0) throw new InvalidOperationException("Camera does not advertise a custom settings definition");
                 status.Text = "Loading camera definition…";
-                var definition = await Task.Run(() => CameraDefinitionLoader.Load(uri, target, cancel), cancel.Token);
+                IProgress<string> progress = new Progress<string>(message =>
+                {
+                    if (!closed && ReferenceEquals(download, cancel)) status.Text = message;
+                });
+                var definition = await Task.Run(() => CameraDefinitionLoader.Load(uri, target, cancel, progress.Report), cancel.Token);
                 if (closed) return;
                 MAVLink.MAVLinkMessage latestInformation = null;
                 while (incoming.TryDequeue(out var queued))
@@ -205,7 +210,7 @@ namespace MissionPlanner.Controls
                 var panel = new Panel { Height = 63, Margin = new Padding(8, 4, 8, 4) };
                 var label = new Label { Text = p.Description, AutoEllipsis = true, Location = new Point(4, 6), Size = new Size(325, 23) };
                 var row = new Row { Panel = panel, Detail = new Label { AutoEllipsis = true, Location = new Point(4, 33), Size = new Size(690, 23) } };
-                if (p.Options.Count > 0 || session.Definition.Parameters.Values.Any(source => source.Options.Any(o => o.Ranges.Any(r => r.Target == p.Name))))
+                if (p.Options.Count > 0)
                 {
                     var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 270 };
                     combo.SelectionChangeCommitted += (s, e) =>
@@ -301,6 +306,7 @@ namespace MissionPlanner.Controls
             if (updating || loading || closed || session == null) return;
             try
             {
+                if (target.parent.ReadOnly) throw new InvalidOperationException("Link is read-only; changing camera settings is disabled");
                 session.SetValue(name, text, DateTime.UtcNow);
                 rows[name].Submitted = true;
             }
@@ -321,7 +327,7 @@ namespace MissionPlanner.Controls
                         var uri = Encoding.UTF8.GetString(info.cam_definition_uri ?? new byte[0]).Split('\0')[0].Trim();
                         if (!loading && definitionUri != null && (uri != definitionUri || info.cam_definition_version != definitionVersion))
                         {
-                            var reload = ReloadAsync();
+                            _ = ReloadAsync();
                             return;
                         }
                     }
@@ -329,7 +335,7 @@ namespace MissionPlanner.Controls
                 }
                 if (!loading && session != null)
                 {
-                    session.Tick(DateTime.UtcNow);
+                    if (!target.parent.ReadOnly) session.Tick(DateTime.UtcNow);
                     UpdateRows();
                 }
             }
@@ -347,7 +353,7 @@ namespace MissionPlanner.Controls
                     var row = pair.Value;
                     var p = session.Definition.Parameters[pair.Key];
                     row.Panel.Visible = controls.TryGetValue(p.Name, out var options);
-                    bool enabled = session.CanEdit(p.Name, controls);
+                    bool enabled = !target.parent.ReadOnly && session.CanEdit(p.Name, controls);
                     row.Editor.Enabled = enabled;
                     if (row.Apply != null) row.Apply.Enabled = enabled;
                     session.Values.TryGetValue(p.Name, out var value);
@@ -394,7 +400,8 @@ namespace MissionPlanner.Controls
                     row.Detail.ForeColor = error == null ? ForeColor : Color.Red;
                 }
                 var readable = session.Definition.Parameters.Values.Where(p => !p.WriteOnly).ToList();
-                status.Text = session.Status + " — " + readable.Count(p => session.Values.ContainsKey(p.Name)) + "/" + readable.Count + " settings read";
+                status.Text = target.parent.ReadOnly ? "Link is read-only; changing camera settings is disabled"
+                    : session.Status + " — " + readable.Count(p => session.Values.ContainsKey(p.Name)) + "/" + readable.Count + " settings read";
             }
             finally { updating = false; }
         }

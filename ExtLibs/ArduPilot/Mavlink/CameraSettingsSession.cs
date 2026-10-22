@@ -24,7 +24,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private readonly HashSet<string> writeErrors = new HashSet<string>();
         private readonly Action<object> send;
         private readonly byte system, component;
-        private DateTime nextBatch, lastPoll;
+        private DateTime nextBatch;
         private static readonly TimeSpan Retry = TimeSpan.FromSeconds(2);
 
         public CameraSettingsSession(CameraDefinition definition, byte system, byte component, Action<object> send)
@@ -46,7 +46,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
             writeErrors.Clear();
             foreach (var p in Definition.Parameters.Values.Where(p => !p.WriteOnly))
                 reads[p.Name] = new Request { Deadline = now + Retry, Attempts = 1 };
-            lastPoll = now;
             send(new MAVLink.mavlink_param_ext_request_list_t(system, component));
         }
 
@@ -191,11 +190,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     pending.Attempts++;
                     pending.Deadline = now + Retry;
                 }
-            }
-            if (now - lastPoll > TimeSpan.FromSeconds(5) && reads.Count == 0 && writes.Count == 0)
-            {
-                foreach (var name in Values.Keys) Read(name, now);
-                lastPoll = now;
             }
         }
     }

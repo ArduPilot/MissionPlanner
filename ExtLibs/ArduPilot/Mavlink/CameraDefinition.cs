@@ -15,6 +15,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
     public sealed class CameraDefinition
     {
         public const int MaxSize = 4 * 1024 * 1024;
+        public const int MaxParameters = 512;
+        public const int MaxOptions = 512;
         public Dictionary<string, CameraParameter> Parameters { get; } = new Dictionary<string, CameraParameter>();
         public string Model { get; }
 
@@ -49,6 +51,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             Func<string, string> translate = s => translations.TryGetValue(s, out var value) ? value : s;
             foreach (var element in root.Element("parameters")?.Elements("parameter") ?? Enumerable.Empty<XElement>())
             {
+                if (Parameters.Count >= MaxParameters) throw new InvalidDataException("Camera definition has too many parameters");
                 var parameter = new CameraParameter(element, translate);
                 if (Parameters.ContainsKey(parameter.Name)) throw new InvalidDataException("Duplicate parameter " + parameter.Name);
                 Parameters.Add(parameter.Name, parameter);
@@ -59,7 +62,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     foreach (var option in range.Options) option.Value = target.ConvertValue((string)option.Value);
         }
 
-        public static byte[] ReadLimited(Stream stream)
+        public static byte[] ReadLimited(Stream stream, Action<int> progress = null)
         {
             using (var output = new MemoryStream())
             {
@@ -69,6 +72,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 {
                     if (output.Length + count > MaxSize) throw new InvalidDataException("Camera definition is too large");
                     output.Write(buffer, 0, count);
+                    progress?.Invoke((int)output.Length);
                 }
                 return output.ToArray();
             }
@@ -180,15 +184,20 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 throw new InvalidDataException("Invalid step for " + Name);
             foreach (var o in element.Element("options")?.Elements("option") ?? Enumerable.Empty<XElement>())
             {
+                if (Options.Count >= CameraDefinition.MaxOptions) throw new InvalidDataException("Too many options for " + Name);
                 var option = new Option { Label = translate((string)o.Attribute("name") ?? ""), Value = ConvertValue((string)o.Attribute("value")) };
                 option.Exclusions.AddRange(o.Descendants("exclude").Select(e => e.Value.Trim()));
                 foreach (var r in o.Element("parameterranges")?.Elements("parameterrange") ?? Enumerable.Empty<XElement>())
+                {
+                    if (r.Elements("roption").Take(CameraDefinition.MaxOptions + 1).Count() > CameraDefinition.MaxOptions)
+                        throw new InvalidDataException("Too many range options for " + Name);
                     option.Ranges.Add(new Range
                     {
                         Target = (string)r.Attribute("parameter") ?? "", Condition = (string)r.Attribute("condition") ?? "",
                         Options = r.Elements("roption").Select(e => new Option
                         { Label = translate((string)e.Attribute("name") ?? ""), Value = (string)e.Attribute("value") }).ToList()
                     });
+                }
                 Options.Add(option);
             }
             if (Type == "bool" && Options.Count == 0)

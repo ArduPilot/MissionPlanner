@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -196,6 +198,38 @@ namespace MissionPlannerTests.Mavlink
         }
 
         [TestMethod]
+        public void IdleSessionsDoNotPollAndExplicitRefreshStillRequestsValues()
+        {
+            var sent = new List<object>();
+            var session = new CameraSettingsSession(Definition(), 7, 100, sent.Add);
+            session.RequestAll(Start);
+            foreach (var p in session.Definition.Parameters.Values.Where(p => !p.WriteOnly && p.WireType != 11))
+                Value(session, p.Name, p.Name == "ISO" ? "100" : "0");
+            var custom = session.Definition.Parameters["VENDOR"];
+            session.Receive(MAVLink.MAVLINK_MSG_ID.PARAM_EXT_VALUE,
+                new MAVLink.mavlink_param_ext_value_t(7, 0, custom.Id, new byte[128], custom.WireType), Start);
+            sent.Clear();
+            for (int seconds = 1; seconds <= 120; seconds++) session.Tick(Start.AddSeconds(seconds));
+            Assert.AreEqual(0, sent.Count, "An idle dialog must not consume telemetry bandwidth");
+            session.RequestAll(Start.AddSeconds(121));
+            Assert.IsTrue(sent.Single() is MAVLink.mavlink_param_ext_request_list_t);
+        }
+
+        [TestMethod]
+        public void RangeOnlyParametersAllowFreeValuesWhenTheirRangeIsInactive()
+        {
+            var definition = Definition(Xml.Replace("<parameter name='ISO' type='uint32'><options><option name='Low' value='100'/><option name='High' value='200'/></options></parameter>",
+                "<parameter name='ISO' type='uint32'/>"));
+            var values = new Dictionary<string, object> { ["MODE"] = 1u, ["GAIN"] = 3f, ["ENABLED"] = (byte)1 };
+            var iso = definition.Parameters["ISO"];
+            Assert.AreEqual(0, iso.Options.Count);
+            Assert.ThrowsException<ArgumentException>(() => iso.Validate("200", definition.Controls(values)["ISO"]));
+            Assert.AreEqual(100u, iso.Validate("100", definition.Controls(values)["ISO"]));
+            values["MODE"] = 0u;
+            Assert.AreEqual(200u, iso.Validate("200", definition.Controls(values)["ISO"]));
+        }
+
+        [TestMethod]
         public void IdenticalCustomValuesDoNotRepeatedlyReadDependencies()
         {
             var definition = Definition(Xml.Replace("type='custom' default='opaque'/>", "type='custom'><updates><update>GAIN</update></updates></parameter>"));
@@ -221,6 +255,40 @@ namespace MissionPlannerTests.Mavlink
             Assert.ThrowsException<InvalidDataException>(() => new CameraDefinition(new byte[CameraDefinition.MaxSize + 1]));
             using (var stream = new MemoryStream(new byte[CameraDefinition.MaxSize + 1]))
                 Assert.ThrowsException<InvalidDataException>(() => CameraDefinition.ReadLimited(stream));
+        }
+
+        [TestMethod]
+        public void DefinitionLimitsParameterAndOptionCountsBeforeBuildingControls()
+        {
+            string Wrap(string content) => "<mavlinkcamera><definition/><parameters>" + content + "</parameters></mavlinkcamera>";
+            var parameters = string.Concat(Enumerable.Range(0, CameraDefinition.MaxParameters).Select(i => "<parameter name='P" + i + "' type='uint32'/>"));
+            Assert.AreEqual(CameraDefinition.MaxParameters, Definition(Wrap(parameters)).Parameters.Count);
+            Assert.ThrowsException<InvalidDataException>(() => Definition(Wrap(parameters + "<parameter name='EXTRA' type='uint32'/>")));
+            var options = string.Concat(Enumerable.Range(0, CameraDefinition.MaxOptions).Select(i => "<option name='Choice' value='" + i + "'/>"));
+            Assert.AreEqual(CameraDefinition.MaxOptions, Definition(Wrap("<parameter name='X' type='uint32'><options>" + options + "</options></parameter>")).Parameters["X"].Options.Count);
+            Assert.ThrowsException<InvalidDataException>(() => Definition(Wrap("<parameter name='X' type='uint32'><options>" + options + "<option value='512'/></options></parameter>")));
+            var ranges = options.Replace("option ", "roption ");
+            string WithRange(string choices) => Wrap("<parameter name='X' type='uint32'><options><option value='0'><parameterranges><parameterrange parameter='X'>" + choices
+                + "</parameterrange></parameterranges></option></options></parameter>");
+            Assert.AreEqual(CameraDefinition.MaxOptions, Definition(WithRange(ranges)).Parameters["X"].Options[0].Ranges[0].Options.Count);
+            Assert.ThrowsException<InvalidDataException>(() => Definition(WithRange(ranges + "<roption value='512'/>")));
+        }
+
+        [TestMethod]
+        public void HttpRedirectsRejectDowngradesAndNonHttpSchemes()
+        {
+            var method = typeof(CameraDefinitionLoader).GetMethod("RedirectAddress", BindingFlags.NonPublic | BindingFlags.Static);
+            Uri Redirect(string source, string location)
+            {
+                try { return (Uri)method.Invoke(null, new object[] { new Uri(source), location }); }
+                catch (TargetInvocationException ex) { throw ex.InnerException; }
+            }
+            Assert.AreEqual("https://camera.test/new.xml", Redirect("https://camera.test/old.xml", "new.xml").AbsoluteUri);
+            Assert.AreEqual("https://cdn.test/camera.xml", Redirect("http://camera.test/old.xml", "https://cdn.test/camera.xml").AbsoluteUri);
+            Assert.AreEqual("http://camera.test/new.xml", Redirect("http://camera.test/old.xml", "/new.xml").AbsoluteUri);
+            Assert.ThrowsException<IOException>(() => Redirect("https://camera.test/old.xml", "http://camera.test/new.xml"));
+            Assert.ThrowsException<IOException>(() => Redirect("https://camera.test/old.xml", "file:///camera.xml"));
+            Assert.ThrowsException<IOException>(() => Redirect("http://camera.test/old.xml", "ftp://camera.test/camera.xml"));
         }
 
         [TestMethod]
@@ -286,14 +354,26 @@ namespace MissionPlannerTests.Mavlink
             foreach (uint system in new uint[] { 7, uint.MaxValue })
             foreach (int failure in new[] { 0, 1, 2, 3, 4 })
             foreach (byte ftpSession in new byte[] { 0, 42 })
+                CheckMavFtpDownload(system, failure, ftpSession);
+        }
+
+        [TestMethod]
+        public void MavFtpDownloadContinuesPastSixtySecondsWhileMakingProgress()
+        {
+            CheckMavFtpDownload(7, 0, 42, slow: true);
+        }
+
+        private static void CheckMavFtpDownload(uint system, int failure, byte ftpSession, bool slow = false)
+        {
             using (var link = new MAVLinkInterface())
-            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(slow ? 120 : 10)))
             {
                 var wire = new CommsInjection();
                 bool oversized = failure == 1, noSessions = failure == 2, cancelOnOpen = failure == 3, loseFirstAck = failure == 4;
                 link.BaseStream = wire;
                 link.MAVlist[system, 100].mavlinkv2 = true;
-                var data = Encoding.UTF8.GetBytes(Xml);
+                var data = Encoding.UTF8.GetBytes(Xml + (slow ? new string(' ', 32 * 1024) : ""));
+                var progress = new List<string>();
                 int reads = 0, wrongTargets = 0, resets = 0, wrongSessions = 0, opens = 0, terminates = 0;
                 if (cancelOnOpen)
                     link.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
@@ -335,6 +415,7 @@ namespace MissionPlannerTests.Mavlink
                     }
                     else if (opcode == 5) // ReadFile
                     {
+                        if (slow) Thread.Sleep(150); // Radio-compatible 80-byte reads take over 60 seconds for this file.
                         reads++;
                         int offset = (int)BitConverter.ToUInt32(payload, 8);
                         int count = Math.Min(payload[4], data.Length - offset);
@@ -345,9 +426,10 @@ namespace MissionPlannerTests.Mavlink
                     wire.AppendBuffer(new MAVLink.MavlinkParse().GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
                         new MAVLink.mavlink_file_transfer_protocol_t { payload = response }, false, system, 100));
                 };
-                var load = Task.Run(() => CameraDefinitionLoader.Load("mftp://[;comp=100]/camera.xml", link.MAVlist[system, 100], cancel));
-                var deadline = DateTime.UtcNow.AddSeconds(10);
-                while (!load.IsCompleted && DateTime.UtcNow < deadline)
+                var elapsed = Stopwatch.StartNew();
+                var load = Task.Run(() => CameraDefinitionLoader.Load("mftp://[;comp=100]/camera.xml", link.MAVlist[system, 100], cancel, progress.Add));
+                var deadline = TimeSpan.FromSeconds(slow ? 120 : 10);
+                while (!load.IsCompleted && elapsed.Elapsed < deadline)
                 {
                     if (wire.BytesToRead > 0) link.readPacketAsync().GetAwaiter().GetResult();
                     else Thread.Sleep(1);
@@ -376,6 +458,8 @@ namespace MissionPlannerTests.Mavlink
                 {
                     Assert.AreEqual("Test Camera", load.GetAwaiter().GetResult().Model);
                     Assert.IsTrue(reads > 0);
+                    Assert.IsTrue(progress.Distinct().Count() > 2, "Download progress should be visible to the caller");
+                    if (slow) Assert.IsTrue(elapsed.Elapsed > TimeSpan.FromSeconds(60));
                     if (loseFirstAck) Assert.AreEqual(2, opens, "A lost open ACK must be retried");
                 }
             }

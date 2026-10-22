@@ -49,7 +49,29 @@ namespace MissionPlanner.ArduPilot.Mavlink
         }
 
         /// <summary>Blocking download/parse; caller must run on a worker thread.</summary>
-        public static CameraDefinition Load(string uri, MAVState camera, CancellationTokenSource cancel)
+        public static CameraDefinition Load(string uri, MAVState camera, CancellationTokenSource cancel, Action<string> progress = null)
+        {
+            using (var idle = CancellationTokenSource.CreateLinkedTokenSource(cancel.Token))
+            {
+                idle.CancelAfter(TimeSpan.FromSeconds(60));
+                try
+                {
+                    return LoadCore(uri, camera, idle, message =>
+                    {
+                        // A slow telemetry link may take minutes. Limit inactivity, not total transfer time.
+                        idle.CancelAfter(TimeSpan.FromSeconds(60));
+                        progress?.Invoke(message);
+                    });
+                }
+                catch (Exception ex) when (idle.IsCancellationRequested)
+                {
+                    cancel.Token.ThrowIfCancellationRequested();
+                    throw new TimeoutException("Camera definition download made no progress for 60 seconds", ex);
+                }
+            }
+        }
+
+        private static CameraDefinition LoadCore(string uri, MAVState camera, CancellationTokenSource cancel, Action<string> progress)
         {
             cancel.Token.ThrowIfCancellationRequested();
             byte[] data;
@@ -57,6 +79,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 var address = ParseFtpAddress(uri, camera.sysid, camera.compid);
                 var ftp = new MAVFtp(camera.parent, address.System, address.Component);
+                ftp.Progress += (file, percent) => progress("Downloading camera definition… " + (percent < 0 ? "" : percent + "%"));
                 // Check the advertised size before MAVFTP allocates its receive buffer.
                 bool opened = false;
                 try
@@ -89,16 +112,25 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         if ((int)response.StatusCode >= 300 && (int)response.StatusCode < 400)
                         {
                             if (redirects >= 5) throw new IOException("Too many definition redirects");
-                            address = new Uri(address, response.Headers["Location"]);
+                            address = RedirectAddress(address, response.Headers["Location"]);
                             continue;
                         }
-                        using (var stream = response.GetResponseStream()) data = CameraDefinition.ReadLimited(stream);
+                        using (var stream = response.GetResponseStream())
+                            data = CameraDefinition.ReadLimited(stream, bytes => progress("Downloading camera definition… " + bytes + " bytes"));
                         break;
                     }
                 }
             }
             cancel.Token.ThrowIfCancellationRequested();
             return new CameraDefinition(data);
+        }
+
+        private static Uri RedirectAddress(Uri address, string location)
+        {
+            var next = new Uri(address, location);
+            if (next.Scheme != "http" && next.Scheme != "https") throw new IOException("Definition redirect must use HTTP or HTTPS");
+            if (address.Scheme == "https" && next.Scheme != "https") throw new IOException("Camera definition redirect would downgrade HTTPS to HTTP");
+            return next;
         }
     }
 }
