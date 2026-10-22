@@ -53,7 +53,7 @@ namespace AltitudeAngelWings.Plugin
             return await _uiThreadInvoke.Invoke(() => UiTask.ShowDialog(async cancellationToken =>
                 {
                     var tokens = await _authClient.GetTokenFromClientCredentials(cancellationToken);
-                    Process.Start(authorizeUri.ToString());
+                    Process.Start(new ProcessStartInfo(authorizeUri.ToString()) { UseShellExecute = true });
 
                     string code;
                     do

@@ -424,7 +424,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("https://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
+                Process.Start(new ProcessStartInfo("https://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html") { UseShellExecute = true });
             }
             catch
             {

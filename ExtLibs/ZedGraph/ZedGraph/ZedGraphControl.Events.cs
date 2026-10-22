@@ -443,7 +443,7 @@ namespace ZedGraph
 
 						if ( url != string.Empty )
 						{
-							System.Diagnostics.Process.Start( url );
+							System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
 							// linkable objects override any other actions with mouse
 							return;
 						}

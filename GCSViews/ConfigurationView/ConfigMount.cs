@@ -338,7 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Process.Start(
                 new ProcessStartInfo(
-                    "http://copter.ardupilot.com/wiki/common-optional-hardware/common-cameras-and-gimbals/common-camera-gimbal/"));
+                    "http://copter.ardupilot.com/wiki/common-optional-hardware/common-cameras-and-gimbals/common-camera-gimbal/") { UseShellExecute = true });
         }
 
         private void mavlinkComboBox_SelectedIndexChanged(object sender, EventArgs e)
