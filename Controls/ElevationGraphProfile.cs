@@ -49,6 +49,9 @@ namespace MissionPlanner.Controls
         /// <summary>A landing: the vehicle ends up on the ground here.</summary>
         public bool OnGround;
 
+        /// <summary>A SPLINE_WAYPOINT: the leg into it is the curve the map draws, not a straight line.</summary>
+        public bool Spline;
+
         public static ElevationGraphAltFrame FrameOf(byte frame)
         {
             switch ((MAVLink.MAV_FRAME) frame)
@@ -235,7 +238,8 @@ namespace MissionPlanner.Controls
                     Alt = item.alt,
                     Frame = ElevationGraphItem.FrameOf(item.frame),
                     OnGround = item.id == (ushort) MAVLink.MAV_CMD.LAND ||
-                               item.id == (ushort) MAVLink.MAV_CMD.VTOL_LAND
+                               item.id == (ushort) MAVLink.MAV_CMD.VTOL_LAND,
+                    Spline = item.id == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT
                 };
 
                 if (item.lat == 0 && item.lng == 0)
@@ -530,7 +534,7 @@ namespace MissionPlanner.Controls
                     add(item.Lng);
                     add(item.Alt);
                     sb.Append((int) item.Frame).Append(item.AtPreviousPosition ? 'p' : '-')
-                        .Append(item.OnGround ? 'g' : '-').Append(';');
+                        .Append(item.OnGround ? 'g' : '-').Append(item.Spline ? 's' : '-').Append(';');
                 }
             }
 
@@ -651,6 +655,12 @@ namespace MissionPlanner.Controls
             /// <summary>Rally points: metres from the nearest point of the path.</summary>
             public double OffPath;
 
+            /// <summary>
+            /// A spline waypoint: the points of the curve from the waypoint before it up to it,
+            /// neither end included; null for a straight leg.
+            /// </summary>
+            public List<PointLatLngAlt> Route;
+
             /// <summary>How the point is outside the fence the vehicle will hold to; None when inside.</summary>
             public ElevationGraphFenceBreach Breach;
         }
@@ -744,7 +754,8 @@ namespace MissionPlanner.Controls
         /// Lay the mission out along its path and sample the terrain under it. A leg into a
         /// terrain frame point follows the ground, its height above the ground changing evenly
         /// from one end to the other, as ArduPilot flies it; any other leg is a straight line
-        /// between the altitudes of its ends.
+        /// between the altitudes of its ends. A leg into a spline waypoint runs along the curve
+        /// the map draws for it, with its altitude worked out the same way along the curve.
         /// </summary>
         /// <param name="terrainAt">terrain height AMSL at a lat, lng, or null when there is no data</param>
         /// <param name="maxSamples">about how many terrain samples to take along the whole path</param>
@@ -822,10 +833,13 @@ namespace MissionPlanner.Controls
                 nodes.Add(node);
             }
 
+            FollowSplines(nodes, input.Home);
+
             // Rally points sit on the path at its nearest point. Without a path (rally points
             // planned before the mission, or on their own) the terrain is laid out along a line
             // through them instead, home first, so each shows over the ground under it.
             profile.RallyChain = input.RallyPoints.Count > 0 && !nodes.Exists(a => a.Item != null);
+            var corners = PathCorners(nodes);
 
             foreach (var item in input.RallyPoints)
             {
@@ -840,7 +854,7 @@ namespace MissionPlanner.Controls
                     Alt = AltitudeAmsl(item.Frame, item.Alt, homeAlt, ground)
                 };
                 if (!profile.RallyChain)
-                    PlaceOnPath(nodes, marker);
+                    PlaceOnPath(corners, marker);
                 profile.RallyPoints.Add(marker);
             }
 
@@ -985,11 +999,150 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
+        /// Give each spline waypoint the curve of the leg into it (<see cref="Marker.Route"/>) and
+        /// measure the distances along the path with the curves in. The curves are the map's
+        /// (WPOverlay.SplineLegs), worked out over the same points: a run of spline waypoints with
+        /// the point before it and the point after it, home after the last, and the point before
+        /// that run's start setting the direction the curve leaves in. An altitude that cannot be
+        /// worked out (no home, no terrain) puts the run's curve on one level, which leaves its
+        /// shape as good as unchanged.
+        /// </summary>
+        private static void FollowSplines(List<Marker> nodes, PointLatLngAlt home)
+        {
+            if (nodes.Count == 0)
+                return;
+
+            var run = new List<Marker>();
+            var lastpnt = nodes[0];
+            var lastpnt2 = nodes[0];
+            Action<Marker> lay = end =>
+            {
+                var markers = new List<Marker> {lastpnt2, lastpnt};
+                markers.AddRange(run);
+                markers.Add(end);
+                var level = markers.Exists(a => double.IsNaN(a.Alt));
+                var points = markers.ConvertAll(a => new PointLatLngAlt(a.Lat, a.Lng, level ? 0 : a.Alt, ""));
+                var legs = MissionPlanner.ArduPilot.WPOverlay.SplineLegs(home ?? points[1], points[0],
+                    points.GetRange(1, points.Count - 1));
+                for (int i = 0; i < run.Count; i++)
+                    run[i].Route = legs[i];
+                run.Clear();
+            };
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                var node = nodes[i];
+                if (i > 0 && node.Item != null && node.Item.Spline)
+                {
+                    run.Add(node);
+                    continue;
+                }
+
+                if (run.Count > 0)
+                    lay(node);
+                lastpnt2 = lastpnt;
+                lastpnt = node;
+            }
+
+            // the map closes its list with home, the first point
+            if (run.Count > 0)
+                lay(nodes[0]);
+
+            if (!nodes.Exists(a => a.Route != null))
+                return;
+            for (int i = 1; i < nodes.Count; i++)
+                nodes[i].Dist = nodes[i - 1].Dist + LegLength(nodes[i - 1], nodes[i]);
+        }
+
+        /// <summary>The length of the leg from <paramref name="from"/> into <paramref name="to"/>, along its curve if it has one.</summary>
+        private static double LegLength(Marker from, Marker to)
+        {
+            var length = 0.0;
+            var last = new PointLatLngAlt(from.Lat, from.Lng);
+            foreach (var point in LegPoints(from, to))
+            {
+                length += last.GetDistance(point);
+                last = point;
+            }
+
+            return length;
+        }
+
+        /// <summary>The points a leg runs through after <paramref name="from"/>: its curve's, then <paramref name="to"/>.</summary>
+        private static IEnumerable<PointLatLngAlt> LegPoints(Marker from, Marker to)
+        {
+            if (to.Route != null)
+                foreach (var point in to.Route)
+                    yield return new PointLatLngAlt(point.Lat, point.Lng);
+            yield return new PointLatLngAlt(to.Lat, to.Lng);
+        }
+
+        /// <summary>
+        /// The path's corners for finding the nearest point to it: the nodes, and the points of
+        /// each spline waypoint's curve between them, each with its distance along the path.
+        /// </summary>
+        private static List<Marker> PathCorners(List<Marker> nodes)
+        {
+            var corners = new List<Marker>();
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (i > 0 && nodes[i].Route != null)
+                {
+                    var last = nodes[i - 1];
+                    foreach (var point in nodes[i].Route)
+                    {
+                        var corner = new Marker {Lat = point.Lat, Lng = point.Lng};
+                        corner.Dist = last.Dist +
+                                      new PointLatLngAlt(last.Lat, last.Lng).GetDistance(new PointLatLngAlt(point.Lat, point.Lng));
+                        corners.Add(corner);
+                        last = corner;
+                    }
+                }
+
+                corners.Add(nodes[i]);
+            }
+
+            return corners;
+        }
+
+        /// <summary>Points along a leg's curve by distance from its start, asked for in increasing order.</summary>
+        private class PathWalker
+        {
+            private readonly List<PointLatLngAlt> points = new List<PointLatLngAlt>();
+            private readonly List<double> dist = new List<double>();
+            private int segment = 1;
+
+            public PathWalker(Marker from, Marker to)
+            {
+                points.Add(new PointLatLngAlt(from.Lat, from.Lng));
+                dist.Add(0);
+                foreach (var point in LegPoints(from, to))
+                {
+                    dist.Add(dist[dist.Count - 1] + points[points.Count - 1].GetDistance(point));
+                    points.Add(point);
+                }
+            }
+
+            public void PointAt(double d, out double lat, out double lng)
+            {
+                while (segment < points.Count - 1 && dist[segment] < d)
+                    segment++;
+                var a = points[segment - 1];
+                var b = points[segment];
+                var span = dist[segment] - dist[segment - 1];
+                var f = span > 0 ? Math.Max(0, Math.Min(1, (d - dist[segment - 1]) / span)) : 1;
+                lat = a.Lat + (b.Lat - a.Lat) * f;
+                lng = a.Lng + (b.Lng - a.Lng) * f;
+            }
+        }
+
+        /// <summary>
         /// Sample the terrain along the legs between <paramref name="nodes"/>, with the path's
         /// altitude at each sample when the legs are <paramref name="flown"/>: a leg into a
         /// terrain frame point follows the ground, its height above the ground changing evenly
         /// from one end to the other, as ArduPilot flies it; any other leg is a straight line
-        /// between the altitudes of its ends. Legs that are not flown get the terrain alone.
+        /// between the altitudes of its ends. A spline waypoint's leg runs along its curve. Legs
+        /// that are not flown get the terrain alone.
         /// </summary>
         private static void SampleLegs(ElevationGraphProfile profile, List<Marker> nodes,
             Func<double, double, double> terrain, int maxSamples, bool flown)
@@ -1019,12 +1172,22 @@ namespace MissionPlanner.Controls
                 var follow = to.Item.Frame == ElevationGraphAltFrame.Terrain;
                 var fromHeight = from.Alt - from.Terrain;
                 var airborne = flown && !IsOnGround(from) && !IsOnGround(to);
+                var curve = to.Route != null ? new PathWalker(from, to) : null;
 
                 for (int s = 1; s <= steps; s++)
                 {
                     var f = (double) s / steps;
-                    var lat = from.Lat + (to.Lat - from.Lat) * f;
-                    var lng = from.Lng + (to.Lng - from.Lng) * f;
+                    double lat, lng;
+                    if (curve != null)
+                    {
+                        curve.PointAt(length * f, out lat, out lng);
+                    }
+                    else
+                    {
+                        lat = from.Lat + (to.Lat - from.Lat) * f;
+                        lng = from.Lng + (to.Lng - from.Lng) * f;
+                    }
+
                     var ground = s == steps ? to.Terrain : terrain(lat, lng);
                     var alt = double.NaN;
                     if (flown)
