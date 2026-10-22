@@ -124,6 +124,13 @@ namespace MissionPlanner
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
         {
+#if NETCOREAPP
+            // netDxf (DXF $DWGCODEPAGE, e.g. ANSI_1252), SharpZipLib (non-UTF-8 zip entry names) and
+            // others look up Windows code pages. .NET Framework and Mono have them built in; .NET Core/
+            // .NET 5+ only has them once this provider is registered. Register before anything calls
+            // Encoding.GetEncoding(0), because SharpZipLib caches the system default code page.
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
             Program.args = args;
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
