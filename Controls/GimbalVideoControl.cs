@@ -780,7 +780,6 @@ namespace MissionPlanner.Controls
                     var camera = port.MAVlist[address.Item1, address.Item2].Camera;
                     if (camera?.MavState != null) return camera;
                 }
-                return null;
             }
             if (_selectedCamera != null) return _selectedCamera;
             var cameras = port.MAVlist.Where(m => m.sysid == port.sysidcurrent && m.Camera?.MavState != null).ToList();
