@@ -117,21 +117,35 @@ namespace MissionPlanner.Utilities
             POIAdd(Point, output);
         }
 
-        public static void POIDelete(GMapMarkerPOI Point)
+        /// <summary>
+        /// The index of the POI a marker was drawn from, which UpdateOverlay puts in the marker's
+        /// Tag, or -1 when the list no longer holds it. Found by reference: two POIs with the same
+        /// position, altitude and name are equal to IndexOf, and two at the same position are
+        /// equal to a position match, so either would find the first of them.
+        /// </summary>
+        private static int IndexOfMarker(GMapMarkerPOI marker)
         {
-            if (Point == null)
-                return;
-
-            for (int a = 0; a < POI.POIs.Count; a++)
+            if (marker?.Tag is PointLatLngAlt pnt)
             {
-                if (POI.POIs[a].Point() == Point.Position)
+                for (int a = 0; a < POIs.Count; a++)
                 {
-                    POI.POIs.RemoveAt(a);
-                    if (_POIModified != null)
-                        _POIModified(null, null);
-                    return;
+                    if (ReferenceEquals(POIs[a], pnt))
+                        return a;
                 }
             }
+
+            return -1;
+        }
+
+        public static void POIDelete(GMapMarkerPOI Point)
+        {
+            var a = IndexOfMarker(Point);
+            if (a < 0)
+                return;
+
+            POI.POIs.RemoveAt(a);
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POIEdit(GMapMarkerPOI Point)
@@ -144,30 +158,23 @@ namespace MissionPlanner.Utilities
             if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
                 return;
 
-            for (int a = 0; a < POI.POIs.Count; a++)
-            {
-                if (POI.POIs[a].Point() == Point.Position)
-                {
-                    POI.POIs[a].Tag = output;
-                    if (_POIModified != null)
-                        _POIModified(null, null);
-                    return;
-                }
-            }
+            var a = IndexOfMarker(Point);
+            if (a < 0)
+                return;
+
+            POI.POIs[a].Tag = output;
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POIMove(GMapMarkerPOI Point)
         {
-            // the marker carries the POI it was drawn from (see UpdateOverlay); the marker's
-            // Position is already where it was dropped
-            if (Point?.Tag is PointLatLngAlt pnt)
+            // the marker's Position is already where it was dropped
+            var a = IndexOfMarker(Point);
+            if (a >= 0)
             {
-                var idx = POIs.IndexOf(pnt);
-                if (idx >= 0)
-                {
-                    POIs[idx].Lat = Point.Position.Lat;
-                    POIs[idx].Lng = Point.Position.Lng;
-                }
+                POIs[a].Lat = Point.Position.Lat;
+                POIs[a].Lng = Point.Position.Lng;
             }
 
             if (_POIModified != null)
