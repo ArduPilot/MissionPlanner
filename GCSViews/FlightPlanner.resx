@@ -745,6 +745,39 @@
   <data name="&gt;&gt;chk_usemavftp.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="CHK_elevationgraph.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_elevationgraph.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_elevationgraph.Location" type="System.Drawing.Point, System.Drawing">
+    <value>780, 12</value>
+  </data>
+  <data name="CHK_elevationgraph.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 17</value>
+  </data>
+  <data name="CHK_elevationgraph.TabIndex" type="System.Int32, mscorlib">
+    <value>58</value>
+  </data>
+  <data name="CHK_elevationgraph.Text" xml:space="preserve">
+    <value>Elevation Graph</value>
+  </data>
+  <data name="CHK_elevationgraph.ToolTip" xml:space="preserve">
+    <value>Show the mission's altitude profile over the terrain at the bottom of the map, with the rally points and, when connected, the fence ceiling and floor</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevationgraph.Name" xml:space="preserve">
+    <value>CHK_elevationgraph</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevationgraph.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevationgraph.Parent" xml:space="preserve">
+    <value>panelWaypoints</value>
+  </data>
+  <data name="&gt;&gt;CHK_elevationgraph.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="but_mincommands.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
