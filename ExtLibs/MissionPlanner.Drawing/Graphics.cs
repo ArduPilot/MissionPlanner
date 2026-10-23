@@ -38,7 +38,7 @@ namespace System.Drawing
 
             //var hdc = g.GetHdc();
 
-            ret._surface = SKSurface.Create(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+            ret._surface = SKSurface.Create(new SKImageInfo(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul));
 
             return ret;
         }
@@ -65,7 +65,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
              */
             //_surface = SKSurface.Create(GRContext.Create(GRBackend.OpenGL), );
 
-            _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+            _surface = SKSurface.Create(new SKImageInfo(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul));
 
 
             Debug.Assert(_surface != null);
@@ -855,14 +855,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
             }
 
-            if (format.FormatFlags == StringFormatFlags.DirectionVertical)
-            {
-                pnt.IsVerticalText = true;
-            }
-            else
-            {
-                pnt.IsVerticalText = false;
-            }
+            // StringFormatFlags.DirectionVertical is not supported: SKPaint.IsVerticalText was a no-op and is gone in SkiaSharp 3
 
             var lines = s.Trim().Split('\n');
             int a=0;
@@ -1280,8 +1273,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 //checkthis
                 var old = _image.TotalMatrix;
-                var extra = SKMatrix.MakeRotation(angle * 0.0174533f);
-                SKMatrix.PreConcat(ref old, extra);
+                var extra = SKMatrix.CreateRotation(angle * 0.0174533f);
+                old = old.PreConcat(extra);
                 _image.SetMatrix(old);
             }
         }
@@ -1300,7 +1293,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(sx, sy, old.TransX, old.TransY);
+                old = SKMatrix.CreateScaleTranslation(sx, sy, old.TransX, old.TransY);
                 _image.SetMatrix(old);
             }
         }
@@ -1409,7 +1402,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(old.ScaleX, old.ScaleY, f, f1);
+                old = SKMatrix.CreateScaleTranslation(old.ScaleX, old.ScaleY, f, f1);
                 _image.SetMatrix(old);
             }
         }
