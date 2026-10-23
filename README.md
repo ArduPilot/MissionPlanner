@@ -90,7 +90,7 @@ You can debug startup with `MONO_LOG_LEVEL=debug ./run.sh`.
 | https://raw.oborne.me/  | used as glocal cdn for parameter metadata generator, no longer primary source | only used at user request to regenerate, edit missionplanner.exe.config | Michael Oborne |
 | https://maps.google.com  | used for elevation api - removed due to abuse | N/A | N/A |
 | https://discuss.cubepilot.org/ | use for SB2 reporting - only on affected boards when user enters details | only used at user request | CubePilot |
-| https://altitudeangel.com  | utm data - user enabled | only used at user request | Altitude Angel |
+| https://altitudeangel.com  | utm data - removed | N/A | N/A |
 | https://autotest.ardupilot.org  | dataflash log meta data, parameter metadata | Not Possible | Ardupilot Team |
 | Many | your choice of map provider google/bing/openstreetmap/etc | User selectable | User/Many |
 | https://www.cloudflare.com | geo location provider - for NFZ selection | Not Possible | Michael Oborne |
