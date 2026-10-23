@@ -2458,7 +2458,7 @@ namespace MissionPlanner
         /// </summary>
         private void UpdateConnectIcon()
         {
-            if ((DateTime.UtcNow - connectButtonUpdate).TotalMilliseconds > 500)
+            if ((DateTime.UtcNow - connectButtonUpdate).Milliseconds > 500)
             {
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)
@@ -4220,7 +4220,13 @@ namespace MissionPlanner
             {
                 Thread.CurrentThread.CurrentUICulture = ci;
                 Settings.Instance["language"] = ci.Name;
-                //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+                MissionPlanner.Controls.HUDT.Culture = ci;
+
+                // 同步全局语言状态。否则切换语言后 Strings.* 仍停留在旧语言，
+                // 且后台线程会继续使用操作系统的语言。
+                CultureInfo.DefaultThreadCurrentUICulture = ci;
+                L10N.ConfigLang = ci;
+                MissionPlanner.Utilities.Strings.Culture = ci;
 
                 HashSet<Control> views = new HashSet<Control> {this, FlightData, FlightPlanner, Simulation};
 

@@ -1,6 +1,7 @@
-﻿using log4net;
+using log4net;
 using MissionPlanner.Utilities;
 using System.Globalization;
+using System.Threading;
 
 namespace MissionPlanner
 {
@@ -13,7 +14,17 @@ namespace MissionPlanner
         {
             ConfigLang = GetConfigLang();
             Strings.Culture = ConfigLang;
-            //In .NET 4.5,System.Globalization.CultureInfo.DefaultThreadCurrentCulture & DefaultThreadCurrentUICulture is avaiable
+            Controls.HUDT.Culture = ConfigLang;
+
+            // 设置默认 UI 语言，使后台线程也使用配置的语言。否则 L10NU 在非 UI 线程上
+            // 会读到操作系统的语言，并且不同线程之间会反复重新解析 strings 文件。
+            CultureInfo.DefaultThreadCurrentUICulture = ConfigLang;
+
+            // Set CurrentUICulture so L10NU loads the correct language strings
+            if (ConfigLang != null && !Thread.CurrentThread.CurrentUICulture.Equals(ConfigLang))
+            {
+                Thread.CurrentThread.CurrentUICulture = ConfigLang;
+            }
         }
 
         public static CultureInfo GetConfigLang()
