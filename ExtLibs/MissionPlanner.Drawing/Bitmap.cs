@@ -32,6 +32,11 @@ namespace System.Drawing
             nativeSkBitmap.InstallPixels(new SKImageInfo(width, height, SKColorType.Bgra8888), data);
         }
 
+        // exact System.Drawing signature, so assemblies compiled against the real System.Drawing bind to it
+        public Bitmap(int width, int height) : this(width, height, SKColorType.Bgra8888)
+        {
+        }
+
         public Bitmap(int width, int height, SKColorType colorType = (SKColorType.Bgra8888))
         {
             if (width <= 0) throw new ArgumentOutOfRangeException(nameof(width));
