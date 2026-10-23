@@ -503,8 +503,6 @@ namespace MissionPlanner
         public float targetairspeed { get; private set; }
 
         public bool lowairspeed { get; set; }
-        private float _cachedAirspeedMin = 0;
-        private DateTime _lastAirspeedMinCheck = DateTime.MinValue;
 
         [DisplayFieldName("asratio.Field")]
         [DisplayText("Airspeed Ratio")]
@@ -1304,37 +1302,37 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage3.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat3 Voltage (V)")]
         public double battery_voltage3 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage4.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat4 Voltage (V)")]
         public double battery_voltage4 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage5.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat5 Voltage (V)")]
         public double battery_voltage5 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage6.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat6 Voltage (V)")]
         public double battery_voltage6 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage7.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat7 Voltage (V)")]
         public double battery_voltage7 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage8.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat8 Voltage (V)")]
         public double battery_voltage8 { get; set; }
 
         [GroupText("Battery")]
         [DisplayFieldName("battery_voltage9.Field")]
-        [DisplayText("Bat Voltage (V)")]
+        [DisplayText("Bat9 Voltage (V)")]
         public double battery_voltage9 { get; set; }
 
         [GroupText("Battery")]
@@ -1352,42 +1350,42 @@ namespace MissionPlanner
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining2.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat2 Remaining (%)")]
         public int battery_remaining2 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining3.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat3 Remaining (%)")]
         public int battery_remaining3 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining4.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat4 Remaining (%)")]
         public int battery_remaining4 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining5.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat5 Remaining (%)")]
         public int battery_remaining5 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining6.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat6 Remaining (%)")]
         public int battery_remaining6 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining7.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat7 Remaining (%)")]
         public int battery_remaining7 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining8.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat8 Remaining (%)")]
         public int battery_remaining8 { get; set; }
 
         [GroupText("Battery")]
 	[DisplayFieldName("battery_remaining9.Field")]
-        [DisplayText("Bat Remaining (%)")]
+        [DisplayText("Bat9 Remaining (%)")]
         public int battery_remaining9 { get; set; }
 
         [GroupText("Battery")]
@@ -1520,35 +1518,35 @@ namespace MissionPlanner
         [GroupText("Battery")] public double battery_remainmin9 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat2 used EST (mah)")]
         public double battery_usedmah2 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat3 used EST (mah)")]
         public double battery_usedmah3 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat4 used EST (mah)")]
         public double battery_usedmah4 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat5 used EST (mah)")]
         public double battery_usedmah5 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat6 used EST (mah)")]
         public double battery_usedmah6 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat7 used EST (mah)")]
         public double battery_usedmah7 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat8 used EST (mah)")]
         public double battery_usedmah8 { get; set; }
 
         [GroupText("Battery")]
-        [DisplayText("Bat used EST (mah)")]
+        [DisplayText("Bat9 used EST (mah)")]
         public double battery_usedmah9 { get; set; }
 
         [GroupText("Battery")]
@@ -2287,23 +2285,6 @@ namespace MissionPlanner
             {
                 switch (mavLinkMessage.msgid)
                 {
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SIMSTATE:
-                        {
-                            var simstate = mavLinkMessage.ToStructure<MAVLink.mavlink_simstate_t>();
-                            //lat = simstate.lat / 1e7;
-                            //lng = simstate.lng / 1e7;
-                            //roll = (float)(simstate.roll * MathHelper.rad2deg);
-                            //pitch = (float)(simstate.pitch * MathHelper.rad2deg);
-                            //yaw = (float)(simstate.yaw * MathHelper.rad2deg);
-                            //gy = simstate.ygyro;
-                            //gx = simstate.xgyro;
-                            //gz = simstate.zgyro;
-                            //ax = simstate.xacc;
-                            //ay = simstate.yacc;
-                            //az = simstate.zacc;
-                        }
-                        break;
-
                     case (uint)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED:
 
                         // hil mavlink 0.9
@@ -3854,37 +3835,6 @@ namespace MissionPlanner
                             //This comes from the EKF, so it supposed to be correct
                             climbrate = vfr.climb;
                             gotVFR = true; // we have a vfr packet
-
-                            if ((timeSinceArmInAir > 0) && (DateTime.Now - _lastAirspeedMinCheck).TotalSeconds > 5)
-                            {
-                                try
-                                {
-                                    if (parent?.param != null)
-                                    {
-                                        if (parent.param.ContainsKey("AIRSPEED_MIN"))
-                                        {
-                                            _cachedAirspeedMin = (float)parent.param["AIRSPEED_MIN"].Value;
-                                        }
-                                        else if (parent.param.ContainsKey("ARSPD_FBW_MIN"))
-                                        {
-                                            _cachedAirspeedMin = (float)parent.param["ARSPD_FBW_MIN"].Value;
-                                        }
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    log.Debug("Error getting AIRSPEED_MIN or ARSPD_FBW_MIN from param for lowairspeed handling", ex);
-                                }
-
-                                _lastAirspeedMinCheck = DateTime.Now;
-                            }
-
-                            lowairspeed = armed
-                                && (timeSinceArmInAir > 0)
-                                && (_cachedAirspeedMin > 0)
-                                && sensors_enabled.differential_pressure
-                                && sensors_health.differential_pressure
-                                && (vfr.airspeed < _cachedAirspeedMin);
                         }
 
                         break;
@@ -4187,7 +4137,7 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS:
                         {
                             var ahrs = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs_t>();
-
+                            
                         }
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS2:
@@ -4206,98 +4156,23 @@ namespace MissionPlanner
                         {
                             var airspeedp = mavLinkMessage.ToStructure<MAVLink.mavlink_airspeed_t>();
 
-                            if (airspeedp.id == 0)
+                           if(airspeedp.id == 0)
                             {
                                 airspeed = airspeedp.airspeed;
                                 airspeed1_temp = (float)(airspeedp.temperature / 100.0);
                             }
                         }
                         break;
-                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE3:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_QUATERNION:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_REACHED:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.RALLY_POINT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ACK:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL:
                     case (uint)MAVLink.MAVLINK_MSG_ID.LOG_DATA:
                     case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_WRITE_REPLY:
                     case (uint)MAVLink.MAVLINK_MSG_ID.TIMESYNC:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_VALUE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ACTUATOR_CONTROL_TARGET:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS3:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ALTITUDE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.DEBUG_VECT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_READ:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_ACK:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW_RAD:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SET_MODE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_INT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_RTCM_DATA:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_HEARTBEAT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_SET:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ENTRY:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_POINT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_TARGET:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_LIST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.WIND_COV:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ESTIMATOR_STATUS:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_DATA:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ODOMETRY:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.PING:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_DATA:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.HOME_POSITION:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_CHECK:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_GLOBAL_ORIGIN:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA16:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_OPERATOR_ID:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_BASIC_ID:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_LOCATION:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SELF_ID:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SYSTEM:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.HIL_SENSOR:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_FETCH_POINT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ERASE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_INT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_TORQUE_CMD_REPORT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_REPORT:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_SET_RESPONSE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.SETUP_SIGNING:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_GET_RESPONSE:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_BLOCK_STATUS:
                         break;
                     default:
                         {
-                            Debug.WriteLine("//Unhandled CS message " + mavLinkMessage.msgid + " = \ncase (uint)MAVLink.MAVLINK_MSG_ID." + mavLinkMessage.msgtypename + ":");
+                            Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
                         }
                         break;
                 }
@@ -4499,20 +4374,33 @@ namespace MissionPlanner
 
                 if (typeofthing != null)
                 {
+                    string translated = null;
+
                     var attrib = typeofthing.GetCustomAttributes(false).OfType<DisplayFieldNameAttribute>().ToArray();
 
                     if (attrib.Length > 0)
                     {
-                        var translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
-
-                        if (translated != null)
-                        {
-                            var desc = translated.Replace("(fieldName)", name);
-                            return desc;
-                        }
-
-                        // fall-through
+                        translated = attrib.OfType<DisplayFieldNameAttribute>().First().TryTranslate(defaultTo: null);
                     }
+
+                    // fallback: DisplayTextAttribute.Text already translates via L10NU
+                    if (translated == null)
+                    {
+                        var displayAttrib = typeofthing.GetCustomAttributes(false)
+                            .OfType<DisplayTextAttribute>().FirstOrDefault();
+                        if (displayAttrib != null)
+                        {
+                            translated = displayAttrib.Text;
+                        }
+                    }
+
+                    if (translated != null)
+                    {
+                        var desc = translated.Replace("(fieldName)", name);
+                        return desc;
+                    }
+
+                    // fall-through
                 }
             } catch
             {

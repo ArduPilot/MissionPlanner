@@ -1,4 +1,4 @@
-﻿roll.Field=(fieldName) (крен)
+roll.Field=(fieldName) (крен)
 Roll (deg)=Крен (deg)
 
 pitch.Field=(fieldName) (тангаж)
@@ -236,6 +236,14 @@ Turn Radius (dist)=Радіус повороту (dist)
 
 battery_voltage.Field=(fieldName) (напруга бат.)
 Bat Voltage (V)=Напруга батареї (V)
+Bat2 Voltage (V)=Напруга батареї 2 (V)
+Bat3 Voltage (V)=Напруга батареї 3 (V)
+Bat4 Voltage (V)=Напруга батареї 4 (V)
+Bat5 Voltage (V)=Напруга батареї 5 (V)
+Bat6 Voltage (V)=Напруга батареї 6 (V)
+Bat7 Voltage (V)=Напруга батареї 7 (V)
+Bat8 Voltage (V)=Напруга батареї 8 (V)
+Bat9 Voltage (V)=Напруга батареї 9 (V)
 
 battery_voltage2.Field=(fieldName) (напруга бат.#2)
 
