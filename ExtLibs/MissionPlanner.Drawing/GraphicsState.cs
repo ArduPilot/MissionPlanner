@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 
-namespace System.Drawing
+namespace System.Drawing.Drawing2D
 {
     public class GraphicsState
     {
