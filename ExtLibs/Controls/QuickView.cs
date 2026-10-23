@@ -21,6 +21,14 @@ namespace MissionPlanner.Controls
 
         double _number = -9999;
 
+        // Optionally set this value to force the text size to fit this many "0" characters 
+        // in the view. This allows for matching the text size of adjacent views.
+        public int charWidth = -1;
+
+        // Optional offset and scale for unit conversions
+        public double offset = 0;
+        public double scale = 1;
+
         [System.ComponentModel.Browsable(true)]
         public double number
         {
@@ -68,6 +76,8 @@ namespace MissionPlanner.Controls
             InitializeComponent();
 
             PaintSurface+= OnPaintSurface;
+
+            DoubleBuffered = true;
         }
 
         private void OnPaintSurface(object sender, SKPaintSurfaceEventArgs e2)
@@ -86,9 +96,28 @@ namespace MissionPlanner.Controls
             }
             //
             {
-                var numb = number.ToString(numberformat);
+                string numb;
+                double scaled_number = scale * number + offset;
+                try
+                {
+                    if (numberformat.Contains(":"))
+                    {
+                        numb = TimeSpan.FromSeconds(scaled_number).ToString(numberformat);
+                    }
+                    else
+                    {
+                        numb = scaled_number.ToString(numberformat);
+                    }
+                }
+                catch(FormatException)
+                {
+                    numberformat = "0.00";
+                    numb = scaled_number.ToString(numberformat);
+                }
 
-                Size extent = e.MeasureString("0".PadLeft(numb.Length+1,'0'), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
+
+                var charWidth = Math.Max(this.charWidth, numb.Length) + 1;
+                Size extent = e.MeasureString("0".PadLeft(charWidth, '0'), new Font(this.Font.FontFamily, (float)newSize, this.Font.Style)).ToSize();
 
                 float hRatio = (this.Height - y) / (float)(extent.Height);
                 float wRatio = this.Width / (float)extent.Width;
