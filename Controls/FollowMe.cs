@@ -180,6 +180,7 @@ namespace MissionPlanner.Controls
                         gotohere.alt = (float)(gotolocation.Alt);
                         gotohere.lat = (gotolocation.Lat);
                         gotohere.lng = (gotolocation.Lng);
+                        gotohere.frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
 
                         try
                         {
