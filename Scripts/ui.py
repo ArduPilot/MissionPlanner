@@ -1,3 +1,4 @@
+from __future__ import print_function
 #!/usr/bin/ipy
 import clr
 
@@ -12,16 +13,16 @@ clr.ClearProfilerData()
 from System.Windows.Forms import Application, Form, Label
 from System.Drawing import Size,  Point, Font, Size
 
-print "MissionPlanner.Drawing" in [assembly.GetName().Name for assembly in clr.References]
-print "System.Drawing" in [assembly.GetName().Name for assembly in clr.References]
+print("MissionPlanner.Drawing" in [assembly.GetName().Name for assembly in clr.References])
+print("System.Drawing" in [assembly.GetName().Name for assembly in clr.References])
 
 for index, item in enumerate(clr.References):
     if item.GetName().Name == "System.Drawing":
         drawing = item
 font = drawing.GetType("System.Drawing.Font")
-print dir(font)
+print(dir(font))
 font = System.Activator.CreateInstance(font, "Arial", 12)
-print "dir ", dir(font)
+print("dir ", dir(font))
 ####################################
 #    GUI Iform CODE STARTS HERE    #
 ####################################
