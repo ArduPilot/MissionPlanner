@@ -1453,7 +1453,8 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true, bool showui = true)
+        public void doConnect(MAVLinkInterface comPort, string portname, string baud, bool getparams = true, bool showui = true,
+            bool RTSEnable = false)
         {
             bool skipconnectcheck = false;
             log.Info($"We are connecting to {portname} {baud}");
@@ -1575,6 +1576,7 @@ namespace MissionPlanner
                 {
                     if (baud != "" && baud != "0" && baud.IsNumber())
                         comPort.BaseStream.BaudRate = int.Parse(baud);
+                    comPort.BaseStream.RtsEnable = RTSEnable;
                 }
                 catch (Exception exp)
                 {
@@ -1900,7 +1902,7 @@ namespace MissionPlanner
             }
             else
             {
-                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
+                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text, RTSEnable: _connectionControl.chk_RTSEnable.Checked);
             }
 
             _connectionControl.UpdateSysIDS();
@@ -1986,6 +1988,8 @@ namespace MissionPlanner
             {
                 _connectionControl.CMB_baudrate.Enabled = true;
             }
+            _connectionControl.chk_RTSEnable.Enabled = _connectionControl.CMB_baudrate.Enabled;
+            _connectionControl.chk_RTSEnable.Visible = _connectionControl.chk_RTSEnable.Enabled;
 
             try
             {
@@ -1994,7 +1998,15 @@ namespace MissionPlanner
                 {
                     _connectionControl.CMB_baudrate.Text =
                         Settings.Instance[_connectionControl.CMB_serialport.Text.Replace(" ", "_") + "_BAUD"];
-                }
+                }   
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                _connectionControl.chk_RTSEnable.Checked = Settings.Instance.GetRTSEnable(_connectionControl.CMB_serialport.Text);
             }
             catch
             {
@@ -2238,6 +2250,8 @@ namespace MissionPlanner
 
                 if (_connectionControl != null)
                     Settings.Instance.BaudRate = _connectionControl.CMB_baudrate.Text;
+
+                Settings.Instance.RtsEnable = _connectionControl.chk_RTSEnable.Checked;
 
                 Settings.Instance.APMFirmware = MainV2.comPort.MAV.cs.firmware.ToString();
 
