@@ -156,7 +156,7 @@ namespace System.Drawing
                                 ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
                                 ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
                             }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                            , null, SKShaderTileMode.Clamp, SKMatrix.Identity)
                     };
                 }
 
@@ -173,7 +173,7 @@ namespace System.Drawing
                                 ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
                                 ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
                             }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                            , null, SKShaderTileMode.Clamp, SKMatrix.Identity)
                     };
                 }
             }

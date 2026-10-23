@@ -237,11 +237,11 @@
     </PackageReference>
     <PackageReference Include="SharpDX" version="4.1.0" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.1.0" targetFramework="net462" />
-    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies">
-      <Version>2.80.2</Version>
+      <Version>3.119.4</Version>
     </PackageReference>
-    <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.119.4" />
     <PackageReference Include="SSH.NET" version="2020.0.2" targetFramework="net40" />
     <PackageReference Include="System.CodeDom">
       <Version>8.0.0</Version>
