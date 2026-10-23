@@ -41,6 +41,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         /// incremented anytime its not a retransmit
         private uint16_t seq_no = 0;
+        // Retain a matching open ACK even when cancellation wins, so its owner can close it.
+        public byte? ReadSession { get; private set; }
 
         static Dictionary<(uint, int), object> locker = new Dictionary<(uint, int), object>();
 
@@ -52,6 +54,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             _mavint = mavint;
             _sysid = sysid;
             _compid = compid;
+            fileTransferProtocol.target_system = (byte)sysid;
+            fileTransferProtocol.target_component = compid;
 
             if (!locker.ContainsKey((sysid, compid)))
                 locker[(sysid, compid)] = new object();
@@ -630,8 +634,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return kCmdRemoveDirectory(dir, cancel);
         }
 
-        public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel)
+        public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel) =>
+            kCmdOpenFileRO(file, out size, cancel, true);
+
+        public bool kCmdOpenFileRO(string file, out int size, CancellationTokenSource cancel, bool resetOnNoSessions)
         {
+            ReadSession = null;
             fileTransferProtocol.target_system = (byte)(_sysid);
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
@@ -650,15 +658,17 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var localsize = size;
             var sub = _mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL, message =>
             {
+                var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
+                FTPPayloadHeader ftphead = msg.payload;
+                if (payload.opcode != ftphead.req_opcode || (ushort)(payload.seq_number + 1) != ftphead.seq_number)
+                    return true;
+                if (ftphead.opcode == FTPOpcode.kRspAck) ReadSession = ftphead.session;
                 if (cancel != null && cancel.IsCancellationRequested)
                 {
                     timeout.RetriesCurrent = 999;
                     log.Info($"cancel {payload.opcode}");
                     return true;
                 }
-
-                var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
-                FTPPayloadHeader ftphead = msg.payload;
                 // error at far end
                 if (ftphead.opcode == FTPOpcode.kRspNak)
                 {
@@ -692,16 +702,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                     if (errorcode == FTPErrorCode.kErrNoSessionsAvailable)
                     {
-                        kCmdResetSessions();
-                        timeout.RetriesCurrent = 0;
+                        if (resetOnNoSessions)
+                        {
+                            kCmdResetSessions();
+                            timeout.RetriesCurrent = 0;
+                        }
+                        else
+                        {
+                            timeout.Retries = 0;
+                            ex = new IOException("Camera has no free MAVFTP sessions");
+                        }
                     }
 
                     return true;
                 }
 
-                // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
-                    return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
                     return true;
@@ -1583,7 +1598,10 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = rwSize)
+        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = rwSize) =>
+            kCmdReadFile(file, size, cancel, session: 0, readsize: readsize);
+
+        public MemoryStream kCmdReadFile(string file, int size, CancellationTokenSource cancel, byte session, byte readsize = rwSize)
         {
             RetryTimeout timeout = new RetryTimeout();
             var payload = new FTPPayloadHeader()
@@ -1591,7 +1609,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 opcode = FTPOpcode.kCmdReadFile,
                 seq_number = seq_no++,
                 offset = 0,
-                session = 0,
+                session = session,
                 size = readsize
             };
             fileTransferProtocol.payload = payload;
@@ -1610,6 +1628,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
                 var msg = (MAVLink.mavlink_file_transfer_protocol_t) message.data;
                 FTPPayloadHeader ftphead = msg.payload;
+                if (payload.opcode != ftphead.req_opcode || (ushort)(payload.seq_number + 1) != ftphead.seq_number)
+                    return true;
+                if (ftphead.session != session && ftphead.opcode == FTPOpcode.kRspAck) return true;
                 //log.Debug("got " + ftphead.ToJSON());
                 // error at far end
                 if (ftphead.opcode == FTPOpcode.kRspNak)
@@ -1641,9 +1662,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     return true;
                 }
 
-                // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
-                    return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
                     return true;
@@ -1999,13 +2017,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return ans;
         }
 
-        public bool kCmdTerminateSession()
+        public bool kCmdTerminateSession() => kCmdTerminateSession(0);
+
+        public bool kCmdTerminateSession(byte session)
         {
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdTerminateSession,
                 seq_number = seq_no++,
-                session = 0
+                session = session
             };
             fileTransferProtocol.payload = payload;
             log.Info("get " + payload.opcode);
