@@ -1051,7 +1051,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                log.Error("Failed to enumerate serial ports for connection list.", ex);
+                log.Error(ex);
             }
 #if !NETSTANDARD2_0
 #if !NETCOREAPP2_0
@@ -1079,7 +1079,7 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    log.Error("Failed to populate serial port dropdown.", ex);
+                    log.Error(ex);
                 }
             }
 
