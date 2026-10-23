@@ -663,7 +663,6 @@ namespace MissionPlanner
             ShowAirports = true;
 
             // setup adsb
-            Utilities.adsb.ApplicationVersion = System.Windows.Forms.Application.ProductVersion;
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
             MAVLinkInterface.UpdateADSBPlanePosition += adsb_UpdatePlanePosition;
@@ -680,7 +679,9 @@ namespace MissionPlanner
                 }
             };
 
-            MAVLinkInterface.gcssysid = (byte) Settings.Instance.GetByte("gcsid", MAVLinkInterface.gcssysid);
+            uint configuredGcsId;
+            if (uint.TryParse(Settings.Instance["gcsid"], out configuredGcsId))
+                MAVLinkInterface.gcssysid = configuredGcsId;
 
             Form splash = Program.Splash;
 
@@ -1233,7 +1234,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed};
                 }
             }
         }
@@ -1766,8 +1767,12 @@ namespace MissionPlanner
                     }
 
                     // get any rallypoints
+                    // The vehicle picks both the value and the reported type of any parameter,
+                    // so this string can be "3.5", "NaN" or "1E+30". int.Parse() throws on those,
+                    // and this runs in the if condition, before the try below and before showui.
                     if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") &&
-                        int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0 && showui)
+                        int.TryParse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString(), out var rallyTotal) &&
+                        rallyTotal > 0 && showui)
                     {
                         try
                         {
@@ -1805,7 +1810,8 @@ namespace MissionPlanner
 
                     // get any fences
                     if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
-                        int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
+                        int.TryParse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString(), out var fenceTotal) &&
+                        fenceTotal > 1 &&
                         MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION") && showui)
                     {
                         try
@@ -2284,7 +2290,7 @@ namespace MissionPlanner
                                     rc = new MAVLink.mavlink_rc_channels_override_t();
 
                                 rc.target_component = comPort.MAV.compid;
-                                rc.target_system = comPort.MAV.sysid;
+                                rc.target_system = (byte)(comPort.MAV.sysid);
 
                                 if (joystick.getJoystickAxis(1) == Joystick.joystickaxis.None)
                                     rc.chan1_raw = ushort.MaxValue;
@@ -2403,7 +2409,7 @@ namespace MissionPlanner
                                         }
                                         else
                                         {
-                                            comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                                            comPort.sendPacket(rc, comPort.MAV.sysid, comPort.MAV.compid);
                                         }
 
                                         count++;
@@ -2624,7 +2630,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    await Task.Delay(1).ConfigureAwait(false); // was 5
+                    await PollDelay.Wait().ConfigureAwait(false); // was 5
 
                     try
                     {
@@ -3691,7 +3697,7 @@ namespace MissionPlanner
                     FlightData.BUT_playlog_Click(null, null);
                 }
                 else if (cmds.ContainsKey("file") && File.Exists(cmds["file"]) &&
-                         (cmds["file"].ToLower().EndsWith(".log") || cmds["file"].ToLower().EndsWith(".bin")))
+                         (cmds["file"].EndsWith(".log", StringComparison.OrdinalIgnoreCase) || cmds["file"].EndsWith(".bin", StringComparison.OrdinalIgnoreCase)))
                 {
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);
@@ -4184,7 +4190,7 @@ namespace MissionPlanner
                 // write
                 try
                 {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 }
                 catch
@@ -4439,8 +4445,8 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start(
-                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(
+                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest") { UseShellExecute = true });
             }
             catch
             {
@@ -4686,7 +4692,7 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP") { UseShellExecute = true });
             }
             catch
             {

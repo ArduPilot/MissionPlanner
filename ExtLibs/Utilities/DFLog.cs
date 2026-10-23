@@ -111,7 +111,7 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "TimeMS");
                         if (index >= 0)
                         {
-                            _timems = int.Parse(raw[index].ToString());
+                            _timems = long.Parse(raw[index].ToString());
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "TimeUS");
@@ -123,7 +123,7 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "T");
                         if (index >= 0)
                         {
-                            _timems = int.Parse(raw[index].ToString());
+                            _timems = long.Parse(raw[index].ToString());
                             return _timems;
                         }
                     }

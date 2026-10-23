@@ -6,8 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using log4net;
-using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 
 namespace MissionPlanner.Comms
@@ -205,8 +205,11 @@ namespace MissionPlanner.Comms
 
         private static readonly Dictionary<string, string> comportnamecache = new Dictionary<string, string>();
 
-        private static string portnamenice = "";
         private const int SystemPortEnumerationTimeoutMs = 2000;
+
+        // last enumeration still running (a driver can stall it) and the last list it produced
+        private static Task<string[]> systemPortEnumeration;
+        private static string[] lastSystemPorts = Array.Empty<string>();
 
         public new static string[] GetPortNames()
         {
@@ -307,70 +310,40 @@ namespace MissionPlanner.Comms
                     }
                 }
 
-                return allPorts.Distinct().ToArray();
+                // a port removed mid-enumeration can leave a null entry, which ComboBox.Items.AddRange rejects
+                return allPorts.Where(p => !string.IsNullOrWhiteSpace(p)).Distinct().ToArray();
             }
         }
 
+        /// <summary>
+        /// System.IO.Ports.SerialPort.GetPortNames with a timeout. On Windows it reads
+        /// HARDWARE\DEVICEMAP\SERIALCOMM, which a misbehaving (e.g. Bluetooth) serial driver can
+        /// stall. On a timeout or failure the previous list is returned, and while a stalled
+        /// enumeration is still running no new one is started, so callers do not block again.
+        /// </summary>
         private static string[] GetSystemPortNames()
         {
-            var ports = GetSystemPortNamesWithTimeout(SystemPortEnumerationTimeoutMs);
+            if (systemPortEnumeration != null && !systemPortEnumeration.IsCompleted)
+                return lastSystemPorts;
 
-            if (ports != null)
-                return ports;
-
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                return GetWindowsRegistryPortNames();
-
-            return Array.Empty<string>();
-        }
-
-        private static string[] GetSystemPortNamesWithTimeout(int timeoutMilliseconds)
-        {
-            string[] ports = null;
+            systemPortEnumeration = Task.Run(() => System.IO.Ports.SerialPort.GetPortNames());
 
             try
             {
-                CallWithTimeout(_ => { ports = System.IO.Ports.SerialPort.GetPortNames(); }, timeoutMilliseconds, 0);
-            }
-            catch (TimeoutException ex)
-            {
-                log.Warn($"System.IO.Ports.SerialPort.GetPortNames timed out after {timeoutMilliseconds} ms.", ex);
-                return null;
-            }
-            catch (Exception ex)
-            {
-                log.Error("Unexpected error while enumerating system serial ports.", ex);
-                return null;
-            }
-
-            return ports ?? Array.Empty<string>();
-        }
-
-        private static string[] GetWindowsRegistryPortNames()
-        {
-            var ports = new List<string>();
-
-            try
-            {
-                using (RegistryKey subkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DEVICEMAP\\SERIALCOMM"))
+                if (!systemPortEnumeration.Wait(SystemPortEnumerationTimeoutMs))
                 {
-                    if (subkey != null)
-                    {
-                        foreach (var value in subkey.GetValueNames())
-                        {
-                            var port = subkey.GetValue(value, "")?.ToString();
-                            if (!string.IsNullOrWhiteSpace(port))
-                                ports.Add(port);
-                        }
-                    }
+                    log.Warn($"System.IO.Ports.SerialPort.GetPortNames did not return within {SystemPortEnumerationTimeoutMs} ms, using the previous port list.");
+                    return lastSystemPorts;
                 }
+
+                lastSystemPorts = systemPortEnumeration.Result ?? Array.Empty<string>();
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
-                log.Error("Failed to retrieve COM ports from Windows registry.", ex);
+                log.Error("Failed to enumerate system serial ports, using the previous port list.", ex.InnerException ?? ex);
             }
 
-            return ports.ToArray();
+            return lastSystemPorts;
         }
 
         public static Func<List<string>> GetCustomPorts;
@@ -380,8 +353,6 @@ namespace MissionPlanner.Comms
             // make sure we are exclusive
             lock (locker)
             {
-                portnamenice = "";
-
                 if (port == "AUTO" || port == "UDP" || port == "UDPCl" || port == "TCP" || port == "WS")
                     return "";
 
@@ -391,21 +362,18 @@ namespace MissionPlanner.Comms
                     return comportnamecache[port];
                 }
 
-                try
-                {
-                    log.Info("start GetNiceName " + port);
+                log.Info("start GetNiceName " + port);
 
-                    CallWithTimeout(GetName, 1000, port);
-                }
-                catch
-                {
-                }
+                // on timeout the lookup is left to finish on its own: aborting it mid WMI/COM call is unsafe,
+                // and its late result is discarded, so it cannot leak into the next port's lookup
+                var lookup = Task.Run(() => GetName(port));
+                var portnamenice = lookup.Wait(1000) ? lookup.Result : "";
 
                 log.Info("done GetNiceName " + port + " = " + portnamenice);
 
                 comportnamecache[port] = portnamenice;
 
-                return (string) portnamenice.Clone();
+                return portnamenice;
             }
         }
 
@@ -413,43 +381,19 @@ namespace MissionPlanner.Comms
 
         public static event EventArgsDeviceName GetDeviceName;
 
-        private static void GetName(string port)
+        private static string GetName(string port)
         {
             try
             {
                 var ans = GetDeviceName?.Invoke(port);
                 if (!String.IsNullOrEmpty(ans))
-                {
-                    portnamenice = ans;
-                    return;
-                }
+                    return ans;
             }
             catch
             {
             }
 
-            portnamenice = "";
-        }
-
-        private static void CallWithTimeout<T>(Action<T> action, int timeoutMilliseconds, T data)
-        {
-            Thread threadToKill = null;
-            Action wrappedAction = () =>
-            {
-                threadToKill = Thread.CurrentThread;
-                action(data);
-            };
-
-            var result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
-            {
-                wrappedAction.EndInvoke(result);
-            }
-            else
-            {
-                threadToKill.Abort();
-                throw new TimeoutException();
-            }
+            return "";
         }
 
         // .NET bug: sometimes bluetooth ports are enumerated with bogus characters

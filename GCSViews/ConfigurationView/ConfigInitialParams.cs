@@ -274,7 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://ardupilot.org/copter/docs/tuning-process-instructions.html");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://ardupilot.org/copter/docs/tuning-process-instructions.html") { UseShellExecute = true });
         }
     }
 }

@@ -13,7 +13,7 @@ namespace MissionPlanner.ArduPilot
     public class OpenDroneID
     {
         private MAVLinkInterface _mav;
-        private byte target_system;
+        private uint target_system;
         private byte target_component;
 
         public float rate_hz { get; set; } = 1.0f;
@@ -42,7 +42,7 @@ namespace MissionPlanner.ArduPilot
         private Timer timer;
         private bool running;
 
-        public void Start(MAVLinkInterface mav, byte sysid, byte compid)
+        public void Start(MAVLinkInterface mav, uint sysid, byte compid)
         {
             _mav = mav;
             target_system = sysid;
@@ -108,7 +108,7 @@ namespace MissionPlanner.ArduPilot
         public void send_basic_id()
         {
             var basic_id =
-                MAVLink.mavlink_open_drone_id_basic_id_t.PopulateXMLOrder(target_system,
+                MAVLink.mavlink_open_drone_id_basic_id_t.PopulateXMLOrder((byte)target_system,
                     target_component,
                     id_or_mac(),
                     (byte)UAS_ID_type,
@@ -120,7 +120,7 @@ namespace MissionPlanner.ArduPilot
 
         public void send_id_system()
         {
-            var id_system = MAVLink.mavlink_open_drone_id_system_t.PopulateXMLOrder(target_system,
+            var id_system = MAVLink.mavlink_open_drone_id_system_t.PopulateXMLOrder((byte)target_system,
                 target_component,
                 id_or_mac(),
                 (byte)operator_location_type,
@@ -140,7 +140,7 @@ namespace MissionPlanner.ArduPilot
 
         public void send_self_id()
         {
-            var self_id = MAVLink.mavlink_open_drone_id_self_id_t.PopulateXMLOrder(target_system,
+            var self_id = MAVLink.mavlink_open_drone_id_self_id_t.PopulateXMLOrder((byte)target_system,
                 target_component,
                 id_or_mac(),
                 (byte)description_type,
@@ -155,7 +155,7 @@ namespace MissionPlanner.ArduPilot
 
         public void send_operator_id()
         {
-            var operator_id_pkt = MAVLink.mavlink_open_drone_id_operator_id_t.PopulateXMLOrder(target_system,
+            var operator_id_pkt = MAVLink.mavlink_open_drone_id_operator_id_t.PopulateXMLOrder((byte)target_system,
                 target_component,
                 id_or_mac(),
                 (byte)operator_id_type,

@@ -19,7 +19,7 @@ public partial class MAVLink
 
             if (msginfo.name == "")
                 return "";
-            
+
             var typeofthing = msginfo.type.GetField(fieldname);
             if (typeofthing != null)
             {
@@ -96,7 +96,7 @@ public partial class MAVLink
                     timeout = 60000;
             }
 
-            DateTime to = DateTime.Now.AddMilliseconds(timeout);
+            DateTime to = DateTime.UtcNow.AddMilliseconds(timeout);
 
             int toread = count;
             int pos = offset;
@@ -112,12 +112,16 @@ public partial class MAVLink
 
                 // reset timeout if we get data
                 if (read > 0)
-                    to = DateTime.Now.AddMilliseconds(timeout);
+                    to = DateTime.UtcNow.AddMilliseconds(timeout);
 
                 if (toread == 0)
                     break;
+                if (read > 0)
+                    continue;
+                if (BaseStream.CanSeek)
+                    throw new EndOfStreamException("End of data");
 
-                if (DateTime.Now > to)
+                if (DateTime.UtcNow > to)
                 {
                     throw new TimeoutException("Timeout waiting for data");
                 }
@@ -135,7 +139,7 @@ public partial class MAVLink
             {
                 byte[] datearray = new byte[8];
 
-                int tem = BaseStream.Read(datearray, 0, datearray.Length);
+                ReadWithTimeout(BaseStream, datearray, 0, datearray.Length);
 
                 Array.Reverse(datearray);
 
@@ -166,6 +170,7 @@ public partial class MAVLink
 
             if (readcount >= MAVLink.MAVLINK_MAX_PACKET_LEN)
             {
+                return null;
                 throw new InvalidDataException("No header found in data");
             }
 
@@ -173,13 +178,19 @@ public partial class MAVLink
             var headerlengthstx = headerlength + 1;
 
             // read header
-            ReadWithTimeout(BaseStream, buffer, 1, headerlength);
+            try {
+                ReadWithTimeout(BaseStream, buffer, 1, headerlength);
+            }
+            catch (EndOfStreamException)
+            {
+                return null;
+            }
 
             // packet length
             int lengthtoread = 0;
             if (buffer[0] == MAVLINK_STX)
             {
-                lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - magic - length
+                lengthtoread = buffer[1] + GetHeaderLength(buffer[2]);
                 if ((buffer[2] & MAVLINK_IFLAG_SIGNED) > 0)
                 {
                     lengthtoread += MAVLINK_SIGNATURE_BLOCK_LEN;
@@ -187,19 +198,28 @@ public partial class MAVLink
             }
             else
             {
-                lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - U - length    
+                lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - U - length
             }
 
-            //read rest of packet
-            ReadWithTimeout(BaseStream, buffer, headerlengthstx, lengthtoread - (headerlengthstx-2));
+            try
+            {
+                //read rest of packet
+                ReadWithTimeout(BaseStream, buffer, headerlengthstx, lengthtoread - (headerlengthstx - 2));
+            }
+            catch (EndOfStreamException)
+            {
+                return null;
+            }
 
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);
 
+            if (buffer[0] == MAVLINK_STX && (buffer[2] & ~MAVLINK_SUPPORTED_IFLAGS) != 0)
+                return null;
             MAVLinkMessage message = new MAVLinkMessage(buffer, packettime);
 
             // calc crc
-            ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
+            ushort crc = MavlinkCRC.crc_calculate(buffer, message.headerlength + message.payloadlength);
 
             // calc extra bit of crc for mavlink 1.0+
             if (message.header == MAVLINK_STX || message.header == MAVLINK_STX_MAVLINK1)
@@ -219,8 +239,10 @@ public partial class MAVLink
             return message;
         }
 
-        public byte[] GenerateMAVLinkPacket10(MAVLINK_MSG_ID messageType, object indata, byte sysid = 255, byte compid = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1)
+        public byte[] GenerateMAVLinkPacket10(MAVLINK_MSG_ID messageType, object indata, uint sysid = 255, byte compid = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1)
         {
+            if (sysid > byte.MaxValue)
+                throw new ArgumentOutOfRangeException(nameof(sysid), "MAVLink 1 cannot represent 32-bit system IDs");
             byte[] data;
 
             data = MavlinkUtil.StructureToByteArray(indata);
@@ -235,7 +257,7 @@ public partial class MAVLink
 
             packetcount++;
 
-            packet[3] = sysid; // this is always 255 - MYGCS
+            packet[3] = (byte)sysid; // this is always 255 - MYGCS
             packet[4] = compid;
             packet[5] = (byte)messageType;
 
@@ -262,45 +284,38 @@ public partial class MAVLink
             return packet;
         }
 
-        public byte[] GenerateMAVLinkPacket20(MAVLINK_MSG_ID messageType, object indata, bool sign = false, byte sysid = 255, byte compid= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1)
+        public byte[] GenerateMAVLinkPacket20(MAVLINK_MSG_ID messageType, object indata, bool sign = false, uint sysid = 255, byte compid= (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER, int sequence = -1, uint? targetSystem = null, byte targetComponent = 0)
         {
             byte[] data;
 
             data = MavlinkUtil.StructureToByteArray(indata);
 
+            if (indata.GetType().GetField("target_component") == null) targetComponent = 0;
+            if (targetSystem.HasValue && !SetPayloadTarget(indata, data, targetSystem.Value, targetComponent))
+                throw new ArgumentException("Message has no target system field", nameof(targetSystem));
             MavlinkUtil.trim_payload(ref data);
 
             int extra = 0;
             if (sign)
                 extra = MAVLINK_SIGNATURE_BLOCK_LEN;
 
-            byte[] packet = new byte[data.Length + MAVLINK_NUM_NON_PAYLOAD_BYTES + extra];
-
-            packet[0] = MAVLINK_STX;
-            packet[1] = (byte)data.Length;
-            packet[2] = 0;//incompat  signing
-            if (sign)
-                packet[2] |= MAVLINK_IFLAG_SIGNED;
-            packet[3] = 0;//compat
-            packet[4] = (byte)packetcount;
-            if (sequence != -1)
-                packet[4] = (byte)sequence;
+            byte flags = sign ? MAVLINK_IFLAG_SIGNED : (byte)0;
+            if (sysid > 255) flags |= MAVLINK_IFLAG_SYSID32;
+            if (targetSystem > 255) flags |= MAVLINK_IFLAG_TARGET32;
+            int headerLength = GetHeaderLength(flags);
+            byte[] packet = new byte[data.Length + headerLength + 2 + extra];
+            int i = WriteHeader(packet, (byte)data.Length, flags,
+                (byte)(sequence == -1 ? packetcount : sequence), sysid, compid,
+                (uint)messageType, targetSystem ?? 0);
             packetcount++;
 
-            packet[5] = sysid;
-            packet[6] = compid;
-            packet[7] = (byte)((UInt32)messageType);
-            packet[8] = (byte)((UInt32)messageType >> 8);
-            packet[9] = (byte)((UInt32)messageType >> 16);
-
-            int i = MAVLINK_NUM_HEADER_BYTES;
             foreach (byte b in data)
             {
                 packet[i] = b;
                 i++;
             }
 
-            ushort checksum = MavlinkCRC.crc_calculate(packet, data.Length + MAVLINK_NUM_HEADER_BYTES);
+            ushort checksum = MavlinkCRC.crc_calculate(packet, data.Length + headerLength);
 
             checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint)messageType).crc, checksum);
 
@@ -338,13 +353,13 @@ public partial class MAVLink
                 Array.Copy(timebytes, 0, sig, 1, 6); // timestamp
 
                 //Console.WriteLine("gen linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", sig[0], sig[1], sig[2], sig[3], sig[4], sig[5], sig[6], timestamp);
-                
+
                 if (signingKey == null || signingKey.Length != 32)
                 {
                     signingKey = new byte[32];
                 }
 
-                using (SHA256 signit = SHA256.Create())
+                using (SHA256CryptoServiceProvider signit = new SHA256CryptoServiceProvider())
                 {
                     MemoryStream ms = new MemoryStream();
                     ms.Write(signingKey, 0, signingKey.Length);

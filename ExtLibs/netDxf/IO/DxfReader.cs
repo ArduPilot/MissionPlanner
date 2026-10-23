@@ -154,11 +154,11 @@ namespace netDxf.IO
                     else
                     {
                         if (string.IsNullOrEmpty(dwgcodepage))
-                            encoding = Encoding.GetEncoding(Encoding.Default.WindowsCodePage); // use the default windows code page, if unable to read the code page header variable.
+                            encoding = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.ANSICodePage); // use the default windows code page, if unable to read the code page header variable.
                         else
                         {
                             int codepage;
-                            encoding = Encoding.GetEncoding(int.TryParse(dwgcodepage.Split('_')[1], out codepage) ? codepage : Encoding.Default.WindowsCodePage);
+                            encoding = Encoding.GetEncoding(int.TryParse(dwgcodepage.Split('_')[1], out codepage) ? codepage : CultureInfo.CurrentCulture.TextInfo.ANSICodePage);
                         }
                     }
                     this.chunk = new BinaryCodeValueReader(new BinaryReader(stream), encoding);
@@ -179,11 +179,11 @@ namespace netDxf.IO
                     {
                         // if the file is not UTF-8 use the code page provided by the dxf file
                         if (string.IsNullOrEmpty(dwgcodepage))
-                            encoding = Encoding.GetEncoding(Encoding.Default.WindowsCodePage); // use the default windows code page, if unable to read the code page header variable.
+                            encoding = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.ANSICodePage); // use the default windows code page, if unable to read the code page header variable.
                         else
                         {
                             int codepage;
-                            encoding = Encoding.GetEncoding(!int.TryParse(dwgcodepage.Split('_')[1], out codepage) ? Encoding.Default.WindowsCodePage : codepage);
+                            encoding = Encoding.GetEncoding(!int.TryParse(dwgcodepage.Split('_')[1], out codepage) ? CultureInfo.CurrentCulture.TextInfo.ANSICodePage : codepage);
                         }
                     }
                     this.chunk = new TextCodeValueReader(new StreamReader(stream, encoding, true));

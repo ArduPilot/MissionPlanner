@@ -19,12 +19,25 @@ jobs:
             **/obj/**
           key: ${{ runner.os }}-buildIOS
 
+      # The xamarin-* and mono-mdk-for-visual-studio Homebrew casks were
+      # deleted in August/September 2026 (Xamarin is discontinued), so
+      # install the same Microsoft/Mono packages the casks wrapped.
+      - name: Install Mono MDK and Xamarin.iOS
+        shell: bash
+        run: |
+          set -e
+          install_pkg() {
+            url="$1"; sha="$2"; pkg="$(basename "$url")"
+            curl -fsSL -o "$pkg" "$url"
+            echo "$sha  $pkg" | shasum -a 256 -c -
+            sudo installer -pkg "$pkg" -target /
+            rm -f "$pkg"
+          }
+          install_pkg https://download.mono-project.com/archive/6.12.0/macos-10-universal/MonoFramework-MDK-6.12.0.206.macos10.xamarin.universal.pkg 80b0dbfa59ba9ed76dbf1393998e6a2ed2d1ccc8f5850c7a46fbe31a2aea88d8
+          install_pkg https://download.visualstudio.microsoft.com/download/pr/ceb0ea3f-4db8-46b4-8dc3-8049d27c0107/3960868aa9b1946a6c77668c3f3334ee/xamarin.ios-16.4.0.23.pkg 3c3a2e3c5adebf7955934862b89c82e4771b0fd44dfcfebad0d160033a6e0a1a
       - name: Build
         shell: pwsh
         run: |
-          brew install --cask xamarin-ios
-          brew install --cask xamarin-android
-          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks
@@ -52,12 +65,25 @@ jobs:
             **/obj/**
           key: ${{ runner.os }}-buildOSX
 
+      # The xamarin-* and mono-mdk-for-visual-studio Homebrew casks were
+      # deleted in August/September 2026 (Xamarin is discontinued), so
+      # install the same Microsoft/Mono packages the casks wrapped.
+      - name: Install Mono MDK and Xamarin.Mac
+        shell: bash
+        run: |
+          set -e
+          install_pkg() {
+            url="$1"; sha="$2"; pkg="$(basename "$url")"
+            curl -fsSL -o "$pkg" "$url"
+            echo "$sha  $pkg" | shasum -a 256 -c -
+            sudo installer -pkg "$pkg" -target /
+            rm -f "$pkg"
+          }
+          install_pkg https://download.mono-project.com/archive/6.12.0/macos-10-universal/MonoFramework-MDK-6.12.0.206.macos10.xamarin.universal.pkg 80b0dbfa59ba9ed76dbf1393998e6a2ed2d1ccc8f5850c7a46fbe31a2aea88d8
+          install_pkg https://download.visualstudio.microsoft.com/download/pr/ceb0ea3f-4db8-46b4-8dc3-8049d27c0107/7b04843d469aae253519989fcb8e750f/xamarin.mac-9.3.0.23.pkg 9aa89a4d273e5fc246f779db5d23907c414b98b76fe51e30cb60e8ccd1199956
       - name: Build
         shell: pwsh
         run: |
-          brew install --cask xamarin-ios
-          brew install --cask xamarin-android
-          brew install --cask xamarin-mac
           msbuild -ver
           dotnet --version
           dotnet --list-sdks

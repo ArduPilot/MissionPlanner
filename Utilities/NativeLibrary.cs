@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MissionPlanner.Utilities
 {
@@ -21,7 +20,7 @@ namespace MissionPlanner.Utilities
         public static extern IntPtr dlopen(string filename, int flags);
 
         [DllImport("libdl.so")]
-        public static extern StringBuilder dlerror();
+        public static extern IntPtr dlerror();
 
         [DllImport("libdl.so")]
         public static extern IntPtr dlsym(IntPtr handle, string symbol);

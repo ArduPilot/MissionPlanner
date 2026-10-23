@@ -42,6 +42,8 @@ namespace MissionPlanner.Utilities
             {
                 var typeofthing = typeof(MAVLink.MAV_CMD);
                 var memInfo = typeofthing.GetMember(Enum.Parse(typeofthing, id.ToString()).ToString());
+                if (memInfo.Length == 0)
+                    return false;
                 var attrib = memInfo[0].GetCustomAttributes(false).OfType<hasLocation>().ToArray();
                 if (attrib.Length > 0)
                     return true;

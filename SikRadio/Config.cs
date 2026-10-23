@@ -144,12 +144,12 @@ namespace SikRadio
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("http://code.google.com/p/ardupilot-mega/wiki/3DRadio");
+            Process.Start(new ProcessStartInfo("http://code.google.com/p/ardupilot-mega/wiki/3DRadio") { UseShellExecute = true });
         }
 
         private void projectPageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/tridge/SiK");
+            Process.Start(new ProcessStartInfo("https://github.com/tridge/SiK") { UseShellExecute = true });
         }
 
         void ShowForm(Func<ISikRadioForm> Constructor)

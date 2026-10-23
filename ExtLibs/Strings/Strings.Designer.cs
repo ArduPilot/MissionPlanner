@@ -1747,5 +1747,149 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("Zoom_to_the_center_or_the_loaded_file", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Firmware.
+        /// </summary>
+        public static string FirmwareSelectionTitle {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to More than one firmware matches this board. Use the filters to narrow it down to the one you want..
+        /// </summary>
+        public static string FirmwareSelectionPrompt {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPrompt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Any.
+        /// </summary>
+        public static string FirmwareSelectionAny {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionAny", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Too many matches ({0}) - apply more filters.
+        /// </summary>
+        public static string FirmwareSelectionTooMany {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionTooMany", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No firmware matches the current filters.
+        /// </summary>
+        public static string FirmwareSelectionNoMatches {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionNoMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Firmware.
+        /// </summary>
+        public static string FirmwareSelectionUpload {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionUpload", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicle Type.
+        /// </summary>
+        public static string FirmwareSelectionVehicleType {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionVehicleType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Release Type.
+        /// </summary>
+        public static string FirmwareSelectionReleaseType {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionReleaseType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Platform.
+        /// </summary>
+        public static string FirmwareSelectionPlatform {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPlatform", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string FirmwareSelectionVersion {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionVersion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        public static string FirmwareSelectionFormat {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to USB ID.
+        /// </summary>
+        public static string FirmwareSelectionUsbId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionUsbId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Board ID.
+        /// </summary>
+        public static string FirmwareSelectionBoardId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionBoardId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Bootloader ID.
+        /// </summary>
+        public static string FirmwareSelectionBootloaderId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionBootloaderId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string FirmwareSelectionFile {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pick a file to download and upload (.apj).
+        /// </summary>
+        public static string FirmwareSelectionPickFile {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPickFile", resourceCulture);
+            }
+        }
     }
 }

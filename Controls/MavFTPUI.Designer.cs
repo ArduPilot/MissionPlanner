@@ -37,6 +37,7 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.downloadBurstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,7 +100,8 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             this.columnHeaderType,
-            this.columnHeaderSize});
+            this.columnHeaderSize,
+            this.columnHeaderModified});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -132,6 +134,11 @@
             // columnHeaderSize
             // 
             this.columnHeaderSize.Text = "Size";
+            // 
+            // columnHeaderModified
+            // 
+            this.columnHeaderModified.Text = "Date modified";
+            this.columnHeaderModified.Width = 120;
             // 
             // contextMenuStrip1
             // 
@@ -260,6 +267,7 @@
         private System.Windows.Forms.ColumnHeader columnHeaderName;
         private System.Windows.Forms.ColumnHeader columnHeaderType;
         private System.Windows.Forms.ColumnHeader columnHeaderSize;
+        private System.Windows.Forms.ColumnHeader columnHeaderModified;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;

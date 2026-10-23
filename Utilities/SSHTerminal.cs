@@ -432,18 +432,18 @@ namespace MissionPlanner.Utilities
 
                 string pattern = @"\e[\(\[\]](\d+;)*\??(\d+)?[ABCDEFGHJKSPTLMflXthmbnirpdsu]";
                 //Removing Unnessary carriage returns
-                if (data.StartsWith("\r") && !data.StartsWith("\r\n"))
+                if (data.StartsWith("\r", StringComparison.Ordinal) && !data.StartsWith("\r\n", StringComparison.Ordinal))
                {
-                   data = data.Remove(data.IndexOf("\r"), 1);
+                   data = data.Remove(data.IndexOf("\r", StringComparison.Ordinal), 1);
                    CursorToColumn(0);
                }
 
                foreach (Match match in Regex.Matches(data, pattern))
                {
-                   var index = data.IndexOf(match.Value);
+                   var index = data.IndexOf(match.Value, StringComparison.Ordinal);
                    if (index != 0) //There are words to add before next ANSI character
                     {
-                       var subString = data.Substring(0, data.IndexOf(match.Value));
+                       var subString = data.Substring(0, data.IndexOf(match.Value, StringComparison.Ordinal));
                        if (subString != "") data = data.Remove(0, subString.Length);
                         //Format Data to remove any unwanted characters
                         subString = FormatData(subString);
@@ -552,7 +552,7 @@ namespace MissionPlanner.Utilities
                 //text up until next newline or return character
                 if (check != trim)
                 {
-                    int newlineIndex = data.IndexOf(trim);
+                    int newlineIndex = data.IndexOf(trim, StringComparison.Ordinal);
                     if (newlineIndex == -1) newlineIndex = data.Length;
                     var subString = data.Substring(0, newlineIndex);
                     subString = FormatData(subString);
@@ -572,7 +572,7 @@ namespace MissionPlanner.Utilities
                 {
                     CursorDown("\u001b[B");
                 }
-                if (data != "") data = data.Remove(data.IndexOf(trim), trim.Length);
+                if (data != "") data = data.Remove(data.IndexOf(trim, StringComparison.Ordinal), trim.Length);
             }
             return data;
         }
@@ -616,8 +616,8 @@ namespace MissionPlanner.Utilities
             foreach (Match match in Regex.Matches(data, @"\u001b]\d+;"))
             {
                 int index = data.IndexOf('\u001b');
-                int endIndex = data.IndexOf("\a");
-                if (endIndex < index) { data = data.Remove(endIndex, 1); endIndex = data.IndexOf("\a"); }
+                int endIndex = data.IndexOf("\a", StringComparison.Ordinal);
+                if (endIndex < index) { data = data.Remove(endIndex, 1); endIndex = data.IndexOf("\a", StringComparison.Ordinal); }
                 data = data.Remove(match.Index, endIndex - match.Index + 1);
                 EditDisplay("\u001b[0m");
             }
@@ -668,7 +668,7 @@ namespace MissionPlanner.Utilities
             {
                 if (data == "") break;
                 var check = data.Substring(0, backSpaceKey.Length);
-                int backSpaceIndex = data.IndexOf(backSpaceKey);
+                int backSpaceIndex = data.IndexOf(backSpaceKey, StringComparison.Ordinal);
                 //Check if next substring is a backspace or more text to append
                 if (check != backSpaceKey)
                 {
@@ -688,7 +688,7 @@ namespace MissionPlanner.Utilities
                 {
                     TXT_terminal.SelectionStart = TXT_terminal.SelectionStart - 1;
                 }
-                if (data != "") data = data.Remove(data.IndexOf(backSpaceKey), backSpaceKey.Length);
+                if (data != "") data = data.Remove(data.IndexOf(backSpaceKey, StringComparison.Ordinal), backSpaceKey.Length);
             }
             return data;
         }
@@ -1352,7 +1352,7 @@ namespace MissionPlanner.Utilities
             CursorToLine(ScreenTop);
             TXT_terminal.Select(TXT_terminal.GetFirstCharIndexFromLine(ScreenTop), TXT_terminal.GetFirstCharIndexFromLine(RemovalLine) - TXT_terminal.GetFirstCharIndexFromLine(ScreenTop));
             TXT_terminal.SelectedRtf = replacementRtf;
-            if (!replacementText.EndsWith("\n\n"))
+            if (!replacementText.EndsWith("\n\n", StringComparison.Ordinal))
             {
                 TXT_terminal.Select(TXT_terminal.GetFirstCharIndexFromLine(ScreenBottom), 1);
                 TXT_terminal.SelectedText = "\n";
