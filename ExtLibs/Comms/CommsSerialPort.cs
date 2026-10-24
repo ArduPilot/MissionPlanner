@@ -205,6 +205,12 @@ namespace MissionPlanner.Comms
 
         private static readonly Dictionary<string, string> comportnamecache = new Dictionary<string, string>();
 
+        private const int SystemPortEnumerationTimeoutMs = 2000;
+
+        // last enumeration still running (a driver can stall it) and the last list it produced
+        private static Task<string[]> systemPortEnumeration;
+        private static string[] lastSystemPorts = Array.Empty<string>();
+
         public new static string[] GetPortNames()
         {
             // prevent hammering
@@ -279,7 +285,7 @@ namespace MissionPlanner.Comms
 
                 try
                 {
-                    ports = System.IO.Ports.SerialPort.GetPortNames();
+                    ports = GetSystemPortNames();
                     // any exceptions will still result in a list
                     ports = ports.Select(p => p?.TrimEnd()).ToArray();
                     ports = ports.Select(FixBlueToothPortNameBug).ToArray();
@@ -304,8 +310,40 @@ namespace MissionPlanner.Comms
                     }
                 }
 
-                return allPorts.Distinct().ToArray();
+                // a port removed mid-enumeration can leave a null entry, which ComboBox.Items.AddRange rejects
+                return allPorts.Where(p => !string.IsNullOrWhiteSpace(p)).Distinct().ToArray();
             }
+        }
+
+        /// <summary>
+        /// System.IO.Ports.SerialPort.GetPortNames with a timeout. On Windows it reads
+        /// HARDWARE\DEVICEMAP\SERIALCOMM, which a misbehaving (e.g. Bluetooth) serial driver can
+        /// stall. On a timeout or failure the previous list is returned, and while a stalled
+        /// enumeration is still running no new one is started, so callers do not block again.
+        /// </summary>
+        private static string[] GetSystemPortNames()
+        {
+            if (systemPortEnumeration != null && !systemPortEnumeration.IsCompleted)
+                return lastSystemPorts;
+
+            systemPortEnumeration = Task.Run(() => System.IO.Ports.SerialPort.GetPortNames());
+
+            try
+            {
+                if (!systemPortEnumeration.Wait(SystemPortEnumerationTimeoutMs))
+                {
+                    log.Warn($"System.IO.Ports.SerialPort.GetPortNames did not return within {SystemPortEnumerationTimeoutMs} ms, using the previous port list.");
+                    return lastSystemPorts;
+                }
+
+                lastSystemPorts = systemPortEnumeration.Result ?? Array.Empty<string>();
+            }
+            catch (AggregateException ex)
+            {
+                log.Error("Failed to enumerate system serial ports, using the previous port list.", ex.InnerException ?? ex);
+            }
+
+            return lastSystemPorts;
         }
 
         public static Func<List<string>> GetCustomPorts;

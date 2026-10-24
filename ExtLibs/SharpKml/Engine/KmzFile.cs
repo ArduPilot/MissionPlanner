@@ -334,7 +334,11 @@ namespace SharpKml.Engine
 
             if (kml != null)
             {
-                return ASCIIEncoding.Default.GetString(this.ExtractResource(kml));
+                // KML is XML, which defaults to UTF-8; honour a byte order mark if present
+                using (var reader = new StreamReader(new MemoryStream(this.ExtractResource(kml)), Encoding.UTF8, true))
+                {
+                    return reader.ReadToEnd();
+                }
             }
             return null;
         }

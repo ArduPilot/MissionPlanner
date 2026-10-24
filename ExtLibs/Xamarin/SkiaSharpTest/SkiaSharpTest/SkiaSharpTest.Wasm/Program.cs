@@ -23,7 +23,7 @@ namespace SkiaSharpTest.Wasm
 
             Console.WriteLine("Main 1");
             new System.Drawing.android.android();
-            var test = System.Drawing.FillMode.Alternate;
+            var test = System.Drawing.Drawing2D.FillMode.Alternate;
             var test2 = System.Drawing.Color.White;
 
             //new MissionPlanner.Drawing.Common.Common();

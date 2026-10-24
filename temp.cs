@@ -919,7 +919,7 @@ namespace MissionPlanner
             var butt = new MyButton() { Text = "Open DEM Dir", Dock = DockStyle.Top };
             butt.Click += (a, ev) =>
             {
-                System.Diagnostics.Process.Start(srtm.datadirectory);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(srtm.datadirectory) { UseShellExecute = true });
             };
             ctl.Controls.Add(butt);
 

@@ -32,7 +32,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -777,20 +776,6 @@ namespace MissionPlanner.GCSViews
             }
             updateUndoBuffer(true);
             setfromMap(lat, lng, alt);
-        }
-
-        public T DeepClone<T>(T obj)
-        {
-            using (var ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-
-                formatter.Serialize(ms, obj);
-
-                ms.Position = 0;
-
-                return (T) formatter.Deserialize(ms);
-            }
         }
 
         /// <summary>
@@ -4475,7 +4460,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                Process.Start("http://127.0.0.1:56781/network.kml");
+                Process.Start(new ProcessStartInfo("http://127.0.0.1:56781/network.kml") { UseShellExecute = true });
             }
             catch
             {
@@ -7060,10 +7045,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (isMouseDown || CurentRectMarker != null)
                     return;
 
-                prop.alt = MainV2.comPort.MAV.cs.alt;
-                prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                // in metres, like the terrain they are compared with; the planned home altitude
+                // is kept in display units, as typed in the home alt box
+                prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                 prop.center = MainMap.Position;
-                prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
+                var plannedhome = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation);
+                plannedhome.Alt /= CurrentState.multiplieralt;
+                prop.Update(plannedhome, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
                 // clear every 10 seconds
@@ -7369,7 +7358,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString("0.00");
+                // the vehicle home is in metres; the box, like the grid, is in display units
+                TXT_homealt.Text = (MainV2.comPort.MAV.cs.HomeLocation.Alt * CurrentState.multiplieralt).ToString("0.00");
 
                 writeKML();
             }

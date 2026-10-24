@@ -124,6 +124,13 @@ namespace MissionPlanner
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void Start(string[] args)
         {
+#if NETCOREAPP
+            // netDxf (DXF $DWGCODEPAGE, e.g. ANSI_1252), SharpZipLib (non-UTF-8 zip entry names) and
+            // others look up Windows code pages. .NET Framework and Mono have them built in; .NET Core/
+            // .NET 5+ only has them once this provider is registered. Register before anything calls
+            // Encoding.GetEncoding(0), because SharpZipLib caches the system default code page.
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
             Program.args = args;
             Console.WriteLine(
                 "If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
@@ -353,11 +360,15 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.EsriArcticOceanBase.Instance);
 
 
+#if LIB
             if(Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Desktop || Xamarin.Essentials.DeviceInfo.Idiom == Xamarin.Essentials.DeviceIdiom.Unknown)
                 ZedGraph.PaneBase.Default.IsFontsScaled = false;
 
             if(Xamarin.Essentials.DeviceInfo.Platform != Xamarin.Essentials.DevicePlatform.Unknown)
                 log.Info(typeof(Xamarin.Essentials.DeviceInfo).ToJSON());
+#else
+            ZedGraph.PaneBase.Default.IsFontsScaled = false;
+#endif
 
             Console.WriteLine("Setup GoogleMapProvider API");
             if (Settings.Instance["GoogleApiKey"] != null) GoogleMapProvider.APIKey = Settings.Instance["GoogleApiKey"];

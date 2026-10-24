@@ -82,13 +82,15 @@ namespace MissionPlanner.Controls
             treeView1.Nodes.Clear();
 
             TreeNode rootNode = null;
+            DirectoryInfo[] rootDirs = new DirectoryInfo[] { };
 
             DirectoryInfo info = new DirectoryInfo(@"/", _mavftp);
             if (info.Exists)
             {
                 rootNode = new TreeNode(info.Name, 0, 0);
                 rootNode.Tag = info;
-                await PopulateDirectories(await info.GetDirectories().ConfigureAwait(true), rootNode).ConfigureAwait(true);
+                rootDirs = await info.GetDirectories().ConfigureAwait(true);
+                await PopulateDirectories(rootDirs, rootNode).ConfigureAwait(true);
                 treeView1.Nodes.Add(rootNode);
             }
             /*
@@ -102,7 +104,8 @@ namespace MissionPlanner.Controls
             }
             */
             info = new DirectoryInfo(@"@SYS/", _mavftp);
-            if (info.Exists)
+            // ArduPilot 4.6+ already lists @SYS in the root directory, so only add it for older firmware
+            if (info.Exists && !rootDirs.Any(a => a.Name == "@SYS"))
             {
                 rootNode = new TreeNode("@SYS", 0, 0);
                 rootNode.Tag = info;
@@ -358,11 +361,21 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        var file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text);
+                        // The vehicle chooses this name, and Path.Combine() honours a rooted
+                        // or ".."-laden second argument. Reduce it the same way the upload
+                        // path above already does.
+                        var safeName = Path.GetFileName(listView1SelectedItem.Text);
+                        if (string.IsNullOrEmpty(safeName) || safeName == "." || safeName == "..")
+                        {
+                            log.Error("MAVFTP: refusing unsafe file name: " + listView1SelectedItem.Text);
+                            return;
+                        }
+
+                        var file = Path.Combine(sfd.SelectedPath, safeName);
                         int a = 0;
                         while (File.Exists(file))
                         {
-                            file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text) + a++;
+                            file = Path.Combine(sfd.SelectedPath, safeName) + a++;
                         }
                         File.WriteAllBytes(file, ms.ToArray());
                     };
@@ -671,11 +684,21 @@ namespace MissionPlanner.Controls
                             return;
                         }
 
-                        var file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text);
+                        // The vehicle chooses this name, and Path.Combine() honours a rooted
+                        // or ".."-laden second argument. Reduce it the same way the upload
+                        // path above already does.
+                        var safeName = Path.GetFileName(listView1SelectedItem.Text);
+                        if (string.IsNullOrEmpty(safeName) || safeName == "." || safeName == "..")
+                        {
+                            log.Error("MAVFTP: refusing unsafe file name: " + listView1SelectedItem.Text);
+                            return;
+                        }
+
+                        var file = Path.Combine(sfd.SelectedPath, safeName);
                         int a = 0;
                         while (File.Exists(file))
                         {
-                            file = Path.Combine(sfd.SelectedPath, listView1SelectedItem.Text) + a++;
+                            file = Path.Combine(sfd.SelectedPath, safeName) + a++;
                         }
                         File.WriteAllBytes(file, ms.ToArray());
                     };

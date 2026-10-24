@@ -426,38 +426,73 @@ namespace MissionPlanner
         private int _bps2 = 0;
         private DateTime _bpstime { get; set; }
 
-        public bool MirrorStreamWrite { 
-            get {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStreamWrite;
+        // The reader thread enumerates Mirrors in ProcessMirrorStream without a lock, so the list is
+        // never modified in place: a change copies it and assigns the copy. Every writer takes
+        // mirrorslock around the copy and the assignment, otherwise two of them (the serial output
+        // list on the UI thread and a plugin setting MirrorStream from its own thread) can copy the
+        // same list and the later assignment drops the entry the other one added.
+        private readonly object mirrorslock = new object();
 
-                Mirrors.Add(new Mirror());
-                return MirrorStreamWrite;
-            } 
-            set 
+        /// <summary>
+        /// Add a mirror that receives every packet read from the vehicle and, when its
+        /// MirrorStreamWrite is set, forwards what it receives to the vehicle.
+        /// </summary>
+        public void AddMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
+                Mirrors = new List<Mirror>(Mirrors) { mirror };
+        }
+
+        /// <summary>
+        /// Remove a mirror added with AddMirror or through the legacy MirrorStream property.
+        /// The caller closes its stream. Returns false when the mirror was not in the list.
+        /// </summary>
+        public bool RemoveMirror(Mirror mirror)
+        {
+            lock (mirrorslock)
             {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStreamWrite = value;
-                else
-                    Mirrors.Add(new Mirror() { MirrorStreamWrite = value });
-            } 
+                var mirrors = new List<Mirror>(Mirrors);
+                if (!mirrors.Remove(mirror))
+                    return false;
+
+                Mirrors = mirrors;
+                return true;
+            }
+        }
+
+        // Legacy single-mirror view. It owns its own entry in Mirrors instead of using Mirrors[0],
+        // which may be a mirror started from the serial output list. Reading returns a default when
+        // there is no legacy mirror; the first set creates the entry, later sets reuse it.
+        private Mirror _legacyMirror;
+
+        private Mirror LegacyMirror(bool create)
+        {
+            lock (mirrorslock)
+            {
+                var legacy = _legacyMirror;
+                if (legacy != null && Mirrors.Contains(legacy))
+                    return legacy;
+
+                if (!create)
+                    return null;
+
+                legacy = new Mirror();
+                Mirrors = new List<Mirror>(Mirrors) { legacy };
+                _legacyMirror = legacy;
+                return legacy;
+            }
+        }
+
+        // The setters assign under mirrorslock as well, so the lookup (or creation) of the legacy
+        // entry and the write to it are one step: the list cannot be replaced in between, and the
+        // mirror written is the one in Mirrors.
+        public bool MirrorStreamWrite {
+            get { return LegacyMirror(false)?.MirrorStreamWrite ?? false; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStreamWrite = value; }
         }
         public ICommsSerial MirrorStream {
-            get
-            {
-                if (Mirrors.Count > 0)
-                    return Mirrors[0].MirrorStream;
-
-                Mirrors.Add(new Mirror());
-                return MirrorStream;
-            }
-            set
-            {
-                if (Mirrors.Count > 0)
-                    Mirrors[0].MirrorStream = value;
-                else
-                    Mirrors.Add(new Mirror() { MirrorStream = value });
-            }
+            get { return LegacyMirror(false)?.MirrorStream; }
+            set { lock (mirrorslock) LegacyMirror(true).MirrorStream = value; }
         }
 
 
@@ -4421,7 +4456,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 if (setguidedmode)
                 {
                     // fix for followme change
-                    if (MAVlist[sysid, compid].cs.mode.ToUpper() != "GUIDED")
+                    if (!string.Equals(MAVlist[sysid, compid].cs.mode, "GUIDED", StringComparison.OrdinalIgnoreCase))
                         setMode(sysid, compid, "GUIDED");
                 }
 
@@ -4726,7 +4761,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                         throw new TimeoutException("Timeout");
                                     }
 
-                                    await Task.Delay(1).ConfigureAwait(false);
+                                    await PollDelay.Wait().ConfigureAwait(false);
                                     if (debug)
                                         Console.WriteLine(DateTime.Now.Millisecond + " SR0b " +
                                                           BaseStream?.BytesToRead);
@@ -4819,7 +4854,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                     throw new TimeoutException("Timeout");
                                 }
 
-                                await Task.Delay(1).ConfigureAwait(false);
+                                await PollDelay.Wait().ConfigureAwait(false);
                             }
 
                             if (debug)
@@ -4871,7 +4906,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                             throw new TimeoutException("Incomplete MAVLink frame");
                                         if (BaseStream.BytesToRead == 0)
                                         {
-                                            await Task.Delay(1).ConfigureAwait(false);
+                                            await PollDelay.Wait().ConfigureAwait(false);
                                             continue;
                                         }
                                         int read = BaseStream.Read(buffer, offset, length - offset);
@@ -5018,8 +5053,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     // create an item - hidden
                     MAVlist.AddHiddenList(sysid, compid);
-                    // prevent packetloss counter on connect
-                    MAVlist[sysid, compid].recvpacketcount = unchecked(packetSeqNo - (byte)1);
+                    // prevent packetloss counter on connect: the first packet is taken as a dup of itself, so the
+                    // packet before it, never seen, is not marked as received in recvpacketmask
+                    MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                 }
 
                 // once set it cannot be reverted
@@ -5130,41 +5166,60 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 {
                     packetSeemValid = true;
                     // check if we lost pacakets based on seqno
-                    int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1) % 0x100);
+                    // seq is 8 bit, so a packet up to latePacketWindow behind the newest one is either late
+                    // (reordered on the link, UDP over IP) or the next one after 191..254 lost packets. It is
+                    // late only if it fills a hole in the mask of recently received seqs. Reordering is a
+                    // matter of milliseconds, so after a pause the seq has wrapped through an outage instead
+                    const int latePacketWindow = 64;
+                    int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
+                    int delta = (packetSeqNo - lastPacketSeqNo) & 0xFF;
+                    int packetsBehind = 0x100 - delta;
+                    // bit n set: seq (lastPacketSeqNo - n - 1) has been received
+                    ulong lateBit = packetsBehind <= latePacketWindow ? 1UL << (packetsBehind - 1) : 0;
+                    bool sincePreviousPacketIsShort =
+                        (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
 
                     {
-                        // the second part is to work around a 3dr radio bug sending dup seqno's
-                        if (packetSeqNo != expectedPacketSeqNo &&
-                            packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
+                        if (delta == 0)
                         {
-                            MAVlist[sysid, compid].synclost++; // actual sync loss's
-                            int numLost = 0;
+                            // work around a 3dr radio bug sending dup seqno's
+                        }
+                        else if (lateBit != 0 && (MAVlist[sysid, compid].recvpacketmask & lateBit) == 0 &&
+                                 sincePreviousPacketIsShort)
+                        {
+                            // a late packet fills a hole that was counted as lost when the newer one came
+                            MAVlist[sysid, compid].recvpacketmask |= lateBit;
+                            if (MAVlist[sysid, compid].packetslost >= 1)
+                                MAVlist[sysid, compid].packetslost--;
+                        }
+                        else
+                        {
+                            // in order (delta 1) or a forward gap of delta - 1 lost packets
+                            int numLost = delta - 1;
 
-                            if (packetSeqNo < ((MAVlist[sysid, compid].recvpacketcount + 1)))
-                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
+                            if (numLost != 0)
                             {
-                                numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
-                            }
-                            else
-                            {
-                                numLost = packetSeqNo - expectedPacketSeqNo;
+                                MAVlist[sysid, compid].synclost++; // actual sync loss's
+                                MAVlist[sysid, compid].packetslost += numLost;
+                                WhenPacketLost.OnNext(numLost);
+
+                                if (!logreadmode)
+                                    log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
+                                        numLost,
+                                        sysid,
+                                        (lastPacketSeqNo + 1) & 0xFF, compid);
                             }
 
-                            MAVlist[sysid, compid].packetslost += numLost;
-                            WhenPacketLost.OnNext(numLost);
-
-                            if (!logreadmode)
-                                log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo,
-                                    numLost,
-                                    sysid,
-                                    expectedPacketSeqNo, compid);
+                            // shift the mask by delta, the previous newest packet is now delta behind
+                            // (a ulong shift by 64 or more is taken mod 64 in C#, so clear it explicitly)
+                            ulong mask = delta < 64 ? MAVlist[sysid, compid].recvpacketmask << delta : 0;
+                            if (delta <= latePacketWindow)
+                                mask |= 1UL << (delta - 1);
+                            MAVlist[sysid, compid].recvpacketmask = mask;
+                            MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                         }
 
                         MAVlist[sysid, compid].packetsnotlost++;
-
-                        //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
-
-                        MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                     }
                     WhenPacketReceived.OnNext(1);
 
@@ -6634,7 +6689,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 foreach (KeyValuePair<int, string> pair in modelist)
                 {
-                    if (pair.Value.ToLower() == modein.ToLower())
+                    if (string.Equals(pair.Value, modein, StringComparison.OrdinalIgnoreCase))
                     {
                         mode.base_mode = (byte) MAV_MODE_FLAG.CUSTOM_MODE_ENABLED;
                         mode.custom_mode = (uint) pair.Key;
@@ -6809,7 +6864,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             Terrain?.UnSub();
             Terrain = null;
 
-            Mirrors.Clear();
+            // replaced, not cleared in place: Close does not wait for the reader thread, which may
+            // still be enumerating the list in ProcessMirrorStream
+            lock (mirrorslock)
+            {
+                Mirrors = new List<Mirror>();
+                _legacyMirror = null;
+            }
 
             logreadmode = false;
             logplaybackfile = null;

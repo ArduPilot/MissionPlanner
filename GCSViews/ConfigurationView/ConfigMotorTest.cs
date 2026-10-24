@@ -330,7 +330,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("https://ardupilot.org/copter/docs/connect-escs-and-motors.html#motor-order-diagrams");
+                Process.Start(new ProcessStartInfo("https://ardupilot.org/copter/docs/connect-escs-and-motors.html#motor-order-diagrams") { UseShellExecute = true });
             }
             catch
             {
