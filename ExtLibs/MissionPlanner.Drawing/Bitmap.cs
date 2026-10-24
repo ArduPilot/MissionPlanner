@@ -183,6 +183,7 @@ namespace System.Drawing
         public BitmapData LockBits(Rectangle rectangle, object writeOnly, SKColorType imgPixelFormat)
         {
             EnsureWritable();
+            AddWriter();
             return new BitmapData()
             {
                 Scan0 = nativeSkBitmap.GetPixels(),
@@ -195,6 +196,7 @@ namespace System.Drawing
         public BitmapData LockBits(int x, int y, int w, int h, object writeOnly, SKColorType imgPixelFormat)
         {
             EnsureWritable();
+            AddWriter();
             return new BitmapData()
             {
                 Scan0 = nativeSkBitmap.GetPixels(),
@@ -207,6 +209,7 @@ namespace System.Drawing
         public void UnlockBits(BitmapData bmpData)
         {
             bmpData = null;
+            ReleaseWriter();
         }
 
         public void MakeTransparent()

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading;
 using SkiaSharp;
 
 namespace System.Drawing
@@ -27,7 +28,51 @@ namespace System.Drawing
             {
                 _skBitmap = value;
                 UpdateMemoryPressure(value);
+                InvalidateDrawCache();
             }
+        }
+
+        // open writers: Graphics.FromImage until the Graphics is disposed, LockBits until UnlockBits
+        private int _writers;
+        private SKImage _drawCache;
+
+        internal void AddWriter()
+        {
+            Interlocked.Increment(ref _writers);
+            InvalidateDrawCache();
+        }
+
+        internal void ReleaseWriter()
+        {
+            if (Interlocked.Decrement(ref _writers) < 0)
+                Interlocked.Exchange(ref _writers, 0);
+            InvalidateDrawCache();
+        }
+
+        internal void InvalidateDrawCache()
+        {
+            var cache = Interlocked.Exchange(ref _drawCache, null);
+            cache?.Dispose();
+        }
+
+        /// <summary>
+        /// An SKImage of the pixels to draw with, or null while something may still be writing to them.
+        /// SkiaSharp 3 has no native drawBitmap, so drawing an SKBitmap goes through SKImage.FromBitmap,
+        /// which copies a mutable bitmap's pixels on every draw (every HUD glyph, every frame). Built
+        /// once here and reused until the pixels can change.
+        /// </summary>
+        internal SKImage GetDrawCache()
+        {
+            if (Volatile.Read(ref _writers) > 0)
+                return null;
+            var cache = _drawCache;
+            if (cache != null)
+                return cache;
+            var bitmap = nativeSkBitmap;
+            if (bitmap == null || bitmap.IsEmpty)
+                return null;
+            cache = SKImage.FromBitmap(bitmap);
+            return Interlocked.CompareExchange(ref _drawCache, cache, null) ?? cache;
         }
 
         /// <summary>
@@ -54,6 +99,7 @@ namespace System.Drawing
             var bitmap = nativeSkBitmap;
             if (bitmap != null && bitmap.IsImmutable)
                 nativeSkBitmap = bitmap.Copy();
+            InvalidateDrawCache();
         }
 
         private void UpdateMemoryPressure(SKBitmap bitmap)
