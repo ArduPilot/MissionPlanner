@@ -47,7 +47,7 @@ namespace System.Drawing
             pen.nativePen.Color = pen.Color.ToSKColor();
             pen.nativePen.Style = SKPaintStyle.Stroke;
             if (pen.DashStyle != DashStyle.Solid)
-                pen.nativePen.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
+                pen.nativePen.PathEffect = pen.GetDashEffect();
             return pen.nativePen;
         }
 
@@ -143,39 +143,8 @@ namespace System.Drawing
             if (brush is LinearGradientBrush)
             {
                 var lgb = (LinearGradientBrush) brush;
-                if (lgb._gradMode == LinearGradientMode.Horizontal)
-                {
-                    return new SKPaint
-                    {
-                        IsAntialias = true,
-                        Style = SKPaintStyle.Fill,
-                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                            new SKPoint(lgb.Rectangle.Right, lgb.Rectangle.Y),
-                            new[]
-                            {
-                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                            }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.Identity)
-                    };
-                }
-
-                if (lgb._gradMode == LinearGradientMode.Vertical)
-                {
-                    return new SKPaint
-                    {
-                        IsAntialias = true,
-                        Style = SKPaintStyle.Fill,
-                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                            new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
-                            new[]
-                            {
-                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                            }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.Identity)
-                    };
-                }
+                if (lgb._gradMode == LinearGradientMode.Horizontal || lgb._gradMode == LinearGradientMode.Vertical)
+                    return lgb.GetPaint();
             }
 
             return new SKPaint();

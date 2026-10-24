@@ -87,6 +87,31 @@ namespace System.Drawing
             return new Pen(nativePen.Color, Width);
         }
 
+        private SKPathEffect _dashEffect;
+        private float[] _dashEffectPattern;
+
+        /// <summary>
+        /// Dash effect for DashPattern, rebuilt only when the pattern changes (Extension.ToSKPaint used to
+        /// create a new SKPathEffect on every draw with a dashed pen).
+        /// </summary>
+        internal SKPathEffect GetDashEffect()
+        {
+            var pattern = DashPattern;
+            if (_dashEffect != null && pattern != null && _dashEffectPattern != null &&
+                pattern.Length == _dashEffectPattern.Length)
+            {
+                var same = true;
+                for (int i = 0; i < pattern.Length && same; i++)
+                    same = pattern[i] == _dashEffectPattern[i];
+                if (same)
+                    return _dashEffect;
+            }
+
+            _dashEffect = SKPathEffect.CreateDash(pattern, 0);
+            _dashEffectPattern = (float[]) pattern?.Clone();
+            return _dashEffect;
+        }
+
         // set for the shared instances returned by Pens
         internal bool isSystemPen;
 
