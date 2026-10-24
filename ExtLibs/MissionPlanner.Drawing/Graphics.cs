@@ -27,6 +27,9 @@ namespace System.Drawing
         // default paint for DrawImage(Image, Rectangle, Rectangle, GraphicsUnit), reused instead of one per call
         private readonly SKPaint _imagePaint = new SKPaint();
 
+        // DrawText sets brush + font settings on this rather than on the brush's shared cached paint
+        private readonly SKPaint _textPaint = new SKPaint();
+
         internal SKSurface _surface;
 
         //SKPictureRecorder _rec = new SKPictureRecorder();
@@ -194,6 +197,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _surface?.Dispose();
             _paint?.Dispose();
             _imagePaint?.Dispose();
+            _textPaint?.Dispose();
         }
 
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -826,9 +830,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (String.IsNullOrEmpty(s))
                 return;
             var pnt = brush.ToSKPaint();
-            // Find the text bounds
-            var fnt = font.ToSKPaint();
-            var textBounds = MeasureString(s, font);
+            var fnt = font.GetTextPaint();
+            // Find the text bounds, only when alignment or wrapping uses them
+            var textBounds = new SizeF();
+            if (layoutRectangle.Width > 0 || format.Alignment == StringAlignment.Center ||
+                format.LineAlignment == StringAlignment.Center)
+                textBounds = MeasureString(s, font);
 
             if (layoutRectangle.Width > 0 && textBounds.Width > layoutRectangle.Width)
             {
@@ -841,13 +848,20 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 textBounds = layoutRectangle.Size;
             }
 
-            pnt.TextSize = fnt.TextSize;
-            pnt.Typeface = fnt.Typeface;
-            pnt.FakeBoldText = font.Bold;
-            
-            pnt.StrokeWidth = 1;
+            var textPaint = _textPaint;
+            textPaint.Color = pnt.Color;
+            textPaint.Shader = pnt.Shader;
+            textPaint.ColorFilter = pnt.ColorFilter;
+            textPaint.IsAntialias = pnt.IsAntialias;
+            textPaint.Style = pnt.Style;
+            textPaint.BlendMode = pnt.BlendMode;
+            textPaint.TextSize = fnt.TextSize;
+            textPaint.Typeface = fnt.Typeface;
+            textPaint.FakeBoldText = font.Bold;
+
+            textPaint.StrokeWidth = 1;
             if(font.Bold)
-                pnt.StrokeWidth = 2;
+                textPaint.StrokeWidth = 2;
 
             if (format.Alignment == StringAlignment.Center)
             {
@@ -862,12 +876,17 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             // StringFormatFlags.DirectionVertical is not supported: SKPaint.IsVerticalText was a no-op and is gone in SkiaSharp 3
 
             var lines = s.Trim().Split('\n');
+            var lineHeight = font.Height;
             int a=0;
             foreach (var line in lines)
             {
-                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) *font.Height, pnt);
+                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) * lineHeight, textPaint);
                 a++;
-            }            
+            }
+
+            // don't keep the brush's shader alive from this Graphics
+            textPaint.Shader = null;
+            textPaint.ColorFilter = null;
         }
 
         public class Line
@@ -1230,11 +1249,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var width = 0.0f;
             var height = 0.0f;
             var lines = text.Trim().Split('\n');
+            var paint = font.GetTextPaint();
+            var lineHeight = font.Height;
             foreach (var line in lines)
             {
-                font.ToSKPaint().MeasureText(line, ref bound);
+                paint.MeasureText(line, ref bound);
                 width = Math.Max(width, bound.Width);
-                height += font.Height;
+                height += lineHeight;
             }
 
             return new SizeF(width, height);
