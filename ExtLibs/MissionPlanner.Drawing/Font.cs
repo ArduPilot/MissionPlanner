@@ -350,8 +350,13 @@ namespace System.Drawing
             }
         }
 
+        // set for the shared instances returned by SystemFonts, which callers may dispose
+        internal bool isSystemFont;
+
         public void Dispose()
         {
+            if (isSystemFont)
+                return;
             nativeFont?.Dispose();
         }
 

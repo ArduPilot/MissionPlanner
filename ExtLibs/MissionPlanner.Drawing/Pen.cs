@@ -87,8 +87,13 @@ namespace System.Drawing
             return new Pen(nativePen.Color, Width);
         }
 
+        // set for the shared instances returned by Pens
+        internal bool isSystemPen;
+
         public void Dispose()
         {
+            if (isSystemPen)
+                return;
             nativePen?.Dispose();
         }
     }
