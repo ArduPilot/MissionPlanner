@@ -1059,6 +1059,9 @@ namespace MissionPlanner.Controls
         private HUD graphicsObject;
         internal IGraphics graphicsObjectGDIP;
 
+        // set while doPaint draws straight into the paint Graphics instead of objBitmap (LIB only)
+        bool directPaint;
+
         private DateTime starttime = DateTime.MinValue;
 
         private System.ComponentModel.ComponentResourceManager resources =
@@ -1330,9 +1333,38 @@ namespace MissionPlanner.Controls
 
                 }
 
+#if LIB
+                // The Skia WinForms driver paints each window into its own retained surface and only
+                // shows it once the paint has finished, so draw straight into it instead of rendering
+                // into objBitmap and copying the whole frame. objBitmap is still used while it feeds
+                // the MJPEG stream (and for the first frame, which initialises streamjpg).
+                var direct = !opengl && !streamjpgenable && streamjpg != null;
+                IGraphics buffered = graphicsObjectGDIP;
+                if (direct)
+                {
+                    graphicsObjectGDIP = e.Graphics;
+                    directPaint = true;
+                }
+
+                try
+                {
+                    doPaint();
+                }
+                finally
+                {
+                    if (direct)
+                    {
+                        graphicsObjectGDIP = buffered;
+                        directPaint = false;
+                    }
+                }
+
+                if (!opengl && !direct)
+#else
                 doPaint();
 
                 if (!opengl)
+#endif
                 {
                     e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);
 
@@ -1980,7 +2012,7 @@ namespace MissionPlanner.Controls
             bool isNaN = false;
             try
             {
-                if (graphicsObjectGDIP == null || !opengl &&
+                if (graphicsObjectGDIP == null || !opengl && !directPaint &&
                     (objBitmap.Width != this.Width || objBitmap.Height != this.Height))
                 {
                     objBitmap = new Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
