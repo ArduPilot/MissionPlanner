@@ -476,7 +476,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zone+band, easting and northing in metres, eg 29U 540660 5854629.
+        ///   Looks up a localized string similar to Zone and latitude band (the letter is the band, not N or S), easting and northing in metres, eg 29U 540660 5854629.
         /// </summary>
         public static string CoordsHintUTM {
             get {

@@ -233,9 +233,12 @@ namespace MissionPlanner.Controls
 
         /// <summary>
         /// Parse a location typed in the given coordinate system.
-        /// GEO: "lat;long" or "lat;long;alt" (also comma or space separated).
-        /// UTM: "zone+band east north", eg "29U 540660 5854629", optional trailing alt.
+        /// GEO: "lat;long" or "lat;long;alt" (also comma or space separated; with a ';' in the text a
+        /// comma does not separate, so a decimal comma is refused rather than read as a separator).
+        /// UTM: "zone+band east north", eg "29U 540660 5854629", optional trailing alt. The letter is
+        /// the latitude band, and a band that does not hold the latitude the numbers give is refused.
         /// MGRS: compact grid reference, spaces ignored, eg "29UPU0406654629".
+        /// Numbers use a decimal point and no thousands separators.
         /// </summary>
         /// <param name="alt">altitude typed after the coordinates, if any</param>
         public static bool TryParse(string system, string text, out double lat, out double lng, out double? alt)
@@ -249,18 +252,20 @@ namespace MissionPlanner.Controls
 
             try
             {
-                var parts = text.Trim().ToUpperInvariant()
-                    .Split(new[] {' ', ';', ',', '\t'}, StringSplitOptions.RemoveEmptyEntries);
+                var trimmed = text.Trim().ToUpperInvariant();
+                // "52,5;7" is a decimal comma, not lat 52, long 5, alt 7
+                var separators = trimmed.Contains(";") ? new[] {' ', ';', '\t'} : new[] {' ', ';', ',', '\t'};
+                var parts = trimmed.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
                 if (system == Coords.CoordsSystems.GEO.ToString())
                 {
                     if (parts.Length != 2 && parts.Length != 3)
                         return false;
 
-                    lat = double.Parse(parts[0], CultureInfo.InvariantCulture);
-                    lng = double.Parse(parts[1], CultureInfo.InvariantCulture);
+                    lat = ParseNumber(parts[0]);
+                    lng = ParseNumber(parts[1]);
                     if (parts.Length == 3)
-                        alt = double.Parse(parts[2], CultureInfo.InvariantCulture);
+                        alt = ParseNumber(parts[2]);
 
                     return lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
                 }
@@ -282,10 +287,8 @@ namespace MissionPlanner.Controls
                         return false;
 
                     // GeoUtility parses whole metres only
-                    var east = Math.Round(double.Parse(parts[1], CultureInfo.InvariantCulture))
-                        .ToString(CultureInfo.InvariantCulture);
-                    var north = Math.Round(double.Parse(parts[2], CultureInfo.InvariantCulture))
-                        .ToString(CultureInfo.InvariantCulture);
+                    var east = Math.Round(ParseNumber(parts[1])).ToString(CultureInfo.InvariantCulture);
+                    var north = Math.Round(ParseNumber(parts[2])).ToString(CultureInfo.InvariantCulture);
 
                     if (!UTM.TryParse(zoneband.Groups[1].Value, zoneband.Groups[2].Value, east, north,
                             out UTM utm, out string error, out var valid))
@@ -293,8 +296,15 @@ namespace MissionPlanner.Controls
 
                     geo = (Geographic) utm;
 
+                    // GeoUtility takes the hemisphere from the band letter alone (N and after is
+                    // north) and accepts any northing there, so "56S 334000 6252000" typed with S for
+                    // south lands near 56 degrees north instead of at Sydney. Refuse a band that does
+                    // not hold the latitude the numbers give.
+                    if (!BandHolds(zoneband.Groups[2].Value[0], geo.Latitude))
+                        return false;
+
                     if (parts.Length == 4)
-                        alt = double.Parse(parts[3], CultureInfo.InvariantCulture);
+                        alt = ParseNumber(parts[3]);
                 }
 
                 if (geo == null)
@@ -308,6 +318,33 @@ namespace MissionPlanner.Controls
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// A number as typed: decimal point, no thousands separators, so "1,5" is refused rather
+        /// than read as 15.
+        /// </summary>
+        private static double ParseNumber(string text)
+        {
+            return double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Whether a UTM latitude band (C to X without I and O, 8 degrees each from 80 S, X 12
+        /// degrees) holds the latitude, with a little slack at the band edges for a point rounded to
+        /// whole metres.
+        /// </summary>
+        internal static bool BandHolds(char band, double lat)
+        {
+            const string bands = "CDEFGHJKLMNPQRSTUVWX";
+            var i = bands.IndexOf(char.ToUpperInvariant(band));
+            if (i < 0)
+                return false;
+
+            const double slack = 0.01;
+            var south = -80 + i * 8.0;
+            var north = band == 'X' ? 84 : south + 8;
+            return lat >= south - slack && lat <= north + slack;
         }
     }
 }

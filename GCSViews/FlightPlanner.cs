@@ -2849,6 +2849,14 @@ namespace MissionPlanner.GCSViews
         private bool updatinghomecoord;
 
         /// <summary>
+        /// true once the user has typed in the home UTM/MGRS box, until the box is rewritten. Only
+        /// such text is pushed into the Lat/Long boxes: a box left untouched while home moved
+        /// elsewhere (Set Home Here, the vehicle's home) would otherwise move home back to the old
+        /// text when it loses focus.
+        /// </summary>
+        private bool homecoordedited;
+
+        /// <summary>
         /// Show the home location in the same coordinate system as the mouse position display
         /// (coords1). GEO uses the Lat/Long boxes, UTM and MGRS a single text box in their place.
         /// The Lat/Long boxes stay the source of truth and are only hidden.
@@ -2884,9 +2892,11 @@ namespace MissionPlanner.GCSViews
         {
             if (!HomeCoordBoxShown)
                 return;
-            if (TXT_homecoord.Focused && !force)
+            // leave what the user is typing alone; a box with focus but no edit follows home
+            if (TXT_homecoord.Focused && homecoordedited && !force)
                 return;
 
+            homecoordedited = false;
             try
             {
                 updatinghomecoord = true;
@@ -2936,6 +2946,13 @@ namespace MissionPlanner.GCSViews
             if (updatinghomecoord || !HomeCoordBoxShown)
                 return;
 
+            // not typed in: show home as it is now rather than moving it to the box's text
+            if (!homecoordedited)
+            {
+                updateHomeCoordText(true);
+                return;
+            }
+
             var text = TXT_homecoord.Text.Trim();
             if (text == "")
                 return;
@@ -2971,6 +2988,11 @@ namespace MissionPlanner.GCSViews
 
         public void TXT_homecoord_TextChanged(object sender, EventArgs e)
         {
+            if (updatinghomecoord)
+                return;
+
+            homecoordedited = true;
+
             // typing a home location cancels "click on the map to set home", as it does for
             // the Lat/Long boxes, so the next map click adds a waypoint again
             sethome = false;

@@ -196,7 +196,7 @@
     <value>MGRS grid reference, eg 29UPU0406654629 (spaces allowed)</value>
   </data>
   <data name="CoordsHintUTM" xml:space="preserve">
-    <value>Zone+band, easting and northing in metres, eg 29U 540660 5854629</value>
+    <value>Zone and latitude band (the letter is the band, not N or S), easting and northing in metres, eg 29U 540660 5854629</value>
   </data>
   <data name="EnterHomeLocation" xml:space="preserve">
     <value>Enter Home Location</value>
