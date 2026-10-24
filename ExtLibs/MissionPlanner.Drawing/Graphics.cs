@@ -30,6 +30,36 @@ namespace System.Drawing
         // DrawText sets brush + font settings on this rather than on the brush's shared cached paint
         private readonly SKPaint _textPaint = new SKPaint();
 
+        // reused by the shape methods instead of a new native SKPath per call; DrawPath doesn't keep it
+        private readonly SKPath _scratchPath = new SKPath();
+
+        private SKPath ScratchPath()
+        {
+            _scratchPath.Rewind();
+            return _scratchPath;
+        }
+
+        // same as path.AddPoly(points, true) without the LINQ arrays
+        private static void AddPolygon(SKPath path, PointF[] points)
+        {
+            if (points.Length == 0)
+                return;
+            path.MoveTo(points[0].X, points[0].Y);
+            for (int i = 1; i < points.Length; i++)
+                path.LineTo(points[i].X, points[i].Y);
+            path.Close();
+        }
+
+        private static void AddPolygon(SKPath path, Point[] points)
+        {
+            if (points.Length == 0)
+                return;
+            path.MoveTo(points[0].X, points[0].Y);
+            for (int i = 1; i < points.Length; i++)
+                path.LineTo(points[i].X, points[i].Y);
+            path.Close();
+        }
+
         internal SKSurface _surface;
 
         //SKPictureRecorder _rec = new SKPictureRecorder();
@@ -198,11 +228,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             _paint?.Dispose();
             _imagePaint?.Dispose();
             _textPaint?.Dispose();
+            _scratchPath?.Dispose();
         }
 
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, pen.ToSKPaint());
         }
@@ -242,7 +273,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawBeziers(Pen pen, PointF[] points)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.MoveTo(points[0].ToSKPoint());
             path.CubicTo(points[1].ToSKPoint(),
                 points[2].ToSKPoint(),
@@ -699,7 +730,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPie(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, pen.ToSKPaint());
         }
@@ -716,8 +747,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPolygon(Pen pen, Point[] points)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, pen.ToSKPaint());
@@ -725,8 +756,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPolygon(Pen pen, PointF[] points)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, pen.ToSKPaint());
@@ -1013,7 +1044,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillEllipse(Brush brush, float x, float y, float width, float height)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddOval(SKRect.Create(x, y, width, height));
             _image.DrawPath(path, brush.ToSKPaint());
         }
@@ -1041,14 +1072,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void FillPie(Brush brush, float x, float y, float width, float height, float startAngle,
             float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, brush.ToSKPaint());
         }
 
         public void FillPie(Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, brush.ToSKPaint());
         }
@@ -1060,8 +1091,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPolygon(Brush brush, Point[] points, FillMode fillMode)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, brush.ToSKPaint());
@@ -1069,8 +1100,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPolygon(Brush brushh, PointF[] list)
         {
-            var path = new SKPath();
-            path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, list);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, brushh.ToSKPaint());
