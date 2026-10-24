@@ -13,18 +13,8 @@ namespace System.Drawing
 
         public SolidBrush(Color color)
         {
+            // no native paint here: drawing uses the per-colour paint from Extension.ToSKPaint(Brush)
             _color = color;
-
-            try
-            {
-                var loader = SKTypeface.Default;
-
-                nativeBrush = new SKPaint() {Color = color.ToSKColor()};
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
         }
 
         public SolidBrush(uint color)
@@ -38,14 +28,8 @@ namespace System.Drawing
             set
             {
                 _color = value;
-                try
-                {
+                if (nativeBrush != null)
                     nativeBrush.Color = value.ToSKColor();
-                }
-                catch (Exception)
-                {
-                    //Console.WriteLine(e);
-                }
             }
         }
 
