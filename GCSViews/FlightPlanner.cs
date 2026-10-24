@@ -3307,7 +3307,8 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.Timer elevationGraphTimer;
         private int elevationGraphHeight = 170;
         private bool elevationGraphActive;
-        private bool elevationGraphBusy;
+        // set on the UI thread when a build starts, cleared on the worker when it ends
+        private volatile bool elevationGraphBusy;
         private string elevationGraphSignature;
         private int elevationGraphTerrainTry;
 
@@ -3394,6 +3395,14 @@ namespace MissionPlanner.GCSViews
                 // a cell that is not a number: writeKML says so
                 return;
             }
+            catch (Exception ex)
+            {
+                // nothing may escape the timer. A parameter read gives up with an
+                // ApplicationException when MAVLinkParamList's reader lock is not free within 1 s
+                // (a parameter download is writing it); the next tick tries again.
+                log.Warn("Elevation graph: could not read the plan or the fence parameters", ex);
+                return;
+            }
 
             var signature = input.Signature();
             if (signature == elevationGraphSignature)
@@ -3413,11 +3422,14 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Hands a built profile to the UI thread. Whatever happens, the busy flag is cleared, or
-        /// the graph would never be rebuilt again.
+        /// Hands a built profile to the UI thread. The busy flag is cleared here, on the worker:
+        /// cleared in ShowElevationGraph it stayed set for good whenever the handle went between
+        /// BeginInvoke and the callback (a posted call to a destroyed window never runs), and the
+        /// graph was never rebuilt again.
         /// </summary>
         private void ElevationGraphBuilt(Task<ElevationGraphProfile> task, string signature)
         {
+            elevationGraphBusy = false;
             try
             {
                 // without a handle the page is closing, and there is nothing to draw on
@@ -3436,12 +3448,10 @@ namespace MissionPlanner.GCSViews
             // the page is going away, so nothing else will say why a build failed
             if (task.IsFaulted)
                 log.Error(task.Exception);
-            elevationGraphBusy = false;
         }
 
         private void ShowElevationGraph(Task<ElevationGraphProfile> task, string signature)
         {
-            elevationGraphBusy = false;
             if (task.IsFaulted)
             {
                 log.Error(task.Exception);
@@ -3461,10 +3471,12 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// The plan as the elevation graph shows it. The grid holds the item types the dropdown is
         /// editing (all three in ALL mode); mission or rally points it does not hold come from the
-        /// vehicle cache, as the map shows the vehicle's fence while a mission is edited; the
-        /// fence items give the polygon fence, checked offline too. The fence ceiling, floor and
-        /// circle come from the vehicle's parameters while connected, and whether the fence is on
-        /// from what the vehicle reports in SYS_STATUS.
+        /// vehicle cache while connected, as the map shows the vehicle's fence while a mission is
+        /// edited. The caches outlive a disconnect, and a vehicle that is gone must not have its
+        /// fence flag points while planning offline, so offline there are none. The fence items
+        /// give the polygon fence. The fence ceiling, floor and circle come from the vehicle's
+        /// parameters while connected, and whether the fence is on from what the vehicle reports
+        /// in SYS_STATUS.
         /// Throws FormatException when a grid cell does not hold a number.
         /// </summary>
         internal ElevationGraphInput GetElevationGraphInput()
@@ -3474,19 +3486,27 @@ namespace MissionPlanner.GCSViews
                 : MAVLink.MAV_MISSION_TYPE.MISSION;
             var all = type == MAVLink.MAV_MISSION_TYPE.ALL;
             var grid = GetCommandList();
+            var connected = MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen;
+            var none = new List<Locationwp>();
 
             // on ArduPilot the vehicle's mission starts with home (saveWPs puts it there), which the
             // grid does not show either; on other autopilots item 0 is a real item
             var skipHome = MainV2.comPort.MAV.apname == MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA ? 1 : 0;
             var mission = type == MAVLink.MAV_MISSION_TYPE.MISSION || all
                 ? grid
-                : MainV2.comPort.MAV.wps.OrderBy(a => a.Key).Skip(skipHome).Select(a => (Locationwp) a.Value).ToList();
+                : !connected
+                    ? none
+                    : MainV2.comPort.MAV.wps.OrderBy(a => a.Key).Skip(skipHome).Select(a => (Locationwp) a.Value).ToList();
             var rally = type == MAVLink.MAV_MISSION_TYPE.RALLY || all
                 ? grid
-                : MainV2.comPort.MAV.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
+                : !connected
+                    ? none
+                    : MainV2.comPort.MAV.rallypoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
             var fence = type == MAVLink.MAV_MISSION_TYPE.FENCE || all
                 ? grid
-                : MainV2.comPort.MAV.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
+                : !connected
+                    ? none
+                    : MainV2.comPort.MAV.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
 
             var input = new ElevationGraphInput
             {
@@ -3496,10 +3516,10 @@ namespace MissionPlanner.GCSViews
                 FenceAreas = ElevationGraphInput.FenceAreasOf(fence)
             };
 
-            if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+            if (connected)
             {
                 var mav = MainV2.comPort.MAV;
-                Func<string, double?> param = name => mav.param[name]?.Value;
+                var param = ParamLookup(mav);
                 ElevationGraphInput.FenceAltLimits(param, out input.FenceCeiling, out input.FenceFloor);
                 input.FenceCircle = ElevationGraphInput.FenceCircleOf(param);
                 ElevationGraphInput.FencePolygonOptions(param, out input.FencePolygonUsed,
@@ -3511,6 +3531,24 @@ namespace MissionPlanner.GCSViews
             }
 
             return input;
+        }
+
+        /// <summary>
+        /// A parameter lookup for one pass over the fence settings. Each name is read from the
+        /// vehicle's list once, however many of the fence helpers ask for it: every read takes
+        /// MAVLinkParamList's reader lock (up to 1 s while a parameter download writes the list)
+        /// and walks the list.
+        /// </summary>
+        private static Func<string, double?> ParamLookup(MAVState mav)
+        {
+            var read = new Dictionary<string, double?>();
+            return name =>
+            {
+                double? value;
+                if (!read.TryGetValue(name, out value))
+                    read[name] = value = mav.param[name]?.Value;
+                return value;
+            };
         }
 
         /// <summary>
@@ -3546,8 +3584,7 @@ namespace MissionPlanner.GCSViews
             if (home != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
             {
                 var mav = MainV2.comPort.MAV;
-                circle = ElevationGraphInput.ActiveFenceCircle(name => mav.param[name]?.Value,
-                    ReportedFenceEnabled(mav));
+                circle = ElevationGraphInput.ActiveFenceCircle(ParamLookup(mav), ReportedFenceEnabled(mav));
             }
 
             var shown = circle == null
