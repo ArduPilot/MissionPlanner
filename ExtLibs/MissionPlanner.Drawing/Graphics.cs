@@ -201,12 +201,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static implicit operator Image(Graphics sk)
         {
+            // copy the pixels: wrapping pxmap.GetPixels() left the Bitmap pointing at memory freed when
+            // the snapshot was disposed
             using (var snap = sk._surface.Snapshot())
             using (var rast = snap.ToRasterImage())
-            using (var pxmap = rast.PeekPixels())
             {
-                var bmpdata = pxmap.GetPixels();
-                return new Bitmap(rast.Width, rast.Height, rast.Width * 4, SKColorType.Bgra8888, bmpdata);
+                var bitmap = new SKBitmap(new SKImageInfo(rast.Width, rast.Height, SKColorType.Bgra8888));
+                rast.ReadPixels(bitmap.Info, bitmap.GetPixels(), bitmap.RowBytes, 0, 0);
+                return new Bitmap() {nativeSkBitmap = bitmap};
             }
         }
 
