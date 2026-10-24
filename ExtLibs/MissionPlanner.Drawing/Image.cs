@@ -37,6 +37,25 @@ namespace System.Drawing
         /// reference (the SKBitmap may be shared), so the pixels themselves are still freed by its finalizer.
         /// Bitmaps wrapping external pixels (InstallPixels) are set while empty and report nothing.
         /// </summary>
+        /// <summary>
+        /// Marks a freshly decoded bitmap immutable. SkiaSharp 3 has no native drawBitmap, so drawing an
+        /// SKBitmap goes through SKImage.FromBitmap, which copies the pixels of a mutable bitmap on every
+        /// draw (map tiles, icons); an immutable one is shared instead. Writers call EnsureWritable first.
+        /// </summary>
+        internal static SKBitmap Immutable(SKBitmap bitmap)
+        {
+            bitmap?.SetImmutable();
+            return bitmap;
+        }
+
+        /// <summary>Copy-on-write before changing pixels of a bitmap marked immutable.</summary>
+        internal void EnsureWritable()
+        {
+            var bitmap = nativeSkBitmap;
+            if (bitmap != null && bitmap.IsImmutable)
+                nativeSkBitmap = bitmap.Copy();
+        }
+
         private void UpdateMemoryPressure(SKBitmap bitmap)
         {
             long bytes = bitmap == null ? 0 : bitmap.ByteCount;
@@ -137,7 +156,7 @@ namespace System.Drawing
             {
                 if (skimage == null)
                     return null;
-                var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
+                var ans = new Bitmap() {nativeSkBitmap = Immutable(SKBitmap.FromImage(skimage))};
                 return ans;
             }
         }

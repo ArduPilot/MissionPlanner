@@ -54,7 +54,7 @@ namespace System.Drawing
             try
             {
                 using (var skimage = SKImage.FromEncodedData(stream))
-                    nativeSkBitmap = SKBitmap.FromImage(skimage); //SKBitmap.Decode(stream);
+                    nativeSkBitmap = Immutable(SKBitmap.FromImage(skimage)); //SKBitmap.Decode(stream);
             }
             catch (Exception ex)
             {
@@ -100,7 +100,7 @@ namespace System.Drawing
             }
 
             using (var f = File.OpenRead(filename))
-                nativeSkBitmap = SKBitmap.Decode(f);
+                nativeSkBitmap = Immutable(SKBitmap.Decode(f));
         }
 
         public Bitmap(Image image)
@@ -133,7 +133,7 @@ namespace System.Drawing
             {
                 if (skimage == null)
                     return null;
-                var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
+                var ans = new Bitmap() { nativeSkBitmap = Immutable(SKBitmap.FromImage(skimage)) };
                 return ans;
             }
         }
@@ -141,9 +141,9 @@ namespace System.Drawing
         {
             using (var data = SKData.CreateCopy(largeIconsImage))
             using (var decoded = SKBitmap.Decode(data))
-                nativeSkBitmap = decoded.Resize(
+                nativeSkBitmap = Immutable(decoded.Resize(
                     new SKImageInfo(clientSizeHeight.Width, clientSizeHeight.Height),
-                    SKFilterQuality.High);
+                    SKFilterQuality.High));
         }
 
         public Bitmap(Image largeIconsImage, Size clientSizeHeight)
@@ -182,6 +182,7 @@ namespace System.Drawing
 
         public BitmapData LockBits(Rectangle rectangle, object writeOnly, SKColorType imgPixelFormat)
         {
+            EnsureWritable();
             return new BitmapData()
             {
                 Scan0 = nativeSkBitmap.GetPixels(),
@@ -193,6 +194,7 @@ namespace System.Drawing
 
         public BitmapData LockBits(int x, int y, int w, int h, object writeOnly, SKColorType imgPixelFormat)
         {
+            EnsureWritable();
             return new BitmapData()
             {
                 Scan0 = nativeSkBitmap.GetPixels(),
@@ -210,13 +212,19 @@ namespace System.Drawing
         public void MakeTransparent()
         {
             if (nativeSkBitmap.IsEmpty)
+            {
+                EnsureWritable();
                 nativeSkBitmap.Erase(SKColor.Empty);
+            }
         }
 
         public void MakeTransparent(Color transparent)
         {
             if (nativeSkBitmap.IsEmpty)
+            {
+                EnsureWritable();
                 nativeSkBitmap.Erase(SKColor.Empty);
+            }
         }
 
         public Color GetPixel(int c2, int c1)
@@ -226,6 +234,7 @@ namespace System.Drawing
 
         public void SetPixel(int i, int i1, Color transparent)
         {
+            EnsureWritable();
             nativeSkBitmap.SetPixel(i, i1, transparent.ToSKColor());
         }
 
