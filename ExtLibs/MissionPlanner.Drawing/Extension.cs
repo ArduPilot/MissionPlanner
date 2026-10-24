@@ -47,7 +47,15 @@ namespace System.Drawing
             pen.nativePen.Color = pen.Color.ToSKColor();
             pen.nativePen.Style = SKPaintStyle.Stroke;
             if (pen.DashStyle != DashStyle.Solid)
+            {
                 pen.nativePen.PathEffect = pen.GetDashEffect();
+                pen.dashApplied = true;
+            }
+            else if (pen.dashApplied)
+            {
+                pen.nativePen.PathEffect = null;
+                pen.dashApplied = false;
+            }
             return pen.nativePen;
         }
 
