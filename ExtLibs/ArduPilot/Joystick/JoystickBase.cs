@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Joystick
 {
@@ -45,6 +46,15 @@ namespace MissionPlanner.Joystick
         // a new MAVState with no levels, and a MAVState that goes away takes its levels with it.
         ConditionalWeakTable<MAVState, Dictionary<int, int>> auxstate =
             new ConditionalWeakTable<MAVState, Dictionary<int, int>>();
+
+        // Aux_Function commands go out on a worker, one at a time and in the order of the button
+        // edges. The vehicle's answer can take seconds on a lossy link (doCommand waits 2 s and
+        // retries three times), and neither the joystick poll, which keeps the RC override going,
+        // nor the UI may wait for it. One queue also means a release cannot overtake its press, and
+        // a toggle or cycle press reads the level the press before it left. Only the queue touches
+        // auxstate.
+        Task auxqueue = Task.CompletedTask;
+        readonly object auxqueuelock = new object();
 
 
         //no need for finalizer...
@@ -632,84 +642,118 @@ namespace MissionPlanner.Joystick
                         }, null);
                         break;
                     case buttonfunction.Aux_Function:
-                        _context.Send( delegate
-                        {
-                            try
-                            {
-                                // p1 = RCx_OPTION value, p2 = auxfunctiontrigger
-                                int function = (int) but.p1;
-                                var trigger = (auxfunctiontrigger) (int) but.p2;
-                                int level = -1;
-
-                                const int LOW = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.LOW;
-                                const int MIDDLE = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.MIDDLE;
-                                const int HIGH = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.HIGH;
-
-                                // the levels this vehicle has accepted so far, and the last one for
-                                // this aux function, -1 = none yet
-                                var levels = auxstate.GetOrCreateValue(Interface.MAV);
-                                int last;
-                                if (!levels.TryGetValue(function, out last))
-                                    last = -1;
-
-                                switch (trigger)
-                                {
-                                    case auxfunctiontrigger.HighOnPress:
-                                        if (buttondown)
-                                            level = HIGH;
-                                        break;
-                                    case auxfunctiontrigger.HighOnPressLowOnRelease:
-                                        level = buttondown ? HIGH : LOW;
-                                        break;
-                                    case auxfunctiontrigger.ToggleHighLow:
-                                        // first press, or last was LOW -> HIGH; last was HIGH -> LOW
-                                        if (buttondown)
-                                            level = last == HIGH ? LOW : HIGH;
-                                        break;
-                                    case auxfunctiontrigger.MiddleOnPress:
-                                        if (buttondown)
-                                            level = MIDDLE;
-                                        break;
-                                    case auxfunctiontrigger.LowOnPress:
-                                        if (buttondown)
-                                            level = LOW;
-                                        break;
-                                    case auxfunctiontrigger.CycleLowMiddleHigh:
-                                        // first press sends LOW, then MIDDLE, HIGH, LOW ... : the level
-                                        // after the last accepted one, or the first when there is none
-                                        if (buttondown)
-                                        {
-                                            var cycle = new[] {LOW, MIDDLE, HIGH};
-                                            level = cycle[(Array.IndexOf(cycle, last) + 1) % cycle.Length];
-                                        }
-                                        break;
-                                }
-
-                                // nothing to send for this edge
-                                if (level < 0)
-                                    return;
-
-                                log.InfoFormat("Joystick Aux_Function {0} level {1} (button {2})", function, level, but.buttonno);
-
-                                if (!Interface.doCommand((byte)Interface.sysidcurrent,(byte)Interface.compidcurrent,MAVLink.MAV_CMD.DO_AUX_FUNCTION, function, level, 0, 0, 0, 0, 0))
-                                {
-                                    // leave auxstate as it was: the vehicle did not change
-                                    CustomMessageBox.Show("Aux function " + function + " was rejected by the vehicle (needs ArduPilot 4.1 or later, and the option must be supported by this vehicle)", "Aux Function");
-                                    return;
-                                }
-
-                                // remember the level only once the vehicle accepted it, so a rejected or
-                                // timed out command does not leave toggle/cycle out of step
-                                levels[function] = level;
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error("Joystick Aux_Function " + but.p1 + " failed", ex);
-                                CustomMessageBox.Show("Aux function " + (int) but.p1 + " failed: " + ex.Message, "Aux Function");
-                            }
-                        }, null);
+                        QueueAuxFunction(but, buttondown);
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Queue the DO_AUX_FUNCTION command for one edge of an Aux_Function button (see auxqueue).
+        /// The vehicle and its ids are taken now, at the edge, so a command still waiting in the
+        /// queue goes to the vehicle the button was pressed for.
+        /// </summary>
+        void QueueAuxFunction(JoyButton but, bool buttondown)
+        {
+            var port = Interface;
+            if (port == null)
+                return;
+
+            var mav = port.MAV;
+            var sysid = (byte) port.sysidcurrent;
+            var compid = (byte) port.compidcurrent;
+            // p1 = RCx_OPTION value, p2 = auxfunctiontrigger
+            var function = (int) but.p1;
+            var trigger = (auxfunctiontrigger) (int) but.p2;
+            var buttonno = but.buttonno;
+
+            lock (auxqueuelock)
+            {
+                auxqueue = auxqueue.ContinueWith(
+                    _ => SendAuxFunction(port, mav, sysid, compid, function, trigger, buttondown, buttonno),
+                    TaskScheduler.Default);
+            }
+        }
+
+        /// <summary>
+        /// Send one aux function edge and wait for the vehicle's answer, on the queue's worker. A
+        /// rejection or a timeout is said on the HUD (messageHigh) rather than in a message box, so
+        /// nothing waits for a click: the stick input carries on while the user reads it.
+        /// </summary>
+        void SendAuxFunction(MAVLinkInterface port, MAVState mav, byte sysid, byte compid, int function,
+            auxfunctiontrigger trigger, bool buttondown, int buttonno)
+        {
+            try
+            {
+                int level = -1;
+
+                const int LOW = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.LOW;
+                const int MIDDLE = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.MIDDLE;
+                const int HIGH = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.HIGH;
+
+                // the levels this vehicle has accepted so far, and the last one for this aux
+                // function, -1 = none yet
+                var levels = auxstate.GetOrCreateValue(mav);
+                int last;
+                if (!levels.TryGetValue(function, out last))
+                    last = -1;
+
+                switch (trigger)
+                {
+                    case auxfunctiontrigger.HighOnPress:
+                        if (buttondown)
+                            level = HIGH;
+                        break;
+                    case auxfunctiontrigger.HighOnPressLowOnRelease:
+                        level = buttondown ? HIGH : LOW;
+                        break;
+                    case auxfunctiontrigger.ToggleHighLow:
+                        // first press, or last was LOW -> HIGH; last was HIGH -> LOW
+                        if (buttondown)
+                            level = last == HIGH ? LOW : HIGH;
+                        break;
+                    case auxfunctiontrigger.MiddleOnPress:
+                        if (buttondown)
+                            level = MIDDLE;
+                        break;
+                    case auxfunctiontrigger.LowOnPress:
+                        if (buttondown)
+                            level = LOW;
+                        break;
+                    case auxfunctiontrigger.CycleLowMiddleHigh:
+                        // first press sends LOW, then MIDDLE, HIGH, LOW ... : the level after the
+                        // last accepted one, or the first when there is none
+                        if (buttondown)
+                        {
+                            var cycle = new[] {LOW, MIDDLE, HIGH};
+                            level = cycle[(Array.IndexOf(cycle, last) + 1) % cycle.Length];
+                        }
+                        break;
+                }
+
+                // nothing to send for this edge
+                if (level < 0)
+                    return;
+
+                log.InfoFormat("Joystick Aux_Function {0} level {1} (button {2})", function, level, buttonno);
+
+                if (!port.doCommand(sysid, compid, MAVLink.MAV_CMD.DO_AUX_FUNCTION, function, level, 0, 0, 0, 0, 0))
+                {
+                    // leave auxstate as it was: the vehicle did not change
+                    log.WarnFormat("Joystick Aux_Function {0} level {1} rejected by the vehicle", function, level);
+                    mav.cs.messageHigh = "Aux function " + function +
+                                         " rejected: needs ArduPilot 4.1 or later and an option this vehicle supports";
+                    return;
+                }
+
+                // remember the level only once the vehicle accepted it, so a rejected or timed out
+                // command does not leave toggle/cycle out of step
+                levels[function] = level;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Joystick Aux_Function " + function + " failed", ex);
+                mav.cs.messageHigh = "Aux function " + function + " failed: " + ex.Message;
             }
         }
 

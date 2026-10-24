@@ -42,7 +42,8 @@ namespace MissionPlanner.Joystick
         }
 
         // the dropdown entries, shared by every button row and built once per vehicle firmware:
-        // the RCx_OPTION list is a parameter metadata lookup
+        // the RCx_OPTION list is a parameter metadata lookup. A list without RCx_OPTION entries
+        // (metadata not downloaded yet) is not kept, so the rows built later look again.
         List<ButtonFunctionItem> buttonFunctionItems;
         Firmwares buttonFunctionItemsFirmware;
 
@@ -65,7 +66,8 @@ namespace MissionPlanner.Joystick
                 items.Add(new ButtonFunctionItem() { function = f, display = f.ToString() });
             }
 
-            foreach (var opt in AuxFunction.GetList(firmware))
+            var auxlist = AuxFunction.GetList(firmware);
+            foreach (var opt in auxlist)
             {
                 items.Add(new ButtonFunctionItem()
                 {
@@ -75,8 +77,12 @@ namespace MissionPlanner.Joystick
                 });
             }
 
-            buttonFunctionItems = items;
-            buttonFunctionItemsFirmware = firmware;
+            if (auxlist.Count > 0)
+            {
+                buttonFunctionItems = items;
+                buttonFunctionItemsFirmware = firmware;
+            }
+
             return items;
         }
 
