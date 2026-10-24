@@ -1648,6 +1648,15 @@ namespace MissionPlanner {
                 return ResourceManager.GetString("VerifyHeightNoAltitude", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Set the home location first. Relative altitudes are measured from the home altitude..
+        /// </summary>
+        public static string VerifyHeightNoHome {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoHome", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} skipped: no terrain data yet. It downloads in the background, try again shortly..

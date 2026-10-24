@@ -260,9 +260,12 @@ namespace MissionPlanner.GCSViews
             Check.CellTemplate.Value = false;
             checkHeader = new CheckBoxHeaderCell();
             checkHeader.CheckedChanged += checkHeader_CheckedChanged;
-            var checkHeaderText = Check.HeaderText; // lives in the header cell being replaced
+            // the header text and tooltip live in the header cell being replaced
+            var checkHeaderText = Check.HeaderText;
+            var checkHeaderTip = Check.ToolTipText;
             Check.HeaderCell = checkHeader;
             Check.HeaderText = checkHeaderText;
+            Check.ToolTipText = checkHeaderTip;
             Commands.CurrentCellDirtyStateChanged += Commands_CurrentCellDirtyStateChanged;
             Commands.CellValueChanged += Commands_CellValueChanged;
 
@@ -1062,10 +1065,13 @@ namespace MissionPlanner.GCSViews
 
         /// <summary>
         /// The altitude Verify Height gives a waypoint: Default Alt above the terrain under it,
-        /// expressed in the waypoint's frame. Terrain heights are metres; the result is in display
-        /// units (multiplier = CurrentState.multiplieralt), rounded to the nearest whole unit.
+        /// expressed in the waypoint's frame. Absolute is the terrain height plus Default Alt;
+        /// relative is that less the home altitude, which is what the vehicle measures relative
+        /// altitudes from; terrain is Default Alt alone. Terrain heights are metres; homeAlt,
+        /// defaultAlt and the result are in display units (multiplier = CurrentState.multiplieralt),
+        /// the result rounded to the nearest whole unit.
         /// </summary>
-        internal static int VerifiedAltitude(altmode frame, double terrainAtPoint, double terrainAtHome,
+        internal static int VerifiedAltitude(altmode frame, double terrainAtPoint, double homeAlt,
             int defaultAlt, float multiplier)
         {
             switch (frame)
@@ -1075,7 +1081,7 @@ namespace MissionPlanner.GCSViews
                 case altmode.Terrain:
                     return defaultAlt;
                 default: // relative to home
-                    return RoundAltitude((terrainAtPoint - terrainAtHome) * multiplier + defaultAlt);
+                    return RoundAltitude(terrainAtPoint * multiplier + defaultAlt - homeAlt);
             }
         }
 
@@ -1110,10 +1116,12 @@ namespace MissionPlanner.GCSViews
 
         /// <summary>
         /// Verify Height for one point: Default Alt above the terrain at lat/lng, in the given frame.
-        /// Returns false, with alt at Default Alt, when there is no terrain data for the point (or
-        /// for home, in the relative frame), which happens while the SRTM tile is still downloading.
+        /// homeAlt is the Home Location altitude (display units), the datum of relative altitudes.
+        /// Returns false, with alt at Default Alt, when there is no terrain data for the point yet,
+        /// which happens while the SRTM tile is still downloading.
         /// </summary>
-        private bool TryVerifyHeight(double lat, double lng, altmode frame, int defaultAlt, out int alt)
+        private bool TryVerifyHeight(double lat, double lng, altmode frame, int defaultAlt, double homeAlt,
+            out int alt)
         {
             alt = defaultAlt;
             if (frame == altmode.Terrain)
@@ -1123,37 +1131,46 @@ namespace MissionPlanner.GCSViews
             if (point.currenttype == srtm.tiletype.invalid)
                 return false;
 
-            double terrainAtHome = 0;
-            if (frame != altmode.Absolute)
-            {
-                var home = srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                    MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng);
-                if (home.currenttype == srtm.tiletype.invalid)
-                    return false;
-                terrainAtHome = home.alt;
-            }
-
-            alt = VerifiedAltitude(frame, point.alt, terrainAtHome, defaultAlt, CurrentState.multiplieralt);
+            alt = VerifiedAltitude(frame, point.alt, homeAlt, defaultAlt, CurrentState.multiplieralt);
             return true;
+        }
+
+        /// <summary>
+        /// The Home Location altitude (display units), or null while the home boxes are empty or
+        /// hold no position.
+        /// </summary>
+        private double? HomeAltitude()
+        {
+            double lat, lng, alt;
+            if (!double.TryParse(TXT_homelat.Text, out lat) || !double.TryParse(TXT_homelng.Text, out lng) ||
+                !double.TryParse(TXT_homealt.Text, out alt) || (lat == 0 && lng == 0))
+                return null;
+            return alt;
         }
 
         /// <summary>
         /// The frame of a grid row (its Frame cell), falling back to the Alt mode dropdown when the
         /// cell holds no frame number. Null for a frame the Plan page does not use (local, body,
-        /// mission frames), whose X and Y are not a latitude and longitude.
+        /// mission frames), whose X and Y are not a latitude and longitude, and while the dropdown
+        /// has no value to fall back on.
         /// </summary>
         private altmode? RowAltMode(DataGridViewRow row)
         {
             try
             {
-                return AltModeOfFrame(Convert.ToInt32(row.Cells[Frame.Index].Value));
+                // Convert.ToInt32(null) is 0, frame GLOBAL: an empty cell means the dropdown instead
+                var value = row.Cells[Frame.Index].Value;
+                if (value != null)
+                    return AltModeOfFrame(Convert.ToInt32(value));
             }
             catch (Exception ex) when (ex is FormatException || ex is InvalidCastException ||
                                        ex is OverflowException)
             {
                 // not a frame number: use the dropdown
-                return (altmode) CMB_altmode.SelectedValue;
             }
+
+            var selected = CMB_altmode.SelectedValue;
+            return selected == null ? (altmode?) null : (altmode) Convert.ToInt32(selected);
         }
 
         private CheckBoxHeaderCell checkHeader;
@@ -1240,7 +1257,8 @@ namespace MissionPlanner.GCSViews
         /// Verify Height for waypoints that are already in the grid: recalculates the Alt of the
         /// ticked rows the way Verify Height sets a new waypoint, Default Alt above the terrain at
         /// each point. Rows whose command has no position or no altitude are left alone, as are rows
-        /// whose terrain tile has not downloaded yet.
+        /// whose terrain tile has not downloaded yet. Relative rows also need the Home Location,
+        /// since their altitude is measured from it.
         /// </summary>
         public void BUT_verifyheight_Click(object sender, EventArgs e)
         {
@@ -1257,6 +1275,14 @@ namespace MissionPlanner.GCSViews
             if (!int.TryParse(TXT_DefaultAlt.Text, out defaultAlt) || defaultAlt == 0)
             {
                 CustomMessageBox.Show(Strings.VerifyHeightBadDefaultAlt, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            // relative altitudes are measured from the home altitude
+            var homeAlt = HomeAltitude();
+            if (homeAlt == null && rows.Any(index => RowAltMode(Commands.Rows[index]) == altmode.Relative))
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightNoHome, Strings.VerifyHeightTitle);
                 return;
             }
 
@@ -1298,7 +1324,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 int alt;
-                if (!TryVerifyHeight(lat, lng, frame.Value, defaultAlt, out alt))
+                if (!TryVerifyHeight(lat, lng, frame.Value, defaultAlt, homeAlt ?? 0, out alt))
                 {
                     noTerrain++;
                     continue;
@@ -1483,10 +1509,14 @@ namespace MissionPlanner.GCSViews
                     if (CHK_verifyheight.Checked) // use srtm data
                     {
                         // Default Alt above the terrain, or Default Alt itself while there is no
-                        // terrain data for the point yet, whatever altitude the caller passed in
-                        int verified;
-                        TryVerifyHeight(lat, lng, (altmode) CMB_altmode.SelectedValue,
-                            int.Parse(TXT_DefaultAlt.Text), out verified);
+                        // terrain data for the point yet or no home for a relative altitude,
+                        // whatever altitude the caller passed in
+                        var defaultAlt = int.Parse(TXT_DefaultAlt.Text);
+                        var dropFrame = (altmode) CMB_altmode.SelectedValue;
+                        var homeAlt = HomeAltitude();
+                        var verified = defaultAlt;
+                        if (dropFrame != altmode.Relative || homeAlt != null)
+                            TryVerifyHeight(lat, lng, dropFrame, defaultAlt, homeAlt ?? 0, out verified);
                         cell.Value = verified.ToString();
                     }
 
