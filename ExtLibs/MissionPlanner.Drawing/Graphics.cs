@@ -1653,7 +1653,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         //A Windows window is identified by a "window handle" (HWND)
         public static Graphics FromHwnd(IntPtr windowHandle)
         {
-            Console.WriteLine("FromHwnd");
 
             if(HwndToGraphics == null)
                 return new Graphics(SKSurface.CreateNull(1, 1));
@@ -1676,7 +1675,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static Graphics FromHdc(IntPtr getHdc)
         {
-            Console.WriteLine("FromHdc");
             return GraphicsFromHdc(getHdc);
         }
 

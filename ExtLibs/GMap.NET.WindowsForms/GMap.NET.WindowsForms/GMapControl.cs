@@ -1423,7 +1423,6 @@ namespace GMap.NET.WindowsForms
 
                 var ts = (DateTime.Now - start);
 
-                Console.WriteLine("map render {0}", ts.TotalSeconds);
 
                 e.Graphics.DrawImageUnscaled(Image.FromStream(new MemoryStream(sk.WriteImage())), 0, 0);
 
