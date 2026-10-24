@@ -320,8 +320,8 @@ namespace MissionPlanner.GeoRef
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Settings.GetRunningDirectory() + "m3u" + Path.DirectorySeparatorChar +
-                                             "GeoRefnetworklink.kml");
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Settings.GetRunningDirectory() + "m3u" + Path.DirectorySeparatorChar +
+                                             "GeoRefnetworklink.kml") { UseShellExecute = true });
         }
 
         private void TXT_logfile_TextChanged(object sender, EventArgs e)

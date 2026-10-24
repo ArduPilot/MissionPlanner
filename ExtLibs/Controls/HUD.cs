@@ -314,6 +314,10 @@ namespace MissionPlanner.Controls
                 }
             }
 
+            foreach (var icon in iconCache.Values)
+                icon.Dispose();
+            iconCache.Clear();
+
             base.Dispose(disposing);
         }
 
@@ -1497,6 +1501,25 @@ namespace MissionPlanner.Controls
         public void DrawString(string text, float fontsize, SolidBrush brush, float x, float y)
         {
             drawstring(text, font, fontsize, brush, x, y);
+        }
+
+        // HUDT's image getters go through ResourceManager.GetObject, which decodes the PNG resource into a new
+        // Bitmap on every call. The HUD asks for its status icons several times a frame, so each icon is decoded
+        // once per HUD and kept in a copy made by new Bitmap(Image), which renders into a 32bpp ARGB bitmap,
+        // the format DrawImage locks it in
+        private readonly Dictionary<string, Bitmap> iconCache = new Dictionary<string, Bitmap>();
+
+        private Bitmap GetIcon(string name)
+        {
+            Bitmap icon;
+            if (!iconCache.TryGetValue(name, out icon))
+            {
+                using (var loaded = (Image) HUDT.ResourceManager.GetObject(name, HUDT.Culture))
+                    icon = new Bitmap(loaded);
+                iconCache[name] = icon;
+            }
+
+            return icon;
         }
 
         public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
@@ -2867,23 +2890,23 @@ namespace MissionPlanner.Controls
                     {
                         textcolor = _redBrush;
                         if (displayicons)
-                            icon = HUDT.batt_red;
+                            icon = GetIcon(nameof(HUDT.batt_red));
                     }
                     else if (lowvoltagealert)
                     {
                         textcolor = _orangeBrush;
                         if (displayicons)
-                            icon = HUDT.batt_yellow;
+                            icon = GetIcon(nameof(HUDT.batt_yellow));
                     }
                     else
                     {
                         textcolor = _whiteBrush;
                         if (displayicons)
                         {
-                            if (_batteryremaining > 75) icon = HUDT.batt_4;
-                            else if (_batteryremaining > 50) icon = HUDT.batt_3;
-                            else if (_batteryremaining > 25) icon = HUDT.batt_2;
-                            else icon = HUDT.batt_1;
+                            if (_batteryremaining > 75) icon = GetIcon(nameof(HUDT.batt_4));
+                            else if (_batteryremaining > 50) icon = GetIcon(nameof(HUDT.batt_3));
+                            else if (_batteryremaining > 25) icon = GetIcon(nameof(HUDT.batt_2));
+                            else icon = GetIcon(nameof(HUDT.batt_1));
                         }
                     }
 
@@ -2940,50 +2963,50 @@ namespace MissionPlanner.Controls
                             gps = (HUDT.GPS0);
                             col = (SolidBrush)Brushes.Red;
                             if (displayicons)
-                                icon = HUDT.nogps_wide;
+                                icon = GetIcon(nameof(HUDT.nogps_wide));
                         }
                         else if (_fix == 1)
                         {
                             gps = (HUDT.GPS1);
                             col = (SolidBrush)Brushes.Red; 
                             if (displayicons)
-                                icon = HUDT.nofix_wide;
+                                icon = GetIcon(nameof(HUDT.nofix_wide));
                         }
                         else if (_fix == 2)
                         {
                             gps = (HUDT.GPS2); 
                             if (displayicons)
-                                icon = HUDT._2dfix_wide;
+                                icon = GetIcon(nameof(HUDT._2dfix_wide));
                         }
                         else if (_fix == 3)
                         {
                             gps = (HUDT.GPS3);
                             if (displayicons)
-                                icon = HUDT._3dfix_wide;
+                                icon = GetIcon(nameof(HUDT._3dfix_wide));
                         }
                         else if (_fix == 4)
                         {
                             gps = (HUDT.GPS4); 
                             if (displayicons)
-                                icon = HUDT._3ddgps_wide;
+                                icon = GetIcon(nameof(HUDT._3ddgps_wide));
                         }
                         else if (_fix == 5)
                         {
                             gps = (HUDT.GPS5); 
                             if (displayicons)
-                                icon = HUDT.rtkfloat_wide;
+                                icon = GetIcon(nameof(HUDT.rtkfloat_wide));
                         }
                         else if (_fix == 6)
                         {
                             gps = (HUDT.GPS6); 
                             if (displayicons)
-                                icon = HUDT.rtkfixed_wide;
+                                icon = GetIcon(nameof(HUDT.rtkfixed_wide));
                         }
                         else
                         {
                             gps = _fix.ToString();
                             if (displayicons)
-                                icon = HUDT.unknown;
+                                icon = GetIcon(nameof(HUDT.unknown));
                         }
 
                         // gps2
@@ -3172,7 +3195,7 @@ namespace MissionPlanner.Controls
                         {
                             if (displayicons)
                             {
-                                DrawImage(HUDT.vibe_red, vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
+                                DrawImage(GetIcon(nameof(HUDT.vibe_red)), vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
                             }
                             else
                             {
@@ -3183,7 +3206,7 @@ namespace MissionPlanner.Controls
                         {
                             if (displayicons)
                             {
-                                DrawImage(HUDT.vibe_yellow, vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
+                                DrawImage(GetIcon(nameof(HUDT.vibe_yellow)), vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
                             }
                             else
                             {
@@ -3196,7 +3219,7 @@ namespace MissionPlanner.Controls
                     {
                         if (displayicons)
                         {
-                            DrawImage(HUDT.vibe_green, vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
+                            DrawImage(GetIcon(nameof(HUDT.vibe_green)), vibehitzone.X, vibehitzone.Y + 2, vibehitzone.Width, vibehitzone.Height);
                         }
                         else
                         {
@@ -3231,7 +3254,7 @@ namespace MissionPlanner.Controls
                         {
                             if (displayicons)
                             {
-                                DrawImage(HUDT.ekf_red, ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
+                                DrawImage(GetIcon(nameof(HUDT.ekf_red)), ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
                             }
                             else
                             {
@@ -3242,7 +3265,7 @@ namespace MissionPlanner.Controls
                         {
                             if (displayicons)
                             {
-                                DrawImage(HUDT.ekf_yellow, ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
+                                DrawImage(GetIcon(nameof(HUDT.ekf_yellow)), ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
                             }
                             else
                             {
@@ -3254,7 +3277,7 @@ namespace MissionPlanner.Controls
                     {
                         if (displayicons)
                         {
-                            DrawImage(HUDT.ekf_green, ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
+                            DrawImage(GetIcon(nameof(HUDT.ekf_green)), ekfhitzone.X, ekfhitzone.Y + 2, ekfhitzone.Width, ekfhitzone.Height);
                         }
                         else
                         {
@@ -3283,7 +3306,7 @@ namespace MissionPlanner.Controls
                     {
                         if (displayicons)
                         {
-                            DrawImage(HUDT.prearm_green, prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
+                            DrawImage(GetIcon(nameof(HUDT.prearm_green)), prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
                         }
                         else
                         {
@@ -3294,7 +3317,7 @@ namespace MissionPlanner.Controls
                     {
                         if (displayicons)
                         {
-                            DrawImage(HUDT.prearm_red, prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
+                            DrawImage(GetIcon(nameof(HUDT.prearm_red)), prearmhitzone.X, prearmhitzone.Y + 2, prearmhitzone.Width, prearmhitzone.Height);
                         }
                         else
                         {

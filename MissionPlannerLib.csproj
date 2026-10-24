@@ -25,8 +25,6 @@
     <Compile Remove="APMPlannerXplanes\**" />
     <Compile Remove="ExtLibs\7zip\**" />
     <Compile Remove="ExtLibs\alglibnet\**" />
-    <Compile Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
-    <Compile Remove="ExtLibs\AltitudeAngelWings\**" />
     <Compile Remove="ExtLibs\Antenna\**" />
     <Compile Remove="ExtLibs\Arduino\**" />
     <Compile Remove="ExtLibs\ArduPilot\**" />
@@ -118,14 +116,11 @@
     <Compile Remove="resedit\**" />
     <Compile Remove="SikRadio\**" />
     <Compile Remove="Updater\**" />
-    <Compile Remove="Utilities\AltitudeAngel\**" />
     <Compile Remove="wix\**" />
     <Compile Remove="**\AssemblyInfo.cs" />
     <EmbeddedResource Remove="APMPlannerXplanes\**" />
     <EmbeddedResource Remove="ExtLibs\7zip\**" />
     <EmbeddedResource Remove="ExtLibs\alglibnet\**" />
-    <EmbeddedResource Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
-    <EmbeddedResource Remove="ExtLibs\AltitudeAngelWings\**" />
     <EmbeddedResource Remove="ExtLibs\Antenna\**" />
     <EmbeddedResource Remove="ExtLibs\Arduino\**" />
     <EmbeddedResource Remove="ExtLibs\ArduPilot\**" />
@@ -217,13 +212,10 @@
     <EmbeddedResource Remove="resedit\**" />
     <EmbeddedResource Remove="SikRadio\**" />
     <EmbeddedResource Remove="Updater\**" />
-    <EmbeddedResource Remove="Utilities\AltitudeAngel\**" />
     <EmbeddedResource Remove="wix\**" />
     <None Remove="APMPlannerXplanes\**" />
     <None Remove="ExtLibs\7zip\**" />
     <None Remove="ExtLibs\alglibnet\**" />
-    <None Remove="ExtLibs\AltitudeAngelWings.Plugin\**" />
-    <None Remove="ExtLibs\AltitudeAngelWings\**" />
     <None Remove="ExtLibs\Antenna\**" />
     <None Remove="ExtLibs\Arduino\**" />
     <None Remove="ExtLibs\ArduPilot\**" />
@@ -315,7 +307,6 @@
     <None Remove="resedit\**" />
     <None Remove="SikRadio\**" />
     <None Remove="Updater\**" />
-    <None Remove="Utilities\AltitudeAngel\**" />
     <None Remove="wix\**" />
 
     <Compile Remove="ExtLibs\runtime\**" />   

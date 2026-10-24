@@ -318,7 +318,7 @@ namespace MissionPlanner.Utilities
             var tcplistern = TcpListener.Create(3000);
             tcplistern.Start();
 
-            System.Diagnostics.Process.Start(authorization_redirect_url);
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(authorization_redirect_url) { UseShellExecute = true });
 
             var client = tcplistern.AcceptTcpClient();
             client.NoDelay = true;

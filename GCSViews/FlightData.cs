@@ -686,7 +686,14 @@ namespace MissionPlanner.GCSViews
 
                     log.Info("Open logfile " + file);
 
-                    MainV2.comPort.getHeartBeat();
+                    // the GCS that recorded the log may have another sysid than ours, and if its heartbeat comes
+                    // first it becomes the current MAV; getHeartBeat skips GCS heartbeats, so take the vehicle from it
+                    var hb = MainV2.comPort.getHeartBeat();
+                    if (hb.Length > 5)
+                    {
+                        MainV2.comPort.sysidcurrent = hb.sysid;
+                        MainV2.comPort.compidcurrent = hb.compid;
+                    }
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
@@ -1159,7 +1166,7 @@ namespace MissionPlanner.GCSViews
                         {
                             StreamReader tr;
 
-                            if (logfile.ToLower().EndsWith(".bin"))
+                            if (logfile.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                             {
                                 using (tr = new StreamReader(logfile))
                                 {
@@ -1322,7 +1329,7 @@ namespace MissionPlanner.GCSViews
                 {
                     string newlogfile = null;
 
-                    if (ofd.FileName.ToLower().EndsWith(".bin"))
+                    if (ofd.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                     {
                         newlogfile = Path.GetTempFileName() + ".log";
 
@@ -4370,8 +4377,9 @@ namespace MissionPlanner.GCSViews
                         prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
                             MainV2.comPort.MAV.cs.battery_kmleft);
 
-                        prop.alt = MainV2.comPort.MAV.cs.alt;
-                        prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                        // in metres, like the terrain they are compared with
+                        prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                        prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                         prop.center = gMapControl1.Position;
 
                         // Update camera bounds
