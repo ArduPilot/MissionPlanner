@@ -17,10 +17,36 @@ namespace System.Drawing
         private object userData;
         private SKBitmap _skBitmap;
 
+        // bytes of native pixel memory reported to the GC for _skBitmap
+        private long _memoryPressure;
+
         internal SKBitmap nativeSkBitmap
         {
             get { return _skBitmap; }
-            set { _skBitmap = value; }
+            set
+            {
+                _skBitmap = value;
+                UpdateMemoryPressure(value);
+            }
+        }
+
+        /// <summary>
+        /// The pixels are native memory the GC can't see, so map tile and image caches only got freed by
+        /// finalizers when managed allocations happened to trigger a collection. Report the size, as GDI+
+        /// does for its images, so collections keep up with the native memory. Dispose() only drops the
+        /// reference (the SKBitmap may be shared), so the pixels themselves are still freed by its finalizer.
+        /// Bitmaps wrapping external pixels (InstallPixels) are set while empty and report nothing.
+        /// </summary>
+        private void UpdateMemoryPressure(SKBitmap bitmap)
+        {
+            long bytes = bitmap == null ? 0 : bitmap.ByteCount;
+            if (bytes == _memoryPressure)
+                return;
+            if (_memoryPressure > 0)
+                GC.RemoveMemoryPressure(_memoryPressure);
+            if (bytes > 0)
+                GC.AddMemoryPressure(bytes);
+            _memoryPressure = bytes;
         }
 
         public SKImage ToSKImage()
@@ -107,11 +133,13 @@ namespace System.Drawing
             MemoryStream ms2 = new MemoryStream();
             ms.CopyTo(ms2);
             ms2.Position = 0;
-            var skimage = SKImage.FromEncodedData(ms2);
-            if (skimage == null)
-                return null;
-            var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
-            return ans;
+            using (var skimage = SKImage.FromEncodedData(ms2))
+            {
+                if (skimage == null)
+                    return null;
+                var ans = new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skimage)};
+                return ans;
+            }
         }
 
         public object Clone()

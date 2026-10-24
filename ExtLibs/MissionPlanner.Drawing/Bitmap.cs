@@ -53,8 +53,8 @@ namespace System.Drawing
             }
             try
             {
-                var skimage = SKImage.FromEncodedData(stream);
-                nativeSkBitmap = SKBitmap.FromImage(skimage); //SKBitmap.Decode(stream);
+                using (var skimage = SKImage.FromEncodedData(stream))
+                    nativeSkBitmap = SKBitmap.FromImage(skimage); //SKBitmap.Decode(stream);
             }
             catch (Exception ex)
             {
@@ -129,17 +129,21 @@ namespace System.Drawing
             MemoryStream ms2 = new MemoryStream();
             ms.CopyTo(ms2);
             ms2.Position = 0;
-            var skimage = SKImage.FromEncodedData(ms2);
-            if (skimage == null)
-                return null;
-            var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
-            return ans;
+            using (var skimage = SKImage.FromEncodedData(ms2))
+            {
+                if (skimage == null)
+                    return null;
+                var ans = new Bitmap() { nativeSkBitmap = SKBitmap.FromImage(skimage) };
+                return ans;
+            }
         }
         public Bitmap(byte[] largeIconsImage, Size clientSizeHeight)
         {
-            nativeSkBitmap = SKBitmap.Decode(SKData.CreateCopy(largeIconsImage)).Resize(
-                new SKImageInfo(clientSizeHeight.Width, clientSizeHeight.Height),
-                SKFilterQuality.High);
+            using (var data = SKData.CreateCopy(largeIconsImage))
+            using (var decoded = SKBitmap.Decode(data))
+                nativeSkBitmap = decoded.Resize(
+                    new SKImageInfo(clientSizeHeight.Width, clientSizeHeight.Height),
+                    SKFilterQuality.High);
         }
 
         public Bitmap(Image largeIconsImage, Size clientSizeHeight)
