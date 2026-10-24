@@ -24,6 +24,9 @@ namespace System.Drawing
                 BlendMode = SKBlendMode.SrcOver
             };
 
+        // default paint for DrawImage(Image, Rectangle, Rectangle, GraphicsUnit), reused instead of one per call
+        private readonly SKPaint _imagePaint = new SKPaint();
+
         internal SKSurface _surface;
 
         //SKPictureRecorder _rec = new SKPictureRecorder();
@@ -190,6 +193,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             _surface?.Dispose();
             _paint?.Dispose();
+            _imagePaint?.Dispose();
         }
 
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
@@ -482,7 +486,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 ///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            _image.DrawBitmap(image.nativeSkBitmap, srcRect.ToSKRect(), destRect.ToSKRect(), new SKPaint());
+            _image.DrawBitmap(image.nativeSkBitmap, srcRect.ToSKRect(), destRect.ToSKRect(), _imagePaint);
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -557,14 +561,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             DrawImage(img, new Rectangle((int) i, (int) i1, (int)width, (int)height), 0.0f, 0, img.Width, img.Height,
                 GraphicsUnit.Pixel,
-                new ImageAttributes());
+                null);
         }
 
         public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
             GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
         {
             DrawImage(image, rectangle, (float) p1,p2,p3,p4,
-                GraphicsUnit.Pixel, new ImageAttributes());
+                GraphicsUnit.Pixel, null);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y, int width, int height)
