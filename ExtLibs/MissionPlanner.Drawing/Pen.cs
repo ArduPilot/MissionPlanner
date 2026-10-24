@@ -15,7 +15,8 @@ namespace System.Drawing
             set
             {
                 _nativePen = value;
-                Color = Color.FromArgb(_nativePen.Color.Red, _nativePen.Color.Green, _nativePen.Color.Blue);
+                Color = Color.FromArgb(_nativePen.Color.Alpha, _nativePen.Color.Red, _nativePen.Color.Green,
+                    _nativePen.Color.Blue);
                 Brush = new SolidBrush(Color);
             }
         }
