@@ -1875,6 +1875,24 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The mission rows must come before the fence and rally rows. The vehicle numbers the mission items among themselves, so a mission row further down would get a different number there than in this list, and a DO_JUMP to it would go to another item. Move the mission rows up, then write again..
+        /// </summary>
+        public static string AllModeMissionFirst {
+            get {
+                return ResourceManager.GetString("AllModeMissionFirst", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} items in the file are not {1} items and were not loaded. Choose ALL in the dropdown to load every item..
+        /// </summary>
+        public static string FileItemsOfOtherTypes {
+            get {
+                return ResourceManager.GetString("FileItemsOfOtherTypes", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Some items could not be read:.
         /// </summary>
         public static string SomeItemsNotRead {

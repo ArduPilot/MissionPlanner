@@ -737,6 +737,12 @@ ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOU
   <data name="AllModeHint" xml:space="preserve">
     <value>Mission, Fence and Rally items are now shown together in one list. The Command column tells them apart (RALLY_POINT and FENCE_* rows are not part of the mission). Read and Write let you pick which of the three to send or receive.</value>
   </data>
+  <data name="AllModeMissionFirst" xml:space="preserve">
+    <value>The mission rows must come before the fence and rally rows. The vehicle numbers the mission items among themselves, so a mission row further down would get a different number there than in this list, and a DO_JUMP to it would go to another item. Move the mission rows up, then write again.</value>
+  </data>
+  <data name="FileItemsOfOtherTypes" xml:space="preserve">
+    <value>{0} items in the file are not {1} items and were not loaded. Choose ALL in the dropdown to load every item.</value>
+  </data>
   <data name="SomeItemsNotRead" xml:space="preserve">
     <value>Some items could not be read:</value>
   </data>

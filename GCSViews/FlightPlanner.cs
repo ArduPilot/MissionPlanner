@@ -33,6 +33,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -351,9 +352,15 @@ namespace MissionPlanner.GCSViews
         /// The grid's rows of each item type as they were when the dropdown last showed that
         /// type, so choosing the type again brings them back as they were, sent to the vehicle
         /// or not. A type with no entry has not been shown yet and comes from the vehicle's copy.
+        /// Kept per vehicle: MAVLinkInterface.Open clears the MAV list, so a new connection or
+        /// another sysid is a new MAVState with nothing kept, whose types come from that
+        /// vehicle's copy. Rows kept for one vehicle are never shown for, or written to, another.
         /// </summary>
-        private readonly Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>> keptRows =
-            new Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>();
+        private readonly ConditionalWeakTable<MAVState, Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>>
+            keptRowsByVehicle = new ConditionalWeakTable<MAVState, Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>>();
+
+        private Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>> keptRows =>
+            keptRowsByVehicle.GetOrCreateValue(MainV2.comPort.MAV);
 
         /// <summary>The type the dropdown showed until its latest change: the rows in the grid are its.</summary>
         private MAVLink.MAV_MISSION_TYPE shownMissionType = MAVLink.MAV_MISSION_TYPE.MISSION;
@@ -362,22 +369,26 @@ namespace MissionPlanner.GCSViews
         /// Keep the grid's rows for the type the dropdown has been showing (all three types in
         /// ALL mode, each type's rows apart), for when it is chosen again.
         /// </summary>
-        private void KeepGridRows(MAVLink.MAV_MISSION_TYPE shown)
+        /// <returns>false, with the reason in <paramref name="invalid"/>, when a cell is not a
+        /// number: nothing is kept then</returns>
+        private bool KeepGridRows(MAVLink.MAV_MISSION_TYPE shown, out string invalid)
         {
+            invalid = null;
             List<Locationwp> rows;
             try
             {
                 rows = GetCommandList();
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
-                // a cell that is not a number: writeKML has said so, and the rows as last kept stay
-                return;
+                invalid = ex.Message;
+                return false;
             }
 
             var types = shown == MAVLink.MAV_MISSION_TYPE.ALL ? allMissionTypes : new[] {shown};
             foreach (var type in types)
                 keptRows[type] = rows.Where(a => MissionTypeOf(a.id) == type).ToList();
+            return true;
         }
 
         /// <summary>
@@ -428,6 +439,64 @@ namespace MissionPlanner.GCSViews
         private static Locationwp HomePlaceholder()
         {
             return new Locationwp {id = (ushort) MAVLink.MAV_CMD.WAYPOINT};
+        }
+
+        /// <summary>
+        /// Add an empty grid row for an item of the given type and return its index. In ALL mode
+        /// the row goes after the last row of its own type or of a type before it (mission, fence,
+        /// rally), so a new mission item lands above the fence and rally rows: the vehicle numbers
+        /// the mission items among themselves, and the grid's row numbers, which the map labels
+        /// and DO_JUMP use, only match while the mission rows come first. Other modes add at the
+        /// end, as before.
+        /// </summary>
+        private int AddRowFor(MAVLink.MAV_MISSION_TYPE type)
+        {
+            if (SelectedMissionType != MAVLink.MAV_MISSION_TYPE.ALL)
+                return Commands.Rows.Add();
+
+            var rank = Array.IndexOf(allMissionTypes, type);
+            var at = 0;
+            for (int a = 0; a < Commands.Rows.Count; a++)
+                if (Array.IndexOf(allMissionTypes, RowMissionType(a)) <= rank)
+                    at = a + 1;
+
+            if (at >= Commands.Rows.Count)
+                return Commands.Rows.Add();
+
+            Commands.Rows.Insert(at, 1);
+            return at;
+        }
+
+        /// <summary>
+        /// The item type of a grid row, from its Command cell (an UNKNOWN row carries its command
+        /// id in the cell's Tag). A row whose command is not known yet counts as a mission row.
+        /// </summary>
+        private MAVLink.MAV_MISSION_TYPE RowMissionType(int row)
+        {
+            var cell = Commands.Rows[row].Cells[Command.Index];
+            var name = cell.Value?.ToString();
+            if (name == null || name.Contains("UNKNOWN"))
+                return cell.Tag is ushort id ? MissionTypeOf(id) : MAVLink.MAV_MISSION_TYPE.MISSION;
+
+            MAVLink.MAV_CMD cmd;
+            return Enum.TryParse(name, out cmd) ? MissionTypeOf((ushort) cmd) : MAVLink.MAV_MISSION_TYPE.MISSION;
+        }
+
+        /// <summary>
+        /// True when no mission item comes after a fence or rally item in the list.
+        /// </summary>
+        internal static bool MissionRowsFirst(IEnumerable<Locationwp> items)
+        {
+            var other = false;
+            foreach (var item in items)
+            {
+                if (MissionTypeOf(item.id) != MAVLink.MAV_MISSION_TYPE.MISSION)
+                    other = true;
+                else if (other)
+                    return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -691,7 +760,7 @@ namespace MissionPlanner.GCSViews
         public int AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z, object tag = null)
         {
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MissionTypeOf((ushort) cmd));
 
             FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z, tag);
 
@@ -722,7 +791,7 @@ namespace MissionPlanner.GCSViews
             }
             // creating a WP
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
             {
@@ -870,6 +939,15 @@ namespace MissionPlanner.GCSViews
                 types = MissionTypePicker.Show(this, true, counts);
                 if (types == null || types.Count == 0)
                     return;
+
+                // the vehicle numbers the mission items among themselves (saveWPs sends each type
+                // apart), so the row numbers in the grid, on the map and in a DO_JUMP only match
+                // the vehicle's while every mission row comes before the fence and rally rows
+                if (types.Contains(MAVLink.MAV_MISSION_TYPE.MISSION) && !MissionRowsFirst(commandlist))
+                {
+                    CustomMessageBox.Show(Strings.AllModeMissionFirst, Strings.ERROR);
+                    return;
+                }
             }
 
             // check for invalid grid data
@@ -1189,11 +1267,29 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var cmds = WaypointFile.ReadWaypointFile(file);
-                if (SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE ||
-                    SelectedMissionType == MAVLink.MAV_MISSION_TYPE.RALLY)
+                var type = SelectedMissionType;
+                if (type == MAVLink.MAV_MISSION_TYPE.FENCE || type == MAVLink.MAV_MISSION_TYPE.RALLY)
                 {
                     cmds.RemoveAt(0);
                 }
+
+                // a file saved in ALL mode holds mission, fence and rally items. Outside ALL only
+                // the dropdown's type is loaded (with home, the mission's first item), or a mission
+                // upload would carry fence and rally items and the vehicle would refuse it.
+                if (type != MAVLink.MAV_MISSION_TYPE.ALL)
+                {
+                    var keep = cmds.Where((a, i) =>
+                        (type == MAVLink.MAV_MISSION_TYPE.MISSION && i == 0) || MissionTypeOf(a.id) == type).ToList();
+                    var left = cmds.Count - keep.Count;
+                    if (left > 0)
+                    {
+                        cmds = keep;
+                        CustomMessageBox.Show(
+                            string.Format(Strings.FileItemsOfOtherTypes, left, MissionTypePicker.TypeName(type)),
+                            Strings.Warning);
+                    }
+                }
+
                 processToScreen(cmds, append);
 
                 writeKML();
@@ -1859,7 +1955,7 @@ namespace MissionPlanner.GCSViews
 
         private void AddDigicamControlPhoto()
         {
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString();
 
@@ -2403,10 +2499,34 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>true while the dropdown is being put back after a refused switch</summary>
+        private bool revertingMissionType;
+
         public void Cmb_missiontype_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // the rows of the type shown until now come back when it is chosen again
-            KeepGridRows(shownMissionType);
+            if (revertingMissionType)
+                return;
+
+            // the rows of the type shown until now come back when it is chosen again. While a
+            // cell is not a number they cannot be kept and the switch would lose them, so the
+            // dropdown goes back to the type shown until the cell is corrected.
+            string invalid;
+            if (!KeepGridRows(shownMissionType, out invalid))
+            {
+                revertingMissionType = true;
+                try
+                {
+                    cmb_missiontype.SelectedItem = shownMissionType;
+                }
+                finally
+                {
+                    revertingMissionType = false;
+                }
+
+                CustomMessageBox.Show(Strings.InvalidNumberEntered + "\n" + invalid, Strings.ERROR);
+                return;
+            }
+
             shownMissionType = SelectedMissionType;
 
             // switch the mavcmd list and init
@@ -3158,7 +3278,7 @@ namespace MissionPlanner.GCSViews
             {
                 for (a = 0; a <= (startangle + 360) && a >= 0; a += step)
                 {
-                    selectedrow = Commands.Rows.Add();
+                    selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
                     Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
 
@@ -3258,7 +3378,7 @@ namespace MissionPlanner.GCSViews
 
             for (; a <= (startangle + 360) && a >= 0; a += step)
             {
-                selectedrow = Commands.Rows.Add();
+                selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
                 Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
 
@@ -3515,7 +3635,7 @@ namespace MissionPlanner.GCSViews
 
             PointLatLngAlt ans = ((Geographic) utm);
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
             updateUndoBuffer(false);
@@ -4429,7 +4549,7 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.Cancel == InputBox.Show("Jump repeat", "Number of times to Repeat", ref repeat))
                 return;
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
 
@@ -4449,7 +4569,7 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.Cancel == InputBox.Show("Jump repeat", "Number of times to Repeat", ref repeat))
                 return;
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_JUMP.ToString();
 
@@ -4633,7 +4753,7 @@ namespace MissionPlanner.GCSViews
 
         public void landToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LAND.ToString();
 
@@ -5078,7 +5198,7 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.Cancel == InputBox.Show("Loiter Turns", "Loiter Turns", ref turns))
                 return;
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_TURNS.ToString();
 
@@ -5094,7 +5214,7 @@ namespace MissionPlanner.GCSViews
 
         public void loiterForeverToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_UNLIM.ToString();
 
@@ -5111,7 +5231,7 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.Cancel == InputBox.Show("Loiter Time", "Loiter Time", ref time))
                 return;
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_TIME.ToString();
 
@@ -5816,7 +5936,7 @@ namespace MissionPlanner.GCSViews
             {
                 foreach (var loc in ls.Coordinates)
                 {
-                    selectedrow = Commands.Rows.Add();
+                    selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
                     setfromMap(loc.Latitude, loc.Longitude, (int) loc.Altitude);
                 }
             }
@@ -6205,7 +6325,7 @@ namespace MissionPlanner.GCSViews
 
         public void rTLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.RETURN_TO_LAUNCH.ToString();
 
@@ -7183,7 +7303,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 return;
             }
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_SET_ROI.ToString();
 
@@ -7328,7 +7448,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
             }
 
-            selectedrow = Commands.Rows.Add();
+            selectedrow = AddRowFor(MAVLink.MAV_MISSION_TYPE.MISSION);
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.TAKEOFF.ToString();
 
