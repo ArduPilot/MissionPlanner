@@ -176,8 +176,7 @@ public class FormsRender
                                     hwnd.height - borders.top - borders.bottom), SKClipOperation.Intersect);
                             */
                             if (hwnd.hwndbmp != null)
-                                Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x, y));
+                                Canvas.DrawImage(hwnd.hwndbmp, x, y);
 
                             wasdrawn = true;
                             // we needed to draw this, so everything after this is forced to render
@@ -199,8 +198,7 @@ public class FormsRender
                         if (hwnd.DrawNeeded || forcerender)
                         {
                             if (hwnd.hwndbmp != null)
-                                Canvas.DrawDrawable(hwnd.hwndbmp,
-                                    new SKPoint(x + 0, y + 0));
+                                Canvas.DrawImage(hwnd.hwndbmp, x, y);
 
                             wasdrawn = true;
                             // we needed to draw this, so everything after this is forced to render
