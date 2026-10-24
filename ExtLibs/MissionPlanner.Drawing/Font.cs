@@ -372,6 +372,30 @@ namespace System.Drawing
             return nativeFont.FontSpacing;
         }
 
+        private SKPaint _textPaint;
+        private string _textPaintLanguage;
+        private float _textPaintSize;
+
+        /// <summary>
+        /// Paint used by Graphics to draw and measure text with this font. Same settings as
+        /// Extension.ToSKPaint(Font), but cached instead of a new native paint per call. Rebuilt if the
+        /// size or the UI language (which picks the typeface) changes.
+        /// </summary>
+        internal SKPaint GetTextPaint()
+        {
+            var language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var size = SizeInPoints * 1.33334f;
+            var paint = _textPaint;
+            if (paint != null && _textPaintSize == size && _textPaintLanguage == language)
+                return paint;
+
+            paint = this.ToSKPaint();
+            _textPaintLanguage = language;
+            _textPaintSize = size;
+            _textPaint = paint;
+            return paint;
+        }
+
         public Font FromHfont(IntPtr hfont)
         {
             return new Font(FontFamily.GenericMonospace, 8);
