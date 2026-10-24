@@ -89,28 +89,70 @@ namespace System.Drawing
         }
 
         private SKPathEffect _dashEffect;
+        private DashStyle _dashEffectStyle;
+        private float _dashEffectWidth;
         private float[] _dashEffectPattern;
 
+        // set while nativePen carries a dash effect, so going back to Solid can clear it
+        internal bool dashApplied;
+
+        // GDI+ dash patterns, in multiples of the pen width
+        private static readonly float[] DashIntervals = {3, 1};
+        private static readonly float[] DotIntervals = {1, 1};
+        private static readonly float[] DashDotIntervals = {3, 1, 1, 1};
+        private static readonly float[] DashDotDotIntervals = {3, 1, 1, 1, 1, 1};
+
         /// <summary>
-        /// Dash effect for DashPattern, rebuilt only when the pattern changes (Extension.ToSKPaint used to
-        /// create a new SKPathEffect on every draw with a dashed pen).
+        /// Dash effect for DashStyle (DashPattern for Custom), scaled by the pen width as GDI+ does. Rebuilt
+        /// only when the style, width or pattern changes.
         /// </summary>
         internal SKPathEffect GetDashEffect()
         {
-            var pattern = DashPattern;
-            if (_dashEffect != null && pattern != null && _dashEffectPattern != null &&
-                pattern.Length == _dashEffectPattern.Length)
+            var style = DashStyle;
+            var width = Math.Max(Width, 1);
+            if (_dashEffect != null && _dashEffectStyle == style && _dashEffectWidth == width &&
+                (style != DashStyle.Custom || SamePattern(DashPattern, _dashEffectPattern)))
+                return _dashEffect;
+
+            float[] unit;
+            switch (style)
             {
-                var same = true;
-                for (int i = 0; i < pattern.Length && same; i++)
-                    same = pattern[i] == _dashEffectPattern[i];
-                if (same)
-                    return _dashEffect;
+                case DashStyle.Dash:
+                    unit = DashIntervals;
+                    break;
+                case DashStyle.Dot:
+                    unit = DotIntervals;
+                    break;
+                case DashStyle.DashDot:
+                    unit = DashDotIntervals;
+                    break;
+                case DashStyle.DashDotDot:
+                    unit = DashDotDotIntervals;
+                    break;
+                default:
+                    unit = DashPattern;
+                    break;
             }
 
-            _dashEffect = SKPathEffect.CreateDash(pattern, 0);
-            _dashEffectPattern = (float[]) pattern?.Clone();
+            var intervals = new float[unit.Length];
+            for (int i = 0; i < unit.Length; i++)
+                intervals[i] = unit[i] * width;
+
+            _dashEffect = SKPathEffect.CreateDash(intervals, 0);
+            _dashEffectStyle = style;
+            _dashEffectWidth = width;
+            _dashEffectPattern = (float[]) DashPattern?.Clone();
             return _dashEffect;
+        }
+
+        private static bool SamePattern(float[] a, float[] b)
+        {
+            if (a == null || b == null || a.Length != b.Length)
+                return a == b;
+            for (int i = 0; i < a.Length; i++)
+                if (a[i] != b[i])
+                    return false;
+            return true;
         }
 
         // set for the shared instances returned by Pens
