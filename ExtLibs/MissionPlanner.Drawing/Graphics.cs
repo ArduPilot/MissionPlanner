@@ -177,10 +177,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (bmpDestination.Width == 0 || bmpDestination.Height == 0)
                 return new Graphics(SKSurface.CreateNull(1, 1));
 
+            // LockBits registers this Graphics as a writer of the image until it is disposed
             var bmpdata = ((Bitmap) bmpDestination).LockBits(
                 new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
-            return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0));
+            return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0))
+                {_writeTarget = bmpDestination};
         }
 
         public static Graphics FromSKImage(SKImage bmpDestination)
@@ -224,8 +226,37 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
 
+        // the Image this Graphics draws into, from FromImage
+        private Image _writeTarget;
+
+        // SkiaSharp 3 dropped the native drawBitmap (DrawBitmap copies a mutable bitmap per call); 2.x
+        // still has it and draws a bitmap faster than an SKImage, so only use the image cache on 3+
+        private static readonly bool DrawBitmapCopies = typeof(SKCanvas).Assembly.GetName().Version.Major >= 3;
+
+        // draw an Image's cached SKImage when it has one (see Image.GetDrawCache), else its bitmap
+        private void DrawImagePixels(Image image, SKRect source, SKRect dest, SKPaint paint)
+        {
+            var cached = DrawBitmapCopies ? image.GetDrawCache() : null;
+            if (cached != null)
+                _image.DrawImage(cached, source, dest, paint);
+            else
+                _image.DrawBitmap(image.nativeSkBitmap, source, dest, paint);
+        }
+
+        private void DrawImagePixels(Image image, float x, float y, SKPaint paint)
+        {
+            var cached = DrawBitmapCopies ? image.GetDrawCache() : null;
+            if (cached != null)
+                _image.DrawImage(cached, x, y, paint);
+            else
+                _image.DrawBitmap(image.nativeSkBitmap, x, y, paint);
+        }
+
         public void Dispose()
         {
+            var target = _writeTarget;
+            _writeTarget = null;
+            target?.ReleaseWriter();
             _surface?.Dispose();
             _paint?.Dispose();
             _imagePaint?.Dispose();
@@ -523,7 +554,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 ///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            _image.DrawBitmap(image.nativeSkBitmap, srcRect.ToSKRect(), destRect.ToSKRect(), _imagePaint);
+            DrawImagePixels(image, srcRect.ToSKRect(), destRect.ToSKRect(), _imagePaint);
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -573,7 +604,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (img == null)
                 return;
             
-            _image.DrawBitmap(img.nativeSkBitmap,
+            DrawImagePixels(img,
                 new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
             
@@ -617,7 +648,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             _image.Save();
             _image.ClipRect(rect.ToSKRect(), SKClipOperation.Intersect);
-            _image.DrawBitmap(image.nativeSkBitmap, rect.X, rect.Y, null);
+            DrawImagePixels(image, rect.X, rect.Y, null);
             _image.Restore();
         }
 
@@ -628,7 +659,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImageUnscaled(Image image, int x, int y)
         {
-            _image.DrawBitmap(image.nativeSkBitmap, x, y, null);
+            DrawImagePixels(image, x, y, null);
         }
 
         public void DrawImageUnscaled(Image image, Rectangle rect)
