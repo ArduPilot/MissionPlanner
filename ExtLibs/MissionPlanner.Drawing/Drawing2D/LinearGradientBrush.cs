@@ -51,8 +51,9 @@ namespace System.Drawing.Drawing2D
             var rect = Rectangle;
             var color1 = LinearColors[0];
             var color2 = LinearColors[1];
-            if (nativeBrush != null && _paintMode == _gradMode && _paintRect == rect && _paintColor1 == color1 &&
-                _paintColor2 == color2)
+            // Handle is zero once Dispose() has freed the paint; build a new one if drawn again
+            if (nativeBrush != null && nativeBrush.Handle != IntPtr.Zero && _paintMode == _gradMode &&
+                _paintRect == rect && _paintColor1 == color1 && _paintColor2 == color2)
                 return nativeBrush;
 
             var end = _gradMode == LinearGradientMode.Horizontal
@@ -70,7 +71,8 @@ namespace System.Drawing.Drawing2D
             _paintRect = rect;
             _paintColor1 = color1;
             _paintColor2 = color2;
-            old?.Dispose();
+            if (old != null && old.Handle != IntPtr.Zero)
+                old.Dispose();
             return nativeBrush;
         }
 
