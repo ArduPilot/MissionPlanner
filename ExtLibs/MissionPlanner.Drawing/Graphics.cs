@@ -728,9 +728,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </remarks>
         public void DrawPath(Pen pen, GraphicsPath path)
         {
-            //Save the original pen dash style in case we need to change it
-            var originalPenDashStyle = pen.DashStyle;
-
             path.Flatten();
 
             int startIndex = 0;
@@ -751,8 +748,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
                 DrawLines(pen, subPoints.Select(a => new PointF(a.X, a.Y)).ToArray());
             }
-
-            pen.DashStyle = originalPenDashStyle;
         }
 
 
