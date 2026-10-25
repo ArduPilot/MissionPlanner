@@ -22,6 +22,12 @@ namespace MissionPlanner
 
         public static string CachePath = Settings.GetDataDirectory() + "plugins" + Path.DirectorySeparatorChar;
 
+        // compiled plugins are cached per Mission Planner build: the cache folder is shared by every
+        // install and version, and a plugin compiled against another build can call members this one
+        // no longer has (MissingMethodException when that code runs)
+        static readonly string BuildId = (Assembly.GetEntryAssembly() ?? typeof(CodeGenRoslyn).Assembly)
+            .ManifestModule.ModuleVersionId.ToString();
+
         public static Assembly BuildCode(string filepath)
         {
             try
@@ -36,7 +42,7 @@ namespace MissionPlanner
             lasterror = "";
             var filecontents = File.ReadAllText(filepath, Encoding.UTF8);
             {
-                var bytes = filecontents.Select(a => (byte) a).ToArray();
+                var bytes = (filecontents + BuildId).Select(a => (byte) a).ToArray();
                 var md5 = new MD5Digest();
                 md5.BlockUpdate(bytes, 0, bytes.Length);
                 var result = new byte[md5.GetDigestSize()];
