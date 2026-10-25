@@ -23,6 +23,7 @@ namespace System.Drawing
         {
             nativeSkBitmap = new SKBitmap();
             nativeSkBitmap.InstallPixels(new SKImageInfo(width, height, bgra8888), data);
+            externalPixels = true;
         }
 
         public Bitmap(int width, int height, int stride, PixelFormat bgra8888 = Imaging.PixelFormat.Format32bppArgb,
@@ -30,6 +31,7 @@ namespace System.Drawing
         {
             nativeSkBitmap = new SKBitmap();
             nativeSkBitmap.InstallPixels(new SKImageInfo(width, height, SKColorType.Bgra8888), data);
+            externalPixels = true;
         }
 
         // exact System.Drawing signature, so assemblies compiled against the real System.Drawing bind to it
