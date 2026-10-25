@@ -79,13 +79,6 @@ namespace System.Drawing
         }
 
         /// <summary>
-        /// The pixels are native memory the GC can't see, so map tile and image caches only got freed by
-        /// finalizers when managed allocations happened to trigger a collection. Report the size, as GDI+
-        /// does for its images, so collections keep up with the native memory. Dispose() only drops the
-        /// reference (the SKBitmap may be shared), so the pixels themselves are still freed by its finalizer.
-        /// Bitmaps wrapping external pixels (InstallPixels) are set while empty and report nothing.
-        /// </summary>
-        /// <summary>
         /// Marks a freshly decoded bitmap immutable. SkiaSharp 3 has no native drawBitmap, so drawing an
         /// SKBitmap goes through SKImage.FromBitmap, which copies the pixels of a mutable bitmap on every
         /// draw (map tiles, icons); an immutable one is shared instead. Writers call EnsureWritable first.
@@ -105,6 +98,14 @@ namespace System.Drawing
             InvalidateDrawCache();
         }
 
+        /// <summary>
+        /// The pixels are native memory the GC can't see, so map tile and image caches only got freed by
+        /// finalizers when managed allocations happened to trigger a collection. Report the size, as GDI+
+        /// does for its images, so collections keep up with the native memory. Dispose() and the finalizer
+        /// clear nativeSkBitmap, which removes the pressure again; Dispose() doesn't free the pixels (the
+        /// SKBitmap may be shared), the SKBitmap's own finalizer does. Bitmaps wrapping external pixels
+        /// (InstallPixels) are set while still empty and report nothing.
+        /// </summary>
         private void UpdateMemoryPressure(SKBitmap bitmap)
         {
             long bytes = bitmap == null ? 0 : bitmap.ByteCount;
