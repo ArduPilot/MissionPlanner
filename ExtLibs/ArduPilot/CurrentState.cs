@@ -120,6 +120,9 @@ namespace MissionPlanner
 
         private DateTime lastdata = DateTime.MinValue;
 
+        // when EKF_STATUS_REPORT was last received; it is preferred over ESTIMATOR_STATUS
+        private DateTime lastekfstatusreport = DateTime.MinValue;
+
         // for calc of sitl speedup
         internal DateTime lastimutime = DateTime.MinValue;
         private PointLatLngAlt lastpos = new PointLatLngAlt();
@@ -2102,6 +2105,10 @@ namespace MissionPlanner
 
         [GroupText("EKF")] public float ekfteralt { get; set; }
 
+        [GroupText("EKF")][DisplayText("EKF horizontal position accuracy (m)")] public float ekfposhoracc { get; set; }
+
+        [GroupText("EKF")][DisplayText("EKF vertical position accuracy (m)")] public float ekfposvertacc { get; set; }
+
         [GroupText("PID")] public float pidff { get; set; }
 
         [GroupText("PID")] public float pidP { get; set; }
@@ -2646,10 +2653,30 @@ namespace MissionPlanner
                         }
 
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ESTIMATOR_STATUS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT:
 
                         {
-                            var ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
+                            MAVLink.mavlink_ekf_status_report_t ekfstatusm;
+                            if (mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT)
+                            {
+                                ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
+                                lastekfstatusreport = DateTime.Now;
+                            }
+                            else
+                            {
+                                var estimatorstatus = mavLinkMessage.ToStructure<MAVLink.mavlink_estimator_status_t>();
+                                ekfposhoracc = estimatorstatus.pos_horiz_accuracy;
+                                ekfposvertacc = estimatorstatus.pos_vert_accuracy;
+
+                                // ArduPilot sends EKF_STATUS_REPORT and may also send
+                                // ESTIMATOR_STATUS (PX4 sends only the latter); both carry
+                                // the same test ratios, so prefer EKF_STATUS_REPORT
+                                if (DateTime.Now - lastekfstatusreport < TimeSpan.FromSeconds(5))
+                                    break;
+
+                                ekfstatusm = EkfStatusReportFromEstimatorStatus(estimatorstatus);
+                            }
 
                             // > 1, between 0-1 typical > 1 = reject measurement - red
                             // 0.5 > amber
@@ -4270,7 +4297,6 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_TARGET:
                     case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_LIST:
                     case (uint)MAVLink.MAVLINK_MSG_ID.WIND_COV:
-                    case (uint)MAVLink.MAVLINK_MSG_ID.ESTIMATOR_STATUS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_DATA:
                     case (uint)MAVLink.MAVLINK_MSG_ID.ODOMETRY:
                     case (uint)MAVLink.MAVLINK_MSG_ID.PING:
@@ -4305,6 +4331,35 @@ namespace MissionPlanner
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Convert an ESTIMATOR_STATUS to the equivalent EKF_STATUS_REPORT.
+        /// The innovation test ratios have the same meaning in both.
+        /// </summary>
+        private static MAVLink.mavlink_ekf_status_report_t EkfStatusReportFromEstimatorStatus(
+            MAVLink.mavlink_estimator_status_t estimatorstatus)
+        {
+            // flag bits 1 to 512 have the same meaning in both messages
+            var flags = (ushort)(estimatorstatus.flags & 0x3ff);
+            if ((estimatorstatus.flags & (ushort)MAVLink.ESTIMATOR_STATUS_FLAGS.ESTIMATOR_GPS_GLITCH) != 0)
+                flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_GPS_GLITCHING;
+            // ESTIMATOR_UNINITIALIZED, not yet in the generated MAVLink library
+            const ushort ESTIMATOR_UNINITIALIZED = 4096;
+            if ((estimatorstatus.flags & ESTIMATOR_UNINITIALIZED) != 0)
+                flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED;
+
+            // a ratio is NaN when its measurement is not being fused
+            float ratio(float value) => float.IsNaN(value) || float.IsInfinity(value) ? 0 : value;
+
+            return new MAVLink.mavlink_ekf_status_report_t(
+                ratio(estimatorstatus.vel_ratio),
+                ratio(estimatorstatus.pos_horiz_ratio),
+                ratio(estimatorstatus.pos_vert_ratio),
+                ratio(estimatorstatus.mag_ratio),
+                ratio(estimatorstatus.hagl_ratio),
+                flags,
+                ratio(estimatorstatus.tas_ratio));
         }
 
         [GroupText("AHRS2")]
