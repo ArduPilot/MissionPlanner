@@ -173,6 +173,10 @@ namespace MissionPlanner.Controls
             // placement in the GL glyph atlas, valid while atlasGen matches the HUD's
             public float u0, v0, u1, v1;
             public int atlasGen;
+
+            // GL image textures: height of the allocated texture and the bgimage version last uploaded
+            public int texHeight;
+            public int version;
         }
 
         private Dictionary<int, character> charDict = new Dictionary<int, character>();
@@ -1048,6 +1052,7 @@ namespace MissionPlanner.Controls
                     try
                     {
                         _bgimage = (Image) value;
+                        _bgVersion++;
                     }
                     catch
                     {
@@ -1617,6 +1622,14 @@ namespace MissionPlanner.Controls
 
         void DeleteGlResources()
         {
+            foreach (var tex in _iconTextures.Values)
+            {
+                if (tex.gltextureid != 0)
+                    GL.DeleteTexture(tex.gltextureid);
+            }
+
+            _iconTextures.Clear();
+
             if (_atlasTex != 0)
                 GL.DeleteTexture(_atlasTex);
             _atlasTex = 0;
@@ -1742,6 +1755,86 @@ namespace MissionPlanner.Controls
             return icon;
         }
 
+        // texture slot for the video behind the HUD; the other slot and the icon textures are kept apart from
+        // it so alternating images never re-allocate each other's texture
+        const int BgTextureSlot = 1;
+
+        // bumped for every bgimage set; the video texture is only uploaded when it has moved on
+        private int _bgVersion;
+
+        // GL textures of the cached status icons, uploaded once
+        private readonly Dictionary<Image, character> _iconTextures = new Dictionary<Image, character>();
+
+        private bool IsCachedIcon(Image img)
+        {
+            foreach (var icon in iconCache.Values)
+            {
+                if (ReferenceEquals(icon, img))
+                    return true;
+            }
+
+            return false;
+        }
+
+        // put the image's pixels into tex, creating or re-allocating the GL texture as needed
+        private void UploadTexture(character tex, Image img)
+        {
+            // If the image is already a bitmap and we support NPOT textures then simply use it.
+            // Otherwise we have to resize img to be POT.
+            Bitmap src = npotSupported && img is Bitmap ? (Bitmap) img : ResizeImage(img, 512, 512);
+
+            try
+            {
+                if (tex.gltextureid == 0)
+                {
+                    GL.GenTextures(1, out tex.gltextureid);
+                    GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
+
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                        (int) TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                        (int) TextureMagFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
+                        (int) TextureWrapMode.ClampToEdge);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
+                        (int) TextureWrapMode.ClampToEdge);
+                }
+                else
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
+                }
+
+                BitmapData data = src.LockBits(new Rectangle(0, 0, src.Width, src.Height),
+                    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                try
+                {
+                    if (tex.width != data.Width || tex.texHeight != data.Height)
+                    {
+                        GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width,
+                            data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
+                            data.Scan0);
+
+                        tex.width = data.Width;
+                        tex.texHeight = data.Height;
+                    }
+                    else
+                    {
+                        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
+                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    }
+                }
+                finally
+                {
+                    src.UnlockBits(data);
+                }
+            }
+            finally
+            {
+                if (!ReferenceEquals(src, img))
+                    src.Dispose();
+            }
+        }
+
         public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
             if (opengl)
@@ -1751,48 +1844,35 @@ namespace MissionPlanner.Controls
 
                 FlushBatch();
 
-                if (_texture[textureno] == null)
-                    _texture[textureno] = new character();
+                character tex;
 
-                // If the image is already a bitmap and we support NPOT textures then simply use it.
-                if (npotSupported && img is Bitmap)
+                if (textureno == BgTextureSlot)
                 {
-                    _texture[textureno].bitmap = (Bitmap) img;
+                    // the video: upload only when bgimage was set since the last upload
+                    tex = _texture[textureno] ?? (_texture[textureno] = new character());
+
+                    if (tex.gltextureid == 0 || tex.version != _bgVersion)
+                    {
+                        UploadTexture(tex, img);
+                        tex.version = _bgVersion;
+                    }
+                }
+                else if (IsCachedIcon(img))
+                {
+                    // a cached icon never changes, so it keeps its own texture
+                    if (!_iconTextures.TryGetValue(img, out tex))
+                    {
+                        tex = new character();
+                        UploadTexture(tex, img);
+                        _iconTextures[img] = tex;
+                    }
                 }
                 else
                 {
-                    // Otherwise we have to resize img to be POT.
-                    _texture[textureno].bitmap = ResizeImage(img, 512, 512);
+                    // anything else may have changed since the last call
+                    tex = _texture[textureno] ?? (_texture[textureno] = new character());
+                    UploadTexture(tex, img);
                 }
-
-                // generate the texture
-                if (_texture[textureno].gltextureid == 0)
-                {
-                    GL.GenTextures(1, out _texture[textureno].gltextureid);
-                }
-
-                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
-
-                BitmapData data = _texture[textureno].bitmap.LockBits(
-                    new Rectangle(0, 0, _texture[textureno].bitmap.Width, _texture[textureno].bitmap.Height),
-                    ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                // create the texture type/dimensions
-                if (_texture[textureno].width != _texture[textureno].bitmap.Width)
-                {
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-                    _texture[textureno].width = data.Width;
-                }
-                else
-                {
-                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
-                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-                }
-
-                _texture[textureno].bitmap.UnlockBits(data);
 
                 bool polySmoothEnabled = GL.IsEnabled(EnableCap.PolygonSmooth);
                 if (polySmoothEnabled)
@@ -1800,16 +1880,7 @@ namespace MissionPlanner.Controls
 
                 GL.Enable(EnableCap.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                    (int) TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                    (int) TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
-                    (int) TextureWrapMode.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
-                    (int) TextureWrapMode.ClampToEdge);
+                GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
 
                 GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
                     (float) TextureEnvMode.Modulate);
@@ -2192,7 +2263,7 @@ namespace MissionPlanner.Controls
                     {
                         try
                         {
-                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height, BgTextureSlot);
                         }
                         catch (Exception ex)
                         {
