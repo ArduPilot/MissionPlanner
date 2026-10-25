@@ -325,6 +325,9 @@ namespace MissionPlanner.GCSViews
 
             updateDisplayView();
 
+            // POI labels carry the altitude unit, which may have changed on the Config screen
+            POI.UpdateOverlay(poioverlay, coords1.System);
+
             try
             {
                 int.Parse(TXT_DefaultAlt.Text);
@@ -2832,6 +2835,181 @@ namespace MissionPlanner.GCSViews
                 coordNorthing.Visible = true;
                 MGRS.Visible = false;
             }
+
+            updateHomeCoordMode();
+
+            // POI labels follow the frame too
+            POI.UpdateOverlay(poioverlay, coords1.System);
+        }
+
+        /// <summary>
+        /// true while the home UTM/MGRS box is being rewritten from the Lat/Long boxes, so its
+        /// own handlers do not push the value straight back.
+        /// </summary>
+        private bool updatinghomecoord;
+
+        /// <summary>
+        /// true once the user has typed in the home UTM/MGRS box, until the box is rewritten. Only
+        /// such text is pushed into the Lat/Long boxes: a box left untouched while home moved
+        /// elsewhere (Set Home Here, the vehicle's home) would otherwise move home back to the old
+        /// text when it loses focus.
+        /// </summary>
+        private bool homecoordedited;
+
+        /// <summary>
+        /// Show the home location in the same coordinate system as the mouse position display
+        /// (coords1). GEO uses the Lat/Long boxes, UTM and MGRS a single text box in their place.
+        /// The Lat/Long boxes stay the source of truth and are only hidden.
+        /// </summary>
+        /// <summary>
+        /// Whether home is shown in the UTM/MGRS box rather than the Lat/Long boxes. Decided by the
+        /// coordinate system, not by TXT_homecoord.Visible, which reads false while the page itself
+        /// is hidden and left the box empty when home was set before the page was first shown.
+        /// </summary>
+        private bool HomeCoordBoxShown => coords1.System != Coords.CoordsSystems.GEO.ToString();
+
+        private void updateHomeCoordMode()
+        {
+            var geo = coords1.System == Coords.CoordsSystems.GEO.ToString();
+
+            Label1.Visible = geo;
+            label2.Visible = geo;
+            TXT_homelat.Visible = geo;
+            TXT_homelng.Visible = geo;
+
+            LBL_homecoord.Text = coords1.System;
+            LBL_homecoord.Visible = !geo;
+            TXT_homecoord.Visible = !geo;
+
+            updateHomeCoordText(true);
+        }
+
+        /// <summary>
+        /// Rewrite the home UTM/MGRS box from the Lat/Long boxes.
+        /// </summary>
+        /// <param name="force">also rewrite while the box has focus (normally left alone while typing)</param>
+        private void updateHomeCoordText(bool force = false)
+        {
+            if (!HomeCoordBoxShown)
+                return;
+            // leave what the user is typing alone; a box with focus but no edit follows home
+            if (TXT_homecoord.Focused && homecoordedited && !force)
+                return;
+
+            homecoordedited = false;
+            try
+            {
+                updatinghomecoord = true;
+                TXT_homecoord.Text = FormatHomeCoord(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
+            }
+            catch
+            {
+                TXT_homecoord.Text = "";
+            }
+            finally
+            {
+                updatinghomecoord = false;
+            }
+        }
+
+        /// <summary>
+        /// Home lat/lng as text in the currently selected coordinate system (UTM or MGRS).
+        /// Empty when there is no valid home or the system is GEO.
+        /// </summary>
+        private string FormatHomeCoord(double lat, double lng)
+        {
+            // GEO is shown in the Lat/Long boxes, the shared box only handles UTM and MGRS
+            if (coords1.System == Coords.CoordsSystems.GEO.ToString())
+                return "";
+
+            // 0, 0 is how the planner holds "no home yet": show an empty box, not a grid reference
+            if (lat == 0 && lng == 0)
+                return "";
+
+            return CoordsInputBox.Format(coords1.System, lat, lng);
+        }
+
+        /// <summary>
+        /// Parse text typed into the home UTM/MGRS box. UTM is "zone+band east north",
+        /// eg "29U 540660 5854629". MGRS is the compact form, eg "29UPU0406654629".
+        /// </summary>
+        private bool TryParseHomeCoord(string text, out double lat, out double lng)
+        {
+            return CoordsInputBox.TryParse(coords1.System, text, out lat, out lng, out _);
+        }
+
+        /// <summary>
+        /// Push the home UTM/MGRS box into the Lat/Long boxes (which drive everything else).
+        /// </summary>
+        private void applyHomeCoordText()
+        {
+            if (updatinghomecoord || !HomeCoordBoxShown)
+                return;
+
+            // not typed in: show home as it is now rather than moving it to the box's text
+            if (!homecoordedited)
+            {
+                updateHomeCoordText(true);
+                return;
+            }
+
+            var text = TXT_homecoord.Text.Trim();
+            if (text == "")
+                return;
+
+            // unchanged: leave home alone, so tabbing through does not move it by the
+            // rounding of a UTM/MGRS round trip
+            try
+            {
+                if (text.ToUpperInvariant().Replace(" ", "") ==
+                    FormatHomeCoord(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text))
+                        .Replace(" ", ""))
+                {
+                    updateHomeCoordText(true);
+                    return;
+                }
+            }
+            catch
+            {
+            }
+
+            if (!TryParseHomeCoord(text, out var lat, out var lng))
+            {
+                CustomMessageBox.Show(string.Format(Strings.InvalidCoordinate, coords1.System, text), Strings.ERROR);
+                updateHomeCoordText(true);
+                return;
+            }
+
+            TXT_homelat.Text = lat.ToString();
+            TXT_homelng.Text = lng.ToString();
+
+            updateHomeCoordText(true);
+        }
+
+        public void TXT_homecoord_TextChanged(object sender, EventArgs e)
+        {
+            if (updatinghomecoord)
+                return;
+
+            homecoordedited = true;
+
+            // typing a home location cancels "click on the map to set home", as it does for
+            // the Lat/Long boxes, so the next map click adds a waypoint again
+            sethome = false;
+        }
+
+        public void TXT_homecoord_Leave(object sender, EventArgs e)
+        {
+            applyHomeCoordText();
+        }
+
+        public void TXT_homecoord_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                applyHomeCoordText();
+            }
         }
 
         public void createCircleSurveyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4988,12 +5166,23 @@ namespace MissionPlanner.GCSViews
 
         private void POI_POIModified(object sender, EventArgs e)
         {
-            POI.UpdateOverlay(poioverlay);
+            // labels follow the coordinate frame chosen in the mouse position readout
+            POI.UpdateOverlay(poioverlay, coords1.System);
         }
 
         public void poiaddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            POI.POIAdd(MouseDownStart);
+            // ground height at the clicked point, metres
+            var point = new PointLatLngAlt(MouseDownStart);
+            point.Alt = srtm.getAltitude(point.Lat, point.Lng).alt;
+
+            POI.POIAdd(point);
+        }
+
+        public void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // frame defaults to whatever the mouse position readout is showing
+            CoordsInputBox.AddPOI(this, coords1.System);
         }
 
         public void poideleteToolStripMenuItem_Click(object sender, EventArgs e)
@@ -7019,6 +7208,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 log.Error(ex);
             }
 
+            updateHomeCoordText();
+
             writeKML();
         }
 
@@ -7033,6 +7224,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 log.Error(ex);
             }
+
+            updateHomeCoordText();
 
             writeKML();
         }
@@ -7203,6 +7396,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 writeKML();
             }
+
+            // the UTM/MGRS box follows even when the Lat/Long text did not change
+            updateHomeCoordText(true);
         }
 
         private void updateMapPosition(PointLatLng currentloc)
