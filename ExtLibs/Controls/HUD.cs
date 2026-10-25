@@ -2002,9 +2002,27 @@ namespace MissionPlanner.Controls
             }
         }
 
+        static readonly int[] RollTicks = {-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60};
+        readonly Point[] _rollNeedle = new Point[3];
+        readonly Point[] _arrow = new Point[5];
+
+        private Font _prearmFont;
+
+        private Font GetPrearmFont(float size)
+        {
+            if (_prearmFont == null || _prearmFont.Size != size)
+            {
+                _prearmFont?.Dispose();
+                _prearmFont = new Font(HUDT.Font, size);
+            }
+
+            return _prearmFont;
+        }
+
         private readonly Pen _blackPen = new Pen(Color.Black, 2);
         private readonly Pen _greenPen = new Pen(Color.Green, 2);
         private readonly Pen _redPen = new Pen(Color.Red, 2);
+        private readonly Pen _wingsPen = new Pen(Color.FromArgb(200, Color.Red), 4.0f);
 
         internal void doPaint()
         {
@@ -2215,7 +2233,7 @@ namespace MissionPlanner.Controls
 
                     int lengthlongex = lengthlong + 2;
 
-                    Point[] pointlist = new Point[3];
+                    var pointlist = _rollNeedle;
                     pointlist[0] = new Point(0, -lengthlongex * 2 - extra);
                     pointlist[1] = new Point(-lengthlongex, -lengthlongex - extra);
                     pointlist[2] = new Point(lengthlongex, -lengthlongex - extra);
@@ -2231,7 +2249,7 @@ namespace MissionPlanner.Controls
 
                     this._redPen.Width = 2;
 
-                    int[] array = new int[] {-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60};
+                    var array = RollTicks;
 
                     foreach (int a in array)
                     {
@@ -2268,9 +2286,7 @@ namespace MissionPlanner.Controls
                     Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
 
                     //  graphicsObject.DrawEllipse(redPen, centercircle);
-                    using (Pen redtemp =
-                        new Pen(Color.FromArgb(200, this._redPen.Color.R, this._redPen.Color.G, this._redPen.Color.B),
-                            4.0f))
+                    var redtemp = _wingsPen;
                     {
                         // left
                         graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
@@ -2339,6 +2355,11 @@ namespace MissionPlanner.Controls
 
                     for (int a = start; a <= _heading + 60; a += 1)
                     {
+                        // nothing is drawn for a degree that is not a mark, the target or the ground course
+                        if ((int) a % 5 != 0 && ((int) (a + 360) % 360) != (int) _targetheading &&
+                            ((int) (a + 360) % 360) != (int) _groundcourse)
+                            continue;
+
                         // target heading
                         if (((int) (a + 360) % 360) == (int) _targetheading)
                         {
@@ -2545,7 +2566,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.FillRectangle(SolidBrush, scrollbg);
 
-                    Point[] arrow = new Point[5];
+                    var arrow = _arrow;
 
                     arrow[0] = new Point(0, -10);
                     arrow[1] = new Point(scrollbg.Width - 10, -10);
@@ -2645,7 +2666,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.FillRectangle(SolidBrush, scrollbg);
 
-                    Point[] arrow = new Point[5];
+                    var arrow = _arrow;
 
                     arrow[0] = new Point(0, -10);
                     arrow[1] = new Point(scrollbg.Width - 10, -10);
@@ -3330,7 +3351,7 @@ namespace MissionPlanner.Controls
                         int x = this.Width - 24 * fontsize;
                         if (!prearmstatus) x -= 2 * fontsize;
                         // Estimate the width of the string for the hit zone
-                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, new Font(HUDT.Font, fontsize + 2)).Width;
+                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, GetPrearmFont(fontsize + 2)).Width;
                         prearmhitzone = new Rectangle(x, yPos[0] - 4, width, fontsize * 2);
                     }
 
@@ -3454,13 +3475,13 @@ namespace MissionPlanner.Controls
                 int charno = (int) cha;
                 int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
 
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var cached))
                 {
                     size += fontsize;
                 }
                 else
                 {
-                    size += charDict[charid].width;
+                    size += cached.width;
                 }
             }
 
@@ -3480,13 +3501,13 @@ namespace MissionPlanner.Controls
                 int charno = (int)cha;
                 int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
 
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var cached))
                 {
                     size += fontsize;
                 }
                 else
                 {
-                    size += charDict[charid].width;
+                    size += cached.width;
                 }
             }
 
@@ -3664,7 +3685,7 @@ namespace MissionPlanner.Controls
 
                 int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
 
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var glyph))
                 {
                     //charbitmaptexid
 
@@ -3713,6 +3734,7 @@ namespace MissionPlanner.Controls
                     }
 
                     charDict[charid].width = (int) (maxx + 2);
+                    glyph = charDict[charid];
                 }
 
                 // draw it
@@ -3721,7 +3743,7 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    DrawImage(charDict[charid].bitmap, (int) x, (int) y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height, charDict[charid].gltextureid);
+                    DrawImage(glyph.bitmap, (int) x, (int) y, glyph.bitmap.Width, glyph.bitmap.Height, glyph.gltextureid);
                     /*
                     graphicsObjectGDIP.TranslateTransform(x,y);
                     graphicsObjectGDIP.DrawPath(this._p, charDict[charid].pth);
@@ -3738,7 +3760,7 @@ namespace MissionPlanner.Controls
 
                 }
 
-                x += charDict[charid].width * scale;
+                x += glyph.width * scale;
             }
 
         }
