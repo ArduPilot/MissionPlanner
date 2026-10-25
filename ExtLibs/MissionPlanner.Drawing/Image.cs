@@ -34,6 +34,9 @@ namespace System.Drawing
 
         // open writers: Graphics.FromImage until the Graphics is disposed, LockBits until UnlockBits
         private int _writers;
+
+        // pixels are caller-owned memory (the Bitmap stride constructors), written without telling us
+        internal bool externalPixels;
         private SKImage _drawCache;
 
         internal void AddWriter()
@@ -63,7 +66,7 @@ namespace System.Drawing
         /// </summary>
         internal SKImage GetDrawCache()
         {
-            if (Volatile.Read(ref _writers) > 0)
+            if (externalPixels || Volatile.Read(ref _writers) > 0)
                 return null;
             var cache = _drawCache;
             if (cache != null)
