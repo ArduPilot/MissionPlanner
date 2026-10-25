@@ -1386,6 +1386,8 @@ namespace GMap.NET.WindowsForms
 
         public Color EmptyMapBackground = Color.WhiteSmoke;
 
+        SolidBrush _scaleBrush;
+
 #if !DESIGN
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -1424,7 +1426,11 @@ namespace GMap.NET.WindowsForms
                 var ts = (DateTime.Now - start);
 
 
-                e.Graphics.DrawImageUnscaled(Image.FromStream(new MemoryStream(sk.WriteImage())), 0, 0);
+                using (var ms = new MemoryStream(sk.WriteImage()))
+                using (var img = Image.FromStream(ms))
+                {
+                    e.Graphics.DrawImageUnscaled(img, 0, 0);
+                }
 
                 base.OnPaint(e);
 
@@ -1681,7 +1687,13 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
             if (MapScaleInfoEnabled)
             {
-                var brush = new SolidBrush(ScalePen.Color);
+                var brush = _scaleBrush;
+                if (brush == null || brush.Color != ScalePen.Color)
+                {
+                    brush?.Dispose();
+                    _scaleBrush = brush = new SolidBrush(ScalePen.Color);
+                }
+
                 double transform = 1;
                 if (MapRenderTransform.HasValue)
                     transform = MapRenderTransform.Value;
