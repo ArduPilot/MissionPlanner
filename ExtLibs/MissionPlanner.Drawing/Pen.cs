@@ -198,6 +198,8 @@ namespace System.Drawing
             for (int i = 0; i < unit.Length; i++)
                 intervals[i] = unit[i] * width;
 
+            // the paint holds its own reference to the old effect until it is replaced
+            _dashEffect?.Dispose();
             _dashEffect = SKPathEffect.CreateDash(intervals, 0);
             _dashEffectStyle = style;
             _dashEffectWidth = width;
@@ -230,6 +232,8 @@ namespace System.Drawing
             if (isSystemPen)
                 return;
             nativePen?.Dispose();
+            _dashEffect?.Dispose();
+            _dashEffect = null;
         }
     }
 }

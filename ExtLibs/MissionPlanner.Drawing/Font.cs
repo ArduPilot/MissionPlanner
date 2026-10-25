@@ -358,6 +358,8 @@ namespace System.Drawing
             if (isSystemFont)
                 return;
             nativeFont?.Dispose();
+            _textPaint?.Dispose();
+            _textPaint = null;
         }
 
         public object Clone()
