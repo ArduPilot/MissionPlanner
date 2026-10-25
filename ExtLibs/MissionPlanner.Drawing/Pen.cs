@@ -68,20 +68,80 @@ namespace System.Drawing
         {
         }
 
-        public LineJoin LineJoin { get; set; }
-        public float Width { get; set; } = 2;
-        public LineCap StartCap { get; set; }
-        public DashStyle DashStyle { get; set; }
-        public Color Color { get; set; } = Color.Black;
-        public Brush Brush { get; set; }
-        public float[] DashPattern { get; set; } = new float[] {1, 0};
-        public PenAlignment Alignment { get; set; }
+        private LineJoin _lineJoin;
+        public LineJoin LineJoin
+        {
+            get => _lineJoin;
+            set { CheckWritable(); _lineJoin = value; }
+        }
+        private float _width = 2;
+        public float Width
+        {
+            get => _width;
+            set { CheckWritable(); _width = value; }
+        }
+        private LineCap _startCap;
+        public LineCap StartCap
+        {
+            get => _startCap;
+            set { CheckWritable(); _startCap = value; }
+        }
+        private DashStyle _dashStyle;
+        public DashStyle DashStyle
+        {
+            get => _dashStyle;
+            set { CheckWritable(); _dashStyle = value; }
+        }
+        private Color _color = Color.Black;
+        public Color Color
+        {
+            get => _color;
+            set { CheckWritable(); _color = value; }
+        }
+        private Brush _brush;
+        public Brush Brush
+        {
+            get => _brush;
+            set { CheckWritable(); _brush = value; }
+        }
+        private float[] _dashPattern = new float[] {1, 0};
+        public float[] DashPattern
+        {
+            get => _dashPattern;
+            set { CheckWritable(); _dashPattern = value; }
+        }
+        private PenAlignment _alignment;
+        public PenAlignment Alignment
+        {
+            get => _alignment;
+            set { CheckWritable(); _alignment = value; }
+        }
 
-        public int MiterLimit { get; set; }
+        private int _miterLimit;
+        public int MiterLimit
+        {
+            get => _miterLimit;
+            set { CheckWritable(); _miterLimit = value; }
+        }
 
-        public LineCap EndCap { get; set; }
-        public CustomLineCap CustomStartCap { get; set; }
-        public CustomLineCap CustomEndCap { get; set; }
+        private LineCap _endCap;
+        public LineCap EndCap
+        {
+            get => _endCap;
+            set { CheckWritable(); _endCap = value; }
+        }
+        private CustomLineCap _customStartCap;
+        public CustomLineCap CustomStartCap
+        {
+            get => _customStartCap;
+            set { CheckWritable(); _customStartCap = value; }
+        }
+        private CustomLineCap _customEndCap;
+        public CustomLineCap CustomEndCap
+        {
+            get => _customEndCap;
+            set { CheckWritable(); _customEndCap = value; }
+        }
 
         public object Clone()
         {
@@ -157,6 +217,13 @@ namespace System.Drawing
 
         // set for the shared instances returned by Pens
         internal bool isSystemPen;
+
+        // the Pens instances are shared, so changing one would change it for every user; GDI+ throws too
+        private void CheckWritable()
+        {
+            if (isSystemPen)
+                throw new ArgumentException("Changes cannot be made to Pen because permissions are not valid.");
+        }
 
         public void Dispose()
         {
