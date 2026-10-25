@@ -190,6 +190,13 @@ public class FormsRender
                     {
                         borders = Hwnd.GetBorders(frm.GetCreateParams(), null);
                     }
+                    else
+                    {
+                        // a control's border image covers its whole window, which starts this far
+                        // before its client area
+                        borders.left = hwnd.ClientRect.X;
+                        borders.top = hwnd.ClientRect.Y;
+                    }
 
                     if (Canvas.DeviceClipBounds.Width > 0 &&
                         Canvas.DeviceClipBounds.Height > 0)
