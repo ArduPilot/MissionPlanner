@@ -438,6 +438,56 @@ namespace MissionPlanner.ArduPilot
             }
         }
 
+        /// <summary>A spline segment that never reaches its destination stops after this many steps.</summary>
+        private const int MaxSplineSteps = 100000;
+
+        /// <summary>
+        /// The curve the vehicle flies through a run of spline waypoints, as Spline2 works it out
+        /// and the map draws it. <paramref name="points"/> holds the point before the run, the
+        /// run's spline waypoints and the point after it; <paramref name="before"/> is the point
+        /// before the first of those, which sets the direction the curve leaves it in. Returns, for
+        /// each spline waypoint, the points of the curve from the point before it up to it, the
+        /// waypoint itself not included. The elevation graph samples the terrain along the same
+        /// points.
+        /// </summary>
+        public static List<List<PointLatLngAlt>> SplineLegs(PointLatLngAlt home, PointLatLngAlt before,
+            IList<PointLatLngAlt> points)
+        {
+            var legs = new List<List<PointLatLngAlt>>();
+
+            Spline2 sp = new Spline2(home);
+
+            sp.set_wp_origin_and_destination(sp.pv_location_to_vector(before),
+                sp.pv_location_to_vector(points[0]));
+
+            sp._flags.reached_destination = true;
+
+            for (int no = 1; no < (points.Count - 1); no++)
+            {
+                Spline2.spline_segment_end_type segtype =
+                    Spline2.spline_segment_end_type.SEGMENT_END_STRAIGHT;
+
+                if (no < (points.Count - 2))
+                {
+                    segtype = Spline2.spline_segment_end_type.SEGMENT_END_SPLINE;
+                }
+
+                sp.set_spline_destination(sp.pv_location_to_vector(points[no]), false, segtype,
+                    sp.pv_location_to_vector(points[no + 1]));
+
+                var leg = new List<PointLatLngAlt>();
+                for (int step = 0; sp._flags.reached_destination == false && step < MaxSplineSteps; step++)
+                {
+                    sp.advance_spline_target_along_track(1f);
+                    leg.Add(sp.pv_vector_to_location(sp.target_pos));
+                }
+
+                legs.Add(leg);
+            }
+
+            return legs;
+        }
+
         private void RegenerateWPRoute(List<PointLatLngAlt> fullpointlist, PointLatLngAlt HomeLocation,
             bool includehomeroute = true)
         {
@@ -476,37 +526,10 @@ namespace MissionPlanner.ArduPilot
 
                         splinepnts.Add(fullpointlist[a]);
 
-                        Spline2 sp = new Spline2(HomeLocation);
-
-                        sp.set_wp_origin_and_destination(sp.pv_location_to_vector(lastpnt2),
-                            sp.pv_location_to_vector(lastpnt));
-
-                        sp._flags.reached_destination = true;
-
+                        var legs = SplineLegs(HomeLocation, lastpnt2, splinepnts);
                         for (int no = 1; no < (splinepnts.Count - 1); no++)
                         {
-                            Spline2.spline_segment_end_type segtype =
-                                Spline2.spline_segment_end_type.SEGMENT_END_STRAIGHT;
-
-                            if (no < (splinepnts.Count - 2))
-                            {
-                                segtype = Spline2.spline_segment_end_type.SEGMENT_END_SPLINE;
-                            }
-
-                            sp.set_spline_destination(sp.pv_location_to_vector(splinepnts[no]), false, segtype,
-                                sp.pv_location_to_vector(splinepnts[no + 1]));
-
-                            //sp.update_spline();
-
-                            while (sp._flags.reached_destination == false)
-                            {
-                                float t = 1f;
-                                //sp.update_spline();
-                                sp.advance_spline_target_along_track(t);
-                                // Console.WriteLine(sp.pv_vector_to_location(sp.target_pos).ToString());
-                                list.Add(sp.pv_vector_to_location(sp.target_pos));
-                            }
-
+                            legs[no - 1].ForEach(x => list.Add(x));
                             list.Add(splinepnts[no]);
                         }
 
