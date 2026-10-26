@@ -5479,8 +5479,14 @@
   <data name="gimbalVideoToolStripMenuItem.Text" xml:space="preserve">
     <value>Gimbal Video</value>
   </data>
+  <data name="sendExternalPositionEstimateToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>187, 22</value>
+  </data>
+  <data name="sendExternalPositionEstimateToolStripMenuItem.Text" xml:space="preserve">
+    <value>Send External Position Estimate</value>
+  </data>
   <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>188, 290</value>
+    <value>188, 312</value>
   </data>
   <data name="&gt;&gt;contextMenuStripMap.Name" xml:space="preserve">
     <value>contextMenuStripMap</value>
