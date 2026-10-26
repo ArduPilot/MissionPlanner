@@ -70,6 +70,9 @@ namespace MissionPlanner.Controls
 
         private string distUnit = "m";
 
+        /// <summary>display units per metre of altitude, when the graph was last drawn</summary>
+        private double altScale = 1;
+
         /// <summary>The arrow button or a double click on the title bar changed <see cref="Expanded"/>.</summary>
         public event EventHandler ExpandedChanged;
 
@@ -193,8 +196,12 @@ namespace MissionPlanner.Controls
         /// </summary>
         public void ShowProfile(ElevationGraphProfile newProfile, bool terrainLoading)
         {
+            var previous = profile;
+            var previousDistScale = distScale;
+            var previousAltScale = altScale;
             profile = newProfile;
             ChooseDistanceUnit(profile.TotalDistance);
+            altScale = CurrentState.multiplieralt > 0 ? CurrentState.multiplieralt : 1;
 
             var pane = graph.GraphPane;
             pane.CurveList.Clear();
@@ -309,6 +316,10 @@ namespace MissionPlanner.Controls
                 profile.RallyChain ? Strings.ElevationGraphRallyDistanceAxis : Strings.ElevationGraphDistanceAxis,
                 distUnit);
             pane.YAxis.Title.Text = string.Format(Strings.ElevationGraphAltitudeAxis, AltUnit);
+
+            // a zoom or pan of the graph on show stays through the redraw (an edit, terrain
+            // arriving), in the units the graph now uses
+            var view = KeptView(previous, distScale / previousDistScale);
             pane.XAxis.Scale.MinAuto = false;
             pane.XAxis.Scale.MaxAuto = false;
             pane.XAxis.Scale.Min = axisMin;
@@ -318,6 +329,51 @@ namespace MissionPlanner.Controls
 
             ShowStatus(anyBelow, terrainLoading);
 
+            RescaleAxes();
+            pane.ZoomStack.Clear();
+            if (view != null)
+            {
+                // Un-Zoom and Undo All Zoom go back to the whole of the new graph
+                pane.ZoomStack.Push(pane, view.Type);
+                view.ApplyState(pane);
+                ConvertScale(pane.XAxis.Scale, distScale / previousDistScale);
+                ConvertScale(pane.YAxis.Scale, altScale / previousAltScale);
+                RescaleAxes();
+            }
+
+            graph.Invalidate();
+        }
+
+        /// <summary>
+        /// The view the user zoomed or panned the graph on show to, to keep for the new profile;
+        /// null when there is none, or when the new graph is of something else (the rally points
+        /// alone instead of a path, or the other way round) or has none of its length in the
+        /// view. <paramref name="distChange"/> takes the view's distances to the new unit.
+        /// </summary>
+        private ZoomState KeptView(ElevationGraphProfile previous, double distChange)
+        {
+            var pane = graph.GraphPane;
+            if (!pane.IsZoomed || previous == null || previous.RallyChain != profile.RallyChain)
+                return null;
+
+            var x = pane.XAxis.Scale;
+            var end = profile.TotalDistance * distScale;
+            if ((!x.MaxAuto && x.Max * distChange < 0) || (!x.MinAuto && x.Min * distChange > end))
+                return null;
+            return new ZoomState(pane, pane.ZoomStack.Top.Type);
+        }
+
+        /// <summary>Put a scale's fixed ends into another unit, <paramref name="change"/> of the new to one of the old.</summary>
+        private static void ConvertScale(Scale scale, double change)
+        {
+            if (!scale.MinAuto)
+                scale.Min *= change;
+            if (!scale.MaxAuto)
+                scale.Max *= change;
+        }
+
+        private void RescaleAxes()
+        {
             try
             {
                 graph.AxisChange();
@@ -327,8 +383,6 @@ namespace MissionPlanner.Controls
                 // the graph keeps its last scale; nothing on screen depends on this one
                 log.Warn("elevation graph rescale failed", ex);
             }
-
-            graph.Invalidate();
         }
 
         private void ShowStatus(bool belowTerrain, bool terrainLoading)
