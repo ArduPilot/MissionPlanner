@@ -115,8 +115,8 @@ namespace MissionPlanner.Controls
     /// <summary>
     /// Builds the events of one round and remembers which tracks it reported. A track that is no
     /// longer reported (its link went quiet, the connection closed or started a log playback, its UID
-    /// changed) gets one last event that is already stale, so TAK greys it out at once instead of
-    /// showing it as current until its stale time.
+    /// changed) is sent already stale, in that round and again in the next, so TAK greys it out at
+    /// once instead of showing it as current until its stale time.
     /// </summary>
     public class CotRound
     {
@@ -127,10 +127,14 @@ namespace MissionPlanner.Controls
 
         readonly Dictionary<(object, uint, byte), @event> reported = new Dictionary<(object, uint, byte), @event>();
 
+        // the tracks that ended last round, sent ended once more this round
+        List<@event> endedLastRound = new List<@event>();
+
         public List<@event> Build(IEnumerable<CotVehicle> vehicles, Func<CotVehicle, CotIdentity> identity, string type,
             bool details, DateTime utcNow, double staleSeconds)
         {
-            var events = new List<@event>();
+            var live = new List<@event>();
+            var ended = new List<@event>();
             var current = new HashSet<(object, uint, byte)>();
 
             foreach (var vehicle in vehicles)
@@ -142,27 +146,39 @@ namespace MissionPlanner.Controls
                 var cotevent = Event(vehicle, identity(vehicle), type, details, utcNow, staleSeconds);
 
                 if (reported.TryGetValue(key, out var before) && before.uid != cotevent.uid)
-                    events.Add(Expired(before, utcNow));
+                    ended.Add(before);
 
                 reported[key] = cotevent;
                 current.Add(key);
-                events.Add(cotevent);
+                live.Add(cotevent);
             }
 
             foreach (var key in reported.Keys.Where(key => !current.Contains(key)).ToList())
             {
-                events.Add(Expired(reported[key], utcNow));
+                ended.Add(reported[key]);
                 reported.Remove(key);
             }
 
-            return events;
+            // TAK keeps whichever event of a UID arrived last, so one ending lost on the way, or
+            // overtaken by the track's last update, leaves the track looking live for minutes. Endings
+            // go twice, this round and the next, ahead of the live tracks and never for a UID that is
+            // live this round.
+            var liveUids = new HashSet<string>(live.Select(cotevent => cotevent.uid));
+            var endings = endedLastRound.Concat(ended).Where(cotevent => !liveUids.Contains(cotevent.uid)).ToList();
+            endedLastRound = ended.Where(cotevent => !liveUids.Contains(cotevent.uid)).ToList();
+
+            return endings.Select(cotevent => Expired(cotevent, utcNow)).Concat(live).ToList();
         }
 
-        /// <summary>One already-stale event for every track still reported, for when the output stops.</summary>
+        /// <summary>
+        /// One already-stale event for every track still reported and every track that ended last
+        /// round, for when the output stops.
+        /// </summary>
         public List<@event> ExpireAll(DateTime utcNow)
         {
-            var events = reported.Values.Select(cotevent => Expired(cotevent, utcNow)).ToList();
+            var events = endedLastRound.Concat(reported.Values).Select(cotevent => Expired(cotevent, utcNow)).ToList();
             reported.Clear();
+            endedLastRound.Clear();
             return events;
         }
 
