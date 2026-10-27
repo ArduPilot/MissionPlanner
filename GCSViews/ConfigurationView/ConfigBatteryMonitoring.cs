@@ -2,6 +2,7 @@
 using MissionPlanner.Utilities;
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -193,7 +194,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CAPACITY", float.Parse(TXT_battcapacity.Text));
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CAPACITY", ParseNumber(TXT_battcapacity.Text));
                 }
             }
             catch
@@ -268,7 +269,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_measuredvoltage_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_measuredvoltage.Text, out ans);
+            e.Cancel = !TryParseNumber(TXT_measuredvoltage.Text, out ans);
         }
 
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
@@ -277,9 +278,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredvoltage = float.Parse(TXT_measuredvoltage.Text);
-                var voltage = float.Parse(TXT_voltage.Text);
-                var divider = float.Parse(TXT_divider_VOLT_MULT.Text);
+                var measuredvoltage = ParseNumber(TXT_measuredvoltage.Text);
+                var voltage = ParseNumber(TXT_voltage.Text);
+                var divider = ParseNumber(TXT_divider_VOLT_MULT.Text);
                 if (voltage == 0)
                     return;
                 var new_divider = (measuredvoltage * divider) / voltage;
@@ -293,7 +294,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, float.Parse(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, ParseNumber(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -308,7 +309,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_divider_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
+            e.Cancel = !TryParseNumber(TXT_divider_VOLT_MULT.Text, out ans);
         }
 
         private void TXT_divider_Validated(object sender, EventArgs e)
@@ -317,7 +318,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, float.Parse(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, ParseNumber(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -332,7 +333,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_ampspervolt_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_AMP_PERVLT.Text, out ans);
+            e.Cancel = !TryParseNumber(TXT_AMP_PERVLT.Text, out ans);
         }
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
@@ -341,7 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, ParseNumber(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -624,9 +625,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredcurrent = float.Parse(txt_meascurrent.Text);
-                var current = float.Parse(txt_current.Text);
-                var divider = float.Parse(TXT_AMP_PERVLT.Text);
+                var measuredcurrent = ParseNumber(txt_meascurrent.Text);
+                var current = ParseNumber(txt_current.Text);
+                var divider = ParseNumber(TXT_AMP_PERVLT.Text);
                 if (current == 0)
                     return;
                 var new_divider = (measuredcurrent * divider) / current;
@@ -640,7 +641,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, ParseNumber(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -650,6 +651,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                   CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
                 }
             }
+        }
+
+        // Accept both '.' and ',' as the decimal separator whatever the Windows
+        // regional format, so 12.34 is never read as 1234 on a comma locale.
+        private static bool TryParseNumber(string text, out float value)
+        {
+            return float.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+        }
+
+        private static float ParseNumber(string text)
+        {
+            return float.Parse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
         }
     }
 }
