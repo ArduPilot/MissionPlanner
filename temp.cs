@@ -1366,7 +1366,7 @@ namespace MissionPlanner
 
         private void BUT_CoT_Click(object sender, EventArgs e)
         {
-            new SerialOutputCoT().Show();
+            SerialOutputCoT.ShowWindow();
         }
 
         private void but_ManageCMDList_Click(object sender, EventArgs e)
