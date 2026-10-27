@@ -38,6 +38,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static nmea nmea = new nmea();
 
+        private string activeSeptentrioPort = Utilities.Septentrio.DefaultPorts;
+
         static DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
         // background thread
         private static System.Threading.Thread t12;
@@ -554,12 +556,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             this.LogInfo("Setup Septentrio");
 
-            // Reset port cache before detecting a new connection
-            Utilities.Septentrio.LastDetectedPort = "USB1+USB2+COM1+COM2";
-
             try
             {
-                await Utilities.Septentrio.ConfigureBaseReceiver(comPort);
+                activeSeptentrioPort = await Utilities.Septentrio.ConfigureBaseReceiver(comPort);
                 await UpdateSeptentrioBasePosition();
                 await UpdateSeptentrioRTCMSettings();
 
@@ -1575,7 +1574,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     break;
             }
 
-            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals);
+            string targetPorts = string.IsNullOrWhiteSpace(activeSeptentrioPort) ? Utilities.Septentrio.DefaultPorts : activeSeptentrioPort;
+            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals, targetPorts);
 
             Settings.Instance["SerialInjectGPS_SeptentrioGPS"] = chk_septentriogps.Checked.ToString();
             Settings.Instance["SerialInjectGPS_SeptentrioGLONASS"] = chk_septentrioglonass.Checked.ToString();

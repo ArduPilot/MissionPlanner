@@ -20,9 +20,9 @@ namespace MissionPlanner.Utilities
         public class FailedAckException : Exception { }
 
         /// <summary>
-        /// Cache of the last detected receiver port name. 
+        /// Default fallback ports we expect the receiver to be connected to.
         /// </summary>
-        public static string LastDetectedPort { get; set; } = "USB1+USB2+COM1+COM2";
+        public const string DefaultPorts = "USB1+USB2+COM1+COM2";
 
         /// <summary>
         /// Selection of messages from what MSM level to output.
@@ -80,22 +80,27 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Configure the receiver connected on `receiverPort` as a base station.
         /// </summary>
+        /// <returns>The detected active port name or the default port string if auto-detection falls back.</returns>
         /// <exception cref="FailedAckException" />
         /// <exception cref="IOException" />
-        public static async Task ConfigureBaseReceiver(ICommsSerial receiverPort)
+        public static async Task<string> ConfigureBaseReceiver(ICommsSerial receiverPort)
         {
             await receiverPort.BaseStream.FlushAsync();
 
             receiverPort.BaudRate = 115200;
             receiverPort.ReadTimeout = 200;
             receiverPort.WriteTimeout = 200;
- 
-            string activePort = await ConfigureBaudAndDetectPort(receiverPort);
-            log.Info($"Detected active port: {activePort}");
+
+            string detectedPort = await ConfigureBaudAndDetectPort(receiverPort);
+            log.Info($"Detected active port: {detectedPort}");
+
+            string targetPorts = string.IsNullOrWhiteSpace(detectedPort) ? DefaultPorts : detectedPort;
 
             await SendAck(receiverPort, "setPVTMode,Static,All,Auto\n");
             // Append +RTCMv3 output to preserve any existing streams already configured on this port
-            await SendAck(receiverPort, $"setDataInOut,{activePort},Auto,+RTCMv3\n");
+            await SendAck(receiverPort, $"setDataInOut,{targetPorts},Auto,+RTCMv3\n");
+
+            return detectedPort ?? DefaultPorts;
         }
 
         /// <summary>
@@ -124,15 +129,13 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Configure the baud rate of the serial port and detect the active port on the receiver side. In case the receiver is connected over serial, this automatically sets the correct baud rate.
         /// </summary>
-        /// <returns>The detected active port name or the default port string if auto-detection falls back.</returns>
+        /// <returns>The detected active port name or null if auto-detection falls back.</returns>
         /// <exception cref="FailedAckException" />
         /// <exception cref="IOException" />
         private static async Task<string> ConfigureBaudAndDetectPort(ICommsSerial receiverPort)
         {
             bool receiverAcknowledged = false;
-
-            // Default fallback ports we expect the receiver to be connected to
-            string detectedPort = LastDetectedPort;
+            string detectedPort = null;
 
             // All the baud rates we expect the receiver could be running at
             var bauds = new[] { receiverPort.BaudRate, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800 };
@@ -145,21 +148,46 @@ namespace MissionPlanner.Utilities
                 try
                 {
                     // Detect active port directly on established connection
-                    detectedPort = await DetectPort(receiverPort);
+                    string detectedPortCandidate = await DetectPort(receiverPort);
 
-                    // Skip setCOMSettings command for USB connections
-                    if (!detectedPort.Contains("USB"))
+                    // Do not treat a timeout or a fallback result as a confirmed response
+                    if (string.IsNullOrWhiteSpace(detectedPortCandidate))
                     {
-                        await SendAck(receiverPort, $"setCOMSettings,{detectedPort},baud{DefaultBaudrate},bits8,No,bit1,none\n");
+                        continue;
                     }
 
+                    bool receiverConfirmed = false;
+
+                    // Skip setCOMSettings command only for a single, positively detected USB port
+                    bool isSingleUsbPort = Regex.IsMatch(detectedPortCandidate ?? string.Empty, @"^USB\d+$", RegexOptions.IgnoreCase);
+                    if (!isSingleUsbPort)
+                    {
+                        // If no COM port is detected, use the two COM ports in the default list
+                        string comSettingsPort = (detectedPortCandidate ?? string.Empty).Contains("COM") ? detectedPortCandidate : "COM1+COM2";
+                        await SendAck(receiverPort, $"setCOMSettings,{comSettingsPort},baud{DefaultBaudrate},bits8,No,bit1,none\n");
+                        receiverConfirmed = true;
+                    }
+                    // Because there is no SendAck confirmation in that case, only accept the USB result if DetectPort returned something other than the fallback value
+                    else if (!string.Equals(detectedPortCandidate, DefaultPorts, StringComparison.OrdinalIgnoreCase))
+                    {
+                        receiverConfirmed = true;
+                    }
+
+                    if (!receiverConfirmed)
+                    {
+                        continue;
+                    }
+
+                    detectedPort = detectedPortCandidate;
                     receiverAcknowledged = true;
                     break;
                 } catch { }
             }
-
+            // Fallback if communication was established but port auto-detection timed out or failed
             if (!receiverAcknowledged)
+            {
                 throw new FailedAckException();
+            }
 
             receiverPort.BaudRate = DefaultBaudrate;
             return detectedPort;
@@ -169,9 +197,9 @@ namespace MissionPlanner.Utilities
         /// Set the level of generated RTCM messages.
         /// </summary>
         /// <exception cref="FailedAckException" />
-        public static Task SetEnabledRTCM(ICommsSerial receiverPort, RTCMLevel level, RTCMSignals signals)
+        public static Task SetEnabledRTCM(ICommsSerial receiverPort, RTCMLevel level, RTCMSignals signals, string targetPorts = null)
         {
-            string activePort = LastDetectedPort;
+            string ports = string.IsNullOrWhiteSpace(targetPorts) ? DefaultPorts : targetPorts;
 
             int messageLevel;
             string messages = "RTCM1006+RTCM1033+RTCM1230";
@@ -199,13 +227,13 @@ namespace MissionPlanner.Utilities
             if ((signals & RTCMSignals.Beidou) == RTCMSignals.Beidou)
                 messages += "+RTCM112" + messageLevel;
 
-            return SendAck(receiverPort, $"setRTCMv3Output,{activePort},{messages}\n");
+            return SendAck(receiverPort, $"setRTCMv3Output,{ports},{messages}\n");
         }
 
         /// <summary>
         /// Detect the active port on the receiver side. 
         /// </summary>
-        /// <returns>The detected active port name or the default port string if auto-detection falls back.</returns>
+        /// <returns>The detected active port name or null if auto-detection falls back.</returns>
         /// <exception cref="IOException" />
         public static async Task<string> DetectPort(ICommsSerial receiverPort)
         {
@@ -244,8 +272,7 @@ namespace MissionPlanner.Utilities
                         if (match.Success)
                         {
                             // Extract active port name (e.g., COM1 or USB1)
-                            LastDetectedPort = match.Groups[1].Value;
-                            return LastDetectedPort;
+                            return match.Groups[1].Value;
                         }
                     }
                 }
@@ -253,8 +280,8 @@ namespace MissionPlanner.Utilities
                 await Task.Delay(20);
             }
 
-            // Fallback if no active port is detected within the timeout window
-            return LastDetectedPort;
+            // Indicate detection failure so the baud scan can continue to the next candidate rate
+            return null;
         }
 
         /// <summary>
