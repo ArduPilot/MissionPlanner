@@ -13,6 +13,8 @@ namespace MissionPlanner.Controls
     {
         public string SysId;
         public string Uid;
+        /// <summary>The CoT type, "auto", or empty for the settings' type.</summary>
+        public string Type;
         public bool Takv;
         public string Callsign;
         public string Endpoint;
@@ -22,7 +24,10 @@ namespace MissionPlanner.Controls
     /// <summary>A copy of the window's settings for the sending thread, which never reads a control.</summary>
     public sealed class CotSettings
     {
-        public string Type = "a-f-A-M-F-Q";
+        /// <summary>The type that follows the kind of vehicle the heartbeat reports.</summary>
+        public const string Auto = "auto";
+
+        public string Type = Auto;
         public bool Details = true;
         public bool Indent = true;
         public double IntervalSeconds = 10;
@@ -33,6 +38,12 @@ namespace MissionPlanner.Controls
             var row = Rows.FirstOrDefault(r => r.SysId == vehicle.SysId.ToString());
             var id = new CotIdentity
                 { Uid = row == null || string.IsNullOrEmpty(row.Uid) ? "NOsysid" + vehicle.SysId : row.Uid };
+
+            var type = row != null && !string.IsNullOrEmpty(row.Type) ? row.Type : Type;
+            id.Type = string.IsNullOrEmpty(type) || string.Equals(type, Auto, StringComparison.OrdinalIgnoreCase)
+                ? CotVehicles.AutoType(vehicle.Type)
+                : type;
+
             if (row != null)
             {
                 id.Takv = row.Takv;
@@ -167,6 +178,8 @@ namespace MissionPlanner.Controls
 
                     LastRound = shown.ToString();
                     Status = string.Format(Strings.CotSentSoFar, transport.Status, Sent);
+                    if (round.SharedSysIds.Count > 0)
+                        Status += ". " + string.Format(Strings.CotSharedSysid, string.Join(", ", round.SharedSysIds));
                 }
                 catch (Exception ex)
                 {

@@ -665,6 +665,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to system ID {0} is on more than one connection, so the vehicles after the first get -2, -3 after their UID: give each vehicle its own MAV_SYSID.
+        /// </summary>
+        public static string CotSharedSysid {
+            get {
+                return ResourceManager.GetString("CotSharedSysid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Starting....
         /// </summary>
         public static string CotStarting {
@@ -688,6 +697,60 @@ namespace MissionPlanner {
         public static string CotThisPcOnly {
             get {
                 return ResourceManager.GetString("CotThisPcOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto (from the vehicle type).
+        /// </summary>
+        public static string CotTypeAuto {
+            get {
+                return ResourceManager.GetString("CotTypeAuto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to boat.
+        /// </summary>
+        public static string CotTypeBoat {
+            get {
+                return ResourceManager.GetString("CotTypeBoat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to fixed-wing drone.
+        /// </summary>
+        public static string CotTypeFixedWing {
+            get {
+                return ResourceManager.GetString("CotTypeFixedWing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ground vehicle.
+        /// </summary>
+        public static string CotTypeGroundVehicle {
+            get {
+                return ResourceManager.GetString("CotTypeGroundVehicle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to rotary-wing drone.
+        /// </summary>
+        public static string CotTypeRotaryWing {
+            get {
+                return ResourceManager.GetString("CotTypeRotaryWing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to submarine.
+        /// </summary>
+        public static string CotTypeSubmarine {
+            get {
+                return ResourceManager.GetString("CotTypeSubmarine", resourceCulture);
             }
         }
         

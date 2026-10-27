@@ -543,6 +543,27 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="CotEnterGroup" xml:space="preserve">
     <value>Enter a multicast group, 224.0.0.0 to 239.255.255.255.</value>
   </data>
+  <data name="CotTypeAuto" xml:space="preserve">
+    <value>Auto (from the vehicle type)</value>
+  </data>
+  <data name="CotTypeFixedWing" xml:space="preserve">
+    <value>fixed-wing drone</value>
+  </data>
+  <data name="CotTypeRotaryWing" xml:space="preserve">
+    <value>rotary-wing drone</value>
+  </data>
+  <data name="CotTypeGroundVehicle" xml:space="preserve">
+    <value>ground vehicle</value>
+  </data>
+  <data name="CotTypeBoat" xml:space="preserve">
+    <value>boat</value>
+  </data>
+  <data name="CotTypeSubmarine" xml:space="preserve">
+    <value>submarine</value>
+  </data>
+  <data name="CotSharedSysid" xml:space="preserve">
+    <value>system ID {0} is on more than one connection, so the vehicles after the first get -2, -3 after their UID: give each vehicle its own MAV_SYSID</value>
+  </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>

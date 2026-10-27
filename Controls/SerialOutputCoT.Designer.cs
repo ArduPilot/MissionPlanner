@@ -57,7 +57,7 @@
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.LBL_status = new System.Windows.Forms.Label();
             this.label_type = new System.Windows.Forms.Label();
-            this.TB_xml_type = new System.Windows.Forms.TextBox();
+            this.CMB_type = new System.Windows.Forms.ComboBox();
             this.CB_advancedMode = new System.Windows.Forms.CheckBox();
             this.chk_indent = new System.Windows.Forms.CheckBox();
             this.updateRate_numericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -69,6 +69,7 @@
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cotType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GB_connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
@@ -236,14 +237,14 @@
             this.label_type.TabIndex = 20;
             this.label_type.Text = "Type";
             // 
-            // TB_xml_type
+            // CMB_type
             // 
-            this.TB_xml_type.Location = new System.Drawing.Point(382, 47);
-            this.TB_xml_type.Name = "TB_xml_type";
-            this.TB_xml_type.Size = new System.Drawing.Size(88, 20);
-            this.TB_xml_type.TabIndex = 21;
-            this.TB_xml_type.Text = "a-f-A-M-F-Q";
-            this.TB_xml_type.TextChanged += new System.EventHandler(this.SettingChanged);
+            this.CMB_type.FormattingEnabled = true;
+            this.CMB_type.Location = new System.Drawing.Point(382, 46);
+            this.CMB_type.Name = "CMB_type";
+            this.CMB_type.Size = new System.Drawing.Size(189, 21);
+            this.CMB_type.TabIndex = 21;
+            this.CMB_type.TextChanged += new System.EventHandler(this.SettingChanged);
             // 
             // CB_advancedMode
             // 
@@ -316,7 +317,8 @@
             this.takv,
             this.ContactCallsign,
             this.ContactEndPointIP,
-            this.VMF});
+            this.VMF,
+            this.cotType});
             this.myDataGridView1.Location = new System.Drawing.Point(12, 443);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.RowHeadersWidth = 62;
@@ -369,6 +371,13 @@
             this.VMF.Name = "VMF";
             this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
             // 
+            // cotType
+            // 
+            this.cotType.HeaderText = "Type";
+            this.cotType.MinimumWidth = 8;
+            this.cotType.Name = "cotType";
+            this.cotType.ToolTipText = "Empty for the Type above, auto for the kind of vehicle, or a CoT type";
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -380,7 +389,7 @@
             this.Controls.Add(this.CB_advancedMode);
             this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
-            this.Controls.Add(this.TB_xml_type);
+            this.Controls.Add(this.CMB_type);
             this.Controls.Add(this.GB_connection);
             this.Controls.Add(this.BTN_clear_TB);
             this.Controls.Add(this.LBL_status);
@@ -414,7 +423,7 @@
         private System.Windows.Forms.ComboBox CMB_listen;
         private System.Windows.Forms.Label LBL_status;
         private System.Windows.Forms.Label label_type;
-        private System.Windows.Forms.TextBox TB_xml_type;
+        private System.Windows.Forms.ComboBox CMB_type;
         private MyDataGridView myDataGridView1;
         private System.Windows.Forms.CheckBox CB_advancedMode;
         private System.Windows.Forms.CheckBox chk_indent;
@@ -424,6 +433,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
         private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cotType;
         private System.Windows.Forms.NumericUpDown updateRate_numericUpDown;
         private System.Windows.Forms.Label label2;
     }
