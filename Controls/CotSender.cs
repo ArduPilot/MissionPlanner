@@ -65,6 +65,8 @@ namespace MissionPlanner.Controls
     {
         static readonly ILog log = LogManager.GetLogger(typeof(CotSender));
         static readonly object startStop = new object();
+        // when the output stops, the tracks' endings go a second time after this
+        static readonly TimeSpan EndingsAgainAfter = TimeSpan.FromMilliseconds(500);
         static CotSender current;
 
         readonly ICotTransport transport;
@@ -191,11 +193,20 @@ namespace MissionPlanner.Controls
                 cancel.Token.WaitHandle.WaitOne(TimeSpan.FromSeconds(Math.Max(1, now.IntervalSeconds)));
             }
 
-            // stopped: TAK greys the tracks out now instead of at their stale time
+            // stopped: TAK greys the tracks out now instead of at their stale time. As in a round, each
+            // ending goes twice, so one lost or overtaken message cannot leave a track looking live
             try
             {
-                foreach (var cotevent in round.ExpireAll(DateTime.UtcNow))
-                    Send(CotXml.Serialize(cotevent, settings.Indent));
+                var endings = round.ExpireAll(DateTime.UtcNow)
+                    .Select(cotevent => CotXml.Serialize(cotevent, settings.Indent)).ToList();
+                foreach (var xml in endings)
+                    Send(xml);
+                if (endings.Count > 0)
+                {
+                    Thread.Sleep(EndingsAgainAfter);
+                    foreach (var xml in endings)
+                        Send(xml);
+                }
             }
             catch (Exception ex)
             {
