@@ -244,6 +244,7 @@
             this.CMB_type.Name = "CMB_type";
             this.CMB_type.Size = new System.Drawing.Size(189, 21);
             this.CMB_type.TabIndex = 21;
+            this.CMB_type.SelectedIndexChanged += new System.EventHandler(this.SettingChanged);
             this.CMB_type.TextChanged += new System.EventHandler(this.SettingChanged);
             // 
             // CB_advancedMode
