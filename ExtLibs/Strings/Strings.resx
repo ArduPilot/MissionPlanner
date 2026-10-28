@@ -453,6 +453,96 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="Connect" xml:space="preserve">
     <value>Connect</value>
   </data>
+  <data name="CotStarting" xml:space="preserve">
+    <value>Starting...</value>
+  </data>
+  <data name="CotNotSending" xml:space="preserve">
+    <value>Not sending</value>
+  </data>
+  <data name="CotSentSoFar" xml:space="preserve">
+    <value>{0}, {1} messages sent</value>
+  </data>
+  <data name="CotSendFailed" xml:space="preserve">
+    <value>Sending failed: {0}</value>
+  </data>
+  <data name="CotCouldNotStart" xml:space="preserve">
+    <value>Could not start: {0}</value>
+  </data>
+  <data name="CotStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="CotSendingUdp" xml:space="preserve">
+    <value>Sending to {0} over UDP</value>
+  </data>
+  <data name="CotSendingMulticast" xml:space="preserve">
+    <value>Sending to {0} on {1}</value>
+  </data>
+  <data name="CotSendingTcp" xml:space="preserve">
+    <value>Connected to {0} over TCP</value>
+  </data>
+  <data name="CotReconnecting" xml:space="preserve">
+    <value>Not connected to {0}, trying again: {1}</value>
+  </data>
+  <data name="CotNoAnswer" xml:space="preserve">
+    <value>{0} did not answer</value>
+  </data>
+  <data name="CotWaitingForClient" xml:space="preserve">
+    <value>Waiting for a client on TCP port {0}</value>
+  </data>
+  <data name="CotSendingToClients" xml:space="preserve">
+    <value>Sending to {0} client(s) on TCP port {1}: {2}</value>
+  </data>
+  <data name="CotSendingSerial" xml:space="preserve">
+    <value>Sending to {0} at {1} baud</value>
+  </data>
+  <data name="CotPortInUse" xml:space="preserve">
+    <value>port {0} is in use by another program</value>
+  </data>
+  <data name="CotNoAdapter" xml:space="preserve">
+    <value>no network adapter is up</value>
+  </data>
+  <data name="CotModeTakMulticast" xml:space="preserve">
+    <value>TAK Multicast</value>
+  </data>
+  <data name="CotModeUdpClient" xml:space="preserve">
+    <value>UDP Client</value>
+  </data>
+  <data name="CotModeTcpClient" xml:space="preserve">
+    <value>TCP Client</value>
+  </data>
+  <data name="CotModeTcpHost" xml:space="preserve">
+    <value>TCP Host</value>
+  </data>
+  <data name="CotAllAdapters" xml:space="preserve">
+    <value>All adapters</value>
+  </data>
+  <data name="CotThisPcOnly" xml:space="preserve">
+    <value>This PC only</value>
+  </data>
+  <data name="CotHost" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="CotGroup" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="CotAdapter" xml:space="preserve">
+    <value>Adapter</value>
+  </data>
+  <data name="CotListenOn" xml:space="preserve">
+    <value>Listen on</value>
+  </data>
+  <data name="CotBaud" xml:space="preserve">
+    <value>Baud</value>
+  </data>
+  <data name="CotEnterHost" xml:space="preserve">
+    <value>Enter the address to send to.</value>
+  </data>
+  <data name="CotEnterPort" xml:space="preserve">
+    <value>Enter a port from 1 to 65535.</value>
+  </data>
+  <data name="CotEnterGroup" xml:space="preserve">
+    <value>Enter a multicast group, 224.0.0.0 to 239.255.255.255.</value>
+  </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
