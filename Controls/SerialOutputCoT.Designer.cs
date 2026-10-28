@@ -47,9 +47,17 @@
             this.TB_output = new System.Windows.Forms.TextBox();
             this.BTN_clear_TB = new System.Windows.Forms.Button();
             this.GB_connection = new System.Windows.Forms.GroupBox();
+            this.label_host = new System.Windows.Forms.Label();
+            this.TB_host = new System.Windows.Forms.TextBox();
+            this.label_port = new System.Windows.Forms.Label();
+            this.TB_port = new System.Windows.Forms.TextBox();
+            this.label_option = new System.Windows.Forms.Label();
+            this.CMB_adapter = new System.Windows.Forms.ComboBox();
+            this.CMB_listen = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
+            this.LBL_status = new System.Windows.Forms.Label();
             this.label_type = new System.Windows.Forms.Label();
-            this.TB_xml_type = new System.Windows.Forms.TextBox();
+            this.CMB_type = new System.Windows.Forms.ComboBox();
             this.CB_advancedMode = new System.Windows.Forms.CheckBox();
             this.chk_indent = new System.Windows.Forms.CheckBox();
             this.updateRate_numericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -61,6 +69,7 @@
             this.ContactCallsign = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactEndPointIP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.VMF = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cotType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GB_connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
@@ -79,10 +88,10 @@
             "38400",
             "57600",
             "115200"});
-            this.CMB_baudrate.Location = new System.Drawing.Point(8, 46);
+            this.CMB_baudrate.Location = new System.Drawing.Point(66, 75);
             this.CMB_baudrate.Name = "CMB_baudrate";
             this.CMB_baudrate.Size = new System.Drawing.Size(121, 21);
-            this.CMB_baudrate.TabIndex = 10;
+            this.CMB_baudrate.TabIndex = 16;
             // 
             // CMB_serialport
             // 
@@ -90,7 +99,7 @@
             this.CMB_serialport.FormattingEnabled = true;
             this.CMB_serialport.Location = new System.Drawing.Point(8, 19);
             this.CMB_serialport.Name = "CMB_serialport";
-            this.CMB_serialport.Size = new System.Drawing.Size(121, 21);
+            this.CMB_serialport.Size = new System.Drawing.Size(150, 21);
             this.CMB_serialport.TabIndex = 8;
             this.CMB_serialport.SelectedIndexChanged += new System.EventHandler(this.CMB_serialport_SelectedIndexChanged);
             // 
@@ -99,21 +108,21 @@
             this.TB_output.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TB_output.Location = new System.Drawing.Point(12, 102);
+            this.TB_output.Location = new System.Drawing.Point(12, 142);
             this.TB_output.Multiline = true;
             this.TB_output.Name = "TB_output";
             this.TB_output.ReadOnly = true;
-            this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.TB_output.Size = new System.Drawing.Size(559, 334);
-            this.TB_output.TabIndex = 12;
+            this.TB_output.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.TB_output.Size = new System.Drawing.Size(559, 294);
+            this.TB_output.TabIndex = 30;
             this.TB_output.WordWrap = false;
             // 
             // BTN_clear_TB
             // 
-            this.BTN_clear_TB.Location = new System.Drawing.Point(370, 70);
+            this.BTN_clear_TB.Location = new System.Drawing.Point(483, 70);
             this.BTN_clear_TB.Name = "BTN_clear_TB";
             this.BTN_clear_TB.Size = new System.Drawing.Size(88, 23);
-            this.BTN_clear_TB.TabIndex = 16;
+            this.BTN_clear_TB.TabIndex = 26;
             this.BTN_clear_TB.Text = "Clear Window";
             this.BTN_clear_TB.UseVisualStyleBackColor = true;
             this.BTN_clear_TB.Click += new System.EventHandler(this.BTN_clear_TB_Click);
@@ -122,18 +131,84 @@
             // 
             this.GB_connection.Controls.Add(this.CMB_serialport);
             this.GB_connection.Controls.Add(this.BUT_connect);
+            this.GB_connection.Controls.Add(this.label_host);
+            this.GB_connection.Controls.Add(this.TB_host);
+            this.GB_connection.Controls.Add(this.label_port);
+            this.GB_connection.Controls.Add(this.TB_port);
+            this.GB_connection.Controls.Add(this.label_option);
+            this.GB_connection.Controls.Add(this.CMB_adapter);
+            this.GB_connection.Controls.Add(this.CMB_listen);
             this.GB_connection.Controls.Add(this.CMB_baudrate);
             this.GB_connection.Location = new System.Drawing.Point(12, 12);
             this.GB_connection.Name = "GB_connection";
-            this.GB_connection.Size = new System.Drawing.Size(217, 81);
-            this.GB_connection.TabIndex = 18;
+            this.GB_connection.Size = new System.Drawing.Size(330, 104);
+            this.GB_connection.TabIndex = 7;
             this.GB_connection.TabStop = false;
             this.GB_connection.Text = "Connection";
+            // 
+            // label_host
+            // 
+            this.label_host.AutoSize = true;
+            this.label_host.Location = new System.Drawing.Point(6, 51);
+            this.label_host.Name = "label_host";
+            this.label_host.Size = new System.Drawing.Size(29, 13);
+            this.label_host.TabIndex = 10;
+            this.label_host.Text = "Host";
+            // 
+            // TB_host
+            // 
+            this.TB_host.Location = new System.Drawing.Point(52, 48);
+            this.TB_host.Name = "TB_host";
+            this.TB_host.Size = new System.Drawing.Size(150, 20);
+            this.TB_host.TabIndex = 11;
+            // 
+            // label_port
+            // 
+            this.label_port.AutoSize = true;
+            this.label_port.Location = new System.Drawing.Point(208, 51);
+            this.label_port.Name = "label_port";
+            this.label_port.Size = new System.Drawing.Size(26, 13);
+            this.label_port.TabIndex = 12;
+            this.label_port.Text = "Port";
+            // 
+            // TB_port
+            // 
+            this.TB_port.Location = new System.Drawing.Point(240, 48);
+            this.TB_port.Name = "TB_port";
+            this.TB_port.Size = new System.Drawing.Size(80, 20);
+            this.TB_port.TabIndex = 13;
+            // 
+            // label_option
+            // 
+            this.label_option.AutoSize = true;
+            this.label_option.Location = new System.Drawing.Point(6, 78);
+            this.label_option.Name = "label_option";
+            this.label_option.Size = new System.Drawing.Size(44, 13);
+            this.label_option.TabIndex = 14;
+            this.label_option.Text = "Adapter";
+            // 
+            // CMB_adapter
+            // 
+            this.CMB_adapter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_adapter.FormattingEnabled = true;
+            this.CMB_adapter.Location = new System.Drawing.Point(66, 75);
+            this.CMB_adapter.Name = "CMB_adapter";
+            this.CMB_adapter.Size = new System.Drawing.Size(254, 21);
+            this.CMB_adapter.TabIndex = 15;
+            // 
+            // CMB_listen
+            // 
+            this.CMB_listen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_listen.FormattingEnabled = true;
+            this.CMB_listen.Location = new System.Drawing.Point(66, 75);
+            this.CMB_listen.Name = "CMB_listen";
+            this.CMB_listen.Size = new System.Drawing.Size(150, 21);
+            this.CMB_listen.TabIndex = 17;
             // 
             // BUT_connect
             // 
             this.BUT_connect.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_connect.Location = new System.Drawing.Point(135, 19);
+            this.BUT_connect.Location = new System.Drawing.Point(166, 18);
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 9;
@@ -142,33 +217,46 @@
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
+            // LBL_status
+            // 
+            this.LBL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.LBL_status.AutoEllipsis = true;
+            this.LBL_status.Location = new System.Drawing.Point(12, 121);
+            this.LBL_status.Name = "LBL_status";
+            this.LBL_status.Size = new System.Drawing.Size(559, 17);
+            this.LBL_status.TabIndex = 29;
+            this.LBL_status.Text = "Not sending";
+            // 
             // label_type
             // 
             this.label_type.AutoSize = true;
-            this.label_type.Location = new System.Drawing.Point(233, 49);
+            this.label_type.Location = new System.Drawing.Point(350, 49);
             this.label_type.Name = "label_type";
             this.label_type.Size = new System.Drawing.Size(31, 13);
-            this.label_type.TabIndex = 21;
+            this.label_type.TabIndex = 20;
             this.label_type.Text = "Type";
             // 
-            // TB_xml_type
+            // CMB_type
             // 
-            this.TB_xml_type.Location = new System.Drawing.Point(265, 47);
-            this.TB_xml_type.Name = "TB_xml_type";
-            this.TB_xml_type.Size = new System.Drawing.Size(88, 20);
-            this.TB_xml_type.TabIndex = 20;
-            this.TB_xml_type.Text = "a-f-A-M-F-Q";
+            this.CMB_type.FormattingEnabled = true;
+            this.CMB_type.Location = new System.Drawing.Point(382, 46);
+            this.CMB_type.Name = "CMB_type";
+            this.CMB_type.Size = new System.Drawing.Size(189, 21);
+            this.CMB_type.TabIndex = 21;
+            this.CMB_type.SelectedIndexChanged += new System.EventHandler(this.SettingChanged);
+            this.CMB_type.TextChanged += new System.EventHandler(this.SettingChanged);
             // 
             // CB_advancedMode
             // 
             this.CB_advancedMode.AutoSize = true;
             this.CB_advancedMode.Checked = true;
             this.CB_advancedMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CB_advancedMode.Location = new System.Drawing.Point(247, 20);
+            this.CB_advancedMode.Location = new System.Drawing.Point(352, 20);
             this.CB_advancedMode.Margin = new System.Windows.Forms.Padding(2);
             this.CB_advancedMode.Name = "CB_advancedMode";
             this.CB_advancedMode.Size = new System.Drawing.Size(107, 17);
-            this.CB_advancedMode.TabIndex = 23;
+            this.CB_advancedMode.TabIndex = 18;
             this.CB_advancedMode.Text = "Additional Details";
             this.CB_advancedMode.UseVisualStyleBackColor = true;
             this.CB_advancedMode.CheckedChanged += new System.EventHandler(this.CB_advancedMode_CheckedChanged);
@@ -178,18 +266,18 @@
             this.chk_indent.AutoSize = true;
             this.chk_indent.Checked = true;
             this.chk_indent.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_indent.Location = new System.Drawing.Point(358, 20);
+            this.chk_indent.Location = new System.Drawing.Point(463, 20);
             this.chk_indent.Margin = new System.Windows.Forms.Padding(2);
             this.chk_indent.Name = "chk_indent";
             this.chk_indent.Size = new System.Drawing.Size(100, 17);
-            this.chk_indent.TabIndex = 24;
+            this.chk_indent.TabIndex = 19;
             this.chk_indent.Text = "Nice Formatting";
             this.chk_indent.UseVisualStyleBackColor = true;
-            this.chk_indent.CheckedChanged += new System.EventHandler(this.chk_indent_CheckedChanged);
+            this.chk_indent.CheckedChanged += new System.EventHandler(this.SettingChanged);
             // 
             // updateRate_numericUpDown
             // 
-            this.updateRate_numericUpDown.Location = new System.Drawing.Point(307, 73);
+            this.updateRate_numericUpDown.Location = new System.Drawing.Point(424, 73);
             this.updateRate_numericUpDown.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -202,21 +290,21 @@
             0});
             this.updateRate_numericUpDown.Name = "updateRate_numericUpDown";
             this.updateRate_numericUpDown.Size = new System.Drawing.Size(46, 20);
-            this.updateRate_numericUpDown.TabIndex = 25;
+            this.updateRate_numericUpDown.TabIndex = 23;
             this.updateRate_numericUpDown.Value = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.updateRate_numericUpDown.ValueChanged += new System.EventHandler(this.updateRate_numericUpDown_ValueChanged);
+            this.updateRate_numericUpDown.ValueChanged += new System.EventHandler(this.SettingChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(235, 75);
+            this.label2.Location = new System.Drawing.Point(352, 75);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 13);
-            this.label2.TabIndex = 26;
+            this.label2.TabIndex = 22;
             this.label2.Text = "Interval (sec)";
             // 
             // myDataGridView1
@@ -230,15 +318,17 @@
             this.takv,
             this.ContactCallsign,
             this.ContactEndPointIP,
-            this.VMF});
+            this.VMF,
+            this.cotType});
             this.myDataGridView1.Location = new System.Drawing.Point(12, 443);
             this.myDataGridView1.Name = "myDataGridView1";
             this.myDataGridView1.RowHeadersWidth = 62;
             this.myDataGridView1.Size = new System.Drawing.Size(559, 121);
-            this.myDataGridView1.TabIndex = 22;
+            this.myDataGridView1.TabIndex = 31;
             this.myDataGridView1.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellLeave);
             this.myDataGridView1.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.myDataGridView1_CellMouseUp);
             this.myDataGridView1.RowValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_RowValidated);
+            this.myDataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.myDataGridView1_RowsRemoved);
             // 
             // sysid
             // 
@@ -282,6 +372,13 @@
             this.VMF.Name = "VMF";
             this.VMF.ToolTipText = "If you don\'t know what this is then leave it blank";
             // 
+            // cotType
+            // 
+            this.cotType.HeaderText = "Type";
+            this.cotType.MinimumWidth = 8;
+            this.cotType.Name = "cotType";
+            this.cotType.ToolTipText = "Empty for the Type above, auto for the kind of vehicle, or a CoT type";
+            // 
             // SerialOutputCoT
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,15 +390,17 @@
             this.Controls.Add(this.CB_advancedMode);
             this.Controls.Add(this.myDataGridView1);
             this.Controls.Add(this.label_type);
-            this.Controls.Add(this.TB_xml_type);
+            this.Controls.Add(this.CMB_type);
             this.Controls.Add(this.GB_connection);
             this.Controls.Add(this.BTN_clear_TB);
+            this.Controls.Add(this.LBL_status);
             this.Controls.Add(this.TB_output);
             this.Name = "SerialOutputCoT";
             this.Text = "Output Cursor on Target";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialOutputCoT_FormClosing);
             this.Load += new System.EventHandler(this.SerialOutputCoT_Load);
             this.GB_connection.ResumeLayout(false);
+            this.GB_connection.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updateRate_numericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -316,8 +415,16 @@
         private System.Windows.Forms.TextBox TB_output;
         private System.Windows.Forms.Button BTN_clear_TB;
         private System.Windows.Forms.GroupBox GB_connection;
+        private System.Windows.Forms.Label label_host;
+        private System.Windows.Forms.TextBox TB_host;
+        private System.Windows.Forms.Label label_port;
+        private System.Windows.Forms.TextBox TB_port;
+        private System.Windows.Forms.Label label_option;
+        private System.Windows.Forms.ComboBox CMB_adapter;
+        private System.Windows.Forms.ComboBox CMB_listen;
+        private System.Windows.Forms.Label LBL_status;
         private System.Windows.Forms.Label label_type;
-        private System.Windows.Forms.TextBox TB_xml_type;
+        private System.Windows.Forms.ComboBox CMB_type;
         private MyDataGridView myDataGridView1;
         private System.Windows.Forms.CheckBox CB_advancedMode;
         private System.Windows.Forms.CheckBox chk_indent;
@@ -327,6 +434,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactCallsign;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactEndPointIP;
         private System.Windows.Forms.DataGridViewTextBoxColumn VMF;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cotType;
         private System.Windows.Forms.NumericUpDown updateRate_numericUpDown;
         private System.Windows.Forms.Label label2;
     }
