@@ -1790,7 +1790,7 @@ namespace MissionPlanner.GCSViews
 
                     int param1 = 0;
                     int param2 = 0;
-                    int param3 = 1;
+                    int param3 = 0;
 
                     // request gyro
                     if (CMB_action.Text == actions.Preflight_Calibration.ToString())
