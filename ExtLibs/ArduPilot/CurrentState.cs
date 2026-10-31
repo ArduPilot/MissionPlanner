@@ -120,7 +120,8 @@ namespace MissionPlanner
 
         private DateTime lastdata = DateTime.MinValue;
 
-        // when EKF_STATUS_REPORT was last received; it is preferred over ESTIMATOR_STATUS
+        // when EKF_STATUS_REPORT was last received (message time, so log playback works);
+        // it is preferred over ESTIMATOR_STATUS
         private DateTime lastekfstatusreport = DateTime.MinValue;
 
         // for calc of sitl speedup
@@ -2658,10 +2659,12 @@ namespace MissionPlanner
 
                         {
                             MAVLink.mavlink_ekf_status_report_t ekfstatusm;
+                            // ESTIMATOR_STATUS's accelerometer error flag has no EKF_STATUS_REPORT equivalent
+                            var estimatoraccelerror = false;
                             if (mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT)
                             {
                                 ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
-                                lastekfstatusreport = DateTime.Now;
+                                lastekfstatusreport = mavLinkMessage.rxtime;
                             }
                             else
                             {
@@ -2672,10 +2675,12 @@ namespace MissionPlanner
                                 // ArduPilot sends EKF_STATUS_REPORT and may also send
                                 // ESTIMATOR_STATUS (PX4 sends only the latter); both carry
                                 // the same test ratios, so prefer EKF_STATUS_REPORT
-                                if (DateTime.Now - lastekfstatusreport < TimeSpan.FromSeconds(5))
+                                var sinceekfstatusreport = mavLinkMessage.rxtime - lastekfstatusreport;
+                                if (sinceekfstatusreport >= TimeSpan.Zero && sinceekfstatusreport < TimeSpan.FromSeconds(5))
                                     break;
 
                                 ekfstatusm = EkfStatusReportFromEstimatorStatus(estimatorstatus);
+                                estimatoraccelerror = (estimatorstatus.flags & (ushort)MAVLink.ESTIMATOR_STATUS_FLAGS.ESTIMATOR_ACCEL_ERROR) != 0;
                             }
 
                             // > 1, between 0-1 typical > 1 = reject measurement - red
@@ -2764,6 +2769,12 @@ namespace MissionPlanner
                                         log.Info("EKF red uninit " + (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
                                     }
                                 }
+                            }
+
+                            if (estimatoraccelerror)
+                            {
+                                ekfstatus = 1;
+                                messageHigh = Strings.ERROR + " EKF accelerometer error";
                             }
                         }
 
@@ -4344,7 +4355,8 @@ namespace MissionPlanner
             var flags = (ushort)(estimatorstatus.flags & 0x3ff);
             if ((estimatorstatus.flags & (ushort)MAVLink.ESTIMATOR_STATUS_FLAGS.ESTIMATOR_GPS_GLITCH) != 0)
                 flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_GPS_GLITCHING;
-            // ESTIMATOR_UNINITIALIZED, not yet in the generated MAVLink library
+            // ESTIMATOR_UNINITIALIZED, proposed in mavlink/mavlink#2663 and not yet in the
+            // generated MAVLink library; use the generated enum once it is
             const ushort ESTIMATOR_UNINITIALIZED = 4096;
             if ((estimatorstatus.flags & ESTIMATOR_UNINITIALIZED) != 0)
                 flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED;
@@ -4444,6 +4456,7 @@ namespace MissionPlanner
         {
             lock (this)
             {
+                lastekfstatusreport = DateTime.MinValue;
                 mode = "Unknown";
                 _mode = 99999;
                 messages = new List<(DateTime time, string message)>();
