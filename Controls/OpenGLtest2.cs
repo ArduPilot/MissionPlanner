@@ -118,9 +118,16 @@ namespace MissionPlanner.Controls
             var x = ((MouseEventArgs) e).X;
             var y = ((MouseEventArgs) e).Y;
             mouseDownPos = getMousePos(x, y);
-            MainV2.comPort.setGuidedModeWP(
-                new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
-                    (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
+            try
+            {
+                MainV2.comPort.setGuidedModeWP(
+                    new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
+                        (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
+            }
+            catch
+            {
+                // the vehicle refused the target
+            }
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)
