@@ -169,6 +169,14 @@ namespace MissionPlanner.Controls
             public int gltextureid;
             public int width;
             public int size;
+
+            // placement in the GL glyph atlas, valid while atlasGen matches the HUD's
+            public float u0, v0, u1, v1;
+            public int atlasGen;
+
+            // GL image textures: height of the allocated texture and the bgimage version last uploaded
+            public int texHeight;
+            public int version;
         }
 
         private Dictionary<int, character> charDict = new Dictionary<int, character>();
@@ -311,6 +319,14 @@ namespace MissionPlanner.Controls
                 {
                     if (texid.gltextureid != 0)
                         GL.DeleteTexture(texid.gltextureid);
+                }
+
+                try
+                {
+                    DeleteGlResources();
+                }
+                catch
+                {
                 }
             }
 
@@ -1036,6 +1052,7 @@ namespace MissionPlanner.Controls
                     try
                     {
                         _bgimage = (Image) value;
+                        _bgVersion++;
                     }
                     catch
                     {
@@ -1372,6 +1389,8 @@ namespace MissionPlanner.Controls
                 }
                 else if (opengl)
                 {
+                    FlushBatch();
+
                     this.SwapBuffers();
 
                     // free from this thread
@@ -1421,39 +1440,233 @@ namespace MissionPlanner.Controls
         const double rad2deg = (180 / Math.PI);
         const double deg2rad = (1.0 / rad2deg);
 
+        // ---- GL 1.5 batched drawing ----
+        // Every GL primitive is written into one interleaved vertex array (position, texcoord, packed colour) and
+        // drawn from a streamed VBO (client arrays on a pre-1.5 driver). Consecutive lines of one width and
+        // consecutive strings are merged into a single draw call; anything else flushes the pending batch first,
+        // so draw order is unchanged.
+        [StructLayout(LayoutKind.Sequential)]
+        struct GlVertex
+        {
+            public float X, Y, U, V;
+            public uint Color;
+        }
+
+        const int GlVertexSize = 20;
+
+        enum GlBatch
+        {
+            None,
+            Lines,
+            Text
+        }
+
+        GlVertex[] _verts = new GlVertex[2048];
+        int _vertCount;
+        GlBatch _batch = GlBatch.None;
+        float _batchWidth;
+
+        int _vbo;
+        int _vboSize;
+        bool _vboChecked;
+        bool _vboOk;
+
+        const int AtlasSize = 1024;
+        int _atlasTex;
+        int _atlasGen = 1;
+        int _atlasX, _atlasY, _atlasRowH;
+
+        static uint PackColor(Color c)
+        {
+            return ((uint) c.A << 24) | ((uint) c.B << 16) | ((uint) c.G << 8) | c.R;
+        }
+
+        void AddVertex(float x, float y, float u, float v, uint color)
+        {
+            if (_vertCount == _verts.Length)
+                Array.Resize(ref _verts, _verts.Length * 2);
+
+            _verts[_vertCount].X = x;
+            _verts[_vertCount].Y = y;
+            _verts[_vertCount].U = u;
+            _verts[_vertCount].V = v;
+            _verts[_vertCount].Color = color;
+            _vertCount++;
+        }
+
+        void ResetBatch()
+        {
+            _vertCount = 0;
+            _batch = GlBatch.None;
+        }
+
+        // start an immediate shape: whatever is pending is drawn first
+        void BeginShape()
+        {
+            FlushBatch();
+            _vertCount = 0;
+        }
+
+        bool UseVbo()
+        {
+            if (!_vboChecked)
+            {
+                _vboChecked = true;
+                try
+                {
+                    var version = GL.GetString(StringName.Version);
+                    var parts = version.Split(' ')[0].Split('.');
+                    var ver = int.Parse(parts[0]) * 100 + int.Parse(parts[1]);
+                    if (ver >= 105)
+                    {
+                        _vbo = GL.GenBuffer();
+                        _vboOk = _vbo != 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("HUD vbo", ex);
+                }
+            }
+
+            return _vboOk;
+        }
+
+        // draw the vertices collected so far
+        void DrawVerts(PrimitiveType mode, bool textured)
+        {
+            if (_vertCount == 0)
+                return;
+
+            int bytes = _vertCount * GlVertexSize;
+            GCHandle pin = default(GCHandle);
+            IntPtr basePtr = IntPtr.Zero;
+
+            if (UseVbo())
+            {
+                GL.BindBuffer(BufferTarget.ArrayBuffer, _vbo);
+                if (bytes > _vboSize)
+                    _vboSize = Math.Max(bytes, _verts.Length * GlVertexSize);
+
+                // (re)allocating the storage each time orphans the old one, so the driver
+                // does not stall on a frame still in flight
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) _vboSize, IntPtr.Zero,
+                    BufferUsageHint.StreamDraw);
+                GL.BufferSubData(BufferTarget.ArrayBuffer, IntPtr.Zero, (IntPtr) bytes, _verts);
+            }
+            else
+            {
+                pin = GCHandle.Alloc(_verts, GCHandleType.Pinned);
+                basePtr = pin.AddrOfPinnedObject();
+            }
+
+            try
+            {
+                GL.EnableClientState(ArrayCap.VertexArray);
+                GL.VertexPointer(2, VertexPointerType.Float, GlVertexSize, basePtr);
+                GL.EnableClientState(ArrayCap.ColorArray);
+                GL.ColorPointer(4, ColorPointerType.UnsignedByte, GlVertexSize, IntPtr.Add(basePtr, 16));
+                if (textured)
+                {
+                    GL.EnableClientState(ArrayCap.TextureCoordArray);
+                    GL.TexCoordPointer(2, TexCoordPointerType.Float, GlVertexSize, IntPtr.Add(basePtr, 8));
+                }
+
+                GL.DrawArrays(mode, 0, _vertCount);
+
+                if (textured)
+                    GL.DisableClientState(ArrayCap.TextureCoordArray);
+                GL.DisableClientState(ArrayCap.ColorArray);
+                GL.DisableClientState(ArrayCap.VertexArray);
+            }
+            finally
+            {
+                if (pin.IsAllocated)
+                    pin.Free();
+                else
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            }
+        }
+
+        // draw the pending line/text batch
+        void FlushBatch()
+        {
+            var batch = _batch;
+            _batch = GlBatch.None;
+
+            if (batch == GlBatch.None || _vertCount == 0)
+            {
+                _vertCount = 0;
+                return;
+            }
+
+            if (batch == GlBatch.Lines)
+            {
+                GL.LineWidth(_batchWidth);
+                DrawVerts(PrimitiveType.Lines, false);
+            }
+            else
+            {
+                GL.Enable(EnableCap.Texture2D);
+                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+                GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
+                    (float) TextureEnvMode.Modulate);
+                GL.BindTexture(TextureTarget.Texture2D, _atlasTex);
+                DrawVerts(PrimitiveType.Triangles, true);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
+                GL.Disable(EnableCap.Texture2D);
+            }
+
+            _vertCount = 0;
+        }
+
+        void DeleteGlResources()
+        {
+            foreach (var tex in _iconTextures.Values)
+            {
+                if (tex.gltextureid != 0)
+                    GL.DeleteTexture(tex.gltextureid);
+            }
+
+            _iconTextures.Clear();
+
+            if (_atlasTex != 0)
+                GL.DeleteTexture(_atlasTex);
+            _atlasTex = 0;
+            _atlasGen++;
+            _atlasX = _atlasY = _atlasRowH = 0;
+
+            if (_vbo != 0)
+                GL.DeleteBuffer(_vbo);
+            _vbo = 0;
+            _vboSize = 0;
+            _vboChecked = false;
+            _vboOk = false;
+
+            ResetBatch();
+        }
+
         public void DrawArc(Pen penn, RectangleF rect, float start, float degrees)
         {
             if (opengl)
             {
-                GL.LineWidth(penn.Width);
-                GL.Color4(penn.Color);
+                BeginShape();
 
-                //GL.Begin(PrimitiveType.LineStrip);
+                uint color = PackColor(penn.Color);
 
                 start = 360 - start;
                 start -= 30;
 
-                var vertices = new float[(int)((degrees + 1) * 2)];
-
-                float x = 0, y = 0;
-                int length = 0;
                 for (int i = 0; i <= degrees; i++)
                 {
-                    x = (float)Math.Sin((start + i) * deg2rad) * rect.Width / 2;
-                    y = (float)Math.Cos((start + i) * deg2rad) * rect.Height / 2;
-                    x = x + rect.X + rect.Width / 2;
-                    y = y + rect.Y + rect.Height / 2;
-                    vertices[i * 2] = x;
-                    vertices[i * 2 + 1] = y;
-                    length += 2;
-                    //GL.Vertex2(x, y);
+                    float x = (float) Math.Sin((start + i) * deg2rad) * rect.Width / 2;
+                    float y = (float) Math.Cos((start + i) * deg2rad) * rect.Height / 2;
+                    AddVertex(x + rect.X + rect.Width / 2, y + rect.Y + rect.Height / 2, 0, 0, color);
                 }
 
-                //GL.End();                
-                GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
-                GL.EnableClientState(ArrayCap.VertexArray);
-                GL.DrawArrays(PrimitiveType.LineStrip, 0, length/2);
-                GL.DisableClientState(ArrayCap.VertexArray);
+                GL.LineWidth(penn.Width);
+                DrawVerts(PrimitiveType.LineStrip, false);
+                _vertCount = 0;
             }
             else
             {
@@ -1465,32 +1678,20 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
-                GL.LineWidth(penn.Width);
-                GL.Color4(penn.Color);
+                BeginShape();
 
-                //GL.Begin(PrimitiveType.LineLoop);
+                uint color = PackColor(penn.Color);
 
-                var vertices = new float[(int)(360 * 2)];
-
-                float x, y;
-                int length = 0;
-                for (float i = 0; i < 360; i += 1)
+                for (int i = 0; i < 360; i++)
                 {
-                    x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
-                    y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
-                    x = x + rect.X + rect.Width / 2;
-                    y = y + rect.Y + rect.Height / 2;
-                    vertices[(int)((i) * 2)] = x;
-                    vertices[(int)((i) * 2 + 1)] = y;
-                    length += 2;
-                    //GL.Vertex2(x, y);
+                    float x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
+                    float y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
+                    AddVertex(x + rect.X + rect.Width / 2, y + rect.Y + rect.Height / 2, 0, 0, color);
                 }
 
-                //GL.End();                
-                GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
-                GL.EnableClientState(ArrayCap.VertexArray);
-                GL.DrawArrays(PrimitiveType.LineLoop, 0, length / 2);
-                GL.DisableClientState(ArrayCap.VertexArray);
+                GL.LineWidth(penn.Width);
+                DrawVerts(PrimitiveType.LineLoop, false);
+                _vertCount = 0;
             }
             else
             {
@@ -1554,6 +1755,86 @@ namespace MissionPlanner.Controls
             return icon;
         }
 
+        // texture slot for the video behind the HUD; the other slot and the icon textures are kept apart from
+        // it so alternating images never re-allocate each other's texture
+        const int BgTextureSlot = 1;
+
+        // bumped for every bgimage set; the video texture is only uploaded when it has moved on
+        private int _bgVersion;
+
+        // GL textures of the cached status icons, uploaded once
+        private readonly Dictionary<Image, character> _iconTextures = new Dictionary<Image, character>();
+
+        private bool IsCachedIcon(Image img)
+        {
+            foreach (var icon in iconCache.Values)
+            {
+                if (ReferenceEquals(icon, img))
+                    return true;
+            }
+
+            return false;
+        }
+
+        // put the image's pixels into tex, creating or re-allocating the GL texture as needed
+        private void UploadTexture(character tex, Image img)
+        {
+            // If the image is already a bitmap and we support NPOT textures then simply use it.
+            // Otherwise we have to resize img to be POT.
+            Bitmap src = npotSupported && img is Bitmap ? (Bitmap) img : ResizeImage(img, 512, 512);
+
+            try
+            {
+                if (tex.gltextureid == 0)
+                {
+                    GL.GenTextures(1, out tex.gltextureid);
+                    GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
+
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                        (int) TextureMinFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                        (int) TextureMagFilter.Linear);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
+                        (int) TextureWrapMode.ClampToEdge);
+                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
+                        (int) TextureWrapMode.ClampToEdge);
+                }
+                else
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
+                }
+
+                BitmapData data = src.LockBits(new Rectangle(0, 0, src.Width, src.Height),
+                    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                try
+                {
+                    if (tex.width != data.Width || tex.texHeight != data.Height)
+                    {
+                        GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width,
+                            data.Height, 0, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
+                            data.Scan0);
+
+                        tex.width = data.Width;
+                        tex.texHeight = data.Height;
+                    }
+                    else
+                    {
+                        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
+                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    }
+                }
+                finally
+                {
+                    src.UnlockBits(data);
+                }
+            }
+            finally
+            {
+                if (!ReferenceEquals(src, img))
+                    src.Dispose();
+            }
+        }
+
         public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
             if (opengl)
@@ -1561,48 +1842,37 @@ namespace MissionPlanner.Controls
                 if (img == null)
                     return;
 
-                if (_texture[textureno] == null)
-                    _texture[textureno] = new character();
+                FlushBatch();
 
-                // If the image is already a bitmap and we support NPOT textures then simply use it.
-                if (npotSupported && img is Bitmap)
+                character tex;
+
+                if (textureno == BgTextureSlot)
                 {
-                    _texture[textureno].bitmap = (Bitmap) img;
+                    // the video: upload only when bgimage was set since the last upload
+                    tex = _texture[textureno] ?? (_texture[textureno] = new character());
+
+                    if (tex.gltextureid == 0 || tex.version != _bgVersion)
+                    {
+                        UploadTexture(tex, img);
+                        tex.version = _bgVersion;
+                    }
+                }
+                else if (IsCachedIcon(img))
+                {
+                    // a cached icon never changes, so it keeps its own texture
+                    if (!_iconTextures.TryGetValue(img, out tex))
+                    {
+                        tex = new character();
+                        UploadTexture(tex, img);
+                        _iconTextures[img] = tex;
+                    }
                 }
                 else
                 {
-                    // Otherwise we have to resize img to be POT.
-                    _texture[textureno].bitmap = ResizeImage(img, 512, 512);
+                    // anything else may have changed since the last call
+                    tex = _texture[textureno] ?? (_texture[textureno] = new character());
+                    UploadTexture(tex, img);
                 }
-
-                // generate the texture
-                if (_texture[textureno].gltextureid == 0)
-                {
-                    GL.GenTextures(1, out _texture[textureno].gltextureid);
-                }
-
-                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
-
-                BitmapData data = _texture[textureno].bitmap.LockBits(
-                    new Rectangle(0, 0, _texture[textureno].bitmap.Width, _texture[textureno].bitmap.Height),
-                    ImageLockMode.ReadOnly,
-                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                // create the texture type/dimensions
-                if (_texture[textureno].width != _texture[textureno].bitmap.Width)
-                {
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-                    _texture[textureno].width = data.Width;
-                }
-                else
-                {
-                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
-                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-                }
-
-                _texture[textureno].bitmap.UnlockBits(data);
 
                 bool polySmoothEnabled = GL.IsEnabled(EnableCap.PolygonSmooth);
                 if (polySmoothEnabled)
@@ -1610,29 +1880,18 @@ namespace MissionPlanner.Controls
 
                 GL.Enable(EnableCap.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
+                GL.BindTexture(TextureTarget.Texture2D, tex.gltextureid);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                    (int) TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                    (int) TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
-                    (int) TextureWrapMode.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
-                    (int) TextureWrapMode.ClampToEdge);
+                GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
+                    (float) TextureEnvMode.Modulate);
 
-                GL.Begin(PrimitiveType.TriangleStrip);
-
-                GL.TexCoord2(0.0f, 0.0f);
-                GL.Vertex2(x, y);
-                GL.TexCoord2(0.0f, 1.0f);
-                GL.Vertex2(x, y + height);
-                GL.TexCoord2(1.0f, 0.0f);
-                GL.Vertex2(x + width, y);
-                GL.TexCoord2(1.0f, 1.0f);
-                GL.Vertex2(x + width, y + height);
-
-                GL.End();
+                _vertCount = 0;
+                AddVertex(x, y, 0.0f, 0.0f, 0xFFFFFFFF);
+                AddVertex(x, y + height, 0.0f, 1.0f, 0xFFFFFFFF);
+                AddVertex(x + width, y, 1.0f, 0.0f, 0xFFFFFFFF);
+                AddVertex(x + width, y + height, 1.0f, 1.0f, 0xFFFFFFFF);
+                DrawVerts(PrimitiveType.TriangleStrip, true);
+                _vertCount = 0;
 
                 GL.Disable(EnableCap.Texture2D);
 
@@ -1688,10 +1947,13 @@ namespace MissionPlanner.Controls
             {
                 if (opengl)
                 {
-                    var bounds = gp.GetBounds();
-
                     var list = gp.PathPoints;
+                    uint color = PackColor(((SolidBrush) brushh).Color);
 
+                    BeginShape();
+                    AddVertex(0, 0, 0, 0, color);
+                    foreach (var pnt in list)
+                        AddVertex(pnt.X, pnt.Y, 0, 0, color);
 
                     GL.Enable(EnableCap.StencilTest);
                     GL.Disable(EnableCap.CullFace);
@@ -1703,70 +1965,18 @@ namespace MissionPlanner.Controls
                     GL.StencilFunc(StencilFunction.Always, 0, 0xff);
                     GL.StencilOp(StencilOp.Invert, StencilOp.Invert, StencilOp.Invert);
 
-
-                    //DrawPath(new Pen(Color.Black), gp);
-
-                    GL.Begin(PrimitiveType.TriangleFan);
-                    GL.Color4(((SolidBrush) brushh).Color);
-                    GL.Vertex2(0, 0);
-                    foreach (var pnt in list)
-                    {
-                        GL.Vertex2(pnt.X, pnt.Y);
-                    }
-
-                    GL.End();
-                    //GL.Vertex2(list[list.Length - 1].X, list[list.Length - 1].Y);
+                    DrawVerts(PrimitiveType.TriangleFan, false);
 
                     GL.ColorMask(true, true, true, true);
                     GL.DepthMask(true);
 
                     GL.StencilFunc(StencilFunction.Equal, 1, 1);
                     GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
-                    /*
-                    IntPtr data = Marshal.AllocHGlobal((int)(bounds.Right * bounds.Bottom));
-                    GL.ReadPixels(0,0, (int)bounds.Right, (int)bounds.Bottom, PixelFormat.StencilIndex, PixelType.UnsignedByte, data);
 
-                    var bmp = new Bitmap((int)bounds.Right, (int)bounds.Bottom, (int)bounds.Bottom,
-                        System.Drawing.Imaging.PixelFormat.Format1bppIndexed
-                        , data);
-                    bmp.Save("test.bmp");
-                    Marshal.FreeHGlobal(data);
-                    */
+                    DrawVerts(PrimitiveType.TriangleFan, false);
+                    _vertCount = 0;
 
-                    GL.Begin(PrimitiveType.TriangleFan);
-                    GL.Color4(((SolidBrush) brushh).Color);
-                    GL.Vertex2(0, 0);
-                    foreach (var pnt in list)
-                    {
-                        GL.Vertex2(pnt.X, pnt.Y);
-                    }
-
-                    GL.End();
-                    /*
-                    var bounds = gp.GetBounds();
-                    bounds.Inflate(1, 1);
-                    GL.Color4(((SolidBrush)brushh).Color);
-
-                    GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area
-                    GL.Vertex2(bounds.Left, bounds.Bottom);
-                    GL.Vertex2(bounds.Left, bounds.Top);
-                    GL.Vertex2(bounds.Right, bounds.Top);
-                    GL.Vertex2(bounds.Right, bounds.Bottom);
-                    GL.End();
-                   */
                     GL.Disable(EnableCap.StencilTest);
-                    /*
-                    GL.Begin(PrimitiveType.Quads); // Draw big box over polygon area
-                    GL.Color4(((SolidBrush)brushh).Color);
-                    GL.Vertex2(bounds.Left, bounds.Bottom);
-                    GL.Vertex2(bounds.Left, bounds.Top);
-                    GL.Vertex2(bounds.Right, bounds.Top);
-                    GL.Vertex2(bounds.Right, bounds.Bottom);
-                    GL.End();
-                    */
-                    //GL.Enable(EnableCap.CullFace);
-                    //GL.ClearStencil(0);
-                    //FillPolygon(brushh, gp.PathPoints);
                 }
                 else
                     graphicsObjectGDIP.FillPath(brushh, gp);
@@ -1790,6 +2000,7 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
+                FlushBatch();
                 GL.LoadIdentity();
             }
             else
@@ -1802,6 +2013,7 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
+                FlushBatch();
                 GL.Rotate(angle, 0, 0, 1);
             }
             else
@@ -1814,6 +2026,7 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
+                FlushBatch();
                 GL.Translate(x, y, 0f);
             }
             else
@@ -1822,19 +2035,25 @@ namespace MissionPlanner.Controls
             }
         }
 
+        void FillFan(Brush brushh, int count, Func<int, PointF> point)
+        {
+            BeginShape();
+            uint color = PackColor(((SolidBrush) brushh).Color);
+            for (int i = 0; i < count; i++)
+            {
+                var pnt = point(i);
+                AddVertex(pnt.X, pnt.Y, 0, 0, color);
+            }
+
+            DrawVerts(PrimitiveType.TriangleFan, false);
+            _vertCount = 0;
+        }
+
         public void FillPolygon(Brush brushh, Point[] list)
         {
             if (opengl)
             {
-                GL.Begin(PrimitiveType.TriangleFan);
-                GL.Color4(((SolidBrush) brushh).Color);
-                foreach (Point pnt in list)
-                {
-                    GL.Vertex2(pnt.X, pnt.Y);
-                }
-
-                GL.Vertex2(list[list.Length - 1].X, list[list.Length - 1].Y);
-                GL.End();
+                FillFan(brushh, list.Length, i => list[i]);
             }
             else
             {
@@ -1846,15 +2065,7 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
-                GL.Begin(PrimitiveType.Quads);
-                GL.Color4(((SolidBrush) brushh).Color);
-                foreach (PointF pnt in list)
-                {
-                    GL.Vertex2(pnt.X, pnt.Y);
-                }
-
-                GL.Vertex2(list[0].X, list[0].Y);
-                GL.End();
+                FillFan(brushh, list.Length, i => list[i]);
             }
             else
             {
@@ -1862,20 +2073,26 @@ namespace MissionPlanner.Controls
             }
         }
 
+        void DrawLoop(Pen penn, int count, Func<int, PointF> point)
+        {
+            BeginShape();
+            uint color = PackColor(penn.Color);
+            for (int i = 0; i < count; i++)
+            {
+                var pnt = point(i);
+                AddVertex(pnt.X, pnt.Y, 0, 0, color);
+            }
+
+            GL.LineWidth(penn.Width);
+            DrawVerts(PrimitiveType.LineLoop, false);
+            _vertCount = 0;
+        }
+
         public void DrawPolygon(Pen penn, Point[] list)
         {
             if (opengl)
             {
-                GL.LineWidth(penn.Width);
-                GL.Color4(penn.Color);
-
-                GL.Begin(PrimitiveType.LineLoop);
-                foreach (Point pnt in list)
-                {
-                    GL.Vertex2(pnt.X, pnt.Y);
-                }
-
-                GL.End();
+                DrawLoop(penn, list.Length, i => list[i]);
             }
             else
             {
@@ -1887,16 +2104,7 @@ namespace MissionPlanner.Controls
         {
             if (opengl)
             {
-                GL.LineWidth(penn.Width);
-                GL.Color4(penn.Color);
-
-                GL.Begin(PrimitiveType.LineLoop);
-                foreach (PointF pnt in list)
-                {
-                    GL.Vertex2(pnt.X, pnt.Y);
-                }
-
-                GL.End();
+                DrawLoop(penn, list.Length, i => list[i]);
             }
             else
             {
@@ -1915,36 +2123,25 @@ namespace MissionPlanner.Controls
                 float width = rectf.Width;
                 float height = rectf.Height;
 
-                GL.Begin(PrimitiveType.TriangleFan);
-
-                if (((Type) brushh.GetType()) == typeof(LinearGradientBrush))
+                uint top, bottom;
+                var gradient = brushh as LinearGradientBrush;
+                if (gradient != null)
                 {
-                    LinearGradientBrush temp = (LinearGradientBrush) brushh;
-                    GL.Color4(temp.LinearColors[0]);
+                    top = PackColor(gradient.LinearColors[0]);
+                    bottom = PackColor(gradient.LinearColors[1]);
                 }
                 else
                 {
-                    GL.Color4(((SolidBrush) brushh).Color.R / 255f, ((SolidBrush) brushh).Color.G / 255f,
-                        ((SolidBrush) brushh).Color.B / 255f, ((SolidBrush) brushh).Color.A / 255f);
+                    top = bottom = PackColor(((SolidBrush) brushh).Color);
                 }
 
-                GL.Vertex2(x1, y1);
-                GL.Vertex2(x1 + width, y1);
-
-                if (((Type) brushh.GetType()) == typeof(LinearGradientBrush))
-                {
-                    LinearGradientBrush temp = (LinearGradientBrush) brushh;
-                    GL.Color4(temp.LinearColors[1]);
-                }
-                else
-                {
-                    GL.Color4(((SolidBrush) brushh).Color.R / 255f, ((SolidBrush) brushh).Color.G / 255f,
-                        ((SolidBrush) brushh).Color.B / 255f, ((SolidBrush) brushh).Color.A / 255f);
-                }
-
-                GL.Vertex2(x1 + width, y1 + height);
-                GL.Vertex2(x1, y1 + height);
-                GL.End();
+                BeginShape();
+                AddVertex(x1, y1, 0, 0, top);
+                AddVertex(x1 + width, y1, 0, 0, top);
+                AddVertex(x1 + width, y1 + height, 0, 0, bottom);
+                AddVertex(x1, y1 + height, 0, 0, bottom);
+                DrawVerts(PrimitiveType.TriangleFan, false);
+                _vertCount = 0;
             }
             else
             {
@@ -1962,39 +2159,38 @@ namespace MissionPlanner.Controls
 
             if (opengl)
             {
+                BeginShape();
+                uint color = PackColor(penn.Color);
+                AddVertex(x1, y1, 0, 0, color);
+                AddVertex(x1 + width, y1, 0, 0, color);
+                AddVertex(x1 + width, y1 + height, 0, 0, color);
+                AddVertex(x1, y1 + height, 0, 0, color);
                 GL.LineWidth(penn.Width);
-                GL.Color4(penn.Color);
-
-                GL.Begin(PrimitiveType.LineLoop);
-                GL.Vertex2(x1, y1);
-                GL.Vertex2(x1 + width, y1);
-                GL.Vertex2(x1 + width, y1 + height);
-                GL.Vertex2(x1, y1 + height);
-                GL.End();
+                DrawVerts(PrimitiveType.LineLoop, false);
+                _vertCount = 0;
             }
             else
             {
                 graphicsObjectGDIP.DrawRectangle(penn, (float) x1, (float) y1, (float) width, (float) height);
             }
         }
-                
+
         public void DrawLine(Pen penn, float x1, float y1, float x2, float y2)
         {
 
             if (opengl)
             {
-                GL.Color4(penn.Color);
-                GL.LineWidth(penn.Width);
+                // consecutive lines of one width share a draw call
+                if (_batch != GlBatch.Lines || _batchWidth != penn.Width)
+                {
+                    FlushBatch();
+                    _batch = GlBatch.Lines;
+                    _batchWidth = penn.Width;
+                }
 
-                //GL.Begin(PrimitiveType.Lines);
-                //GL.Vertex2(x1, y1);
-                //GL.Vertex2(x2, y2);
-                //GL.End();
-
-                GL.VertexPointer(2, VertexPointerType.Float, 0, new float[] { x1, y1, x2, y2 });
-                GL.EnableClientState(ArrayCap.VertexArray);
-                GL.DrawArrays(PrimitiveType.Lines, 0, 2);
-                GL.DisableClientState(ArrayCap.VertexArray);
+                uint color = PackColor(penn.Color);
+                AddVertex(x1, y1, 0, 0, color);
+                AddVertex(x2, y2, 0, 0, color);
             }
             else
             {
@@ -2002,13 +2198,32 @@ namespace MissionPlanner.Controls
             }
         }
 
+        static readonly int[] RollTicks = {-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60};
+        readonly Point[] _rollNeedle = new Point[3];
+        readonly Point[] _arrow = new Point[5];
+
+        private Font _prearmFont;
+
+        private Font GetPrearmFont(float size)
+        {
+            if (_prearmFont == null || _prearmFont.Size != size)
+            {
+                _prearmFont?.Dispose();
+                _prearmFont = new Font(HUDT.Font, size);
+            }
+
+            return _prearmFont;
+        }
+
         private readonly Pen _blackPen = new Pen(Color.Black, 2);
         private readonly Pen _greenPen = new Pen(Color.Green, 2);
         private readonly Pen _redPen = new Pen(Color.Red, 2);
+        private readonly Pen _wingsPen = new Pen(Color.FromArgb(200, Color.Red), 4.0f);
 
         internal void doPaint()
         {
             //Console.WriteLine("hud paint "+DateTime.Now.Millisecond);
+            ResetBatch();
             bool isNaN = false;
             try
             {
@@ -2048,7 +2263,7 @@ namespace MissionPlanner.Controls
                     {
                         try
                         {
-                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height, BgTextureSlot);
                         }
                         catch (Exception ex)
                         {
@@ -2215,7 +2430,7 @@ namespace MissionPlanner.Controls
 
                     int lengthlongex = lengthlong + 2;
 
-                    Point[] pointlist = new Point[3];
+                    var pointlist = _rollNeedle;
                     pointlist[0] = new Point(0, -lengthlongex * 2 - extra);
                     pointlist[1] = new Point(-lengthlongex, -lengthlongex - extra);
                     pointlist[2] = new Point(lengthlongex, -lengthlongex - extra);
@@ -2231,7 +2446,7 @@ namespace MissionPlanner.Controls
 
                     this._redPen.Width = 2;
 
-                    int[] array = new int[] {-60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60};
+                    var array = RollTicks;
 
                     foreach (int a in array)
                     {
@@ -2268,9 +2483,7 @@ namespace MissionPlanner.Controls
                     Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
 
                     //  graphicsObject.DrawEllipse(redPen, centercircle);
-                    using (Pen redtemp =
-                        new Pen(Color.FromArgb(200, this._redPen.Color.R, this._redPen.Color.G, this._redPen.Color.B),
-                            4.0f))
+                    var redtemp = _wingsPen;
                     {
                         // left
                         graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
@@ -2339,6 +2552,11 @@ namespace MissionPlanner.Controls
 
                     for (int a = start; a <= _heading + 60; a += 1)
                     {
+                        // nothing is drawn for a degree that is not a mark, the target or the ground course
+                        if ((int) a % 5 != 0 && ((int) (a + 360) % 360) != (int) _targetheading &&
+                            ((int) (a + 360) % 360) != (int) _groundcourse)
+                            continue;
+
                         // target heading
                         if (((int) (a + 360) % 360) == (int) _targetheading)
                         {
@@ -2545,7 +2763,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.FillRectangle(SolidBrush, scrollbg);
 
-                    Point[] arrow = new Point[5];
+                    var arrow = _arrow;
 
                     arrow[0] = new Point(0, -10);
                     arrow[1] = new Point(scrollbg.Width - 10, -10);
@@ -2645,7 +2863,7 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.FillRectangle(SolidBrush, scrollbg);
 
-                    Point[] arrow = new Point[5];
+                    var arrow = _arrow;
 
                     arrow[0] = new Point(0, -10);
                     arrow[1] = new Point(scrollbg.Width - 10, -10);
@@ -3330,7 +3548,7 @@ namespace MissionPlanner.Controls
                         int x = this.Width - 24 * fontsize;
                         if (!prearmstatus) x -= 2 * fontsize;
                         // Estimate the width of the string for the hit zone
-                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, new Font(HUDT.Font, fontsize + 2)).Width;
+                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, GetPrearmFont(fontsize + 2)).Width;
                         prearmhitzone = new Rectangle(x, yPos[0] - 4, width, fontsize * 2);
                     }
 
@@ -3454,13 +3672,13 @@ namespace MissionPlanner.Controls
                 int charno = (int) cha;
                 int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
 
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var cached))
                 {
                     size += fontsize;
                 }
                 else
                 {
-                    size += charDict[charid].width;
+                    size += cached.width;
                 }
             }
 
@@ -3480,13 +3698,13 @@ namespace MissionPlanner.Controls
                 int charno = (int)cha;
                 int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
 
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var cached))
                 {
                     size += fontsize;
                 }
                 else
                 {
-                    size += charDict[charid].width;
+                    size += cached.width;
                 }
             }
 
@@ -3504,7 +3722,132 @@ namespace MissionPlanner.Controls
             return n;
         }
 
-        readonly float[] texCoords = { 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };
+        // bitmap, advance and (GL) atlas placement for one glyph of one size and colour
+        character CreateGlyph(char cha, Font font, float fontsize, SolidBrush brush)
+        {
+            float maxx = this.Width / 150; // for space
+            float maxy = 1;
+
+            var pth = new GraphicsPath();
+
+            pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point(0, 0),
+                StringFormat.GenericTypographic);
+
+            if (pth.PointCount > 0)
+            {
+                foreach (PointF pnt in pth.PathPoints)
+                {
+                    if (pnt.X > maxx)
+                        maxx = pnt.X;
+
+                    if (pnt.Y > maxy)
+                        maxy = pnt.Y;
+                }
+            }
+
+            // room for the outline pen
+            var larger = (int) Math.Max(maxx, maxy) + 2;
+
+            var glyph = new character()
+            {
+                bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb),
+                size = (int) fontsize,
+                pth = pth
+            };
+
+            glyph.bitmap.MakeTransparent(Color.Transparent);
+
+            using (var gfx = Graphics.FromImage(glyph.bitmap))
+            {
+                gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+                gfx.DrawPath(this._p, pth);
+
+                //Draw the face
+
+                gfx.FillPath(brush, pth);
+            }
+
+            glyph.width = (int) (maxx + 2);
+
+            return glyph;
+        }
+
+        void EnsureAtlasTexture()
+        {
+            if (_atlasTex != 0)
+                return;
+
+            _atlasTex = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, _atlasTex);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                (int) TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                (int) TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
+                (int) TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
+                (int) TextureWrapMode.ClampToEdge);
+            ClearAtlasTexture();
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
+        void ClearAtlasTexture()
+        {
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, AtlasSize, AtlasSize, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
+                new byte[AtlasSize * AtlasSize * 4]);
+        }
+
+        // copy a glyph bitmap into the shared atlas, one pixel apart from its neighbours so linear filtering
+        // never picks up another glyph
+        void PlaceInAtlas(character glyph)
+        {
+            EnsureAtlasTexture();
+
+            int w = glyph.bitmap.Width;
+            int h = glyph.bitmap.Height;
+
+            if (_atlasX + w + 2 > AtlasSize)
+            {
+                _atlasX = 0;
+                _atlasY += _atlasRowH + 2;
+                _atlasRowH = 0;
+            }
+
+            if (_atlasY + h + 2 > AtlasSize)
+            {
+                // full: draw what is pending, wipe it and let every glyph be placed again on next use
+                FlushBatch();
+                _atlasGen++;
+                _atlasX = _atlasY = _atlasRowH = 0;
+                GL.BindTexture(TextureTarget.Texture2D, _atlasTex);
+                ClearAtlasTexture();
+            }
+
+            int px = _atlasX + 1;
+            int py = _atlasY + 1;
+
+            GL.BindTexture(TextureTarget.Texture2D, _atlasTex);
+
+            BitmapData data = glyph.bitmap.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, px, py, w, h,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            glyph.bitmap.UnlockBits(data);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+
+            glyph.u0 = px / (float) AtlasSize;
+            glyph.v0 = py / (float) AtlasSize;
+            glyph.u1 = (px + w) / (float) AtlasSize;
+            glyph.v1 = (py + h) / (float) AtlasSize;
+            glyph.atlasGen = _atlasGen;
+
+            _atlasX += w + 2;
+            _atlasRowH = Math.Max(_atlasRowH, h);
+        }
 
         void drawstring(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
         {
@@ -3516,139 +3859,46 @@ namespace MissionPlanner.Controls
 
             if (text == null || text == "")
                 return;
-            /*
-            OpenTK.Graphics.Begin();
-            GL.PushMatrix();
-            GL.Translate(x, y, 0);
-            printer.Print(text, font, c);
-            GL.PopMatrix(); printer.End();
-            */
-
-           
-            GL.Enable(EnableCap.Texture2D);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.Color4(1f, 1, 1, 1);
-
-            GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, texCoords);
-            GL.EnableClientState(ArrayCap.TextureCoordArray);
-
-            GL.EnableClientState(ArrayCap.VertexArray);
-
-            float maxy = 1;
 
             foreach (char cha in text)
             {
-                int charno = (int)cha;
+                int charid = (int) cha ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
 
-                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
-
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var glyph))
                 {
-                    //charbitmaptexid
-
-                    float maxx = this.Width / 150; // for space
-
-                    var pth = new GraphicsPath();
-
-                    if (text != null)
-                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int)0, (int)0),
-                            StringFormat.GenericTypographic);
-
-                    if (pth.PointCount > 0)
-                    {
-                        foreach (PointF pnt in pth.PathPoints)
-                        {
-                            if (pnt.X > maxx)
-                                maxx = pnt.X;
-
-                            if (pnt.Y > maxy)
-                                maxy = pnt.Y;
-                        }
-                    }
-
-                    var larger = maxx > maxy ? (int)maxx + 1 : (int)maxy + 1;
-
-                    charDict[charid] = new character()
-                    {
-                        bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
-                            System.Drawing.Imaging.PixelFormat.Format32bppArgb),
-                        size = (int)fontsize,
-                        pth = pth
-                    };
-
-                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
-
-                    // create bitmap
-                    using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
-                    {
-                        gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                        gfx.DrawPath(this._p, pth);
-
-                        //Draw the face
-
-                        gfx.FillPath(brush, pth);
-                    }
-
-                    charDict[charid].width = (int)(maxx + 2);
-
-                    //charbitmaps[charid] = charbitmaps[charid].Clone(new RectangleF(0, 0, maxx + 2, maxy + 2), charbitmaps[charid].PixelFormat);
-
-                    //charbitmaps[charno * (int)fontsize].Save(charno + " " + (int)fontsize + ".png");
-
-                    // create texture
-                    int textureId;
-                    GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
-                        (float)TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
-
-                    Bitmap bitmap = charDict[charid].bitmap;
-                    GL.GenTextures(1, out textureId);
-                    GL.BindTexture(TextureTarget.Texture2D, textureId);
-
-                    BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                        ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                        (int)TextureMinFilter.Linear);
-                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                        (int)TextureMagFilter.Linear);
-
-                    //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
-                    //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
-                    GL.Flush();
-                    bitmap.UnlockBits(data);
-
-                    charDict[charid].gltextureid = textureId;
+                    glyph = CreateGlyph(cha, font, fontsize, brush);
+                    charDict[charid] = glyph;
 
                     // tweak here for font generation
                     huddrawtime = 0;
                 }
 
-                float scale = 1.0f;
-
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    float[] vertices = {
-                        x, y+ charDict[charid].bitmap.Height * scale ,
-                        x + charDict[charid].bitmap.Width * scale, y+ charDict[charid].bitmap.Height * scale,
-                        x + charDict[charid].bitmap.Width * scale, y,
-                        x, y  }; 
+                    if (glyph.atlasGen != _atlasGen)
+                        PlaceInAtlas(glyph);
 
-                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
-                    GL.VertexPointer(2, VertexPointerType.Float, 0, vertices);
-                    GL.DrawArrays(PrimitiveType.Quads, 0, 4);
+                    // placing a glyph can flush the batch, so claim it only now
+                    if (_batch != GlBatch.Text)
+                    {
+                        FlushBatch();
+                        _batch = GlBatch.Text;
+                    }
+
+                    float x2 = x + glyph.bitmap.Width;
+                    float y2 = y + glyph.bitmap.Height;
+
+                    AddVertex(x, y, glyph.u0, glyph.v0, 0xFFFFFFFF);
+                    AddVertex(x, y2, glyph.u0, glyph.v1, 0xFFFFFFFF);
+                    AddVertex(x2, y, glyph.u1, glyph.v0, 0xFFFFFFFF);
+                    AddVertex(x2, y, glyph.u1, glyph.v0, 0xFFFFFFFF);
+                    AddVertex(x, y2, glyph.u0, glyph.v1, 0xFFFFFFFF);
+                    AddVertex(x2, y2, glyph.u1, glyph.v1, 0xFFFFFFFF);
                 }
 
-                x += charDict[charid].width * scale;
+                x += glyph.width;
             }
-            GL.DisableClientState(ArrayCap.TextureCoordArray);
-            GL.DisableClientState(ArrayCap.VertexArray);
-            GL.Disable(EnableCap.Texture2D);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
         void drawstringGDI(string text, Font font, float fontsize, SolidBrush brush, float x, float y)
@@ -3656,91 +3906,23 @@ namespace MissionPlanner.Controls
             if (text == null || text == "")
                 return;
 
-            float maxy = 0;
-
             foreach (char cha in text)
             {
-                int charno = (int) cha;
+                int charid = (int) cha ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
 
-                int charid = charno ^ (int) (fontsize * 1000) ^ brush.Color.ToArgb();
-
-                if (!charDict.ContainsKey(charid))
+                if (!charDict.TryGetValue(charid, out var glyph))
                 {
-                    //charbitmaptexid
-
-                    float maxx = this.Width / 150; // for space
-
-                    var pth = new GraphicsPath();
-
-                    if (text != null)
-                        pth.AddString(cha + "", font.FontFamily, 0, fontsize + 5, new Point((int) 0, (int) 0),
-                            StringFormat.GenericTypographic);
-
-                    if (pth.PointCount > 0)
-                    {
-                        foreach (PointF pnt in pth.PathPoints)
-                        {
-                            if (pnt.X > maxx)
-                                maxx = pnt.X;
-
-                            if (pnt.Y > maxy)
-                                maxy = pnt.Y;
-                        }
-                    }
-
-                    var larger = maxx > maxy ? (int) maxx + 1 : (int) maxy + 1;
-
-                    charDict[charid] = new character()
-                    {
-                        bitmap = new Bitmap(NextPowerOf2(larger), NextPowerOf2(larger),
-                            System.Drawing.Imaging.PixelFormat.Format32bppArgb),
-                        size = (int) fontsize,
-                        pth = pth
-                    };
-
-                    charDict[charid].bitmap.MakeTransparent(Color.Transparent);
-
-                    // create bitmap
-                    using (var gfx = Graphics.FromImage(charDict[charid].bitmap))
-                    {
-                        gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-                        gfx.DrawPath(this._p, pth);
-
-                        //Draw the face
-
-                        gfx.FillPath(brush, pth);
-                    }
-
-                    charDict[charid].width = (int) (maxx + 2);
+                    glyph = CreateGlyph(cha, font, fontsize, brush);
+                    charDict[charid] = glyph;
                 }
 
-                // draw it
-
-                float scale = 1.0f;
                 // dont draw spaces
                 if (cha != ' ')
-                {
-                    DrawImage(charDict[charid].bitmap, (int) x, (int) y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height, charDict[charid].gltextureid);
-                    /*
-                    graphicsObjectGDIP.TranslateTransform(x,y);
-                    graphicsObjectGDIP.DrawPath(this._p, charDict[charid].pth);
+                    DrawImage(glyph.bitmap, (int) x, (int) y, glyph.bitmap.Width, glyph.bitmap.Height,
+                        glyph.gltextureid);
 
-                    //Draw the face
-
-                    graphicsObjectGDIP.FillPath(brush, charDict[charid].pth);
-
-                    graphicsObjectGDIP.TranslateTransform(-x, -y);
-                    */
-                }
-                else
-                {
-
-                }
-
-                x += charDict[charid].width * scale;
+                x += glyph.width;
             }
-
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -3867,6 +4049,9 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     MakeCurrent();
+
+                    // the glyph atlas and vertex buffer are rebuilt on next use
+                    DeleteGlResources();
 
                     GL.MatrixMode(MatrixMode.Projection);
                     GL.LoadIdentity();
