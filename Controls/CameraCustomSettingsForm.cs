@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls
         private sealed class Row
         {
             public Control Editor;
+            public ComboBox RangeEditor;
             public Panel Panel;
             public Label Detail;
             public Button Apply;
@@ -172,6 +173,7 @@ namespace MissionPlanner.Controls
                 });
                 var definition = await Task.Run(() => CameraDefinitionLoader.Load(uri, target, cancel, progress.Report), cancel.Token);
                 if (closed) return;
+                download = null; // Ignore queued download progress while building and reading settings.
                 MAVLink.MAVLinkMessage latestInformation = null;
                 while (incoming.TryDequeue(out var queued))
                     if (queued.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION) latestInformation = queued;
@@ -212,12 +214,7 @@ namespace MissionPlanner.Controls
                 var row = new Row { Panel = panel, Detail = new Label { AutoEllipsis = true, Location = new Point(4, 33), Size = new Size(690, 23) } };
                 if (p.Options.Count > 0)
                 {
-                    var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 270 };
-                    combo.SelectionChangeCommitted += (s, e) =>
-                    {
-                        if (combo.SelectedItem is CameraParameter.Option option && option.Value != null) Submit(p.Name, CameraParameter.Format(option.Value));
-                    };
-                    row.Editor = combo;
+                    row.Editor = OptionsEditor(p);
                 }
                 else if (SliderRange(p, out var minimum, out var step, out var steps))
                 {
@@ -259,6 +256,13 @@ namespace MissionPlanner.Controls
                         panel.Controls.Add(row.Apply);
                     }
                 }
+                if (p.Options.Count == 0 && session.Definition.Parameters.Values.Any(source => source.Options.Any(o => o.Ranges.Any(r => r.Target == p.Name))))
+                {
+                    row.RangeEditor = OptionsEditor(p);
+                    row.RangeEditor.Location = new Point(335, 3);
+                    row.RangeEditor.Visible = false;
+                    panel.Controls.Add(row.RangeEditor);
+                }
                 row.Editor.Location = new Point(335, 3);
                 row.Editor.AccessibleName = p.Description;
                 panel.Controls.AddRange(new[] { label, row.Editor, row.Detail });
@@ -268,6 +272,17 @@ namespace MissionPlanner.Controls
             ThemeManager.ApplyThemeTo(settings);
             ResizeRows();
             settings.ResumeLayout();
+        }
+
+        private ComboBox OptionsEditor(CameraParameter parameter)
+        {
+            var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Width = 270, AccessibleName = parameter.Description };
+            combo.SelectionChangeCommitted += (s, e) =>
+            {
+                if (combo.SelectedItem is CameraParameter.Option option && option.Value != null)
+                    Submit(parameter.Name, CameraParameter.Format(option.Value));
+            };
+            return combo;
         }
 
         private static bool SliderRange(CameraParameter parameter, out decimal minimum, out decimal step, out int steps)
@@ -354,10 +369,23 @@ namespace MissionPlanner.Controls
                     var p = session.Definition.Parameters[pair.Key];
                     row.Panel.Visible = controls.TryGetValue(p.Name, out var options);
                     bool enabled = !target.parent.ReadOnly && session.CanEdit(p.Name, controls);
-                    row.Editor.Enabled = enabled;
-                    if (row.Apply != null) row.Apply.Enabled = enabled;
+                    bool rangeActive = row.RangeEditor != null && options?.Count > 0;
+                    row.Editor.Visible = !rangeActive;
+                    row.Editor.Enabled = enabled && !rangeActive;
+                    if (row.RangeEditor != null)
+                    {
+                        row.RangeEditor.Visible = rangeActive;
+                        row.RangeEditor.Enabled = enabled && rangeActive;
+                    }
+                    if (row.SliderValue != null) row.SliderValue.Visible = !rangeActive;
+                    if (row.Apply != null)
+                    {
+                        row.Apply.Visible = !rangeActive;
+                        row.Apply.Enabled = enabled && !rangeActive;
+                    }
+                    Control editor = rangeActive ? row.RangeEditor : row.Editor;
                     session.Values.TryGetValue(p.Name, out var value);
-                    if (row.Editor is ComboBox combo && options != null && !combo.DroppedDown)
+                    if (editor is ComboBox combo && options != null && !combo.DroppedDown)
                     {
                         var choices = options.ToList();
                         var selected = choices.FindIndex(o => Equals(o.Value, value));
@@ -373,7 +401,7 @@ namespace MissionPlanner.Controls
                         }
                         combo.SelectedIndex = selected;
                     }
-                    else if (row.Editor is SettingsSlider slider && !slider.Adjusting && !session.IsPending(p.Name))
+                    else if (editor is SettingsSlider slider && !slider.Adjusting && !session.IsPending(p.Name))
                     {
                         if (value != null)
                         {
@@ -386,7 +414,7 @@ namespace MissionPlanner.Controls
                         }
                         row.SliderValue.Text = value == null ? "" : CameraParameter.Format(value);
                     }
-                    else if (row.Editor is TextBox text && !session.IsPending(p.Name) && (row.Submitted || !text.Modified))
+                    else if (editor is TextBox text && !session.IsPending(p.Name) && (row.Submitted || !text.Modified))
                     {
                         text.Text = CameraParameter.Format(value);
                         text.Modified = false;
