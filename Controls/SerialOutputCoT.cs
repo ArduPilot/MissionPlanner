@@ -1,17 +1,12 @@
-﻿using Microsoft.Scripting.Utils;
-using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Utilities.CoT;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Globalization;
-using System.IO;
+using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace MissionPlanner.Controls
 {
@@ -157,33 +152,38 @@ namespace MissionPlanner.Controls
         {
             threadrun = true;
 
-            int counter = 0;
+            var round = new CotRound();
             while (threadrun)
             {
                 try
                 {
-                    string view = "";
-                    MainV2.Comports.ForEach(port => {
-                        port.MAVlist.ForEach(mav =>
-                        {
-                            String xmlStr = getXmlString(mav.sysid, mav.compid);
-                            view += xmlStr;
+                    // each vehicle from the connection it was heard on
+                    var vehicles = MainV2.Comports.ToArray()
+                        .SelectMany(port => port.MAVlist.Select(mav => CotVehicles.Read(mav, port)))
+                        .ToList();
 
-                            if (CoTStream != null && CoTStream.IsOpen)
-                            {
-                                CoTStream.WriteLine(xmlStr.Replace("\r", ""));
-                            }
-                        });
-                    });
+                    var events = round.Build(vehicles, IdentityFor, TB_xml_type.Text, CB_advancedMode.Checked,
+                        DateTime.UtcNow, CotVehicles.StaleSeconds(updaterate_ms / 1000.0));
+
+                    string view = "";
+                    foreach (var cotevent in events)
+                    {
+                        var xmlStr = CotXml.Serialize(cotevent, indent);
+                        view += xmlStr + "\r\n";
+
+                        if (CoTStream != null && CoTStream.IsOpen)
+                        {
+                            CoTStream.WriteLine(xmlStr.Replace("\r", ""));
+                        }
+                    }
 
                     if (TB_output.IsHandleCreated)
                         TB_output.Invoke((Action)delegate
                         {
                             TB_output.Text = view;
-                        }); 
+                        });
 
                     Thread.Sleep(updaterate_ms);
-                    counter++;
                 }
                 catch
                 {
@@ -210,28 +210,33 @@ namespace MissionPlanner.Controls
             catch { }
         }
 
-        private String getXmlString(uint sysid, byte compid)
+        CotIdentity IdentityFor(CotVehicle vehicle)
         {
-            double lat = MainV2.comPort.MAVlist[sysid,compid].cs.lat;
-            double lng = MainV2.comPort.MAVlist[sysid, compid].cs.lng;
-            double altitude = MainV2.comPort.MAVlist[sysid, compid].cs.altasl;
-            double groundSpeed = MainV2.comPort.MAVlist[sysid, compid].cs.groundspeed;
-            double groundcourse = MainV2.comPort.MAVlist[sysid, compid].cs.groundcourse;
+            var uid = FindUIDviaSysid(vehicle.SysId);
+            var id = new CotIdentity { Uid = string.IsNullOrEmpty(uid) ? "NOsysid" + vehicle.SysId : uid };
 
-            // See Appendix A
-            // where h- means human and m- means machine
-            // m-g      == h.gps
-            // h-p      == h.pasted
-            // m-f      == h.fused
-            // m-n      == h.ins
-            // m-g-n    == h.ins-gps
-            // m-g-d    == h.dgps
-            String how = "m-g";
+            int row = FindRowviaUID(uid);
+            if (row >= 0)
+            {
+                var takv = myDataGridView1[this.takv.Index, row].Value;
+                id.Takv = takv != null && Convert.ToBoolean(takv);
 
-            String xmlStr = getXmlString(FindUIDviaSysid(sysid), TB_xml_type.Text, how, lat, lng, altitude, groundcourse, groundSpeed);
+                var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
+                if (isValidStr(callsign))
+                    id.Callsign = callsign.ToString();
 
-            return xmlStr;
+                var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
+                if (isValidStr(endpoint))
+                    id.Endpoint = endpoint.ToString();
+
+                var vmf = myDataGridView1[this.VMF.Index, row].Value;
+                if (isValidStr(vmf))
+                    id.Vmf = vmf.ToString();
+            }
+
+            return id;
         }
+
         int FindRowviaUID(string uid)
         {
             if (uid == null || uid.Length <= 0)
@@ -258,105 +263,6 @@ namespace MissionPlanner.Controls
         bool isValidStr(object obj)
         {
             return (obj != null && obj.ToString().Length > 0);
-        }
-
-        String getXmlString(String uid, String type, String how, double lat, double lng, double alt, double course = -1, double speed = -1)
-        {
-            // Cursor-on-Target spec
-            // https://www.mitre.org/sites/default/files/pdf/09_4937.pdf
-
-            // MIL-STD-2525, needed for event->type
-            // https://www.jcs.mil/Portals/36/Documents/Doctrine/Other_Pubs/ms_2525d.pdf
-
-            if (uid == null || uid.Length <= 0) {
-                uid = "";
-            }
-            if (type == null || type.Length <= 0) {
-                type = "";
-            }
-
-            CultureInfo culture = new CultureInfo("en-US");
-            culture.NumberFormat.NumberGroupSeparator = "";
-
-            string datetimeformat = "yyyy-MM-ddTHH:mm:ss.ffK";
-
-            DateTime time = DateTime.UtcNow;
-
-            var cotevent = new @event()
-            {
-                uid = uid, type = type, time = time.ToString(datetimeformat), start = time.AddSeconds(-5).ToString(datetimeformat),
-                stale = time.AddSeconds(120).ToString(datetimeformat), how = how,
-                detail = new detail()
-                {
-                    track = new track()
-                    {
-                        course = course.ToString("N2", culture), speed = speed.ToString("N2", culture)
-                    }
-
-                },
-                point = new point()
-                {
-                    lat = lat.ToString("N7", culture), lon = lng.ToString("N7", culture), hae = alt.ToString("N2", culture).PadLeft(5, ' ')
-                }
-            };
-
-            int row = FindRowviaUID(uid);
-            if (row >= 0 && CB_advancedMode.Checked)
-            {
-                var takv = myDataGridView1[this.takv.Index, row].Value;
-                if (takv != null && Convert.ToBoolean(takv) == true)
-                {
-                    cotevent.detail.takv = new takv();
-                }
-
-                var callsign = myDataGridView1[this.ContactCallsign.Index, row].Value;
-                var endpoint = myDataGridView1[this.ContactEndPointIP.Index, row].Value;
-                if (isValidStr(callsign))
-                {
-                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
-                    cotevent.detail.contact.callsign = callsign.ToString();
-                }
-                if (isValidStr(endpoint))
-                {
-                    if (cotevent.detail.contact == null) cotevent.detail.contact = new contact();
-                    cotevent.detail.contact.endpoint = endpoint.ToString();
-                }
-
-                var uid_vmf = myDataGridView1[this.VMF.Index, row].Value;
-                if (isValidStr(uid_vmf))
-                {
-                    cotevent.detail.uid = new uid();
-                    cotevent.detail.uid.vmf = uid_vmf.ToString();
-                }
-            }
-
-            using (StringWriter textWriter = new Utf8StringWriter())
-            {
-                XmlWriterSettings xws = new XmlWriterSettings();
-                xws.OmitXmlDeclaration = true;
-                xws.Indent = indent;
-                xws.Encoding = Encoding.UTF8;
-                xws.NewLineOnAttributes = indent;
-
-                //Create our own namespaces for the output
-                XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
-
-                //Add an empty namespace and empty value
-                ns.Add("", "");
-
-                var xtw = XmlTextWriter.Create(textWriter, xws);
-                // Then we can set our indenting options (this is, of course, optional).
-                XmlSerializer serializer =
-                    new XmlSerializer(typeof(@event));
-
-                xtw.WriteStartDocument(true);          
-       
-                serializer.Serialize(xtw, cotevent, ns);
-
-                var ans = "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\r\n" + textWriter.ToString();
-
-                return ans;
-            }
         }
 
         private void BTN_clear_TB_Click(object sender, EventArgs e)
@@ -453,9 +359,5 @@ namespace MissionPlanner.Controls
         {
             updaterate_ms = (int)(updateRate_numericUpDown.Value * 1000);
         }
-    }
-
-    public sealed class Utf8StringWriter : StringWriter
-    { public override Encoding Encoding => Encoding.UTF8;
     }
 }
