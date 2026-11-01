@@ -591,6 +591,9 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="terrain_alt_variance" xml:space="preserve">
     <value>terrain alt variance</value>
   </data>
+  <data name="ekf_accel_error" xml:space="preserve">
+    <value>EKF accelerometer error</value>
+  </data>
   <data name="ChangeThrottle" xml:space="preserve">
     <value>Change Throttle</value>
   </data>
