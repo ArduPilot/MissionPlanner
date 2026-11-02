@@ -1,4 +1,4 @@
-﻿# 【翻译说明】
+# 【翻译说明】
 # 中文直接填在等于号后方
 # 请保留半角的()及其中的内容
 
@@ -63,6 +63,14 @@ Time in Air (sec)=留空时间 (sec)
 Turn Rate (speed)=转弯速率 (speed)
 Turn Radius (dist)=转弯半径 (dist)
 Bat Voltage (V)=电池电压 (V)
+Bat2 Voltage (V)=电池2电压 (V)
+Bat3 Voltage (V)=电池3电压 (V)
+Bat4 Voltage (V)=电池4电压 (V)
+Bat5 Voltage (V)=电池5电压 (V)
+Bat6 Voltage (V)=电池6电压 (V)
+Bat7 Voltage (V)=电池7电压 (V)
+Bat8 Voltage (V)=电池8电压 (V)
+Bat9 Voltage (V)=电池9电压 (V)
 Bat Remaining (%)=电池剩余 (%)
 Bat Current (Amps)=电池电流 (Amps)
 Bat Watts=电池瓦数
