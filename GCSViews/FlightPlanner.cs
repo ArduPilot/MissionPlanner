@@ -1485,9 +1485,12 @@ namespace MissionPlanner.GCSViews
                         fenceoverlay.overlay.Id = "fence";
                         try
                         {
+                            // the vehicle's fence follows the vehicle's home, which can differ from the planned home
+                            var vehiclehome = MainV2.comPort.MAV.cs.HomeLocation;
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt, home);
+                                CurrentState.multiplieralt,
+                                vehiclehome != null && (vehiclehome.Lat != 0 || vehiclehome.Lng != 0) ? vehiclehome : home);
                         }
                         catch
                         {
