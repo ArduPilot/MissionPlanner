@@ -341,12 +341,13 @@ namespace MissionPlanner.ArduPilot
                     var centre = fencehome ?? home;
                     if (centre != null && (centre.Lat != 0 || centre.Lng != 0) && item.p1 > 0)
                     {
-                        var circle = new GMapPolygon(
-                            Enumerable.Range(0, 72).Select(i => (PointLatLng) centre.newpos(i * 5, item.p1))
+                        // a closed route rather than a polygon: FlightPlanner treats every fence polygon as
+                        // editable vertices and adds insert markers to its edges
+                        var circle = new GMapRoute(
+                            Enumerable.Range(0, 73).Select(i => (PointLatLng) centre.newpos(i * 5, item.p1))
                                 .ToList(), (a + 1).ToString());
-                        circle.Fill = Brushes.Transparent;
                         circle.Stroke = new Pen(Color.Blue, 2) {DashStyle = DashStyle.Dash};
-                        overlay.Polygons.Add(circle);
+                        overlay.Routes.Add(circle);
                     }
                 }
                 else if (command == (ushort)MAVLink.MAV_CMD.FENCE_RETURN_POINT) // fence
