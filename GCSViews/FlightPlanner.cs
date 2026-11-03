@@ -2676,7 +2676,33 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            fenceHomeCircleToolStripMenuItem.Visible =
+                cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE type &&
+                type == MAVLink.MAV_MISSION_TYPE.FENCE;
+
             isMouseClickOffMenu = false; // Just incase
+        }
+
+        public void fenceHomeCircleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the vehicle's circular fence radius is a sensible starting point
+            string radiusin = "300";
+            if (MainV2.comPort.MAV.param.ContainsKey("FENCE_RADIUS"))
+                radiusin = MainV2.comPort.MAV.param["FENCE_RADIUS"].ToString();
+
+            if (DialogResult.Cancel ==
+                InputBox.Show("Fence Circle Around Home", "Radius (m)", ref radiusin))
+                return;
+
+            float radius;
+            if (!float.TryParse(radiusin, out radius) || radius <= 0)
+            {
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                return;
+            }
+
+            // centred on home, so lat/lng are not used
+            AddCommand(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION, radius, 0, 0, 0, 0, 0, 0);
         }
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
