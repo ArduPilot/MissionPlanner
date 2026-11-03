@@ -1487,7 +1487,7 @@ namespace MissionPlanner.GCSViews
                         {
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt);
+                                CurrentState.multiplieralt, home);
                         }
                         catch
                         {
@@ -1514,7 +1514,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                            commandlist, 0, 0, CurrentState.multiplieralt);
+                            commandlist, 0, 0, CurrentState.multiplieralt, home);
                     }
                     catch (FormatException)
                     {
@@ -7121,6 +7121,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
                 cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceMult);
                 cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceMult);
+                // centred on home, so lat/lng are not used
+                fenceNames[4] = "";
+                fenceNames[5] = "";
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString(), fenceMult);
             }
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
