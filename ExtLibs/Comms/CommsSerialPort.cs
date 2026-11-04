@@ -475,6 +475,147 @@ namespace MissionPlanner.Comms
         {
         }
 
+        // Reads are served from this buffer and refilled with one base read of everything the
+        // driver already holds. System.IO.Ports on Linux routes every Read through its IO-loop
+        // thread, which costs about a millisecond per call regardless of the byte count; the
+        // MAVLink reader needs three reads per packet, so unbuffered it tops out near 300
+        // packets a second and the autopilot drops forwarded CAN frames.
+        private readonly byte[] _rxBuffer = new byte[16384];
+        private int _rxHead, _rxCount;
+        private readonly object _rxLock = new object();   // guards _rxHead/_rxCount
+        private readonly object _readLock = new object(); // serialises readers; held across the blocking base read
+        private CommsStream _stream;
+
+        public new Stream BaseStream
+        {
+            get
+            {
+                if (_stream == null)
+                    _stream = new CommsStream(this, 0);
+                return _stream;
+            }
+        }
+
+        public new int BytesToRead
+        {
+            get
+            {
+                lock (_rxLock)
+                {
+                    return _rxCount + base.BytesToRead;
+                }
+            }
+        }
+
+        private void FillBuffer(int wanted)
+        {
+            int available = base.BytesToRead;
+            // With nothing pending, a read of the requested size blocks until data arrives or the
+            // ReadTimeout expires, exactly as the unbuffered port did.
+            int want = available > 0 ? Math.Min(available, _rxBuffer.Length) : Math.Min(wanted, _rxBuffer.Length);
+            int n = base.Read(_rxBuffer, 0, want);
+            lock (_rxLock)
+            {
+                _rxHead = 0;
+                _rxCount = n < 0 ? 0 : n;
+            }
+        }
+
+        /// <summary>
+        /// Returns up to <paramref name="count"/> bytes: everything buffered plus whatever the driver
+        /// already holds, so a caller that waited for BytesToRead gets the whole run in one call as
+        /// it did from the unbuffered port. Blocks only when nothing at all is available.
+        /// </summary>
+        public new int Read(byte[] buffer, int offset, int count)
+        {
+            if (count <= 0)
+                return 0;
+            lock (_readLock)
+            {
+                int total = 0;
+                while (total < count)
+                {
+                    if (_rxCount == 0)
+                    {
+                        if (total > 0 && base.BytesToRead == 0)
+                            break;
+                        FillBuffer(count - total);
+                        if (_rxCount == 0)
+                            break;
+                    }
+                    lock (_rxLock)
+                    {
+                        int n = Math.Min(count - total, _rxCount);
+                        Array.Copy(_rxBuffer, _rxHead, buffer, offset + total, n);
+                        _rxHead += n;
+                        _rxCount -= n;
+                        if (_rxCount == 0)
+                            _rxHead = 0;
+                        total += n;
+                    }
+                }
+                return total;
+            }
+        }
+
+        public new int ReadByte()
+        {
+            var one = new byte[1];
+            return Read(one, 0, 1) == 1 ? one[0] : -1;
+        }
+
+        public new int ReadChar()
+        {
+            return ReadByte();
+        }
+
+        public new string ReadExisting()
+        {
+            lock (_readLock)
+            {
+                string buffered;
+                lock (_rxLock)
+                {
+                    buffered = _rxCount > 0 ? Encoding.GetString(_rxBuffer, _rxHead, _rxCount) : "";
+                    _rxHead = 0;
+                    _rxCount = 0;
+                }
+                return buffered + base.ReadExisting();
+            }
+        }
+
+        public new string ReadLine()
+        {
+            var sb = new StringBuilder();
+            while (true)
+            {
+                int b = ReadByte();
+                if (b < 0)
+                    throw new TimeoutException();
+                if (b == '\n')
+                    return sb.ToString().TrimEnd('\r');
+                sb.Append((char)b);
+            }
+        }
+
+        public new void DiscardInBuffer()
+        {
+            lock (_readLock)
+            {
+                ClearReadBuffer();
+                base.DiscardInBuffer();
+            }
+        }
+
+        private void ClearReadBuffer()
+        {
+            lock (_rxLock)
+            {
+                _rxHead = 0;
+                _rxCount = 0;
+            }
+        }
+
         public new bool DtrEnable
         {
             get => base.DtrEnable;
@@ -534,6 +675,7 @@ namespace MissionPlanner.Comms
         {
             // 500ms write timeout - win32 api default
             base.WriteTimeout = 500;
+            ClearReadBuffer();
 
 
             if (base.IsOpen)
@@ -586,6 +728,7 @@ namespace MissionPlanner.Comms
         {
             log.Info("Closing port " + PortName);
             base.Close();
+            ClearReadBuffer();
         }
 
         public void toggleDTR()
