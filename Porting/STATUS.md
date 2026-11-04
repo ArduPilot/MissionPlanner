@@ -1,6 +1,50 @@
 # Avalonia in-place migration status
 
-Updated: **2026-11-01**.
+Updated: **2026-11-04**.
+
+## MAVLink serial throughput, DroneCAN firmware update over MAVLink CAN — 2026-11-04
+
+- Branch `fix/mavlink-serial-throughput` from `master` `a13832b69`: `58e1cf56b` (buffered
+  serial reads), `9862e933c` (DroneCAN swapped-frame reassembly, bootloader verdict, page
+  status), `082e2e6dd` (opt-in live firmware trace). Full Release tests **1920/1920**, none
+  skipped; `MissionPlanner.slnx` Release build **0 warnings / 0 errors**; six
+  `build/porting/check-*.sh` audits and `git diff --check` pass.
+- User report: the Matek L431 on the X7's CAN2 would not take a firmware update ("nothing
+  happens"). Found on the bench: the first attempt had erased the node's application and left
+  it in the bootloader (NodeStatus MAINTENANCE, vendor code 10 = NO_APP_SIG); later attempts
+  wrote an image that failed its CRC (code 13).
+- Root cause (measured, not inferred): on Linux `System.IO.Ports` costs ~1.1 ms per `Read`
+  regardless of size (IO-loop thread), the MAVLink reader did three reads per packet, so this
+  application parsed at most ~305 packets/s (~8.8 KB/s) with 4 KB permanently queued. The X7
+  (ArduPlane 4.7.2, `SCHED_LOOP_RATE=300`) forwards ~350 CAN frames/s (ESC RawCommand at loop
+  rate) plus telemetry = ~410 packets/s. The autopilot's MAVLink buffer stayed full: ~30 % of
+  forwarded CAN frames were dropped and everything arrived ~600 ms late. The AP_Periph
+  bootloader matches file-read answers by 5-bit transfer id only, so answers that arrived
+  seconds late were accepted against later requests and wrong blocks were written. A second,
+  smaller effect: the bootloader emits adjacent frames of its own transfers swapped under bus
+  load, which the reassembler used to drop ("Bad Toggle").
+- Fixes: `WinSerialPort` serves reads from a 16 KB buffer refilled by one base read (410
+  packets/s received with an empty buffer); `DroneCAN.ProcessFrame` holds a frame that arrives
+  ahead of its predecessor and validates by CRC; `DroneCAN.Update` waits for the bootloader's
+  verdict and throws with the `check_fw_result_t` reason, returns whether an image was sent;
+  the DroneCAN page shows the furthest block and distinguishes "installed, node restarted"
+  from "already runs this image".
+- Live acceptance (X7 + L431, MAVLink-CAN2, USB): stable 4.7.2 installed through "Check for
+  Updates → Install" in 38 s (5.5 KB/s, 835 blocks each requested once, 170 ms per pipeline
+  round trip, MAVLink loss 0); dev 4.8.0 then stable again through the same path, each 38 s,
+  node restarts into the new image (`sw 4.7.FB773567`, OPERATIONAL). Before the fix the same
+  transfer ran at 0.3–0.6 KB/s with 1.5 answers per block and produced a corrupt image. The
+  node is left on stable 4.7.2. No autopilot parameter was changed.
+- Diagnostics kept as opt-in tests: `DroneCanLiveFirmwareDiagnosticTests` (MP_LIVE_CAN_PORT,
+  _BUS, _NODE, _FLASH, _CHANNEL, _FILE, _BURST, _TRACE) and `SerialPortBenchDiagnosticTests`.
+  Traces of this session: `/tmp/claude-1000/-home-alex-SRC-MP-MissionPlanner/4e8a036b-b671-440c-a630-37d2e7dfd5d0/scratchpad/flash*.log`.
+- Not claimed: Windows/macOS serial behaviour of the buffer (the code path is shared; the
+  Windows System.IO.Ports read is synchronous so the buffer is only a small saving there);
+  hosted CI for the branch; GUI checks of the page texts.
+- Next executable step: open the PR, let CI run, merge only when authorized. Remaining
+  idea, not started: the MAVLink reader could read whole packets instead of byte/header/payload
+  now that the port is buffered, and the DroneCAN page could warn when forwarded CAN traffic
+  approaches the link's capacity.
 
 ## Release 1.3.83.6 — DroneCAN, firmware catalogs, MCP DroneCAN tools, HUD — 2026-11-01
 
