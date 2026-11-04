@@ -1285,11 +1285,15 @@ public partial class ConfigDroneCanViewModel : ViewModelBase, IDisposable {
   }
 
   private async Task FlashFirmwareAsync(DroneCanOperation operation, string firmwarePath) {
+    // The bootloader pipelines several block reads, so the served offset is not monotonic; show
+    // the furthest block instead of a percentage that steps backwards.
+    double furthest = 0;
     DroneCAN.DroneCAN.FileSendProgressArgs progress = (n, f, p) => {
       if (IsOperationCurrent(operation)) {
         Dispatcher.UIThread.Post(() => {
           if (IsOperationCurrent(operation)) {
-            NodeStatus = $"Firmware {f}: {p:0}%";
+            furthest = Math.Max(furthest, p);
+            NodeStatus = $"Firmware {f}: {furthest:0}%";
           }
         });
       }
@@ -1309,7 +1313,7 @@ public partial class ConfigDroneCanViewModel : ViewModelBase, IDisposable {
 
     string? temporaryFirmware = null;
     try {
-      string deviceName = await Task.Run(() => {
+      (string deviceName, bool uploaded) = await Task.Run(() => {
         operation.Cancellation.Token.ThrowIfCancellationRequested();
         string name = operation.Can.GetNodeName(operation.NodeId);
         var file = firmwarePath;
@@ -1322,13 +1326,15 @@ public partial class ConfigDroneCanViewModel : ViewModelBase, IDisposable {
         }
 
         operation.Cancellation.Token.ThrowIfCancellationRequested();
-        operation.Can.Update(
+        bool sent = operation.Can.Update(
             operation.NodeId, name, 0, file, operation.Cancellation.Token);
         operation.Cancellation.Token.ThrowIfCancellationRequested();
-        return name;
+        return (name, sent);
       });
       if (IsOperationCurrent(operation)) {
-        NodeStatus = $"Firmware update started for node {operation.NodeId} ({deviceName}).";
+        NodeStatus = uploaded
+            ? $"Firmware installed on node {operation.NodeId} ({deviceName}); the node restarted."
+            : $"Node {operation.NodeId} ({deviceName}) already runs this image; nothing was sent.";
       }
     } catch (OperationCanceledException) when (operation.Cancellation.IsCancellationRequested) {
     } catch (Exception ex) {

@@ -1123,7 +1123,12 @@ namespace DroneCAN
             return String.Empty;
         }
 
-        public void Update(byte nodeid, string devicename, double hwversion, string firmware_name, CancellationToken cancel)
+        /// <summary>
+        /// Sends <paramref name="firmware_name"/> to the node through the DroneCAN file service and
+        /// waits for the bootloader's verdict. Returns false when the node already runs an image with
+        /// the same descriptor CRC and nothing was sent. Throws when the node rejects the image.
+        /// </summary>
+        public bool Update(byte nodeid, string devicename, double hwversion, string firmware_name, CancellationToken cancel)
         {
             Console.WriteLine("Update {0} {1} {2} {3}", nodeid, devicename, hwversion, firmware_name);
 
@@ -1136,6 +1141,7 @@ namespace DroneCAN
             var done = false;
             var inupdatemode = false;
             var acceptbegin = false;
+            var alreadyInstalled = false;
 
             MessageRecievedDel updatedelegate = (frame, msg, transferID) =>
             {
@@ -1209,7 +1215,7 @@ namespace DroneCAN
                         else
                         {
                             Console.WriteLine(String.Format("{0} - No need to upload, crc matchs", frame.SourceNode));
-                            FileSendComplete?.Invoke(frame.SourceNode, "fw.bin");
+                            alreadyInstalled = true;
                             done = true;
                             return;
                         }
@@ -1310,9 +1316,62 @@ namespace DroneCAN
             MessageReceived -= updatedelegate;
             FileSendComplete -= filecomplete;
 
+            if (exception == null && done && !alreadyInstalled && !cancel.IsCancellationRequested)
+            {
+                exception = WaitForUpdateVerdict(nodeid, cancel);
+            }
+
             if (exception != null)
             {
                 throw exception;
+            }
+
+            return done && !alreadyInstalled;
+        }
+
+        /// <summary>
+        /// After the last block, the AP_Periph bootloader checks the image and either jumps to the
+        /// application (NodeStatus mode leaves SOFTWARE_UPDATE) or stays in MAINTENANCE with the
+        /// check_fw_result_t reason in vendor_specific_status_code.
+        /// </summary>
+        private Exception WaitForUpdateVerdict(byte nodeid, CancellationToken cancel)
+        {
+            var deadline = DateTime.UtcNow.AddSeconds(30);
+            while (DateTime.UtcNow < deadline && !cancel.IsCancellationRequested)
+            {
+                Thread.Sleep(500);
+                if (!NodeList.TryGetValue(nodeid, out var status) || status == null)
+                    continue;
+                if (status.mode == DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_SOFTWARE_UPDATE)
+                    continue;
+                if (status.mode == DroneCAN.uavcan_protocol_NodeStatus.UAVCAN_PROTOCOL_NODESTATUS_MODE_MAINTENANCE)
+                {
+                    var reason = FirmwareCheckReason(status.vendor_specific_status_code);
+                    if (reason != null)
+                        return new Exception(nodeid + " rejected the firmware: " + reason + ". The node stays in its bootloader; send a matching image again.");
+                }
+                Console.WriteLine("Node {0} left software update mode ({1})", nodeid, status.mode);
+                return null;
+            }
+            return cancel.IsCancellationRequested ? null
+                : new Exception(nodeid + " did not report the result of the update within 30 s");
+        }
+
+        /// <summary>AP_CheckFirmware check_fw_result_t codes reported by the bootloader.</summary>
+        public static string FirmwareCheckReason(ushort code)
+        {
+            switch (code)
+            {
+                case 10: return "no application signature (image erased or incomplete)";
+                case 11: return "bad application length";
+                case 12: return "image built for a different board id";
+                case 13: return "image CRC mismatch (blocks were lost or written out of order)";
+                case 14: return "update still in progress";
+                case 15: return "watchdog reset";
+                case 16: return "bad descriptor length";
+                case 17: return "bad firmware signature";
+                case 18: return "verification failed";
+                default: return null;
             }
         }
 
@@ -1920,44 +1979,67 @@ velocity_covariance: [1.8525, 0.0000, 0.0000, 0.0000, 1.8525, 0.0000, 0.0000, 0.
             return true;
         }
 
+        /// <summary>
+        /// One frame per transfer that arrived ahead of its predecessor. A node whose CAN
+        /// mailboxes drain under bus load (the AP_Periph bootloader while it pipelines file reads)
+        /// can emit two consecutive frames swapped; the toggle bit identifies the swap and the
+        /// transfer CRC still validates the reassembled payload.
+        /// </summary>
+        Dictionary<(uint, int), (CANPayload payload, bool beforeStart, DateTime at)> transferHeld =
+            new Dictionary<(uint, int), (CANPayload, bool, DateTime)>();
+
         public void ProcessFrame(CANFrame frame, uint packet_id, CANPayload payload)
         {
+            var key = (packet_id, (int)payload.TransferID);
             if (payload.SOT)
             {
-                transfer[(packet_id, payload.TransferID)] = new List<byte>();
-                transferToggle[(packet_id, payload.TransferID)] = false;
+                transfer[key] = new List<byte>();
+                transferToggle[key] = false;
+                // Only a second frame that overtook this start frame may survive; anything held
+                // during an earlier, abandoned transfer with the same id is stale.
+                if (transferHeld.TryGetValue(key, out var stale) &&
+                    (payload.EOT || !stale.beforeStart || DateTime.UtcNow - stale.at > TimeSpan.FromSeconds(1)))
+                    transferHeld.Remove(key);
             }
 
-            // if have not seen SOT, abort
-            if (!transfer.ContainsKey((packet_id, payload.TransferID)))
-                return;
-
-            transfer[(packet_id, payload.TransferID)].AddRange(payload.Payload);
-
+            if (!transfer.ContainsKey(key))
             {
-                if (transferToggle[(packet_id, payload.TransferID)] != payload.Toggle)
+                // the second frame of a transfer whose start frame is still on its way
+                if (!payload.SOT && payload.Toggle)
+                    transferHeld[key] = (payload, true, DateTime.UtcNow);
+                return;
+            }
+
+            if (transferToggle[key] != payload.Toggle)
+            {
+                if (!payload.SOT && !transferHeld.ContainsKey(key))
                 {
-                    if (!payload.EOT)
-                    {
-                        transfer.Remove((packet_id, payload.TransferID));
-                        transferToggle.Remove((packet_id, payload.TransferID));
-                        Console.WriteLine("Bad Toggle {0}", frame.MsgTypeID);
-                        FrameError?.Invoke(frame, payload);
-                        return;
-                        //error here
-                    }
+                    transferHeld[key] = (payload, false, DateTime.UtcNow);
+                    return;
                 }
 
-                transferToggle[(packet_id, payload.TransferID)] = !transferToggle[(packet_id, payload.TransferID)];
+                transfer.Remove(key);
+                transferToggle.Remove(key);
+                transferHeld.Remove(key);
+                Console.WriteLine("Bad Toggle {0}", frame.MsgTypeID);
+                FrameError?.Invoke(frame, payload);
+                return;
             }
 
-            if (payload.SOT && !payload.EOT)
+            transfer[key].AddRange(payload.Payload);
+            transferToggle[key] = !transferToggle[key];
+
+            if (!payload.EOT && transferHeld.TryGetValue(key, out var held) && held.payload.Toggle == transferToggle[key])
             {
-                //todo first 2 bytes are checksum
+                transferHeld.Remove(key);
+                transfer[key].AddRange(held.payload.Payload);
+                transferToggle[key] = !transferToggle[key];
+                payload = held.payload;
             }
 
             if (payload.EOT)
             {
+                transferHeld.Remove(key);
                 var result = transfer[(packet_id, payload.TransferID)].ToArray();
 
                 transfer.Remove((packet_id, payload.TransferID));
