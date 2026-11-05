@@ -95,7 +95,7 @@ namespace MissionPlanner.Utilities
                     bus, address,
                     (_paramname.Contains("COMPASS") ? compass :
                         _paramname.Contains("BARO") ? baro :
-                        (_paramname.Contains("ARSPD") || _paramname.Contains("ASP")) ? airspeed :
+                        _paramname.Contains("ASP") ? airspeed :
                         _paramname.Contains("INS") ? imu :
                         $"{compass} or {imu} or {baro} or {imu} ").Replace("DEVTYPE_",
                         ""),

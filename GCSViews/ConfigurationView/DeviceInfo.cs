@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return DeviceIdCatalog.GetName("baro", _devid.devtype, _devid.devtypebaro.ToString())
                         .Replace("DEVTYPE_", "");
 
-                if (ParamName.Contains("ARSPD") || ParamName.Contains("ASP"))
+                if (ParamName.Contains("ASP"))
                     return DeviceIdCatalog.GetName("airspeed", _devid.devtype, _devid.devtypeairspd.ToString())
                         .Replace("DEVTYPE_", "");
 

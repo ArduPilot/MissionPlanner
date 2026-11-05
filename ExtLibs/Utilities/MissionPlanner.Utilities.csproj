@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="devid.json" LogicalName="MissionPlanner.Utilities.devid.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="Capture.cs" />
   </ItemGroup>
 

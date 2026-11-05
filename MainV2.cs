@@ -3311,6 +3311,8 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGLogMessagesMetaData);
 
+            Task.Run(DeviceIdCatalog.UpdateAsync);
+
             // tfr went dead on 30-9-2020
             //ThreadPool.QueueUserWorkItem(BGgetTFR);
 
