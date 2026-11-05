@@ -1078,6 +1078,19 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
+        /// Whether a command's Lat, Long and Alt are a place the vehicle flies to, so that Verify
+        /// Height may set the altitude: navigation commands, rally points and fence items. A
+        /// CONDITION or DO command's are not: DO_SET_ROI and DO_SET_ROI_LOCATION name a point to
+        /// look at and DO_SET_HOME the home position.
+        /// </summary>
+        internal static bool FliesTo(MAVLink.MAV_CMD id)
+        {
+            // MAV_CMD.LAST is MAV_CMD_NAV_LAST: the navigation commands end there, the CONDITION
+            // and DO commands follow up to DO_LAST, and the fence and rally items come after
+            return id <= MAVLink.MAV_CMD.LAST || id > MAVLink.MAV_CMD.DO_LAST;
+        }
+
+        /// <summary>
         /// The altmode a MAV_FRAME value maps to, or null for frames the Plan page does not use
         /// (local, body, mission frames).
         /// </summary>
@@ -1278,14 +1291,17 @@ namespace MissionPlanner.GCSViews
             {
                 var row = Commands.Rows[index];
 
-                // only commands with a position and an altitude (Lat, Long and Alt in their fifth to
-                // seventh parameters): CONTINUE_AND_CHANGE_ALT has an altitude but no position, and
-                // the row may still hold the coordinates of the command it was changed from
+                // only commands the vehicle flies to, with a position and an altitude (Lat, Long and
+                // Alt in their fifth to seventh parameters): CONTINUE_AND_CHANGE_ALT has an altitude
+                // but no position, the row may still hold the coordinates of the command it was
+                // changed from, and a DO command's position is not somewhere the vehicle goes
                 var cmd = row.Cells[Command.Index].Value?.ToString();
                 string[] names;
+                MAVLink.MAV_CMD id;
                 if (cmd == null || !cmdParamNames.TryGetValue(cmd, out names) || names.Length < 7 ||
                     names[4] != "Lat" || names[5] != "Long" ||
-                    !names[6].StartsWith("Alt", StringComparison.Ordinal))
+                    !names[6].StartsWith("Alt", StringComparison.Ordinal) ||
+                    !Enum.TryParse(cmd, out id) || !FliesTo(id))
                 {
                     noPosition++;
                     continue;
