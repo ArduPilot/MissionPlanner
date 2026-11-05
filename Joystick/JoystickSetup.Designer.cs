@@ -47,6 +47,10 @@ namespace MissionPlanner.Joystick
             this.chk_manualcontrol = new System.Windows.Forms.CheckBox();
             this.but_export = new MissionPlanner.Controls.MyButton();
             this.but_import = new MissionPlanner.Controls.MyButton();
+            this.lbl_profile = new System.Windows.Forms.Label();
+            this.CMB_profile = new System.Windows.Forms.ComboBox();
+            this.BUT_profileCreate = new MissionPlanner.Controls.MyButton();
+            this.BUT_profileDelete = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // CMB_joysticks
@@ -137,9 +141,38 @@ namespace MissionPlanner.Joystick
             this.but_import.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_import.UseVisualStyleBackColor = true;
             this.but_import.Click += new System.EventHandler(this.but_import_Click);
-            // 
+            //
+            // lbl_profile
+            //
+            this.lbl_profile.AutoSize = true;
+            this.lbl_profile.Name = "lbl_profile";
+            this.lbl_profile.Text = "Profile";
+            //
+            // CMB_profile
+            //
+            this.CMB_profile.FormattingEnabled = true;
+            this.CMB_profile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_profile.Name = "CMB_profile";
+            this.CMB_profile.SelectedIndexChanged += new System.EventHandler(this.CMB_profile_SelectedIndexChanged);
+            //
+            // BUT_profileCreate
+            //
+            this.BUT_profileCreate.Name = "BUT_profileCreate";
+            this.BUT_profileCreate.Text = "Create";
+            this.BUT_profileCreate.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_profileCreate.UseVisualStyleBackColor = true;
+            this.BUT_profileCreate.Click += new System.EventHandler(this.BUT_profileCreate_Click);
+            //
+            // BUT_profileDelete
+            //
+            this.BUT_profileDelete.Name = "BUT_profileDelete";
+            this.BUT_profileDelete.Text = "Delete";
+            this.BUT_profileDelete.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_profileDelete.UseVisualStyleBackColor = true;
+            this.BUT_profileDelete.Click += new System.EventHandler(this.BUT_profileDelete_Click);
+            //
             // JoystickSetup
-            // 
+            //
             this.Controls.Add(this.but_import);
             this.Controls.Add(this.but_export);
             this.Controls.Add(this.chk_manualcontrol);
@@ -153,10 +186,32 @@ namespace MissionPlanner.Joystick
             this.Controls.Add(this.BUT_enable);
             this.Controls.Add(this.BUT_save);
             this.Controls.Add(this.CMB_joysticks);
+            this.Controls.Add(this.lbl_profile);
+            this.Controls.Add(this.CMB_profile);
+            this.Controls.Add(this.BUT_profileCreate);
+            this.Controls.Add(this.BUT_profileDelete);
             resources.ApplyResources(this, "$this");
             this.Name = "JoystickSetup";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.JoystickSetup_FormClosed);
             this.Load += new System.EventHandler(this.Joystick_Load);
+
+            this.lbl_profile.Location = new System.Drawing.Point(19, 50);
+            this.CMB_profile.Location = new System.Drawing.Point(72, 47);
+            this.CMB_profile.Size = new System.Drawing.Size(170, 21);
+            this.BUT_profileCreate.Location = new System.Drawing.Point(252, 47);
+            this.BUT_profileCreate.Size = new System.Drawing.Size(70, 23);
+            this.BUT_profileDelete.Location = new System.Drawing.Point(328, 47);
+            this.BUT_profileDelete.Size = new System.Drawing.Size(60, 23);
+
+            this.label6.Location = new System.Drawing.Point(this.label6.Location.X, this.label6.Location.Y + 32);
+            this.label7.Location = new System.Drawing.Point(this.label7.Location.X, this.label7.Location.Y + 32);
+            this.label8.Location = new System.Drawing.Point(this.label8.Location.X, this.label8.Location.Y + 32);
+            this.label9.Location = new System.Drawing.Point(this.label9.Location.X, this.label9.Location.Y + 32);
+            this.chk_manualcontrol.Location = new System.Drawing.Point(this.chk_manualcontrol.Location.X, this.chk_manualcontrol.Location.Y + 32);
+            this.CHK_elevons.Location = new System.Drawing.Point(this.CHK_elevons.Location.X, this.CHK_elevons.Location.Y + 32);
+
+            this.MinimumSize = new System.Drawing.Size(this.MinimumSize.Width, this.MinimumSize.Height + 32);
+
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,5 +233,9 @@ namespace MissionPlanner.Joystick
         private System.Windows.Forms.CheckBox chk_manualcontrol;
         private MyButton but_export;
         private MyButton but_import;
+        private System.Windows.Forms.Label lbl_profile;
+        private System.Windows.Forms.ComboBox CMB_profile;
+        private MyButton BUT_profileCreate;
+        private MyButton BUT_profileDelete;
     }
 }
