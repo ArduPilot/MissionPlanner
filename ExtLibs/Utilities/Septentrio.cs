@@ -3,6 +3,8 @@ using MissionPlanner.Comms;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MissionPlanner.Utilities
@@ -16,6 +18,11 @@ namespace MissionPlanner.Utilities
         /// An exception representing a missing acknowledgement.
         /// </summary>
         public class FailedAckException : Exception { }
+
+        /// <summary>
+        /// Default fallback ports we expect the receiver to be connected to.
+        /// </summary>
+        public const string DefaultPorts = "USB1+USB2+COM1+COM2";
 
         /// <summary>
         /// Selection of messages from what MSM level to output.
@@ -73,9 +80,10 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Configure the receiver connected on `receiverPort` as a base station.
         /// </summary>
+        /// <returns>The detected active port name or the default port string if auto-detection falls back.</returns>
         /// <exception cref="FailedAckException" />
         /// <exception cref="IOException" />
-        public static async Task ConfigureBaseReceiver(ICommsSerial receiverPort)
+        public static async Task<string> ConfigureBaseReceiver(ICommsSerial receiverPort)
         {
             await receiverPort.BaseStream.FlushAsync();
 
@@ -83,10 +91,16 @@ namespace MissionPlanner.Utilities
             receiverPort.ReadTimeout = 200;
             receiverPort.WriteTimeout = 200;
 
-            await ConfigureBaud(receiverPort);
+            string detectedPort = await ConfigureBaudAndDetectPort(receiverPort);
+            log.Info($"Detected active port: {detectedPort}");
+
+            string targetPorts = string.IsNullOrWhiteSpace(detectedPort) ? DefaultPorts : detectedPort;
 
             await SendAck(receiverPort, "setPVTMode,Static,All,Auto\n");
-            await SendAck(receiverPort, "setDataInOut,USB1+USB2+COM1+COM2+COM3,Auto,RTCMv3\n");
+            // Append +RTCMv3 output to preserve any existing streams already configured on this port
+            await SendAck(receiverPort, $"setDataInOut,{targetPorts},Auto,+RTCMv3\n");
+
+            return detectedPort ?? DefaultPorts;
         }
 
         /// <summary>
@@ -113,12 +127,15 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// Configure the baud rate of the serial port. In case the receiver is connected over serial, this automatically sets the correct baud rate.
+        /// Configure the baud rate of the serial port and detect the active port on the receiver side. In case the receiver is connected over serial, this automatically sets the correct baud rate.
         /// </summary>
+        /// <returns>The detected active port name or null if auto-detection falls back.</returns>
         /// <exception cref="FailedAckException" />
-        private static async Task ConfigureBaud(ICommsSerial receiverPort)
+        /// <exception cref="IOException" />
+        private static async Task<string> ConfigureBaudAndDetectPort(ICommsSerial receiverPort)
         {
             bool receiverAcknowledged = false;
+            string detectedPort = null;
 
             // All the baud rates we expect the receiver could be running at
             var bauds = new[] { receiverPort.BaudRate, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800 };
@@ -126,28 +143,64 @@ namespace MissionPlanner.Utilities
             foreach (var baud in bauds)
             {
                 receiverPort.BaudRate = baud;
-                
+
                 // Try to set the port settings on a best effort basis
                 try
                 {
-                    await SendAck(receiverPort, "setCOMSettings,COM1+COM2+COM3,baud"+DefaultBaudrate+",bits8,No,bit1,none\n");
+                    // Detect active port directly on established connection
+                    string detectedPortCandidate = await DetectPort(receiverPort);
+
+                    // Do not treat a timeout or a fallback result as a confirmed response
+                    if (string.IsNullOrWhiteSpace(detectedPortCandidate))
+                    {
+                        continue;
+                    }
+
+                    bool receiverConfirmed = false;
+
+                    // Skip setCOMSettings command only for a single, positively detected USB port
+                    bool isSingleUsbPort = Regex.IsMatch(detectedPortCandidate ?? string.Empty, @"^USB\d+$", RegexOptions.IgnoreCase);
+                    if (!isSingleUsbPort)
+                    {
+                        // If no COM port is detected, use the two COM ports in the default list
+                        string comSettingsPort = (detectedPortCandidate ?? string.Empty).Contains("COM") ? detectedPortCandidate : "COM1+COM2";
+                        await SendAck(receiverPort, $"setCOMSettings,{comSettingsPort},baud{DefaultBaudrate},bits8,No,bit1,none\n");
+                        receiverConfirmed = true;
+                    }
+                    // Because there is no SendAck confirmation in that case, only accept the USB result if DetectPort returned something other than the fallback value
+                    else if (!string.Equals(detectedPortCandidate, DefaultPorts, StringComparison.OrdinalIgnoreCase))
+                    {
+                        receiverConfirmed = true;
+                    }
+
+                    if (!receiverConfirmed)
+                    {
+                        continue;
+                    }
+
+                    detectedPort = detectedPortCandidate;
                     receiverAcknowledged = true;
                     break;
                 } catch { }
             }
-
+            // Fallback if communication was established but port auto-detection timed out or failed
             if (!receiverAcknowledged)
+            {
                 throw new FailedAckException();
+            }
 
             receiverPort.BaudRate = DefaultBaudrate;
+            return detectedPort;
         }
 
         /// <summary>
         /// Set the level of generated RTCM messages.
         /// </summary>
         /// <exception cref="FailedAckException" />
-        public static Task SetEnabledRTCM(ICommsSerial receiverPort, RTCMLevel level, RTCMSignals signals)
+        public static Task SetEnabledRTCM(ICommsSerial receiverPort, RTCMLevel level, RTCMSignals signals, string targetPorts = null)
         {
+            string ports = string.IsNullOrWhiteSpace(targetPorts) ? DefaultPorts : targetPorts;
+
             int messageLevel;
             string messages = "RTCM1006+RTCM1033+RTCM1230";
             
@@ -174,7 +227,61 @@ namespace MissionPlanner.Utilities
             if ((signals & RTCMSignals.Beidou) == RTCMSignals.Beidou)
                 messages += "+RTCM112" + messageLevel;
 
-            return SendAck(receiverPort, $"setRTCMv3Output,COM1+COM2+COM3+USB1+USB2,{messages}\n");
+            return SendAck(receiverPort, $"setRTCMv3Output,{ports},{messages}\n");
+        }
+
+        /// <summary>
+        /// Detect the active port on the receiver side. 
+        /// </summary>
+        /// <returns>The detected active port name or null if auto-detection falls back.</returns>
+        /// <exception cref="IOException" />
+        public static async Task<string> DetectPort(ICommsSerial receiverPort)
+        {
+            // Clear any stale unread incoming bytes
+            if (receiverPort.BytesToRead > 0)
+            {
+                receiverPort.DiscardInBuffer();
+            }
+
+            await receiverPort.BaseStream.FlushAsync();
+
+            // Send ping command (gecm / getEchoMessage)
+            byte[] pingBytes = Encoding.ASCII.GetBytes("gecm\n");
+            await receiverPort.BaseStream.WriteAsync(pingBytes, 0, pingBytes.Length);
+
+            Stopwatch sw = Stopwatch.StartNew();
+            StringBuilder buffer = new StringBuilder();
+            // 256 bytes should be enough to read the prompt and the active port name
+            byte[] readBuf = new byte[256];
+
+            while (sw.ElapsedMilliseconds < AckTimeout)
+            {
+                if (receiverPort.BytesToRead > 0)
+                {
+                    int bytesRead = await receiverPort.BaseStream.ReadAsync(readBuf, 0, readBuf.Length);
+                    if (bytesRead > 0)
+                    {
+                        // Clean up non-printable characters or null bytes if needed
+                        string incoming = Encoding.ASCII.GetString(readBuf, 0, bytesRead);
+                        buffer.Append(incoming);
+
+                        string currentText = buffer.ToString();
+
+                        // Match serial and USB port names (COMx or USBx) directly preceding the '>' prompt character
+                        var match = Regex.Match(currentText, @"(COM\d+|USB\d+)\s*>");
+                        if (match.Success)
+                        {
+                            // Extract active port name (e.g., COM1 or USB1)
+                            return match.Groups[1].Value;
+                        }
+                    }
+                }
+                // Prevent busy-waiting and wait for serial data 
+                await Task.Delay(20);
+            }
+
+            // Indicate detection failure so the baud scan can continue to the next candidate rate
+            return null;
         }
 
         /// <summary>
