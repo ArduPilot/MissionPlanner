@@ -28,12 +28,16 @@ namespace MissionPlanner.Controls
         public DateTime LastPacketUtc;
         /// <summary>The connection is playing back a telemetry log.</summary>
         public bool Playback;
+        /// <summary>The firmware's version text, such as "ArduCopter V4.7.1 (4776a3fb)".</summary>
+        public string Firmware;
     }
 
     /// <summary>What the user set for a vehicle in the grid.</summary>
     public class CotIdentity
     {
         public string Uid;
+        /// <summary>The CoT type; null for the round's type.</summary>
+        public string Type;
         public bool Takv;
         public string Callsign;
         public string Endpoint;
@@ -77,7 +81,8 @@ namespace MissionPlanner.Controls
                 HorizontalAccuracyM = cs.gpsh_acc,
                 VerticalAccuracyM = cs.gpsv_acc,
                 LastPacketUtc = mav.lastvalidpacket,
-                Playback = connection != null && connection.logreadmode
+                Playback = connection != null && connection.logreadmode,
+                Firmware = mav.VersionString
             };
         }
 
@@ -105,6 +110,41 @@ namespace MissionPlanner.Controls
             return vehicle.AltMslM + GeoidHeights.undulation(vehicle.Lat, vehicle.Lng);
         }
 
+        /// <summary>
+        /// The CoT type for the kind of vehicle the heartbeat reports, as MIL-STD-2525 friendly tracks:
+        /// fixed-wing and VTOL drones, rotary-wing drones, lighter than air, ground vehicles, boats,
+        /// submarines and antenna trackers (ground sensors). ATAK draws each with its own symbol.
+        /// </summary>
+        public static string AutoType(MAVLink.MAV_TYPE type)
+        {
+            switch (type)
+            {
+                case MAVLink.MAV_TYPE.QUADROTOR:
+                case MAVLink.MAV_TYPE.HEXAROTOR:
+                case MAVLink.MAV_TYPE.OCTOROTOR:
+                case MAVLink.MAV_TYPE.TRICOPTER:
+                case MAVLink.MAV_TYPE.COAXIAL:
+                case MAVLink.MAV_TYPE.HELICOPTER:
+                case MAVLink.MAV_TYPE.DECAROTOR:
+                case MAVLink.MAV_TYPE.DODECAROTOR:
+                    return "a-f-A-M-H-Q";
+                case MAVLink.MAV_TYPE.AIRSHIP:
+                case MAVLink.MAV_TYPE.FREE_BALLOON:
+                    return "a-f-A-M-L";
+                case MAVLink.MAV_TYPE.GROUND_ROVER:
+                    return "a-f-G-E-V";
+                case MAVLink.MAV_TYPE.SURFACE_BOAT:
+                    return "a-f-S";
+                case MAVLink.MAV_TYPE.SUBMARINE:
+                    return "a-f-U";
+                case MAVLink.MAV_TYPE.ANTENNA_TRACKER:
+                    return "a-f-G-E-S";
+                default:
+                    // fixed wing, the VTOL types and anything else: the output's type before Auto
+                    return "a-f-A-M-F-Q";
+            }
+        }
+
         /// <summary>Two minutes, or three rounds when the interval is longer, so a track never goes stale between rounds.</summary>
         public static double StaleSeconds(double intervalSeconds)
         {
@@ -115,54 +155,88 @@ namespace MissionPlanner.Controls
     /// <summary>
     /// Builds the events of one round and remembers which tracks it reported. A track that is no
     /// longer reported (its link went quiet, the connection closed or started a log playback, its UID
-    /// changed) gets one last event that is already stale, so TAK greys it out at once instead of
-    /// showing it as current until its stale time.
+    /// changed) is sent already stale, in that round and again in the next, so TAK greys it out at
+    /// once instead of showing it as current until its stale time.
     /// </summary>
     public class CotRound
     {
         /// <summary>CoT's value for an unknown circular or linear error.</summary>
         public const string UnknownError = "9999999.0";
 
+        /// <summary>The takv platform and version: the software that sends the events.</summary>
+        public const string Platform = "Mission Planner";
+
+        public static readonly string Version = typeof(CotRound).Assembly.GetName().Version.ToString();
+
+        /// <summary>
+        /// System ids heard on more than one connection in the last round. Each connection after the
+        /// first gets -2, -3 after the UID, so TAK keeps the vehicles apart instead of one jumping track.
+        /// </summary>
+        public List<uint> SharedSysIds { get; private set; } = new List<uint>();
+
         const string TimeFormat = "yyyy-MM-ddTHH:mm:ss.ffK";
 
         readonly Dictionary<(object, uint, byte), @event> reported = new Dictionary<(object, uint, byte), @event>();
 
+        // the tracks that ended last round, sent ended once more this round
+        List<@event> endedLastRound = new List<@event>();
+
         public List<@event> Build(IEnumerable<CotVehicle> vehicles, Func<CotVehicle, CotIdentity> identity, string type,
             bool details, DateTime utcNow, double staleSeconds)
         {
-            var events = new List<@event>();
+            var live = new List<@event>();
+            var ended = new List<@event>();
             var current = new HashSet<(object, uint, byte)>();
 
-            foreach (var vehicle in vehicles)
-            {
-                if (CotVehicles.Check(vehicle, utcNow) != CotSkip.None)
-                    continue;
+            var reportable = vehicles.Where(v => CotVehicles.Check(v, utcNow) == CotSkip.None).ToList();
+            var connections = reportable.GroupBy(v => v.SysId)
+                .ToDictionary(g => g.Key, g => g.Select(v => v.Connection).Distinct().ToList());
+            SharedSysIds = connections.Where(c => c.Value.Count > 1).Select(c => c.Key).ToList();
 
+            foreach (var vehicle in reportable)
+            {
                 var key = (vehicle.Connection, vehicle.SysId, vehicle.CompId);
-                var cotevent = Event(vehicle, identity(vehicle), type, details, utcNow, staleSeconds);
+                var id = identity(vehicle) ?? new CotIdentity { Uid = "NOsysid" + vehicle.SysId };
+                var nth = connections[vehicle.SysId].IndexOf(vehicle.Connection);
+                if (nth > 0)
+                    id.Uid += "-" + (nth + 1);
+
+                var cotevent = Event(vehicle, id, type, details, utcNow, staleSeconds);
 
                 if (reported.TryGetValue(key, out var before) && before.uid != cotevent.uid)
-                    events.Add(Expired(before, utcNow));
+                    ended.Add(before);
 
                 reported[key] = cotevent;
                 current.Add(key);
-                events.Add(cotevent);
+                live.Add(cotevent);
             }
 
             foreach (var key in reported.Keys.Where(key => !current.Contains(key)).ToList())
             {
-                events.Add(Expired(reported[key], utcNow));
+                ended.Add(reported[key]);
                 reported.Remove(key);
             }
 
-            return events;
+            // TAK keeps whichever event of a UID arrived last, so one ending lost on the way, or
+            // overtaken by the track's last update, leaves the track looking live for minutes. Endings
+            // go twice, this round and the next, ahead of the live tracks and never for a UID that is
+            // live this round.
+            var liveUids = new HashSet<string>(live.Select(cotevent => cotevent.uid));
+            var endings = endedLastRound.Concat(ended).Where(cotevent => !liveUids.Contains(cotevent.uid)).ToList();
+            endedLastRound = ended.Where(cotevent => !liveUids.Contains(cotevent.uid)).ToList();
+
+            return endings.Select(cotevent => Expired(cotevent, utcNow)).Concat(live).ToList();
         }
 
-        /// <summary>One already-stale event for every track still reported, for when the output stops.</summary>
+        /// <summary>
+        /// One already-stale event for every track still reported and every track that ended last
+        /// round, for when the output stops.
+        /// </summary>
         public List<@event> ExpireAll(DateTime utcNow)
         {
-            var events = reported.Values.Select(cotevent => Expired(cotevent, utcNow)).ToList();
+            var events = endedLastRound.Concat(reported.Values).Select(cotevent => Expired(cotevent, utcNow)).ToList();
             reported.Clear();
+            endedLastRound.Clear();
             return events;
         }
 
@@ -172,7 +246,7 @@ namespace MissionPlanner.Controls
             var cotevent = new @event
             {
                 uid = id?.Uid ?? "",
-                type = type ?? "",
+                type = string.IsNullOrEmpty(id?.Type) ? type ?? "" : id.Type,
                 time = Time(utcNow),
                 start = Time(utcNow.AddSeconds(-5)),
                 stale = Time(utcNow.AddSeconds(staleSeconds)),
@@ -199,7 +273,14 @@ namespace MissionPlanner.Controls
             if (details && id != null)
             {
                 if (id.Takv)
-                    cotevent.detail.takv = new takv();
+                {
+                    cotevent.detail.takv = new takv
+                    {
+                        platform = Platform,
+                        version = Version,
+                        device = string.IsNullOrEmpty(vehicle.Firmware) ? vehicle.Type.ToString() : vehicle.Firmware
+                    };
+                }
 
                 if (!string.IsNullOrEmpty(id.Callsign) || !string.IsNullOrEmpty(id.Endpoint))
                 {
