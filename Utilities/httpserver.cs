@@ -334,7 +334,7 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     if (url.Contains(" /websocket/server"))
                     {
-                        using (var writer = new StreamWriter(stream, Encoding.Default))
+                        using (var writer = new StreamWriter(stream, Encoding.ASCII))
                         {
                             writer.WriteLine("HTTP/1.1 101 WebSocket Protocol Handshake");
                             writer.WriteLine("Upgrade: WebSocket");

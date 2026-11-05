@@ -47,7 +47,15 @@ namespace System.Drawing
             pen.nativePen.Color = pen.Color.ToSKColor();
             pen.nativePen.Style = SKPaintStyle.Stroke;
             if (pen.DashStyle != DashStyle.Solid)
-                pen.nativePen.PathEffect = SKPathEffect.CreateDash(pen.DashPattern, 0);
+            {
+                pen.nativePen.PathEffect = pen.GetDashEffect();
+                pen.dashApplied = true;
+            }
+            else if (pen.dashApplied)
+            {
+                pen.nativePen.PathEffect = null;
+                pen.dashApplied = false;
+            }
             return pen.nativePen;
         }
 
@@ -56,39 +64,34 @@ namespace System.Drawing
             return new Bitmap() {nativeSkBitmap = SKBitmap.FromImage(skiaImage)};
         }
 
+        /// <summary>
+        /// Typeface for drawing text in this family. For a Chinese, Japanese or Korean UI, a typeface that
+        /// has those glyphs is used instead, whatever the family. Cached per family/language.
+        /// </summary>
         public static SKTypeface ToSKTypeface(this FontFamily ff)
         {
-            var fm = SKFontManager.Default;
-            var id = "";
-            lock (fontcache)
-                if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "zh")
-                {
-                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    if (!fontcache.ContainsKey(id))
-                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("YaHei", new[] { "zh" }, '飞');
-                }
-                else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ja")
-                {
-                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    if (!fontcache.ContainsKey(id))
-                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("", new[] { "ja" }, 'フ');
-                }
-                else if (CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "kr")
-                {
-                    id = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-                    if (!fontcache.ContainsKey(id))
-                        fontcache[CultureInfo.CurrentUICulture.TwoLetterISOLanguageName] =
-                            fm.MatchCharacter("", new[] { "kr" }, '비');
-                }
-                else
-                {
-                    if (!fontcache.ContainsKey(id))
-                        fontcache[id] = SKTypeface.FromFamilyName(id);
-                }
+            var language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            var cjk = language == "zh" || language == "ja" || language == "ko";
+            var id = cjk ? language : "family:" + ff?.Name;
 
-            return fontcache[id];
+            lock (fontcache)
+            {
+                if (fontcache.TryGetValue(id, out var typeface))
+                    return typeface;
+
+                var fm = SKFontManager.Default;
+                if (language == "zh")
+                    typeface = fm.MatchCharacter("YaHei", new[] { "zh" }, '飞');
+                else if (language == "ja")
+                    typeface = fm.MatchCharacter("", new[] { "ja" }, 'フ');
+                else if (language == "ko")
+                    typeface = fm.MatchCharacter("", new[] { "ko" }, '비');
+                else
+                    typeface = SKTypeface.FromFamilyName(ff?.Name);
+
+                fontcache[id] = typeface;
+                return typeface;
+            }
         }
 
         static Dictionary<string, SKTypeface> fontcache = new Dictionary<string, SKTypeface>();
@@ -143,39 +146,8 @@ namespace System.Drawing
             if (brush is LinearGradientBrush)
             {
                 var lgb = (LinearGradientBrush) brush;
-                if (lgb._gradMode == LinearGradientMode.Horizontal)
-                {
-                    return new SKPaint
-                    {
-                        IsAntialias = true,
-                        Style = SKPaintStyle.Fill,
-                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                            new SKPoint(lgb.Rectangle.Right, lgb.Rectangle.Y),
-                            new[]
-                            {
-                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                            }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
-                    };
-                }
-
-                if (lgb._gradMode == LinearGradientMode.Vertical)
-                {
-                    return new SKPaint
-                    {
-                        IsAntialias = true,
-                        Style = SKPaintStyle.Fill,
-                        Shader = SKShader.CreateLinearGradient(new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Y),
-                            new SKPoint(lgb.Rectangle.X, lgb.Rectangle.Bottom),
-                            new[]
-                            {
-                                ((LinearGradientBrush) brush).LinearColors[0].ToSKColor(),
-                                ((LinearGradientBrush) brush).LinearColors[1].ToSKColor()
-                            }
-                            , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
-                    };
-                }
+                if (lgb._gradMode == LinearGradientMode.Horizontal || lgb._gradMode == LinearGradientMode.Vertical)
+                    return lgb.GetPaint();
             }
 
             return new SKPaint();

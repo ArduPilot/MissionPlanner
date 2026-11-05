@@ -1294,7 +1294,14 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Clear();
 
             _connectionControl.CMB_serialport.Items.Add("AUTO");
-            _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            try
+            {
+                _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            }
+            catch (Exception ex)
+            {
+                log.Error("Failed to populate serial port dropdown.", ex);
+            }
 
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
@@ -4438,8 +4445,8 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start(
-                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(
+                    "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest") { UseShellExecute = true });
             }
             catch
             {
@@ -4685,7 +4692,7 @@ namespace MissionPlanner
         {
             try
             {
-                System.Diagnostics.Process.Start("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://ardupilot.org/?utm_source=Menu&utm_campaign=MP") { UseShellExecute = true });
             }
             catch
             {

@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectName)' == 'MissionPlanner'">
     <!-- Match the application's managed SkiaSharp version. -->
-    <PackageReference Update="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" GeneratePathProperty="true" />
+    <PackageReference Update="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" GeneratePathProperty="true" />
     <Reference Include="Mono.Posix">
       <HintPath>$(MonoPosixPath)</HintPath>
     </Reference>

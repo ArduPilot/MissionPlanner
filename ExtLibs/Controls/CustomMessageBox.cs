@@ -188,7 +188,7 @@ namespace MissionPlanner.MsgBox
 
                         try
                         {
-                            System.Diagnostics.Process.Start(target);
+                            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(target) { UseShellExecute = true });
                         }
                         catch (Exception)
                         {
