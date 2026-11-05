@@ -507,6 +507,9 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="CotNoAnswer" xml:space="preserve">
     <value>{0} did not answer</value>
   </data>
+  <data name="CotNoIPv4Address" xml:space="preserve">
+    <value>no IPv4 address for {0}</value>
+  </data>
   <data name="CotWaitingForClient" xml:space="preserve">
     <value>Waiting for a client on TCP port {0}</value>
   </data>

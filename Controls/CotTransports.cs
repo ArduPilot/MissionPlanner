@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace MissionPlanner.Controls
 {
@@ -45,7 +46,10 @@ namespace MissionPlanner.Controls
             IPAddress address;
             if (IPAddress.TryParse(host, out address))
                 return address;
-            return Dns.GetHostAddresses(host).First(a => a.AddressFamily == AddressFamily.InterNetwork);
+            var ipv4 = Dns.GetHostAddresses(host).FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
+            if (ipv4 == null)
+                throw new InvalidOperationException(string.Format(Strings.CotNoIPv4Address, host));
+            return ipv4;
         }
 
         public static bool IsMulticast(IPAddress address)
@@ -264,8 +268,14 @@ namespace MissionPlanner.Controls
             var connecting = new TcpClient(AddressFamily.InterNetwork) { NoDelay = true, SendTimeout = 2000 };
             try
             {
-                if (!connecting.ConnectAsync(CotNetwork.Resolve(host), port).Wait(TimeSpan.FromSeconds(5)))
+                var connect = connecting.ConnectAsync(CotNetwork.Resolve(host), port);
+                if (!connect.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    // Close() below fails the attempt still under way; take that fault here, or it
+                    // ends up as an unobserved task exception
+                    connect.ContinueWith(t => t.Exception.Handle(e => true), TaskContinuationOptions.OnlyOnFaulted);
                     throw new TimeoutException(string.Format(Strings.CotNoAnswer, Endpoint));
+                }
             }
             catch
             {
