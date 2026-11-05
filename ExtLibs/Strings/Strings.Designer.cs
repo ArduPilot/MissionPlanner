@@ -575,6 +575,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to no IPv4 address for {0}.
+        /// </summary>
+        public static string CotNoIPv4Address {
+            get {
+                return ResourceManager.GetString("CotNoIPv4Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not sending.
         /// </summary>
         public static string CotNotSending {
@@ -841,6 +850,15 @@ namespace MissionPlanner {
         public static string DownloadingFromInternet {
             get {
                 return ResourceManager.GetString("DownloadingFromInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EKF accelerometer error.
+        /// </summary>
+        public static string ekf_accel_error {
+            get {
+                return ResourceManager.GetString("ekf_accel_error", resourceCulture);
             }
         }
         

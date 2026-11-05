@@ -1,4 +1,4 @@
-﻿﻿using MissionPlanner.Comms;
+﻿using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;

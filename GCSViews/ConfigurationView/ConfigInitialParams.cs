@@ -237,7 +237,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (paramCompareForm.DialogResult == DialogResult.OK)
             {
-                CustomMessageBox.Show("Initial Parameters succesfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight :\r\n\tSet ATC_THR_MIX_MAN to 0.5\r\n\tSet PSC_ACCZ_P/PSC_D_ACC_P to MOT_THST_HOVER\r\n\tSet PSC_ACCZ_I/PSC_D_ACC_I to 2*MOT_THST_HOVER\r\n\r\nHappy flying!", "Initial parameter calculator");
+                var position_prefix = atc_prefix == "Q_A" ? "Q_P" : "PSC";
+                // The 4.7 acceleration gains were renamed and are 10x smaller.
+                var hoverGuidance = MainV2.comPort.MAV.param.ContainsKey(position_prefix + "_D_ACC_P")
+                    ? "\tSet " + position_prefix + "_D_ACC_P to 0.1*MOT_THST_HOVER\r\n\tSet " + position_prefix + "_D_ACC_I to 0.2*MOT_THST_HOVER"
+                    : "\tSet " + position_prefix + "_ACCZ_P to MOT_THST_HOVER\r\n\tSet " + position_prefix + "_ACCZ_I to 2*MOT_THST_HOVER";
+                hoverGuidance = hoverGuidance.Replace("MOT_THST_HOVER", mot_prefix + "_THST_HOVER");
+                CustomMessageBox.Show("Initial Parameters successfully updated.\r\nCheck parameters before flight!\r\n\r\nAfter test flight (land and disarm first):\r\n\tSet " + atc_prefix + "_THR_MIX_MAN to 0.5\r\n" + hoverGuidance + "\r\n\r\nHappy flying!", "Initial parameter calculator");
             }
 
             }

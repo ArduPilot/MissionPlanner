@@ -26,6 +26,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
         // Tracks whether we have received a `CAMERA_INFORMATION` message yet
         private bool have_camera_information = false;
 
+        public MAVState MavState => parent;
+        public bool HasCameraInformation => have_camera_information;
+
         public MAVLink.mavlink_camera_information_t CameraInformation { get; private set; }
         public MAVLink.mavlink_camera_settings_t CameraSettings { get; private set; }
         public MAVLink.mavlink_camera_capture_status_t CameraCaptureStatus { get; private set; }
@@ -221,7 +224,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// <summary>
         /// Sends an asynchronous request to fetch camera information via.
         /// </summary>
-        public async Task RequestCameraInformationAsync()
+        public Task RequestCameraInformationAsync() => RequestCameraInformationAsync(true);
+
+        public async Task RequestCameraInformationAsync(bool requireAck)
         {
             try
             {
@@ -232,15 +237,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         parent.sysid, parent.compid,
                         MAVLink.MAV_CMD.REQUEST_MESSAGE,
                         (float)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION,
-                        0, 0, 0, 0, 0, 0
+                        0, 0, 0, 0, 0, 0, requireAck
                     );
                     // Fall back to deprecated request message
-                    if (!resp)
+                    if (!resp || !requireAck)
                     {
                         await parent.parent.doCommandAsync(
                             parent.sysid, parent.compid,
                             MAVLink.MAV_CMD.REQUEST_CAMERA_INFORMATION,
-                            0, 0, 0, 0, 0, 0, 0,
+                            1, 0, 0, 0, 0, 0, 0,
                             false // Don't wait for response
                         );
                     }

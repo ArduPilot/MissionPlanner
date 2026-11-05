@@ -196,7 +196,7 @@ namespace MissionPlanner.GCSViews
             HighLatency_Enable,
             HighLatency_Disable,
             Toggle_Safety_Switch,
-            Do_Parachute,
+            Parachute_Release,
             Engine_Start,
             Engine_Stop,
             Terminate_Flight,
@@ -1790,7 +1790,7 @@ namespace MissionPlanner.GCSViews
 
                     int param1 = 0;
                     int param2 = 0;
-                    int param3 = 1;
+                    int param3 = 0;
 
                     // request gyro
                     if (CMB_action.Text == actions.Preflight_Calibration.ToString())
@@ -1804,6 +1804,17 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.DO_FLIGHTTERMINATION, 1.0f, 0, 0, 0, 0, 0, 0);
                         ((Control)sender).Enabled = true;
+                        return;
+                    }
+
+                    if (CMB_action.Text == actions.Parachute_Release.ToString())
+                    {
+                        if (!MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_PARACHUTE,
+                                (float) MAVLink.PARACHUTE_ACTION.PARACHUTE_RELEASE, 0, 0, 0, 0, 0, 0))
+                        {
+                            CustomMessageBox.Show(Strings.CommandFailed + " " + MAVLink.MAV_CMD.DO_PARACHUTE, Strings.ERROR);
+                        }
+                        ((Control) sender).Enabled = true;
                         return;
                     }
 
@@ -4032,7 +4043,7 @@ namespace MissionPlanner.GCSViews
 
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt);
+                                CurrentState.multiplieralt, MainV2.comPort.MAV.cs.HomeLocation);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)
