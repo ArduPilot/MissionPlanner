@@ -1338,6 +1338,9 @@ namespace MissionPlanner.GCSViews
             Commands.EndEdit();
             writeKML();
 
+            // the status line says what the click did, whether or not the box below shows
+            lbl_status.Text = string.Format(Strings.VerifyHeightUpdated, changed);
+
             if (noTerrain > 0 || noPosition > 0)
             {
                 var msg = string.Format(Strings.VerifyHeightUpdated, changed);
@@ -1426,22 +1429,23 @@ namespace MissionPlanner.GCSViews
                     float ans;
                     if (float.TryParse(cell.Value.ToString(), out ans))
                     {
-                        ans = (int) ans;
-
                         DataGridViewTextBoxCell celllat =
                             Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
                         DataGridViewTextBoxCell celllon =
                             Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                        int oldsrtm =
-                            (int)
-                            ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
-                                double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt);
-                        int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt);
-                        int newh = (int) (ans + newsrtm - oldsrtm);
+                        var oldsrtm = srtm.getAltitude(double.Parse(celllat.Value.ToString()),
+                            double.Parse(celllon.Value.ToString()));
+                        var newsrtm = srtm.getAltitude(lat, lng);
 
-                        cell.Value = newh;
-
-                        cell.DataGridView.EndEdit();
+                        // the altitude follows the terrain under the point, rounded as the button
+                        // rounds; a tile that has not downloaded reads as sea level, so until the
+                        // terrain under both points is known the altitude stays as it is
+                        if (oldsrtm.currenttype != srtm.tiletype.invalid &&
+                            newsrtm.currenttype != srtm.tiletype.invalid)
+                        {
+                            cell.Value = RoundAltitude(ans + (newsrtm.alt - oldsrtm.alt) * CurrentState.multiplieralt);
+                            cell.DataGridView.EndEdit();
+                        }
                     }
                 }
             }
@@ -1606,6 +1610,17 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// The Verify WP Height button shows with the Verify Height box, except in fence mode:
+        /// fence items have no altitude to verify, so every row would be skipped.
+        /// </summary>
+        private void UpdateVerifyHeightButton()
+        {
+            BUT_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox &&
+                                       !(cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE type &&
+                                         type == MAVLink.MAV_MISSION_TYPE.FENCE);
+        }
+
         public void updateDisplayView()
         {
             rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
@@ -1616,7 +1631,7 @@ namespace MissionPlanner.GCSViews
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
             CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
-            BUT_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+            UpdateVerifyHeightButton();
 
             //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
             foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
@@ -2461,6 +2476,9 @@ namespace MissionPlanner.GCSViews
         {
             // switch the mavcmd list and init
             Activate();
+
+            // fence items have no altitude to verify
+            UpdateVerifyHeightButton();
 
             var wp = MainMap.Overlays.Where(a => a.Id == "WPOverlay");
             var fence = MainMap.Overlays.Where(a => a.Id == "fence");
