@@ -355,9 +355,11 @@ namespace MissionPlanner.Controls
         /// another, each with the polygon's vertex count in param 1, and a circle has its radius in
         /// param 1. Polygons with fewer than three vertices and circles without a radius are left out.
         /// Mission and rally items in an ALL list are skipped: they are not sent with the fence, so
-        /// they do not split a polygon whose vertices they sit between.
+        /// they do not split a polygon whose vertices they sit between. A home circle
+        /// (FENCE_HOME_CIRCLE_INCLUSION) has its radius in param 1 and no position of its own: it
+        /// is centred on the home given, and left out when there is none.
         /// </summary>
-        public static List<ElevationGraphFenceArea> FenceAreasOf(IList<Locationwp> items)
+        public static List<ElevationGraphFenceArea> FenceAreasOf(IList<Locationwp> items, PointLatLngAlt home = null)
         {
             var areas = new List<ElevationGraphFenceArea>();
             ElevationGraphFenceArea polygon = null;
@@ -394,6 +396,18 @@ namespace MissionPlanner.Controls
                         Radius = item.p1
                     });
                 }
+
+                // centred on home rather than on its own lat/lng, as ArduPilot reads it
+                if (id == MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION && item.p1 > 0 && home != null &&
+                    (home.Lat != 0 || home.Lng != 0))
+                {
+                    areas.Add(new ElevationGraphFenceArea
+                    {
+                        Inclusion = true,
+                        Centre = new PointLatLngAlt(home.Lat, home.Lng),
+                        Radius = item.p1
+                    });
+                }
             }
 
             areas.RemoveAll(a => a.Vertices != null && a.Vertices.Count < 3);
@@ -409,7 +423,7 @@ namespace MissionPlanner.Controls
                 case MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_EXCLUSION:
                 case MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION:
                 case MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION:
-                case MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION: // legacy home centred fence
+                case MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION: // centred on home, radius in param 1
                     return true;
                 default:
                     return false;

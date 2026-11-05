@@ -3522,12 +3522,13 @@ namespace MissionPlanner.GCSViews
                     ? none
                     : MainV2.comPort.MAV.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
 
+            var plannedHome = GetPlannedHome();
             var input = new ElevationGraphInput
             {
-                Home = GetPlannedHome(),
+                Home = plannedHome,
                 Waypoints = ElevationGraphInput.WaypointsOf(mission),
                 RallyPoints = ElevationGraphInput.RallyPointsOf(rally),
-                FenceAreas = ElevationGraphInput.FenceAreasOf(fence)
+                FenceAreas = ElevationGraphInput.FenceAreasOf(fence, plannedHome)
             };
 
             if (connected)
