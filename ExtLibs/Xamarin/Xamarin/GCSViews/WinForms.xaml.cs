@@ -662,7 +662,6 @@ namespace Xamarin.GCSViews
                 var x = (int) (e.Location.X / scale.Width);
                 var y = (int) (e.Location.Y / scale.Height);
 
-                Console.WriteLine(Extensions.ToJSON(e, Formatting.None));
                 XplatUIMine.PaintPending = true;
 
                 if (e.ActionType == SKTouchAction.Moved)
@@ -714,7 +713,6 @@ namespace Xamarin.GCSViews
                             x = (int) (center.X / scale.Width);
                             y = (int) (center.Y / scale.Height);
 
-                            Console.WriteLine("scale: {0} {1} {2}", scale, newVector.Length, oldVector.Length);
                             if (scale1 >= 2)
                             {
                                 XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEWHEEL,

@@ -147,6 +147,7 @@ namespace MissionPlanner.GCSViews
             this.landToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setROIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fenceHomeCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.polygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -906,6 +907,7 @@ namespace MissionPlanner.GCSViews
             this.landToolStripMenuItem,
             this.takeoffToolStripMenuItem,
             this.setROIToolStripMenuItem,
+            this.fenceHomeCircleToolStripMenuItem,
             this.clearMissionToolStripMenuItem,
             this.toolStripSeparator1,
             this.polygonToolStripMenuItem,
@@ -1022,7 +1024,13 @@ namespace MissionPlanner.GCSViews
             this.setROIToolStripMenuItem.Name = "setROIToolStripMenuItem";
             resources.ApplyResources(this.setROIToolStripMenuItem, "setROIToolStripMenuItem");
             this.setROIToolStripMenuItem.Click += new System.EventHandler(this.setROIToolStripMenuItem_Click);
-            // 
+            //
+            // fenceHomeCircleToolStripMenuItem
+            //
+            this.fenceHomeCircleToolStripMenuItem.Name = "fenceHomeCircleToolStripMenuItem";
+            resources.ApplyResources(this.fenceHomeCircleToolStripMenuItem, "fenceHomeCircleToolStripMenuItem");
+            this.fenceHomeCircleToolStripMenuItem.Click += new System.EventHandler(this.fenceHomeCircleToolStripMenuItem_Click);
+            //
             // clearMissionToolStripMenuItem
             // 
             this.clearMissionToolStripMenuItem.Name = "clearMissionToolStripMenuItem";
@@ -1631,6 +1639,7 @@ namespace MissionPlanner.GCSViews
         public ToolStripMenuItem deleteWPToolStripMenuItem;
         public Timer timer1;
         public ToolStripMenuItem setROIToolStripMenuItem;
+        public ToolStripMenuItem fenceHomeCircleToolStripMenuItem;
         public ToolStripMenuItem mapToolToolStripMenuItem;
         public ToolStripMenuItem ContextMeasure;
         public ToolStripMenuItem rotateMapToolStripMenuItem;

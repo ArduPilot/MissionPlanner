@@ -512,6 +512,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EKF accelerometer error.
+        /// </summary>
+        public static string ekf_accel_error {
+            get {
+                return ResourceManager.GetString("ekf_accel_error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ensure your props are not on the Plane/Quad.
         /// </summary>
         public static string EnsurePropsNotOn {

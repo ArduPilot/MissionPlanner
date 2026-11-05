@@ -1818,9 +1818,12 @@ namespace MissionPlanner.GCSViews
                         fenceoverlay.overlay.Id = "fence";
                         try
                         {
+                            // the vehicle's fence follows the vehicle's home, which can differ from the planned home
+                            var vehiclehome = MainV2.comPort.MAV.cs.HomeLocation;
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt);
+                                CurrentState.multiplieralt,
+                                vehiclehome != null && (vehiclehome.Lat != 0 || vehiclehome.Lng != 0) ? vehiclehome : home);
                         }
                         catch
                         {
@@ -1852,7 +1855,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                            commandlist, 0, 0, CurrentState.multiplieralt);
+                            commandlist, 0, 0, CurrentState.multiplieralt, home);
                     }
                     catch (FormatException)
                     {
@@ -3058,7 +3061,33 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            // as the fence conversions: when editing the fence, or everything at once
+            fenceHomeCircleToolStripMenuItem.Visible = SelectedMissionType == MAVLink.MAV_MISSION_TYPE.FENCE ||
+                                                      SelectedMissionType == MAVLink.MAV_MISSION_TYPE.ALL;
+
             isMouseClickOffMenu = false; // Just incase
+        }
+
+        public void fenceHomeCircleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the vehicle's circular fence radius is a sensible starting point
+            string radiusin = "300";
+            if (MainV2.comPort.MAV.param.ContainsKey("FENCE_RADIUS"))
+                radiusin = MainV2.comPort.MAV.param["FENCE_RADIUS"].ToString();
+
+            if (DialogResult.Cancel ==
+                InputBox.Show("Fence Circle Around Home", "Radius (m)", ref radiusin))
+                return;
+
+            float radius;
+            if (!float.TryParse(radiusin, out radius) || radius <= 0)
+            {
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                return;
+            }
+
+            // centred on home, so lat/lng are not used
+            AddCommand(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION, radius, 0, 0, 0, 0, 0, 0);
         }
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
@@ -7816,6 +7845,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             cmdParamNames[MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString()] = fenceNames.ToArray();
             cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString()] = fenceMult;
             cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString()] = fenceMult;
+            // centred on home, so lat/lng are not used
+            fenceNames[4] = "";
+            fenceNames[5] = "";
+            cmdParamNames[MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString()] = fenceNames.ToArray();
+            cmdParamMultipliers[MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString()] = fenceMult;
         }
 
         /// <summary>
