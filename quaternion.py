@@ -429,8 +429,10 @@ class QuaternionBase(object):
                               dcm[0][2] + dcm[1][1]) + phi)
         elif abs(theta + np.pi/2) < 1.0e-3:
             phi = 0.0
-            psi = np.arctan2(dcm[1][2] - dcm[0][1],
-                             dcm[0][2] + dcm[1][1] - phi)
+            psi = np.arctan2(
+                dcm[1][2] - dcm[0][1],
+                dcm[0][2] + dcm[1][1]
+            ) - phi
         else:
             phi = np.arctan2(dcm[2][1], dcm[2][2])
             psi = np.arctan2(dcm[1][0], dcm[0][0])
