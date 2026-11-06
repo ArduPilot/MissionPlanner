@@ -52,7 +52,8 @@ namespace MissionPlanner.Swarm
                             alt = (float)target.Alt,
                             lat = target.Lat,
                             lng = target.Lng,
-                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT
+                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT,
+                            frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
                         });
                     }
                 }

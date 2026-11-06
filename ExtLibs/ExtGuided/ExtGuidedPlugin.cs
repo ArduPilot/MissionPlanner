@@ -64,6 +64,7 @@ using MissionPlanner.Utilities;
                             alt = float.Parse(loc[2]),
                             lat = double.Parse(loc[0]),
                             lng = double.Parse(loc[1]),
+                            frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
                         }
                     );
 

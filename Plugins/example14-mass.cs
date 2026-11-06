@@ -130,7 +130,8 @@ namespace mass
                         {
                             alt = 50,
                             lat = Host.FDMenuMapPosition.Lat / 1e7,
-                            lng = Host.FDMenuMapPosition.Lng / 1e7
+                            lng = Host.FDMenuMapPosition.Lng / 1e7,
+                            frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
                         });
                     }
                     catch { }
