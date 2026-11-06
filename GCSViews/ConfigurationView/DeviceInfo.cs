@@ -32,15 +32,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return "SENSOR_ID#" + (_devid.devtype).ToString();
 
                 if(ParamName.Contains("COMP"))
-                    return _devid.devtypecompass.ToString().Replace("DEVTYPE_", "");
+                    return DeviceIdCatalog.GetName("compass", _devid.devtype, _devid.devtypecompass.ToString())
+                        .Replace("DEVTYPE_", "");
 
                 if (ParamName.Contains("BARO"))
-                    return _devid.devtypebaro.ToString().Replace("DEVTYPE_", "");
+                    return DeviceIdCatalog.GetName("baro", _devid.devtype, _devid.devtypebaro.ToString())
+                        .Replace("DEVTYPE_", "");
 
                 if (ParamName.Contains("ASP"))
-                    return _devid.devtypeairspd.ToString().Replace("DEVTYPE_", "");
+                    return DeviceIdCatalog.GetName("airspeed", _devid.devtype, _devid.devtypeairspd.ToString())
+                        .Replace("DEVTYPE_", "");
 
-                return _devid.devtypeimu.ToString().Replace("DEVTYPE_", "");
+                return DeviceIdCatalog.GetName("imu", _devid.devtype, _devid.devtypeimu.ToString())
+                    .Replace("DEVTYPE_", "");
             }
         }
 
