@@ -161,11 +161,14 @@
             {
                 bool customarrows = false;
 
-                Pen Stroke = (Pen)this.Stroke.Clone();
+                Pen Stroke = this.Stroke;
+                Pen ownedStroke = null;
 
                 if (Stroke.DashStyle == DashStyle.Custom)
                 {
                     customarrows = true;
+                    // only a custom dash needs a private solid copy; the shared pen is left alone
+                    Stroke = ownedStroke = (Pen)this.Stroke.Clone();
                     Stroke.DashStyle = DashStyle.Solid;
                 }
 
@@ -225,6 +228,8 @@
                        }
                    }
                }
+
+               ownedStroke?.Dispose();
             }
          }
 #else
