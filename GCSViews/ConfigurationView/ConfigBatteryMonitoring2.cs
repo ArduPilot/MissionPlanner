@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -79,7 +80,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", float.Parse(TXT_battcapacity.Text));
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", ParseNumber(TXT_battcapacity.Text));
                 }
             }
             catch
@@ -94,9 +95,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredvoltage = float.Parse(TXT_measuredvoltage.Text);
-                var voltage = float.Parse(TXT_voltage.Text);
-                var divider = float.Parse(TXT_divider.Text);
+                var measuredvoltage = ParseNumber(TXT_measuredvoltage.Text);
+                var voltage = ParseNumber(TXT_voltage.Text);
+                var divider = ParseNumber(TXT_divider.Text);
                 if (voltage == 0)
                     return;
                 var newDivider = (measuredvoltage * divider) / voltage;
@@ -110,7 +111,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, ParseNumber(TXT_divider.Text));
             }
             catch
             {
@@ -124,7 +125,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, ParseNumber(TXT_divider.Text));
             }
             catch
             {
@@ -138,7 +139,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, ParseNumber(TXT_ampspervolt.Text));
             }
             catch
             {
@@ -227,9 +228,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredcurrent = float.Parse(txt_meascurrent.Text);
-                var current = float.Parse(txt_current.Text);
-                var divider = float.Parse(TXT_ampspervolt.Text);
+                var measuredcurrent = ParseNumber(txt_meascurrent.Text);
+                var current = ParseNumber(txt_current.Text);
+                var divider = ParseNumber(TXT_ampspervolt.Text);
                 if (current == 0)
                     return;
                 var newDivider = (measuredcurrent * divider) / current;
@@ -243,12 +244,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, ParseNumber(TXT_ampspervolt.Text));
             }
             catch
             {
                 CustomMessageBox.Show("Set BATT2_AMP_PERVOL Failed", Strings.ERROR);
             }
+        }
+
+        // Accept both '.' and ',' as the decimal separator whatever the Windows
+        // regional format, so 12.34 is never read as 1234 on a comma locale.
+        private static bool TryParseNumber(string text, out float value)
+        {
+            return float.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+        }
+
+        private static float ParseNumber(string text)
+        {
+            return float.Parse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
         }
     }
 }
