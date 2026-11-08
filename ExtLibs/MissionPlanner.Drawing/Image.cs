@@ -11,6 +11,7 @@ using SkiaSharp;
 namespace System.Drawing
 {
     [Serializable]
+    [System.ComponentModel.TypeConverter(typeof(ImageConverter))]
     public abstract class Image : ISerializable, ICloneable, IDisposable
     {
         public delegate bool GetThumbnailImageAbort();
