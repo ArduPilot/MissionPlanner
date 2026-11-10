@@ -1,5 +1,6 @@
-from __future__ import print_function
 #!/usr/bin/ipy
+from __future__ import print_function
+
 import clr
 
 import System
