@@ -40,6 +40,30 @@ public partial class MAVLink
             (type.Name == "mavlink_manual_control_t" ? type.GetField("target") : null);
     }
 
+    internal const int TargetFieldAbsent = -1;
+    internal const int TargetFieldNotByte = -2;
+
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<Type, int[]> targetOffsets =
+        new System.Collections.Concurrent.ConcurrentDictionary<Type, int[]>();
+
+    // Payload offsets of the target system and target component bytes of a message type, so a
+    // received packet can be routed without decoding its payload.
+    internal static int[] GetTargetOffsets(Type type)
+    {
+        return targetOffsets.GetOrAdd(type, t => new[]
+        {
+            GetTargetOffset(t, GetTargetSystemField(t)),
+            GetTargetOffset(t, t.GetField("target_component"))
+        });
+    }
+
+    private static int GetTargetOffset(Type type, System.Reflection.FieldInfo field)
+    {
+        if (field == null) return TargetFieldAbsent;
+        if (field.FieldType != typeof(byte)) return TargetFieldNotByte;
+        return (int)System.Runtime.InteropServices.Marshal.OffsetOf(type, field.Name);
+    }
+
     // Generated payload structs retain byte fields. Supply their full target here
     // before trimming the payload, so small targets and broadcast stay on the wire.
     public static bool SetPayloadTarget(object message, byte[] payload, uint system, byte component)
