@@ -4152,11 +4152,15 @@ namespace MissionPlanner.GCSViews
 
                             // add new - populate camera_feedback to map
                             double oldtime = double.MinValue;
+                            // the photos already on the map, by their time
+                            var photosshown = new HashSet<object>();
+                            foreach (var p in photosoverlay.Markers)
+                                photosshown.Add(p.Tag);
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
                                 var timesincelastshot = (mark.time_usec / 1000.0) / 1000.0 - oldtime;
                                 MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
-                                bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
+                                bool contains = photosshown.Contains(mark.time_usec);
                                 if (!contains)
                                 {
                                     if (timesincelastshot < min_interval)
@@ -6175,48 +6179,58 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        /// <summary>
+        /// the CurrentState properties in the order the status tab lists them, the tab is redrawn at 10hz
+        /// </summary>
+        private static PropertyInfo[] statusTabProperties;
+
         private void tabStatus_Paint(object sender, PaintEventArgs e)
         {
-            var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
-            var g = Graphics.FromImage(bmp);
-            g.Clear(Color.Transparent);
+            if (statusTabProperties == null)
+                statusTabProperties = MainV2.comPort.MAV.cs.GetItemList(true)
+                    .Select(name => typeof(CurrentState).GetProperty(name)).ToArray();
 
-            int x = 10;
-            int y = 10;
-
-            var list = MainV2.comPort.MAV.cs.GetItemList(true);
-            var cs = bindingSourceStatusTab.Current as CurrentState;
-            var br = new SolidBrush(tabStatus.ForeColor);
-
-            foreach (var field in list)
+            using (var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height))
+            using (var g = Graphics.FromImage(bmp))
+            using (var br = new SolidBrush(tabStatus.ForeColor))
             {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
+                g.Clear(Color.Transparent);
 
-                if (cs != null)
-                    g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
-                        br, new RectangleF(x + 120, y, 50, 15));
+                int x = 10;
+                int y = 10;
 
-                x += 0;
-                y += 15;
+                var cs = bindingSourceStatusTab.Current as CurrentState;
 
-                if (y > tabStatus.Height - 30)
+                foreach (var field in statusTabProperties)
                 {
-                    x += 190;
-                    y = 10;
+                    g.DrawString(field.Name, this.Font, br, new RectangleF(x, y, 120, 15));
+
+                    if (cs != null)
+                        g.DrawString(field.GetValue(cs)?.ToString(), this.Font,
+                            br, new RectangleF(x + 120, y, 50, 15));
+
+                    x += 0;
+                    y += 15;
+
+                    if (y > tabStatus.Height - 30)
+                    {
+                        x += 190;
+                        y = 10;
+                    }
                 }
-            }
 
-            if (tabStatus.AutoScrollMinSize.Width < x)
-            {
-                typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-                                                             | BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    tabStatus, new object[] { true });
+                if (tabStatus.AutoScrollMinSize.Width < x)
+                {
+                    typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                                                                 | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                        tabStatus, new object[] { true });
 
-                tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
+                    tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
+                }
+                e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
+                    tabStatus.AutoScrollPosition.Y);
+                e.Graphics.DrawImageUnscaled(bmp, 0, 0);
             }
-            e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
-                tabStatus.AutoScrollPosition.Y);
-            e.Graphics.DrawImageUnscaled(bmp, 0, 0);
         }
 
         private void gMapControl1_MouseUp(object sender, MouseEventArgs e)
