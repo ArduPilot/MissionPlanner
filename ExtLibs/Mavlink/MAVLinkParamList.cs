@@ -19,9 +19,10 @@ public partial class MAVLink
 
         // The index of the first param of each name asked for, -1 when there is none. The list can also
         // be changed through List<T>, behind this class, so the answers are only kept for as long as the
-        // list's own change counter stays the same.
+        // list's own change counter stays the same and no param has been renamed.
         readonly Dictionary<string, int> nameIndex = new Dictionary<string, int>();
         int nameIndexVersion = -1;
+        int nameIndexNameChanges;
 
         static readonly Func<List<MAVLinkParam>, int> listVersion = GetListVersion();
 
@@ -77,10 +78,12 @@ public partial class MAVLink
             lock (nameIndex)
             {
                 int version = listVersion(this);
-                if (version != nameIndexVersion)
+                int namechanges = Volatile.Read(ref MAVLinkParam.NameChanges);
+                if (version != nameIndexVersion || namechanges != nameIndexNameChanges)
                 {
                     nameIndex.Clear();
                     nameIndexVersion = version;
+                    nameIndexNameChanges = namechanges;
                 }
 
                 int index;
