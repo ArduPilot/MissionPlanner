@@ -80,7 +80,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", ParseNumber(TXT_battcapacity.Text));
+                    var capacity = ParseNumber(TXT_battcapacity.Text);
+                    // '.' is always a decimal point now, so "5.000" meant as 5000 mAh reads as 5.
+                    if (capacity > 0 && capacity < 100 &&
+                        CustomMessageBox.Show("A battery capacity of " + capacity + " mAh is very small. Are you sure?",
+                            "Small Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                    {
+                        TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT2_CAPACITY"].ToString();
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", capacity);
                 }
             }
             catch
