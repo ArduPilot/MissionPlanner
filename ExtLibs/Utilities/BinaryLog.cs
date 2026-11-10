@@ -154,26 +154,31 @@ namespace MissionPlanner.Utilities
                             log_step = 0;
                             try
                             {
-                                string line = String.Join(", ", logEntryObjects(data, br).Select((a) =>
+                                var objects = logEntryObjects(data, br);
+                                // only text fields can name the vehicle: message names are 4 characters
+                                // at most and the other fields are numbers
+                                bool hastext = false;
+                                for (int a = 1; a < objects.Length; a++)
+                                {
+                                    if (objects[a] is string || objects[a] is byte[])
+                                    {
+                                        hastext = true;
+                                        break;
+                                    }
+                                }
+
+                                string line = String.Join(", ", objects.Select((a) =>
                                               {
                                                   if (a.IsNumber())
                                                       return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
                                                   else if (a is System.Byte[])
-                                                  {
-                                                      var str = Encoding.ASCII.GetString(a as byte[]).Trim('\0');
-                                                      // Escape \ as \\
-                                                      str = str.Replace("\\", "\\\\");
-                                                      // Escape certain whitespace characters
-                                                      str = str.Replace("\n", "\\n");
-                                                      str = str.Replace("\r", "\\r");
-                                                      str = str.Replace("\t", "\\t");
-                                                      // Escape all other non-printable characters
-                                                      str = str.Select(c => (c < 32 || c > 127) ? $"\\x{Convert.ToByte(c):X2}" : $"{c}").Aggregate((x, y) => $"{x}{y}");
-                                                      return str;
-                                                  }
+                                                      return EscapeText(Encoding.ASCII.GetString(a as byte[]).Trim('\0'));
                                                   else
                                                       return a?.ToString();
                                               })) + "\r\n";
+
+                                if (!hastext)
+                                    return line;
 
                                 // we need to know the mav type to use the correct mode list.
                                 if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") ||
@@ -215,13 +220,93 @@ namespace MissionPlanner.Utilities
         }
 
 
-        internal (byte MsgType, long Offset) ReadMessageTypeOffset(Stream br, long length)
+        /// <summary>
+        /// Escape a text field for the text form of a log line
+        /// </summary>
+        static string EscapeText(string str)
         {
+            int a = 0;
+            for (; a < str.Length; a++)
+            {
+                char c = str[a];
+                if (c < 32 || c > 127 || c == '\\')
+                    break;
+            }
+
+            // nothing to escape
+            if (a == str.Length)
+                return str;
+
+            var sb = new StringBuilder(str.Length + 8);
+            sb.Append(str, 0, a);
+            for (; a < str.Length; a++)
+            {
+                char c = str[a];
+                switch (c)
+                {
+                    // Escape \ as \\
+                    case '\\':
+                        sb.Append("\\\\");
+                        break;
+                    // Escape certain whitespace characters
+                    case '\n':
+                        sb.Append("\\n");
+                        break;
+                    case '\r':
+                        sb.Append("\\r");
+                        break;
+                    case '\t':
+                        sb.Append("\\t");
+                        break;
+                    default:
+                        // Escape all other non-printable characters
+                        if (c < 32 || c > 127)
+                            sb.Append("\\x").Append(Convert.ToByte(c).ToString("X2"));
+                        else
+                            sb.Append(c);
+                        break;
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        // header, type and the largest message, the length of a message is one byte
+        internal const int MaxMessageSize = 256;
+
+        // size of log_Format, the body of a FMT message
+        const int FormatSize = 86;
+
+        /// <summary>
+        /// Find every message from the current position of the stream to length, in file order.
+        /// FMT messages met on the way set the sizes of the messages that follow them.
+        /// </summary>
+        /// <param name="onMessage">called with the type and the offset of the header of each message</param>
+        internal void ScanMessages(Stream br, long length, Action<byte, long> onMessage)
+        {
+            byte[] buffer = new byte[1024 * 1024];
+            byte[] fmt = new byte[FormatSize];
+            // file offset of buffer[0], bytes held in buffer, next byte to look at
+            long bufferpos = br.Position;
+            int bufferlen = 0;
+            int p = 0;
             int log_step = 0;
 
-            while (br.Position < length)
+            while (true)
             {
-                byte data = (byte) br.ReadByte();
+                if (p >= bufferlen)
+                {
+                    bufferpos += bufferlen;
+                    bufferlen = 0;
+                    p = 0;
+                    if (bufferpos >= length)
+                        break;
+                    bufferlen = br.Read(buffer, 0, (int)Math.Min(buffer.Length, length - bufferpos));
+                    if (bufferlen <= 0)
+                        break;
+                }
+
+                byte data = buffer[p++];
 
                 switch (log_step)
                 {
@@ -247,96 +332,214 @@ namespace MissionPlanner.Utilities
 
                     case 2:
                         log_step = 0;
-                        try
-                        {
-                            long pos = br.Position - 3;
-                            // read fmt or seek length of packet
-                            logEntryFMT(data, br);
+                        long pos = bufferpos + p - 3;
 
-                            return (data, pos);
-                        }
-                        catch
+                        if (data == 0x80) // FMT
                         {
-                            Console.WriteLine("Bad Binary log line {0}", data);
+                            // bring the whole body into the buffer
+                            if (bufferlen - p < FormatSize)
+                            {
+                                int keep = bufferlen - p;
+                                Buffer.BlockCopy(buffer, p, buffer, 0, keep);
+                                bufferpos += p;
+                                p = 0;
+                                bufferlen = keep;
+                                while (bufferlen < FormatSize && bufferpos + bufferlen < length)
+                                {
+                                    int read = br.Read(buffer, bufferlen,
+                                        (int)Math.Min(buffer.Length - bufferlen, length - bufferpos - bufferlen));
+                                    if (read <= 0)
+                                        break;
+                                    bufferlen += read;
+                                }
+                            }
+
+                            // a body cut short by the end of the file is taken as zeros
+                            int have = Math.Min(FormatSize, bufferlen - p);
+                            Array.Clear(fmt, 0, fmt.Length);
+                            Buffer.BlockCopy(buffer, p, fmt, 0, have);
+                            p += have;
+
+                            var logfmt = ToLogFormat(fmt, 0);
+
+                            string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
+
+                            logformat[lgname] = logfmt;
+
+                            packettypecache[logfmt.type] = new log_format_cache()
+                            {
+                                length = logfmt.length,
+                                type = logfmt.type,
+                                name = lgname,
+                                format = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'})
+                            };
+                        }
+                        else
+                        {
+                            // 0 is an unknown packet type, it is still reported
+                            int size = packettypecache[data].length;
+
+                            if (size != 0)
+                            {
+                                if (size < 3)
+                                {
+                                    Console.WriteLine("Bad Binary log line {0}", data);
+                                    break;
+                                }
+
+                                // step over the body
+                                long skip = size - 3;
+                                if (skip <= bufferlen - p)
+                                {
+                                    p += (int)skip;
+                                }
+                                else
+                                {
+                                    bufferpos = Math.Min(bufferpos + p + skip, length);
+                                    br.Seek(bufferpos, SeekOrigin.Begin);
+                                    bufferlen = 0;
+                                    p = 0;
+                                }
+                            }
                         }
 
+                        if (data == 0 && pos == 0)
+                            break;
+
+                        onMessage(data, pos);
                         break;
                 }
             }
-
-            return (0, 0);
-
         }
 
-        void logEntryFMT(byte packettype, Stream br)
+        static log_Format ToLogFormat(byte[] message, int offset)
         {
-            switch (packettype)
+            var logfmt = new log_Format()
             {
-                case 0x80: // FMT
+                type = message[offset],
+                length = message[offset + 1],
+                name = new byte[4],
+                format = new byte[16],
+                labels = new byte[64]
+            };
+            Buffer.BlockCopy(message, offset + 2, logfmt.name, 0, 4);
+            Buffer.BlockCopy(message, offset + 6, logfmt.format, 0, 16);
+            Buffer.BlockCopy(message, offset + 22, logfmt.labels, 0, 64);
+            return logfmt;
+        }
 
-                    log_Format logfmt = new log_Format();
+        /// <summary>
+        /// Decode a message held in memory, as ReadMessageObjects does from a stream
+        /// </summary>
+        /// <param name="buffer">holds the message</param>
+        /// <param name="offset">where the header of the message starts in buffer</param>
+        /// <param name="count">the bytes of the log that follow offset in buffer</param>
+        /// <param name="items">the fields of the message</param>
+        /// <param name="size">the size of the message, when it could not be decoded</param>
+        /// <returns>
+        /// 1: items is the message. 0: not decoded, read it from the stream. -1: the message is bad, carry
+        /// on from the stream after its size bytes
+        /// </returns>
+        internal int TryReadMessageObjects(byte[] buffer, int offset, int count, out object[] items, out int size)
+        {
+            items = null;
+            size = 0;
 
-                    object obj = logfmt;
+            lock (locker)
+            {
+                if (count < 3 || buffer[offset] != HEAD_BYTE1 || buffer[offset + 1] != HEAD_BYTE2)
+                    return 0;
 
-                    int len = Marshal.SizeOf(obj);
+                byte packettype = buffer[offset + 2];
 
-                    byte[] bytearray = new byte[len];
+                // FMT, and types not read as objects yet, are left to the stream
+                if (packettype == 0x80)
+                    return 0;
 
-                    br.Read(bytearray, 0, bytearray.Length);
+                size = packettypecache[packettype].length;
 
-                    IntPtr i = Marshal.AllocHGlobal(len);
+                // so is a message that is not all here, or whose format describes more than its body holds
+                if (size < 3 || size > count || FormatSizeOf(packettype) > size - 3)
+                    return 0;
 
-                    // create structure from ptr
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                var fmt = packettypecache[packettype];
+                try
+                {
+                    items = ProcessMessageObjects(buffer, offset + 3, fmt.name, fmt.format);
+                    return 1;
+                }
+                catch
+                {
+                    Console.WriteLine("Bad Binary log line {0}", packettype);
+                    return -1;
+                }
+            }
+        }
 
-                    // copy byte array to ptr
-                    Marshal.Copy(bytearray, 0, i, len);
+        // the bytes each type's format describes, and the format that was worked out for
+        int[] formatsize = new int[256];
+        string[] formatsizeof = new string[256];
 
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+        int FormatSizeOf(byte packettype)
+        {
+            string format = packettypecache[packettype].format;
 
-                    Marshal.FreeHGlobal(i);
+            if (format == null || !ReferenceEquals(formatsizeof[packettype], format))
+            {
+                int size = 0;
+                if (format == null)
+                {
+                    size = int.MaxValue;
+                }
+                else
+                {
+                    foreach (char ch in format)
+                        size += FieldSize(ch);
+                }
 
-                    logfmt = (log_Format) obj;
+                formatsize[packettype] = size;
+                formatsizeof[packettype] = format;
+            }
 
-                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                    //string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                    //string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+            return formatsize[packettype];
+        }
 
-                    logformat[lgname] = logfmt;
-
-                    packettypecache[logfmt.type] = new log_format_cache()
-                    {
-                        length = logfmt.length,
-                        type = logfmt.type,
-                        name = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] { '\0' }),
-                        format = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] { '\0' })
-                    };
-
-                    return;
-
+        /// <summary>
+        /// the bytes GetObjectFromMessage takes for a format character
+        /// </summary>
+        static int FieldSize(char type)
+        {
+            switch (type)
+            {
+                case 'b':
+                case 'B':
+                case 'M':
+                    return 1;
+                case 'h':
+                case 'H':
+                case 'g':
+                case 'c':
+                case 'C':
+                    return 2;
+                case 'i':
+                case 'I':
+                case 'f':
+                case 'e':
+                case 'E':
+                case 'L':
+                case 'n':
+                    return 4;
+                case 'q':
+                case 'Q':
+                case 'd':
+                    return 8;
+                case 'N':
+                    return 16;
+                case 'Z':
+                case 'a':
+                    return 64;
                 default:
-                    //string format = "";
-                    //string name = "";
-
-                    int size = 0;
-
-                    if (packettypecache[packettype].length != 0)
-                    {
-                        var fmt = packettypecache[packettype];
-                        //name = fmt.name;
-                        //format = fmt.format;
-                        size = fmt.length;
-                    }
-
-                    // didnt find a match, return unknown packet type
-                    if (size == 0)
-                        return;
-
-                    byte[] buf = new byte[size - 3];
-                    br.Read(buf, 0, buf.Length);
-
-                    //br.Seek(br.Position + size - 3, SeekOrigin.Begin);
-                    break;
+                    return 0;
             }
         }
 
@@ -472,15 +675,13 @@ namespace MissionPlanner.Utilities
 
                         br.Read(data, 0, data.Length);
 
-                        return ProcessMessageObjects(data, name, format);
+                        return ProcessMessageObjects(data, 0, name, format);
                 }
             }
         }
         
-        private object[] ProcessMessageObjects(byte[] message, string name, string format)
+        private object[] ProcessMessageObjects(byte[] message, int offset, string name, string format)
         {
-            int offset = 0;
-
             object[] answer = new object[format.Length + 1];
 
             answer[0] = name;
