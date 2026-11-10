@@ -3330,7 +3330,9 @@ namespace MissionPlanner.Controls
                         int x = this.Width - 24 * fontsize;
                         if (!prearmstatus) x -= 2 * fontsize;
                         // Estimate the width of the string for the hit zone
-                        int width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, new Font(HUDT.Font, fontsize + 2)).Width;
+                        int width;
+                        using (var measurefont = new Font(HUDT.Font, fontsize + 2))
+                            width = TextRenderer.MeasureText(prearmstatus ? HUDT.ReadyToArm : HUDT.NotReadyToArm, measurefont).Width;
                         prearmhitzone = new Rectangle(x, yPos[0] - 4, width, fontsize * 2);
                     }
 
