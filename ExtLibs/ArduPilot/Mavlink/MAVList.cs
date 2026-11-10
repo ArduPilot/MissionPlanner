@@ -37,17 +37,19 @@ namespace MissionPlanner.Mavlink
 
                 lock (locker)
                 {
-                    // 3dr radio special case
-                    if (hiddenlist.ContainsKey(id))
-                        return hiddenlist[id];
+                    MAVState state;
 
-                    if (!masterlist.ContainsKey(id))
+                    // 3dr radio special case
+                    if (hiddenlist.TryGetValue(id, out state))
+                        return state;
+
+                    if (!masterlist.TryGetValue(id, out state))
                     {
                         AddHiddenList(sysid, (byte) compid);
                         return hiddenlist[id];
                     }
 
-                    return masterlist[id];
+                    return state;
                 }
             }
             set
@@ -72,24 +74,25 @@ namespace MissionPlanner.Mavlink
 
         public void Clear()
         {
-            masterlist.Clear();
+            lock (locker)
+                masterlist.Clear();
         }
 
         public bool Contains(uint sysid, byte compid, bool includehidden = true)
         {
             lock (locker)
             {
-                foreach (var item in masterlist.ToArray())
+                foreach (var item in masterlist.Values)
                 {
-                    if (item.Value.sysid == sysid && item.Value.compid == compid)
+                    if (item.sysid == sysid && item.compid == compid)
                         return true;
                 }
 
                 if (includehidden)
                 {
-                    foreach (var item in hiddenlist.ToArray())
+                    foreach (var item in hiddenlist.Values)
                     {
-                        if (item.Value.sysid == sysid && item.Value.compid == compid)
+                        if (item.sysid == sysid && item.compid == compid)
                             return true;
                     }
                 }

@@ -4680,6 +4680,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
         private SemaphoreSlim readlock = new SemaphoreSlim(1, 1);
 
         /// <summary>
+        /// the packet being read, only used while holding readlock
+        /// </summary>
+        private readonly byte[] readbuffer = new byte[MAVLINK_MAX_PACKET_LEN + 25];
+
+        /// <summary>
         /// Serial Reader to read mavlink packets. POLL method
         /// </summary>
         /// <returns></returns>
@@ -4690,7 +4695,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         public async Task<MAVLinkMessage> readPacketAsync()
         {
-            byte[] buffer = new byte[MAVLINK_MAX_PACKET_LEN + 25];
+            byte[] buffer = null;
             int count = 0;
             int length = 0;
             int readcount = 0;
@@ -4715,7 +4720,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 if (debug)
                     Console.WriteLine(DateTime.Now.Millisecond + " SR1 " + BaseStream?.BytesToRead);
-                
+
+                // read into the shared buffer, the packet is copied out of it at its final size
+                buffer = readbuffer;
+
                 readloop:
 
                 while ((BaseStream != null && BaseStream.IsOpen) || logreadmode)
@@ -4939,6 +4947,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 // resize the packet to the correct length
                 Array.Resize<byte>(ref buffer, count);
+                // never hand out the shared buffer itself
+                if (ReferenceEquals(buffer, readbuffer))
+                    buffer = (byte[]) buffer.Clone();
 
                 // add byte count
                 _bytesReceivedSubj.OnNext(buffer.Length);
@@ -5058,9 +5069,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                 }
 
+                // the state of the sender, looked up once for the checks and statistics below
+                var mav = MAVlist[sysid, compid];
+
                 // once set it cannot be reverted
-                if (!MAVlist[sysid, compid].mavlinkv2)
-                    MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
+                if (!mav.mavlinkv2)
+                    mav.mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
 
                 // stat count
                 if (message.buffer[0] == MAVLINK_STX)
@@ -5070,15 +5084,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
                 //logreadmode we always ignore signing as they would not be in the log if they failed the signature
-                if (message.sig != null && !MAVlist[sysid, compid].signingignore && !logreadmode)
+                if (message.sig != null && !mav.signingignore && !logreadmode)
                 {
                     _mavlink2signed++;
 
                     bool valid = false;
 
                     // check existing key
-                    if (MAVlist[sysid, compid].signingKey != null)
-                        valid = CheckSignature(MAVlist[sysid, compid].signingKey, message, sysid, compid);
+                    if (mav.signingKey != null)
+                        valid = CheckSignature(mav.signingKey, message, sysid, compid);
 
                     if (!valid)
                     {
@@ -5144,17 +5158,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 }
 
                 // update packet loss statistics
-                if (!logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < DateTime.UtcNow)
+                if (!logreadmode && mav.packetlosttimer.AddSeconds(5) < DateTime.UtcNow)
                 {
-                    MAVlist[sysid, compid].packetlosttimer = DateTime.UtcNow;
-                    MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
-                    MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
+                    mav.packetlosttimer = DateTime.UtcNow;
+                    mav.packetslost = (mav.packetslost * 0.8f);
+                    mav.packetsnotlost = (mav.packetsnotlost * 0.8f);
                 }
-                else if (logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < lastlogread)
+                else if (logreadmode && mav.packetlosttimer.AddSeconds(5) < lastlogread)
                 {
-                    MAVlist[sysid, compid].packetlosttimer = lastlogread.ToUniversalTime();
-                    MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
-                    MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
+                    mav.packetlosttimer = lastlogread.ToUniversalTime();
+                    mav.packetslost = (mav.packetslost * 0.8f);
+                    mav.packetsnotlost = (mav.packetsnotlost * 0.8f);
                 }
 
                 packetSeemValid = false;
@@ -5171,26 +5185,26 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     // late only if it fills a hole in the mask of recently received seqs. Reordering is a
                     // matter of milliseconds, so after a pause the seq has wrapped through an outage instead
                     const int latePacketWindow = 64;
-                    int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
+                    int lastPacketSeqNo = mav.recvpacketcount;
                     int delta = (packetSeqNo - lastPacketSeqNo) & 0xFF;
                     int packetsBehind = 0x100 - delta;
                     // bit n set: seq (lastPacketSeqNo - n - 1) has been received
                     ulong lateBit = packetsBehind <= latePacketWindow ? 1UL << (packetsBehind - 1) : 0;
                     bool sincePreviousPacketIsShort =
-                        (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
+                        (DateTime.UtcNow - mav.lastvalidpacket).TotalSeconds < 1;
 
                     {
                         if (delta == 0)
                         {
                             // work around a 3dr radio bug sending dup seqno's
                         }
-                        else if (lateBit != 0 && (MAVlist[sysid, compid].recvpacketmask & lateBit) == 0 &&
+                        else if (lateBit != 0 && (mav.recvpacketmask & lateBit) == 0 &&
                                  sincePreviousPacketIsShort)
                         {
                             // a late packet fills a hole that was counted as lost when the newer one came
-                            MAVlist[sysid, compid].recvpacketmask |= lateBit;
-                            if (MAVlist[sysid, compid].packetslost >= 1)
-                                MAVlist[sysid, compid].packetslost--;
+                            mav.recvpacketmask |= lateBit;
+                            if (mav.packetslost >= 1)
+                                mav.packetslost--;
                         }
                         else
                         {
@@ -5199,8 +5213,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                             if (numLost != 0)
                             {
-                                MAVlist[sysid, compid].synclost++; // actual sync loss's
-                                MAVlist[sysid, compid].packetslost += numLost;
+                                mav.synclost++; // actual sync loss's
+                                mav.packetslost += numLost;
                                 WhenPacketLost.OnNext(numLost);
 
                                 if (!logreadmode)
@@ -5212,33 +5226,33 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                             // shift the mask by delta, the previous newest packet is now delta behind
                             // (a ulong shift by 64 or more is taken mod 64 in C#, so clear it explicitly)
-                            ulong mask = delta < 64 ? MAVlist[sysid, compid].recvpacketmask << delta : 0;
+                            ulong mask = delta < 64 ? mav.recvpacketmask << delta : 0;
                             if (delta <= latePacketWindow)
                                 mask |= 1UL << (delta - 1);
-                            MAVlist[sysid, compid].recvpacketmask = mask;
-                            MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
+                            mav.recvpacketmask = mask;
+                            mav.recvpacketcount = packetSeqNo;
                         }
 
-                        MAVlist[sysid, compid].packetsnotlost++;
+                        mav.packetsnotlost++;
                     }
                     WhenPacketReceived.OnNext(1);
 
                     // packet stats per mav
-                    if (!MAVlist[sysid, compid].packetspersecond.ContainsKey(msgid) ||
-                        double.IsInfinity(MAVlist[sysid, compid].packetspersecond[msgid]))
-                        MAVlist[sysid, compid].packetspersecond[msgid] = 0;
-                    if (!MAVlist[sysid, compid].packetspersecondbuild.ContainsKey(msgid))
-                        MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.UtcNow;
+                    if (!mav.packetspersecond.ContainsKey(msgid) ||
+                        double.IsInfinity(mav.packetspersecond[msgid]))
+                        mav.packetspersecond[msgid] = 0;
+                    if (!mav.packetspersecondbuild.ContainsKey(msgid))
+                        mav.packetspersecondbuild[msgid] = DateTime.UtcNow;
 
-                    MAVlist[sysid, compid].packetspersecond[msgid] = (((1000 /
+                    mav.packetspersecond[msgid] = (((1000 /
                                                                         ((DateTime.UtcNow -
-                                                                          MAVlist[sysid, compid]
+                                                                          mav
                                                                               .packetspersecondbuild[msgid])
                                                                             .TotalMilliseconds) +
-                                                                        MAVlist[sysid, compid].packetspersecond[
+                                                                        mav.packetspersecond[
                                                                             msgid]) / 2));
 
-                    MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.UtcNow;
+                    mav.packetspersecondbuild[msgid] = DateTime.UtcNow;
                 }
                 //Console.WriteLine("Packet {0}",temp[5]);
                 // store packet history
@@ -5465,10 +5479,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         }
                     }
 
-                    if (Settings.Instance["autoParamCommit"] == null ||
-                        Settings.Instance.GetBoolean("autoParamCommit") == true)
+                    if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
                     {
-                        if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
+                        if (Settings.Instance["autoParamCommit"] == null ||
+                            Settings.Instance.GetBoolean("autoParamCommit") == true)
                         {
                             lastparamset = DateTime.MinValue;
 
@@ -5565,10 +5579,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             MAVLINK_MSG_ID type = (MAVLINK_MSG_ID) buffer.msgid;
             (MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)[] list;
 
-            // lock to grab the list, because this is public, to prevent a recursion
-            lock (Subscriptions)
+            // work from a copy, a handler may subscribe or unsubscribe. The copy is reused until the
+            // list next changes
+            list = SubscriptionsSnapshot;
+            if (list == null)
             {
-                list = Subscriptions.ToArray();
+                lock (Subscriptions)
+                {
+                    list = Subscriptions.ToArray();
+                    SubscriptionsSnapshot = list;
+                }
             }
 
             foreach (var item in list)
@@ -5591,6 +5611,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         readonly private List<(MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)> Subscriptions =
             new List<(MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>, bool, uint, byte)>();
+
+        /// <summary>
+        /// copy of Subscriptions for PacketReceived, null when Subscriptions has changed since it was taken
+        /// </summary>
+        private volatile (MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)[] SubscriptionsSnapshot;
 
         /// <summary>
         /// Subscribe to a packet on the current target MAV. use OnPacketReceived to get all MAVs
@@ -5623,6 +5648,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 log.Debug("SubscribeToPacketType " + item.msgid + " " + item.function);
 
                 Subscriptions.Add(item);
+                SubscriptionsSnapshot = null;
             }
 
             return item.GetHashCode();
@@ -5643,6 +5669,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         break;
                     }
                 }
+
+                SubscriptionsSnapshot = null;
             }
         }
 
