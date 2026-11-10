@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -83,16 +84,60 @@ namespace MissionPlanner.Utilities
                 {
                     if (_items == null)
                     {
-                        _items = raw.Select((a) =>
-                        {
-                            if (a.IsNumber())
-                                return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
-                            else
-                                if (a is System.Byte[]) return (System.Text.Encoding.ASCII.GetString(a as byte[]).Trim('\0'));
-                                else return a?.ToString();
-                        }).ToArray();
+                        var values = new string[raw.Length];
+                        for (int a = 0; a < values.Length; a++)
+                            values[a] = ItemToString(raw[a]);
+                        _items = values;
                     }
                     return _items;
+                }
+            }
+
+            static string ItemToString(object a)
+            {
+                if (a.IsNumber())
+                    return (((IConvertible)a).ToString(CultureInfo.InvariantCulture));
+                else
+                    if (a is System.Byte[]) return (System.Text.Encoding.ASCII.GetString(a as byte[]).Trim('\0'));
+                    else return a?.ToString();
+            }
+
+            /// <summary>
+            /// items[index], without converting the other fields of the message to text
+            /// </summary>
+            public string GetItem(int index)
+            {
+                if (_items != null)
+                    return _items[index];
+
+                return ItemToString(raw[index]);
+            }
+
+            /// <summary>
+            /// long.Parse(value.ToString()), without the text for the integer types of a binary log
+            /// </summary>
+            static long ToInt64(object value)
+            {
+                switch (value)
+                {
+                    case ulong v:
+                        return checked((long)v);
+                    case long v:
+                        return v;
+                    case uint v:
+                        return v;
+                    case int v:
+                        return v;
+                    case ushort v:
+                        return v;
+                    case short v:
+                        return v;
+                    case byte v:
+                        return v;
+                    case sbyte v:
+                        return v;
+                    default:
+                        return long.Parse(value.ToString());
                 }
             }
 
@@ -111,19 +156,19 @@ namespace MissionPlanner.Utilities
                         index = parent.FindMessageOffset(msgtype, "TimeMS");
                         if (index >= 0)
                         {
-                            _timems = long.Parse(raw[index].ToString());
+                            _timems = ToInt64(raw[index]);
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "TimeUS");
                         if (index >= 0)
                         {
-                            _timems = (long.Parse(raw[index].ToString()) / 1000.0);
+                            _timems = (ToInt64(raw[index]) / 1000.0);
                             return _timems;
                         }
                         index = parent.FindMessageOffset(msgtype, "T");
                         if (index >= 0)
                         {
-                            _timems = long.Parse(raw[index].ToString());
+                            _timems = ToInt64(raw[index]);
                             return _timems;
                         }
                     }
@@ -163,7 +208,7 @@ namespace MissionPlanner.Utilities
                 else if (_answer.Length > 0) // check we have data
                 {
                     // check this is a gps message and we dont have the current gpsstarttime
-                    if (parent.gpsstarttime == DateTime.MinValue && msgtype.StartsWith("GPS"))
+                    if (parent.gpsstarttime == DateTime.MinValue && msgtype.StartsWith("GPS", StringComparison.Ordinal))
                     {
                         if (parent.logformat.ContainsKey(msgtype))
                         {
@@ -214,9 +259,9 @@ namespace MissionPlanner.Utilities
                 get
                 {
                     var index = parent.FindMessageOffset(msgtype, item);
-                    if (index == -1 || index >= items.Length)
+                    if (index == -1 || index >= raw.Length)
                         return null;
-                    return items[index];
+                    return GetItem(index);
                 }
             }
 
@@ -421,6 +466,7 @@ namespace MissionPlanner.Utilities
         public void Clear()
         {
             logformat.Clear();
+            msgoffsetcache.Clear();
 
             GC.Collect();
 
@@ -440,11 +486,11 @@ namespace MissionPlanner.Utilities
                 {
                     string line = sr.ReadLine();
 
-                    if (line.StartsWith("FMT"))
+                    if (line.StartsWith("FMT", StringComparison.Ordinal))
                     {
                         FMTLine(line);
                     }
-                    else if (line.StartsWith("GPS"))
+                    else if (line.StartsWith("GPS", StringComparison.Ordinal))
                     {
                         DateTime answer = GetTimeGPS(line);
                         if (answer != DateTime.MinValue)
@@ -538,15 +584,15 @@ namespace MissionPlanner.Utilities
 
             string[] items = line.Trim().Split(new char[] {',', ':'}, StringSplitOptions.RemoveEmptyEntries);
 
-            if (line.StartsWith("FMT"))
+            if (line.StartsWith("FMT", StringComparison.Ordinal))
             {
                 FMTLine(line);
             }
-            else if (line.StartsWith("GPS"))
+            else if (line.StartsWith("GPS", StringComparison.Ordinal))
             {
                
             }
-            else if (line.StartsWith("ERR"))
+            else if (line.StartsWith("ERR", StringComparison.Ordinal))
             {
                 Array.Resize(ref items, items.Length + 2);
                 try
@@ -569,7 +615,7 @@ namespace MissionPlanner.Utilities
                 {
                 }
             }
-            else if (line.StartsWith("EV"))
+            else if (line.StartsWith("EV", StringComparison.Ordinal))
             {
                 Array.Resize(ref items, items.Length + 1);
                 try
@@ -586,7 +632,7 @@ namespace MissionPlanner.Utilities
                 {
                 }
             }
-            else if (line.StartsWith("MAG"))
+            else if (line.StartsWith("MAG", StringComparison.Ordinal))
             {
             }
 
@@ -599,7 +645,7 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                if (strLine.StartsWith("FMT"))
+                if (strLine.StartsWith("FMT", StringComparison.Ordinal))
                 {
                     strLine = strLine.Replace(", ", ",");
                     strLine = strLine.Replace(": ", ":");
@@ -618,10 +664,19 @@ namespace MissionPlanner.Utilities
                         FieldNames = names.ToList()
                     };
 
+                    // the same FMT is seen again on every pass over the log
+                    Label old;
+                    bool changed = !logformat.TryGetValue(lbl.Name, out old) || old.FieldNames == null ||
+                                   !old.FieldNames.SequenceEqual(lbl.FieldNames);
+
                     logformat[lbl.Name] = lbl;
+
+                    if (changed)
+                        msgoffsetcache.Clear();
 
                     if (!logformat.ContainsKey("FMT"))
                     {
+                        msgoffsetcache.Clear();
                         // mod for custom logformat that hides the FMT key
                         //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
 
@@ -710,27 +765,31 @@ namespace MissionPlanner.Utilities
             return basetime.ToLocalTime();
         }
 
-        Dictionary<int, int> msgoffsetcache = new Dictionary<int, int>();
+        // the answers of FindMessageOffset, -1 included, emptied when the fields of a format change
+        ConcurrentDictionary<(string, string), int> msgoffsetcache = new ConcurrentDictionary<(string, string), int>();
 
         public int FindMessageOffset(string linetype, string find)
         {
             if (linetype == null || find == null)
                 return -1;
 
-            if (msgoffsetcache.ContainsKey(linetype.GetHashCode() ^ find.GetHashCode()))
-                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
+            int offset;
+            if (msgoffsetcache.TryGetValue((linetype, find), out offset))
+                return offset;
+
+            offset = -1;
 
             if (logformat.ContainsKey(linetype.ToUpper()))
             {
                 var ans = logformat[linetype].FieldNames.IndexOf(find);
-                if (ans == -1)
-                    return -1;
                 // + type
-                msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()] = ans + 1;
-                return msgoffsetcache[linetype.GetHashCode() ^ find.GetHashCode()];
+                if (ans != -1)
+                    offset = ans + 1;
             }
 
-            return -1;
+            msgoffsetcache[(linetype, find)] = offset;
+
+            return offset;
         }
 
         public long GetLineNoFromTime(DFLogBuffer logdata, DateTime p1)
