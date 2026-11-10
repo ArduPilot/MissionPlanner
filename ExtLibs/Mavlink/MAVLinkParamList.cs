@@ -17,6 +17,83 @@ public partial class MAVLink
             get { return this.Count; }
         }
 
+        // The index of the first param of each name asked for, -1 when there is none. The list can also
+        // be changed through List<T>, behind this class, so the answers are only kept for as long as the
+        // list's own change counter stays the same.
+        readonly Dictionary<string, int> nameIndex = new Dictionary<string, int>();
+        int nameIndexVersion = -1;
+
+        static readonly Func<List<MAVLinkParam>, int> listVersion = GetListVersion();
+
+        /// <summary>
+        /// reads the change counter of a List, null where the runtime's List has none we can read
+        /// </summary>
+        static Func<List<MAVLinkParam>, int> GetListVersion()
+        {
+            try
+            {
+                var field = typeof(List<MAVLinkParam>).GetField("_version",
+                    System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+                if (field == null || field.FieldType != typeof(int))
+                    return null;
+
+                try
+                {
+                    var list = System.Linq.Expressions.Expression.Parameter(typeof(List<MAVLinkParam>), "list");
+                    return System.Linq.Expressions.Expression.Lambda<Func<List<MAVLinkParam>, int>>(
+                        System.Linq.Expressions.Expression.Field(list, field), list).Compile();
+                }
+                catch
+                {
+                    return list => (int) field.GetValue(list);
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        int ScanForName(string name)
+        {
+            int count = Count;
+            for (int index = 0; index < count; index++)
+            {
+                if (base[index].Name == name)
+                    return index;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// index of the first param with this name, or -1. The caller holds the reader or writer lock
+        /// </summary>
+        int IndexOfName(string name)
+        {
+            if (listVersion == null || name == null)
+                return ScanForName(name);
+
+            lock (nameIndex)
+            {
+                int version = listVersion(this);
+                if (version != nameIndexVersion)
+                {
+                    nameIndex.Clear();
+                    nameIndexVersion = version;
+                }
+
+                int index;
+                if (!nameIndex.TryGetValue(name, out index))
+                {
+                    index = ScanForName(name);
+                    nameIndex[name] = index;
+                }
+
+                return index;
+            }
+        }
+
         public MAVLinkParam this[string name]
         {
             get
@@ -24,11 +101,9 @@ public partial class MAVLink
                 try
                 {
                     locker.AcquireReaderLock(1000);
-                    foreach (var item in this)
-                    {
-                        if (item.Name == name)
-                            return item;
-                    }
+                    int index = IndexOfName(name);
+                    if (index >= 0)
+                        return base[index];
                 }
                 finally
                 {
@@ -41,20 +116,15 @@ public partial class MAVLink
 
             set
             {
-                int index = 0;
                 try
                 {
                     locker.AcquireWriterLock(1000);
-                    foreach (var item in this)
+                    int index = IndexOfName(name);
+                    if (index >= 0)
                     {
-                        if (item.Name == name)
-                        {
-                            this[index] = value;
-                            OnPropertyChanged();
-                            return;
-                        }
-
-                        index++;
+                        base[index] = value;
+                        OnPropertyChanged();
+                        return;
                     }
 
                     base.Add(value);
@@ -116,11 +186,8 @@ public partial class MAVLink
             try
             {
                 locker.AcquireReaderLock(1000);
-                foreach (MAVLinkParam item in this)
-                {
-                    if (item.Name == v)
-                        return true;
-                }
+                if (IndexOfName(v) >= 0)
+                    return true;
             }
             finally
             {
