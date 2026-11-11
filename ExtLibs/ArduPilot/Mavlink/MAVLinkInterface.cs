@@ -4332,17 +4332,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             return (MAV_MISSION_RESULT) ans.type;
                         }
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST &&
+                    else if ((buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST ||
+                              buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT) &&
                              buffer.sysid == sysid && buffer.compid == compid)
                     {
-                        var ans = buffer.ToStructure<mavlink_mission_request_t>();
+                        // the vehicle may request the next item with either message
+                        var ans_seq = buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST
+                            ? buffer.ToStructure<mavlink_mission_request_t>().seq
+                            : buffer.ToStructure<mavlink_mission_request_int_t>().seq;
                         if (!buffer.IsTargetedTo(gcssysid, (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                             continue;
 
-                        if (ans.seq == (index + 1))
+                        if (ans_seq == (index + 1))
                         {
-                            log.Info("setWPint resp MISSION_REQUEST" + buffer.ToJSON(Formatting.None));
-                            //log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
+                            log.Info("setWPint resp " + (MAVLINK_MSG_ID) buffer.msgid + " " + buffer.ToJSON(Formatting.None));
+                            //log.Info("set wp doing " + index + " req " + ans_seq + " REQ 40 : " + buffer.msgid);
 
                             if (req.current == 2)
                             {
@@ -4372,7 +4376,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         else
                         {
                             log.InfoFormat(
-                                "set wp fail doing " + index + " req " + ans.seq + " ACK 47 or REQ 40 : " +
+                                "set wp fail doing " + index + " req " + ans_seq + " ACK 47 or REQ 40 : " +
                                 buffer.msgid +
                                 " seq {0} ts {1} tc {2}", req.seq, req.target_system, req.target_component);
                             // resend point now
