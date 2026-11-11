@@ -158,16 +158,16 @@ namespace MissionPlanner.Utilities
 
                     bool receiverConfirmed = false;
 
-                    // Skip setCOMSettings command only for a single, positively detected USB port
-                    bool isSingleUsbPort = Regex.IsMatch(detectedPortCandidate ?? string.Empty, @"^USB\d+$", RegexOptions.IgnoreCase);
-                    if (!isSingleUsbPort)
+                    // Skip setCOMSettings command for non-serial connections (USB, IP, or Bluetooth ports)
+                    bool isNonSerialPort = Regex.IsMatch(detectedPortCandidate ?? string.Empty, @"^(USB|IP|BT)\d+$", RegexOptions.IgnoreCase);
+                    if (!isNonSerialPort)
                     {
-                        // If no COM port is detected, use the two COM ports in the default list
+                        // If no COM port is detected, fall back to configuring default serial ports (COM1+COM2)
                         string comSettingsPort = (detectedPortCandidate ?? string.Empty).Contains("COM") ? detectedPortCandidate : "COM1+COM2";
                         await SendAck(receiverPort, $"setCOMSettings,{comSettingsPort},baud{DefaultBaudrate},bits8,No,bit1,none\n");
                         receiverConfirmed = true;
                     }
-                    // Because there is no SendAck confirmation in that case, only accept the USB result if DetectPort returned something other than the fallback value
+                    // Because no SendAck confirmation is sent for non-serial ports, only accept USB, IP, or BT results if DetectPort returned something other than the fallback value
                     else if (!string.Equals(detectedPortCandidate, DefaultPorts, StringComparison.OrdinalIgnoreCase))
                     {
                         receiverConfirmed = true;
@@ -267,11 +267,11 @@ namespace MissionPlanner.Utilities
 
                         string currentText = buffer.ToString();
 
-                        // Match serial and USB port names (COMx or USBx) directly preceding the '>' prompt character
-                        var match = Regex.Match(currentText, @"(COM\d+|USB\d+)\s*>");
+                        // Match active port names (COMx, USBx, IPx, or BTx) directly preceding the '>' prompt character
+                        var match = Regex.Match(currentText, @"(COM\d+|USB\d+|IP\d+|BT\d+)\s*>", RegexOptions.IgnoreCase);
                         if (match.Success)
                         {
-                            // Extract active port name (e.g., COM1 or USB1)
+                            // Extract active port identifier (e.g., COM1, USB1, IP10, or BT01)
                             return match.Groups[1].Value;
                         }
                     }
