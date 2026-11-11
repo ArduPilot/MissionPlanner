@@ -396,7 +396,6 @@ namespace MissionPlannerTests.Mavlink
             foreach (uint message in new uint[] { 47, 40, 51 })
             using (var port = new MAVLinkInterface())
             {
-                if (useInt && message == 51) continue; // This overload consumes MISSION_REQUEST.
                 var serial = new TestSerial();
                 port.BaseStream = serial;
                 const uint vehicle = 0x80000001;
