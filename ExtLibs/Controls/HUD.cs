@@ -3793,11 +3793,18 @@ namespace MissionPlanner.Controls
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
+        // zeroed pixels for clearing the atlas; allocated once and never written, so a resize or a full
+        // atlas does not allocate another 4 MB array
+        static byte[] _atlasClearPixels;
+
         void ClearAtlasTexture()
         {
+            if (_atlasClearPixels == null)
+                _atlasClearPixels = new byte[AtlasSize * AtlasSize * 4];
+
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, AtlasSize, AtlasSize, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte,
-                new byte[AtlasSize * AtlasSize * 4]);
+                _atlasClearPixels);
         }
 
         // copy a glyph bitmap into the shared atlas, one pixel apart from its neighbours so linear filtering
