@@ -190,6 +190,13 @@ namespace MissionPlanner.Utilities
                     // e.g. a DO_JUMP back to the takeoff: draw the line to where the takeoff is placed
                     overrideDestPos = GetTakeoffLocation(b, graph.Home);
                 }
+                if (b.Command.id == (ushort)MAVLink.MAV_CMD.RETURN_TO_LAUNCH && overrideDestPos == null &&
+                    !HasLocation(b.Command))
+                {
+                    // RTL ignores its lat/lon and flies back to home (a rally point may be used instead,
+                    // which the overlay cannot know); without this the return leg is not drawn at all
+                    overrideDestPos = KnownHome(graph.Home);
+                }
 
                 // Mark one (only one) of the landing/return/go-around flags
                 if (landingEdges.Contains(edge))
@@ -239,6 +246,15 @@ namespace MissionPlanner.Utilities
             }
 
             return segments;
+        }
+
+        static PointLatLngAlt KnownHome(PointLatLngAlt home)
+        {
+            if (home == null || (home.Lat == 0 && home.Lng == 0))
+            {
+                return null;
+            }
+            return home;
         }
 
         private static bool AreColocatedLoiters(MissionNode a, MissionNode b, double defaultRadius)

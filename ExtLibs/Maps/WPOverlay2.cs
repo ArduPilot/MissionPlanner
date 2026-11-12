@@ -27,6 +27,13 @@ namespace MissionPlanner.Maps
         /// </summary>
         public List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>();
 
+        /// <summary>
+        /// Length in metres of the path the mission flies through once: every segment except jump
+        /// alternatives and bookmark pointers, each measured on its own so that separate segments are
+        /// never joined by a leg that is not flown. DO_JUMP repeats are not multiplied out.
+        /// </summary>
+        public double PathDistance { get; private set; }
+
         public VehicleClass VehicleClass = VehicleClass.Copter;
         public bool ShowPlusMarkers = true;
 
@@ -175,10 +182,21 @@ namespace MissionPlanner.Maps
             double loiterradius,
             bool showPlusMarkers)
         {
+            PathDistance = 0;
             foreach (var segment in segments)
             {
 
                 var route = AddRoute(overlay, segment, "segment");
+
+                if (!segment.Flags.HasFlag(SegmentFlags.Alternate) &&
+                    !segment.Flags.HasFlag(SegmentFlags.FromBookmark) &&
+                    segment.Path != null)
+                {
+                    for (int i = 1; i < segment.Path.Count; i++)
+                    {
+                        PathDistance += segment.Path[i - 1].GetDistance(segment.Path[i]);
+                    }
+                }
 
                 // These markers are handled by FlightPlanner.cs to insert waypoints
                 if (showPlusMarkers && 

@@ -1770,12 +1770,15 @@ namespace MissionPlanner.GCSViews
 
                     activeOverlay.ForceUpdate();
 
+                    // WPOverlay2 draws each segment as its own route (jump alternatives, bookmark pointers,
+                    // loiter arcs), so joining all route points would add legs between unrelated segments
+                    var missiondistance = useV2
+                        ? wpOverlay2.PathDistance
+                        : activeOverlay.Routes.SelectMany(a => a.Points)
+                            .Select(a => (PointLatLngAlt) a)
+                            .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2));
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                        FormatDistance((
-                                            activeOverlay.Routes.SelectMany(a => a.Points)
-                                                .Select(a => (PointLatLngAlt) a)
-                                                .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
-                                        ) / 1000.0, false);
+                                        FormatDistance(missiondistance / 1000.0, false);
 
                     setgradanddistandaz(activePointlist, home);
 
