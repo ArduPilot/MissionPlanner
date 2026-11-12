@@ -1,4 +1,5 @@
-﻿# from http://diydrones.com/forum/topics/mission-planner-python-script?commentId=705844%3AComment%3A2035437&xg_source=msg_com_forum
+﻿from __future__ import print_function
+# from http://diydrones.com/forum/topics/mission-planner-python-script?commentId=705844%3AComment%3A2035437&xg_source=msg_com_forum
 
 import socket
 import sys
@@ -22,22 +23,22 @@ REMOTE = ''
  
 
 rsock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-print 'Sockets created'
+print('Sockets created')
 
 # Bind socket to local host and port 
 try:     
    rsock.bind((HOST,RPORT)) 
-except socket.error, msg:
+except socket.error as msg:
    #print 'Bind failed. Error Code:'
    sys.stderr.write("[ERROR] %s\n" % msg[1])
    rsock.close()
    sys.exit()       
 
-print 'Receive Socket bind complete on ' + str(RPORT)
+print('Receive Socket bind complete on ' + str(RPORT))
 
-print 'Starting Follow'
+print('Starting Follow')
 Script.ChangeMode("Guided")                     # changes mode to "Guided"
-print 'Guided Mode'
+print('Guided Mode')
 
 #keep talking with the Mission Planner server 
 while 1:     
@@ -101,8 +102,8 @@ while 1:
        #MissionPlanner.Utilities.Locationwp.groundcourse.SetValue(item,float_heading)
        MissionPlanner.Utilities.Locationwp.alt.SetValue(item,float_alt) #Can only use lat,lng, or alt
        MAV.setGuidedModeWP(item) #set waypoint
-       print 'Waypoint Sent'
-       print time.strftime('%X %x %Z')
+       print('Waypoint Sent')
+       print(time.strftime('%X %x %Z'))
 # exit
 rsock.close()
-print 'Script End'
+print('Script End')

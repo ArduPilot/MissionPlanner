@@ -7,6 +7,7 @@ using SkiaSharp;
 namespace System.Drawing
 {
     [Serializable]
+    [TypeConverter(typeof(FontConverter))]
     public class Font : ISerializable, IDisposable, ICloneable
     {
         internal SKPaint nativeFont;
