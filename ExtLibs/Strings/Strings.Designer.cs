@@ -250,6 +250,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to "{0}" is read as {1} mAh: '.' and ',' are decimal points here. Are you sure?.
+        /// </summary>
+        public static string BatteryCapacityAsDecimal {
+            get {
+                return ResourceManager.GetString("BatteryCapacityAsDecimal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Beta.
         /// </summary>
         public static string Beta {

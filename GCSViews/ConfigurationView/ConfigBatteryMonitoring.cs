@@ -2,7 +2,6 @@
 using MissionPlanner.Utilities;
 using System;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -194,11 +193,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    var capacity = ParseNumber(TXT_battcapacity.Text);
-                    // '.' is always a decimal point now, so "5.000" meant as 5000 mAh reads as 5.
-                    if (capacity > 0 && capacity < 100 &&
-                        CustomMessageBox.Show("A battery capacity of " + capacity + " mAh is very small. Are you sure?",
-                            "Small Value", MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                    var capacity = DecimalInput.Parse(TXT_battcapacity.Text);
+                    // "5.000" meant as 5000 mAh reads as 5
+                    if (DecimalInput.LooksLikeThousands(TXT_battcapacity.Text) &&
+                        CustomMessageBox.Show(string.Format(Strings.BatteryCapacityAsDecimal, TXT_battcapacity.Text.Trim(), capacity),
+                            Strings.Warning, MessageBoxButtons.YesNo) == (int)DialogResult.No)
                     {
                         TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
                         return;
@@ -279,7 +278,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_measuredvoltage_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !TryParseNumber(TXT_measuredvoltage.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_measuredvoltage.Text, out ans);
         }
 
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
@@ -288,9 +287,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredvoltage = ParseNumber(TXT_measuredvoltage.Text);
-                var voltage = ParseNumber(TXT_voltage.Text);
-                var divider = ParseNumber(TXT_divider_VOLT_MULT.Text);
+                var measuredvoltage = DecimalInput.Parse(TXT_measuredvoltage.Text);
+                var voltage = DecimalInput.Parse(TXT_voltage.Text);
+                var divider = DecimalInput.Parse(TXT_divider_VOLT_MULT.Text);
                 if (voltage == 0)
                     return;
                 var new_divider = (measuredvoltage * divider) / voltage;
@@ -304,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, ParseNumber(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, DecimalInput.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -319,7 +318,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_divider_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !TryParseNumber(TXT_divider_VOLT_MULT.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
         }
 
         private void TXT_divider_Validated(object sender, EventArgs e)
@@ -328,7 +327,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, ParseNumber(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, DecimalInput.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -343,7 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_ampspervolt_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !TryParseNumber(TXT_AMP_PERVLT.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_AMP_PERVLT.Text, out ans);
         }
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
@@ -352,7 +351,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, ParseNumber(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, DecimalInput.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -635,9 +634,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredcurrent = ParseNumber(txt_meascurrent.Text);
-                var current = ParseNumber(txt_current.Text);
-                var divider = ParseNumber(TXT_AMP_PERVLT.Text);
+                var measuredcurrent = DecimalInput.Parse(txt_meascurrent.Text);
+                var current = DecimalInput.Parse(txt_current.Text);
+                var divider = DecimalInput.Parse(TXT_AMP_PERVLT.Text);
                 if (current == 0)
                     return;
                 var new_divider = (measuredcurrent * divider) / current;
@@ -651,7 +650,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, ParseNumber(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, DecimalInput.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -661,18 +660,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                   CustomMessageBox.Show("Set BATT_AMP_PERVOLT Failed", Strings.ERROR);
                 }
             }
-        }
-
-        // Accept both '.' and ',' as the decimal separator whatever the Windows
-        // regional format, so 12.34 is never read as 1234 on a comma locale.
-        private static bool TryParseNumber(string text, out float value)
-        {
-            return float.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out value);
-        }
-
-        private static float ParseNumber(string text)
-        {
-            return float.Parse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture);
         }
     }
 }
