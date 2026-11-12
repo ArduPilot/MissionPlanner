@@ -126,7 +126,8 @@ namespace MissionPlanner.Utilities.Mission
                     }
                     missionToNode[i] = node;
                 }
-                if (cmd.id == (ushort)MAVLink.MAV_CMD.JUMP_TAG)
+                // AP_Mission::get_index_of_jump_tag returns the first match, so the first duplicate tag wins
+                if (cmd.id == (ushort)MAVLink.MAV_CMD.JUMP_TAG && !jumpTags.ContainsKey((int)cmd.p1))
                 {
                     jumpTags[(int)cmd.p1] = i;
                 }
@@ -213,11 +214,8 @@ namespace MissionPlanner.Utilities.Mission
                     continue; // Landing without a subsequent takeoff, is considered terminal; do not count this as a valid edge.
                 }
 
+                // GetJumpCount(item) != 0 was checked at the top of the loop
                 int jumpRepeat = GetJumpCount(item);
-                if (jumpRepeat == 0)
-                {
-                    continue; // no jump
-                }
 
                 var edge = new MissionEdge(srcNode, destNode, true, jumpRepeat);
                 edges.Add(edge);

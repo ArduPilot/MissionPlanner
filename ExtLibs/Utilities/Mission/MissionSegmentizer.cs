@@ -141,7 +141,7 @@ namespace MissionPlanner.Utilities
                 if (NeedsLoiterExit(a, vehicleClass))
                 {
                     loiterInfo = EnsureLoiterInfo(ref loiterInfoDict, a, loiterRadius);
-                    if (AreColocatedLoiters(a, b))
+                    if (AreColocatedLoiters(a, b, loiterRadius))
                     {
                         // Co-located loiters, share the same loiter info
                         loiterInfoDict[b.MissionIndex] = loiterInfo;
@@ -184,6 +184,11 @@ namespace MissionPlanner.Utilities
                 {
                     overrideSrcPos = GetTakeoffLocation(a, graph.Home);
                     flags |= SegmentFlags.FromTakeoff;
+                }
+                if (IsTakeoff(b.Command.id) && overrideDestPos == null)
+                {
+                    // e.g. a DO_JUMP back to the takeoff: draw the line to where the takeoff is placed
+                    overrideDestPos = GetTakeoffLocation(b, graph.Home);
                 }
 
                 // Mark one (only one) of the landing/return/go-around flags
@@ -236,14 +241,15 @@ namespace MissionPlanner.Utilities
             return segments;
         }
 
-        private static bool AreColocatedLoiters(MissionNode a, MissionNode b)
+        private static bool AreColocatedLoiters(MissionNode a, MissionNode b, double defaultRadius)
         {
             if (!IsLoiter(a.Command.id) || !IsLoiter(b.Command.id))
             {
                 return false;
             }
-            var radius = LoiterRadius(a.Command, 0);
-            if (radius != LoiterRadius(b.Command, 0))
+            // loiters with p3 == 0 use the vehicle's default radius (WP_LOITER_RAD)
+            var radius = LoiterRadius(a.Command, defaultRadius);
+            if (radius != LoiterRadius(b.Command, defaultRadius))
             {
                 return false;
             }

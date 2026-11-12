@@ -8062,7 +8062,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
                                      MAVLink.MAV_MISSION_TYPE.MISSION)
                             {
-                                while (pnt2 > 1 && CommandUtils.IsBookmark(GetCommandList()[pnt2 - 2].id))
+                                var commandlist = GetCommandList();
+                                while (pnt2 > 1 && CommandUtils.IsBookmark(commandlist[pnt2 - 2].id))
                                 {
                                     pnt2 -= 1;
                                 }

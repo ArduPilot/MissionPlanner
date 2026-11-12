@@ -99,10 +99,19 @@ namespace MissionPlanner.Utilities.Mission
             {
                 return false;
             }
+            return hasLocationAttribute.GetOrAdd(cmd.id, CommandHasLocationAttribute);
+        }
+
+        // HasLocation runs many times per item on every rebuild; the reflection result only depends on the id
+        static readonly System.Collections.Concurrent.ConcurrentDictionary<ushort, bool> hasLocationAttribute =
+            new System.Collections.Concurrent.ConcurrentDictionary<ushort, bool>();
+
+        static bool CommandHasLocationAttribute(ushort id)
+        {
             var mavCmdType = typeof(MAVLink.MAV_CMD);
-            if (!Enum.IsDefined(mavCmdType, cmd.id))
+            if (!Enum.IsDefined(mavCmdType, id))
                 return true; // unknown, assume positional if lat/lon present
-            var name = ((MAVLink.MAV_CMD)cmd.id).ToString();
+            var name = ((MAVLink.MAV_CMD)id).ToString();
             var memberInfo = mavCmdType.GetMember(name).FirstOrDefault();
             if (memberInfo == null)
                 return true; // should not be possible
@@ -284,10 +293,10 @@ namespace MissionPlanner.Utilities.Mission
             {
                 throw new ArgumentException("Command is not a takeoff");
             }
-            var prev_node = node.IncomingEdges?.FirstOrDefault()?.FromNode;
+            var prev_node = TakeoffPredecessor(node);
             if (prev_node == null)
             {
-                // Nothing leads to here, so just use home
+                // Nothing leads to here (or only jumps from the air), so just use home
                 return home;
             }
             if (!IsLand(prev_node.Command.id))
@@ -306,13 +315,28 @@ namespace MissionPlanner.Utilities.Mission
             while (prev_node != null && !visited.Contains(prev_node.MissionIndex) && !HasLocation(prev_node.Command))
             {
                 visited.Add(prev_node.MissionIndex);
-                prev_node = prev_node.IncomingEdges?.FirstOrDefault()?.FromNode;
+                prev_node = prev_node.IncomingEdges?.FirstOrDefault(e => !e.IsJump)?.FromNode
+                            ?? prev_node.IncomingEdges?.FirstOrDefault()?.FromNode;
             }
             if (prev_node == null || !HasLocation(prev_node.Command))
             {
                 return home;
             }
             return new PointLatLngAlt(prev_node.Command);
+        }
+
+        /// <summary>
+        /// The node a takeoff follows: the sequential predecessor if there is one, otherwise a land that
+        /// jumps to it. A jump from an airborne item (e.g. a DO_JUMP looping the mission back to the
+        /// takeoff) does not say where the takeoff happens, so it is ignored and the caller uses home.
+        /// </summary>
+        static MissionNode TakeoffPredecessor(MissionNode node)
+        {
+            var edges = node.IncomingEdges;
+            if (edges == null)
+                return null;
+            return edges.FirstOrDefault(e => !e.IsJump)?.FromNode
+                   ?? edges.FirstOrDefault(e => e.IsJump && e.FromNode != null && IsLand(e.FromNode.Command.id))?.FromNode;
         }
     }
 }

@@ -290,12 +290,18 @@ namespace MissionPlanner.Controls
             if (list == null)
                 return;
 
-            var source = listBox.SelectedItem;
-            var clone = Activator.CreateInstance(source.GetType());
-            foreach (var prop in source.GetType().GetProperties())
+            // use the configs' own Clone() so arrays such as RawCommandIds are not shared with the original
+            object clone;
+            switch (listBox.SelectedItem)
             {
-                if (prop.CanWrite)
-                    prop.SetValue(clone, prop.GetValue(source));
+                case SegmentStyleRuleConfig segmentRule:
+                    clone = segmentRule.Clone();
+                    break;
+                case MarkerStyleRuleConfig markerRule:
+                    clone = markerRule.Clone();
+                    break;
+                default:
+                    return;
             }
             list.Add(clone);
             listBox.SelectedIndex = list.Count - 1;

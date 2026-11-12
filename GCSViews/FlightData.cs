@@ -3963,6 +3963,8 @@ namespace MissionPlanner.GCSViews
                                         VehicleClass = MainV2.comPort.MAV.cs.vehicleClass,
                                         ShowPlusMarkers = false,
                                     };
+                                    // same id as the legacy overlay, so toggling "Use Legacy Overlay" replaces it
+                                    wpOverlay2.overlay.Id = "WPOverlay";
                                     activeOverlay = wpOverlay2.overlay;
                                     activePointlist = wpOverlay2.pointlist;
 
@@ -3970,9 +3972,14 @@ namespace MissionPlanner.GCSViews
                                     mission_items = MainV2.comPort.MAV.wps.Values.Select(a => (Locationwp) a).ToList();
                                     mission_items.RemoveAt(0);
 
+                                    // loiters with p3 == 0 fly at WP_LOITER_RAD; without it they draw as zero-radius arcs
+                                    double loiterrad = 0;
+                                    if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
+                                        loiterrad = (double) MainV2.comPort.MAV.param["WP_LOITER_RAD"];
+
                                     wpOverlay2.CreateOverlay(homeplla,
                                         mission_items,
-                                        0 / CurrentState.multiplieralt, 0 / CurrentState.multiplieralt,
+                                        0, loiterrad,
                                         CurrentState.multiplieralt);
                                 }
                                 else
