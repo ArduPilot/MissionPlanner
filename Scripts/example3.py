@@ -52,6 +52,7 @@ alt = 60.000000 # altitude value
 Locationwp.lat.SetValue(item,target[0]) # sets latitude
 Locationwp.lng.SetValue(item,target[1]) # sets longitude
 Locationwp.alt.SetValue(item,alt) # sets altitude
+Locationwp.frame.SetValue(item,3) # altitude is relative to home (MAV_FRAME_GLOBAL_RELATIVE_ALT); unset means AMSL
 print('Drop zone set')
 MAV.setGuidedModeWP(item) # tells UAV "go to" the set lat/long @ alt
 print('Going to DZ')

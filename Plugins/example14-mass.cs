@@ -129,8 +129,9 @@ namespace mass
                         mav.setGuidedModeWP(new Locationwp
                         {
                             alt = 50,
-                            lat = Host.FDMenuMapPosition.Lat / 1e7,
-                            lng = Host.FDMenuMapPosition.Lng / 1e7,
+                            // the map position is already in degrees
+                            lat = Host.FDMenuMapPosition.Lat,
+                            lng = Host.FDMenuMapPosition.Lng,
                             frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
                         });
                     }

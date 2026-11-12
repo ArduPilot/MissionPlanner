@@ -101,6 +101,7 @@ while 1:
        MissionPlanner.Utilities.Locationwp.lng.SetValue(item,float_lng)
        #MissionPlanner.Utilities.Locationwp.groundcourse.SetValue(item,float_heading)
        MissionPlanner.Utilities.Locationwp.alt.SetValue(item,float_alt) #Can only use lat,lng, or alt
+       MissionPlanner.Utilities.Locationwp.frame.SetValue(item,3) #altitude relative to home (MAV_FRAME_GLOBAL_RELATIVE_ALT); unset means AMSL
        MAV.setGuidedModeWP(item) #set waypoint
        print('Waypoint Sent')
        print(time.strftime('%X %x %Z'))
