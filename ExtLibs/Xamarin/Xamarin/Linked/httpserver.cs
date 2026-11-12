@@ -767,13 +767,9 @@ namespace MissionPlanner.Utilities
 
                         if (match.Success)
                         {
-                            Locationwp gwp = new Locationwp()
-                            {
-                                lat = double.Parse(match.Groups[1].Value),
-                                lng = double.Parse(match.Groups[2].Value),
-                                alt = float.Parse(match.Groups[3].Value),
-                                frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
-                            };
+                            Locationwp gwp = new Locationwp().Set(double.Parse(match.Groups[1].Value),
+                                double.Parse(match.Groups[2].Value), float.Parse(match.Groups[3].Value),
+                                (ushort)MAVLink.MAV_CMD.WAYPOINT);
                             try
                             {
                                 MainV2.comPort.setGuidedModeWP(gwp);
@@ -817,13 +813,9 @@ namespace MissionPlanner.Utilities
 
                         if (match.Success)
                         {
-                            Locationwp gwp = new Locationwp()
-                            {
-                                lat = double.Parse(match.Groups[1].Value),
-                                lng = double.Parse(match.Groups[2].Value),
-                                alt = float.Parse(match.Groups[3].Value),
-                                frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT
-                            };
+                            Locationwp gwp = new Locationwp().Set(double.Parse(match.Groups[1].Value),
+                                double.Parse(match.Groups[2].Value), float.Parse(match.Groups[3].Value),
+                                (ushort)MAVLink.MAV_CMD.WAYPOINT);
                             try
                             {
                                 MainV2.comPort.setGuidedModeWP(gwp);

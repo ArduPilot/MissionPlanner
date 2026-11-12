@@ -12,6 +12,8 @@ clr.AddReference("MissionPlanner.Utilities")
 import MissionPlanner #import *
 clr.AddReference("MissionPlanner.Utilities") #includes the Utilities class
 from MissionPlanner.Utilities import Locationwp
+clr.AddReference("MAVLink")
+import MAVLink
 
 
 HOST = 'localhost'   # Symbolic name meaning all available interfaces
@@ -101,7 +103,7 @@ while 1:
        MissionPlanner.Utilities.Locationwp.lng.SetValue(item,float_lng)
        #MissionPlanner.Utilities.Locationwp.groundcourse.SetValue(item,float_heading)
        MissionPlanner.Utilities.Locationwp.alt.SetValue(item,float_alt) #Can only use lat,lng, or alt
-       MissionPlanner.Utilities.Locationwp.frame.SetValue(item,3) #altitude relative to home (MAV_FRAME_GLOBAL_RELATIVE_ALT); unset means AMSL
+       MissionPlanner.Utilities.Locationwp.frame.SetValue(item,int(MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)) #altitude relative to home; unset means AMSL
        MAV.setGuidedModeWP(item) #set waypoint
        print('Waypoint Sent')
        print(time.strftime('%X %x %Z'))

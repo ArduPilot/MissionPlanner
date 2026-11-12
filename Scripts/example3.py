@@ -7,6 +7,8 @@ clr.AddReference("MissionPlanner")
 import MissionPlanner
 clr.AddReference("MissionPlanner.Utilities") # includes the Utilities class
 from MissionPlanner.Utilities import Locationwp
+clr.AddReference("MAVLink")
+import MAVLink
 
 def gps_distance(lat1, lon1, lat2, lon2):
 	'''return distance between two points in meters,
@@ -52,7 +54,7 @@ alt = 60.000000 # altitude value
 Locationwp.lat.SetValue(item,target[0]) # sets latitude
 Locationwp.lng.SetValue(item,target[1]) # sets longitude
 Locationwp.alt.SetValue(item,alt) # sets altitude
-Locationwp.frame.SetValue(item,3) # altitude is relative to home (MAV_FRAME_GLOBAL_RELATIVE_ALT); unset means AMSL
+Locationwp.frame.SetValue(item,int(MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)) # altitude is relative to home; unset means AMSL
 print('Drop zone set')
 MAV.setGuidedModeWP(item) # tells UAV "go to" the set lat/long @ alt
 print('Going to DZ')
