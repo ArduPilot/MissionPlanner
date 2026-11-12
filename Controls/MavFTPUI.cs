@@ -353,7 +353,16 @@ namespace MissionPlanner.Controls
 
                     prd.DoWork += (iprd) =>
                     {
-                        var ms = _mavftp.GetFile(path, cancel, false);
+                        MemoryStream ms;
+                        try
+                        {
+                            ms = _mavftp.GetFile(path, cancel, false);
+                        }
+                        catch (OperationCanceledException) when (cancel.IsCancellationRequested)
+                        {
+                            iprd.doWorkArgs.CancelAcknowledged = true;
+                            return;
+                        }
                         if (cancel.IsCancellationRequested)
                         {
                             iprd.doWorkArgs.CancelAcknowledged = true;
@@ -676,7 +685,16 @@ namespace MissionPlanner.Controls
 
                     prd.DoWork += (iprd) =>
                     {
-                        var ms = _mavftp.GetFile(path, cancel);
+                        MemoryStream ms;
+                        try
+                        {
+                            ms = _mavftp.GetFile(path, cancel);
+                        }
+                        catch (OperationCanceledException) when (cancel.IsCancellationRequested)
+                        {
+                            iprd.doWorkArgs.CancelAcknowledged = true;
+                            return;
+                        }
                         if (cancel.IsCancellationRequested)
                         {
                             iprd.doWorkArgs.CancelAcknowledged = true;
