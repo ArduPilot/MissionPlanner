@@ -803,7 +803,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 // Burst replies have advancing sequence numbers. Single-read
                 // replies must belong to the outstanding request, including NAKs.
                 bool singleRead = sentPayload.opcode == FTPOpcode.kCmdReadFile;
-                if (singleRead && response.seq_number != (ushort)(sentPayload.seq_number + 1))
+                int sequenceDelta = unchecked((short)(response.seq_number - sentPayload.seq_number));
+                // Filter stale errors and EOF before they can abort or change the transfer.
+                if ((singleRead && sequenceDelta != 1) || (!singleRead && sequenceDelta <= 0))
                     return;
                 if (response.opcode == FTPOpcode.kRspNak)
                 {
@@ -835,8 +837,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     // Sequence identifies the packet's position within this burst,
                     // including wraparound. Each preceding ACK carries 1..239 bytes:
                     // older PX4 ignores readsize, and radio links may shrink chunks.
-                    int packetIndex = unchecked((short)(response.seq_number - sentPayload.seq_number)) - 1;
-                    if (packetIndex < 0 || response.offset < sentPayload.offset)
+                    int packetIndex = sequenceDelta - 1;
+                    if (response.offset < sentPayload.offset)
                         return;
                     ulong precedingBytes = response.offset - sentPayload.offset;
                     if (precedingBytes < (ulong)packetIndex || precedingBytes > (ulong)packetIndex * 239)

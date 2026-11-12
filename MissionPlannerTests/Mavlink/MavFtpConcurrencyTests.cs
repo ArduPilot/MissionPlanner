@@ -36,13 +36,19 @@ namespace MissionPlannerTests.Mavlink
 
         private static void Eof(MAVLinkInterface link, byte[] request, ushort? sequence = null)
         {
+            Nak(link, request, MAVFtp.FTPErrorCode.kErrEOF, sequence);
+        }
+
+        private static void Nak(MAVLinkInterface link, byte[] request, MAVFtp.FTPErrorCode error,
+            ushort? sequence = null, byte size = 1)
+        {
             var payload = new byte[251];
             BitConverter.GetBytes(sequence ?? (ushort)(BitConverter.ToUInt16(request, 0) + 1)).CopyTo(payload, 0);
             payload[2] = request[2];
             payload[3] = 129;
-            payload[4] = 1;
+            payload[4] = size;
             payload[5] = request[3];
-            payload[12] = 6;
+            payload[12] = (byte)error;
             // ArduPilot leaves offset zero on single-read NAKs. The matching
             // request, not this field, identifies the confirmed EOF position.
             DispatchPayload(link, payload);
@@ -467,6 +473,128 @@ namespace MissionPlannerTests.Mavlink
                 };
                 using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("@PARAM/param.pck", estimate, cancel, 110))
                     CollectionAssert.AreEqual(data, result.ToArray());
+            }
+        }
+
+        [TestMethod]
+        public void StaleBurstErrorsAreIgnoredAcrossSequenceWrap()
+        {
+            foreach (ushort start in new ushort[] { 20, 0, 65535 })
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 160).Select(i => (byte)i).ToArray();
+                var ftp = new MAVFtp(link, 7, 1);
+                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, start);
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15)
+                    {
+                        ushort sequence = BitConverter.ToUInt16(request, 0);
+                        Nak(link, request, MAVFtp.FTPErrorCode.kErrInvalidSession, (ushort)(sequence - 1));
+                        Nak(link, request, MAVFtp.FTPErrorCode.kErrInvalidSession, sequence);
+                        // Stale malformed replies must be filtered before decoding.
+                        Nak(link, request, MAVFtp.FTPErrorCode.kErrFail, sequence, size: 0);
+                        if (BitConverter.ToUInt32(request, 8) == 0)
+                        {
+                            Reply(link, data, 0, 80, request);
+                            Reply(link, data, 80, 80, request, burstComplete: true);
+                            return;
+                        }
+                    }
+                    ReadReply(link, data, request);
+                };
+                using (var result = ftp.kCmdBurstReadFile("stale-errors.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+            }
+        }
+
+        [TestMethod]
+        public void StaleBurstEofDoesNotStartRecovery()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 160).Select(i => (byte)i).ToArray();
+                var singleReads = new System.Collections.Generic.List<uint>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15)
+                    {
+                        ushort sequence = BitConverter.ToUInt16(request, 0);
+                        Eof(link, request, (ushort)(sequence - 1));
+                        Eof(link, request, sequence);
+                        if (BitConverter.ToUInt32(request, 8) == 0)
+                        {
+                            Reply(link, data, 0, 80, request);
+                            Reply(link, data, 80, 80, request, burstComplete: true);
+                            return;
+                        }
+                    }
+                    if (request[3] == 5) singleReads.Add(BitConverter.ToUInt32(request, 8));
+                    ReadReply(link, data, request);
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("stale-eof.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+                CollectionAssert.AreEqual(new uint[] { 160 }, singleReads,
+                    "Stale burst EOF must not discard current burst data or start recovery at offset zero.");
+            }
+        }
+
+        [TestMethod]
+        public void CurrentBurstErrorsFailWithoutRetryingOrReturningPartialData()
+        {
+            foreach (var error in new[] { MAVFtp.FTPErrorCode.kErrInvalidSession, MAVFtp.FTPErrorCode.kErrFail, MAVFtp.FTPErrorCode.kErrFileNotFound })
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var ftp = new MAVFtp(link, 7, 1);
+                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65535);
+                int requests = 0;
+                bool reportedComplete = false;
+                ftp.Progress += (file, percent) => { if (percent == 100) reportedComplete = true; };
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    requests++;
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    // The first reply wraps to zero, then a current burst error
+                    // follows it at sequence one, beyond request+1.
+                    Reply(link, new byte[80], 0, 80, request);
+                    Nak(link, request, error, (ushort)(BitConverter.ToUInt16(request, 0) + 2));
+                };
+                var exception = Assert.ThrowsException<IOException>(() => ftp.kCmdBurstReadFile("failed.bin", 160, cancel));
+                StringAssert.Contains(exception.Message, error.ToString());
+                Assert.AreEqual(1, requests, "A current server error must not be retried or masked.");
+                Assert.IsFalse(reportedComplete, "A failed partial transfer must not report completion.");
+            }
+        }
+
+        [TestMethod]
+        public void CurrentEmptyBurstNakIsReportedAsMalformed()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    Nak(link, request, MAVFtp.FTPErrorCode.kErrFail, size: 0);
+                };
+                Assert.ThrowsException<InvalidDataException>(() => new MAVFtp(link, 7, 1).kCmdBurstReadFile("malformed.bin", 160, cancel));
             }
         }
 
