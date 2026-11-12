@@ -59,6 +59,14 @@ mcs -out:"$app_dir/LinuxSmokeTest.exe" \
     -r:"$app_dir/MissionPlanner.Controls.dll" -r:"$app_dir/MissionPlanner.Utilities.dll" \
     -r:"$mono_facades/netstandard.dll" "$linux_dir/SmokeTest.cs"
 cp -- "$app_dir/MissionPlanner.exe.config" "$app_dir/LinuxSmokeTest.exe.config"
+# OpenGL HUD check (run.sh --gl-test). Shares its probe with the Windows MSTest.
+mcs -out:"$app_dir/OpenGLSelfTest.exe" \
+    -r:System.Windows.Forms -r:System.Drawing \
+    -r:"$app_dir/OpenTK.dll" -r:"$app_dir/OpenTK.GLControl.dll" \
+    -r:"$app_dir/MissionPlanner.Controls.dll" -r:"$app_dir/MissionPlanner.Utilities.dll" \
+    -r:"$mono_facades/netstandard.dll" \
+    "$linux_dir/OpenGLSelfTest.cs" "$source_dir/MissionPlannerTests/OpenGL/HudOpenGLProbe.cs"
+cp -- "$app_dir/MissionPlanner.exe.config" "$app_dir/OpenGLSelfTest.exe.config"
 
 package_name=MissionPlanner-linux-x86_64
 output_dir="$source_dir/bin/linux"
