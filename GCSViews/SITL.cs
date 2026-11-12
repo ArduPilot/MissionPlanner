@@ -970,7 +970,7 @@ SIM_DRIFT_TIME=0
 
                         try
                         {
-                            _ = mav.getParamListMavftpAsync((byte)mav.sysidcurrent, (byte)mav.compidcurrent);
+                            _ = mav.getParamListMavftpAsync(mav.sysidcurrent, (byte)mav.compidcurrent);
                         }
                         catch
                         {
@@ -1108,7 +1108,7 @@ SIM_DRIFT_TIME=0
                     MainV2.instance.doConnect(MainV2.comPort, "preset", "5760", false);
                     try
                     {
-                        _ = MainV2.comPort.getParamListMavftpAsync((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                        _ = MainV2.comPort.getParamListMavftpAsync(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                     }
                     catch
                     {

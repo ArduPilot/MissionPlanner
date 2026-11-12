@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
 
@@ -170,54 +169,6 @@ namespace com.drew.imaging.jpg
         public bool ContainsSegment(byte aSegmentMarker)
         {
             return this.segmentDataMap.ContainsKey(aSegmentMarker);
-        }
-
-        /// <summary>
-        /// Writes the aSegmentData to a aFile.
-        /// </summary>
-        /// <param name="aFileName">where to write the information</param>
-        /// <param name="aSegmentData">what to write in the aFile</param>
-        public static void ToFile(string aFileName, JpegSegmentData aSegmentData)
-        {
-            FileStream lcFileStream = null;
-            try
-            {
-                lcFileStream = new FileStream(aFileName, FileMode.CreateNew);
-                BinaryFormatter lcBinFor = new BinaryFormatter();
-                lcBinFor.Serialize(lcFileStream, aSegmentData);
-            }
-            finally
-            {
-                if (lcFileStream != null)
-                {
-                    lcFileStream.Close();
-                    lcFileStream.Dispose();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Loads a jpegsegmentdata from a file.
-        /// </summary>
-        /// <param name="aFileName">where to find data</param>
-        /// <returns>the jpegsegment asked</returns>
-        public static JpegSegmentData FromFile(string aFileName)
-        {
-            FileStream lcFileStream = null;
-            try
-            {
-                lcFileStream = new FileStream(aFileName, FileMode.Open);
-                BinaryFormatter lcBinFor = new BinaryFormatter();
-                return (JpegSegmentData)lcBinFor.Deserialize(lcFileStream);
-            }
-            finally
-            {
-                if (lcFileStream != null)
-                {
-                    lcFileStream.Close();
-                    lcFileStream.Dispose();
-                }
-            }
         }
     }
 }

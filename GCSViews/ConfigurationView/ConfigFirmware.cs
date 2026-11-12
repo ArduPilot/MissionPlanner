@@ -608,7 +608,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("https://firmware.ardupilot.org/");
+                Process.Start(new ProcessStartInfo("https://firmware.ardupilot.org/") { UseShellExecute = true });
             }
             catch
             {
@@ -642,7 +642,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start(@"http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams");
+                Process.Start(new ProcessStartInfo(@"http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams") { UseShellExecute = true });
             }
             catch
             {
@@ -654,7 +654,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start(@"http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission");
+                Process.Start(new ProcessStartInfo(@"http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission") { UseShellExecute = true });
             }
             catch
             {

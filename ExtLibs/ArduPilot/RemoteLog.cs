@@ -16,7 +16,7 @@ namespace MissionPlanner.ArduPilot
         private bool running = false;
         private static Dictionary<string, RemoteLog> loggers = new Dictionary<string, RemoteLog>();
 
-        public static RemoteLog StartRemoteLog(MAVLinkInterface port, byte sysid, byte compid)
+        public static RemoteLog StartRemoteLog(MAVLinkInterface port, uint sysid, byte compid)
         {
             var id = port.GetHashCode() + "-" + sysid + "-" + compid;
 
@@ -30,7 +30,7 @@ namespace MissionPlanner.ArduPilot
             return rem;
         }
 
-        public void Start(MAVLinkInterface port, byte sysid, byte compid)
+        public void Start(MAVLinkInterface port, uint sysid, byte compid)
         {
             if (port == null) throw new ArgumentNullException(nameof(port));
 
@@ -48,7 +48,7 @@ namespace MissionPlanner.ArduPilot
             port.OnPacketReceived += Port_OnPacketReceived;
 
             var startpacket = new MAVLink.mavlink_remote_log_block_status_t(
-                (uint) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS.MAV_REMOTE_LOG_DATA_BLOCK_START, sysid, compid,
+                (uint) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS.MAV_REMOTE_LOG_DATA_BLOCK_START, (byte)sysid, compid,
                 (byte) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_STATUSES.MAV_REMOTE_LOG_DATA_BLOCK_ACK);
             port.sendPacket(startpacket, sysid, compid);
 
@@ -68,19 +68,19 @@ namespace MissionPlanner.ArduPilot
 
                 logfilestream.Write(data.data, 0, data.data.Length);
 
-                var resp = new MAVLink.mavlink_remote_log_block_status_t(data.seqno, message.sysid, message.compid,
+                var resp = new MAVLink.mavlink_remote_log_block_status_t(data.seqno, (byte)message.sysid, message.compid,
                     (byte) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_STATUSES.MAV_REMOTE_LOG_DATA_BLOCK_ACK);
 
                 port.sendPacket(resp, message.sysid, message.compid);
             }
         }
 
-        public void Stop(byte sysid, byte compid)
+        public void Stop(uint sysid, byte compid)
         {
             if (port == null) throw new ArgumentNullException(nameof(port));
 
             var stoppacket = new MAVLink.mavlink_remote_log_block_status_t(
-                (uint) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS.MAV_REMOTE_LOG_DATA_BLOCK_STOP, sysid, compid,
+                (uint) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_COMMANDS.MAV_REMOTE_LOG_DATA_BLOCK_STOP, (byte)sysid, compid,
                 (byte) MAVLink.MAV_REMOTE_LOG_DATA_BLOCK_STATUSES.MAV_REMOTE_LOG_DATA_BLOCK_ACK);
             port.sendPacket(stoppacket, sysid, compid);
 

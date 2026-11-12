@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="cmb_Baud.ItemHeight" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
   <data name="cmb_Baud.Items" xml:space="preserve">
     <value>1200</value>
   </data>

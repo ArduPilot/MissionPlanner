@@ -150,7 +150,7 @@ namespace MissionPlanner.Swarm
                             mav.GuidedMode.z = (float)target.Alt;
 
                             MAVLink.mavlink_set_attitude_target_t att_target = new MAVLink.mavlink_set_attitude_target_t();
-                            att_target.target_system = mav.sysid;
+                            att_target.target_system = (byte)(mav.sysid);
                             att_target.target_component = mav.compid;
                             att_target.type_mask = 0xff;
 

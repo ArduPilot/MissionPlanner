@@ -212,7 +212,7 @@ namespace MissionPlanner.Log
                     loginfo.Duration = (end - start).ToString();
                 }
             }
-            else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
+            else if (file.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".log", StringComparison.OrdinalIgnoreCase))
             {
                 using (DFLogBuffer colbuf = new DFLogBuffer(file))
                 {
@@ -302,7 +302,7 @@ namespace MissionPlanner.Log
             public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = GetBitmap(imgfile); return image; } } }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
-            public int Aircraft { get; set; }
+            public uint Aircraft { get; set; }
             public long Size { get; set; }
             public PointLatLngAlt Home { get; set; }
 

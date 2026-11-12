@@ -62,7 +62,7 @@ namespace MissionPlanner.plugins
 
         private void OnComPortOnOnPacketReceived(object sender, MAVLink.MAVLinkMessage message)
         {
-            var ID = message.sysid * 256 + message.compid;
+            var ID = (ulong)message.sysid * 256 + message.compid;
             switch ((MAVLink.MAVLINK_MSG_ID)message.msgid)
             {
                 case MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT:
@@ -122,7 +122,7 @@ namespace MissionPlanner.plugins
             }
         }
 
-        private void UpdateOrCreate(PointLatLng pointLatLng, int ID, string sourcetext = "")
+        private void UpdateOrCreate(PointLatLng pointLatLng, ulong ID, string sourcetext = "")
         {
             var existing = overlay.Markers.Where(a => a.Tag.ToString() == ID.ToString()+sourcetext);
             if (existing.Count() > 0)

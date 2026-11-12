@@ -109,14 +109,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 return true;
 
-            }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+            }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
 
             while (!done && !sender.doWorkArgs.CancelRequested)
             {
                 // send start
                 MainV2.comPort.generatePacket(MAVLink.MAVLINK_MSG_ID.CUBEPILOT_FIRMWARE_UPDATE_START,
       new MAVLink.mavlink_cubepilot_firmware_update_start_t(firmware_size, crc32, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent),
-      (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+      MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
                 Thread.Sleep(1000);
                 sender.UpdateProgressAndStatus((int)(progress * 100), "Updating " + offset + " Seen HW: " + seenresp);
