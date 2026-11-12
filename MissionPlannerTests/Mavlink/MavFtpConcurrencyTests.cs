@@ -5,6 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Appender;
+using log4net.Core;
+using log4net.Repository.Hierarchy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MissionPlanner;
 using MissionPlanner.ArduPilot.Mavlink;
@@ -16,6 +20,13 @@ namespace MissionPlannerTests.Mavlink
     public class MavFtpConcurrencyTests
     {
         private static readonly MethodInfo Dispatch = typeof(MAVLinkInterface).GetMethod("PacketReceived", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private sealed class CallbackAppender : AppenderSkeleton
+        {
+            private readonly Action<LoggingEvent> callback;
+            public CallbackAppender(Action<LoggingEvent> callback) { this.callback = callback; }
+            protected override void Append(LoggingEvent loggingEvent) { callback(loggingEvent); }
+        }
 
         // readPacketAsync releases its parser semaphore before dispatching packets,
         // so concurrent readers are allowed to enter this notification concurrently.
@@ -164,6 +175,102 @@ namespace MissionPlannerTests.Mavlink
                 wire.WriteCallback += (sender, bytes) => cancel.Cancel();
                 var ftp = new MAVFtp(link, 7, 1);
                 Assert.ThrowsException<OperationCanceledException>(() => ftp.kCmdBurstReadFile("cancelled.bin", 160, cancel));
+            }
+        }
+
+        [TestMethod]
+        [DoNotParallelize] // Temporarily configures the MAVFtp logger to hit the completion boundary.
+        public void CancellationAfterConfirmedEofReturnsTheCompletedFile()
+        {
+            foreach (int length in new[] { 0, 160 })
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, length).Select(i => (byte)i).ToArray();
+                string file = "completed-" + Guid.NewGuid().ToString("N") + ".bin";
+                bool cancelledAfterEof = false, reportedComplete = false;
+                var ftp = new MAVFtp(link, 7, 1);
+                ftp.Progress += (name, percent) => { if (percent == 100) reportedComplete = true; };
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15 && length > 0 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        Reply(link, data, 0, 80, request);
+                        Reply(link, data, 80, 80, request, burstComplete: true);
+                    }
+                    else ReadReply(link, data, request);
+                };
+
+                // This log is emitted synchronously after EOF establishes completion,
+                // before the old post-loop cancellation check. No sleeps or race odds.
+                var logger = (Logger)LogManager.GetLogger(typeof(MAVFtp).Assembly, typeof(MAVFtp)).Logger;
+                var repository = (Hierarchy)logger.Repository;
+                var oldLevel = logger.Level;
+                var oldThreshold = repository.Threshold;
+                bool oldConfigured = repository.Configured;
+                var appender = new CallbackAppender(entry =>
+                {
+                    if (entry.RenderedMessage.StartsWith("Done " + file + ", confirmed EOF at ", StringComparison.Ordinal))
+                    {
+                        cancelledAfterEof = true;
+                        cancel.Cancel();
+                    }
+                });
+                appender.ActivateOptions();
+                logger.AddAppender(appender);
+                logger.Level = Level.Info;
+                repository.Threshold = Level.All;
+                repository.Configured = true;
+                try
+                {
+                    using (var result = ftp.kCmdBurstReadFile(file, data.Length, cancel))
+                    {
+                        CollectionAssert.AreEqual(data, result.ToArray());
+                        Assert.AreEqual(0L, result.Position, "Completed data must be returned ready to read.");
+                    }
+                    Assert.IsTrue(cancelledAfterEof, "The test must cancel after EOF has been accepted.");
+                    Assert.IsTrue(cancel.IsCancellationRequested);
+                    Assert.IsTrue(reportedComplete, "Late cancellation must not hide successful completion.");
+                }
+                finally
+                {
+                    logger.RemoveAppender(appender);
+                    appender.Close();
+                    logger.Level = oldLevel;
+                    repository.Threshold = oldThreshold;
+                    repository.Configured = oldConfigured;
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CancellationBeforeConfirmedEofStillCancelsTheTransfer()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource())
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = new byte[160];
+                var ftp = new MAVFtp(link, 7, 1);
+                bool receivedAllBytes = false;
+                ftp.Progress += (file, percent) =>
+                {
+                    if (percent == 99) { receivedAllBytes = true; cancel.Cancel(); }
+                };
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    Reply(link, data, 0, 80, request);
+                    Reply(link, data, 80, 80, request, burstComplete: true);
+                };
+                Assert.ThrowsException<OperationCanceledException>(() => ftp.kCmdBurstReadFile("unconfirmed.bin", data.Length, cancel));
+                Assert.IsTrue(receivedAllBytes, "Byte coverage alone must not establish successful completion.");
             }
         }
 
