@@ -768,6 +768,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 offset = 0,
                 size = readsize
             };
+            // payload advances as replies arrive; retain the request actually sent.
+            var sentPayload = payload;
             var request = new MAVLink.mavlink_file_transfer_protocol_t
             {
                 target_system = (byte)_sysid,
@@ -779,7 +781,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
             Action sendRequest = () =>
             {
                 cancellation.ThrowIfCancellationRequested();
-                request.payload = payload;
+                sentPayload = payload;
+                request.payload = sentPayload;
                 _mavint.sendPacket(request, _sysid, _compid);
                 retryClock.Restart();
             };
@@ -795,12 +798,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
             };
             Action<FTPPayloadHeader> processResponse = response =>
             {
-                if (response.session != payload.session || response.req_opcode != payload.opcode)
+                if (response.session != sentPayload.session || response.req_opcode != sentPayload.opcode)
                     return;
                 // Burst replies have advancing sequence numbers. Single-read
                 // replies must belong to the outstanding request, including NAKs.
-                bool singleRead = payload.opcode == FTPOpcode.kCmdReadFile;
-                if (singleRead && response.seq_number != (ushort)(payload.seq_number + 1))
+                bool singleRead = sentPayload.opcode == FTPOpcode.kCmdReadFile;
+                if (singleRead && response.seq_number != (ushort)(sentPayload.seq_number + 1))
                     return;
                 if (response.opcode == FTPOpcode.kRspNak)
                 {
@@ -819,7 +822,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     // identifies the offset that reached EOF. Only a probe at the
                     // contiguous end proves completion; EOF inside known data is
                     // an inconsistent transfer, not a reason to retry forever.
-                    if (payload.offset != highestEnd || FindMissing(chunks) != uint.MaxValue)
+                    if (sentPayload.offset != highestEnd || FindMissing(chunks) != uint.MaxValue)
                         throw new EndOfStreamException("MAVFTP reached EOF inside missing data: " + file);
                     complete = true;
                     log.InfoFormat("Done {0}, confirmed EOF at {1} (open estimate {2})", file, highestEnd, size);
@@ -827,7 +830,21 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
                 if (response.opcode != FTPOpcode.kRspAck)
                     return;
-                if (singleRead && response.offset != payload.offset)
+                if (!singleRead)
+                {
+                    // Sequence identifies the packet's position within this burst,
+                    // including wraparound. Each preceding ACK carries 1..239 bytes:
+                    // older PX4 ignores readsize, and radio links may shrink chunks.
+                    int packetIndex = unchecked((short)(response.seq_number - sentPayload.seq_number)) - 1;
+                    if (packetIndex < 0 || response.offset < sentPayload.offset)
+                        return;
+                    ulong precedingBytes = response.offset - sentPayload.offset;
+                    if (precedingBytes < (ulong)packetIndex || precedingBytes > (ulong)packetIndex * 239)
+                        return;
+                    // In particular, request+1 must start at the requested offset;
+                    // a late first-looking ACK from another burst cannot skip ahead.
+                }
+                if (singleRead && response.offset != sentPayload.offset)
                     return;
                 if (response.size == 0 || response.size > response.data.Length ||
                     (ulong)response.offset + response.size > int.MaxValue)

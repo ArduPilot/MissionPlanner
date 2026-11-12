@@ -19,11 +19,11 @@ namespace MissionPlannerTests.Mavlink
 
         // readPacketAsync releases its parser semaphore before dispatching packets,
         // so concurrent readers are allowed to enter this notification concurrently.
-        private static void Reply(MAVLinkInterface link, byte[] data, int offset, int count, byte[] request, bool burstComplete = false)
+        private static void Reply(MAVLinkInterface link, byte[] data, int offset, int count, byte[] request, bool burstComplete = false, ushort? sequence = null)
         {
             var payload = new byte[251];
             uint block = request[3] == 15 ? ((uint)offset - BitConverter.ToUInt32(request, 8)) / request[4] : 0;
-            BitConverter.GetBytes((ushort)(BitConverter.ToUInt16(request, 0) + 1 + block)).CopyTo(payload, 0);
+            BitConverter.GetBytes(sequence ?? (ushort)(BitConverter.ToUInt16(request, 0) + 1 + block)).CopyTo(payload, 0);
             payload[2] = request[2];
             payload[3] = 128; // ACK
             payload[4] = (byte)count;
@@ -162,6 +162,236 @@ namespace MissionPlannerTests.Mavlink
         }
 
         [TestMethod]
+        public void CancelledTransferPacketsCannotOverwriteTheNextFile()
+        {
+            // The second case puts the new request at sequence zero, with late
+            // replies at 65535 and zero from the cancelled session-zero transfer.
+            foreach (ushort start in new ushort[] { 20, 65534 })
+            using (var link = new MAVLinkInterface())
+            using (var firstCancel = new CancellationTokenSource())
+            using (var nextCancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var oldData = Enumerable.Repeat((byte)0xee, 320).ToArray();
+                var newData = Enumerable.Range(0, 320).Select(i => (byte)i).ToArray();
+                var ftp = new MAVFtp(link, 7, 1);
+                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, start);
+                ftp.Progress += (file, percent) => { if (file == "old.bin" && percent > 0) firstCancel.Cancel(); };
+                byte[] oldRequest = null;
+                bool firstTransfer = true;
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (firstTransfer)
+                    {
+                        oldRequest = request;
+                        Reply(link, oldData, 0, 80, request);
+                    }
+                    else if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        Reply(link, newData, 0, 80, request);
+                        Reply(link, newData, 80, 80, request);
+                        Reply(link, newData, 160, 80, request);
+                        // Same session and opcode, arriving after the new bytes.
+                        // Neither a reply behind nor equal to the new request is valid.
+                        Reply(link, oldData, 0, 80, oldRequest);
+                        Reply(link, oldData, 80, 80, oldRequest);
+                        // This old sequence is newer than the new request, but
+                        // its offset cannot be that request's first reply.
+                        Reply(link, oldData, 160, 80, oldRequest);
+                        Reply(link, newData, 240, 80, request, burstComplete: true);
+                    }
+                    else ReadReply(link, newData, request);
+                };
+                Assert.ThrowsException<OperationCanceledException>(() => ftp.kCmdBurstReadFile("old.bin", oldData.Length, firstCancel));
+                firstTransfer = false;
+                using (var result = ftp.kCmdBurstReadFile("new.bin", newData.Length, nextCancel))
+                    CollectionAssert.AreEqual(newData, result.ToArray(), "Late packets from the cancelled file must not replace new data.");
+            }
+        }
+
+        [TestMethod]
+        public void BurstSequenceWrapPreservesReorderedPackets()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 240).Select(i => (byte)i).ToArray();
+                var ftp = new MAVFtp(link, 7, 1);
+                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65534);
+                var singleReads = new System.Collections.Generic.List<uint>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        // Replies 0, 65535, 1 are all after request 65534.
+                        Reply(link, data, 80, 80, request);
+                        Reply(link, data, 0, 80, request);
+                        Reply(link, data, 160, 80, request, burstComplete: true);
+                    }
+                    else
+                    {
+                        if (request[3] == 5) singleReads.Add(BitConverter.ToUInt32(request, 8));
+                        ReadReply(link, data, request);
+                    }
+                };
+                using (var result = ftp.kCmdBurstReadFile("wrap.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+                CollectionAssert.AreEqual(new uint[] { 240 }, singleReads,
+                    "Only the EOF probe is needed; reordered current-burst data must not be discarded.");
+            }
+        }
+
+        [TestMethod]
+        public void EachSentBurstRejectsRepliesFromEarlierRequests()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 320).Select(i => (byte)i).ToArray();
+                var staleData = Enumerable.Repeat((byte)0xee, 320).ToArray();
+                byte[] firstRequest = null;
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    uint offset = BitConverter.ToUInt32(request, 8);
+                    if (request[3] == 15 && offset == 0)
+                    {
+                        firstRequest = request;
+                        Reply(link, data, 0, 80, request);
+                        Reply(link, data, 80, 80, request, burstComplete: true);
+                    }
+                    else if (request[3] == 15 && offset == 160)
+                    {
+                        Reply(link, data, 160, 80, request);
+                        Reply(link, staleData, 0, 80, firstRequest);
+                        Reply(link, data, 240, 80, request, burstComplete: true);
+                    }
+                    else ReadReply(link, data, request);
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("bursts.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray(), "The sequence boundary must advance when another burst request is sent.");
+            }
+        }
+
+        [TestMethod]
+        public void BurstRepliesWithImpossibleSequenceAndOffsetPairsAreIgnored()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 240).Select(i => (byte)i).ToArray();
+                var staleData = Enumerable.Repeat((byte)0xee, 560).ToArray();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        ushort sequence = BitConverter.ToUInt16(request, 0);
+                        Reply(link, data, 0, 80, request);
+                        // A second reply cannot follow more than 239 bytes,
+                        // and a third reply cannot start at the burst origin.
+                        Reply(link, staleData, 480, 80, request, sequence: (ushort)(sequence + 2));
+                        Reply(link, staleData, 0, 80, request, sequence: (ushort)(sequence + 3));
+                        Reply(link, data, 80, 80, request);
+                        Reply(link, data, 160, 80, request, burstComplete: true);
+                    }
+                    else ReadReply(link, data, request);
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("offsets.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+            }
+        }
+
+        [TestMethod]
+        public void LegacyPx4BurstChunksMayExceedTheRequestedSize()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 600).Select(i => (byte)i).ToArray();
+                var singleReads = new System.Collections.Generic.List<uint>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        ushort sequence = BitConverter.ToUInt16(request, 0);
+                        // Older PX4 ignores the requested 80-byte burst size.
+                        Reply(link, data, 0, 239, request, sequence: (ushort)(sequence + 1));
+                        Reply(link, data, 239, 239, request, sequence: (ushort)(sequence + 2));
+                        Reply(link, data, 478, 122, request, burstComplete: true, sequence: (ushort)(sequence + 3));
+                    }
+                    else
+                    {
+                        if (request[3] == 5) singleReads.Add(BitConverter.ToUInt32(request, 8));
+                        ReadReply(link, data, request);
+                    }
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("px4.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+                CollectionAssert.AreEqual(new uint[] { 600 }, singleReads, "Valid legacy PX4 data must not require gap recovery.");
+            }
+        }
+
+        [TestMethod]
+        public void VariableBurstChunksAllowReorderingWrapAndALostFirstPacket()
+        {
+            foreach (bool loseFirst in new[] { false, true })
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = Enumerable.Range(0, 400).Select(i => (byte)i).ToArray();
+                var ftp = new MAVFtp(link, 7, 1);
+                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65534);
+                var offsets = new[] { 0, 80, 119, 199, 216, 296, 376 };
+                var sizes = new[] { 80, 39, 80, 17, 80, 80, 24 };
+                var singleReads = new System.Collections.Generic.List<uint>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        ushort sequence = BitConverter.ToUInt16(request, 0);
+                        foreach (int i in new[] { 4, 1, 3, 0, 5, 2, 6 })
+                        {
+                            if (loseFirst && i == 0) continue;
+                            Reply(link, data, offsets[i], sizes[i], request, burstComplete: i == 6,
+                                sequence: (ushort)(sequence + 1 + i));
+                        }
+                    }
+                    else
+                    {
+                        if (request[3] == 5) singleReads.Add(BitConverter.ToUInt32(request, 8));
+                        ReadReply(link, data, request);
+                    }
+                };
+                using (var result = ftp.kCmdBurstReadFile("variable.bin", data.Length, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+                CollectionAssert.AreEqual(loseFirst ? new uint[] { 0, 400 } : new uint[] { 400 }, singleReads,
+                    "Variable-sized and reordered packets should only need recovery for the actual missing bytes.");
+            }
+        }
+
+        [TestMethod]
         public void ShortPacketsDoNotEstablishEofBeforeTheServerConfirmsIt()
         {
             using (var link = new MAVLinkInterface())
@@ -176,7 +406,8 @@ namespace MissionPlannerTests.Mavlink
                     var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
                     if (request[3] != 15) { ReadReply(link, data, request); return; }
                     for (int offset = 0; offset < data.Length; offset += 40)
-                        Reply(link, data, offset, 40, request, burstComplete: offset == 120);
+                        Reply(link, data, offset, 40, request, burstComplete: offset == 120,
+                            sequence: (ushort)(BitConverter.ToUInt16(request, 0) + 1 + offset / 40));
                 };
                 using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("short.bin", data.Length, cancel))
                     CollectionAssert.AreEqual(data, result.ToArray());
