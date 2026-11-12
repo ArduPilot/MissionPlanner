@@ -241,6 +241,9 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="BasicTuning" xml:space="preserve">
     <value>Basic Tuning</value>
   </data>
+  <data name="BatteryCapacityAsDecimal" xml:space="preserve">
+    <value>"{0}" is read as {1} mAh: '.' and ',' are decimal points here. Are you sure?</value>
+  </data>
   <data name="Desc" xml:space="preserve">
     <value>Description: </value>
   </data>
