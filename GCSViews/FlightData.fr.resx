@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -136,10 +136,10 @@
     <value>Changement du mode à Auto</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Nagiguez ici</value>
+    <value>Naviguer ici</value>
   </data>
   <data name="quickView1.ToolTip" xml:space="preserve">
-    <value>Double Click me to change</value>
+    <value>Double-cliquez pour changer</value>
   </data>
   <data name="lbl_windvel.ToolTip" xml:space="preserve">
     <value>Vitesse actuel du vent</value>
@@ -169,7 +169,7 @@
     <value>0</value>
   </data>
   <data name="displayBatteryInfoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Display Battery Info</value>
+    <value>Afficher infos batterie</value>
   </data>
   <data name="lbl_hdop.Text" xml:space="preserve">
     <value>hdop: 0</value>
@@ -187,13 +187,13 @@
     <value>Efface Trajet</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
-    <value>Arm/ Disarm</value>
+    <value>Armer/Désarmer</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Monter</value>
   </data>
   <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
-    <value>User Items</value>
+    <value>Éléments utilisateur</value>
   </data>
   <data name="CHK_autopan.ToolTip" xml:space="preserve">
     <value>Centrer automatiquement sur la position actuel</value>
@@ -211,7 +211,7 @@
     <value>Centré</value>
   </data>
   <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set MJPEG source</value>
+    <value>Définir source MJPEG</value>
   </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
     <value>Manette</value>
@@ -223,7 +223,7 @@
     <value>Reset</value>
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
-    <value>M.à point</value>
+    <value>Réglage</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Bas</value>
@@ -244,7 +244,7 @@
     <value>Affiche valeurs brut Gyro et Accel, aussi entrée/sorti du Radio</value>
   </data>
   <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Aspect Ratio</value>
+    <value>Définir le rapport d'aspect</value>
   </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
     <value>Double click pour changer Max</value>
@@ -262,7 +262,7 @@
     <value>Definir alt. d'origine</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
-    <value>Quick</value>
+    <value>Rapide</value>
   </data>
   <data name="lbl_winddir.Text" xml:space="preserve">
     <value>Dir: 0</value>
@@ -286,7 +286,7 @@
     <value>&amp;Auto</value>
   </data>
   <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>Set WP</value>
+    <value>Déf. WP</value>
   </data>
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>Journaux du Télémétrie</value>
@@ -295,7 +295,7 @@
     <value>0.00 %</value>
   </data>
   <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Flight Planner</value>
+    <value>Planificateur de vol</value>
   </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>Déf. Mode</value>
@@ -313,12 +313,279 @@
     <value>&amp;RTL</value>
   </data>
   <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fly To Here Alt</value>
+    <value>Voler ici à l'altitude</value>
   </data>
   <data name="lbl_sats.ToolTip" xml:space="preserve">
     <value>Satallite Count</value>
   </data>
   <data name="lbl_hdop.ToolTip" xml:space="preserve">
     <value>gps hdop</value>
+  </data>
+  <data name="startCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Démarrer la caméra</value>
+  </data>
+  <data name="setGStreamerSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir source GStreamer</value>
+  </data>
+  <data name="hereLinkVideoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vidéo HereLink</value>
+  </data>
+  <data name="gStreamerStopToolStripMenuItem.Text" xml:space="preserve">
+    <value>Arrêter GStreamer</value>
+  </data>
+  <data name="videoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vidéo</value>
+  </data>
+  <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
+    <value>HUD russe</value>
+  </data>
+  <data name="swapWithMapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Permuter avec la carte</value>
+  </data>
+  <data name="groundColorToolStripMenuItem.Text" xml:space="preserve">
+    <value>Couleur du sol</value>
+  </data>
+  <data name="setBatteryCellCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tension cellule batterie</value>
+  </data>
+  <data name="showIconsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Afficher les icônes</value>
+  </data>
+  <data name="customizeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Personnaliser</value>
+  </data>
+  <data name="multiLineToolStripMenuItem.Text" xml:space="preserve">
+    <value>Multi-lignes</value>
+  </data>
+  <data name="setViewCountToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir le nombre de vues</value>
+  </data>
+  <data name="undockToolStripMenuItem.Text" xml:space="preserve">
+    <value>Détacher</value>
+  </data>
+  <data name="BUT_SendMSG.Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>Annuler l'atterrissage</value>
+  </data>
+  <data name="BUT_resumemis.Text" xml:space="preserve">
+    <value>Reprendre la mission</value>
+  </data>
+  <data name="BUT_mountmode.Text" xml:space="preserve">
+    <value>Déf. nacelle</value>
+  </data>
+  <data name="tabPagemessages.Text" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="myButton1.Text" xml:space="preserve">
+    <value>Flâner</value>
+  </data>
+  <data name="myButton2.Text" xml:space="preserve">
+    <value>RTL</value>
+  </data>
+  <data name="myButton3.Text" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="tabActionsSimple.Text" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="tabPagePreFlight.Text" xml:space="preserve">
+    <value>Pré-vol</value>
+  </data>
+  <data name="NACp_lbl.Text" xml:space="preserve">
+    <value>NACp</value>
+  </data>
+  <data name="NIC_lbl.Text" xml:space="preserve">
+    <value>NIC</value>
+  </data>
+  <data name="XPDRConnect_btn.Text" xml:space="preserve">
+    <value>Connecter au transpondeur</value>
+  </data>
+  <data name="Squawk_label.Text" xml:space="preserve">
+    <value>Squawk</value>
+  </data>
+  <data name="FlightID_label.Text" xml:space="preserve">
+    <value>ID de vol</value>
+  </data>
+  <data name="IDENT_btn.Text" xml:space="preserve">
+    <value>IDENT</value>
+  </data>
+  <data name="ALT_btn.Text" xml:space="preserve">
+    <value>ALT</value>
+  </data>
+  <data name="STBY_btn.Text" xml:space="preserve">
+    <value>STBY</value>
+  </data>
+  <data name="ON_btn.Text" xml:space="preserve">
+    <value>ON</value>
+  </data>
+  <data name="tabTransponder.Text" xml:space="preserve">
+    <value>Transpondeur</value>
+  </data>
+  <data name="tabServo.Text" xml:space="preserve">
+    <value>Servo/Relais</value>
+  </data>
+  <data name="tabAuxFunction.Text" xml:space="preserve">
+    <value>Fonction auxiliaire</value>
+  </data>
+  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
+    <value>Rediriger la sortie du programme</value>
+  </data>
+  <data name="BUT_edit_selected.Text" xml:space="preserve">
+    <value>Éditer le script sélectionné</value>
+  </data>
+  <data name="labelSelectedScript.Text" xml:space="preserve">
+    <value>Script sélectionné : Aucun</value>
+  </data>
+  <data name="BUT_run_script.Text" xml:space="preserve">
+    <value>Exécuter le script</value>
+  </data>
+  <data name="BUT_abort_script.Text" xml:space="preserve">
+    <value>Arrêter le script en cours</value>
+  </data>
+  <data name="labelScriptStatus.Text" xml:space="preserve">
+    <value>État du script : Aucun script en cours</value>
+  </data>
+  <data name="BUT_select_script.Text" xml:space="preserve">
+    <value>Sélectionner un script</value>
+  </data>
+  <data name="tabScripts.Text" xml:space="preserve">
+    <value>Scripts</value>
+  </data>
+  <data name="BUT_GimbalVideo.Text" xml:space="preserve">
+    <value>Contrôle vidéo</value>
+  </data>
+  <data name="groupBoxRoll.Text" xml:space="preserve">
+    <value>Roulis</value>
+  </data>
+  <data name="groupBoxYaw.Text" xml:space="preserve">
+    <value>Panoramique</value>
+  </data>
+  <data name="BUT_resetGimbalPos.Text" xml:space="preserve">
+    <value>Réinitialiser la position</value>
+  </data>
+  <data name="groupBoxPitch.Text" xml:space="preserve">
+    <value>Inclinaison</value>
+  </data>
+  <data name="tabPayload.Text" xml:space="preserve">
+    <value>Contrôle de charge utile</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Vitesse</value>
+  </data>
+  <data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10x</value>
+  </data>
+  <data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5x</value>
+  </data>
+  <data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2x</value>
+  </data>
+  <data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1x</value>
+  </data>
+  <data name="BUT_speed1_2.Text" xml:space="preserve">
+    <value>0.5</value>
+  </data>
+  <data name="BUT_speed1_4.Text" xml:space="preserve">
+    <value>0.25</value>
+  </data>
+  <data name="BUT_speed1_10.Text" xml:space="preserve">
+    <value>0.1</value>
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>Télécharger journal DataFlash via Mavlink</value>
+  </data>
+  <data name="BUT_georefimage.Text" xml:space="preserve">
+    <value>Géoréférencer les images</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>Examiner un journal</value>
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>Créer fichier Matlab</value>
+  </data>
+  <data name="but_bintolog.Text" xml:space="preserve">
+    <value>Convertir .Bin en .Log</value>
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>Créer KML + gpx</value>
+  </data>
+  <data name="BUT_loganalysis.Text" xml:space="preserve">
+    <value>Analyse automatique</value>
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>Journaux DataFlash</value>
+  </data>
+  <data name="flyToCoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Voler vers coordonnées</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Text" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Enregistrer le fichier</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Charger le fichier</value>
+  </data>
+  <data name="poiatcoordsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Coordonnées</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Text" xml:space="preserve">
+    <value>Ajouter un POI</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Pointer caméra vers coordonnées</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Déclencher la caméra MAINTENANT</value>
+  </data>
+  <data name="setEKFHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir l'origine EKF ici</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Définir le point d'origine ici</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Définir le point d'origine ici</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Text" xml:space="preserve">
+    <value>Décollage</value>
+  </data>
+  <data name="onOffCameraOverlapToolStripMenuItem.Text" xml:space="preserve">
+    <value>Chevauchement caméra</value>
+  </data>
+  <data name="jumpToTagToolStripMenuItem.Text" xml:space="preserve">
+    <value>Aller au repère</value>
+  </data>
+  <data name="gimbalVideoFullSizedToolStripMenuItem.Text" xml:space="preserve">
+    <value>Taille réelle</value>
+  </data>
+  <data name="gimbalVideoMiniToolStripMenuItem.Text" xml:space="preserve">
+    <value>Mini</value>
+  </data>
+  <data name="gimbalVideoPopOutToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fenêtre externe</value>
+  </data>
+  <data name="gimbalVideoToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vidéo nacelle</value>
+  </data>
+  <data name="but_disablejoystick.Text" xml:space="preserve">
+    <value>Désactiver la manette</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Trace GPS (Noir)</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Cap cible</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Direct vers le WP actuel</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Cap actuel</value>
   </data>
 </root>

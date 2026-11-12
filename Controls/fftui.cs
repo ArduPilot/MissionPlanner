@@ -110,8 +110,8 @@ namespace MissionPlanner.Controls
                         curve = new LineItem("Avg", ppl, color[1], SymbolType.None) { IsY2Axis = true };
                         zedGraphControl1.GraphPane.CurveList.Add(curve);
 
-                        zedGraphControl1.Invalidate();
                         zedGraphControl1.AxisChange();
+                        zedGraphControl1.Invalidate();
 
                         zedGraphControl1.Refresh();
 
@@ -340,8 +340,8 @@ namespace MissionPlanner.Controls
 
                     ctls[controlindex].GraphPane.CurveList.Add(curve);
 
-                    ctls[controlindex].Invalidate();
                     ctls[controlindex].AxisChange();
+                    ctls[controlindex].Invalidate();
 
                     ctls[controlindex].Refresh();
 
@@ -537,8 +537,8 @@ namespace MissionPlanner.Controls
                     ctls[controlindex].GraphPane.CurveList.Add(curvey);
                     ctls[controlindex].GraphPane.CurveList.Add(curvez);
 
-                    ctls[controlindex].Invalidate();
                     ctls[controlindex].AxisChange();
+                    ctls[controlindex].Invalidate();
 
                     ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
 
@@ -754,8 +754,8 @@ namespace MissionPlanner.Controls
                     ctls[controlindex].GraphPane.CurveList.Add(curvey);
                     ctls[controlindex].GraphPane.CurveList.Add(curvez);
 
-                    ctls[controlindex].Invalidate();
                     ctls[controlindex].AxisChange();
+                    ctls[controlindex].Invalidate();
 
                     ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
 
@@ -958,8 +958,8 @@ namespace MissionPlanner.Controls
                     ctl.GraphPane.CurveList.Add(curvey);
                     ctl.GraphPane.CurveList.Add(curvez);
 
-                    ctl.Invalidate();
                     ctl.AxisChange();
+                    ctl.Invalidate();
 
                     ctl.GraphPane.XAxis.Scale.Max = samplerate / 2;
 

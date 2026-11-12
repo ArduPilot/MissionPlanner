@@ -113,11 +113,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
             {
-                Process.Start(new ProcessStartInfo("https://ardupilot.org/copter/docs/failsafe-landing-page.html"));
+                Process.Start(new ProcessStartInfo("https://ardupilot.org/copter/docs/failsafe-landing-page.html") { UseShellExecute = true });
             }
             else
             {
-                Process.Start(new ProcessStartInfo("https://ardupilot.org/plane/docs/advanced-failsafe-configuration.html"));
+                Process.Start(new ProcessStartInfo("https://ardupilot.org/plane/docs/advanced-failsafe-configuration.html") { UseShellExecute = true });
             }
         }
 

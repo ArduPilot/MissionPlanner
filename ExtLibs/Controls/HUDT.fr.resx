@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ARMED" xml:space="preserve">
+    <value>    ARMÉ</value>
+  </data>
+  <data name="AS" xml:space="preserve">
+    <value>VA </value>
+  </data>
+  <data name="Bat" xml:space="preserve">
+    <value>Bat</value>
+  </data>
+  <data name="Cell" xml:space="preserve">
+    <value>Cell</value>
+  </data>
+  <data name="DISARMED" xml:space="preserve">
+    <value>            DÉSARMÉ</value>
+  </data>
+  <data name="FAILSAFE" xml:space="preserve">
+    <value>    SÉCURITÉ</value>
+  </data>
+  <data name="GPS0" xml:space="preserve">
+    <value>GPS: Pas de GPS</value>
+  </data>
+  <data name="GPS1" xml:space="preserve">
+    <value>GPS: Pas de fix</value>
+  </data>
+  <data name="GPS2" xml:space="preserve">
+    <value>GPS: Fix 2D</value>
+  </data>
+  <data name="GPS3" xml:space="preserve">
+    <value>GPS: Fix 3D</value>
+  </data>
+  <data name="GPS4" xml:space="preserve">
+    <value>GPS: 3D DGPS</value>
+  </data>
+  <data name="GPS5" xml:space="preserve">
+    <value>GPS: RTK flottant</value>
+  </data>
+  <data name="GPS6" xml:space="preserve">
+    <value>GPS: RTK fixe</value>
+  </data>
+  <data name="GS" xml:space="preserve">
+    <value>VS </value>
+  </data>
+  <data name="NotReadyToArm" xml:space="preserve">
+    <value>Pas prêt à armer</value>
+  </data>
+  <data name="ReadyToArm" xml:space="preserve">
+    <value>Prêt à armer</value>
+  </data>
+  <data name="SAFE" xml:space="preserve">
+    <value>SÛR</value>
+  </data>
+</root>

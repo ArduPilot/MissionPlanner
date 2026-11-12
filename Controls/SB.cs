@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.MAV.cs.press_abs, MainV2.comPort.MAV.cs.press_abs2, nameTextBox.Text,
                     emailTextBox.Text);
 
-                System.Diagnostics.Process.Start(url);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
             };
 
             ThemeManager.ApplyThemeTo(frm);

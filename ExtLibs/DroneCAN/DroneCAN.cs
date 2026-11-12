@@ -537,11 +537,13 @@ namespace DroneCAN
             ushort index = 0;
             var timeout = DateTime.Now.AddSeconds(2);
 
-            SemaphoreSlim wait = new SemaphoreSlim(1);
+            SemaphoreSlim wait = new SemaphoreSlim(0);
 
             MessageRecievedDel paramdelegate = (frame, msg, transferID) =>
             {
-                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode && frame.SourceNode == node)
+                if (frame.IsServiceMsg && frame.SvcDestinationNode != SourceNode)
+                    return;
+                if (frame.SourceNode != node)
                     return;
                 
                 if (msg.GetType() == typeof(DroneCAN.uavcan_protocol_param_GetSet_res))

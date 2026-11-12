@@ -5,10 +5,26 @@ public partial class MAVLink
 {
     public class MAVLinkParam
     {
+        private string _name;
+
+        /// <summary>
+        /// counts the renames of params that already had a name, MAVLinkParamList looks params up by name
+        /// </summary>
+        internal static int NameChanges;
+
         /// <summary>
         /// Paramater name
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != null && _name != value)
+                    System.Threading.Interlocked.Increment(ref NameChanges);
+                _name = value;
+            }
+        }
 
         /// <summary>
         /// Over the wire storage format

@@ -213,20 +213,22 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         {
                             try
                             {
-                                // get param
-                                MAV.parent.GetParam(MAV.sysid, MAV.compid, "RTL_ALT");
-                                // set param
-                                MAV.parent.setParam(MAV.sysid, MAV.compid, "RTL_ALT", 0); // cms - rtl at current alt
+                                // rtl at current alt
+                                if (MAV.param.ContainsKey("RTL_ALT"))
+                                    MAV.parent.setParam(MAV.sysid, MAV.compid, "RTL_ALT", 0);
+                                else if (MAV.param.ContainsKey("RTL_ALT_M"))
+                                    MAV.parent.setParam(MAV.sysid, MAV.compid, "RTL_ALT_M", 0);
                             }
                             catch
                             {
                             }
                             try
                             {
-                                // get param
-                                MAV.parent.GetParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL");
-                                // set param to default 100cm/s
-                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
+                                // set accel to default
+                                if (MAV.param.ContainsKey("WPNAV_ACCEL"))
+                                    MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100); // 100 cm/s/s
+                                else if (MAV.param.ContainsKey("WP_ACC"))
+                                    MAV.parent.setParam(MAV.sysid, MAV.compid, "WP_ACC", 1); // 1 m/s/s
                             }
                             catch
                             {
@@ -390,7 +392,10 @@ namespace MissionPlanner.Swarm.WaypointLeader
                                 continue;
                             var MAV = drone.MavState;
                             // update to faster speed
-                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", (float)WPNAV_ACCEL * 100.0f);
+                            if (MAV.param.ContainsKey("WPNAV_ACCEL"))
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", (float)WPNAV_ACCEL * 100.0f);
+                            else if (MAV.param.ContainsKey("WP_ACC"))
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WP_ACC", (float)WPNAV_ACCEL);
 
                             MAV.parent.setMode(MAV.sysid, MAV.compid, "GUIDED");
                         }
@@ -482,9 +487,11 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         try
                         {
                             var MAV = drone.MavState;
-                            // set param to default 100cm/s
-                            if (MAV.param["WPNAV_ACCEL"].Value != 100)
-                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
+                            // set accel to default
+                            if (MAV.param.ContainsKey("WPNAV_ACCEL") && MAV.param["WPNAV_ACCEL"].Value != 100)
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100); // 100 cm/s/s
+                            else if (MAV.param.ContainsKey("WP_ACC") && MAV.param["WP_ACC"].Value != 1)
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WP_ACC", 1); // 1 m/s/s
                         }
                         catch
                         {
@@ -521,9 +528,11 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         try
                         {
                             var MAV = drone.MavState;
-                            // set param to default 100cm/s
-                            if (MAV.param["WPNAV_ACCEL"].Value != 100)
-                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
+                            // set accel to default
+                            if (MAV.param.ContainsKey("WPNAV_ACCEL") && MAV.param["WPNAV_ACCEL"].Value != 100)
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100); // 100 cm/s/s
+                            else if (MAV.param.ContainsKey("WP_ACC") && MAV.param["WP_ACC"].Value != 1)
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WP_ACC", 1); // 1 m/s/s
                         }
                         catch
                         {

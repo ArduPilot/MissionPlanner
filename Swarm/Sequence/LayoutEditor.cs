@@ -328,7 +328,7 @@ namespace MissionPlanner.Swarm.Sequence
 
             foreach (var sysid in load.Layouts.First().Offset.Keys)
             {
-                mavs[sysid] = new MAVState(mavint, (byte)sysid, 0);
+                mavs[sysid] = new MAVState(mavint, sysid, 0);
             }
 
             comboBox1_SelectedIndexChanged(null, null);
@@ -352,7 +352,7 @@ namespace MissionPlanner.Swarm.Sequence
             }
         }
 
-        private Dictionary<int, MAVState> mavs = new Dictionary<int, MAVState>();
+        private Dictionary<uint, MAVState> mavs = new Dictionary<uint, MAVState>();
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -476,7 +476,7 @@ namespace MissionPlanner.Swarm.Sequence
                 // add the drone to all layouts
                 foreach (var workingSequenceLayout in workingSequence.Layouts)
                 {
-                    workingSequenceLayout.Offset.Remove(count);
+                    workingSequenceLayout.Offset.Remove((uint)count);
                 }
 
                 bindingSource1.DataSource = workingSequence;
@@ -484,7 +484,7 @@ namespace MissionPlanner.Swarm.Sequence
             else
             {
 
-                int sysid = 1;
+                uint sysid = 1;
                 try
                 {
                     sysid = workingSequence.Layouts.First().Offset.Keys.Max() + 1;
@@ -499,7 +499,7 @@ namespace MissionPlanner.Swarm.Sequence
                     workingSequenceLayout.AddOffset(sysid, new Vector3(sysid, 0, 0));
                 }
 
-                mavs[sysid] = new MAVState(mavint, (byte)sysid, 0);
+                mavs[sysid] = new MAVState(mavint, sysid, 0);
 
                 bindingSource1.DataSource = workingSequence;
             }

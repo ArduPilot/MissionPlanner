@@ -16,20 +16,27 @@ namespace MissionPlanner.Controls
     {
 
         public string gstreamer_pipeline = "";
+        public (uint System, byte Component)? CameraAddress { get; private set; }
+
+        private sealed class StreamChoice
+        {
+            public string Name { get; set; }
+            public mavlink_video_stream_information_t Stream { get; set; }
+            public (uint System, byte Component) Camera { get; set; }
+        }
         public VideoStreamSelector()
         {
             InitializeComponent();
 
             // Populate the combobox with the available video streams
-            cmb_detectedstreams.DisplayMember = "Key";
-            cmb_detectedstreams.ValueMember = "Value";
-            cmb_detectedstreams.DataSource = CameraProtocol.VideoStreams.Values.Select
-            (
-                x => new KeyValuePair<string, mavlink_video_stream_information_t>
-                (
-                    System.Text.Encoding.UTF8.GetString(x.name).Split('\0')[0], x
-                )
-            ).ToList();
+            cmb_detectedstreams.DisplayMember = "Name";
+            cmb_detectedstreams.ValueMember = "Stream";
+            cmb_detectedstreams.DataSource = CameraProtocol.VideoStreams.Select(x => new StreamChoice
+            {
+                Name = System.Text.Encoding.UTF8.GetString(x.Value.name).Split('\0')[0],
+                Stream = x.Value,
+                Camera = (x.Key.Item1, x.Key.Item2)
+            }).ToList();
 
             Utilities.ThemeManager.ApplyThemeTo(this);
         }
@@ -39,6 +46,8 @@ namespace MissionPlanner.Controls
             if(txt_gstreamraw.Text != "")
             {
                 gstreamer_pipeline = txt_gstreamraw.Text;
+                if (cmb_detectedstreams.SelectedItem is StreamChoice choice && gstreamer_pipeline == CameraProtocol.GStreamerPipeline(choice.Stream))
+                    CameraAddress = choice.Camera;
                 DialogResult = DialogResult.OK;
             }
             

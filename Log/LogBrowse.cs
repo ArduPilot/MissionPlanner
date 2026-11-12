@@ -410,21 +410,25 @@ namespace MissionPlanner.Log
             string vehicle_msg = null;
             foreach (var item in logdata.GetEnumeratorType("MSG"))
             {
-               if (new string[] { "AntennaTracker V", "ArduCopter V", "ArduPlane V", "ArduSub V", "Blimp V" }.Any(s => item.items[2].Contains(s)))
-               {
-                    if (vehicle_msg != null)
+                try
+                {
+                    if (new string[] { "AntennaTracker V", "ArduCopter V", "ArduPlane V", "ArduSub V", "Blimp V" }.Any(s => item.items[2].Contains(s)))
                     {
-                        // should not find multiple vehicle messages
-                        if (vehicle_msg == item.items[2])
+                        if (vehicle_msg != null)
                         {
-                            // allow if both are the same
-                            continue;
+                            // should not find multiple vehicle messages
+                            if (vehicle_msg == item.items[2])
+                            {
+                                // allow if both are the same
+                                continue;
+                            }
+                            vehicle_msg = null;
+                            break;
                         }
-                        vehicle_msg = null;
-                        break;
+                        vehicle_msg = item.items[2];
                     }
-                    vehicle_msg = item.items[2];
-               }
+                }
+                catch { }
             }
             var VehicleType = "";
             if (vehicle_msg != null)
@@ -1516,7 +1520,7 @@ main()
                 {
                     try
                     {
-                        double value = double.Parse(item.items[col],
+                        double value = double.Parse(item.GetItem(col),
                             System.Globalization.CultureInfo.InvariantCulture);
 
                         if (dataModifier.IsValid())
@@ -3865,6 +3869,8 @@ main()
 
                     Dictionary<string, FileStream> filehandles = new Dictionary<string, FileStream>();
 
+                    var exportBase = Path.GetFullPath(dir) + Path.DirectorySeparatorChar;
+
                     foreach (var file in files)
                     {
                         var name = file.GetRaw<string>("FileName");
@@ -3872,7 +3878,18 @@ main()
                         var length = file.GetRaw<byte>("Length");
                         var data = file.GetRaw<byte[]>("Data");
 
-                        var path = Path.Combine(dir, name);
+                        // Sanitize the filename to prevent path traversal attacks.
+                        // Strip leading directory separators so Path.Combine cannot
+                        // treat name as an absolute path, then resolve the full path
+                        // and verify it stays inside the chosen export directory.
+                        var sanitizedName = name.TrimStart(Path.DirectorySeparatorChar,
+                            Path.AltDirectorySeparatorChar);
+                        var path = Path.GetFullPath(Path.Combine(dir, sanitizedName));
+                        if (!path.StartsWith(exportBase, StringComparison.OrdinalIgnoreCase))
+                        {
+                            log.WarnFormat("Skipping file with path traversal attempt: {0}", name);
+                            continue;
+                        }
 
                         Directory.CreateDirectory(Path.GetDirectoryName(path));
 

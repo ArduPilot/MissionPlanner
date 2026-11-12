@@ -37,6 +37,7 @@
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.downloadBurstToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,6 +49,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.btnMountFuse = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -98,7 +100,8 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderName,
             this.columnHeaderType,
-            this.columnHeaderSize});
+            this.columnHeaderSize,
+            this.columnHeaderModified});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -131,6 +134,11 @@
             // columnHeaderSize
             // 
             this.columnHeaderSize.Text = "Size";
+            // 
+            // columnHeaderModified
+            // 
+            this.columnHeaderModified.Text = "Date modified";
+            this.columnHeaderModified.Width = 120;
             // 
             // contextMenuStrip1
             // 
@@ -216,11 +224,23 @@
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
+            //
+            // btnMountFuse
+            //
+            this.btnMountFuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMountFuse.Location = new System.Drawing.Point(763, 0);
+            this.btnMountFuse.Name = "btnMountFuse";
+            this.btnMountFuse.Size = new System.Drawing.Size(125, 23);
+            this.btnMountFuse.TabIndex = 3;
+            this.btnMountFuse.Text = "Mount as Drive";
+            this.btnMountFuse.UseVisualStyleBackColor = true;
+            this.btnMountFuse.Click += new System.EventHandler(this.BtnMountFuse_Click);
+            //
             // MavFTPUI
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnMountFuse);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "MavFTPUI";
@@ -247,6 +267,7 @@
         private System.Windows.Forms.ColumnHeader columnHeaderName;
         private System.Windows.Forms.ColumnHeader columnHeaderType;
         private System.Windows.Forms.ColumnHeader columnHeaderSize;
+        private System.Windows.Forms.ColumnHeader columnHeaderModified;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem downloadToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
@@ -258,5 +279,6 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.ToolStripMenuItem getCRC32ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem downloadBurstToolStripMenuItem;
+        private System.Windows.Forms.Button btnMountFuse;
     }
 }

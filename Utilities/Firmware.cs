@@ -244,7 +244,7 @@ namespace MissionPlanner.Utilities
 
             return options.softwares;
         }
-      
+
         void updateProgress(int percent, string status)
         {
             if (Progress != null)
@@ -667,6 +667,8 @@ namespace MissionPlanner.Utilities
 
                         up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
                         up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
+                        up.ConfirmEvent += (message) =>
+                            CustomMessageBox.Show(message, "Same Firmware",MessageBoxButtons.YesNo) == (int)DialogResult.Yes;
                         up.identify();
                         state.Break();
                         foundboard = true;

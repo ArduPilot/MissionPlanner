@@ -21,8 +21,12 @@ namespace px4uploader
 
         public delegate void ProgressEventHandler(double completed);
 
+        // new: subscriber returns true = proceed, false = abort
+        public delegate bool ConfirmEventHandler(string message);
+
         public event LogEventHandler LogEvent;
         public event ProgressEventHandler ProgressEvent;
+        public event ConfirmEventHandler ConfirmEvent;
 
         public ICommsSerial port;
         Uploader self;
@@ -37,6 +41,7 @@ namespace px4uploader
         public int bl_rev;
         public bool libre = false;
         public byte[] sn = new byte[0];
+        public bool allowSameUpload = false;
 
         public enum Code : byte
         {
@@ -58,8 +63,8 @@ namespace px4uploader
             PROG_MULTI = 0x27,
             READ_MULTI = 0x28,//# rev2 only
             GET_CRC = 0x29,//	# rev3+
-            GET_OTP = 0x2a, // read a byte from OTP at the given address 
-            GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
+            GET_OTP = 0x2a, // read a byte from OTP at the given address
+            GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address
             GET_CHIP = 0x2c, // read chip version (MCU IDCODE)
             SET_DELAY = 0x2d, // set minimum boot delay
             GET_CHIP_DES = 0x2e,
@@ -82,7 +87,7 @@ namespace px4uploader
             EXTF_SIZE = 6
         }
 
-        public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
+        public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol
         public const byte BL_REV_MAX = 20;//	# maximum supported bootloader protocol
         public const byte PROG_MULTI_MAX = 252;//		# protocol max is 255, must be multiple of 4
         public const byte READ_MULTI_MAX = 252;//		# protocol max is 255, something overflows with >= 64
@@ -350,7 +355,7 @@ namespace px4uploader
                     }
 
                 }
-                catch 
+                catch
                 {
                     print("Failed to read Certificate of Authenticity");
                     throw;
@@ -796,7 +801,7 @@ namespace px4uploader
             }
         }
 
-        
+
         public void currentChecksum(Firmware fw)
         {
             if (self.bl_rev < 3)
@@ -821,7 +826,7 @@ namespace px4uploader
                 print("Current 0x" + hexlify(BitConverter.GetBytes(report_crc)) + " " + report_crc);
 
                 if (expect_crc != report_crc)
-                    sameflash = false;                    
+                    sameflash = false;
             }
 
             if (self.extf_maxsize > 0)
@@ -831,8 +836,8 @@ namespace px4uploader
                 byte[] size_bytes = BitConverter.GetBytes(fw.extf_image_size);
 
                 __send(new byte[] {(byte)Code.EXTF_GET_CRC,
-                    size_bytes[0], size_bytes[1], size_bytes[2], size_bytes[3],
-                    (byte) Code.EOC});
+                        size_bytes[0], size_bytes[1], size_bytes[2], size_bytes[3],
+                        (byte) Code.EOC});
 
                 // crc can be slow, give it 10s
                 __wait_for_bytes(4, 30);
@@ -847,8 +852,16 @@ namespace px4uploader
                     sameexternalflash = false;
             }
 
-            if (sameflash && sameexternalflash)
-                throw new Exception("Same Firmware. Not uploading");
+            if (sameflash && sameexternalflash && !allowSameUpload)
+            {
+                bool proceed = ConfirmEvent != null
+                    && ConfirmEvent("The board already has the same firmware version.\nUpload anyway?");
+
+                if (!proceed)
+                    throw new Exception("Same Firmware. Not uploading");
+
+                allowSameUpload = true;
+            }
         }
 
         public void identify()
@@ -1001,7 +1014,7 @@ namespace px4uploader
             {
                 this.port.Dispose();
             }
-            catch { }            
+            catch { }
 
             this.port = null;
         }

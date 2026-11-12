@@ -1,0 +1,96 @@
+name: Linux Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: Linux x86_64
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mono-devel rsync
+      - uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: linux-nuget-${{ hashFiles('**/*.csproj', 'Linux/Build.targets') }}
+          restore-keys: linux-nuget-
+      - name: Build and package
+        run: ./Linux/build.sh 2>&1 | tee linux-build.log
+      - name: Test archive with runtime dependencies only
+        run: ./Linux/test-package.sh 2>&1 | tee linux-runtime-test.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MissionPlanner-linux-x86_64
+          path: |
+            bin/linux/MissionPlanner-linux-x86_64.tar.gz
+            bin/linux/MissionPlanner-linux-x86_64.tar.gz.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build-logs
+          path: |
+            linux-build.log
+            linux-runtime-test.log
+
+  publish:
+    name: Publish Linux development download
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    concurrency:
+      group: linux-development-release
+      cancel-in-progress: false
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: MissionPlanner-linux-x86_64
+          path: download
+      - name: Update Linux development release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          # Ignore builds superseded by a newer master commit while queued.
+          head=$(gh api "repos/$GH_REPO/commits/master" --jq .sha)
+          if [[ "$head" != "$GITHUB_SHA" ]]; then exit 0; fi
+          cat > release-notes.md <<EOF
+          Linux x86_64 development build from commit $GITHUB_SHA.
+
+          Download the archive and checksum, extract it, and run ./run.sh.
+          The included README lists runtime-only dependencies; no SDK or compiler is needed.
+          Source and instructions: https://github.com/$GH_REPO/tree/$GITHUB_SHA/Linux
+          EOF
+          if gh release view linux-latest >/dev/null 2>&1; then
+            gh api --method PATCH "repos/$GH_REPO/git/refs/tags/linux-latest" \
+              -f sha="$GITHUB_SHA" -F force=true
+            gh release edit linux-latest --title 'Linux Development Build' \
+              --prerelease --notes-file release-notes.md
+          else
+            gh release create linux-latest --target "$GITHUB_SHA" \
+              --title 'Linux Development Build' --prerelease --notes-file release-notes.md
+          fi
+          gh release upload linux-latest download/* --clobber

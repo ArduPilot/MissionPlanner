@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -121,13 +121,13 @@
     <value>Min</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Servo Limits</value>
+    <value>Limites servo</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Max</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
-    <value>Angle Limits</value>
+    <value>Limites d'angle</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Max</value>
@@ -136,13 +136,13 @@
     <value>Min</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Servo Limits</value>
+    <value>Limites servo</value>
   </data>
   <data name="LBL_Error.Text" xml:space="preserve">
-    <value>Error Message of some kind</value>
+    <value>Message d'erreur</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Pan</value>
+    <value>Panoramique</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>Max</value>
@@ -157,25 +157,25 @@
     <value>Min</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Input Ch</value>
+    <value>Canal entrée</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Input Ch</value>
+    <value>Canal entrée</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>Input Ch</value>
+    <value>Canal entrée</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Servo Limits</value>
+    <value>Limites servo</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Max</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Angle Limits</value>
+    <value>Limites d'angle</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Roll</value>
+    <value>Roulis</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>Max</value>
@@ -184,24 +184,87 @@
     <value>Min</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Tilt</value>
+    <value>Inclinaison</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Min</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Angle Limits</value>
+    <value>Limites d'angle</value>
   </data>
   <data name="mavlinkCheckBoxRR.Text" xml:space="preserve">
-    <value>Reverse</value>
+    <value>Inverser</value>
   </data>
   <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
-    <value>Reverse</value>
+    <value>Inverser</value>
   </data>
   <data name="mavlinkCheckBoxPR.Text" xml:space="preserve">
-    <value>Reverse</value>
+    <value>Inverser</value>
   </data>
   <data name="LNK_wiki.Text" xml:space="preserve">
     <value>Wiki</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Angles de rétraction</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Angles neutres</value>
+  </data>
+  <data name="CHK_stab_tilt.Text" xml:space="preserve">
+    <value>Stabiliser l'inclinaison</value>
+  </data>
+  <data name="CHK_stab_roll.Text" xml:space="preserve">
+    <value>Stabiliser le roulis</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>Obturateur</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>Limites servo</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Non appuyé</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Appuyé</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>Obturateur</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Durée (1/10ème sec)</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>Veuillez régler l'option Ch7 sur Déclencheur caméra</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>NOTE : le type de nacelle prend effet au prochain redémarrage du contrôleur de vol</value>
   </data>
 </root>

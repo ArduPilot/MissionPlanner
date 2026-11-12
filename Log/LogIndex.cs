@@ -76,8 +76,10 @@ namespace MissionPlanner.Log
         private void queueRunner(object nothing)
         {
             a = 0;
-            lock(files)
-                Parallel.ForEach(files, async (file) => { await ProcessFile(file).ConfigureAwait(false); });
+            lock (files)
+                Parallel.ForEach(files,
+                    //new ParallelOptions() { MaxDegreeOfParallelism = 8 },
+                    async (file) => { await ProcessFile(file).ConfigureAwait(false); });
 
             Loading.ShowLoading("Populating Data", this);
 
@@ -171,6 +173,8 @@ namespace MissionPlanner.Log
                     var length = mine.logplaybackfile.BaseStream.Length;
 
                     var a = 0;
+                    var gpssec = 0;
+                    var updates = 0;
 
                     // abandon last 100 bytes
                     while (mine.logplaybackfile.BaseStream.Position < (length - 100))
@@ -184,14 +188,20 @@ namespace MissionPlanner.Log
                         if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK)
                             loginfo.CamMSG++;
 
-                        if (a % 10 == 0)
+                        if (a % 200 == 0 || mine.MAV.cs.gpstime.Second != gpssec)
+                        {
+                            updates++;
+                            gpssec = mine.MAV.cs.gpstime.Second;
                             mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
+                        }
 
                         a++;
 
                         if (mine.lastlogread > end)
                             end = mine.lastlogread;
                     }
+
+                    log.Info("Finished reading " + file + " with " + a + " packets and " + updates + " updates");
 
                     loginfo.Home = mine.MAV.cs.Location;
 
@@ -202,9 +212,9 @@ namespace MissionPlanner.Log
                     loginfo.Duration = (end - start).ToString();
                 }
             }
-            else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
+            else if (file.EndsWith(".bin", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".log", StringComparison.OrdinalIgnoreCase))
             {
-                using (DFLogBuffer colbuf = new DFLogBuffer(new BufferedStream(File.OpenRead(file), 1024 * 1024 * 5)))
+                using (DFLogBuffer colbuf = new DFLogBuffer(file))
                 {
                     PointLatLngAlt lastpos = null;
                     DateTime start = DateTime.MinValue;
@@ -268,6 +278,7 @@ namespace MissionPlanner.Log
 
             lock (logs)
                 logs.Add(loginfo);
+            log.Info("Finished " + file);
         }
 
         static object locker = new object();
@@ -291,7 +302,7 @@ namespace MissionPlanner.Log
             public Image img { get { lock (this) { if (image == null && !String.IsNullOrEmpty(imgfile)) image = GetBitmap(imgfile); return image; } } }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
-            public int Aircraft { get; set; }
+            public uint Aircraft { get; set; }
             public long Size { get; set; }
             public PointLatLngAlt Home { get; set; }
 

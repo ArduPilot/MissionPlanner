@@ -24,6 +24,42 @@ namespace System.Drawing
                 BlendMode = SKBlendMode.SrcOver
             };
 
+        // default paint for DrawImage(Image, Rectangle, Rectangle, GraphicsUnit), reused instead of one per call
+        private readonly SKPaint _imagePaint = new SKPaint();
+
+        // DrawText sets brush + font settings on this rather than on the brush's shared cached paint
+        private readonly SKPaint _textPaint = new SKPaint();
+
+        // reused by the shape methods instead of a new native SKPath per call; DrawPath doesn't keep it
+        private readonly SKPath _scratchPath = new SKPath();
+
+        private SKPath ScratchPath()
+        {
+            _scratchPath.Rewind();
+            return _scratchPath;
+        }
+
+        // same as path.AddPoly(points, true) without the LINQ arrays
+        private static void AddPolygon(SKPath path, PointF[] points)
+        {
+            if (points.Length == 0)
+                return;
+            path.MoveTo(points[0].X, points[0].Y);
+            for (int i = 1; i < points.Length; i++)
+                path.LineTo(points[i].X, points[i].Y);
+            path.Close();
+        }
+
+        private static void AddPolygon(SKPath path, Point[] points)
+        {
+            if (points.Length == 0)
+                return;
+            path.MoveTo(points[0].X, points[0].Y);
+            for (int i = 1; i < points.Length; i++)
+                path.LineTo(points[i].X, points[i].Y);
+            path.Close();
+        }
+
         internal SKSurface _surface;
 
         //SKPictureRecorder _rec = new SKPictureRecorder();
@@ -38,7 +74,7 @@ namespace System.Drawing
 
             //var hdc = g.GetHdc();
 
-            ret._surface = SKSurface.Create(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+            ret._surface = SKSurface.Create(new SKImageInfo(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul));
 
             return ret;
         }
@@ -65,7 +101,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
              */
             //_surface = SKSurface.Create(GRContext.Create(GRBackend.OpenGL), );
 
-            _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+            _surface = SKSurface.Create(new SKImageInfo(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Premul));
 
 
             Debug.Assert(_surface != null);
@@ -141,10 +177,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (bmpDestination.Width == 0 || bmpDestination.Height == 0)
                 return new Graphics(SKSurface.CreateNull(1, 1));
 
+            // LockBits registers this Graphics as a writer of the image until it is disposed
             var bmpdata = ((Bitmap) bmpDestination).LockBits(
                 new Rectangle(0, 0, bmpDestination.Width, bmpDestination.Height),
                 null, SKColorType.Bgra8888);
-            return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0));
+            return new Graphics(SKSurface.Create(bmpDestination.nativeSkBitmap.Info, bmpdata.Scan0))
+                {_writeTarget = bmpDestination};
         }
 
         public static Graphics FromSKImage(SKImage bmpDestination)
@@ -165,12 +203,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static implicit operator Image(Graphics sk)
         {
+            // copy the pixels: wrapping pxmap.GetPixels() left the Bitmap pointing at memory freed when
+            // the snapshot was disposed
             using (var snap = sk._surface.Snapshot())
             using (var rast = snap.ToRasterImage())
-            using (var pxmap = rast.PeekPixels())
             {
-                var bmpdata = pxmap.GetPixels();
-                return new Bitmap(rast.Width, rast.Height, rast.Width * 4, SKColorType.Bgra8888, bmpdata);
+                var bitmap = new SKBitmap(new SKImageInfo(rast.Width, rast.Height, SKColorType.Bgra8888));
+                rast.ReadPixels(bitmap.Info, bitmap.GetPixels(), bitmap.RowBytes, 0, 0);
+                return new Bitmap() {nativeSkBitmap = bitmap};
             }
         }
 
@@ -186,15 +226,47 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         }
 
 
+        // the Image this Graphics draws into, from FromImage
+        private Image _writeTarget;
+
+        // SkiaSharp 3 dropped the native drawBitmap (DrawBitmap copies a mutable bitmap per call); 2.x
+        // still has it and draws a bitmap faster than an SKImage, so only use the image cache on 3+
+        private static readonly bool DrawBitmapCopies = typeof(SKCanvas).Assembly.GetName().Version.Major >= 3;
+
+        // draw an Image's cached SKImage when it has one (see Image.GetDrawCache), else its bitmap
+        private void DrawImagePixels(Image image, SKRect source, SKRect dest, SKPaint paint)
+        {
+            var cached = DrawBitmapCopies ? image.GetDrawCache() : null;
+            if (cached != null)
+                _image.DrawImage(cached, source, dest, paint);
+            else
+                _image.DrawBitmap(image.nativeSkBitmap, source, dest, paint);
+        }
+
+        private void DrawImagePixels(Image image, float x, float y, SKPaint paint)
+        {
+            var cached = DrawBitmapCopies ? image.GetDrawCache() : null;
+            if (cached != null)
+                _image.DrawImage(cached, x, y, paint);
+            else
+                _image.DrawBitmap(image.nativeSkBitmap, x, y, paint);
+        }
+
         public void Dispose()
         {
+            var target = _writeTarget;
+            _writeTarget = null;
+            target?.ReleaseWriter();
             _surface?.Dispose();
             _paint?.Dispose();
+            _imagePaint?.Dispose();
+            _textPaint?.Dispose();
+            _scratchPath?.Dispose();
         }
 
         public void DrawArc(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, pen.ToSKPaint());
         }
@@ -234,7 +306,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawBeziers(Pen pen, PointF[] points)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.MoveTo(points[0].ToSKPoint());
             path.CubicTo(points[1].ToSKPoint(),
                 points[2].ToSKPoint(),
@@ -482,7 +554,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 ///   <paramref name="image" /> is <see langword="null" />.</exception>
         public void DrawImage(Image image, Rectangle destRect, Rectangle srcRect, GraphicsUnit srcUnit)
         {
-            _image.DrawBitmap(image.nativeSkBitmap, srcRect.ToSKRect(), destRect.ToSKRect(), new SKPaint());
+            DrawImagePixels(image, srcRect.ToSKRect(), destRect.ToSKRect(), _imagePaint);
         }
 
         public void DrawImage(Image image, PointF[] destPoints, RectangleF srcRect, GraphicsUnit srcUnit)
@@ -532,7 +604,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (img == null)
                 return;
             
-            _image.DrawBitmap(img.nativeSkBitmap,
+            DrawImagePixels(img,
                 new SKRect(srcX, srcY, srcX + srcWidth, srcY + srcHeight),
                 new SKRect(rectangle.X, rectangle.Y, rectangle.Right, rectangle.Bottom), _paint);
             
@@ -557,14 +629,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             DrawImage(img, new Rectangle((int) i, (int) i1, (int)width, (int)height), 0.0f, 0, img.Width, img.Height,
                 GraphicsUnit.Pixel,
-                new ImageAttributes());
+                null);
         }
 
         public void DrawImage(Image image, Rectangle rectangle, int p1, int p2, long p3, long p4,
             GraphicsUnit graphicsUnit, ImageAttributes TileFlipXYAttributes)
         {
             DrawImage(image, rectangle, (float) p1,p2,p3,p4,
-                GraphicsUnit.Pixel, new ImageAttributes());
+                GraphicsUnit.Pixel, null);
         }
 
         public void DrawImageUnscaled(Image image, int x, int y, int width, int height)
@@ -576,7 +648,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         {
             _image.Save();
             _image.ClipRect(rect.ToSKRect(), SKClipOperation.Intersect);
-            _image.DrawBitmap(image.nativeSkBitmap, rect.X, rect.Y, null);
+            DrawImagePixels(image, rect.X, rect.Y, null);
             _image.Restore();
         }
 
@@ -587,7 +659,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawImageUnscaled(Image image, int x, int y)
         {
-            _image.DrawBitmap(image.nativeSkBitmap, x, y, null);
+            DrawImagePixels(image, x, y, null);
         }
 
         public void DrawImageUnscaled(Image image, Rectangle rect)
@@ -656,9 +728,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         /// </remarks>
         public void DrawPath(Pen pen, GraphicsPath path)
         {
-            //Save the original pen dash style in case we need to change it
-            var originalPenDashStyle = pen.DashStyle;
-
             path.Flatten();
 
             int startIndex = 0;
@@ -679,8 +748,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
                 DrawLines(pen, subPoints.Select(a => new PointF(a.X, a.Y)).ToArray());
             }
-
-            pen.DashStyle = originalPenDashStyle;
         }
 
 
@@ -691,7 +758,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPie(Pen pen, float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, pen.ToSKPaint());
         }
@@ -708,8 +775,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPolygon(Pen pen, Point[] points)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, pen.ToSKPaint());
@@ -717,8 +784,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void DrawPolygon(Pen pen, PointF[] points)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, pen.ToSKPaint());
@@ -822,9 +889,12 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (String.IsNullOrEmpty(s))
                 return;
             var pnt = brush.ToSKPaint();
-            // Find the text bounds
-            var fnt = font.ToSKPaint();
-            var textBounds = MeasureString(s, font);
+            var fnt = font.GetTextPaint();
+            // Find the text bounds, only when alignment or wrapping uses them
+            var textBounds = new SizeF();
+            if (layoutRectangle.Width > 0 || format.Alignment == StringAlignment.Center ||
+                format.LineAlignment == StringAlignment.Center)
+                textBounds = MeasureString(s, font);
 
             if (layoutRectangle.Width > 0 && textBounds.Width > layoutRectangle.Width)
             {
@@ -837,13 +907,20 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 textBounds = layoutRectangle.Size;
             }
 
-            pnt.TextSize = fnt.TextSize;
-            pnt.Typeface = fnt.Typeface;
-            pnt.FakeBoldText = font.Bold;
-            
-            pnt.StrokeWidth = 1;
+            var textPaint = _textPaint;
+            textPaint.Color = pnt.Color;
+            textPaint.Shader = pnt.Shader;
+            textPaint.ColorFilter = pnt.ColorFilter;
+            textPaint.IsAntialias = pnt.IsAntialias;
+            textPaint.Style = pnt.Style;
+            textPaint.BlendMode = pnt.BlendMode;
+            textPaint.TextSize = fnt.TextSize;
+            textPaint.Typeface = fnt.Typeface;
+            textPaint.FakeBoldText = font.Bold;
+
+            textPaint.StrokeWidth = 1;
             if(font.Bold)
-                pnt.StrokeWidth = 2;
+                textPaint.StrokeWidth = 2;
 
             if (format.Alignment == StringAlignment.Center)
             {
@@ -855,22 +932,20 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
                 layoutRectangle.Y += layoutRectangle.Height / 2 - textBounds.Height / 2;
             }
 
-            if (format.FormatFlags == StringFormatFlags.DirectionVertical)
-            {
-                pnt.IsVerticalText = true;
-            }
-            else
-            {
-                pnt.IsVerticalText = false;
-            }
+            // StringFormatFlags.DirectionVertical is not supported: SKPaint.IsVerticalText was a no-op and is gone in SkiaSharp 3
 
             var lines = s.Trim().Split('\n');
+            var lineHeight = font.Height;
             int a=0;
             foreach (var line in lines)
             {
-                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) *font.Height, pnt);
+                _image.DrawText(line.TrimEnd(), layoutRectangle.X, layoutRectangle.Y - 2 + (a+1) * lineHeight, textPaint);
                 a++;
-            }            
+            }
+
+            // don't keep the brush's shader alive from this Graphics
+            textPaint.Shader = null;
+            textPaint.ColorFilter = null;
         }
 
         public class Line
@@ -997,7 +1072,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillEllipse(Brush brush, float x, float y, float width, float height)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddOval(SKRect.Create(x, y, width, height));
             _image.DrawPath(path, brush.ToSKPaint());
         }
@@ -1025,14 +1100,14 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         public void FillPie(Brush brush, float x, float y, float width, float height, float startAngle,
             float sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, brush.ToSKPaint());
         }
 
         public void FillPie(Brush brush, int x, int y, int width, int height, int startAngle, int sweepAngle)
         {
-            var path = new SKPath();
+            var path = ScratchPath();
             path.AddArc(new SKRect(x, y, x + width, y + height), startAngle, sweepAngle);
             _image.DrawPath(path, brush.ToSKPaint());
         }
@@ -1044,8 +1119,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPolygon(Brush brush, Point[] points, FillMode fillMode)
         {
-            var path = new SKPath();
-            path.AddPoly(points.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, points);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, brush.ToSKPaint());
@@ -1053,8 +1128,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public void FillPolygon(Brush brushh, PointF[] list)
         {
-            var path = new SKPath();
-            path.AddPoly(list.Select(a => new SKPoint(a.X, a.Y)).ToArray());
+            var path = ScratchPath();
+            AddPolygon(path, list);
             if (path.Bounds.Width == 0 || path.Bounds.Height == 0)
                 return;
             _image.DrawPath(path, brushh.ToSKPaint());
@@ -1233,11 +1308,13 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             var width = 0.0f;
             var height = 0.0f;
             var lines = text.Trim().Split('\n');
+            var paint = font.GetTextPaint();
+            var lineHeight = font.Height;
             foreach (var line in lines)
             {
-                font.ToSKPaint().MeasureText(line, ref bound);
+                paint.MeasureText(line, ref bound);
                 width = Math.Max(width, bound.Width);
-                height += font.Height;
+                height += lineHeight;
             }
 
             return new SizeF(width, height);
@@ -1280,8 +1357,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 //checkthis
                 var old = _image.TotalMatrix;
-                var extra = SKMatrix.MakeRotation(angle * 0.0174533f);
-                SKMatrix.PreConcat(ref old, extra);
+                var extra = SKMatrix.CreateRotation(angle * 0.0174533f);
+                old = old.PreConcat(extra);
                 _image.SetMatrix(old);
             }
         }
@@ -1300,7 +1377,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(sx, sy, old.TransX, old.TransY);
+                old = SKMatrix.CreateScaleTranslation(sx, sy, old.TransX, old.TransY);
                 _image.SetMatrix(old);
             }
         }
@@ -1409,7 +1486,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(old.ScaleX, old.ScaleY, f, f1);
+                old = SKMatrix.CreateScaleTranslation(old.ScaleX, old.ScaleY, f, f1);
                 _image.SetMatrix(old);
             }
         }
@@ -1604,7 +1681,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
         //A Windows window is identified by a "window handle" (HWND)
         public static Graphics FromHwnd(IntPtr windowHandle)
         {
-            Console.WriteLine("FromHwnd");
 
             if(HwndToGraphics == null)
                 return new Graphics(SKSurface.CreateNull(1, 1));
@@ -1627,7 +1703,6 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
 
         public static Graphics FromHdc(IntPtr getHdc)
         {
-            Console.WriteLine("FromHdc");
             return GraphicsFromHdc(getHdc);
         }
 

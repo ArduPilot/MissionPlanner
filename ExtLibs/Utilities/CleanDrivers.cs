@@ -84,7 +84,7 @@ Signer Name:        Microsoft Windows Hardware Compatibility Publisher
                     sin[i].Groups[1].Value.Trim());
 
                 ProcessStartInfo si =
-                    new ProcessStartInfo("pnputil", "-f -u -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas"};
+                    new ProcessStartInfo("pnputil", "-f -u -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas", UseShellExecute = true};
 
                 if (sin[i].Groups[1].Value.Trim() == "Michael Oborne")
                 {

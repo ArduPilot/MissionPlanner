@@ -20,8 +20,6 @@ namespace MissionPlanner.Controls
         private ComboBox CMB_Rotational;
         private Label label90;
         private ComboBox CMB_Resolution;
-        private Label label110;
-        private ComboBox CMB_Angular;
         private Label label111;
         private NumericUpDown NUM_range;
         private Label label112;
@@ -45,8 +43,7 @@ namespace MissionPlanner.Controls
 
             Clearance.Value = (decimal)Settings.Instance.GetFloat("Propagation_Clearance", 5);
             CMB_Resolution.Text = Settings.Instance.GetInt32("Propagation_Resolution", 4).ToString();
-            CMB_Rotational.Text = Settings.Instance.GetInt32("Propagation_Rotational", 1).ToString();
-            CMB_Angular.Text = Settings.Instance.GetInt32("Propagation_Converge", 1).ToString();
+            CMB_Rotational.Text = SightGen.AzimuthStep.ToString(System.Globalization.CultureInfo.InvariantCulture);
             NUM_range.Value = (decimal)Settings.Instance.GetFloat("Propagation_Range", 2.0f);
             NUM_height.Value = (decimal)Settings.Instance.GetFloat("Propagation_Height", 2.0f);
             Tolerance.Value = (decimal)Settings.Instance.GetFloat("Propagation_Tolerance", 0.8f);
@@ -87,8 +84,6 @@ namespace MissionPlanner.Controls
             this.CMB_Rotational = new System.Windows.Forms.ComboBox();
             this.label90 = new System.Windows.Forms.Label();
             this.CMB_Resolution = new System.Windows.Forms.ComboBox();
-            this.label110 = new System.Windows.Forms.Label();
-            this.CMB_Angular = new System.Windows.Forms.ComboBox();
             this.label111 = new System.Windows.Forms.Label();
             this.NUM_range = new System.Windows.Forms.NumericUpDown();
             this.label112 = new System.Windows.Forms.Label();
@@ -167,8 +162,6 @@ namespace MissionPlanner.Controls
             this.groupBox1.Controls.Add(this.CMB_Rotational);
             this.groupBox1.Controls.Add(this.label90);
             this.groupBox1.Controls.Add(this.CMB_Resolution);
-            this.groupBox1.Controls.Add(this.label110);
-            this.groupBox1.Controls.Add(this.CMB_Angular);
             this.groupBox1.Controls.Add(this.label111);
             this.groupBox1.Controls.Add(this.NUM_range);
             this.groupBox1.Controls.Add(this.label112);
@@ -311,25 +304,6 @@ namespace MissionPlanner.Controls
             resources.ApplyResources(this.CMB_Resolution, "CMB_Resolution");
             this.CMB_Resolution.Name = "CMB_Resolution";
             this.CMB_Resolution.SelectedIndexChanged += new System.EventHandler(this.CMB_Resolution_SelectedIndexChanged);
-            //
-            // label110
-            //
-            resources.ApplyResources(this.label110, "label110");
-            this.label110.Name = "label110";
-            //
-            // CMB_Angular
-            //
-            this.CMB_Angular.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CMB_Angular.FormattingEnabled = true;
-            this.CMB_Angular.Items.AddRange(new object[] {
-            resources.GetString("CMB_Angular.Items"),
-            resources.GetString("CMB_Angular.Items1"),
-            resources.GetString("CMB_Angular.Items2"),
-            resources.GetString("CMB_Angular.Items3"),
-            resources.GetString("CMB_Angular.Items4")});
-            resources.ApplyResources(this.CMB_Angular, "CMB_Angular");
-            this.CMB_Angular.Name = "CMB_Angular";
-            this.CMB_Angular.SelectedIndexChanged += new System.EventHandler(this.CMB_Angular_SelectedIndexChanged);
             //
             // label111
             //
@@ -475,11 +449,6 @@ namespace MissionPlanner.Controls
         private void CMB_Rotational_SelectedIndexChanged(object sender, EventArgs e)
         {
             Settings.Instance["Propagation_Rotational"] = CMB_Rotational.Text;
-        }
-
-        private void CMB_Angular_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Settings.Instance["Propagation_Converge"] = CMB_Angular.Text;
         }
 
         private void NUM_range_ValueChanged(object sender, EventArgs e)

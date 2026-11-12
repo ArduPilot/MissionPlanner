@@ -117,7 +117,7 @@ namespace System
                             ((LinearGradientBrush) brush).LinearColors[0].SKColor(),
                             ((LinearGradientBrush) brush).LinearColors[1].SKColor()
                         }
-                        , null, SKShaderTileMode.Clamp, SKMatrix.MakeIdentity())
+                        , null, SKShaderTileMode.Clamp, SKMatrix.Identity)
                 };
             }
 
@@ -152,7 +152,7 @@ namespace System
 
             //var hdc = g.GetHdc();
 
-            ret._surface = SKSurface.Create(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul);
+            ret._surface = SKSurface.Create(new SKImageInfo(imageWidth, imageHeight, SKImageInfo.PlatformColorType, SKAlphaType.Premul));
 
             return ret;
         }
@@ -192,7 +192,7 @@ namespace System
 
         public SkiaGraphics()
         {
-            _surface = SKSurface.Create(9999, 9999, SKColorType.Bgra8888, SKAlphaType.Opaque);
+            _surface = SKSurface.Create(new SKImageInfo(9999, 9999, SKColorType.Bgra8888, SKAlphaType.Opaque));
         }
 
         public SkiaGraphics(SKSurface surface)
@@ -210,7 +210,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
              */
             //_surface = SKSurface.Create(GRContext.Create(GRBackend.OpenGL,GRGlInterface.AssembleInterface(handle,)))();
 
-            _surface = SKSurface.Create(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Opaque);
+            _surface = SKSurface.Create(new SKImageInfo(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Opaque));
 
             //_rec.BeginRecording(new SKRect(0, 0, width, height));
         }
@@ -1269,8 +1269,8 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             {
                 //checkthis
                 var old = _image.TotalMatrix;
-                var extra = SKMatrix.MakeRotation(angle);
-                SKMatrix.PreConcat(ref old, extra);
+                var extra = SKMatrix.CreateRotation(angle);
+                old = old.PreConcat(extra);
                 _image.SetMatrix(old);
             }
         }
@@ -1293,7 +1293,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(sx, sy, old.TransX, old.TransY);
+                old = SKMatrix.CreateScaleTranslation(sx, sy, old.TransX, old.TransY);
                 _image.SetMatrix(old);
             }
         }
@@ -1367,7 +1367,7 @@ GRBackendRenderTargetDesc backendRenderTargetDescription = new GRBackendRenderTa
             if (order == MatrixOrder.Append)
             {
                 var old = _image.TotalMatrix;
-                old.SetScaleTranslate(old.ScaleX, old.ScaleY, f, f1);
+                old = SKMatrix.CreateScaleTranslation(old.ScaleX, old.ScaleY, f, f1);
                 _image.SetMatrix(old);
             }
         }

@@ -143,6 +143,10 @@ namespace MissionPlanner
 
         private DateTime lastdata = DateTime.MinValue;
 
+        // when EKF_STATUS_REPORT was last received (message time, so log playback works),
+        // null if never; it is preferred over ESTIMATOR_STATUS
+        private DateTime? lastekfstatusreport = null;
+
         // for calc of sitl speedup
         internal DateTime lastimutime = DateTime.MinValue;
         private PointLatLngAlt lastpos = new PointLatLngAlt();
@@ -526,6 +530,8 @@ namespace MissionPlanner
         public float targetairspeed { get; private set; }
 
         public bool lowairspeed { get; set; }
+        private float _cachedAirspeedMin = 0;
+        private DateTime _lastAirspeedMinCheck = DateTime.MinValue;
 
         [DisplayFieldName("asratio.Field")]
         [DisplayText("Airspeed Ratio")]
@@ -1656,7 +1662,8 @@ namespace MissionPlanner
                         {
                             // these fields types stand alone
                             if (a.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION ||
-                                a.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                                a.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION ||
+                                a.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
                                 return false;
 
                             if (count >= b.Value.param1)
@@ -1687,6 +1694,20 @@ namespace MissionPlanner
                                     item.y / 1e7);
 
                                 var dist = lla.GetDistance(Location);
+                                if (dist > item.param1)
+                                    return 0;
+                                disttotal = (float)Math.Min(item.param1 - dist, disttotal);
+                            }
+                            else if (item.command == (ushort)MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
+                            {
+                                // centred on home, not on the item's lat/lng.  Without home the
+                                // distance is unknown (and ArduPilot won't load this fence), so
+                                // report 0 rather than leaving a large, falsely safe value
+                                var home = HomeLocation;
+                                if (home == null || home.Lat == 0 && home.Lng == 0)
+                                    return 0;
+
+                                var dist = home.GetDistance(Location);
                                 if (dist > item.param1)
                                     return 0;
                                 disttotal = (float)Math.Min(item.param1 - dist, disttotal);
@@ -1764,7 +1785,8 @@ namespace MissionPlanner
                     foreach (var sublist in list)
                         foreach (var mavlinkFencePointT in sublist)
                         {
-                            if (mavlinkFencePointT.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                            if (mavlinkFencePointT.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION ||
+                                mavlinkFencePointT.Value.command == (ushort)MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
                                 continue;
                             var pathpoint = new PointLatLngAlt(mavlinkFencePointT.Value.x / 1e7,
                                 mavlinkFencePointT.Value.y / 1e7);
@@ -2123,6 +2145,10 @@ namespace MissionPlanner
 
         [GroupText("EKF")] public float ekfteralt { get; set; }
 
+        [GroupText("EKF")][DisplayText("EKF horizontal position accuracy (m)")] public float ekfposhoracc { get; set; }
+
+        [GroupText("EKF")][DisplayText("EKF vertical position accuracy (m)")] public float ekfposvertacc { get; set; }
+
         [GroupText("PID")] public float pidff { get; set; }
 
         [GroupText("PID")] public float pidP { get; set; }
@@ -2308,6 +2334,23 @@ namespace MissionPlanner
             {
                 switch (mavLinkMessage.msgid)
                 {
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SIMSTATE:
+                        {
+                            var simstate = mavLinkMessage.ToStructure<MAVLink.mavlink_simstate_t>();
+                            //lat = simstate.lat / 1e7;
+                            //lng = simstate.lng / 1e7;
+                            //roll = (float)(simstate.roll * MathHelper.rad2deg);
+                            //pitch = (float)(simstate.pitch * MathHelper.rad2deg);
+                            //yaw = (float)(simstate.yaw * MathHelper.rad2deg);
+                            //gy = simstate.ygyro;
+                            //gx = simstate.xgyro;
+                            //gz = simstate.zgyro;
+                            //ax = simstate.xacc;
+                            //ay = simstate.yacc;
+                            //az = simstate.zacc;
+                        }
+                        break;
+
                     case (uint)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED:
 
                         // hil mavlink 0.9
@@ -2650,10 +2693,41 @@ namespace MissionPlanner
                         }
 
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ESTIMATOR_STATUS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT:
 
                         {
-                            var ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
+                            MAVLink.mavlink_ekf_status_report_t ekfstatusm;
+                            // ESTIMATOR_STATUS's accelerometer error flag has no EKF_STATUS_REPORT equivalent
+                            var estimatoraccelerror = false;
+                            if (mavLinkMessage.msgid == (uint)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT)
+                            {
+                                ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
+                                lastekfstatusreport = mavLinkMessage.rxtime;
+                            }
+                            else
+                            {
+                                var estimatorstatus = mavLinkMessage.ToStructure<MAVLink.mavlink_estimator_status_t>();
+                                ekfposhoracc = estimatorstatus.pos_horiz_accuracy;
+                                ekfposvertacc = estimatorstatus.pos_vert_accuracy;
+
+                                // ArduPilot sends EKF_STATUS_REPORT and may also send
+                                // ESTIMATOR_STATUS (PX4 sends only the latter); both carry
+                                // the same test ratios, so prefer EKF_STATUS_REPORT. In a log
+                                // without timestamps (.rlog) every rxtime is DateTime.MinValue,
+                                // so there any EKF_STATUS_REPORT counts as recent.
+                                // Read it once: ResetInternals() can null it from the UI thread
+                                var lastekf = lastekfstatusreport;
+                                if (lastekf.HasValue)
+                                {
+                                    var sinceekfstatusreport = mavLinkMessage.rxtime - lastekf.Value;
+                                    if (sinceekfstatusreport >= TimeSpan.Zero && sinceekfstatusreport < TimeSpan.FromSeconds(5))
+                                        break;
+                                }
+
+                                ekfstatusm = EkfStatusReportFromEstimatorStatus(estimatorstatus);
+                                estimatoraccelerror = (estimatorstatus.flags & (ushort)MAVLink.ESTIMATOR_STATUS_FLAGS.ESTIMATOR_ACCEL_ERROR) != 0;
+                            }
 
                             // > 1, between 0-1 typical > 1 = reject measurement - red
                             // 0.5 > amber
@@ -2741,6 +2815,12 @@ namespace MissionPlanner
                                         log.Info("EKF red uninit " + (MAVLink.EKF_STATUS_FLAGS)ekfstatusm.flags);
                                     }
                                 }
+                            }
+
+                            if (estimatoraccelerror)
+                            {
+                                ekfstatus = 1;
+                                messageHigh = Strings.ERROR + " " + Strings.ekf_accel_error;
                             }
                         }
 
@@ -3315,10 +3395,13 @@ namespace MissionPlanner
                             if (gps.satellites_visible != byte.MaxValue)
                                 satcount = gps.satellites_visible;
 
-                            if (gps.vel != ushort.MaxValue)
+                            // without a fix vel is 0 while VFR_HUD keeps the EKF speed, so GS would flicker
+                            var gpsfix = gps.fix_type >= (byte)MAVLink.GPS_FIX_TYPE._2D_FIX;
+
+                            if (gpsfix && gps.vel != ushort.MaxValue)
                                 groundspeed = gps.vel * 1.0e-2f;
 
-                            if (groundspeed > 0.5 && gps.cog != ushort.MaxValue)
+                            if (gpsfix && groundspeed > 0.5 && gps.cog != ushort.MaxValue)
                                 groundcourse = gps.cog * 1.0e-2f;
 
                             if (mavLinkMessage.ismavlink2)
@@ -3858,6 +3941,37 @@ namespace MissionPlanner
                             //This comes from the EKF, so it supposed to be correct
                             climbrate = vfr.climb;
                             gotVFR = true; // we have a vfr packet
+
+                            if ((timeSinceArmInAir > 0) && (DateTime.Now - _lastAirspeedMinCheck).TotalSeconds > 5)
+                            {
+                                try
+                                {
+                                    if (parent?.param != null)
+                                    {
+                                        if (parent.param.ContainsKey("AIRSPEED_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["AIRSPEED_MIN"].Value;
+                                        }
+                                        else if (parent.param.ContainsKey("ARSPD_FBW_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["ARSPD_FBW_MIN"].Value;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("Error getting AIRSPEED_MIN or ARSPD_FBW_MIN from param for lowairspeed handling", ex);
+                                }
+
+                                _lastAirspeedMinCheck = DateTime.Now;
+                            }
+
+                            lowairspeed = armed
+                                && (timeSinceArmInAir > 0)
+                                && (_cachedAirspeedMin > 0)
+                                && sensors_enabled.differential_pressure
+                                && sensors_health.differential_pressure
+                                && (vfr.airspeed < _cachedAirspeedMin);
                         }
 
                         break;
@@ -4160,7 +4274,7 @@ namespace MissionPlanner
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS:
                         {
                             var ahrs = mavLinkMessage.ToStructure<MAVLink.mavlink_ahrs_t>();
-                            
+
                         }
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.AHRS2:
@@ -4179,27 +4293,131 @@ namespace MissionPlanner
                         {
                             var airspeedp = mavLinkMessage.ToStructure<MAVLink.mavlink_airspeed_t>();
 
-                           if(airspeedp.id == 0)
+                            if (airspeedp.id == 0)
                             {
                                 airspeed = airspeedp.airspeed;
                                 airspeed1_temp = (float)(airspeedp.temperature / 100.0);
                             }
                         }
                         break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_LONG:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE3:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_QUATERNION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_REACHED:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.RALLY_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CAN_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.CANFD_FRAME:
                     case (uint)MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL:
                     case (uint)MAVLink.MAVLINK_MSG_ID.LOG_DATA:
                     case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_WRITE_REPLY:
                     case (uint)MAVLink.MAVLINK_MSG_ID.TIMESYNC:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_VALUE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ACTUATOR_CONTROL_TARGET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.AHRS3:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ENCAPSULATED_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA_TRANSMISSION_HANDSHAKE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.STATUSTEXT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ALTITUDE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEBUG_VECT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_READ:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_ACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW_RAD:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SET_MODE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.NAMED_VALUE_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_INFORMATION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_RTCM_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DEVICE_OP_READ_REPLY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_HEARTBEAT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_DATA_BLOCK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PARAM_SET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_SETTINGS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ENTRY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE_TARGET:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.WIND_COV:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ODOMETRY:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.PING:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_REQUEST_DATA:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HOME_POSITION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.TERRAIN_CHECK:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_CAPTURE_STATUS:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GPS_GLOBAL_ORIGIN:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.DATA16:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_OPERATOR_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_BASIC_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_LOCATION:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SELF_ID:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.OPEN_DRONE_ID_SYSTEM:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.HIL_SENSOR:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.FENCE_FETCH_POINT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.LOG_ERASE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.COMMAND_INT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_TORQUE_CMD_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GIMBAL_REPORT:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_SET_RESPONSE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SETUP_SIGNING:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.GOPRO_GET_RESPONSE:
+                    case (uint)MAVLink.MAVLINK_MSG_ID.REMOTE_LOG_BLOCK_STATUS:
                         break;
                     default:
                         {
-                            Debug.WriteLine("Unhandled CS message " + mavLinkMessage.msgid + " = " + mavLinkMessage.msgtypename);
+                            Debug.WriteLine("//Unhandled CS message " + mavLinkMessage.msgid + " = \ncase (uint)MAVLink.MAVLINK_MSG_ID." + mavLinkMessage.msgtypename + ":");
                         }
                         break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Convert an ESTIMATOR_STATUS to the equivalent EKF_STATUS_REPORT.
+        /// The innovation test ratios have the same meaning in both.
+        /// </summary>
+        private static MAVLink.mavlink_ekf_status_report_t EkfStatusReportFromEstimatorStatus(
+            MAVLink.mavlink_estimator_status_t estimatorstatus)
+        {
+            // flag bits 1 to 512 have the same meaning in both messages
+            var flags = (ushort)(estimatorstatus.flags & 0x3ff);
+            if ((estimatorstatus.flags & (ushort)MAVLink.ESTIMATOR_STATUS_FLAGS.ESTIMATOR_GPS_GLITCH) != 0)
+                flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_GPS_GLITCHING;
+            // ESTIMATOR_UNINITIALIZED, proposed in mavlink/mavlink#2663 and not yet in the
+            // generated MAVLink library; use the generated enum once it is
+            const ushort ESTIMATOR_UNINITIALIZED = 4096;
+            if ((estimatorstatus.flags & ESTIMATOR_UNINITIALIZED) != 0)
+                flags |= (ushort)MAVLink.EKF_STATUS_FLAGS.EKF_UNINITIALIZED;
+
+            // a ratio is NaN when its measurement is not being fused
+            float ratio(float value) => float.IsNaN(value) || float.IsInfinity(value) ? 0 : value;
+
+            return new MAVLink.mavlink_ekf_status_report_t(
+                ratio(estimatorstatus.vel_ratio),
+                ratio(estimatorstatus.pos_horiz_ratio),
+                ratio(estimatorstatus.pos_vert_ratio),
+                ratio(estimatorstatus.mag_ratio),
+                ratio(estimatorstatus.hagl_ratio),
+                flags,
+                ratio(estimatorstatus.tas_ratio));
         }
 
         [GroupText("AHRS2")]
@@ -4284,6 +4502,7 @@ namespace MissionPlanner
         {
             lock (this)
             {
+                lastekfstatusreport = null;
                 mode = "Unknown";
                 _mode = 99999;
                 messages = new List<(DateTime time, string message)>();

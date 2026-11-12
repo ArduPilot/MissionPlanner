@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -124,7 +124,7 @@
     <value>180</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Swash-Servo position</value>
+    <value>Position servo-plateau</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>1</value>
@@ -166,7 +166,7 @@
     <value>1500</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
-    <value>Swash Type</value>
+    <value>Type de plateau cyclique</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Gyro</value>
@@ -184,7 +184,7 @@
     <value>60</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
-    <value>Rev</value>
+    <value>Inv.</value>
   </data>
   <data name="label37.Text" xml:space="preserve">
     <value>Position</value>
@@ -226,12 +226,114 @@
     <value>Rudder</value>
   </data>
   <data name="label43.Text" xml:space="preserve">
-    <value>Rev</value>
+    <value>Inv.</value>
   </data>
   <data name="label40.Text" xml:space="preserve">
     <value>Min</value>
   </data>
   <data name="label41.Text" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Bas</value>
+  </data>
+  <data name="fbl_modeFBL.Text" xml:space="preserve">
+    <value>Sans barre de Bell</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Vitesse de queue</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Servo</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Pré-compensation collectif</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Taux de rampe RSC</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Critique</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Démarrage (Sec)</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Taux (Sec)</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Point de consigne mode 1</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Contrôle vitesse rotor</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Test servo au démarrage</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Roulis en vol stationnaire</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Compensation piro</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Course cyclique</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Collectif d'atterrissage</value>
+  </data>
+  <data name="myButtonH_SV_MANtest.Text" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="myButtonH_SV_MANmin.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="myButtonH_SV_MANzero.Text" xml:space="preserve">
+    <value>Zéro</value>
+  </data>
+  <data name="myButtonH_SV_MANmax.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="myButtonH_SV_MANmanual.Text" xml:space="preserve">
+    <value>Manuel</value>
+  </data>
+  <data name="myButtonH_SV_MAN.Text" xml:space="preserve">
+    <value>Actif</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Angle de phase</value>
+  </data>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>Sortie des gaz</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Inv.</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>Courbe en V</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Puissance haute</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>Courbe</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Expo Acro</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Stab 4</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Stab 3</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Stab 2</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>Stab 1</value>
   </data>
 </root>

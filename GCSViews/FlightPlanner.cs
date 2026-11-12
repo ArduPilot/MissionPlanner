@@ -32,7 +32,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -126,6 +125,7 @@ namespace MissionPlanner.GCSViews
         private DateTime mapupdate = DateTime.MinValue;
         private string mobileGpsLog = string.Empty;
         private PointLatLng MouseDownStart;
+        private Point MouseDownStartLocal;
         private PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
         private WPOverlay wpOverlay;
         private WPOverlay2 wpOverlay2;
@@ -256,6 +256,19 @@ namespace MissionPlanner.GCSViews
 
             Up.Image = Resources.up;
             Down.Image = Resources.down;
+
+            // the tick column, last on the right: a checkbox in its header ticks or clears every row
+            Check.CellTemplate.Value = false;
+            checkHeader = new CheckBoxHeaderCell();
+            checkHeader.CheckedChanged += checkHeader_CheckedChanged;
+            // the header text and tooltip live in the header cell being replaced
+            var checkHeaderText = Check.HeaderText;
+            var checkHeaderTip = Check.ToolTipText;
+            Check.HeaderCell = checkHeader;
+            Check.HeaderText = checkHeaderText;
+            Check.ToolTipText = checkHeaderTip;
+            Commands.CurrentCellDirtyStateChanged += Commands_CurrentCellDirtyStateChanged;
+            Commands.CellValueChanged += Commands_CellValueChanged;
 
 
             Frame.DisplayMember = "Value";
@@ -777,20 +790,6 @@ namespace MissionPlanner.GCSViews
             setfromMap(lat, lng, alt);
         }
 
-        public T DeepClone<T>(T obj)
-        {
-            using (var ms = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-
-                formatter.Serialize(ms, obj);
-
-                ms.Position = 0;
-
-                return (T) formatter.Deserialize(ms);
-            }
-        }
-
         /// <summary>
         /// from http://stackoverflow.com/questions/1119451/how-to-tell-if-a-line-intersects-a-polygon-in-c
         /// </summary>
@@ -1037,7 +1036,9 @@ namespace MissionPlanner.GCSViews
                     if (now == null || next == null)
                         continue;
 
-                    var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+                    var p1 = MainMap.FromLatLngToLocal(now);
+                    var p2 = MainMap.FromLatLngToLocal(next);
+                    var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
 
                     var pnt = new GMapMarkerPlus(mid);
                     pnt.Tag = new midline() {now = now, next = next};
@@ -1048,6 +1049,310 @@ namespace MissionPlanner.GCSViews
             MainMap.Invalidate();
         }
 
+
+        /// <summary>
+        /// The altitude Verify Height gives a waypoint: Default Alt above the terrain under it,
+        /// expressed in the waypoint's frame. Absolute is the terrain height plus Default Alt;
+        /// relative is that less the home altitude, which is what the vehicle measures relative
+        /// altitudes from; terrain is Default Alt alone. Terrain heights are metres; homeAlt,
+        /// defaultAlt and the result are in display units (multiplier = CurrentState.multiplieralt),
+        /// the result rounded to the nearest whole unit.
+        /// </summary>
+        internal static int VerifiedAltitude(altmode frame, double terrainAtPoint, double homeAlt,
+            int defaultAlt, float multiplier)
+        {
+            switch (frame)
+            {
+                case altmode.Absolute:
+                    return RoundAltitude(terrainAtPoint * multiplier + defaultAlt);
+                case altmode.Terrain:
+                    return defaultAlt;
+                default: // relative to home
+                    return RoundAltitude(terrainAtPoint * multiplier + defaultAlt - homeAlt);
+            }
+        }
+
+        // a cast truncates toward zero: every positive result would lose up to a whole unit of
+        // clearance, and a negative one would gain it
+        static int RoundAltitude(double alt)
+        {
+            return (int) Math.Round(alt, MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// Whether a command's Lat, Long and Alt are a place the vehicle flies to, so that Verify
+        /// Height may set the altitude: navigation commands, rally points and fence items. A
+        /// CONDITION or DO command's are not: DO_SET_ROI and DO_SET_ROI_LOCATION name a point to
+        /// look at and DO_SET_HOME the home position.
+        /// </summary>
+        internal static bool FliesTo(MAVLink.MAV_CMD id)
+        {
+            // MAV_CMD.LAST is MAV_CMD_NAV_LAST: the navigation commands end there, the CONDITION
+            // and DO commands follow up to DO_LAST, and the fence and rally items come after
+            return id <= MAVLink.MAV_CMD.LAST || id > MAVLink.MAV_CMD.DO_LAST;
+        }
+
+        /// <summary>
+        /// The altmode a MAV_FRAME value maps to, or null for frames the Plan page does not use
+        /// (local, body, mission frames).
+        /// </summary>
+        internal static altmode? AltModeOfFrame(int frame)
+        {
+            switch ((MAVLink.MAV_FRAME) frame)
+            {
+                case MAVLink.MAV_FRAME.GLOBAL:
+                case MAVLink.MAV_FRAME.GLOBAL_INT:
+                    return altmode.Absolute;
+                case MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT:
+                case MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT:
+                    return altmode.Relative;
+                case MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT:
+                case MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT_INT:
+                    return altmode.Terrain;
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Verify Height for one point: Default Alt above the terrain at lat/lng, in the given frame.
+        /// homeAlt is the Home Location altitude (display units), the datum of relative altitudes.
+        /// Returns false, with alt at Default Alt, when there is no terrain data for the point yet,
+        /// which happens while the SRTM tile is still downloading.
+        /// </summary>
+        private bool TryVerifyHeight(double lat, double lng, altmode frame, int defaultAlt, double homeAlt,
+            out int alt)
+        {
+            alt = defaultAlt;
+            if (frame == altmode.Terrain)
+                return true;
+
+            var point = srtm.getAltitude(lat, lng);
+            if (point.currenttype == srtm.tiletype.invalid)
+                return false;
+
+            alt = VerifiedAltitude(frame, point.alt, homeAlt, defaultAlt, CurrentState.multiplieralt);
+            return true;
+        }
+
+        /// <summary>
+        /// The Home Location altitude (display units), or null while the home boxes are empty or
+        /// hold no position.
+        /// </summary>
+        private double? HomeAltitude()
+        {
+            double lat, lng, alt;
+            if (!double.TryParse(TXT_homelat.Text, out lat) || !double.TryParse(TXT_homelng.Text, out lng) ||
+                !double.TryParse(TXT_homealt.Text, out alt) || (lat == 0 && lng == 0))
+                return null;
+            return alt;
+        }
+
+        /// <summary>
+        /// The frame of a grid row (its Frame cell), falling back to the Alt mode dropdown when the
+        /// cell holds no frame number. Null for a frame the Plan page does not use (local, body,
+        /// mission frames), whose X and Y are not a latitude and longitude, and while the dropdown
+        /// has no value to fall back on.
+        /// </summary>
+        private altmode? RowAltMode(DataGridViewRow row)
+        {
+            try
+            {
+                // Convert.ToInt32(null) is 0, frame GLOBAL: an empty cell means the dropdown instead
+                var value = row.Cells[Frame.Index].Value;
+                if (value != null)
+                    return AltModeOfFrame(Convert.ToInt32(value));
+            }
+            catch (Exception ex) when (ex is FormatException || ex is InvalidCastException ||
+                                       ex is OverflowException)
+            {
+                // not a frame number: use the dropdown
+            }
+
+            var selected = CMB_altmode.SelectedValue;
+            return selected == null ? (altmode?) null : (altmode) Convert.ToInt32(selected);
+        }
+
+        private CheckBoxHeaderCell checkHeader;
+
+        /// <summary>
+        /// The indexes of the rows whose tick box (the Check column) is on.
+        /// </summary>
+        internal List<int> CheckedRows()
+        {
+            var rows = new List<int>();
+            foreach (DataGridViewRow row in Commands.Rows)
+                if (true.Equals(row.Cells[Check.Index].Value))
+                    rows.Add(row.Index);
+            return rows;
+        }
+
+        /// <summary>
+        /// The header box ticks or clears every row.
+        /// </summary>
+        private void checkHeader_CheckedChanged(object sender, EventArgs e)
+        {
+            // read the target once: each cell write below raises CellValueChanged, and the sync
+            // it triggers would otherwise flip the header back while the rows are half done
+            var tick = checkHeader.Checked;
+            tickingAllRows = true;
+            try
+            {
+                foreach (DataGridViewRow row in Commands.Rows)
+                    row.Cells[Check.Index].Value = tick;
+                Commands.EndEdit();
+            }
+            finally
+            {
+                tickingAllRows = false;
+            }
+
+            SyncCheckHeader();
+            Commands.Invalidate();
+        }
+
+        private bool tickingAllRows;
+
+        /// <summary>
+        /// The header box shows ticked only while every row is ticked.
+        /// </summary>
+        private void SyncCheckHeader()
+        {
+            if (checkHeader == null || tickingAllRows)
+                return;
+            checkHeader.SetChecked(AllRowsChecked());
+        }
+
+        /// <summary>
+        /// True while the grid has rows and every one of them is ticked; stops at the first that is not.
+        /// </summary>
+        private bool AllRowsChecked()
+        {
+            if (Commands.RowCount == 0)
+                return false;
+            foreach (DataGridViewRow row in Commands.Rows)
+                if (!true.Equals(row.Cells[Check.Index].Value))
+                    return false;
+            return true;
+        }
+
+        /// <summary>
+        /// A tick is committed as soon as it is clicked, so the header and the button see it without
+        /// the cell having to lose focus first.
+        /// </summary>
+        private void Commands_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (Commands.IsCurrentCellDirty && Commands.CurrentCell != null &&
+                Commands.CurrentCell.ColumnIndex == Check.Index)
+                Commands.CommitEdit(DataGridViewDataErrorContexts.Commit);
+        }
+
+        private void Commands_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == Check.Index)
+                SyncCheckHeader();
+        }
+
+        /// <summary>
+        /// Verify Height for waypoints that are already in the grid: recalculates the Alt of the
+        /// ticked rows the way Verify Height sets a new waypoint, Default Alt above the terrain at
+        /// each point. Rows whose command has no position or no altitude are left alone, as are rows
+        /// whose terrain tile has not downloaded yet. Relative rows also need the Home Location,
+        /// since their altitude is measured from it.
+        /// </summary>
+        public void BUT_verifyheight_Click(object sender, EventArgs e)
+        {
+            Commands.EndEdit();
+
+            var rows = CheckedRows();
+            if (rows.Count == 0)
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightTickRows, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            int defaultAlt;
+            if (!int.TryParse(TXT_DefaultAlt.Text, out defaultAlt) || defaultAlt == 0)
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightBadDefaultAlt, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            // relative altitudes are measured from the home altitude
+            var homeAlt = HomeAltitude();
+            if (homeAlt == null && rows.Any(index => RowAltMode(Commands.Rows[index]) == altmode.Relative))
+            {
+                CustomMessageBox.Show(Strings.VerifyHeightNoHome, Strings.VerifyHeightTitle);
+                return;
+            }
+
+            updateUndoBuffer(true);
+
+            int changed = 0, noTerrain = 0, noPosition = 0;
+            foreach (var index in rows)
+            {
+                var row = Commands.Rows[index];
+
+                // only commands the vehicle flies to, with a position and an altitude (Lat, Long and
+                // Alt in their fifth to seventh parameters): CONTINUE_AND_CHANGE_ALT has an altitude
+                // but no position, the row may still hold the coordinates of the command it was
+                // changed from, and a DO command's position is not somewhere the vehicle goes
+                var cmd = row.Cells[Command.Index].Value?.ToString();
+                string[] names;
+                MAVLink.MAV_CMD id;
+                if (cmd == null || !cmdParamNames.TryGetValue(cmd, out names) || names.Length < 7 ||
+                    names[4] != "Lat" || names[5] != "Long" ||
+                    !names[6].StartsWith("Alt", StringComparison.Ordinal) ||
+                    !Enum.TryParse(cmd, out id) || !FliesTo(id))
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                // a local, body or mission frame has no latitude and longitude in X and Y either
+                var frame = RowAltMode(row);
+                if (frame == null)
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                double lat, lng;
+                if (!double.TryParse(row.Cells[Lat.Index].Value?.ToString(), out lat) ||
+                    !double.TryParse(row.Cells[Lon.Index].Value?.ToString(), out lng) ||
+                    (lat == 0 && lng == 0))
+                {
+                    noPosition++;
+                    continue;
+                }
+
+                int alt;
+                if (!TryVerifyHeight(lat, lng, frame.Value, defaultAlt, homeAlt ?? 0, out alt))
+                {
+                    noTerrain++;
+                    continue;
+                }
+
+                row.Cells[Alt.Index].Value = alt;
+                changed++;
+            }
+
+            Commands.EndEdit();
+            writeKML();
+
+            // the status line says what the click did, whether or not the box below shows
+            lbl_status.Text = string.Format(Strings.VerifyHeightUpdated, changed);
+
+            if (noTerrain > 0 || noPosition > 0)
+            {
+                var msg = string.Format(Strings.VerifyHeightUpdated, changed);
+                if (noTerrain > 0)
+                    msg += "\n" + string.Format(Strings.VerifyHeightNoTerrain, noTerrain);
+                if (noPosition > 0)
+                    msg += "\n" + string.Format(Strings.VerifyHeightNoAltitude, noPosition);
+                CustomMessageBox.Show(msg, Strings.VerifyHeightTitle);
+            }
+        }
 
         public void updateUndoBuffer(bool noBlankRow)
         {
@@ -1126,22 +1431,23 @@ namespace MissionPlanner.GCSViews
                     float ans;
                     if (float.TryParse(cell.Value.ToString(), out ans))
                     {
-                        ans = (int) ans;
-
                         DataGridViewTextBoxCell celllat =
                             Commands.Rows[selectedrow].Cells[Lat.Index] as DataGridViewTextBoxCell;
                         DataGridViewTextBoxCell celllon =
                             Commands.Rows[selectedrow].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                        int oldsrtm =
-                            (int)
-                            ((srtm.getAltitude(double.Parse(celllat.Value.ToString()),
-                                double.Parse(celllon.Value.ToString())).alt) * CurrentState.multiplieralt);
-                        int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt);
-                        int newh = (int) (ans + newsrtm - oldsrtm);
+                        var oldsrtm = srtm.getAltitude(double.Parse(celllat.Value.ToString()),
+                            double.Parse(celllon.Value.ToString()));
+                        var newsrtm = srtm.getAltitude(lat, lng);
 
-                        cell.Value = newh;
-
-                        cell.DataGridView.EndEdit();
+                        // the altitude follows the terrain under the point, rounded as the button
+                        // rounds; a tile that has not downloaded reads as sea level, so until the
+                        // terrain under both points is known the altitude stays as it is
+                        if (oldsrtm.currenttype != srtm.tiletype.invalid &&
+                            newsrtm.currenttype != srtm.tiletype.invalid)
+                        {
+                            cell.Value = RoundAltitude(ans + (newsrtm.alt - oldsrtm.alt) * CurrentState.multiplieralt);
+                            cell.DataGridView.EndEdit();
+                        }
                     }
                 }
             }
@@ -1209,29 +1515,16 @@ namespace MissionPlanner.GCSViews
                     // not online and verify alt via srtm
                     if (CHK_verifyheight.Checked) // use srtm data
                     {
-                        // is absolute but no verify
-                        if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
-                        {
-                            //abs
-                            cell.Value =
-                                ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text)).ToString();
-                        }
-                        else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
-                        {
-                            cell.Value = int.Parse(TXT_DefaultAlt.Text);
-                        }
-                        else
-                        {
-                            //relative and verify
-                            cell.Value =
-                                ((int) (srtm.getAltitude(lat, lng).alt) * CurrentState.multiplieralt +
-                                 int.Parse(TXT_DefaultAlt.Text) -
-                                 (int)
-                                 srtm.getAltitude(MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat,
-                                     MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng).alt * CurrentState.multiplieralt)
-                                .ToString();
-                        }
+                        // Default Alt above the terrain, or Default Alt itself while there is no
+                        // terrain data for the point yet or no home for a relative altitude,
+                        // whatever altitude the caller passed in
+                        var defaultAlt = int.Parse(TXT_DefaultAlt.Text);
+                        var dropFrame = (altmode) CMB_altmode.SelectedValue;
+                        var homeAlt = HomeAltitude();
+                        var verified = defaultAlt;
+                        if (dropFrame != altmode.Relative || homeAlt != null)
+                            TryVerifyHeight(lat, lng, dropFrame, defaultAlt, homeAlt ?? 0, out verified);
+                        cell.Value = verified.ToString();
                     }
 
                     cell.DataGridView.EndEdit();
@@ -1319,6 +1612,17 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        /// <summary>
+        /// The Verify WP Height button shows with the Verify Height box, except in fence mode:
+        /// fence items have no altitude to verify, so every row would be skipped.
+        /// </summary>
+        private void UpdateVerifyHeightButton()
+        {
+            BUT_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox &&
+                                       !(cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE type &&
+                                         type == MAVLink.MAV_MISSION_TYPE.FENCE);
+        }
+
         public void updateDisplayView()
         {
             rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
@@ -1329,6 +1633,7 @@ namespace MissionPlanner.GCSViews
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
             CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+            UpdateVerifyHeightButton();
 
             //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
             foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
@@ -1498,8 +1803,10 @@ namespace MissionPlanner.GCSViews
                             if (now == null || next == null)
                                 continue;
 
-                            var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2,
-                                (now.Alt + next.Alt) / 2);
+                            var p1 = MainMap.FromLatLngToLocal(now);
+                            var p2 = MainMap.FromLatLngToLocal(next);
+                            var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
+                            mid.Alt = (now.Alt + next.Alt) / 2;
 
                             var pnt = new GMapMarkerPlus(mid);
                             pnt.Tag = new midline() {now = now, next = next};
@@ -1520,9 +1827,12 @@ namespace MissionPlanner.GCSViews
                         fenceoverlay.overlay.Id = "fence";
                         try
                         {
+                            // the vehicle's fence follows the vehicle's home, which can differ from the planned home
+                            var vehiclehome = MainV2.comPort.MAV.cs.HomeLocation;
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt);
+                                CurrentState.multiplieralt,
+                                vehiclehome != null && (vehiclehome.Lat != 0 || vehiclehome.Lng != 0) ? vehiclehome : home);
                         }
                         catch
                         {
@@ -1549,7 +1859,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                            commandlist, 0, 0, CurrentState.multiplieralt);
+                            commandlist, 0, 0, CurrentState.multiplieralt, home);
                     }
                     catch (FormatException)
                     {
@@ -1582,7 +1892,9 @@ namespace MissionPlanner.GCSViews
                                 if (now == null || next == null)
                                     continue;
 
-                                var mid = new PointLatLngAlt((now.Lat + next.Lat) / 2, (now.Lng + next.Lng) / 2, 0);
+                                var p1 = MainMap.FromLatLngToLocal(now);
+                                var p2 = MainMap.FromLatLngToLocal(next);
+                                var mid = new PointLatLngAlt(MainMap.FromLocalToLatLng((int)((p1.X + p2.X) / 2), (int)((p1.Y + p2.Y) / 2)));
 
                                 var pnt = new GMapMarkerPlus(mid);
                                 pnt.Tag = new midline() {now = now, next = next};
@@ -1935,7 +2247,7 @@ namespace MissionPlanner.GCSViews
                 home.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
                 home.lat = (double.Parse(TXT_homelat.Text));
                 home.lng = (double.Parse(TXT_homelng.Text));
-                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplieralt); // use saved home
             }
             catch
             {
@@ -2115,7 +2427,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "RALLY_TOTAL", 0);
             }
             catch (Exception ex)
@@ -2134,7 +2446,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ENABLE", 0);
             }
             catch
@@ -2145,7 +2457,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ACTION", 0);
             }
             catch
@@ -2156,7 +2468,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_TOTAL", 0);
             }
             catch
@@ -2189,6 +2501,9 @@ namespace MissionPlanner.GCSViews
         {
             // switch the mavcmd list and init
             Activate();
+
+            // fence items have no altitude to verify
+            UpdateVerifyHeightButton();
 
             var wp = MainMap.Overlays.Where(a => a.Id == "WPOverlay");
             var fence = MainMap.Overlays.Where(a => a.Id == "fence");
@@ -2424,6 +2739,8 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
+            SyncCheckHeader();
+
             for (int i = 0; i < Commands.ColumnCount; i++)
             {
                 DataGridViewCell tcell = Commands.Rows[e.RowIndex].Cells[i];
@@ -2484,6 +2801,7 @@ namespace MissionPlanner.GCSViews
 
         public void Commands_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
+            SyncCheckHeader();
             writeKML();
         }
 
@@ -2709,7 +3027,33 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            fenceHomeCircleToolStripMenuItem.Visible =
+                cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE type &&
+                type == MAVLink.MAV_MISSION_TYPE.FENCE;
+
             isMouseClickOffMenu = false; // Just incase
+        }
+
+        public void fenceHomeCircleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // the vehicle's circular fence radius is a sensible starting point
+            string radiusin = "300";
+            if (MainV2.comPort.MAV.param.ContainsKey("FENCE_RADIUS"))
+                radiusin = MainV2.comPort.MAV.param["FENCE_RADIUS"].ToString();
+
+            if (DialogResult.Cancel ==
+                InputBox.Show("Fence Circle Around Home", "Radius (m)", ref radiusin))
+                return;
+
+            float radius;
+            if (!float.TryParse(radiusin, out radius) || radius <= 0)
+            {
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                return;
+            }
+
+            // centred on home, so lat/lng are not used
+            AddCommand(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION, radius, 0, 0, 0, 0, 0, 0);
         }
 
         public void ContextMenuStripPoly_Opening(object sender, CancelEventArgs e)
@@ -3817,10 +4161,10 @@ namespace MissionPlanner.GCSViews
             try
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MINALT"))
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_MINALT", minalt);
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MAXALT"))
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_MAXALT", maxalt);
             }
             catch (Exception ex)
@@ -3834,7 +4178,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_ACTION", 0);
             }
             catch
@@ -3849,7 +4193,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     "FENCE_TOTAL", pointcount);
             }
             catch
@@ -3874,7 +4218,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "FENCE_ACTION", oldaction);
                 }
                 catch
@@ -4344,7 +4688,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                Process.Start("http://127.0.0.1:56781/network.kml");
+                Process.Start(new ProcessStartInfo("http://127.0.0.1:56781/network.kml") { UseShellExecute = true });
             }
             catch
             {
@@ -5594,13 +5938,20 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
-                        // cm/s - ac
-                        Spline2._wp_accel_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL") ? MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value : 100;
-                        Spline2._wp_speed_cms = MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED") ? MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value : 600;
+                        // cm/s - ac, m/s in 4.7+
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_ACCEL"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WPNAV_ACCEL"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_ACC"))
+                            Spline2._wp_accel_cms = MainV2.comPort.MAV.param["WP_ACC"].float_value * 100;
+                        else
+                            Spline2._wp_accel_cms = 100;
 
-                        // ar
-                        //WP_ACCEL - m/s
-                        //WP_SPEED - m/s
+                        if (MainV2.comPort.MAV.param.ContainsKey("WPNAV_SPEED"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WPNAV_SPEED"].float_value;
+                        else if (MainV2.comPort.MAV.param.ContainsKey("WP_SPD"))
+                            Spline2._wp_speed_cms = MainV2.comPort.MAV.param["WP_SPD"].float_value * 100;
+                        else
+                            Spline2._wp_speed_cms = 600;
                     }
                     catch
                     {
@@ -5954,7 +6305,7 @@ namespace MissionPlanner.GCSViews
         {
             byte count = 0;
 
-            MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+            MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                 "RALLY_TOTAL", rallypointoverlay.Markers.Count);
 
             foreach (GMapMarkerRallyPt pnt in rallypointoverlay.Markers)
@@ -6291,7 +6642,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                     try
                     {
-                        await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                        await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent).ConfigureAwait(false);
                     }
                     catch (Exception ex2)
@@ -6299,7 +6650,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         log.Error(ex2);
                         try
                         {
-                            MainV2.comPort.getWP((byte) MainV2.comPort.sysidcurrent,
+                            MainV2.comPort.getWP(MainV2.comPort.sysidcurrent,
                                 (byte) MainV2.comPort.compidcurrent, 0);
                         }
                         catch (Exception ex3)
@@ -6311,8 +6662,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(95, "Setting params");
 
+                // use brute force, for all three possible params
+
                 // m
                 port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+
+                // m
+                port.setParam("WP_RADIUS_M", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
                 port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
@@ -6364,13 +6720,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     result = ans;
                     Console.WriteLine("MISSION_ACK " + ans + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST,
                 message =>
@@ -6381,13 +6736,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST " + reqno + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             var sub3 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_INT,
                 message =>
@@ -6398,13 +6752,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         MainV2.comPort.MAV.compid != message.compid)
                         return true;
                     // check this gcs sent it
-                    if (data.target_system != MAVLinkInterface.gcssysid ||
-                        data.target_component != (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
+                    if (!message.IsTargetedTo(MAVLinkInterface.gcssysid, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                         return true;
                     reqno = data.seq;
                     Console.WriteLine("MISSION_REQUEST_INT " + reqno + " " + data.ToJSON(Formatting.None));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set total wps ");
             MainV2.comPort.setWPTotal(totalwpcountforupload);
@@ -6534,7 +6887,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 MAVLink.mavlink_mission_item_int_t req = new MAVLink.mavlink_mission_item_int_t();
 
-                req.target_system = MainV2.comPort.MAV.sysid;
+                req.target_system = (byte)(MainV2.comPort.MAV.sysid);
                 req.target_component = MainV2.comPort.MAV.compid;
 
                 req.command = loc.id;
@@ -6579,7 +6932,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             MainV2.comPort.setWPACK();
 
-            _ = MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+            _ = MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                 (byte) MainV2.comPort.compidcurrent);
 
             commandlist?.ForEach(pnt =>
@@ -6724,6 +7077,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     TXT_WPRad.Text = string.Format("{0:N2}",
                         (((double) param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)));
                 }
+
+                // In meters (4.7+)
+                if (param.ContainsKey("WP_RADIUS_M"))
+                {
+                    TXT_WPRad.Text = string.Format("{0:N2}",
+                        (((double)param["WP_RADIUS_M"] * CurrentState.multiplierdist)));
+                }
+
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
 
@@ -6900,10 +7261,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 if (isMouseDown || CurentRectMarker != null)
                     return;
 
-                prop.alt = MainV2.comPort.MAV.cs.alt;
-                prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                // in metres, like the terrain they are compared with; the planned home altitude
+                // is kept in display units, as typed in the home alt box
+                prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                 prop.center = MainMap.Position;
-                prop.Update(MainV2.comPort.MAV.cs.PlannedHomeLocation, MainV2.comPort.MAV.cs.Location,
+                var plannedhome = new PointLatLngAlt(MainV2.comPort.MAV.cs.PlannedHomeLocation);
+                plannedhome.Alt /= CurrentState.multiplieralt;
+                prop.Update(plannedhome, MainV2.comPort.MAV.cs.Location,
                     MainV2.comPort.MAV.cs.battery_kmleft);
 
                 // clear every 10 seconds
@@ -7139,6 +7504,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
                 cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION.ToString(), fenceMult);
                 cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION.ToString(), fenceMult);
+                // centred on home, so lat/lng are not used
+                fenceNames[4] = "";
+                fenceNames[5] = "";
+                cmdParamNames.Add(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString(), fenceNames.ToArray());
+                cmdParamMultipliers.Add(MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION.ToString(), fenceMult);
             }
 
             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.RALLY)
@@ -7205,7 +7575,8 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString("0.00");
+                // the vehicle home is in metres; the box, like the grid, is in display units
+                TXT_homealt.Text = (MainV2.comPort.MAV.cs.HomeLocation.Alt * CurrentState.multiplieralt).ToString("0.00");
 
                 writeKML();
             }
@@ -7395,6 +7766,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 return;
 
             MouseDownStart = MainMap.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStartLocal = e.Location;
 
             //   Console.WriteLine("MainMap MD");
 
@@ -7564,16 +7936,34 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
                 else // left click pan
                 {
-                    double latdif = MouseDownStart.Lat - point.Lat;
-                    double lngdif = MouseDownStart.Lng - point.Lng;
-
                     try
                     {
                         lock (thisLock)
                         {
                             if (!isMouseClickOffMenu)
-                                MainMap.Position = new PointLatLng(center.Position.Lat + latdif,
-                                    center.Position.Lng + lngdif);
+                            {
+                                // incremental delta avoids direction lock when crossing pole singularities
+                                int dx = e.X - MouseDownStartLocal.X;
+                                int dy = e.Y - MouseDownStartLocal.Y;
+
+                                if (dx == 0 && dy == 0)
+                                    return;
+
+                                double absLat = Math.Abs(MainMap.Position.Lat);
+
+                                PointLatLng newCenter = MainMap.FromLocalToLatLng(
+                                    MainMap.Width / 2 - dx,
+                                    MainMap.Height / 2 - dy);
+
+                                if (!double.IsNaN(newCenter.Lat) && !double.IsNaN(newCenter.Lng) &&
+                                    !double.IsInfinity(newCenter.Lat) && !double.IsInfinity(newCenter.Lng))
+                                {
+                                    MainMap.Position = newCenter;
+                                }
+
+                                // key part: consume this step so next move is relative to current state
+                                MouseDownStartLocal = e.Location;
+                            }
                         }
                     }
                     catch (Exception ex)

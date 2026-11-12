@@ -124,6 +124,7 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_BMM350 = 0x17,
                 DEVTYPE_IIS2MDC = 0x18,
 				DEVTYPE_LIS2MDL = 0x19,
+				DEVTYPE_AF9838 = 0x1A,
             }
 
             //https://github.com/ArduPilot/ardupilot/blob/master/libraries/AP_InertialSensor/AP_InertialSensor_Backend.h#L95
@@ -165,8 +166,9 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_INS_ICM45686 = 0x3B,
                 DEVTYPE_INS_SCHA63T = 0x3C,
                 DEVTYPE_INS_IIM42653 = 0x3D,
+                DEVTYPE_INS_LSM6DSV = 0x3E,
+                DEVTYPE_INS_ASM330 = 0x3F,
             };
-
 
             //https://github.com/tridge/ardupilot/blob/master/libraries/AP_Baro/AP_Baro_Backend.h#L40
             public enum baro_types

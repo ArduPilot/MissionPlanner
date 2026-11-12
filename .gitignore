@@ -19,7 +19,6 @@ packages/
 /ExtLibs/Zeroconf
 /ExtLibs/wasm/wwwroot/2018-09-09 18-15-17.txt
 /ExtLibs/Test
-/ExtLibs/AltitudeAngelWings/Keys.config
 /Drivers/DriverCleanup.pdb
 /Drivers/DriverCleanup.exe.config
 /Drivers/DriverCleanup.exe
@@ -43,6 +42,9 @@ docs/
 *.pem
 *.key
 /.vscode
+/.idea
 obj2/
 obj3/
 
+/.claude/settings.local.json
+/CLAUDE.md

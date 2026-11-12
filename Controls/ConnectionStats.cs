@@ -127,7 +127,7 @@ namespace MissionPlanner.Controls
                     .Select(x => x.Interval.Ticks)
                     .Scan(0L, Math.Max)
                     .Select(TimeSpan.FromTicks)
-                    .Select(ts => ts.Milliseconds)
+                    .Select(ts => ts.TotalMilliseconds)
                     .ObserveOn(SynchronizationContext.Current)
                     .SubscribeForTextUpdates(txt_MaxPacketInterval),
             };

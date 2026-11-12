@@ -14,7 +14,7 @@ namespace MissionPlanner.ArduPilot
     {
         private MAVLinkInterface _mavint;
 
-        private byte _sysid;
+        private uint _sysid;
 
         private byte _compid;
 

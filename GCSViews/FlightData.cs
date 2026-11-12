@@ -15,6 +15,7 @@ using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -55,6 +56,7 @@ namespace MissionPlanner.GCSViews
         internal GMapMarker CurrentGMapMarker;
 
         internal PointLatLng MouseDownStart;
+        internal Point MouseDownStartLocal;
 
         //The file path of the selected script
         internal string selectedscript = "";
@@ -194,12 +196,17 @@ namespace MissionPlanner.GCSViews
             HighLatency_Enable,
             HighLatency_Disable,
             Toggle_Safety_Switch,
-            Do_Parachute,
+            Parachute_Release,
             Engine_Start,
             Engine_Stop,
             Terminate_Flight,
             Format_SD_Card,
+            Reboot_Mass_Storage,
         }
+
+        private BindingList<string> ActionList=new BindingList<string>(Enum.GetNames(typeof(actions)).ToList());
+         
+        private Dictionary<string, Action<string>> CustomActions = new Dictionary<string, Action<string>>();
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
         {
@@ -233,6 +240,7 @@ namespace MissionPlanner.GCSViews
         };
 
         private bool transponderNeverConnected = true;
+        private bool linuxActionLayoutConfigured;
 
         public FlightData()
         {
@@ -342,7 +350,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            CMB_action.DataSource = Enum.GetNames(typeof(actions));
+            CMB_action.DataSource = ActionList;
 
             CMB_modes.DataSource = ArduPilot.Common.getModesList(MainV2.comPort.MAV.cs.firmware);
             CMB_modes.ValueMember = "Key";
@@ -678,7 +686,14 @@ namespace MissionPlanner.GCSViews
 
                     log.Info("Open logfile " + file);
 
-                    MainV2.comPort.getHeartBeat();
+                    // the GCS that recorded the log may have another sysid than ours, and if its heartbeat comes
+                    // first it becomes the current MAV; getHeartBeat skips GCS heartbeats, so take the vehicle from it
+                    var hb = MainV2.comPort.getHeartBeat();
+                    if (hb.Length > 5)
+                    {
+                        MainV2.comPort.sysidcurrent = hb.sysid;
+                        MainV2.comPort.compidcurrent = hb.compid;
+                    }
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
@@ -743,6 +758,10 @@ namespace MissionPlanner.GCSViews
                 bool added = false;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
+                    // skip the Quick tab if it is currently undocked into a popup window
+                    if (tabQuickDetached && tabPage == tabQuick)
+                        continue;
+
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
@@ -764,7 +783,7 @@ namespace MissionPlanner.GCSViews
             loadTabControlActions();
 
             //we want to at least have one tabpage
-            if (tabControlactions.TabPages.Count == 0)
+            if (tabControlactions.TabPages.Count == 0 && !tabQuickDetached)
             {
                 tabControlactions.TabPages.Add(tabQuick);
                 tabControlactions.SelectedIndex = 0;
@@ -1043,7 +1062,7 @@ namespace MissionPlanner.GCSViews
                     sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
                         .TrimEnd('\0'));
                     return true;
-                }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+                }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                 bool ans = MainV2.comPort.doARM(!isitarmed);
                 MainV2.comPort.UnSubscribeToPacketType(sub);
                 if (ans == false)
@@ -1147,7 +1166,7 @@ namespace MissionPlanner.GCSViews
                         {
                             StreamReader tr;
 
-                            if (logfile.ToLower().EndsWith(".bin"))
+                            if (logfile.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                             {
                                 using (tr = new StreamReader(logfile))
                                 {
@@ -1310,7 +1329,7 @@ namespace MissionPlanner.GCSViews
                 {
                     string newlogfile = null;
 
-                    if (ofd.FileName.ToLower().EndsWith(".bin"))
+                    if (ofd.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                     {
                         newlogfile = Path.GetTempFileName() + ".log";
 
@@ -1385,13 +1404,13 @@ namespace MissionPlanner.GCSViews
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("MNT_MODE"))
                 {
-                    MainV2.comPort.setParam((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         "MNT_MODE", (int) CMB_mountmode.SelectedValue);
                 }
                 else
                 {
                     // copter 3.3 acks with an error, but is ok
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, 0, 0, 0,
                         (int) CMB_mountmode.SelectedValue);
                 }
@@ -1576,7 +1595,7 @@ namespace MissionPlanner.GCSViews
                             timeout = 0;
                             while (MainV2.comPort.MAV.cs.alt < (lastwpdata.alt - 2))
                             {
-                                if(!MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent,
+                                if(!MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent,
                                     (byte) MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0,
                                     lastwpdata.alt)) {
                                         CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
@@ -1669,7 +1688,20 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
-
+            // Custom action handling. Only actions registered by a plugin are in the
+            // dictionary, so an indexer lookup would throw for every built in action.
+            if (CustomActions.TryGetValue(CMB_action.Text, out var customAction) && customAction != null)
+            {
+                try
+                {
+                    customAction.Invoke(CMB_action.Text);
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + "\n" + ex.ToString(), Strings.ERROR);
+                }
+                return;
+            }
 
             if (CMB_action.Text == actions.Format_SD_Card.ToString())
             {
@@ -1758,7 +1790,7 @@ namespace MissionPlanner.GCSViews
 
                     int param1 = 0;
                     int param2 = 0;
-                    int param3 = 1;
+                    int param3 = 0;
 
                     // request gyro
                     if (CMB_action.Text == actions.Preflight_Calibration.ToString())
@@ -1775,9 +1807,28 @@ namespace MissionPlanner.GCSViews
                         return;
                     }
 
+                    if (CMB_action.Text == actions.Parachute_Release.ToString())
+                    {
+                        if (!MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_PARACHUTE,
+                                (float) MAVLink.PARACHUTE_ACTION.PARACHUTE_RELEASE, 0, 0, 0, 0, 0, 0))
+                        {
+                            CustomMessageBox.Show(Strings.CommandFailed + " " + MAVLink.MAV_CMD.DO_PARACHUTE, Strings.ERROR);
+                        }
+                        ((Control) sender).Enabled = true;
+                        return;
+                    }
+
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
                     {
                         MainV2.comPort.doReboot();
+                        ((Control) sender).Enabled = true;
+                        return;
+                    }
+                    if (CMB_action.Text == actions.Reboot_Mass_Storage.ToString())
+                    {
+                        const float rebootToMassStorage = 5f; // ArduPilot REBOOT_TO_MASS_STORAGE action
+                        MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid,
+                            MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, rebootToMassStorage, 0, 0, 0, 0, 0, 0);
                         ((Control) sender).Enabled = true;
                         return;
                     }
@@ -1795,26 +1846,26 @@ namespace MissionPlanner.GCSViews
                     }
                     if (CMB_action.Text == actions.Toggle_Safety_Switch.ToString())
                     {
-                        var target_system = (byte)MainV2.comPort.sysidcurrent;
+                        var target_system = MainV2.comPort.sysidcurrent;
                         if (target_system == 0) {
                             log.Info("Not toggling safety on sysid 0");
                             return;
                         }
                         var custom_mode = (MainV2.comPort.MAV.cs.sensors_enabled.motor_control && MainV2.comPort.MAV.cs.sensors_enabled.seen) ? 1u : 0u;
-                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = target_system };
+                        var mode = new MAVLink.mavlink_set_mode_t() { custom_mode = custom_mode, target_system = (byte)(target_system )};
                         MainV2.comPort.setMode(mode, MAVLink.MAV_MODE_FLAG.SAFETY_ARMED);
                         ((Control)sender).Enabled = true;
                         return;
                     }
                     if (CMB_action.Text == actions.Engine_Start.ToString())
                     {
-                        MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+                        MainV2.comPort.doEngineControl(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
                         ((Control)sender).Enabled = true;
                         return;
                     }
                     if (CMB_action.Text == actions.Engine_Stop.ToString())
                     {
-                        MainV2.comPort.doEngineControl((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
+                        MainV2.comPort.doEngineControl(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, false);
                         ((Control)sender).Enabled = true;
                         return;
                     }
@@ -2709,6 +2760,9 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance["CHK_autopan"] != null)
                 CHK_autopan.Checked = Settings.Instance.GetBoolean("CHK_autopan");
 
+            if (MainV2.MONO && Settings.isUnix)
+                ConfigureLinuxActionLayout();
+
             if (Settings.Instance.ContainsKey("HudSwap") && Settings.Instance["HudSwap"] == "true")
                 SwapHud1AndMap();
 
@@ -2933,6 +2987,7 @@ namespace MissionPlanner.GCSViews
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStartLocal = e.Location;
             Console.WriteLine("gMapControl1_MouseDown "+ MouseDownStart);
 
             if (ModifierKeys == Keys.Control)
@@ -2971,13 +3026,26 @@ namespace MissionPlanner.GCSViews
         {
             if (e.Button == MouseButtons.Left)
             {
-                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+                // incremental delta avoids direction lock near pole/singularity regions
+                int dx = e.X - MouseDownStartLocal.X;
+                int dy = e.Y - MouseDownStartLocal.Y;
 
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
+                if (dx == 0 && dy == 0)
+                    return;
 
-                gMapControl1.Position = new PointLatLng(center.Position.Lat + latdif,
-                    center.Position.Lng + lngdif);
+                double absLat = Math.Abs(gMapControl1.Position.Lat);
+                PointLatLng newCenter = gMapControl1.FromLocalToLatLng(
+                    gMapControl1.Width / 2 - dx,
+                    gMapControl1.Height / 2 - dy);
+
+                if (!double.IsNaN(newCenter.Lat) && !double.IsNaN(newCenter.Lng) &&
+                    !double.IsInfinity(newCenter.Lat) && !double.IsInfinity(newCenter.Lng))
+                {
+                    gMapControl1.Position = newCenter;
+                }
+
+                // consume this step (critical for stable drag)
+                MouseDownStartLocal = e.Location;
             }
             else
             {
@@ -3261,6 +3329,107 @@ namespace MissionPlanner.GCSViews
             frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
             frm.TopMost = true;
             frm.Show();
+        }
+
+        private void ConfigureLinuxActionLayout()
+        {
+            if (linuxActionLayoutConfigured)
+                return;
+            linuxActionLayoutConfigured = true;
+
+            // Mono keeps the 300-pixel designer splitter and does not grow the
+            // action table to fit its children. Measure the controls before
+            // choosing a default HUD width, and allow scrolling in narrow panes.
+            var columnWidths = new int[tableLayoutPanel1.ColumnCount];
+            int rowHeight = 0;
+            foreach (Control control in tableLayoutPanel1.Controls)
+            {
+                Size preferred;
+                var modify = control as ModifyandSet;
+                var combo = control as ComboBox;
+                if (modify != null)
+                {
+                    var number = modify.NumericUpDown;
+                    string format = "F" + number.DecimalPlaces;
+                    number.Width = Math.Max(
+                        TextRenderer.MeasureText(number.Minimum.ToString(format), number.Font).Width,
+                        TextRenderer.MeasureText(number.Maximum.ToString(format), number.Font).Width) +
+                        SystemInformation.VerticalScrollBarWidth + 6;
+                    var buttonSize = modify.Button.GetPreferredSize(Size.Empty);
+                    preferred = new Size(number.Width + buttonSize.Width,
+                        Math.Max(number.Height, buttonSize.Height));
+                    modify.Margin = BUTactiondo.Margin;
+                    // Keep the number and its button on the same row.
+                    modify.AutoSize = false;
+                    modify.MinimumSize = preferred;
+                }
+                else if (combo != null)
+                {
+                    preferred = new Size(Math.Max(combo.Width,
+                        TextRenderer.MeasureText(combo.Text, combo.Font).Width +
+                        SystemInformation.VerticalScrollBarWidth + 6), combo.PreferredHeight);
+                    combo.DropDown += ActionComboDropDown;
+                }
+                else
+                {
+                    preferred = TextRenderer.MeasureText(control.Text, control.Font,
+                        Size.Empty, TextFormatFlags.SingleLine);
+                    preferred += new Size(12, 12);
+                }
+
+                int column = tableLayoutPanel1.GetColumn(control);
+                columnWidths[column] = Math.Max(columnWidths[column], preferred.Width + control.Margin.Horizontal);
+                rowHeight = Math.Max(rowHeight, preferred.Height + control.Margin.Vertical);
+            }
+
+            int tableWidth = columnWidths.Sum();
+            for (int column = 0; column < columnWidths.Length; column++)
+            {
+                tableLayoutPanel1.ColumnStyles[column].SizeType = SizeType.Percent;
+                tableLayoutPanel1.ColumnStyles[column].Width = 100f * columnWidths[column] / tableWidth;
+            }
+            foreach (RowStyle row in tableLayoutPanel1.RowStyles)
+            {
+                row.SizeType = SizeType.Absolute;
+                row.Height = rowHeight;
+            }
+
+            tableLayoutPanel1.MinimumSize = new Size(tableWidth, rowHeight * tableLayoutPanel1.RowCount);
+            tableLayoutPanel1.Height = tableLayoutPanel1.MinimumSize.Height;
+            // Right anchoring prevents WinForms AutoScroll from exposing clipped controls.
+            tableLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            tabActions.AutoScroll = true;
+            tabActions.Resize += (sender, e) => ResizeLinuxActionTable();
+            ResizeLinuxActionTable();
+
+            if (!Settings.Instance.ContainsKey("FlightSplitter"))
+            {
+                int borders = MainH.SplitterDistance - tabActions.ClientSize.Width;
+                int actionHeight = tableLayoutPanel1.Height + tabControlactions.Height -
+                    tabActions.ClientSize.Height + SystemInformation.HorizontalScrollBarHeight;
+                int hudHeight = Math.Max(0, SubMainLeft.Height - actionHeight - SubMainLeft.SplitterWidth - 2);
+                int widthForHeight = (int)(hudHeight * (hud1.SixteenXNine ? 16f / 9f : 4f / 3f)) +
+                    MainH.SplitterDistance - hud1.Width;
+                int maximumWidth = Math.Max(MainH.Panel1MinSize,
+                    Math.Min((MainH.Width - MainH.SplitterWidth) * 2 / 3, widthForHeight));
+                MainH.SplitterDistance = Math.Min(tableWidth + borders, maximumWidth);
+            }
+        }
+
+        private void ResizeLinuxActionTable()
+        {
+            tableLayoutPanel1.Width = Math.Max(tableLayoutPanel1.MinimumSize.Width,
+                tabActions.ClientSize.Width - tabActions.Padding.Horizontal);
+        }
+
+        private void ActionComboDropDown(object sender, EventArgs e)
+        {
+            var combo = (ComboBox)sender;
+            int width = combo.Width;
+            foreach (var item in combo.Items)
+                width = Math.Max(width, TextRenderer.MeasureText(combo.GetItemText(item), combo.Font).Width +
+                    SystemInformation.VerticalScrollBarWidth + 6);
+            combo.DropDownWidth = width;
         }
 
         private void hud1_Resize(object sender, EventArgs e)
@@ -3888,7 +4057,7 @@ namespace MissionPlanner.GCSViews
 
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
                                 MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
-                                CurrentState.multiplieralt);
+                                CurrentState.multiplieralt, MainV2.comPort.MAV.cs.HomeLocation);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)
@@ -3997,11 +4166,15 @@ namespace MissionPlanner.GCSViews
 
                             // add new - populate camera_feedback to map
                             double oldtime = double.MinValue;
+                            // the photos already on the map, by their time
+                            var photosshown = new HashSet<object>();
+                            foreach (var p in photosoverlay.Markers)
+                                photosshown.Add(p.Tag);
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
                                 var timesincelastshot = (mark.time_usec / 1000.0) / 1000.0 - oldtime;
                                 MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
-                                bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
+                                bool contains = photosshown.Contains(mark.time_usec);
                                 if (!contains)
                                 {
                                     if (timesincelastshot < min_interval)
@@ -4233,8 +4406,9 @@ namespace MissionPlanner.GCSViews
                         prop.Update(MainV2.comPort.MAV.cs.HomeLocation, MainV2.comPort.MAV.cs.Location,
                             MainV2.comPort.MAV.cs.battery_kmleft);
 
-                        prop.alt = MainV2.comPort.MAV.cs.alt;
-                        prop.altasl = MainV2.comPort.MAV.cs.altasl;
+                        // in metres, like the terrain they are compared with
+                        prop.alt = MainV2.comPort.MAV.cs.alt / CurrentState.multiplieralt;
+                        prop.altasl = MainV2.comPort.MAV.cs.altasl / CurrentState.multiplieralt;
                         prop.center = gMapControl1.Position;
 
                         // Update camera bounds
@@ -4465,7 +4639,7 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
                     (int) (lng * 1e7),  ((alt / CurrentState.multiplieralt) ));
             }
@@ -4475,7 +4649,7 @@ namespace MissionPlanner.GCSViews
                 var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
                 var alt = (float)srtm.getAltitude(lat, lng).alt;
 
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (lat * 1e7),
                     (int) (lng * 1e7),  ((alt)));
             }
@@ -4512,7 +4686,7 @@ namespace MissionPlanner.GCSViews
 
             try
             {
-                MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (int) (MouseDownStart.Lat * 1e7),
                     (int) (MouseDownStart.Lng * 1e7),  ((intalt / CurrentState.multiplieralt)),
                     frame: MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT);
@@ -4781,7 +4955,7 @@ namespace MissionPlanner.GCSViews
                 latitude = (int) (MouseDownStart.Lat * 1e7),
                 longitude = (int) (MouseDownStart.Lng * 1e7),
                 altitude = (int) alt.alt * 1000, // in mm
-                target_system = MainV2.comPort.MAV.sysid
+                target_system = (byte)(MainV2.comPort.MAV.sysid)
             };
 
             MainV2.comPort.sendPacket(go, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
@@ -4845,13 +5019,13 @@ namespace MissionPlanner.GCSViews
                             "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
-                        MainV2.comPort.doCommandInt((byte) MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent,
                             (byte) MainV2.comPort.compidcurrent,
                             MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (int)(MouseDownStart.Lat * 1e7),
                             (int)(MouseDownStart.Lng * 1e7), (float)(alt.alt));
                     }
 
-                    await MainV2.comPort.getHomePositionAsync((byte) MainV2.comPort.sysidcurrent,
+                    await MainV2.comPort.getHomePositionAsync(MainV2.comPort.sysidcurrent,
                         (byte) MainV2.comPort.compidcurrent);
                 }
                 catch
@@ -5281,7 +5455,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    MainV2.comPort.doCommand((byte) MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
+                    MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte) MainV2.comPort.compidcurrent,
                         MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, altf);
                 }
                 catch
@@ -6019,48 +6193,58 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        /// <summary>
+        /// the CurrentState properties in the order the status tab lists them, the tab is redrawn at 10hz
+        /// </summary>
+        private static PropertyInfo[] statusTabProperties;
+
         private void tabStatus_Paint(object sender, PaintEventArgs e)
         {
-            var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height);
-            var g = Graphics.FromImage(bmp);
-            g.Clear(Color.Transparent);
+            if (statusTabProperties == null)
+                statusTabProperties = MainV2.comPort.MAV.cs.GetItemList(true)
+                    .Select(name => typeof(CurrentState).GetProperty(name)).ToArray();
 
-            int x = 10;
-            int y = 10;
-
-            var list = MainV2.comPort.MAV.cs.GetItemList(true);
-            var cs = bindingSourceStatusTab.Current as CurrentState;
-            var br = new SolidBrush(tabStatus.ForeColor);
-
-            foreach (var field in list)
+            using (var bmp = new Bitmap(tabStatus.DisplayRectangle.Width, tabStatus.DisplayRectangle.Height))
+            using (var g = Graphics.FromImage(bmp))
+            using (var br = new SolidBrush(tabStatus.ForeColor))
             {
-                g.DrawString(field, this.Font, br, new RectangleF(x, y, 120, 15));
+                g.Clear(Color.Transparent);
 
-                if (cs != null)
-                    g.DrawString(typeof(CurrentState).GetProperty(field).GetValue(cs)?.ToString(), this.Font,
-                        br, new RectangleF(x + 120, y, 50, 15));
+                int x = 10;
+                int y = 10;
 
-                x += 0;
-                y += 15;
+                var cs = bindingSourceStatusTab.Current as CurrentState;
 
-                if (y > tabStatus.Height - 30)
+                foreach (var field in statusTabProperties)
                 {
-                    x += 190;
-                    y = 10;
+                    g.DrawString(field.Name, this.Font, br, new RectangleF(x, y, 120, 15));
+
+                    if (cs != null)
+                        g.DrawString(field.GetValue(cs)?.ToString(), this.Font,
+                            br, new RectangleF(x + 120, y, 50, 15));
+
+                    x += 0;
+                    y += 15;
+
+                    if (y > tabStatus.Height - 30)
+                    {
+                        x += 190;
+                        y = 10;
+                    }
                 }
-            }
 
-            if (tabStatus.AutoScrollMinSize.Width < x)
-            {
-                typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
-                                                             | BindingFlags.Instance | BindingFlags.NonPublic, null,
-                    tabStatus, new object[] { true });
+                if (tabStatus.AutoScrollMinSize.Width < x)
+                {
+                    typeof(Panel).InvokeMember("DoubleBuffered", BindingFlags.SetProperty
+                                                                 | BindingFlags.Instance | BindingFlags.NonPublic, null,
+                        tabStatus, new object[] { true });
 
-                tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
+                    tabStatus.AutoScrollMinSize = new Size(x + 164, 0);
+                }
+                e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
+                    tabStatus.AutoScrollPosition.Y);
+                e.Graphics.DrawImageUnscaled(bmp, 0, 0);
             }
-            e.Graphics.TranslateTransform(tabStatus.AutoScrollPosition.X,
-                tabStatus.AutoScrollPosition.Y);
-            e.Graphics.DrawImageUnscaled(bmp, 0, 0);
         }
 
         private void gMapControl1_MouseUp(object sender, MouseEventArgs e)
@@ -6686,6 +6870,48 @@ namespace MissionPlanner.GCSViews
 
             // Pass `this` to keep the pop-out always on top
             form.Show(this);
+        }
+
+        public void RegisterCustomAction(string action, Action<string> handler, string after=null, string before=null)
+        {
+            if(ActionList.Contains(action))
+            {
+                throw new Exception($"Action {action} already exists");
+            }
+            int index = -1;
+            if(after!=null)
+            {
+                var afterIndex = ActionList.IndexOf(after);
+                if(afterIndex!=-1)
+                {
+                    index = afterIndex + 1;
+                }
+            }
+            if(before!=null)
+            {
+                var beforeIndex = ActionList.IndexOf(before);
+                if(beforeIndex!=-1)
+                {
+                    index = beforeIndex;
+                }
+            }
+            if(index!=-1)
+            {
+                ActionList.Insert(index, action);
+            } else
+            {
+                ActionList.Add(action);
+            }
+            CustomActions.Add(action, handler);
+        }
+
+        public bool UnregisterCustomAction(string action)
+        {
+            if (!CustomActions.Remove(action))
+            {
+                return false;
+            }
+            return ActionList.Remove(action);
         }
     }
 }

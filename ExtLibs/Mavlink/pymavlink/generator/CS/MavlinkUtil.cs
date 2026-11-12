@@ -39,27 +39,43 @@ public static class MavlinkUtil
 
     public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset, int payloadlength = 0)
     {
+        if (bytearray == null || bytearray.Length < (startoffset + payloadlength) || payloadlength == 0)
+            return;
+
         int len = Marshal.SizeOf(obj);
 
-        IntPtr iptr = Marshal.AllocHGlobal(len);
+        IntPtr iptr = IntPtr.Zero;
 
-        //clear memory
-        for (int i = 0; i < len; i += 8)
+        try
         {
-            Marshal.WriteInt64(iptr, i, 0x00);
-        }
+            iptr = Marshal.AllocHGlobal(len);
+            //clear memory
+            for (int i = 0; i < len / 8; i++)
+            {
+                Marshal.WriteInt64(iptr, i * 8, 0x00);
+            }
 
-        for (int i = len - (len % 8); i < len; i++)
+            for (int i = len - (len % 8); i < len; i++)
+            {
+                Marshal.WriteByte(iptr, i, 0x00);
+            }
+
+            if (payloadlength > len)
+            {
+                // unknown mavlink extension...
+                payloadlength = len;
+            }
+
+            // copy byte array to ptr
+            Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
+
+            obj = Marshal.PtrToStructure(iptr, obj.GetType());
+        }
+        finally
         {
-            Marshal.WriteByte(iptr, i, 0x00);
+            if(iptr != IntPtr.Zero)
+                Marshal.FreeHGlobal(iptr);
         }
-
-        // copy byte array to ptr
-        Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
-
-        obj = Marshal.PtrToStructure(iptr, obj.GetType());
-
-        Marshal.FreeHGlobal(iptr);
     }
 
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
@@ -307,13 +323,30 @@ public static class MavlinkUtil
         return data;
     } // Swap
 
+    // msgid lookup for the table last asked about. The table is replaced, never edited in place,
+    // when messages are added at runtime, so a reference check is enough to notice a change.
+    static Tuple<MAVLink.message_info[], Dictionary<uint, MAVLink.message_info>> messageInfoLookup;
+
     public static MAVLink.message_info GetMessageInfo(this MAVLink.message_info[] source, uint msgid)
     {
-        foreach (var item in source)
+        var lookup = messageInfoLookup;
+        if (lookup == null || !ReferenceEquals(lookup.Item1, source))
         {
-            if (item.msgid == msgid)
-                return item;
+            var map = new Dictionary<uint, MAVLink.message_info>(source.Length);
+            foreach (var item in source)
+            {
+                // first entry wins, as a scan of the table would find it first
+                if (!map.ContainsKey(item.msgid))
+                    map[item.msgid] = item;
+            }
+
+            lookup = Tuple.Create(source, map);
+            messageInfoLookup = lookup;
         }
+
+        MAVLink.message_info info;
+        if (lookup.Item2.TryGetValue(msgid, out info))
+            return info;
 
         Console.WriteLine("Unknown Packet");
         return new MAVLink.message_info();

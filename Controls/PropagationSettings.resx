@@ -663,69 +663,6 @@
   <data name="&gt;&gt;CMB_Resolution.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="label110.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label110.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 75</value>
-  </data>
-  <data name="label110.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="label110.TabIndex" type="System.Int32, mscorlib">
-    <value>124</value>
-  </data>
-  <data name="label110.Text" xml:space="preserve">
-    <value>Convergance</value>
-  </data>
-  <data name="&gt;&gt;label110.Name" xml:space="preserve">
-    <value>label110</value>
-  </data>
-  <data name="&gt;&gt;label110.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label110.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label110.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="CMB_Angular.Items" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CMB_Angular.Items1" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="CMB_Angular.Items2" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="CMB_Angular.Items3" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="CMB_Angular.Items4" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="CMB_Angular.Location" type="System.Drawing.Point, System.Drawing">
-    <value>317, 72</value>
-  </data>
-  <data name="CMB_Angular.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 21</value>
-  </data>
-  <data name="CMB_Angular.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;CMB_Angular.Name" xml:space="preserve">
-    <value>CMB_Angular</value>
-  </data>
-  <data name="&gt;&gt;CMB_Angular.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CMB_Angular.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;CMB_Angular.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
   <data name="label111.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
