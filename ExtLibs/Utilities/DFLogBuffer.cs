@@ -306,7 +306,8 @@ namespace MissionPlanner.Utilities
                 int a = 0;
                 foreach (var item in GetEnumeratorType(FMT[b.Key].name))
                 {
-                    var instancevalue = item.raw[b.Value.index + 1].ToString();
+                    // trimmed, the fields of a text log start with a space
+                    var instancevalue = item.raw[b.Value.index + 1].ToString().Trim();
 
                     if (!b.Value.value.Contains(instancevalue))
                         b.Value.value.Add(instancevalue);
@@ -317,7 +318,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (Unit.Count > 0)
+            if (dflog.logformat.ContainsKey("UNIT"))
                 foreach (var item in GetEnumeratorType("UNIT"))
                 {
                     try
@@ -329,7 +330,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-            if (Mult.Count > 0)
+            if (dflog.logformat.ContainsKey("MULT"))
                 foreach (var item in GetEnumeratorType("MULT"))
                 {
                     try

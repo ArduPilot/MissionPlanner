@@ -51,7 +51,6 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            private static Dictionary<int, int> instanceCache = new Dictionary<int, int>();
             public string instance
             {
                 get
@@ -59,9 +58,11 @@ namespace MissionPlanner.Utilities
                     // double access save
                     if (_instance != null)
                         return _instance;
-                    // field offset save
-                    if (instanceCache.ContainsKey(msgtype.GetHashCode()))
-                        return raw[instanceCache[msgtype.GetHashCode()]].ToString();
+                    // field offset save, the column is the one of this log: another can put it elsewhere
+                    int colinst;
+                    // trimmed, the fields of a text log start with a space
+                    if (parent.instanceColumn.TryGetValue(msgtype, out colinst))
+                        return raw[colinst].ToString().Trim();
 
                     var typeno = parent.logformat[msgtype].Id;
 
@@ -70,9 +71,9 @@ namespace MissionPlanner.Utilities
 
                     var unittypes = parent._dfLogBuffer.FMTU[typeno].Item1;
 
-                    int colinst = unittypes.IndexOf("#") + 1;
-                    instanceCache[msgtype.GetHashCode()] = colinst;
-                    _instance = raw[colinst].ToString();
+                    colinst = unittypes.IndexOf("#") + 1;
+                    parent.instanceColumn[msgtype] = colinst;
+                    _instance = raw[colinst].ToString().Trim();
                     return _instance;
                 }
             }
@@ -462,6 +463,9 @@ namespace MissionPlanner.Utilities
 
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
+
+        // the field of each message type that holds its instance
+        readonly ConcurrentDictionary<string, int> instanceColumn = new ConcurrentDictionary<string, int>();
 
         public void Clear()
         {
