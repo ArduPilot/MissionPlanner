@@ -174,12 +174,8 @@ namespace MissionPlanner.Controls
                                           gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt);
                         lastgotolocation = new PointLatLngAlt(gotolocation);
 
-                        Locationwp gotohere = new Locationwp();
-
-                        gotohere.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
-                        gotohere.alt = (float)(gotolocation.Alt);
-                        gotohere.lat = (gotolocation.Lat);
-                        gotohere.lng = (gotolocation.Lng);
+                        Locationwp gotohere = new Locationwp().Set(gotolocation.Lat, gotolocation.Lng,
+                            gotolocation.Alt, (ushort)MAVLink.MAV_CMD.WAYPOINT);
 
                         try
                         {
