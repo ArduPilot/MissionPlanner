@@ -144,7 +144,8 @@ namespace MissionPlanner.Utilities
                             {
                                 log_step++;
                             }
-                            else
+                            // a first header byte can be followed by the header of the next message
+                            else if (data != HEAD_BYTE1)
                             {
                                 log_step = 0;
                             }
@@ -323,7 +324,8 @@ namespace MissionPlanner.Utilities
                         {
                             log_step++;
                         }
-                        else
+                        // a first header byte can be followed by the header of the next message
+                        else if (data != HEAD_BYTE1)
                         {
                             log_step = 0;
                         }
@@ -567,7 +569,8 @@ namespace MissionPlanner.Utilities
                             {
                                 log_step++;
                             }
-                            else
+                            // a first header byte can be followed by the header of the next message
+                            else if (data != HEAD_BYTE1)
                             {
                                 log_step = 0;
                             }
