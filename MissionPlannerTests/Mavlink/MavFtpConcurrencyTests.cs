@@ -21,6 +21,12 @@ namespace MissionPlannerTests.Mavlink
     {
         private static readonly MethodInfo Dispatch = typeof(MAVLinkInterface).GetMethod("PacketReceived", BindingFlags.Instance | BindingFlags.NonPublic);
 
+        private static void SetNextSequence(MAVFtp ftp, ushort next)
+        {
+            var allocator = typeof(MAVFtp).GetField("sequence", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ftp);
+            allocator.GetType().GetField("next", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(allocator, next);
+        }
+
         private sealed class CallbackAppender : AppenderSkeleton
         {
             private readonly Action<LoggingEvent> callback;
@@ -72,10 +78,10 @@ namespace MissionPlannerTests.Mavlink
             else Reply(link, data, offset, Math.Min(request[4], data.Length - offset), request);
         }
 
-        private static void DispatchPayload(MAVLinkInterface link, byte[] payload)
+        private static void DispatchPayload(MAVLinkInterface link, byte[] payload, byte system = 7, byte component = 1)
         {
             var frame = new MAVLink.MavlinkParse().GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.FILE_TRANSFER_PROTOCOL,
-                new MAVLink.mavlink_file_transfer_protocol_t { payload = payload }, false, 7, 1);
+                new MAVLink.mavlink_file_transfer_protocol_t { payload = payload }, false, system, component);
             Dispatch.Invoke(link, new object[] { new MAVLink.MAVLinkMessage { buffer = frame } });
         }
 
@@ -277,8 +283,7 @@ namespace MissionPlannerTests.Mavlink
         [TestMethod]
         public void CancelledTransferPacketsCannotOverwriteTheNextFile()
         {
-            // The second case puts the new request at sequence zero, with late
-            // replies at 65535 and zero from the cancelled session-zero transfer.
+            // Reused session zero, including old replies straddling sequence wrap.
             foreach (ushort start in new ushort[] { 20, 65534 })
             using (var link = new MAVLinkInterface())
             using (var firstCancel = new CancellationTokenSource())
@@ -290,7 +295,7 @@ namespace MissionPlannerTests.Mavlink
                 var oldData = Enumerable.Repeat((byte)0xee, 320).ToArray();
                 var newData = Enumerable.Range(0, 320).Select(i => (byte)i).ToArray();
                 var ftp = new MAVFtp(link, 7, 1);
-                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, start);
+                SetNextSequence(ftp, start);
                 ftp.Progress += (file, percent) => { if (file == "old.bin" && percent > 0) firstCancel.Cancel(); };
                 byte[] oldRequest = null;
                 bool firstTransfer = true;
@@ -311,8 +316,8 @@ namespace MissionPlannerTests.Mavlink
                         // Neither a reply behind nor equal to the new request is valid.
                         Reply(link, oldData, 0, 80, oldRequest);
                         Reply(link, oldData, 80, 80, oldRequest);
-                        // This old sequence is newer than the new request, but
-                        // its offset cannot be that request's first reply.
+                        // Even replies beyond the last received old sequence
+                        // must stay behind the new request's reserved range.
                         Reply(link, oldData, 160, 80, oldRequest);
                         Reply(link, newData, 240, 80, request, burstComplete: true);
                     }
@@ -322,6 +327,244 @@ namespace MissionPlannerTests.Mavlink
                 firstTransfer = false;
                 using (var result = ftp.kCmdBurstReadFile("new.bin", newData.Length, nextCancel))
                     CollectionAssert.AreEqual(newData, result.ToArray(), "Late packets from the cancelled file must not replace new data.");
+            }
+        }
+
+        [TestMethod]
+        public void CancelledBurstRangesRejectLateDataAcrossInstancesAndWrap()
+        {
+            CheckCancelledBurstReplay(null);
+        }
+
+        [TestMethod]
+        public void CancelledBurstRangesRejectLateErrorsAndEofAcrossInstancesAndWrap()
+        {
+            CheckCancelledBurstReplay(MAVFtp.FTPErrorCode.kErrFail);
+            CheckCancelledBurstReplay(MAVFtp.FTPErrorCode.kErrEOF);
+        }
+
+        private static void CheckCancelledBurstReplay(MAVFtp.FTPErrorCode? error)
+        {
+            foreach (ushort start in new ushort[] { 20, 65000, 65534 })
+            foreach (bool freshInstance in new[] { false, true })
+            foreach (bool reopenFile in new[] { false, true })
+            using (var link = new MAVLinkInterface())
+            using (var firstCancel = new CancellationTokenSource())
+            using (var nextCancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var oldData = Enumerable.Repeat((byte)0xee, 80 * 500).ToArray();
+                var newData = Enumerable.Range(0, 640).Select(i => (byte)i).ToArray();
+                var ftp = new MAVFtp(link, 7, 1);
+                SetNextSequence(ftp, start);
+                ftp.Progress += (file, percent) => { if (file == "old.bin" && percent > 0) firstCancel.Cancel(); };
+                byte[] oldRequest = null;
+                bool firstTransfer = true;
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    Assert.AreEqual((byte)0, request[2], "Session reuse must not provide the isolation in this test.");
+                    if (firstTransfer)
+                    {
+                        oldRequest = request;
+                        Reply(link, oldData, 0, 80, request);
+                    }
+                    else if (request[3] == 2) // ResetSessions in the full GetFile workflow
+                        Reply(link, new byte[0], 0, 0, request);
+                    else if (request[3] == 4) // OpenFileRO, reusing session zero
+                        Reply(link, BitConverter.GetBytes(newData.Length), 0, 4, request);
+                    else if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                    {
+                        int distance = unchecked((ushort)(BitConverter.ToUInt16(request, 0) - BitConverter.ToUInt16(oldRequest, 0)));
+                        Assert.AreEqual(reopenFile ? 1028 : 1024, distance,
+                            "Cancellation must reserve the entire old burst, even across instances and wrap.");
+                        for (int offset = 0; offset <= 320; offset += 80)
+                            Reply(link, newData, offset, 80, request);
+                        if (error.HasValue)
+                        {
+                            Nak(link, oldRequest, error.Value, sequence: unchecked((ushort)(start + 5)));
+                            // A delayed trailing error after all 500 ArduPilot ACKs.
+                            Nak(link, oldRequest, error.Value, sequence: unchecked((ushort)(start + 501)));
+                            Nak(link, oldRequest, MAVFtp.FTPErrorCode.kErrFail,
+                                sequence: unchecked((ushort)(start + 501)), size: 0);
+                        }
+                        else
+                        {
+                            // Previously this plausible pair overwrote the new file at 320.
+                            Reply(link, oldData, 320, 80, oldRequest);
+                            Reply(link, oldData, 499 * 80, 80, oldRequest, burstComplete: true);
+                        }
+                        for (int offset = 400; offset < newData.Length; offset += 80)
+                            Reply(link, newData, offset, 80, request, burstComplete: offset == 560);
+                    }
+                    else ReadReply(link, newData, request);
+                };
+                Assert.ThrowsException<OperationCanceledException>(() => ftp.kCmdBurstReadFile("old.bin", newData.Length, firstCancel));
+                firstTransfer = false;
+                var next = freshInstance ? new MAVFtp(link, 7, 1) : ftp;
+                using (var result = reopenFile ? next.GetFile("new.bin", nextCancel) : next.kCmdBurstReadFile("new.bin", newData.Length, nextCancel))
+                    CollectionAssert.AreEqual(newData, result.ToArray(), "Delayed old packets must neither alter data nor abort the new file.");
+            }
+        }
+
+        [TestMethod]
+        public void ReorderedRepliesCannotMoveTheNextTransferSequenceBackwards()
+        {
+            foreach (ushort start in new ushort[] { 100, 65534 })
+            using (var link = new MAVLinkInterface())
+            using (var firstCancel = new CancellationTokenSource())
+            using (var nextCancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var ftp = new MAVFtp(link, 7, 1);
+                SetNextSequence(ftp, start);
+                int progress = 0;
+                ftp.Progress += (file, percent) => { if (percent > 0 && ++progress == 3) firstCancel.Cancel(); };
+                bool first = true;
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (first)
+                    {
+                        var data = new byte[400];
+                        Reply(link, data, 0, 80, request);   // start+1
+                        Reply(link, data, 240, 80, request); // start+4
+                        Reply(link, data, 80, 80, request);  // start+2
+                    }
+                    else
+                    {
+                        Assert.AreEqual(unchecked((ushort)(start + (request[3] == 15 ? 1024 : 2048))), BitConverter.ToUInt16(request, 0));
+                        Eof(link, request);
+                    }
+                };
+                Assert.ThrowsException<OperationCanceledException>(() => ftp.kCmdBurstReadFile("reordered.bin", 400, firstCancel));
+                first = false;
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("empty.bin", 0, nextCancel))
+                    Assert.AreEqual(0L, result.Length);
+            }
+        }
+
+        [TestMethod]
+        public void UnchangedBurstRetriesReuseTheirSequenceRange()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = new byte[80];
+                var requests = new System.Collections.Generic.List<byte[]>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    requests.Add(request);
+                    if (requests.Count == 1) return; // Drop the first response.
+                    if (request[3] == 15 && BitConverter.ToUInt32(request, 8) == 0)
+                        Reply(link, data, 0, 80, request, burstComplete: true);
+                    else Eof(link, request);
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("retry.bin", 80, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
+                Assert.AreEqual(4, requests.Count);
+                CollectionAssert.AreEqual(requests[0], requests[1], "An unchanged retry must preserve the entire request.");
+                Assert.AreEqual((ushort)1024, BitConverter.ToUInt16(requests[2], 0));
+                Assert.AreEqual((ushort)2048, BitConverter.ToUInt16(requests[3], 0));
+            }
+        }
+
+        [TestMethod]
+        public void SequenceRangesAreSharedOnlyForTheSameLinkAndPeer()
+        {
+            using (var firstLink = new MAVLinkInterface())
+            using (var secondLink = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var starts = new System.Collections.Generic.List<ushort>();
+                foreach (var link in new[] { firstLink, secondLink })
+                {
+                    var wire = new CommsInjection();
+                    link.BaseStream = wire;
+                    wire.WriteCallback += (sender, bytes) =>
+                    {
+                        var packet = (MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data;
+                        var request = packet.payload;
+                        if (request[3] == 15) starts.Add(BitConverter.ToUInt16(request, 0));
+                        var response = new byte[251];
+                        BitConverter.GetBytes(unchecked((ushort)(BitConverter.ToUInt16(request, 0) + 1))).CopyTo(response, 0);
+                        response[3] = 129;
+                        response[4] = 1;
+                        response[5] = request[3];
+                        response[12] = (byte)MAVFtp.FTPErrorCode.kErrEOF;
+                        DispatchPayload(link, response, packet.target_system, packet.target_component);
+                    };
+                }
+                foreach (var peer in new[] { (firstLink, (byte)7, (byte)1), (firstLink, (byte)7, (byte)1),
+                    (firstLink, (byte)7, (byte)2), (firstLink, (byte)8, (byte)1), (secondLink, (byte)7, (byte)1) })
+                {
+                    peer.Item1.MAVlist[peer.Item2, peer.Item3].mavlinkv2 = true;
+                    using (var result = new MAVFtp(peer.Item1, peer.Item2, peer.Item3).kCmdBurstReadFile("empty.bin", 0, cancel))
+                        Assert.AreEqual(0L, result.Length);
+                }
+                CollectionAssert.AreEqual(new ushort[] { 0, 1026, 0, 0, 0 }, starts);
+            }
+        }
+
+        [TestMethod]
+        public void OrdinaryRequestsKeepTheirReplySequenceAcrossWrap()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var requests = new System.Collections.Generic.List<ushort>();
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    requests.Add(BitConverter.ToUInt16(request, 0));
+                    Reply(link, BitConverter.GetBytes(0), 0, 4, request);
+                };
+                var ftp = new MAVFtp(link, 7, 1);
+                SetNextSequence(ftp, 65535);
+                Assert.IsTrue(ftp.kCmdOpenFileRO("empty.bin", out var size, cancel));
+                Assert.IsTrue(new MAVFtp(link, 7, 1).kCmdOpenFileRO("empty.bin", out size, cancel));
+                CollectionAssert.AreEqual(new ushort[] { 65535, 1 }, requests);
+            }
+        }
+
+        [TestMethod]
+        public void BurstErrorsOutsideTheReservedSequenceRangeAreIgnored()
+        {
+            using (var link = new MAVLinkInterface())
+            using (var cancel = new CancellationTokenSource(TimeSpan.FromSeconds(5)))
+            {
+                var wire = new CommsInjection();
+                link.BaseStream = wire;
+                link.MAVlist[7, 1].mavlinkv2 = true;
+                var data = new byte[80];
+                wire.WriteCallback += (sender, bytes) =>
+                {
+                    var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
+                    if (request[3] == 15)
+                    {
+                        Nak(link, request, MAVFtp.FTPErrorCode.kErrFail,
+                            sequence: unchecked((ushort)(BitConverter.ToUInt16(request, 0) + 1024)), size: 0);
+                        if (BitConverter.ToUInt32(request, 8) == 0)
+                        {
+                            Reply(link, data, 0, 80, request, burstComplete: true);
+                            return;
+                        }
+                    }
+                    Eof(link, request);
+                };
+                using (var result = new MAVFtp(link, 7, 1).kCmdBurstReadFile("range.bin", 80, cancel))
+                    CollectionAssert.AreEqual(data, result.ToArray());
             }
         }
 
@@ -336,7 +579,7 @@ namespace MissionPlannerTests.Mavlink
                 link.MAVlist[7, 1].mavlinkv2 = true;
                 var data = Enumerable.Range(0, 240).Select(i => (byte)i).ToArray();
                 var ftp = new MAVFtp(link, 7, 1);
-                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65534);
+                SetNextSequence(ftp, (ushort)65534);
                 var singleReads = new System.Collections.Generic.List<uint>();
                 wire.WriteCallback += (sender, bytes) =>
                 {
@@ -474,7 +717,7 @@ namespace MissionPlannerTests.Mavlink
                 link.MAVlist[7, 1].mavlinkv2 = true;
                 var data = Enumerable.Range(0, 400).Select(i => (byte)i).ToArray();
                 var ftp = new MAVFtp(link, 7, 1);
-                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65534);
+                SetNextSequence(ftp, (ushort)65534);
                 var offsets = new[] { 0, 80, 119, 199, 216, 296, 376 };
                 var sizes = new[] { 80, 39, 80, 17, 80, 80, 24 };
                 var singleReads = new System.Collections.Generic.List<uint>();
@@ -595,7 +838,7 @@ namespace MissionPlannerTests.Mavlink
                 link.MAVlist[7, 1].mavlinkv2 = true;
                 var data = Enumerable.Range(0, 160).Select(i => (byte)i).ToArray();
                 var ftp = new MAVFtp(link, 7, 1);
-                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, start);
+                SetNextSequence(ftp, start);
                 wire.WriteCallback += (sender, bytes) =>
                 {
                     var request = ((MAVLink.mavlink_file_transfer_protocol_t)new MAVLink.MAVLinkMessage { buffer = bytes.ToArray() }.data).payload;
@@ -667,7 +910,7 @@ namespace MissionPlannerTests.Mavlink
                 link.BaseStream = wire;
                 link.MAVlist[7, 1].mavlinkv2 = true;
                 var ftp = new MAVFtp(link, 7, 1);
-                typeof(MAVFtp).GetField("seq_no", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(ftp, (ushort)65535);
+                SetNextSequence(ftp, (ushort)65535);
                 int requests = 0;
                 bool reportedComplete = false;
                 ftp.Progress += (file, percent) => { if (percent == 100) reportedComplete = true; };

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using log4net;
@@ -41,12 +42,41 @@ namespace MissionPlanner.ArduPilot.Mavlink
         private MAVLink.mavlink_file_transfer_protocol_t fileTransferProtocol =
             new MAVLink.mavlink_file_transfer_protocol_t();
 
-        /// incremented anytime its not a retransmit
-        private uint16_t seq_no = 0;
+        // A request owns its sequence and all reply sequences up to the next range.
+        // ArduPilot emits at most 500 data ACKs plus a trailing NAK per burst.
+        // Leave headroom for those replies even if this reader is cancelled early.
+        // This is a bounded separation guard, not a unique transfer identifier:
+        // longer peer bursts or packets delayed across a full wrap can still alias.
+        private const int BurstSequenceRange = 1024;
+        private sealed class SequenceAllocator
+        {
+            private ushort next;
+
+            public ushort Allocate(int count)
+            {
+                lock (this)
+                {
+                    ushort start = next;
+                    next = unchecked((ushort)(next + count));
+                    return start;
+                }
+            }
+        }
+
+        // Keep allocations across MAVFtp instances, but release them with the link.
+        // Different vehicle components and different links have independent ranges.
+        private static readonly ConditionalWeakTable<MAVLinkInterface, ConcurrentDictionary<(uint, byte), SequenceAllocator>> sequences =
+            new ConditionalWeakTable<MAVLinkInterface, ConcurrentDictionary<(uint, byte), SequenceAllocator>>();
+        private readonly SequenceAllocator sequence;
+
+        private ushort AllocateSequence(bool burst = false)
+        {
+            return sequence.Allocate(burst ? BurstSequenceRange : 2);
+        }
         // Retain a matching open ACK even when cancellation wins, so its owner can close it.
         public byte? ReadSession { get; private set; }
 
-        static Dictionary<(uint, int), object> locker = new Dictionary<(uint, int), object>();
+        static readonly ConcurrentDictionary<(uint, int), object> locker = new ConcurrentDictionary<(uint, int), object>();
 
         /// set once the vehicle has NAKed ListDirectoryWithTime, so later listings skip straight to ListDirectory
         private bool listDirectoryWithTimeUnsupported = false;
@@ -59,8 +89,9 @@ namespace MissionPlanner.ArduPilot.Mavlink
             fileTransferProtocol.target_system = (byte)sysid;
             fileTransferProtocol.target_component = compid;
 
-            if (!locker.ContainsKey((sysid, compid)))
-                locker[(sysid, compid)] = new object();
+            sequence = sequences.GetValue(mavint, _ => new ConcurrentDictionary<(uint, byte), SequenceAllocator>())
+                .GetOrAdd((sysid, compid), _ => new SequenceAllocator());
+            locker.TryAdd((sysid, compid), new object());
         }
 
         public enum errno
@@ -652,7 +683,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdOpenFileRO,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -766,13 +797,13 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader
             {
                 opcode = FTPOpcode.kCmdBurstReadFile,
-                seq_number = seq_no++,
                 session = ReadSession ?? 0,
                 offset = 0,
                 size = readsize
             };
             // payload advances as replies arrive; retain the request actually sent.
             var sentPayload = payload;
+            bool requestSent = false;
             var request = new MAVLink.mavlink_file_transfer_protocol_t
             {
                 target_system = (byte)_sysid,
@@ -784,7 +815,12 @@ namespace MissionPlanner.ArduPilot.Mavlink
             Action sendRequest = () =>
             {
                 cancellation.ThrowIfCancellationRequested();
+                // An unchanged request is a retransmission and keeps its range.
+                // Resuming at another offset or probing a gap/EOF is a new request.
+                if (!requestSent || payload.opcode != sentPayload.opcode || payload.offset != sentPayload.offset)
+                    payload.seq_number = AllocateSequence(payload.opcode == FTPOpcode.kCmdBurstReadFile);
                 sentPayload = payload;
+                requestSent = true;
                 request.payload = sentPayload;
                 _mavint.sendPacket(request, _sysid, _compid);
                 retryClock.Restart();
@@ -794,7 +830,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 var missing = FindMissing(chunks);
                 payload.opcode = FTPOpcode.kCmdReadFile;
                 payload.offset = missing == uint.MaxValue ? highestEnd : missing;
-                payload.seq_number = seq_no;
                 retries = 0;
                 log.InfoFormat("Read missing data or probe EOF: {0} at {1}", file, payload.offset);
                 sendRequest();
@@ -808,7 +843,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 bool singleRead = sentPayload.opcode == FTPOpcode.kCmdReadFile;
                 int sequenceDelta = unchecked((short)(response.seq_number - sentPayload.seq_number));
                 // Filter stale errors and EOF before they can abort or change the transfer.
-                if ((singleRead && sequenceDelta != 1) || (!singleRead && sequenceDelta <= 0))
+                if ((singleRead && sequenceDelta != 1) ||
+                    (!singleRead && (sequenceDelta <= 0 || sequenceDelta >= BurstSequenceRange)))
                     return;
                 if (response.opcode == FTPOpcode.kRspNak)
                 {
@@ -817,7 +853,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     var error = (FTPErrorCode)response.data[0];
                     if (error != FTPErrorCode.kErrEOF)
                         throw new IOException("MAVFTP read failed: " + error);
-                    seq_no = (ushort)(response.seq_number + 1);
                     if (!singleRead)
                     {
                         readMissingOrProbeEnd();
@@ -864,7 +899,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 answer.Position = response.offset;
                 answer.Write(response.data, 0, response.size);
                 highestEnd = Math.Max(highestEnd, end);
-                seq_no = (ushort)(response.seq_number + 1);
                 if (receivedSize > previousSize)
                 {
                     retries = 0;
@@ -879,7 +913,6 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 // Resume the next burst (or a timed-out burst) after received data.
                 // Gaps are recovered individually once the burst reaches its end.
                 payload.offset = highestEnd;
-                payload.seq_number = seq_no;
                 if (response.burst_complete == 1)
                     sendRequest();
             };
@@ -979,7 +1012,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdCalcFileCRC32,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1029,7 +1062,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1111,7 +1144,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdCreateDirectory,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1168,7 +1201,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1204,7 +1237,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdCreateFile,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1265,7 +1298,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1336,7 +1369,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = opcode,
                 data = ASCIIEncoding.UTF8.GetBytes(dir),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 offset = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1402,7 +1435,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     // not for us or bad seq no
-                    if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                    if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                         return true;
                     // only ack's
                     if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1476,7 +1509,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     Progress?.Invoke(dir + " " + answer.Count, answer.Count % 100);
 
                     payload.offset = (uint) answer.Count;
-                    payload.seq_number = seq_no++;
+                    payload.seq_number = AllocateSequence();
                     fileTransferProtocol.payload = payload;
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                     timeout.ResetTimeout();
@@ -1513,7 +1546,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdOpenFileWO,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1574,7 +1607,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1612,7 +1645,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdReadFile,
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 offset = 0,
                 session = session,
                 size = readsize
@@ -1692,7 +1725,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 payload.offset = ftphead.offset + ftphead.size;
-                payload.seq_number = seq_no++;
+                payload.seq_number = AllocateSequence();
                 fileTransferProtocol.payload = payload;
                 //log.Debug("req " + payload.ToJSON());
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
@@ -1730,7 +1763,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdRemoveDirectory,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1778,7 +1811,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1815,7 +1848,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdRemoveFile,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1863,7 +1896,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1899,7 +1932,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdRename,
                 data = ASCIIEncoding.UTF8.GetBytes(src + "\0" + dest),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -1940,7 +1973,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -1972,7 +2005,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdResetSessions,
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -2005,7 +2038,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -2029,7 +2062,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdTerminateSession,
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = session
             };
             fileTransferProtocol.payload = payload;
@@ -2062,7 +2095,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -2088,7 +2121,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             {
                 opcode = FTPOpcode.kCmdTruncateFile,
                 data = ASCIIEncoding.UTF8.GetBytes(file),
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 session = 0
             };
             fileTransferProtocol.payload = payload;
@@ -2129,7 +2162,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                 }
 
                 // not for us or bad seq no
-                if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                     return true;
                 // only ack's
                 if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -2163,7 +2196,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdWriteFile,
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 offset = destoffset,
                 session = 0
             };
@@ -2216,7 +2249,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     }
 
                     // not for us or bad seq no
-                    if (payload.opcode != ftphead.req_opcode || payload.seq_number + 1 != ftphead.seq_number)
+                    if (payload.opcode != ftphead.req_opcode || unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                         return true;
                     // only ack's
                     if (ftphead.opcode != FTPOpcode.kRspAck)
@@ -2232,7 +2265,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     payload.data = data.Skip((int) payload.offset - (int) destoffset).Take(rwSize).ToArray();
                     bytes_read = payload.data.Length;
                     payload.size = (uint8_t) bytes_read;
-                    payload.seq_number = seq_no++;
+                    payload.seq_number = AllocateSequence();
                     fileTransferProtocol.payload = payload;
                     _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                     Progress?.Invoke(friendlyname, (int) ((float) payload.offset / size * 100.0));
@@ -2281,7 +2314,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
             var payload = new FTPPayloadHeader()
             {
                 opcode = FTPOpcode.kCmdWriteFile,
-                seq_number = seq_no++,
+                seq_number = AllocateSequence(),
                 offset = 0,
                 session = 0
             };
@@ -2360,7 +2393,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     sendlist.Remove((int)ftphead.offset);
 
                     // the seq is not from our last tx, so its the first part of the batch
-                    if (payload.seq_number + 1 != ftphead.seq_number)
+                    if (unchecked((ushort)(payload.seq_number + 1)) != ftphead.seq_number)
                         return true;
 
                     // confirm this is an ack for the last chunk
@@ -2383,7 +2416,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         }
                         Array.Resize(ref payload.data, bytes_read);
                         payload.size = (uint8_t)bytes_read;
-                        payload.seq_number = seq_no++;
+                        payload.seq_number = AllocateSequence();
                         fileTransferProtocol.payload = payload;
                         _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
                         
