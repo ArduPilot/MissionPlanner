@@ -634,11 +634,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
         /// anything with EACCES. So the files and sub-directories go first, then the directory.
         /// </summary>
         /// <returns>False when cancelled or when a request times out.</returns>
-
         /// <exception cref="Exception">Thrown when the vehicle reports a remove failure with an errno.</exception>
-
         /// <exception cref="FileNotFoundException">Thrown when a path is not found.</exception>
-
         public bool RemoveDirectoryRecursive(string dir, CancellationTokenSource cancel)
         {
             dir = dir.Replace("//", "/");
