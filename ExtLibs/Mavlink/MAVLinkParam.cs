@@ -153,11 +153,13 @@ item.float_value
 
         private double RoundToSignificantDigits(double d, int digits)
         {
-            if (d == 0)
-                return 0;
+            if (d == 0 || double.IsNaN(d) || double.IsInfinity(d))
+                return d;
 
-            double scale = Math.Pow(10, Math.Floor(Math.Log10(Math.Abs(d))) + 1);
-            return scale * Math.Round(d / scale, digits);
+            // the double nearest the decimal: scaling back by a power of ten is inexact, 14 came back
+            // as 14.000000000000002
+            return double.Parse(d.ToString("G" + digits, System.Globalization.CultureInfo.InvariantCulture),
+                System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public void SetValue(double input)
@@ -169,8 +171,8 @@ item.float_value
                     Array.Resize(ref _data, 4);
                     break;
                 case MAV_PARAM_TYPE.INT8:
-                    data = BitConverter.GetBytes((sbyte)input);
-                    Array.Resize(ref _data, 4);
+                    // there is no GetBytes(sbyte), GetBytes(short) would sign extend into the second byte
+                    data = new byte[] { unchecked((byte)(sbyte)input) };
                     break;
                 case MAV_PARAM_TYPE.UINT16:
                     data = BitConverter.GetBytes((ushort)input);
