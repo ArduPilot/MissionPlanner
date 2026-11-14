@@ -12,6 +12,11 @@
     <ProjectReference Include="..\ExtLibs\Mavlink\MAVLink.csproj" />
     <ProjectReference Include="..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj" />
     <ProjectReference Include="..\MissionPlanner.csproj" />
+    <!-- Keep the System.Drawing shim out of the global namespace (as MissionPlanner.csproj does)
+         so OpenGL/HudOpenGLProbe.cs gets the real System.Drawing.Bitmap. -->
+    <ProjectReference Include="..\ExtLibs\MissionPlanner.Drawing\MissionPlanner.Drawing.csproj">
+      <Aliases>Drawing</Aliases>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />

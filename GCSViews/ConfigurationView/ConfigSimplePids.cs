@@ -176,10 +176,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             TXT_info.Clear();
 
-            if (Value.Contains(","))
-                Value = Value.Replace(",", ".");
-
-            var value = float.Parse(Value, CultureInfo.InvariantCulture);
+            var value = DecimalInput.Parse(Value);
 
             var rc = ((RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);

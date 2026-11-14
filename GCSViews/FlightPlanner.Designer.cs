@@ -108,7 +108,9 @@ namespace MissionPlanner.GCSViews
             this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AZ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TagData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Check = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.BUT_Add = new MissionPlanner.Controls.MyButton();
+            this.BUT_verifyheight = new MissionPlanner.Controls.MyButton();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panelAction = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -149,6 +151,7 @@ namespace MissionPlanner.GCSViews
             this.landToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeoffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setROIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fenceHomeCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.polygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -447,6 +450,7 @@ namespace MissionPlanner.GCSViews
             this.panelWaypoints.Controls.Add(this.CHK_verifyheight);
             this.panelWaypoints.Controls.Add(this.TXT_WPRad);
             this.panelWaypoints.Controls.Add(this.BUT_Add);
+            this.panelWaypoints.Controls.Add(this.BUT_verifyheight);
             resources.ApplyResources(this.panelWaypoints, "panelWaypoints");
             this.panelWaypoints.ForeColor = System.Drawing.SystemColors.ControlText;
             this.panelWaypoints.Name = "panelWaypoints";
@@ -523,7 +527,8 @@ namespace MissionPlanner.GCSViews
             this.Angle,
             this.Dist,
             this.AZ,
-            this.TagData});
+            this.TagData,
+            this.Check});
             this.Commands.Name = "Commands";
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -676,6 +681,13 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.TagData, "TagData");
             this.TagData.Name = "TagData";
             this.TagData.ReadOnly = true;
+            //
+            // Check
+            //
+            resources.ApplyResources(this.Check, "Check");
+            this.Check.Name = "Check";
+            this.Check.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Check.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // BUT_Add
             // 
@@ -685,6 +697,15 @@ namespace MissionPlanner.GCSViews
             this.toolTip1.SetToolTip(this.BUT_Add, resources.GetString("BUT_Add.ToolTip"));
             this.BUT_Add.UseVisualStyleBackColor = true;
             this.BUT_Add.Click += new System.EventHandler(this.BUT_Add_Click);
+            //
+            // BUT_verifyheight
+            //
+            resources.ApplyResources(this.BUT_verifyheight, "BUT_verifyheight");
+            this.BUT_verifyheight.Name = "BUT_verifyheight";
+            this.BUT_verifyheight.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.BUT_verifyheight, resources.GetString("BUT_verifyheight.ToolTip"));
+            this.BUT_verifyheight.UseVisualStyleBackColor = true;
+            this.BUT_verifyheight.Click += new System.EventHandler(this.BUT_verifyheight_Click);
             // 
             // splitter1
             // 
@@ -925,6 +946,7 @@ namespace MissionPlanner.GCSViews
             this.landToolStripMenuItem,
             this.takeoffToolStripMenuItem,
             this.setROIToolStripMenuItem,
+            this.fenceHomeCircleToolStripMenuItem,
             this.clearMissionToolStripMenuItem,
             this.toolStripSeparator1,
             this.polygonToolStripMenuItem,
@@ -1041,7 +1063,13 @@ namespace MissionPlanner.GCSViews
             this.setROIToolStripMenuItem.Name = "setROIToolStripMenuItem";
             resources.ApplyResources(this.setROIToolStripMenuItem, "setROIToolStripMenuItem");
             this.setROIToolStripMenuItem.Click += new System.EventHandler(this.setROIToolStripMenuItem_Click);
-            // 
+            //
+            // fenceHomeCircleToolStripMenuItem
+            //
+            this.fenceHomeCircleToolStripMenuItem.Name = "fenceHomeCircleToolStripMenuItem";
+            resources.ApplyResources(this.fenceHomeCircleToolStripMenuItem, "fenceHomeCircleToolStripMenuItem");
+            this.fenceHomeCircleToolStripMenuItem.Click += new System.EventHandler(this.fenceHomeCircleToolStripMenuItem_Click);
+            //
             // clearMissionToolStripMenuItem
             // 
             this.clearMissionToolStripMenuItem.Name = "clearMissionToolStripMenuItem";
@@ -1633,6 +1661,7 @@ namespace MissionPlanner.GCSViews
         public Label lbl_status;
         public MyDataGridView Commands;
         public MyButton BUT_Add;
+        public MyButton BUT_verifyheight;
         public Label LBL_WPRad;
         public Label LBL_defalutalt;
         public Label label5;
@@ -1659,6 +1688,7 @@ namespace MissionPlanner.GCSViews
         public ToolStripMenuItem deleteWPToolStripMenuItem;
         public Timer timer1;
         public ToolStripMenuItem setROIToolStripMenuItem;
+        public ToolStripMenuItem fenceHomeCircleToolStripMenuItem;
         public ToolStripMenuItem mapToolToolStripMenuItem;
         public ToolStripMenuItem ContextMeasure;
         public ToolStripMenuItem rotateMapToolStripMenuItem;
@@ -1775,6 +1805,7 @@ namespace MissionPlanner.GCSViews
         private DataGridViewTextBoxColumn Dist;
         private DataGridViewTextBoxColumn AZ;
         private DataGridViewTextBoxColumn TagData;
+        private DataGridViewCheckBoxColumn Check;
         private ToolStripMenuItem gDALOpacityToolStripMenuItem;
         private MyButton BUT_InjectCustomMap;
         private ProgressBar progressBarInjectCustomMap;

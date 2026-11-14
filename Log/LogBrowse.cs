@@ -1520,7 +1520,7 @@ main()
                 {
                     try
                     {
-                        double value = double.Parse(item.items[col],
+                        double value = double.Parse(item.GetItem(col),
                             System.Globalization.CultureInfo.InvariantCulture);
 
                         if (dataModifier.IsValid())
