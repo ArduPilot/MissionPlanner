@@ -91,16 +91,17 @@ namespace MissionPlanner.Utilities
             receiverPort.ReadTimeout = 200;
             receiverPort.WriteTimeout = 200;
 
-            string detectedPort = await ConfigureBaudAndDetectPort(receiverPort);
-            log.Info($"Detected active port: {detectedPort}");
+            string targetPorts = await ConfigureBaudAndDetectPort(receiverPort);
+            log.Info($"Target Septentrio port(s): {targetPorts}");
 
-            string targetPorts = string.IsNullOrWhiteSpace(detectedPort) ? DefaultPorts : detectedPort;
+            // Output RTCMv3 only on a detected port
+            // On fallback the connected port is unknown, so append RTCMv3 to keep other ports' streams
+            string rtcmOutput = targetPorts == DefaultPorts ? "+RTCMv3" : "RTCMv3";
 
             await SendAck(receiverPort, "setPVTMode,Static,All,Auto\n");
-            // Append +RTCMv3 output to preserve any existing streams already configured on this port
-            await SendAck(receiverPort, $"setDataInOut,{targetPorts},Auto,+RTCMv3\n");
+            await SendAck(receiverPort, $"setDataInOut,{targetPorts},Auto,{rtcmOutput}\n");
 
-            return detectedPort ?? DefaultPorts;
+            return targetPorts;
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Configure the baud rate of the serial port and detect the active port on the receiver side. In case the receiver is connected over serial, this automatically sets the correct baud rate.
         /// </summary>
-        /// <returns>The detected active port name or null if auto-detection falls back.</returns>
+        /// <returns>The detected active port name or the default port string if auto-detection falls back.</returns>
         /// <exception cref="FailedAckException" />
         /// <exception cref="IOException" />
         private static async Task<string> ConfigureBaudAndDetectPort(ICommsSerial receiverPort)
@@ -150,40 +151,26 @@ namespace MissionPlanner.Utilities
                     // Detect active port directly on established connection
                     string detectedPortCandidate = await DetectPort(receiverPort);
 
-                    // Do not treat a timeout or a fallback result as a confirmed response
                     if (string.IsNullOrWhiteSpace(detectedPortCandidate))
                     {
-                        continue;
+                        // Prompt not recognised at this baud, then target all default ports (legacy behaviour)
+                        await SendAck(receiverPort, $"setCOMSettings,COM1+COM2,baud{DefaultBaudrate},bits8,No,bit1,none\n");
+                        detectedPort = DefaultPorts;
                     }
-
-                    bool receiverConfirmed = false;
-
-                    // Skip setCOMSettings command for non-serial connections (USB, IP, or Bluetooth ports)
-                    bool isNonSerialPort = Regex.IsMatch(detectedPortCandidate ?? string.Empty, @"^(USB|IP|BT)\d+$", RegexOptions.IgnoreCase);
-                    if (!isNonSerialPort)
+                    else
                     {
-                        // If no COM port is detected, fall back to configuring default serial ports (COM1+COM2)
-                        string comSettingsPort = (detectedPortCandidate ?? string.Empty).Contains("COM") ? detectedPortCandidate : "COM1+COM2";
-                        await SendAck(receiverPort, $"setCOMSettings,{comSettingsPort},baud{DefaultBaudrate},bits8,No,bit1,none\n");
-                        receiverConfirmed = true;
+                        // Only serial ports need their baud rate configured
+                        if (detectedPortCandidate.StartsWith("COM", StringComparison.OrdinalIgnoreCase))
+                        {
+                            await SendAck(receiverPort, $"setCOMSettings,{detectedPortCandidate},baud{DefaultBaudrate},bits8,No,bit1,none\n");
+                        }
+                        detectedPort = detectedPortCandidate;
                     }
-                    // Because no SendAck confirmation is sent for non-serial ports, only accept USB, IP, or BT results if DetectPort returned something other than the fallback value
-                    else if (!string.Equals(detectedPortCandidate, DefaultPorts, StringComparison.OrdinalIgnoreCase))
-                    {
-                        receiverConfirmed = true;
-                    }
-
-                    if (!receiverConfirmed)
-                    {
-                        continue;
-                    }
-
-                    detectedPort = detectedPortCandidate;
                     receiverAcknowledged = true;
                     break;
                 } catch { }
             }
-            // Fallback if communication was established but port auto-detection timed out or failed
+
             if (!receiverAcknowledged)
             {
                 throw new FailedAckException();
@@ -261,17 +248,18 @@ namespace MissionPlanner.Utilities
                     int bytesRead = await receiverPort.BaseStream.ReadAsync(readBuf, 0, readBuf.Length);
                     if (bytesRead > 0)
                     {
-                        // Clean up non-printable characters or null bytes if needed
-                        string incoming = Encoding.ASCII.GetString(readBuf, 0, bytesRead);
-                        buffer.Append(incoming);
+                        buffer.Append(Encoding.ASCII.GetString(readBuf, 0, bytesRead));
+                        // Keep only the last 32 chars, the prompt is short and always at the end of the received data
+                        // Trimming at 64 (twice the kept size) avoids cutting on every read
+                        if (buffer.Length > 64)
+                        {
+                            buffer.Remove(0, buffer.Length - 32);
+                        }
 
-                        string currentText = buffer.ToString();
-
-                        // Match active port names (COMx, USBx, IPx, or BTx) directly preceding the '>' prompt character
-                        var match = Regex.Match(currentText, @"(COM\d+|USB\d+|IP\d+|BT\d+)\s*>", RegexOptions.IgnoreCase);
+                        // Match a connection descriptor (e.g., COM1, USB1, IP10, IPS1, or BT01) at the start of a line, followed by '>'
+                        var match = Regex.Match(buffer.ToString(), @"(?:^|[\r\n])\s*\b([A-Z]{2,4}\d{1,2})>", RegexOptions.IgnoreCase);
                         if (match.Success)
                         {
-                            // Extract active port identifier (e.g., COM1, USB1, IP10, or BT01)
                             return match.Groups[1].Value;
                         }
                     }
@@ -280,7 +268,6 @@ namespace MissionPlanner.Utilities
                 await Task.Delay(20);
             }
 
-            // Indicate detection failure so the baud scan can continue to the next candidate rate
             return null;
         }
 
