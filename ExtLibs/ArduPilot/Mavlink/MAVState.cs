@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MissionPlanner")]
 [assembly: InternalsVisibleTo("MissionPlannerLib")]
+[assembly: InternalsVisibleTo("MissionPlannerTests")]
 
 namespace MissionPlanner
 {
