@@ -467,7 +467,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Decimal degrees 'lat;long' or 'lat;long;alt', eg 52.829;-7.470.
+        ///   Looks up a localized string similar to Decimal degrees 'lat;long' or 'lat;long;alt' with '.' for decimals, eg 52.829;-7.470.
         /// </summary>
         public static string CoordsHintGEO {
             get {

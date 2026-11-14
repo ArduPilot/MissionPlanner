@@ -175,8 +175,7 @@ namespace MissionPlanner.Controls
             double? alt = inlineAlt;
             if (txtAlt.Text.Trim() != "")
             {
-                if (!double.TryParse(txtAlt.Text.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture,
-                        out var typedAlt))
+                if (!TryParseAltitude(txtAlt.Text, out var typedAlt))
                 {
                     CustomMessageBox.Show(string.Format(Strings.InvalidAltitude, txtAlt.Text.Trim()), Strings.ERROR);
                     return;
@@ -234,7 +233,8 @@ namespace MissionPlanner.Controls
         /// <summary>
         /// Parse a location typed in the given coordinate system.
         /// GEO: "lat;long" or "lat;long;alt" (also comma or space separated; with a ';' in the text a
-        /// comma does not separate, so a decimal comma is refused rather than read as a separator).
+        /// comma does not separate, so a decimal comma is refused rather than read as a separator,
+        /// and without one "52,5 7" is refused as ambiguous, see AmbiguousComma).
         /// UTM: "zone+band east north", eg "29U 540660 5854629", optional trailing alt. The letter is
         /// the latitude band, and a band that does not hold the latitude the numbers give is refused.
         /// MGRS: compact grid reference, spaces ignored, eg "29UPU0406654629".
@@ -254,12 +254,16 @@ namespace MissionPlanner.Controls
             {
                 var trimmed = text.Trim().ToUpperInvariant();
                 // "52,5;7" is a decimal comma, not lat 52, long 5, alt 7
-                var separators = trimmed.Contains(";") ? new[] {' ', ';', '\t'} : new[] {' ', ';', ',', '\t'};
+                var commaSeparates = !trimmed.Contains(";");
+                var separators = commaSeparates ? new[] {' ', ';', ',', '\t'} : new[] {' ', ';', '\t'};
                 var parts = trimmed.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
                 if (system == Coords.CoordsSystems.GEO.ToString())
                 {
                     if (parts.Length != 2 && parts.Length != 3)
+                        return false;
+
+                    if (commaSeparates && AmbiguousComma(trimmed))
                         return false;
 
                     lat = ParseNumber(parts[0]);
@@ -327,6 +331,37 @@ namespace MissionPlanner.Controls
         private static double ParseNumber(string text)
         {
             return double.Parse(text, NumberStyles.Float, CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Whether a GEO text where commas separate also holds spaces and a comma between two
+        /// whole numbers, like "52,5". That is a decimal comma to some users and two numbers to
+        /// others, so "52,5 7" is either lat 52.5, long 7 or lat 52, long 5, alt 7, and "52 13,5"
+        /// either long 13.5 or long 13, alt 5. Such a text is refused rather than guessed at.
+        /// Without a space the comma can only separate ("52,5" is two numbers), and a number with
+        /// a decimal point beside the comma cannot hold a decimal comma too ("52.5,13.4 100").
+        /// </summary>
+        internal static bool AmbiguousComma(string text)
+        {
+            return text.IndexOfAny(new[] {' ', '\t'}) >= 0 &&
+                   Regex.IsMatch(text, @"(?<![\d.])\d+,\d+(?![\d.])");
+        }
+
+        /// <summary>
+        /// The altitude box holds one number, so a comma in it can only be a decimal separator:
+        /// both '.' and ',' are taken, the rule of Utilities.DecimalInput (which parses a float;
+        /// altitudes here are double). "1,500" is the exception: a thousands separator to many
+        /// users, so it is refused rather than read as 1.5.
+        /// </summary>
+        internal static bool TryParseAltitude(string text, out double alt)
+        {
+            alt = 0;
+            text = (text ?? "").Trim();
+            if (Regex.IsMatch(text, @"^[+-]?\d+,\d{3}$"))
+                return false;
+
+            return double.TryParse(text.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture,
+                out alt);
         }
 
         /// <summary>
