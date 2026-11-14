@@ -1299,6 +1299,24 @@ namespace MissionPlanner.ArduPilot.Mavlink
             return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(secs);
         }
 
+        /// <summary>
+        /// Extract string from uint8_t array (UTF-8 encoded)
+        /// </summary>
+        /// <param name="data">uint8_t array</param>
+        /// <param name="offset">offset of start of string</param>
+        /// <param name="limit">end of string</param>
+        /// <returns>ValueTuple of string and offset of end of string + 1</returns>
+        /// <exception cref="IndexOutOfRangeException">Input is not null terminated</exception>
+        private static (string info, int offset) ExtractString(uint8_t[] data, int offset, int limit)
+        {
+            var tail = Array.IndexOf(data, (uint8_t)0, offset, limit - offset);
+            if (tail >= 0)
+            {
+                return (ASCIIEncoding.UTF8.GetString(data, offset, tail - offset), tail + 1);
+            }
+            throw new IndexOutOfRangeException(nameof(data));
+        }
+
         public List<FtpFileInfo> kCmdListDirectory(string dir, CancellationTokenSource cancel)
         {
             // Ask for modification times first. A vehicle which does not know the opcode NAKs
@@ -1410,36 +1428,26 @@ namespace MissionPlanner.ArduPilot.Mavlink
                         switch (b)
                         {
                             case kDirentFile:
-                                var filename = new StringBuilder();
-                                while (b != 0x0)
-                                {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        filename.Append((char) b);
-                                }
+                                string filename;
+                                (filename, offset) = ExtractString(ftphead.data, offset, ftphead.size);
 
-                                var items = filename.ToString().Split('\t');
+                                var items = filename.Split('\t');
                                 var size = ulong.Parse(items[1]);
                                 answer.Add(new FtpFileInfo(items[0], dir, false, size,
                                     withtime && items.Length > 2 ? ParseListingTime(items[2]) : null));
                                 break;
                             case kDirentDir:
-                                var name = new StringBuilder();
-                                while (b != 0x0)
-                                {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        name.Append((char) b);
-                                }
+                                string name;
+                                (name, offset) = ExtractString(ftphead.data, offset, ftphead.size);
 
                                 // A timed listing gives a directory the same trailing fields as
                                 // a file, "<name>\t<size>\t<mtime>"; a plain one is just the name,
                                 // where a tab would be part of the name.
-                                var dirfields = name.ToString().Split('\t');
+                                var dirfields = name.Split('\t');
                                 answer.Add(withtime
                                     ? new FtpFileInfo(dirfields[0], dir, true, 0,
                                         dirfields.Length > 2 ? ParseListingTime(dirfields[2]) : null)
-                                    : new FtpFileInfo(name.ToString(), dir, true));
+                                    : new FtpFileInfo(name, dir, true));
                                 break;
                             case kDirentSkip:
                                 while (b != 0x0)
@@ -1450,16 +1458,15 @@ namespace MissionPlanner.ArduPilot.Mavlink
                                 answer.Add(new FtpFileInfo("", dir, true));
                                 break;
                             default:
-                                var nameextra = new StringBuilder();
-                                while (b != 0x0)
+                                if (b != 0x0)
                                 {
-                                    b = ftphead.data[offset++];
-                                    if (b != 0x0)
-                                        nameextra.Append((char) b);
+                                    string nameextra;
+                                    (nameextra, offset) = ExtractString(ftphead.data, offset, ftphead.size);
+
+                                    if (nameextra != "")
+                                        answer.Add(new FtpFileInfo(nameextra, dir, false));
                                 }
 
-                                if (nameextra.ToString() != "")
-                                    answer.Add(new FtpFileInfo(nameextra.ToString(), dir, false));
                                 break;
                         }
                     }
