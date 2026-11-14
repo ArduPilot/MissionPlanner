@@ -524,9 +524,28 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>
+        /// A copy that shares this input's lists, for adding the vehicle's fence settings to a
+        /// plan that is kept. Nothing changes the lists once they are made.
+        /// </summary>
+        public ElevationGraphInput Copy()
+        {
+            return (ElevationGraphInput) MemberwiseClone();
+        }
+
+        /// <summary>
         /// A text form of the whole input: two inputs with the same signature draw the same graph.
         /// </summary>
         public string Signature()
+        {
+            return PlanSignature() + FenceSignature();
+        }
+
+        /// <summary>
+        /// The part of the signature for what the plan gives: home, the waypoints, the rally
+        /// points and the fence areas. It runs over every item, so the Plan screen keeps it and
+        /// makes it again only when the plan changed.
+        /// </summary>
+        public string PlanSignature()
         {
             var sb = new StringBuilder();
             Action<double> add = v => sb.Append(v.ToString("R", CultureInfo.InvariantCulture)).Append(',');
@@ -552,24 +571,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            foreach (var limit in new[] {FenceCeiling, FenceFloor})
-            {
-                sb.Append('|');
-                if (limit != null)
-                {
-                    add(limit.Alt);
-                    sb.Append(limit.Used ? 'u' : '-');
-                }
-            }
-
             sb.Append('|');
-            if (FenceCircle != null)
-            {
-                add(FenceCircle.Radius);
-                sb.Append(FenceCircle.Used ? 'u' : '-');
-            }
-
-            sb.Append('|').Append(FencePolygonUsed ? 'u' : '-').Append(FenceInclusionUnion ? 'n' : '-');
             foreach (var area in FenceAreas)
             {
                 sb.Append(area.Inclusion ? 'i' : 'e');
@@ -591,6 +593,36 @@ namespace MissionPlanner.Controls
                 sb.Append(';');
             }
 
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// The part of the signature for what the vehicle's parameters and SYS_STATUS give: the
+        /// fence ceiling, floor and circle, how the polygon fence is used, whether the fence is on.
+        /// </summary>
+        public string FenceSignature()
+        {
+            var sb = new StringBuilder();
+            Action<double> add = v => sb.Append(v.ToString("R", CultureInfo.InvariantCulture)).Append(',');
+
+            foreach (var limit in new[] {FenceCeiling, FenceFloor})
+            {
+                sb.Append('|');
+                if (limit != null)
+                {
+                    add(limit.Alt);
+                    sb.Append(limit.Used ? 'u' : '-');
+                }
+            }
+
+            sb.Append('|');
+            if (FenceCircle != null)
+            {
+                add(FenceCircle.Radius);
+                sb.Append(FenceCircle.Used ? 'u' : '-');
+            }
+
+            sb.Append('|').Append(FencePolygonUsed ? 'u' : '-').Append(FenceInclusionUnion ? 'n' : '-');
             sb.Append('|').Append(FenceState);
             return sb.ToString();
         }
@@ -769,7 +801,8 @@ namespace MissionPlanner.Controls
         /// terrain frame point follows the ground, its height above the ground changing evenly
         /// from one end to the other, as ArduPilot flies it; any other leg is a straight line
         /// between the altitudes of its ends. A leg into a spline waypoint runs along the curve
-        /// the map draws for it, with its altitude worked out the same way along the curve.
+        /// the map draws for it, with its altitude worked out the same way along the curve. A
+        /// landing (LAND, VTOL_LAND) ends on the ground under it, at 0, 0 or with a position.
         /// </summary>
         /// <param name="terrainAt">terrain height AMSL at a lat, lng, or null when there is no data</param>
         /// <param name="maxSamples">about how many terrain samples to take along the whole path</param>
@@ -834,7 +867,12 @@ namespace MissionPlanner.Controls
                     Lat = lat,
                     Lng = lng,
                     Terrain = ground,
-                    Alt = AltitudeAmsl(item.Frame, item.Alt, homeAlt, ground)
+                    // A landing ends on the ground under it, whatever altitude the item carries:
+                    // away from home's height a relative altitude would end the path in the air
+                    // or under the ground. Without terrain data it ends at the altitude it carries.
+                    Alt = item.OnGround && !double.IsNaN(ground)
+                        ? ground
+                        : AltitudeAmsl(item.Frame, item.Alt, homeAlt, ground)
                 };
 
                 if (nodes.Count > 0)
@@ -1185,6 +1223,8 @@ namespace MissionPlanner.Controls
                 var steps = Math.Max(1, (int) Math.Ceiling(length / spacing));
                 var follow = to.Item.Frame == ElevationGraphAltFrame.Terrain;
                 var fromHeight = from.Alt - from.Terrain;
+                // a landing ends on the ground, as its marker does
+                var toHeight = to.Item.OnGround ? 0 : to.Item.Alt;
                 var airborne = flown && !IsOnGround(from) && !IsOnGround(to);
                 var curve = to.Route != null ? new PathWalker(from, to) : null;
 
@@ -1206,7 +1246,7 @@ namespace MissionPlanner.Controls
                     var alt = double.NaN;
                     if (flown)
                         alt = follow
-                            ? ground + fromHeight + (to.Item.Alt - fromHeight) * f
+                            ? ground + fromHeight + (toHeight - fromHeight) * f
                             : from.Alt + (to.Alt - from.Alt) * f;
 
                     profile.Samples.Add(new Sample

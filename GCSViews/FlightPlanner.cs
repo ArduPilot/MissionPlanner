@@ -300,7 +300,7 @@ namespace MissionPlanner.GCSViews
             panelMap.Controls.Add(elevationGraph);
             elevationGraph.BringToFront();
 
-            // the connected vehicle's fence circle, drawn by timer1 while the fence is active
+            // the connected vehicle's fence circle, drawn by the graph's timer while the fence is active
             fenceCircleOverlay = new GMapOverlay("fencecircle");
             MainMap.Overlays.Add(fenceCircleOverlay);
 
@@ -313,6 +313,18 @@ namespace MissionPlanner.GCSViews
 
             elevationGraphTimer = new System.Windows.Forms.Timer(components);
             elevationGraphTimer.Tick += ElevationGraphTimer_Tick;
+
+            // The graph reads the grid again only after something in it changed (see
+            // elevationGraphPlanChanged). The grid and the home boxes say so themselves, so a
+            // change that redraws no map (rows loaded with quickadd set, a plugin) counts too.
+            Commands.CellValueChanged += (sender, e) => elevationGraphPlanChanged = true;
+            Commands.RowsAdded += (sender, e) => elevationGraphPlanChanged = true;
+            Commands.RowsRemoved += (sender, e) => elevationGraphPlanChanged = true;
+            EventHandler planChanged = (sender, e) => elevationGraphPlanChanged = true;
+            TXT_homelat.TextChanged += planChanged;
+            TXT_homelng.TextChanged += planChanged;
+            TXT_homealt.TextChanged += planChanged;
+            cmb_missiontype.SelectedIndexChanged += planChanged;
 
             elevationGraphHeight = Settings.Instance.GetInt32("fp_elevationgraph_height", elevationGraphHeight);
             CHK_elevationgraph.Checked = Settings.Instance.GetBoolean("fp_elevationgraph", false);
@@ -3639,6 +3651,9 @@ namespace MissionPlanner.GCSViews
         /// <summary>Looks for missing terrain this many times, about a second apart, before saying there is none.</summary>
         private const int ElevationGraphTerrainTries = 30;
 
+        /// <summary>The marker of the point under the mouse moves on the map in steps of this many pixels.</summary>
+        private const int ElevationGraphCursorStep = 3;
+
         private PlanElevationGraph elevationGraph;
         private GMarkerGoogle elevationGraphCursor;
         private System.Windows.Forms.Timer elevationGraphTimer;
@@ -3648,6 +3663,18 @@ namespace MissionPlanner.GCSViews
         private volatile bool elevationGraphBusy;
         private string elevationGraphSignature;
         private int elevationGraphTerrainTry;
+        // counts the builds started, so that a result overtaken by a newer build is not shown
+        private int elevationGraphBuild;
+
+        // The plan as last read from the grid, and what it was read with. The grid is read, and
+        // the plan put into text, only after the grid, the home boxes or the item type changed
+        // (their events and writeKML set the flag) or the vehicle's side did: on a mission of
+        // hundreds of items that is too much to do every second for nothing. The fence
+        // parameters are few and are read every tick.
+        private volatile bool elevationGraphPlanChanged = true;
+        private ElevationGraphInput elevationGraphPlan;
+        private string elevationGraphPlanSignature;
+        private string elevationGraphVehicle;
 
         private void CHK_elevationgraph_CheckedChanged(object sender, EventArgs e)
         {
@@ -3673,6 +3700,7 @@ namespace MissionPlanner.GCSViews
             {
                 LayoutElevationGraph();
                 elevationGraphSignature = null;
+                elevationGraphPlan = null;
                 RestartElevationGraphTimer();
             }
             else
@@ -3680,6 +3708,8 @@ namespace MissionPlanner.GCSViews
                 elevationGraphTimer.Stop();
                 // the mouse may have left the graph without a MouseLeave (hidden, page switched)
                 ElevationGraph_HoverChanged(this, null);
+                // the fence circle belongs to the graph: without the graph the map is as it was
+                ShowFenceCircle(null, null);
             }
         }
 
@@ -3689,6 +3719,8 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         private void RequestElevationGraphUpdate()
         {
+            elevationGraphPlanChanged = true;
+
             if (elevationGraphTimer == null || !elevationGraphTimer.Enabled)
                 return;
 
@@ -3710,6 +3742,20 @@ namespace MissionPlanner.GCSViews
         {
             elevationGraphTimer.Interval = 1000;
             UpdateElevationGraph();
+
+            // The fence circle on the map runs on the graph's timer, so it is only drawn, and the
+            // fence parameters only read, while the graph is shown. Its own try: nothing may
+            // escape the timer, and a parameter read gives up with an ApplicationException when
+            // MAVLinkParamList's reader lock is not free within 1 s (a parameter download is
+            // writing it); the next tick tries again.
+            try
+            {
+                UpdateFenceCircle();
+            }
+            catch (Exception ex)
+            {
+                log.Warn("Fence circle: could not read the fence parameters", ex);
+            }
         }
 
         /// <summary>
@@ -3723,9 +3769,32 @@ namespace MissionPlanner.GCSViews
                 return;
 
             ElevationGraphInput input;
+            string signature;
             try
             {
-                input = GetElevationGraphInput();
+                var vehicle = ElevationGraphVehicleStamp();
+                if (elevationGraphPlan == null || elevationGraphPlanChanged || vehicle != elevationGraphVehicle)
+                {
+                    // cleared before the grid is read: a change made meanwhile asks again
+                    elevationGraphPlanChanged = false;
+                    try
+                    {
+                        elevationGraphPlan = GetElevationGraphPlan();
+                    }
+                    catch
+                    {
+                        elevationGraphPlan = null;
+                        throw;
+                    }
+
+                    elevationGraphPlanSignature = elevationGraphPlan.PlanSignature();
+                    elevationGraphVehicle = vehicle;
+                }
+
+                // the lists are shared with the plan kept; nothing changes them once they are made
+                input = elevationGraphPlan.Copy();
+                AddVehicleFence(input);
+                signature = elevationGraphPlanSignature + input.FenceSignature();
             }
             catch (FormatException)
             {
@@ -3741,7 +3810,6 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            var signature = input.Signature();
             if (signature == elevationGraphSignature)
             {
                 if (!elevationGraph.TerrainMissing || elevationGraphTerrainTry >= ElevationGraphTerrainTries)
@@ -3754,8 +3822,50 @@ namespace MissionPlanner.GCSViews
             }
 
             elevationGraphBusy = true;
+            var build = ++elevationGraphBuild;
             Task.Run(() => ElevationGraphProfile.Build(input, ElevationGraphTerrainAt))
-                .ContinueWith(task => ElevationGraphBuilt(task, signature));
+                .ContinueWith(task => ElevationGraphBuilt(task, signature, build));
+        }
+
+        /// <summary>
+        /// What the vehicle adds to the plan the graph draws, as text: whether it is connected,
+        /// which vehicle it is, and its copies of the mission, rally points and fence, which stand
+        /// in for the item types the grid is not showing. Cheap next to reading the grid; when it
+        /// changes (a download into the vehicle's copies, a connect) the plan is read again.
+        /// </summary>
+        private static string ElevationGraphVehicleStamp()
+        {
+            if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                return "";
+
+            var mav = MainV2.comPort.MAV;
+            return string.Join(",", System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(mav),
+                (int) mav.apname, CacheStamp(mav.wps), CacheStamp(mav.rallypoints), CacheStamp(mav.fencepoints));
+        }
+
+        /// <summary>A number that changes when an item of a vehicle side list is added, removed or changed.</summary>
+        private static int CacheStamp(
+            System.Collections.Concurrent.ConcurrentDictionary<int, MAVLink.mavlink_mission_item_int_t> cache)
+        {
+            unchecked
+            {
+                // a sum, so the order the dictionary hands the items out in does not matter
+                int stamp = 0;
+                foreach (var entry in cache)
+                {
+                    var item = entry.Value;
+                    int hash = entry.Key;
+                    hash = hash * 397 ^ item.command;
+                    hash = hash * 397 ^ item.frame;
+                    hash = hash * 397 ^ item.x;
+                    hash = hash * 397 ^ item.y;
+                    hash = hash * 397 ^ item.z.GetHashCode();
+                    hash = hash * 397 ^ item.param1.GetHashCode();
+                    stamp += hash * 397 + 1;
+                }
+
+                return stamp;
+            }
         }
 
         /// <summary>
@@ -3764,7 +3874,7 @@ namespace MissionPlanner.GCSViews
         /// BeginInvoke and the callback (a posted call to a destroyed window never runs), and the
         /// graph was never rebuilt again.
         /// </summary>
-        private void ElevationGraphBuilt(Task<ElevationGraphProfile> task, string signature)
+        private void ElevationGraphBuilt(Task<ElevationGraphProfile> task, string signature, int build)
         {
             elevationGraphBusy = false;
             try
@@ -3772,7 +3882,7 @@ namespace MissionPlanner.GCSViews
                 // without a handle the page is closing, and there is nothing to draw on
                 if (!IsDisposed && IsHandleCreated)
                 {
-                    BeginInvoke((Action) (() => ShowElevationGraph(task, signature)));
+                    BeginInvoke((Action) (() => ShowElevationGraph(task, signature, build)));
                     return;
                 }
             }
@@ -3787,11 +3897,25 @@ namespace MissionPlanner.GCSViews
                 log.Error(task.Exception);
         }
 
-        private void ShowElevationGraph(Task<ElevationGraphProfile> task, string signature)
+        private void ShowElevationGraph(Task<ElevationGraphProfile> task, string signature, int build)
         {
+            // The busy flag is cleared before this call is posted, so a tick in between may have
+            // started the next build already. That one is for the plan as it is now and shows
+            // when it is done; this result is of the plan before it.
+            if (build != elevationGraphBuild)
+            {
+                if (task.IsFaulted)
+                    log.Error(task.Exception);
+                return;
+            }
+
             if (task.IsFaulted)
             {
+                // Remember what failed and stop looking for its terrain: the same plan would fail
+                // the same way, and be logged, every second. A change to the plan builds again.
                 log.Error(task.Exception);
+                elevationGraphSignature = signature;
+                elevationGraphTerrainTry = ElevationGraphTerrainTries;
                 return;
             }
 
@@ -3817,6 +3941,19 @@ namespace MissionPlanner.GCSViews
         /// Throws FormatException when a grid cell does not hold a number.
         /// </summary>
         internal ElevationGraphInput GetElevationGraphInput()
+        {
+            var input = GetElevationGraphPlan();
+            AddVehicleFence(input);
+            return input;
+        }
+
+        /// <summary>
+        /// The part of the graph's input that comes from the grid, the home boxes and the
+        /// vehicle's copies of the item types the grid is not showing: home, the waypoints, the
+        /// rally points and the fence areas.
+        /// Throws FormatException when a grid cell does not hold a number.
+        /// </summary>
+        private ElevationGraphInput GetElevationGraphPlan()
         {
             var type = cmb_missiontype.SelectedValue is MAVLink.MAV_MISSION_TYPE selected
                 ? selected
@@ -3846,29 +3983,35 @@ namespace MissionPlanner.GCSViews
                     : MainV2.comPort.MAV.fencepoints.OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
 
             var plannedHome = GetPlannedHome();
-            var input = new ElevationGraphInput
+            return new ElevationGraphInput
             {
                 Home = plannedHome,
                 Waypoints = ElevationGraphInput.WaypointsOf(mission),
                 RallyPoints = ElevationGraphInput.RallyPointsOf(rally),
                 FenceAreas = ElevationGraphInput.FenceAreasOf(fence, plannedHome)
             };
+        }
 
-            if (connected)
-            {
-                var mav = MainV2.comPort.MAV;
-                var param = ParamLookup(mav);
-                ElevationGraphInput.FenceAltLimits(param, out input.FenceCeiling, out input.FenceFloor);
-                input.FenceCircle = ElevationGraphInput.FenceCircleOf(param);
-                ElevationGraphInput.FencePolygonOptions(param, out input.FencePolygonUsed,
-                    out input.FenceInclusionUnion);
+        /// <summary>
+        /// The part of the graph's input that the connected vehicle's parameters and SYS_STATUS
+        /// give: the fence ceiling, floor and circle, how the polygon fence is used, and whether
+        /// the fence is on. A handful of parameter reads; offline it adds nothing.
+        /// </summary>
+        private static void AddVehicleFence(ElevationGraphInput input)
+        {
+            if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
+                return;
 
-                if (input.FenceCeiling != null || input.FenceFloor != null || input.FenceCircle != null ||
-                    input.FenceAreas.Count > 0)
-                    input.FenceState = ElevationGraphInput.FenceStateOf(param, ReportedFenceEnabled(mav));
-            }
+            var mav = MainV2.comPort.MAV;
+            var param = ParamLookup(mav);
+            ElevationGraphInput.FenceAltLimits(param, out input.FenceCeiling, out input.FenceFloor);
+            input.FenceCircle = ElevationGraphInput.FenceCircleOf(param);
+            ElevationGraphInput.FencePolygonOptions(param, out input.FencePolygonUsed,
+                out input.FenceInclusionUnion);
 
-            return input;
+            if (input.FenceCeiling != null || input.FenceFloor != null || input.FenceCircle != null ||
+                input.FenceAreas.Count > 0)
+                input.FenceState = ElevationGraphInput.FenceStateOf(param, ReportedFenceEnabled(mav));
         }
 
         /// <summary>
@@ -3913,17 +4056,31 @@ namespace MissionPlanner.GCSViews
         /// Draw the connected vehicle's fence circle on the map, FENCE_RADIUS around home, while it
         /// is active: FENCE_TYPE has the circle and the fence is on, or turns itself on at takeoff
         /// or arming. A fence that is off, or does not use the circle, draws nothing. Runs on the
-        /// page's timer, so a change of parameters, fence state or home shows within a second or two.
+        /// elevation graph's timer, so only while the graph is shown; a change of parameters,
+        /// fence state or home shows within a second or two.
         /// </summary>
         private void UpdateFenceCircle()
         {
-            var home = GetPlannedHome();
+            PointLatLngAlt home = null;
             ElevationGraphFenceCircle circle = null;
-            if (home != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+            if (MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
             {
-                var mav = MainV2.comPort.MAV;
-                circle = ElevationGraphInput.ActiveFenceCircle(ParamLookup(mav), ReportedFenceEnabled(mav));
+                home = GetPlannedHome();
+                if (home != null)
+                {
+                    var mav = MainV2.comPort.MAV;
+                    circle = ElevationGraphInput.ActiveFenceCircle(ParamLookup(mav), ReportedFenceEnabled(mav));
+                }
             }
+
+            ShowFenceCircle(home, circle);
+        }
+
+        /// <summary>Put the fence circle on the map, or take it off when there is none.</summary>
+        private void ShowFenceCircle(PointLatLngAlt home, ElevationGraphFenceCircle circle)
+        {
+            if (home == null)
+                circle = null;
 
             var shown = circle == null
                 ? ""
@@ -4018,6 +4175,17 @@ namespace MissionPlanner.GCSViews
             // the mouse moving outside the plot keeps saying "no point"; repaint the map once
             if (position == null && !elevationGraphCursor.IsVisible)
                 return;
+
+            // the mouse says where it is at every move, and each repaint draws the whole map: the
+            // marker moves only once it would be drawn a few pixels from where it is
+            if (position != null && elevationGraphCursor.IsVisible)
+            {
+                var from = MainMap.FromLatLngToLocal(elevationGraphCursor.Position);
+                var to = MainMap.FromLatLngToLocal(position);
+                if (Math.Abs(to.X - from.X) < ElevationGraphCursorStep &&
+                    Math.Abs(to.Y - from.Y) < ElevationGraphCursorStep)
+                    return;
+            }
 
             elevationGraphCursor.IsVisible = position != null;
             if (position != null)
@@ -7664,8 +7832,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             {
                 if (isMouseDown || CurentRectMarker != null)
                     return;
-
-                UpdateFenceCircle();
 
                 // in metres, like the terrain they are compared with; the planned home altitude
                 // is kept in display units, as typed in the home alt box
