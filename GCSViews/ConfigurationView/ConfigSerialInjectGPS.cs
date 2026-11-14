@@ -38,7 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static nmea nmea = new nmea();
 
-        private string activeSeptentrioPort = Utilities.Septentrio.DefaultPorts;
+        private string activeSeptentrioPort = null;
 
         static DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
         // background thread
@@ -307,6 +307,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 threadrun = false;
                 comPort.Close();
+                activeSeptentrioPort = null;
                 BUT_connect.Text = Strings.Connect;
                 chk_sendgga.Enabled = true;
                 try
@@ -1577,7 +1578,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <exception cref="FormatException" />
         /// <exception cref="InvalidOperationException" />
         private async Task UpdateSeptentrioRTCMSettings()
-        { 
+        {
             Utilities.Septentrio.RTCMSignals signals = Utilities.Septentrio.RTCMSignals.None;
             Utilities.Septentrio.RTCMLevel level;
             float rtcmInterval;
@@ -1605,8 +1606,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     break;
             }
 
-            string targetPorts = string.IsNullOrWhiteSpace(activeSeptentrioPort) ? Utilities.Septentrio.DefaultPorts : activeSeptentrioPort;
-            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals, targetPorts);
+            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals, activeSeptentrioPort);
 
             Settings.Instance["SerialInjectGPS_SeptentrioGPS"] = chk_septentriogps.Checked.ToString();
             Settings.Instance["SerialInjectGPS_SeptentrioGLONASS"] = chk_septentrioglonass.Checked.ToString();
