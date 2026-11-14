@@ -84,19 +84,5 @@ namespace MissionPlanner.Joystick
 
             return new List<KeyValuePair<int, string>>();
         }
-
-        /// <summary>
-        /// Description for an aux function number for the given vehicle, or null if unknown
-        /// </summary>
-        public static string GetName(Firmwares firmware, int function)
-        {
-            foreach (var item in GetList(firmware))
-            {
-                if (item.Key == function)
-                    return item.Value;
-            }
-
-            return null;
-        }
     }
 }

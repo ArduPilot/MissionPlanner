@@ -48,11 +48,10 @@ namespace MissionPlanner.Joystick
             new ConditionalWeakTable<MAVState, Dictionary<int, int>>();
 
         // Aux_Function commands go out on a worker, one at a time and in the order of the button
-        // edges. The vehicle's answer can take seconds on a lossy link (doCommand waits 2 s and
-        // retries three times), and neither the joystick poll, which keeps the RC override going,
-        // nor the UI may wait for it. One queue also means a release cannot overtake its press, and
-        // a toggle or cycle press reads the level the press before it left. Only the queue touches
-        // auxstate.
+        // edges. The vehicle's answer can take seconds on a lossy link (2 s a try, three retries),
+        // and neither the joystick poll, which keeps the RC override going, nor the UI may wait for
+        // it. One queue also means a release cannot overtake its press, and a toggle or cycle press
+        // reads the level the press before it left. Only the queue touches auxstate.
         Task auxqueue = Task.CompletedTask;
         readonly object auxqueuelock = new object();
 
@@ -62,10 +61,17 @@ namespace MissionPlanner.Joystick
         // release the pilot asked for seconds ago and may no longer want.
         static readonly TimeSpan auxmaxwait = TimeSpan.FromSeconds(2);
 
-        // Per vehicle, the buttons whose HighOnPressLowOnRelease press it accepted and whose release
-        // has not had its turn yet. The release of such a button is sent however long it waited: it
-        // only waited for its own press to be answered, and dropping it would leave the function on
-        // with the button up. Kept like auxstate, and only the queue touches it.
+        // How long the vehicle's COMMAND_ACK is waited for after each send, and how many times the
+        // command is sent again without one: doCommand's own numbers.
+        const int auxacktimeoutms = 2000;
+        const int auxretries = 3;
+
+        // Per vehicle, the buttons whose HighOnPressLowOnRelease press was sent to it and whose
+        // release has not had its turn yet. The release of such a button is sent however long it
+        // waited: it only waited for its own press to be answered, and dropping it would leave the
+        // function on with the button up. Sent is enough, answered or not: on a lossy link the
+        // vehicle can act on a press whose every answer is lost, and LOW is the safe direction.
+        // Kept like auxstate, and only the queue touches it.
         ConditionalWeakTable<MAVState, HashSet<int>> auxheld =
             new ConditionalWeakTable<MAVState, HashSet<int>>();
 
@@ -674,7 +680,9 @@ namespace MissionPlanner.Joystick
                 return;
 
             var mav = port.MAV;
-            var sysid = (byte) port.sysidcurrent;
+            // the whole system id, as the other button functions pass it: cut to a byte, a command
+            // for vehicle 256 would go out to target 0, which is every vehicle on the link
+            var sysid = port.sysidcurrent;
             var compid = (byte) port.compidcurrent;
             // p1 = RCx_OPTION value, p2 = auxfunctiontrigger
             var function = (int) but.p1;
@@ -698,15 +706,15 @@ namespace MissionPlanner.Joystick
         /// nothing waits for a click: the stick input carries on while the user reads it.
         /// </summary>
         /// <param name="waited">how long the edge waited in the queue for its turn</param>
-        void SendAuxFunction(MAVLinkInterface port, MAVState mav, byte sysid, byte compid, int function,
+        void SendAuxFunction(MAVLinkInterface port, MAVState mav, uint sysid, byte compid, int function,
             auxfunctiontrigger trigger, bool buttondown, int buttonno, TimeSpan waited)
         {
             try
             {
-                // whether this is the release of a button whose own press this vehicle accepted
-                // (see auxheld); whatever this edge is, the button is not held after it
+                // whether this is the release of a button whose own press was sent to this vehicle
+                // (see auxheld). Only a release takes the button out of the set.
                 var held = auxheld.GetOrCreateValue(mav);
-                bool undoesownpress = held.Remove(buttonno) && !buttondown &&
+                bool undoesownpress = !buttondown && held.Remove(buttonno) &&
                                       trigger == auxfunctiontrigger.HighOnPressLowOnRelease;
 
                 int level = -1;
@@ -760,8 +768,8 @@ namespace MissionPlanner.Joystick
                     return;
 
                 // too old to send (see auxmaxwait). A press is said on the HUD, so the pilot knows to
-                // press again; a release dropped here follows a press that was not sent or not
-                // accepted, which the HUD said already.
+                // press again; a release dropped here follows a press that was itself dropped, which
+                // the HUD said already.
                 if (waited > auxmaxwait && !undoesownpress)
                 {
                     log.WarnFormat("Joystick Aux_Function {0} level {1} (button {2}) not sent: it waited {3:0.0} s",
@@ -774,7 +782,11 @@ namespace MissionPlanner.Joystick
 
                 log.InfoFormat("Joystick Aux_Function {0} level {1} (button {2})", function, level, buttonno);
 
-                if (!port.doCommand(sysid, compid, MAVLink.MAV_CMD.DO_AUX_FUNCTION, function, level, 0, 0, 0, 0, 0))
+                // from here the press counts as sent, whatever comes back (see auxheld)
+                if (buttondown && trigger == auxfunctiontrigger.HighOnPressLowOnRelease)
+                    held.Add(buttonno);
+
+                if (!SendAuxCommand(port, sysid, compid, function, level))
                 {
                     // leave auxstate as it was: the vehicle did not change
                     log.WarnFormat("Joystick Aux_Function {0} level {1} rejected by the vehicle", function, level);
@@ -786,15 +798,100 @@ namespace MissionPlanner.Joystick
                 // remember the level only once the vehicle accepted it, so a rejected or timed out
                 // command does not leave toggle/cycle out of step
                 levels[function] = level;
-
-                if (buttondown && trigger == auxfunctiontrigger.HighOnPressLowOnRelease)
-                    held.Add(buttonno);
             }
             catch (Exception ex)
             {
                 log.Error("Joystick Aux_Function " + function + " failed", ex);
                 mav.cs.messageHigh = "Aux function " + function + " failed: " + ex.Message;
             }
+        }
+
+        /// <summary>
+        /// Send MAV_CMD_DO_AUX_FUNCTION and wait for the vehicle's COMMAND_ACK, without taking the
+        /// port. doCommand sets giveComport for the length of its exchange and reads the answer
+        /// itself; from this worker that would overlap whatever the UI thread has on the link (another
+        /// button's command, a parameter write, a mission transfer), and whichever finished first
+        /// would hand the port back while the other still waited for its answer. Here the command is
+        /// written and the answer comes through a packet subscription, from whoever is reading the
+        /// link: the serial reader, or the exchange that holds the port. Retries and timeout are
+        /// doCommand's.
+        /// </summary>
+        /// <returns>true when the vehicle accepted the command, false when it refused it or the link
+        /// is closed</returns>
+        /// <exception cref="TimeoutException">no answer after the last retry</exception>
+        static bool SendAuxCommand(MAVLinkInterface port, uint sysid, byte compid, int function, int level)
+        {
+            if (port.BaseStream == null || !port.BaseStream.IsOpen)
+                return false;
+
+            var req = new MAVLink.mavlink_command_long_t
+            {
+                // the low byte, as doCommand fills it; generatePacket puts a wider target in the header
+                target_system = (byte) sysid,
+                target_component = compid,
+                command = (ushort) MAVLink.MAV_CMD.DO_AUX_FUNCTION,
+                param1 = function,
+                param2 = level
+            };
+
+            int result = -1;
+            bool inprogress = false;
+            using (var answered = new AutoResetEvent(false))
+            {
+                var subscription = port.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.COMMAND_ACK, message =>
+                {
+                    var ack = message.ToStructure<MAVLink.mavlink_command_ack_t>();
+                    if (ack.command != req.command)
+                        return true;
+
+                    if (ack.result == (byte) MAVLink.MAV_RESULT.IN_PROGRESS)
+                        Volatile.Write(ref inprogress, true);
+                    else
+                        Volatile.Write(ref result, ack.result);
+                    try
+                    {
+                        answered.Set();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // an answer that came after the wait was given up
+                    }
+
+                    return true;
+                }, sysid, compid);
+
+                try
+                {
+                    for (int attempt = 0; attempt <= auxretries; attempt++)
+                    {
+                        req.confirmation = (byte) attempt;
+                        port.generatePacket(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
+
+                        while (answered.WaitOne(auxacktimeoutms))
+                        {
+                            var answer = Volatile.Read(ref result);
+                            if (answer >= 0)
+                            {
+                                log.InfoFormat("Joystick Aux_Function {0} level {1} answered {2}", function, level,
+                                    (MAVLink.MAV_RESULT) answer);
+                                return answer == (int) MAVLink.MAV_RESULT.ACCEPTED;
+                            }
+
+                            // IN_PROGRESS: the vehicle has the command, so wait on for its result
+                            // without sending it again
+                        }
+
+                        if (Volatile.Read(ref inprogress))
+                            break;
+                    }
+                }
+                finally
+                {
+                    port.UnSubscribeToPacketType(subscription);
+                }
+            }
+
+            throw new TimeoutException("no answer from the vehicle");
         }
 
         const int RESXu = 1024;
