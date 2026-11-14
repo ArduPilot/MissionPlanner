@@ -33,7 +33,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -349,25 +348,26 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// The grid's rows of each item type as they were when the dropdown last showed that
-        /// type, so choosing the type again brings them back as they were, sent to the vehicle
-        /// or not. A type with no entry has not been shown yet and comes from the vehicle's copy.
-        /// Kept per vehicle: MAVLinkInterface.Open clears the MAV list, so a new connection or
-        /// another sysid is a new MAVState with nothing kept, whose types come from that
-        /// vehicle's copy. Rows kept for one vehicle are never shown for, or written to, another.
+        /// The unsent rows of each item type that is not on screen: the grid's rows of the type
+        /// as they were when the dropdown last showed it, kept only while they differ from the
+        /// vehicle's copy. Choosing the type again brings them back. A type with no entry has
+        /// nothing unsent and comes from the vehicle's copy, whichever vehicle that is by then.
+        /// They belong to the page, not to a connection, as the rows on screen do: a plan drawn
+        /// offline, or an edit not written yet, is still there after a connect or a reconnect
+        /// (MAVLinkInterface.Open clears the MAV list, so the vehicle is a new MAVState then).
+        /// Rows that only repeat the vehicle's copy are not kept, so one vehicle's items are not
+        /// shown for, or offered to Write to, the next one.
         /// </summary>
-        private readonly ConditionalWeakTable<MAVState, Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>>
-            keptRowsByVehicle = new ConditionalWeakTable<MAVState, Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>>();
-
-        private Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>> keptRows =>
-            keptRowsByVehicle.GetOrCreateValue(MainV2.comPort.MAV);
+        private readonly Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>> keptRows =
+            new Dictionary<MAVLink.MAV_MISSION_TYPE, List<Locationwp>>();
 
         /// <summary>The type the dropdown showed until its latest change: the rows in the grid are its.</summary>
         private MAVLink.MAV_MISSION_TYPE shownMissionType = MAVLink.MAV_MISSION_TYPE.MISSION;
 
         /// <summary>
         /// Keep the grid's rows for the type the dropdown has been showing (all three types in
-        /// ALL mode, each type's rows apart), for when it is chosen again.
+        /// ALL mode, each type's rows apart), for when it is chosen again. Rows that say what the
+        /// vehicle's copy says hold nothing unsent and are not kept.
         /// </summary>
         /// <returns>false, with the reason in <paramref name="invalid"/>, when a cell is not a
         /// number: nothing is kept then</returns>
@@ -387,16 +387,23 @@ namespace MissionPlanner.GCSViews
 
             var types = shown == MAVLink.MAV_MISSION_TYPE.ALL ? allMissionTypes : new[] {shown};
             foreach (var type in types)
-                keptRows[type] = rows.Where(a => MissionTypeOf(a.id) == type).ToList();
+            {
+                var ofType = rows.Where(a => MissionTypeOf(a.id) == type).ToList();
+                if (SameAsVehicleCopy(type, ofType))
+                    keptRows.Remove(type);
+                else
+                    keptRows[type] = ofType;
+            }
+
             return true;
         }
 
         /// <summary>
-        /// The rows the grid shows for a type: as kept from the last time the dropdown showed it,
-        /// else the vehicle's copy. A mission list starts with home, which processToScreen
-        /// strips; kept rows get a placeholder for it. An empty list stays empty: processToScreen
-        /// shows it without touching the grid, which matters while the page is being built (the
-        /// dropdown's first event runs before the page has a handle to Invoke on).
+        /// The rows the grid shows for a type: the unsent rows kept from the last time the
+        /// dropdown showed it, else the vehicle's copy. A mission list starts with home, which
+        /// processToScreen strips; kept rows get a placeholder for it. An empty list stays empty:
+        /// processToScreen shows it without touching the grid, which matters while the page is
+        /// being built (the dropdown's first event runs before the page has a handle to Invoke on).
         /// </summary>
         private List<Locationwp> RowsToShow(MAVLink.MAV_MISSION_TYPE type)
         {
@@ -409,7 +416,60 @@ namespace MissionPlanner.GCSViews
                 return rows;
             }
 
+            return VehicleCopy(type);
+        }
+
+        /// <summary>The vehicle's copy of a type, in item order. A mission starts with home.</summary>
+        private static List<Locationwp> VehicleCopy(MAVLink.MAV_MISSION_TYPE type)
+        {
             return GetMissionCache(type).OrderBy(a => a.Key).Select(a => (Locationwp) a.Value).ToList();
+        }
+
+        /// <summary>
+        /// Whether the grid's rows of a type say what the vehicle's copy of it says, so that
+        /// nothing in them is unsent. The vehicle's mission starts with home, which the grid does
+        /// not hold as a row.
+        /// </summary>
+        private static bool SameAsVehicleCopy(MAVLink.MAV_MISSION_TYPE type, List<Locationwp> rows)
+        {
+            var vehicle = VehicleCopy(type);
+            if (type == MAVLink.MAV_MISSION_TYPE.MISSION && vehicle.Count > 0)
+                vehicle.RemoveAt(0);
+
+            if (vehicle.Count != rows.Count)
+                return false;
+
+            // a fence item is always sent with the GLOBAL frame, whatever its row says
+            var frameIsSent = type != MAVLink.MAV_MISSION_TYPE.FENCE;
+            for (int a = 0; a < rows.Count; a++)
+            {
+                if (!SameItem(rows[a], vehicle[a], frameIsSent))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Whether two items are the same to the vehicle, which stores a position to 1e-7 degrees
+        /// and the other numbers as floats. A row that came from the vehicle went through the
+        /// grid's cells as text, so the last digit of a float may differ.
+        /// </summary>
+        /// <param name="frameIsSent">false for fence items, whose frame does not reach the vehicle</param>
+        internal static bool SameItem(Locationwp a, Locationwp b, bool frameIsSent = true)
+        {
+            return a.id == b.id && (!frameIsSent || a.frame == b.frame) &&
+                   SameFloat(a.p1, b.p1) && SameFloat(a.p2, b.p2) && SameFloat(a.p3, b.p3) &&
+                   SameFloat(a.p4, b.p4) && SameFloat(a.alt, b.alt) &&
+                   Math.Abs(a.lat - b.lat) < 5e-8 && Math.Abs(a.lng - b.lng) < 5e-8;
+        }
+
+        private static bool SameFloat(float a, float b)
+        {
+            if (float.IsNaN(a) || float.IsNaN(b))
+                return float.IsNaN(a) && float.IsNaN(b);
+
+            return Math.Abs(a - b) <= 1e-6f * Math.Max(1, Math.Max(Math.Abs(a), Math.Abs(b)));
         }
 
         /// <summary>
