@@ -56,6 +56,19 @@ namespace MissionPlanner.Joystick
         Task auxqueue = Task.CompletedTask;
         readonly object auxqueuelock = new object();
 
+        // An edge that has waited longer than this for its turn is dropped, not sent. On a dead link
+        // each command takes 6 to 8 s to give up, so the presses made meanwhile would pile up and
+        // all go out when the link comes back: an arm/disarm, a motor emergency stop or a parachute
+        // release the pilot asked for seconds ago and may no longer want.
+        static readonly TimeSpan auxmaxwait = TimeSpan.FromSeconds(2);
+
+        // Per vehicle, the buttons whose HighOnPressLowOnRelease press it accepted and whose release
+        // has not had its turn yet. The release of such a button is sent however long it waited: it
+        // only waited for its own press to be answered, and dropping it would leave the function on
+        // with the button up. Kept like auxstate, and only the queue touches it.
+        ConditionalWeakTable<MAVState, HashSet<int>> auxheld =
+            new ConditionalWeakTable<MAVState, HashSet<int>>();
+
 
         //no need for finalizer...
         //~Joystick()
@@ -651,7 +664,8 @@ namespace MissionPlanner.Joystick
         /// <summary>
         /// Queue the DO_AUX_FUNCTION command for one edge of an Aux_Function button (see auxqueue).
         /// The vehicle and its ids are taken now, at the edge, so a command still waiting in the
-        /// queue goes to the vehicle the button was pressed for.
+        /// queue goes to the vehicle the button was pressed for. The clock starts now too: an edge
+        /// that waits longer than auxmaxwait for its turn is not sent.
         /// </summary>
         void QueueAuxFunction(JoyButton but, bool buttondown)
         {
@@ -666,11 +680,14 @@ namespace MissionPlanner.Joystick
             var function = (int) but.p1;
             var trigger = (auxfunctiontrigger) (int) but.p2;
             var buttonno = but.buttonno;
+            // a Stopwatch, not the time of day: the PC clock can be set while an edge waits
+            var waiting = System.Diagnostics.Stopwatch.StartNew();
 
             lock (auxqueuelock)
             {
                 auxqueue = auxqueue.ContinueWith(
-                    _ => SendAuxFunction(port, mav, sysid, compid, function, trigger, buttondown, buttonno),
+                    _ => SendAuxFunction(port, mav, sysid, compid, function, trigger, buttondown, buttonno,
+                        waiting.Elapsed),
                     TaskScheduler.Default);
             }
         }
@@ -680,11 +697,18 @@ namespace MissionPlanner.Joystick
         /// rejection or a timeout is said on the HUD (messageHigh) rather than in a message box, so
         /// nothing waits for a click: the stick input carries on while the user reads it.
         /// </summary>
+        /// <param name="waited">how long the edge waited in the queue for its turn</param>
         void SendAuxFunction(MAVLinkInterface port, MAVState mav, byte sysid, byte compid, int function,
-            auxfunctiontrigger trigger, bool buttondown, int buttonno)
+            auxfunctiontrigger trigger, bool buttondown, int buttonno, TimeSpan waited)
         {
             try
             {
+                // whether this is the release of a button whose own press this vehicle accepted
+                // (see auxheld); whatever this edge is, the button is not held after it
+                var held = auxheld.GetOrCreateValue(mav);
+                bool undoesownpress = held.Remove(buttonno) && !buttondown &&
+                                      trigger == auxfunctiontrigger.HighOnPressLowOnRelease;
+
                 int level = -1;
 
                 const int LOW = (int) MAVLink.MAV_CMD_DO_AUX_FUNCTION_SWITCH_LEVEL.LOW;
@@ -735,6 +759,19 @@ namespace MissionPlanner.Joystick
                 if (level < 0)
                     return;
 
+                // too old to send (see auxmaxwait). A press is said on the HUD, so the pilot knows to
+                // press again; a release dropped here follows a press that was not sent or not
+                // accepted, which the HUD said already.
+                if (waited > auxmaxwait && !undoesownpress)
+                {
+                    log.WarnFormat("Joystick Aux_Function {0} level {1} (button {2}) not sent: it waited {3:0.0} s",
+                        function, level, buttonno, waited.TotalSeconds);
+                    if (buttondown)
+                        mav.cs.messageHigh = "Aux function " + function + " not sent: the link was busy for " +
+                                             waited.TotalSeconds.ToString("0.0") + " s. Press again if still wanted";
+                    return;
+                }
+
                 log.InfoFormat("Joystick Aux_Function {0} level {1} (button {2})", function, level, buttonno);
 
                 if (!port.doCommand(sysid, compid, MAVLink.MAV_CMD.DO_AUX_FUNCTION, function, level, 0, 0, 0, 0, 0))
@@ -749,6 +786,9 @@ namespace MissionPlanner.Joystick
                 // remember the level only once the vehicle accepted it, so a rejected or timed out
                 // command does not leave toggle/cycle out of step
                 levels[function] = level;
+
+                if (buttondown && trigger == auxfunctiontrigger.HighOnPressLowOnRelease)
+                    held.Add(buttonno);
             }
             catch (Exception ex)
             {
