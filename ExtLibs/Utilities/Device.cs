@@ -85,14 +85,19 @@ namespace MissionPlanner.Utilities
 
             public override string ToString()
             {
+                var compass = DeviceIdCatalog.GetName("compass", devtype, devtypecompass.ToString());
+                var imu = DeviceIdCatalog.GetName("imu", devtype, devtypeimu.ToString());
+                var baro = DeviceIdCatalog.GetName("baro", devtype, devtypebaro.ToString());
+                var airspeed = DeviceIdCatalog.GetName("airspeed", devtype, devtypeairspd.ToString());
+
                 return string.Format("{5} devid {4} bus type {0} bus {1} address {2} devtype {3} ",
                     bus_type.ToString().Replace("BUS_TYPE_", ""),
                     bus, address,
-                    (_paramname.Contains("COMPASS") ? devtypecompass.ToString() :
-                        _paramname.Contains("BARO") ? devtypebaro.ToString() :
-                        _paramname.Contains("ASP") ? devtypeairspd.ToString() :
-                        _paramname.Contains("INS") ? devtypeimu.ToString() :
-                        $"{devtypecompass.ToString()} or {devtypeimu.ToString()} or {devtypebaro.ToString()} or {devtypeimu.ToString()} ").Replace("DEVTYPE_",
+                    (_paramname.Contains("COMPASS") ? compass :
+                        _paramname.Contains("BARO") ? baro :
+                        _paramname.Contains("ASP") ? airspeed :
+                        _paramname.Contains("INS") ? imu :
+                        $"{compass} or {imu} or {baro} or {imu} ").Replace("DEVTYPE_",
                         ""),
                     devid, _paramname);
             }
