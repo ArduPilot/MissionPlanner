@@ -87,6 +87,13 @@ namespace MissionPlanner.Controls
             CMB_listen.Items.Add(Strings.CotAllAdapters);
             CMB_listen.Items.Add(Strings.CotThisPcOnly);
 
+            CMB_type.Items.Add(Strings.CotTypeAuto);
+            CMB_type.Items.Add("a-f-A-M-F-Q  " + Strings.CotTypeFixedWing);
+            CMB_type.Items.Add("a-f-A-M-H-Q  " + Strings.CotTypeRotaryWing);
+            CMB_type.Items.Add("a-f-G-E-V  " + Strings.CotTypeGroundVehicle);
+            CMB_type.Items.Add("a-f-S  " + Strings.CotTypeBoat);
+            CMB_type.Items.Add("a-f-U  " + Strings.CotTypeSubmarine);
+
             LBL_status.Text = Strings.CotNotSending;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -108,6 +115,7 @@ namespace MissionPlanner.Controls
             CB_advancedMode.Checked = Settings.Instance.GetBoolean("CoT_CB_advancedMode", true);
             chk_indent.Checked = Settings.Instance.GetBoolean("CoT_chk_indent", true);
             CMB_listen.SelectedIndex = Settings.Instance.GetBoolean("CoT_tcphost_local", false) ? 1 : 0;
+            CMB_type.Text = TypeText(Settings.Instance["CoT_type", CotSettings.Auto]);
 
             hosts[Mode.TakMulticast] = Settings.Instance["CoT_mcast_group", CotMulticastTransport.SaGroup];
             ports[Mode.TakMulticast] = Settings.Instance["CoT_mcast_port", CotMulticastTransport.SaPort.ToString()];
@@ -305,6 +313,7 @@ namespace MissionPlanner.Controls
                 {
                     SysId = CellText(row, sysid),
                     Uid = CellText(row, UID),
+                    Type = CellText(row, cotType),
                     Takv = takvCell != null && Convert.ToBoolean(takvCell),
                     Callsign = CellText(row, ContactCallsign),
                     Endpoint = CellText(row, ContactEndPointIP),
@@ -314,12 +323,31 @@ namespace MissionPlanner.Controls
 
             return new CotSettings
             {
-                Type = TB_xml_type.Text.Trim(),
+                Type = TypeCode(CMB_type.Text),
                 Details = CB_advancedMode.Checked,
                 Indent = chk_indent.Checked,
                 IntervalSeconds = (double)updateRate_numericUpDown.Value,
                 Rows = rows
             };
+        }
+
+        /// <summary>The CoT type in the Type box: "auto", or the code before any description.</summary>
+        static string TypeCode(string text)
+        {
+            text = (text ?? "").Trim();
+            if (text == Strings.CotTypeAuto || string.Equals(text, CotSettings.Auto, StringComparison.OrdinalIgnoreCase))
+                return CotSettings.Auto;
+            var end = text.IndexOfAny(new[] { ' ', '\t' });
+            return end < 0 ? text : text.Substring(0, end);
+        }
+
+        /// <summary>What the Type box shows for a saved type: the list's entry with its description, or the type as saved.</summary>
+        string TypeText(string code)
+        {
+            if (string.IsNullOrEmpty(code) || code == CotSettings.Auto)
+                return Strings.CotTypeAuto;
+            var item = CMB_type.Items.OfType<string>().FirstOrDefault(i => TypeCode(i) == code);
+            return item ?? code;
         }
 
         static string CellText(DataGridViewRow row, DataGridViewColumn column)
@@ -375,6 +403,7 @@ namespace MissionPlanner.Controls
             Settings.Instance["CoT_CMB_baudrate"] = CMB_baudrate.SelectedIndex.ToString();
             Settings.Instance["CoT_CB_advancedMode"] = CB_advancedMode.Checked.ToString();
             Settings.Instance["CoT_chk_indent"] = chk_indent.Checked.ToString();
+            Settings.Instance["CoT_type"] = TypeCode(CMB_type.Text);
             Settings.Instance["CoT_tcphost_local"] = (CMB_listen.SelectedIndex == 1).ToString();
             if (CMB_adapter.SelectedItem is AdapterItem adapter)
                 Settings.Instance["CoT_mcast_adapter"] = adapter.Adapter == null ? "*" : adapter.Adapter.Name;
@@ -419,7 +448,7 @@ namespace MissionPlanner.Controls
         {
             for (int col = 0; col < myDataGridView1.Columns.Count; col++)
             {
-                if (col != this.sysid.Index && col != this.UID.Index)
+                if (col != this.sysid.Index && col != this.UID.Index && col != this.cotType.Index)
                 {
                     myDataGridView1.Columns[col].Visible = CB_advancedMode.Checked;
                 }
