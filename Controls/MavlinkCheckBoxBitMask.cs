@@ -1,6 +1,7 @@
 ﻿using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
@@ -25,29 +26,24 @@ namespace MissionPlanner.Controls
         {
             get
             {
-                float answer = 0;
-
-                for (int a = 0; a < chklist.Count; a++)
-                {
-                    answer += chklist[a].Value.Checked ? (uint)(1 << chklist[a].Key) : 0;
-                }
+                uint answer = UIntValue;
 
                 // type conversions
                 // ie int8 255 = -1
                 if (Type == MAVLink.MAV_PARAM_TYPE.INT8)
                 {
-                    answer = (sbyte)answer;
+                    return unchecked((sbyte)answer);
                 }
                 else if (Type == MAVLink.MAV_PARAM_TYPE.INT16)
                 {
-                    answer = (short)answer;
+                    return unchecked((short)answer);
                 }
                 else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
                 {
-                    answer = (int)answer;
+                    return unchecked((int)answer);
                 }
 
-                return (float)answer;
+                return answer;
             }
             set
             {
@@ -56,8 +52,49 @@ namespace MissionPlanner.Controls
                     CheckBox chk = (CheckBox)panel1.Controls[a];
 
 
-                    chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
+                    chk.Checked = (((uint)value & (1u << list[a].Key)) > 0);
                 }
+            }
+        }
+
+        private uint UIntValue
+        {
+            get
+            {
+                uint answer = 0;
+
+                for (int a = 0; a < chklist.Count; a++)
+                {
+                    if (chklist[a].Value.Checked)
+                    {
+                        answer |= 1u << chklist[a].Key;
+                    }
+                }
+
+                return answer;
+            }
+        }
+
+        private string ValueString
+        {
+            get
+            {
+                uint answer = UIntValue;
+
+                if (Type == MAVLink.MAV_PARAM_TYPE.INT8)
+                {
+                    return unchecked((sbyte)answer).ToString(CultureInfo.InvariantCulture);
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT16)
+                {
+                    return unchecked((short)answer).ToString(CultureInfo.InvariantCulture);
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
+                {
+                    return unchecked((int)answer).ToString(CultureInfo.InvariantCulture);
+                }
+
+                return answer.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -109,7 +146,7 @@ namespace MissionPlanner.Controls
 
                     chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
 
-                    if ((value & (1 << list[a].Key)) > 0)
+                    if ((value & (1u << list[a].Key)) > 0)
                     {
                         chk.Checked = true;
                     }
@@ -144,7 +181,7 @@ namespace MissionPlanner.Controls
         {
             if (this.ValueChanged != null)
             {
-                this.ValueChanged(sender, ParamName, Value.ToString());
+                this.ValueChanged(sender, ParamName, ValueString);
                 return;
             }
             try
