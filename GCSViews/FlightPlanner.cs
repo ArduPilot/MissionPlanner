@@ -451,9 +451,12 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Whether two items are the same to the vehicle, which stores a position to 1e-7 degrees
-        /// and the other numbers as floats. A row that came from the vehicle went through the
-        /// grid's cells as text, so the last digit of a float may differ.
+        /// Whether two items are the same to the vehicle, which stores a position in steps of 1e-7
+        /// degrees and the other numbers as floats. A position counts as the same within one step:
+        /// the conversion for the vehicle cuts a position down to a step instead of rounding it
+        /// (Locationwp.Convert), so a row and the item sent from it can be one step apart. A row
+        /// that came from the vehicle went through the grid's cells as text, so the last digit of
+        /// a float may differ.
         /// </summary>
         /// <param name="frameIsSent">false for fence items, whose frame does not reach the vehicle</param>
         internal static bool SameItem(Locationwp a, Locationwp b, bool frameIsSent = true)
@@ -461,7 +464,7 @@ namespace MissionPlanner.GCSViews
             return a.id == b.id && (!frameIsSent || a.frame == b.frame) &&
                    SameFloat(a.p1, b.p1) && SameFloat(a.p2, b.p2) && SameFloat(a.p3, b.p3) &&
                    SameFloat(a.p4, b.p4) && SameFloat(a.alt, b.alt) &&
-                   Math.Abs(a.lat - b.lat) < 5e-8 && Math.Abs(a.lng - b.lng) < 5e-8;
+                   Math.Abs(a.lat - b.lat) < 1.5e-7 && Math.Abs(a.lng - b.lng) < 1.5e-7;
         }
 
         private static bool SameFloat(float a, float b)
