@@ -26,6 +26,33 @@ jobs:
           dotnet test MissionPlannerTests/MissionPlannerTests.csproj --configuration Release --filter "FullyQualifiedName~Sysid32Tests|FullyQualifiedName~CameraSettingsTests" --logger "trx;LogFileName=sysid32.trx"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+      # Render the HUD through OpenGL on Mesa llvmpipe (software) and validate the frame.
+      # mesa-dist-win's MSVC 26.x build ships without OpenGL, so use the MinGW x64 build.
+      - name: OpenGL HUD test (Mesa llvmpipe)
+        shell: pwsh
+        env:
+          MESA_VERSION: 26.2.6
+          MESA_SHA256: da0f71d9181b672c1918f3c342f11118c687f6059a46b16502845160733cc388
+          GALLIUM_DRIVER: llvmpipe
+          MP_EXPECT_GL_RENDERER: llvmpipe
+        run: |
+          $archive = "mesa3d-$env:MESA_VERSION-release-mingw.7z"
+          Invoke-WebRequest "https://github.com/pal1000/mesa-dist-win/releases/download/$env:MESA_VERSION/$archive" -OutFile $archive
+          if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne $env:MESA_SHA256) { throw "Mesa archive checksum mismatch" }
+          7z e -y "-o$PWD\mesa" $archive x64\opengl32.dll x64\libgallium_wgl.dll x64\libdlclose-skip.dll
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $env:MP_OPENGL32_PATH = "$PWD\mesa\opengl32.dll"
+          $env:MP_GL_SCREENSHOT = "$PWD\test-results\opengl-hud-windows.png"
+          dotnet test MissionPlannerTests/MissionPlannerTests.csproj --configuration Release --filter "FullyQualifiedName~HudOpenGLTests" --logger "console;verbosity=detailed" -- RunConfiguration.TargetPlatform=x64
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: opengl-hud-windows
+          path: test-results
+          if-no-files-found: ignore
+
       - name: Cleanup
         shell: pwsh
         run: |
