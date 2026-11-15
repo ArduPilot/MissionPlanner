@@ -12,6 +12,37 @@ namespace System
 
         public static event ShowDelegate ShowEvent;
 
+        static readonly Text.RegularExpressions.Regex linkMarkupStart =
+            new Text.RegularExpressions.Regex(@"\[link;", Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Stop text from another source (e.g. a vehicle's STATUSTEXT) from being read as
+        /// [link;target;label] markup when it is shown in a message box. Only Mission Planner's own
+        /// strings should be able to create a link.
+        /// </summary>
+        public static string NeutraliseLinkMarkup(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text;
+            return linkMarkupStart.Replace(text, "[link ");
+        }
+
+        /// <summary>
+        /// The text to show for a [link;target;label] link: the label, followed by the host the link
+        /// really opens, so a label cannot pass itself off as a different site.
+        /// </summary>
+        public static string LinkDisplayText(string link, string label)
+        {
+            Uri uri;
+            if (link == null || !Uri.TryCreate(link, UriKind.Absolute, out uri) || string.IsNullOrEmpty(uri.Host))
+                return label;
+
+            if (string.Equals(label, link, StringComparison.OrdinalIgnoreCase))
+                return label;
+
+            return label + " (" + uri.Host + ")";
+        }
+
         public static DialogResult Show(string text)
         {
             return Show(text, "", MessageBoxButtons.OK, MessageBoxIcon.None);

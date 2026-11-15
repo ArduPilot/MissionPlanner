@@ -160,7 +160,7 @@ namespace MissionPlanner.MsgBox
 
                 if (link != "" && linktext != "")
                 {
-                    linktext = AddNewLinesToText(linktext);
+                    linktext = AddNewLinesToText(global::System.CustomMessageBox.LinkDisplayText(link, linktext));
                     Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
                     var linklbl = new LinkLabel
                     {
