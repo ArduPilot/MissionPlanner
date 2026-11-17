@@ -3861,6 +3861,10 @@ namespace MissionPlanner.GCSViews
                     hash = hash * 397 ^ item.y;
                     hash = hash * 397 ^ item.z.GetHashCode();
                     hash = hash * 397 ^ item.param1.GetHashCode();
+                    // not drawn today, but an item that differs only here is a changed item too
+                    hash = hash * 397 ^ item.param2.GetHashCode();
+                    hash = hash * 397 ^ item.param3.GetHashCode();
+                    hash = hash * 397 ^ item.param4.GetHashCode();
                     stamp += hash * 397 + 1;
                 }
 

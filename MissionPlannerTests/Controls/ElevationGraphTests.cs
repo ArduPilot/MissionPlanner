@@ -1895,6 +1895,21 @@ namespace MissionPlanner.Controls.Tests
                     var withMission = stamp();
                     mav.fencepoints[0] = (MAVLink.mavlink_mission_item_int_t) Item(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION, Lat0, Lng0, 0);
                     Assert.AreNotEqual(withMission, stamp(), "the fence");
+
+                    // param2 to 4 are not drawn today, but an item that differs only there has changed
+                    var withFence = stamp();
+                    var item = mav.wps[0];
+                    item.param2 = 5;
+                    mav.wps[0] = item;
+                    var second = stamp();
+                    Assert.AreNotEqual(withFence, second, "param2");
+                    item.param3 = 5;
+                    mav.wps[0] = item;
+                    var third = stamp();
+                    Assert.AreNotEqual(second, third, "param3");
+                    item.param4 = 5;
+                    mav.wps[0] = item;
+                    Assert.AreNotEqual(third, stamp(), "param4");
                 }
                 finally
                 {
