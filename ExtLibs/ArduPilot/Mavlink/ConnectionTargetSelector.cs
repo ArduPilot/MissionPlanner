@@ -1,78 +1,54 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MissionPlanner.Mavlink
 {
-    // Owned by the connection worker, not by packet-reader callbacks. Selection
-    // ends with the handshake; later discovery must not override a user's choice.
-    internal sealed class ConnectionTargetSelector
+    // Ranking is shared by the connection handshake and the GUI. Discovery lives
+    // in MAVList; automatic selection ends with the handshake.
+    internal static class ConnectionTargetSelector
     {
-        private static readonly TimeSpan FallbackDelay = TimeSpan.FromSeconds(3);
-        private readonly Dictionary<ulong, Candidate> candidates = new Dictionary<ulong, Candidate>();
-        private TimeSpan? firstSeen;
+        private static readonly TimeSpan DiscoveryWindow = TimeSpan.FromSeconds(3);
 
-        internal sealed class Candidate
+        internal enum Priority
         {
-            public MAVLink.MAVLinkMessage Message;
-            public int Count;
-            public bool IsAutopilot;
-            public int Order;
+            SpecificAutopilot = 1,
+            GenericAutopilot = 2,
+            Other = 3,
+            WithoutHeartbeat = 4
         }
 
-        public bool HasCandidates => candidates.Count != 0;
-
-        public void Observe(MAVLink.MAVLinkMessage message, TimeSpan receivedAt)
+        internal static Priority GetPriority(MAVLink.MAV_AUTOPILOT autopilot)
         {
-            byte type;
-            byte autopilot;
-            if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+            switch (autopilot)
             {
-                var heartbeat = message.ToStructure<MAVLink.mavlink_heartbeat_t>();
-                type = heartbeat.type;
-                autopilot = heartbeat.autopilot;
+                case MAVLink.MAV_AUTOPILOT.GENERIC:
+                case MAVLink.MAV_AUTOPILOT.GENERIC_WAYPOINTS_ONLY:
+                case MAVLink.MAV_AUTOPILOT.GENERIC_WAYPOINTS_AND_SIMPLE_NAVIGATION_ONLY:
+                case MAVLink.MAV_AUTOPILOT.GENERIC_MISSION_FULL:
+                    return Priority.GenericAutopilot;
+                case MAVLink.MAV_AUTOPILOT.INVALID:
+                case MAVLink.MAV_AUTOPILOT.RESERVED:
+                    return Priority.Other;
+                default:
+                    // assume that all other defined entries are and will be specific autopilot modules
+                    return Enum.IsDefined(typeof(MAVLink.MAV_AUTOPILOT), autopilot)
+                        ? Priority.SpecificAutopilot : Priority.Other;
             }
-            else if (message.msgid == (uint)MAVLink.MAVLINK_MSG_ID.HIGH_LATENCY2)
-            {
-                var heartbeat = message.ToStructure<MAVLink.mavlink_high_latency2_t>();
-                type = heartbeat.type;
-                autopilot = heartbeat.autopilot;
-            }
-            else return;
-
-            if (message.sysid == 0 || message.compid == 0 || type == (byte)MAVLink.MAV_TYPE.GCS)
-                return;
-
-            if (!firstSeen.HasValue || receivedAt < firstSeen.Value)
-                firstSeen = receivedAt;
-            var id = MAVList.GetID(message.sysid, message.compid);
-            Candidate candidate;
-            if (!candidates.TryGetValue(id, out candidate))
-            {
-                candidate = new Candidate { Order = candidates.Count };
-                candidates.Add(id, candidate);
-            }
-            candidate.Message = message;
-            candidate.Count++;
-            // MAVLink defines the autopilot field, not the component number, as
-            // the way to identify a flight controller. System IDs are arbitrary.
-            candidate.IsAutopilot = autopilot != (byte)MAVLink.MAV_AUTOPILOT.INVALID;
         }
 
-        public Candidate Select(TimeSpan now, bool allowFallback = false)
+        internal static MAVLink.MAVLinkMessage Select(MAVState best, TimeSpan? firstCandidateSeen,
+            TimeSpan now, bool deadlineReached)
         {
-            var autopilot = candidates.Values.Where(c => c.IsAutopilot && c.Count >= 2)
-                .OrderByDescending(c => c.Count).ThenBy(c => c.Order).FirstOrDefault();
-            if (autopilot != null)
-                return autopilot;
-
-            if (!allowFallback && (!firstSeen.HasValue || now - firstSeen.Value < FallbackDelay))
+            if (best == null)
                 return null;
 
-            // Keep companion/peripheral-only connections supported, including the
-            // old confirmation threshold for devices using other component IDs.
-            return candidates.Values.Where(c => c.Message.compid == 1 ? c.Count >= 2 : c.Count >= 4)
-                .OrderByDescending(c => c.Count).ThenBy(c => c.Order).FirstOrDefault();
+            if (best.ConnectionPriority == Priority.SpecificAutopilot &&
+                best.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_AUTOPILOT1)
+                return best.ConnectionHeartbeat;
+
+            // A single accepted heartbeat is sufficient. All weaker targets use
+            // the same window, starting at the first candidate, regardless of rate.
+            return deadlineReached || firstCandidateSeen.HasValue && now - firstCandidateSeen.Value >= DiscoveryWindow
+                ? best.ConnectionHeartbeat : null;
         }
     }
 }

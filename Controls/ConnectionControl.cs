@@ -78,23 +78,17 @@ namespace MissionPlanner.Controls
         {
             cmb_sysid.SelectedIndexChanged -= CMB_sysid_SelectedIndexChanged;
 
-            var oldidx = cmb_sysid.SelectedIndex;
-
             cmb_sysid.Items.Clear();
 
             int selectidx = -1;
 
             foreach (var port in MainV2.Comports.ToArray())
             {
-                var list = port.MAVlist.GetRawIDS();
+                var list = port.MAVlist.GetRankedStates();
 
-                foreach (ulong item in list)
+                foreach (var state in list)
                 {
-                    var temp = new port_sysid() { compid = (byte)item, sysid = (uint)(item >> 8), port = port };
-
-                    // exclude GCS's from the list
-                    if (temp.compid == (int)MAVLink.MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER)
-                        continue;
+                    var temp = new port_sysid() { compid = state.compid, sysid = state.sysid, port = port };
 
                     var idx = cmb_sysid.Items.Add(temp);
 
@@ -105,7 +99,7 @@ namespace MissionPlanner.Controls
                 }
             }
 
-            if (/*oldidx == -1 && */ selectidx != -1)
+            if (selectidx != -1)
             {
                 cmb_sysid.SelectedIndex = selectidx;
             }
