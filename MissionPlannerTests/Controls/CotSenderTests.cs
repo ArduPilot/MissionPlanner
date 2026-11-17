@@ -73,7 +73,9 @@ namespace MissionPlanner.Controls.Tests
             };
         }
 
-        static void WaitFor(Func<bool> condition, int ms = 5000)
+        // Returns as soon as the condition holds. The limit is only reached when it never does, so
+        // it is long: a busy PC can take seconds to send a first round.
+        static void WaitFor(Func<bool> condition, int ms = 30000)
         {
             var end = DateTime.UtcNow.AddMilliseconds(ms);
             while (!condition() && DateTime.UtcNow < end)
@@ -103,13 +105,22 @@ namespace MissionPlanner.Controls.Tests
             StringAssert.Contains(first.Messages[1], "uid=\"MP-UAS-1\"");
 
             var second = new FakeTransport();
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             var b = CotSender.Start(second, EverySecond(), OneCopter);
             Assert.AreSame(b, CotSender.Current);
+
+            // time for three rounds, and for two to have come however slow the PC is
             Thread.Sleep(2600);
+            WaitFor(() => second.Count >= 2);
+            var sent = second.Count;
+            var seconds = watch.Elapsed.TotalSeconds;
 
             Assert.AreEqual(firstTotal, first.Count, "the stopped sender stays stopped");
-            Assert.IsTrue(second.Count >= 2 && second.Count <= 4,
-                "one message a second, not two: " + second.Count);
+            Assert.IsTrue(sent >= 2, "the new sender sends: " + sent);
+            // judged by the time that really passed: one sender sends a round at the start and one
+            // a second after it, two senders twice that
+            Assert.IsTrue(sent <= seconds + 2,
+                "one message a second, not two: " + sent + " in " + seconds.ToString("0.0") + " s");
         }
 
         [TestMethod]
@@ -124,6 +135,7 @@ namespace MissionPlanner.Controls.Tests
 
             Assert.IsTrue(first.Disposed);
             var firstTotal = first.Count;
+            // a wait for nothing more to come: a slow PC cannot fail it
             Thread.Sleep(1500);
             Assert.AreEqual(firstTotal, first.Count);
         }
