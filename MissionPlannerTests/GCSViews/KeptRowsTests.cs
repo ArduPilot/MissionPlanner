@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MissionPlanner.GCSViews;
 using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Tests.GCSViews
+namespace MissionPlanner.GCSViews.Tests
 {
     /// <summary>
     /// The Plan page keeps the grid's rows of each item type while the dropdown shows another
     /// type, so switching between MISSION, FENCE, RALLY and ALL does not throw away rows that
-    /// have not been written to the vehicle. The private helpers behind the dropdown handler
-    /// (KeepGridRows, RowsToShow, AllRowsToShow) are driven by reflection, so no dialog opens.
+    /// have not been written to the vehicle. The helpers behind the dropdown handler
+    /// (KeepGridRows, RowsToShow, AllRowsToShow) are called on their own, so no dialog opens.
     /// </summary>
     [TestClass]
     public class KeptRowsTests
@@ -43,34 +41,15 @@ namespace MissionPlanner.Tests.GCSViews
 
         private static void Keep(FlightPlanner fp, MAVLink.MAV_MISSION_TYPE shown)
         {
-            var args = new object[] {shown, null};
-            var kept = (bool) typeof(FlightPlanner)
-                .GetMethod("KeepGridRows", BindingFlags.Instance | BindingFlags.NonPublic)
-                .Invoke(fp, args);
-            Assert.IsTrue(kept, (string) args[1]);
+            var kept = fp.KeepGridRows(shown, out var invalid);
+            Assert.IsTrue(kept, invalid);
         }
 
         private static int AddRowFor(FlightPlanner fp, MAVLink.MAV_MISSION_TYPE type, string command)
         {
-            var row = (int) typeof(FlightPlanner)
-                .GetMethod("AddRowFor", BindingFlags.Instance | BindingFlags.NonPublic)
-                .Invoke(fp, new object[] {type});
+            var row = fp.AddRowFor(type);
             fp.Commands.Rows[row].Cells["Command"].Value = command;
             return row;
-        }
-
-        private static List<Locationwp> RowsToShow(FlightPlanner fp, MAVLink.MAV_MISSION_TYPE type)
-        {
-            return (List<Locationwp>) typeof(FlightPlanner)
-                .GetMethod("RowsToShow", BindingFlags.Instance | BindingFlags.NonPublic)
-                .Invoke(fp, new object[] {type});
-        }
-
-        private static List<Locationwp> AllRowsToShow(FlightPlanner fp)
-        {
-            return (List<Locationwp>) typeof(FlightPlanner)
-                .GetMethod("AllRowsToShow", BindingFlags.Instance | BindingFlags.NonPublic)
-                .Invoke(fp, null);
         }
 
         private static MAVLink.mavlink_mission_item_int_t Item(MAVLink.MAV_CMD cmd, double lat, double lng, double alt)
@@ -95,7 +74,7 @@ namespace MissionPlanner.Tests.GCSViews
             // the dropdown leaves RALLY: the two dropped points are kept, written or not
             Keep(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
 
-            var rally = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
+            var rally = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY);
             Assert.AreEqual(2, rally.Count);
             Assert.AreEqual((ushort) MAVLink.MAV_CMD.RALLY_POINT, rally[0].id);
             Assert.AreEqual(Lat0 + 0.01, rally[0].lat, 1e-6);
@@ -107,7 +86,7 @@ namespace MissionPlanner.Tests.GCSViews
             MainV2.comPort.MAV.fencepoints[1] = Item(MAVLink.MAV_CMD.FENCE_POLYGON_VERTEX_INCLUSION, Lat0 + 0.05, Lng0 + 0.05, 0);
             try
             {
-                var fence = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.FENCE);
+                var fence = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE);
                 Assert.AreEqual(2, fence.Count);
                 Assert.AreEqual(Lat0 + 0.05, fence[0].lat, 1e-6);
                 Assert.AreEqual(Lng0 + 0.05, fence[1].lng, 1e-6);
@@ -128,7 +107,7 @@ namespace MissionPlanner.Tests.GCSViews
 
             // processToScreen strips the first row of a mission list as home, so the kept rows
             // are led by a placeholder at 0, 0 and not by the takeoff
-            var mission = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
+            var mission = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
             Assert.AreEqual(3, mission.Count);
             Assert.AreEqual(0, mission[0].lat, 1e-9);
             Assert.AreEqual(0, mission[0].lng, 1e-9);
@@ -139,8 +118,8 @@ namespace MissionPlanner.Tests.GCSViews
             // which cannot run before the page has a handle (the dropdown's first event does)
             fp.Commands.Rows.Clear();
             Keep(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
-            Assert.AreEqual(0, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.MISSION).Count);
-            Assert.AreEqual(0, AllRowsToShow(fp).Count);
+            Assert.AreEqual(0, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION).Count);
+            Assert.AreEqual(0, fp.AllRowsToShow().Count);
         }
 
         [TestMethod]
@@ -163,12 +142,12 @@ namespace MissionPlanner.Tests.GCSViews
 
             // leaving ALL keeps each type's rows apart
             Keep(fp, MAVLink.MAV_MISSION_TYPE.ALL);
-            Assert.AreEqual(1, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.FENCE).Count);
-            Assert.AreEqual(1, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.RALLY).Count);
-            Assert.AreEqual(2, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.MISSION).Count); // placeholder + waypoint
+            Assert.AreEqual(1, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE).Count);
+            Assert.AreEqual(1, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY).Count);
+            Assert.AreEqual(2, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION).Count); // placeholder + waypoint
 
             // and ALL joins them again: home placeholder, mission, fence, rally
-            var all = AllRowsToShow(fp);
+            var all = fp.AllRowsToShow();
             CollectionAssert.AreEqual(
                 new[]
                 {
@@ -188,7 +167,7 @@ namespace MissionPlanner.Tests.GCSViews
             try
             {
                 // no mission anywhere: the rally row must not be taken for home
-                var all = AllRowsToShow(fp);
+                var all = fp.AllRowsToShow();
                 Assert.AreEqual(2, all.Count);
                 Assert.AreEqual(0, all[0].lat, 1e-9);
                 Assert.AreEqual((ushort) MAVLink.MAV_CMD.RALLY_POINT, all[1].id);
@@ -212,7 +191,7 @@ namespace MissionPlanner.Tests.GCSViews
             AddRow(fp, "RALLY_POINT", Lat0 + 0.05, Lng0, 70);
             Keep(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
 
-            var rally = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
+            var rally = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY);
             Assert.AreEqual(2, rally.Count);
             Assert.AreEqual(60, rally[0].alt, 1e-6);
 
@@ -223,7 +202,7 @@ namespace MissionPlanner.Tests.GCSViews
             {
                 fp.Commands.Rows.Clear();
                 Keep(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
-                Assert.AreEqual(0, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.RALLY).Count);
+                Assert.AreEqual(0, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY).Count);
             }
             finally
             {
@@ -286,7 +265,7 @@ namespace MissionPlanner.Tests.GCSViews
             using (new Connect())
             {
                 Keep(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
-                var all = AllRowsToShow(fp);
+                var all = fp.AllRowsToShow();
                 CollectionAssert.AreEqual(
                     new[]
                     {
@@ -315,7 +294,7 @@ namespace MissionPlanner.Tests.GCSViews
             using (new Connect())
             {
                 // a telemetry drop and a reconnect: the vehicle's copy has not been read again yet
-                var rally = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.RALLY);
+                var rally = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.RALLY);
                 Assert.AreEqual(2, rally.Count);
                 Assert.AreEqual(120, rally[1].alt, 1e-6);
             }
@@ -341,15 +320,15 @@ namespace MissionPlanner.Tests.GCSViews
             Keep(fp, MAVLink.MAV_MISSION_TYPE.FENCE);
 
             // still shown from the first vehicle's copy while it is the vehicle
-            Assert.AreEqual(3, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.FENCE).Count);
+            Assert.AreEqual(3, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE).Count);
 
             using (new Connect())
             {
-                Assert.AreEqual(0, RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.FENCE).Count,
+                Assert.AreEqual(0, fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE).Count,
                     "the next vehicle has no fence, and the first one's is not offered to it");
 
                 MainV2.comPort.MAV.fencepoints[0] = Item(MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION, Lat0, Lng0, 0);
-                var fence = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.FENCE);
+                var fence = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE);
                 Assert.AreEqual(1, fence.Count);
                 Assert.AreEqual((ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION, fence[0].id);
             }
@@ -370,14 +349,14 @@ namespace MissionPlanner.Tests.GCSViews
                 Keep(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
 
                 // from the vehicle's copy: its own home leads, not a placeholder at 0, 0
-                var mission = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
+                var mission = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
                 Assert.AreEqual(3, mission.Count);
                 Assert.AreEqual(Lat0, mission[0].lat, 1e-6);
 
                 // one altitude changed: unsent, so the rows are kept and led by the placeholder
                 fp.Commands.Rows[1].Cells["Alt"].Value = "130";
                 Keep(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
-                mission = RowsToShow(fp, MAVLink.MAV_MISSION_TYPE.MISSION);
+                mission = fp.RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
                 Assert.AreEqual(3, mission.Count);
                 Assert.AreEqual(0, mission[0].lat, 1e-9);
                 Assert.AreEqual(130, mission[2].alt, 1e-6);

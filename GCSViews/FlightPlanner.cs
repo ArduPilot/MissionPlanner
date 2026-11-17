@@ -371,7 +371,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <returns>false, with the reason in <paramref name="invalid"/>, when a cell is not a
         /// number: nothing is kept then</returns>
-        private bool KeepGridRows(MAVLink.MAV_MISSION_TYPE shown, out string invalid)
+        internal bool KeepGridRows(MAVLink.MAV_MISSION_TYPE shown, out string invalid)
         {
             invalid = null;
             List<Locationwp> rows;
@@ -405,7 +405,7 @@ namespace MissionPlanner.GCSViews
         /// processToScreen shows it without touching the grid, which matters while the page is
         /// being built (the dropdown's first event runs before the page has a handle to Invoke on).
         /// </summary>
-        private List<Locationwp> RowsToShow(MAVLink.MAV_MISSION_TYPE type)
+        internal List<Locationwp> RowsToShow(MAVLink.MAV_MISSION_TYPE type)
         {
             List<Locationwp> kept;
             if (keptRows.TryGetValue(type, out kept))
@@ -481,7 +481,7 @@ namespace MissionPlanner.GCSViews
         /// mission part is empty a placeholder stands in for it; otherwise a fence or rally row
         /// would be taken for home. With nothing to show at all the list is empty.
         /// </summary>
-        private List<Locationwp> AllRowsToShow()
+        internal List<Locationwp> AllRowsToShow()
         {
             var mission = RowsToShow(MAVLink.MAV_MISSION_TYPE.MISSION);
             var others = RowsToShow(MAVLink.MAV_MISSION_TYPE.FENCE)
@@ -512,7 +512,7 @@ namespace MissionPlanner.GCSViews
         /// and DO_JUMP use, only match while the mission rows come first. Other modes add at the
         /// end, as before.
         /// </summary>
-        private int AddRowFor(MAVLink.MAV_MISSION_TYPE type)
+        internal int AddRowFor(MAVLink.MAV_MISSION_TYPE type)
         {
             if (SelectedMissionType != MAVLink.MAV_MISSION_TYPE.ALL)
                 return Commands.Rows.Add();
