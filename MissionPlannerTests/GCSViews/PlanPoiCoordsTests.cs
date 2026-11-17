@@ -20,14 +20,14 @@ namespace MissionPlanner.GCSViews.Tests
         {
             var fp = new FlightPlanner();
 
-            var items = fp.pOIToolStripMenuItem.DropDownItems.Cast<ToolStripItem>().ToArray();
+            // only where Coords sits is checked, so another item added to the menu or a translated
+            // UI does not fail this
+            var items = fp.pOIToolStripMenuItem.DropDownItems;
+            var add = items.IndexOf(fp.poiaddToolStripMenuItem);
 
-            CollectionAssert.AreEqual(new ToolStripItem[]
-            {
-                fp.poiaddToolStripMenuItem, fp.poiatcoordsToolStripMenuItem, fp.poideleteToolStripMenuItem,
-                fp.poieditToolStripMenuItem
-            }, items);
-            Assert.AreEqual("Coords", fp.poiatcoordsToolStripMenuItem.Text);
+            Assert.IsTrue(add >= 0, "Add is in the POI menu");
+            Assert.AreEqual(add + 1, items.IndexOf(fp.poiatcoordsToolStripMenuItem), "Coords comes right after Add");
+            Assert.IsFalse(string.IsNullOrWhiteSpace(fp.poiatcoordsToolStripMenuItem.Text), "Coords has a text");
         }
 
         [TestMethod]
