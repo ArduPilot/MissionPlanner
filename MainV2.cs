@@ -671,10 +671,10 @@ namespace MissionPlanner
             {
                 lock (adsblock)
                 {
-                    if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
+                    if (MainV2.instance.adsbPlanes.ContainsKey(NormalizeAdsbId(tuple.id)))
                     {
                         // update existing
-                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[NormalizeAdsbId(tuple.id)]).ThreatLevel = tuple.threat_level;
                     }
                 }
             };
@@ -1198,11 +1198,26 @@ namespace MissionPlanner
             MenuHelp.ForeColor = ThemeManager.TextColor;
         }
 
+        /// <summary>
+        /// ICAO addresses arrive as "A1234" (MAVLink, Beast/AVR) or "0A1234" (SBS, HTTP). Key every
+        /// plane by the same 6-digit upper-case form, so the vehicle's echo of traffic we forwarded
+        /// matches our own copy. Ids that aren't ICAO addresses (e.g. "~A1B2C3") are kept as they are.
+        /// </summary>
+        internal static string NormalizeAdsbId(string id)
+        {
+            var trimmed = (id ?? "").Trim();
+            return TryParseIcao(trimmed, out var icao) ? icao.ToString("X6") : trimmed.ToUpperInvariant();
+        }
+
+        internal static bool TryParseIcao(string id, out uint icao) =>
+            uint.TryParse(id, System.Globalization.NumberStyles.AllowHexSpecifier,
+                System.Globalization.CultureInfo.InvariantCulture, out icao) && icao <= 0xFFFFFF;
+
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
             {
-                var id = adsb.Tag;
+                var id = NormalizeAdsbId(adsb.Tag);
 
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
@@ -3262,6 +3277,8 @@ namespace MissionPlanner
                 // came from the vehicle itself so we don't echo it back
                 var relevantPlanes = assessedPlanes
                     .Where(v => !(v.Plane.Source is MAVLinkInterface))
+                    // Non-ICAO ids (TIS-B "~" addresses etc.) would all go up as address 0
+                    .Where(v => TryParseIcao(v.Plane.Tag, out _))
                     .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                     .Take(10)
                     .ToList();
