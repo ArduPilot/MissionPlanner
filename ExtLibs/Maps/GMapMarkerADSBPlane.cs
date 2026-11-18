@@ -62,9 +62,16 @@ namespace MissionPlanner.Maps
         public enum AlertLevelOptions
         {
             Green,
+            /// <summary>A warning: amber, with a ring around it</summary>
             Orange,
-            Red
+            /// <summary>A collision threat: red, with a turning ring of quarter arcs around it</summary>
+            Red,
+            /// <summary>No threat: the sprite as drawn, white with a dark outline, which shows on any map</summary>
+            None
         }
+
+        // Amber rather than Color.Orange, so a warning doesn't look like the old no-threat colour
+        private static readonly Color Amber = Color.FromArgb(255, 191, 0);
 
         public GMapMarkerADSBPlane(PointLatLng p, float heading, AlertLevelOptions alert = AlertLevelOptions.Green)
             : base(p)
@@ -170,6 +177,39 @@ namespace MissionPlanner.Maps
             }
         }
 
+        private void DrawThreatRing(IGraphics g, Color color, bool high)
+        {
+            float r = size.Width * DrawScale * 0.62f;
+            var smoothing = g.SmoothingMode;
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            using (var fill = new SolidBrush(Color.FromArgb(40, color)))
+            using (var edge = new Pen(Color.FromArgb(110, Color.Black), high ? 5 : 3))
+            using (var ring = new Pen(color, high ? 3 : 2))
+            {
+                g.FillEllipse(fill, -r, -r, 2 * r, 2 * r);
+                if (high)
+                {
+                    // Two quarter arcs that turn, a quarter turn a second: a solid red ring disappears
+                    // next to the red ownship marker, and the motion catches the eye. The map repaints
+                    // about every 0.3 s while connected, so this steps ~27 degrees a frame.
+                    float start = (float)(DateTime.Now.TimeOfDay.TotalSeconds * 90 % 360);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        // A dark edge under the ring keeps it visible on light road maps
+                        g.DrawArc(edge, -r, -r, 2 * r, 2 * r, start + i * 180, 90);
+                        g.DrawArc(ring, -r, -r, 2 * r, 2 * r, start + i * 180, 90);
+                    }
+                }
+                else
+                {
+                    // A dark edge under the ring keeps it visible on light road maps
+                    g.DrawEllipse(edge, -r - 0.5f, -r - 0.5f, 2 * r + 1, 2 * r + 1);
+                    g.DrawEllipse(ring, -r, -r, 2 * r, 2 * r);
+                }
+            }
+            g.SmoothingMode = smoothing;
+        }
+
         public override void OnRender(IGraphics g)
         {
             var temp = g.Transform;
@@ -188,14 +228,14 @@ namespace MissionPlanner.Maps
             Bitmap sprite = GetSprite(EmitterCategory, out _);
 
             // Set the color based on alert level
-            var fillColor = Color.Green;
+            Color? fillColor = null;
             switch (AlertLevel)
             {
                 case AlertLevelOptions.Green:
                     fillColor = Color.Green;
                     break;
                 case AlertLevelOptions.Orange:
-                    fillColor = Color.Orange;
+                    fillColor = Amber;
                     break;
                 case AlertLevelOptions.Red:
                     fillColor = Color.Red;
@@ -207,7 +247,14 @@ namespace MissionPlanner.Maps
                 fillColor = Color.FromArgb(128, Color.DarkGray);
             }
 
-            Bitmap colored = GetColoredSprite(sprite, fillColor);
+            // A ring around threats, so they stand out at any icon size and on any map background
+            if (AlertLevel == AlertLevelOptions.Orange || AlertLevel == AlertLevelOptions.Red)
+            {
+                DrawThreatRing(g, AlertLevel == AlertLevelOptions.Red ? Color.Red : Amber,
+                    AlertLevel == AlertLevelOptions.Red);
+            }
+
+            Bitmap colored = fillColor.HasValue ? GetColoredSprite(sprite, fillColor.Value) : sprite;
 
             g.ScaleTransform(DrawScale, DrawScale);
             g.DrawImageUnscaled(colored, colored.Width / -2, colored.Height / -2);
