@@ -4302,11 +4302,12 @@ namespace MissionPlanner.GCSViews
                                     if (adsbplane == null || pllau == null)
                                         return;
 
+                                    // Type only comes from the HTTP reader, and Category is null for SBS/AVR
                                     string typeCategory = "";
-                                    if (pllau.Type != "") {
+                                    if (!string.IsNullOrEmpty(pllau.Type)) {
                                         typeCategory = pllau.Type + " / ";
                                     }
-                                    typeCategory += pllau.GetCategoryFriendlyString();
+                                    typeCategory += pllau.GetCategoryFriendlyString() ?? "No Info";
 
                                     adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
@@ -4321,8 +4322,8 @@ namespace MissionPlanner.GCSViews
                                     if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
                                         adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
                                     // Add collision threat level
-                                    if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
-                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
+                                    if (pllau.EffectiveThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.EffectiveThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
@@ -4334,7 +4335,9 @@ namespace MissionPlanner.GCSViews
                                     {
                                         adsbplane.IsVisible = true;
 
-                                        switch (pllau.ThreatLevel)
+                                        // The higher of the autopilot's level and our own assessment,
+                                        // so the map agrees with the speech callouts
+                                        switch (pllau.EffectiveThreatLevel)
                                         {
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
                                                 // We choose Orange here because it shows better on a green background

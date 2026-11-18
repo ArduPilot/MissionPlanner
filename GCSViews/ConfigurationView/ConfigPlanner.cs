@@ -870,10 +870,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var valuestring = defaultvalue;
             if (Settings.Instance[key] != null)
                 valuestring = Settings.Instance[key].ToString();
-            if (DialogResult.Cancel == InputBox.Show("Traffic Alerts", prompt, ref valuestring))
-                return false;
-            Settings.Instance[key] = double.Parse(valuestring).ToString();
-            return true;
+            var message = prompt;
+            while (true)
+            {
+                if (DialogResult.Cancel == InputBox.Show("Traffic Alerts", message, ref valuestring))
+                    return false; // keep the old value
+                // Same culture as Settings.GetDouble reads it back with
+                if (double.TryParse(valuestring, out var value) && value > 0)
+                {
+                    Settings.Instance[key] = value.ToString();
+                    return true;
+                }
+                message = "Please enter a positive number, without units.\n\n" + prompt;
+            }
         }
 
         private void BUT_Vario_Click(object sender, EventArgs e)

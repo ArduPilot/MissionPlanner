@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using GMap.NET;
 using GMap.NET.Drawing.Properties;
@@ -29,18 +30,33 @@ namespace MissionPlanner.Maps
         private static readonly Bitmap adsb_point_obstacle = new Bitmap(global::MissionPlanner.Maps.Resources.adsb_balloon, size); // point obstacles are used for balloons
 
 
+        // Recoloured sprites shared by every marker, keyed by sprite and fill colour, so hundreds of
+        // aircraft share a handful of bitmaps instead of each holding its own copy
+        private static readonly Dictionary<Tuple<Bitmap, int>, Bitmap> coloredSprites =
+            new Dictionary<Tuple<Bitmap, int>, Bitmap>();
+        private static readonly object coloredSpritesLock = new object();
+
         public float heading = 0;
         public AlertLevelOptions AlertLevel = AlertLevelOptions.Green;
-        public float DrawScale = 0.5f;
+        public float DrawScale { get; private set; } = 0.5f;
 
-        // Cache the last drawn data to avoid re-coloring every frame
-        private Bitmap lastDrawn = null;
-        // Store the last alert level to decide whether to redraw
-        private AlertLevelOptions lastAlertLevel = AlertLevelOptions.Green;
-        private MAVLink.ADSB_EMITTER_TYPE lastEmitterCategory = MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
-        private bool lastIsOnGround = true;
+        private MAVLink.ADSB_EMITTER_TYPE emitterCategory = MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
 
-        public MAVLink.ADSB_EMITTER_TYPE EmitterCategory { get; set; }
+        public MAVLink.ADSB_EMITTER_TYPE EmitterCategory
+        {
+            get => emitterCategory;
+            set
+            {
+                emitterCategory = value;
+                GetSprite(value, out float scale);
+                if (scale != DrawScale)
+                {
+                    DrawScale = scale;
+                    UpdateSize();
+                }
+            }
+        }
+
         public bool IsOnGround { get; set; }
 
         public enum AlertLevelOptions
@@ -55,8 +71,80 @@ namespace MissionPlanner.Maps
         {
             this.AlertLevel = alert;
             this.heading = heading;
-            Size = size;
-            Offset = new Point(Size.Width / -2, Size.Height / -2);
+            UpdateSize();
+        }
+
+        /// <summary>
+        /// Match the marker's hover and click area to the icon as drawn, not the full-size sprite
+        /// </summary>
+        private void UpdateSize()
+        {
+            int side = (int)Math.Round(size.Width * DrawScale);
+            Size = new Size(side, side);
+            Offset = new Point(side / -2, side / -2);
+        }
+
+        /// <summary>
+        /// The sprite for an emitter category and the scale to draw it at
+        /// </summary>
+        private static Bitmap GetSprite(MAVLink.ADSB_EMITTER_TYPE category, out float scale)
+        {
+            scale = 0.5f;
+            switch (category)
+            {
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHT:
+                    return adsb_light;
+                case MAVLink.ADSB_EMITTER_TYPE.SMALL:
+                    return adsb_small;
+                case MAVLink.ADSB_EMITTER_TYPE.LARGE:
+                    scale *= 1.25f;
+                    return adsb_large;
+                case MAVLink.ADSB_EMITTER_TYPE.HEAVY:
+                case MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE:
+                    scale *= 1.5f;
+                    return adsb_heavy;
+                case MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV:
+                    return adsb_highly_manuv;
+                case MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT:
+                    return adsb_rotocraft;
+                case MAVLink.ADSB_EMITTER_TYPE.GLIDER:
+                    return adsb_glider;
+                case MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR:
+                    return adsb_lighter_air;
+                case MAVLink.ADSB_EMITTER_TYPE.PARACHUTE:
+                    return adsb_parachute;
+                case MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT:
+                    // No dedicated ultralight sprite; the glider is the closest match
+                    return adsb_glider;
+                case MAVLink.ADSB_EMITTER_TYPE.UAV:
+                    return adsb_uav;
+                case MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE:
+                    return adsb_emergency_surface;
+                case MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE:
+                    return adsb_service_surface;
+                case MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE:
+                    return adsb_point_obstacle;
+                case MAVLink.ADSB_EMITTER_TYPE.NO_INFO:
+                case MAVLink.ADSB_EMITTER_TYPE.SPACE:
+                default:
+                    return adsb_unknown;
+            }
+        }
+
+        private static Bitmap GetColoredSprite(Bitmap sprite, Color fillColor)
+        {
+            var key = Tuple.Create(sprite, fillColor.ToArgb());
+            lock (coloredSpritesLock)
+            {
+                if (!coloredSprites.TryGetValue(key, out var colored))
+                {
+                    // Clone so we never touch the shared static sprite
+                    colored = (Bitmap)sprite.Clone();
+                    ColorSprite(colored, fillColor);
+                    coloredSprites[key] = colored;
+                }
+                return colored;
+            }
         }
 
         private static void ColorSprite(Bitmap bitmap, Color fillColor)
@@ -66,7 +154,7 @@ namespace MissionPlanner.Maps
 
             bool IsWhite(Color pixel) => pixel.R == 255 && pixel.G == 255 && pixel.B == 255 && pixel.A != 0;
 
-            // Iterate through every pixel in the image
+            // Iterate through every pixel in the image; this runs once per sprite and colour
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
@@ -97,81 +185,8 @@ namespace MissionPlanner.Maps
             {
             }
 
-            bool needsRedraw = lastDrawn == null || lastAlertLevel != AlertLevel || lastEmitterCategory != EmitterCategory || lastIsOnGround != IsOnGround;
-            if (!needsRedraw)
-            {
-                g.ScaleTransform(DrawScale, DrawScale);
-                g.DrawImageUnscaled(lastDrawn, lastDrawn.Width / -2, lastDrawn.Height / -2);
-                g.Transform = temp;
-                return;
-            }
+            Bitmap sprite = GetSprite(EmitterCategory, out _);
 
-            // Set the icon based on emitter category
-            Bitmap bitmap = adsb_unknown;
-            DrawScale = 0.5f;
-
-            switch (this.EmitterCategory)
-            {
-                case MAVLink.ADSB_EMITTER_TYPE.NO_INFO:
-                    bitmap = adsb_unknown;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.LIGHT:
-                    bitmap = adsb_light;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.SMALL:
-                    bitmap = adsb_small;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.LARGE:
-                    bitmap = adsb_large;
-                    DrawScale *= 1.25f;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.HEAVY:
-                    bitmap = adsb_heavy;
-                    DrawScale *= 1.5f;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.HIGH_VORTEX_LARGE:
-                    bitmap = adsb_heavy;
-                    DrawScale *= 1.5f;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.HIGHLY_MANUV:
-                    bitmap = adsb_highly_manuv;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.ROTOCRAFT:
-                    bitmap = adsb_rotocraft;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.GLIDER:
-                    bitmap = adsb_glider;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.LIGHTER_AIR:
-                    bitmap = adsb_lighter_air;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.PARACHUTE:
-                    bitmap = adsb_parachute;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.ULTRA_LIGHT:
-                    // No dedicated ultralight sprite; the glider is the closest match
-                    bitmap = adsb_glider;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.UAV:
-                    bitmap = adsb_uav;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.SPACE:
-                    //???
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.EMERGENCY_SURFACE:
-                    bitmap = adsb_emergency_surface;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.SERVICE_SURFACE:
-                    bitmap = adsb_service_surface;
-                    break;
-                case MAVLink.ADSB_EMITTER_TYPE.POINT_OBSTACLE:
-                    bitmap = adsb_point_obstacle;
-                    break;
-            }
-            lastEmitterCategory = EmitterCategory;
-            // Clone so we can recolor without touching the shared static sprite (we own this copy)
-            Bitmap colored = (Bitmap)bitmap.Clone();
-            g.ScaleTransform(DrawScale, DrawScale);
             // Set the color based on alert level
             var fillColor = Color.Green;
             switch (AlertLevel)
@@ -186,21 +201,16 @@ namespace MissionPlanner.Maps
                     fillColor = Color.Red;
                     break;
             }
-            lastAlertLevel = AlertLevel;
 
             if (IsOnGround)
             {
-                fillColor = Color.DarkGray;
-                fillColor = Color.FromArgb(128, fillColor);
+                fillColor = Color.FromArgb(128, Color.DarkGray);
             }
-            lastIsOnGround = IsOnGround;
 
-            ColorSprite(colored, fillColor);
+            Bitmap colored = GetColoredSprite(sprite, fillColor);
 
+            g.ScaleTransform(DrawScale, DrawScale);
             g.DrawImageUnscaled(colored, colored.Width / -2, colored.Height / -2);
-
-            lastDrawn?.Dispose();
-            lastDrawn = colored;
 
             g.Transform = temp;
         }

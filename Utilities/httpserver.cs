@@ -1294,9 +1294,16 @@ namespace MissionPlanner.Utilities
                         }
                         stream.Close();
                     }
-                    else if (url.ToLower().Contains("/adsb"))
+                    else if (url.ToLower().Contains(" /adsb"))
                     {
-                        string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\n\r\n";
+                        // The traffic list is centred on the vehicle or the user's receiver, so it
+                        // gives away roughly where the user is. Only let pages served from this
+                        // machine read it cross-origin; scripts and tools don't need CORS at all.
+                        string corsHeader = "";
+                        var origin = GetHeaderValue(head, "Origin");
+                        if (!string.IsNullOrEmpty(origin) && IsLoopbackOrigin(origin))
+                            corsHeader = "Access-Control-Allow-Origin: " + origin + "\r\nVary: Origin\r\n";
+                        string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" + corsHeader + "\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);
 

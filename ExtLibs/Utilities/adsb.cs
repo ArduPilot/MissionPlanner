@@ -928,11 +928,14 @@ namespace MissionPlanner.Utilities
                             String logged_time = strArray[9];//String. Time the message was logged. 
                             String callsign = strArray[10];//String. Eight character flight ID or callsign. 
                             int altitude = 0;
+                            // An empty field means no altitude, not 0 ft
+                            bool altValid = false;
                             try
                             {
                                 // H = HAE
                                 altitude = (int)double.Parse(strArray[11].TrimEnd('H','h'), CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
                                 altitude = (int)((double)altitude * FEET_TO_METERS);
+                                altValid = true;
                             }
                             catch { }
                            
@@ -948,7 +951,11 @@ namespace MissionPlanner.Utilities
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
                             }
                             catch { }
-                            bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
+                            // Boolean. Flag to indicate ground squat switch is active. SBS sends -1 for true, 0 for false
+                            // and an empty field when unknown, so only treat an explicit true as on the ground.
+                            // It is the last field, so it still carries the line ending.
+                            string ground = strArray.Length > 21 ? strArray[21].Trim() : "";
+                            bool is_on_ground = ground == "-1" || ground == "1";
 
                             if (Planes[hex_ident] == null)
                                 Planes[hex_ident] = new Plane();
@@ -966,6 +973,8 @@ namespace MissionPlanner.Utilities
                                     CallSign = plane.CallSign,
                                     Squawk = plane.squawk,
                                     SquawkValid = plane.squawk_valid,
+                                    AltValid = altValid,
+                                    IsOnGround = is_on_ground,
                                     VerticalSpeed = plane.vertical_speed
                                 };
                                 UpdatePlanePosition(null, plln);
@@ -1426,7 +1435,21 @@ namespace MissionPlanner.Utilities
             /// </summary>
             public float Heading { get; set; }
 
+            /// <summary>
+            /// Threat level the autopilot reported for this aircraft in a COLLISION message
+            /// </summary>
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
+
+            /// <summary>
+            /// Threat level Mission Planner assessed itself (adsb.AssessThreat), the one the speech callouts use
+            /// </summary>
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL AssessedThreatLevel { get; set; }
+
+            /// <summary>
+            /// The higher of the autopilot's and Mission Planner's threat levels; what the map and /adsb show
+            /// </summary>
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL EffectiveThreatLevel =>
+                AssessedThreatLevel > ThreatLevel ? AssessedThreatLevel : ThreatLevel;
 
             public DateTime Time { get; set; }
 
@@ -1603,13 +1626,15 @@ namespace MissionPlanner.Utilities
             public string Squawk;
             public double Lat;
             public double Lng;
-            public double Alt;
+            /// <summary>Metres, or null when the source sent no altitude (not sea level)</summary>
+            public double? Alt;
             public float Heading;
             public double Speed;
             public double VerticalSpeed;
             public string Category;
             public string Type;
             public bool IsOnGround;
+            /// <summary>The higher of the autopilot's level and Mission Planner's own assessment, as drawn on the map</summary>
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel;
             public DateTime Time;
 
@@ -1620,14 +1645,14 @@ namespace MissionPlanner.Utilities
                 Squawk = plane.SquawkValid ? plane.SquawkString : null;
                 Lat = plane.Lat;
                 Lng = plane.Lng;
-                Alt = plane.Alt;
+                Alt = plane.AltValid ? plane.Alt : (double?)null;
                 Heading = plane.Heading;
                 Speed = plane.Speed;
                 VerticalSpeed = plane.VerticalSpeed;
                 Category = plane.Category;
                 Type = plane.Type;
                 IsOnGround = plane.IsOnGround;
-                ThreatLevel = plane.ThreatLevel;
+                ThreatLevel = plane.EffectiveThreatLevel;
                 Time = plane.Time;
             }
         }
@@ -1662,12 +1687,6 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// Classify the collision threat an aircraft poses to us the same way ArduPilot's
-        /// AP_Avoidance does: project both tracks forward, find the point of closest
-        /// approach within the time horizon, and compare the separation there against the
-        /// critical (HIGH) and then warn (LOW) thresholds.
-        /// </summary>
-        /// <summary>
         /// Our own state in SI units (m AMSL, m/s), for AssessThreat.
         /// </summary>
         public class Ownship
@@ -1696,6 +1715,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// Classify the collision threat an aircraft poses to us the same way ArduPilot's
+        /// AP_Avoidance does: project both tracks forward, find the point of closest
+        /// approach within the time horizon, and compare the separation there against the
+        /// critical (HIGH) and then warn (LOW) thresholds.
+        /// </summary>
         public static ThreatAssessment AssessThreat(Ownship us, PointLatLngAltHdg plane,
             ThreatThresholds warn, ThreatThresholds critical) =>
             AssessThreat(us.Location, us.VelocityNorth, us.VelocityEast, us.VerticalSpeed, plane, warn, critical);

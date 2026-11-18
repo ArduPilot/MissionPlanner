@@ -1,4 +1,4 @@
-﻿#if !LIB
+#if !LIB
 extern alias Drawing;
 #endif
 
@@ -3155,21 +3155,114 @@ namespace MissionPlanner
                 };
 
                 // Classify every aircraft by its closest point of approach, then prioritize by
-                // threat level and by how soon that closest approach happens, so the most
-                // pressing threats are the ones forwarded to the autopilot and called out
-                var relevantPlanes = MainV2.instance.adsbPlanes
-                    .Select(v => v.Value)
-                    .Where(v => !(v.Source is MAVLinkInterface))
+                // threat level and by how soon that closest approach happens. This includes traffic
+                // the vehicle's own ADS-B receiver reported over MAVLink, which is usually the most
+                // important traffic to call out; it is only left out of what we forward back below.
+                bool ownshipValid = cs.lat != 0 || cs.lng != 0;
+                var noThreat = new adsb.ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE,
+                    TimeToClosestApproach = double.MaxValue
+                };
+                var assessedPlanes = MainV2.instance.adsbPlanes.Values
                     .Select(v => new
                     {
                         Plane = v,
-                        Threat = adsb.AssessThreat(ownship, v, warnThresholds, criticalThresholds),
+                        Threat = ownshipValid
+                            ? adsb.AssessThreat(ownship, v, warnThresholds, criticalThresholds)
+                            : noThreat,
                         Distance = v.GetDistance(ourLocation)
                     })
-                    .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                     .OrderByDescending(v => v.Threat.Level)
                     .ThenBy(v => v.Threat.TimeToClosestApproach)
                     .ThenBy(v => v.Distance)
+                    .ToList();
+
+                // Keep our own assessment on the plane, so the map and /adsb show the same
+                // level the callouts use (ThreatLevel stays the autopilot's view)
+                foreach (var assessed in assessedPlanes)
+                    assessed.Plane.AssessedThreatLevel = assessed.Threat.Level;
+
+                // Speech alert for the most pressing threat
+                var threat = assessedPlanes.FirstOrDefault();
+                if (
+                    lastSpeech.AddSeconds(5) < DateTime.Now &&
+                    threat != null &&
+                    threat.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE &&
+                    speechEnable && speechEngine != null &&
+                    Settings.Instance.GetBoolean("speechadsbenabled") &&
+                    // Stay quiet while disarmed, e.g. sitting at a field near an airport
+                    (cs.armed || Settings.Instance.GetBoolean("speechadsb_when_disarmed", false))
+                )
+                {
+                    var threatPlane = threat.Plane;
+                    // Bearing to traffic from our plane
+                    int bearingToTraffic = (int)ourLocation.GetBearing(threatPlane);
+
+                    // Heading of our plane
+                    int heading = (int)cs.yaw;
+
+                    // Calculate the bearing to traffic relative to our heading
+                    bearingToTraffic = (bearingToTraffic - heading + 360) % 360;
+                    int clock = (int)Math.Round(bearingToTraffic / 30.0, MidpointRounding.AwayFromZero);
+                    if (clock == 0)
+                    {
+                        clock = 12;
+                    }
+
+                    bool isHigh = threat.Threat.Level == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH;
+                    string verticalDirection;
+                    string speech;
+                    if (!threatPlane.AltValid)
+                    {
+                        // No altitude reported: we can't tell whether it is above or below us,
+                        // so announce the traffic only and give no climb/descend advice
+                        verticalDirection = "altitude unknown";
+                        speech = string.Format(isHigh ? "Traffic Close! {0} O'Clock, {1}" : "Traffic; {0} O'Clock, {1};",
+                            clock,
+                            verticalDirection
+                        );
+                    }
+                    else
+                    {
+                        verticalDirection = threatPlane.Alt > ourLocation.Alt ? "high" : "low";
+                        string recommendedAction = threatPlane.Alt > ourLocation.Alt ? "descend" : "climb";
+                        // Switch message urgency based on threat level
+                        if (isHigh)
+                        {
+                            // Peak urgency, start with the recommended action
+                            speech = string.Format("{2} NOW! {2} NOW! Traffic {0} O'Clock {1}",
+                                clock,
+                                verticalDirection,
+                                recommendedAction
+                            );
+                        }
+                        else
+                        {
+                            speech = string.Format("Traffic; {0} O'Clock {1};",
+                                clock,
+                                verticalDirection
+                            );
+                        }
+                    }
+
+                    // Log it including callsign
+                    log.InfoFormat("Traffic: {0} {1}; {2} {3}",
+                        bearingToTraffic,
+                        verticalDirection,
+                        threatPlane.CallSign,
+                        threatPlane.Tag
+                    );
+
+                    MainV2.speechEngine.SpeakAsync(speech);
+                    lastSpeech = DateTime.Now;
+                }
+
+                // Forward the most pressing threats to the autopilot, leaving out traffic that
+                // came from the vehicle itself so we don't echo it back
+                var relevantPlanes = assessedPlanes
+                    .Where(v => !(v.Plane.Source is MAVLinkInterface))
+                    .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                     .Take(10)
                     .ToList();
                 adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
@@ -3207,66 +3300,6 @@ namespace MissionPlanner
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-                // Speech alert for the most pressing threat
-                var threat = relevantPlanes.FirstOrDefault();
-                if (
-                    lastSpeech.AddSeconds(5) < DateTime.Now &&
-                    threat != null &&
-                    threat.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE
-                )
-                {
-                    if (speechEnable && speechEngine != null)
-                    {
-                        if (Settings.Instance.GetBoolean("speechadsbenabled"))
-                        {
-                            var threatPlane = threat.Plane;
-                            // Bearing to traffic from our plane
-                            int bearingToTraffic = (int)ourLocation.GetBearing(threatPlane);
-
-                            // Heading of our plane
-                            int heading = (int)comPort.MAV.cs.yaw;
-
-                            // Calculate the bearing to traffic relative to our heading
-                            bearingToTraffic = (bearingToTraffic - heading + 360) % 360;
-                            int clock = (int)Math.Round(bearingToTraffic / 30.0, MidpointRounding.AwayFromZero);
-                            if (clock == 0)
-                            {
-                                clock = 12;
-                            }
-                            // Log it including callsign
-                            log.InfoFormat("Traffic: {0} {1}; {2} {3}",
-                                bearingToTraffic,
-                                threatPlane.Alt > ourLocation.Alt ? "high" : "low",
-                                threatPlane.CallSign,
-                                threatPlane.Tag
-                            );
-                            string verticalDirection = threatPlane.Alt > ourLocation.Alt ? "high" : "low";
-                            string recommendedAction = threatPlane.Alt > ourLocation.Alt ? "descend" : "climb";
-                            string speech;
-                            // Switch message urgency based on threat level
-                            if (threat.Threat.Level == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH)
-                            {
-                                // Peak urgency, start with the recommended action
-                                speech = string.Format("{2} NOW! {2} NOW! Traffic {0} O'Clock {1}",
-                                    clock,
-                                    verticalDirection,
-                                    recommendedAction
-                                );
-                            }
-                            else
-                            {
-                                speech = string.Format("Traffic; {0} O'Clock {1};",
-                                    clock,
-                                    verticalDirection
-                                );
-                            }
-
-                            MainV2.speechEngine.SpeakAsync(speech);
-                            lastSpeech = DateTime.Now;
-                        }
-                    }
-
-                }
             }
 
         }
