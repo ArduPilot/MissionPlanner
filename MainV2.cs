@@ -551,6 +551,13 @@ namespace MissionPlanner
         private int adsbIndex = -1;
 
         /// <summary>
+        /// The last few positions we sent the vehicle for each aircraft, so its echo of them can be
+        /// told apart from traffic its own receiver heard
+        /// </summary>
+        private readonly Dictionary<string, List<(int lat, int lon)>> adsbForwarded =
+            new Dictionary<string, List<(int lat, int lon)>>();
+
+        /// <summary>
         /// used to call anything as needed.
         /// </summary>
         public static MainV2 instance = null;
@@ -1213,18 +1220,36 @@ namespace MissionPlanner
             uint.TryParse(id, System.Globalization.NumberStyles.AllowHexSpecifier,
                 System.Globalization.CultureInfo.InvariantCulture, out icao) && icao <= 0xFFFFFF;
 
+        /// <summary>
+        /// True when an ADSB_VEHICLE from the vehicle is a copy of a position we forwarded to it
+        /// </summary>
+        bool IsAdsbEcho(string id, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb) =>
+            adsb.Raw is MAVLink.mavlink_adsb_vehicle_t raw &&
+            adsbForwarded.TryGetValue(id, out var sent) &&
+            sent.Contains((raw.lat, raw.lon));
+
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
             {
                 var id = NormalizeAdsbId(adsb.Tag);
 
+                // The vehicle sends back the traffic we forwarded to it; that is our own data, delayed
+                if (sender is MAVLinkInterface && IsAdsbEcho(id, adsb))
+                {
+                    log.DebugFormat("Ignoring vehicle echo of ADSB_VEHICLE for {0}", adsb.Tag);
+                    return;
+                }
+
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     var plane = (adsb.PointLatLngAltHdg)instance.adsbPlanes[id];
-                    if (!(plane.Source is MAVLinkInterface) && sender is MAVLinkInterface)
+                    // Anything else the vehicle reports was heard by its own receiver, which is fresher
+                    // than any feed; with the vehicle as its source we also stop forwarding it back up.
+                    // Don't let an older feed copy overwrite it while the vehicle keeps reporting it.
+                    if (plane.Source is MAVLinkInterface && !(sender is MAVLinkInterface) &&
+                        plane.Time > DateTime.Now.AddSeconds(-5))
                     {
-                        log.DebugFormat("Ignoring vehicle-reported ADSB_VEHICLE for {0}, already tracked from a local feed", adsb.Tag);
                         return;
                     }
 
@@ -3147,6 +3172,7 @@ namespace MissionPlanner
                 {
                     MainV2.instance.adsbPlanes.Where(a => a.Value.Time < DateTime.Now.AddSeconds(-30)).ForEach(a => planesToClean.Add(a.Key));
                     planesToClean.ForEach(a => MainV2.instance.adsbPlanes.TryRemove(a, out _));
+                    planesToClean.ForEach(a => adsbForwarded.Remove(a));
 
                 }
                 // CurrentState getters are in display units; the traffic is in metres and cm/s
@@ -3314,6 +3340,15 @@ namespace MissionPlanner
                     packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_ALTITUDE;
                 if (currentPlane.SquawkValid)
                     packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_SQUAWK;
+
+                lock (adsblock)
+                {
+                    if (!adsbForwarded.TryGetValue(currentPlane.Tag, out var sent))
+                        adsbForwarded[currentPlane.Tag] = sent = new List<(int lat, int lon)>();
+                    sent.Add((packet.lat, packet.lon));
+                    if (sent.Count > 4)
+                        sent.RemoveAt(0);
+                }
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
