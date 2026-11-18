@@ -1207,9 +1207,9 @@ namespace MissionPlanner
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     var plane = (adsb.PointLatLngAltHdg)instance.adsbPlanes[id];
-                    if (plane.Source == null && sender != null)
+                    if (!(plane.Source is MAVLinkInterface) && sender is MAVLinkInterface)
                     {
-                        log.DebugFormat("Ignoring MAVLink-sourced ADSB_VEHICLE for locally-known aircraft {0}", adsb.Tag);
+                        log.DebugFormat("Ignoring vehicle-reported ADSB_VEHICLE for {0}, already tracked from a local feed", adsb.Tag);
                         return;
                     }
 
