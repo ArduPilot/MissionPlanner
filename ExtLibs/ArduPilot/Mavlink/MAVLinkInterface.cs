@@ -5297,7 +5297,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                     DateTime.Now
                             )
                             {
-                                CallSign = Encoding.UTF8.GetString(adsbMessage.callsign),
+                                // MAVLink pads the callsign with NULs
+                                CallSign = Encoding.UTF8.GetString(adsbMessage.callsign).Split('\0')[0].Trim(),
                                 Squawk = adsbMessage.squawk,
                                 SquawkValid = (adsbMessage.flags & (ushort)ADSB_FLAGS.VALID_SQUAWK) != 0,
                                 AltValid = (adsbMessage.flags & (ushort)ADSB_FLAGS.VALID_ALTITUDE) != 0,
