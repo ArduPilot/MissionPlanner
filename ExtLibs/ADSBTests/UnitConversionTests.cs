@@ -35,6 +35,25 @@ namespace ADSBTests
         }
 
         [TestMethod]
+        public void Http_detection_type_is_kept()
+        {
+            var bad = new List<string>(); int n = 0;
+            foreach (var (f, ac, p) in All())
+            {
+                if (p == null) continue;
+                n++;
+                if (p.DetectionType != ac.Value<string>("type")) bad.Add($"{ac["hex"]}: type {ac["type"]} -> {p.DetectionType}");
+            }
+            Sq.Report(bad, n, "detection types");
+
+            // A real TIS-B radar track from the JFK capture, with a non-ICAO address
+            var tisb = All().Select(x => x.p).First(p => p != null && p.Tag == "~2AE9E7");
+            Assert.IsTrue(tisb.IsNonIcaoAddress);
+            Assert.AreEqual("TIS-B (radar track)", tisb.GetDetectionFriendlyString());
+            Assert.IsFalse(All().Select(x => x.p).First(p => p != null && p.DetectionType == "adsb_icao").IsNonIcaoAddress);
+        }
+
+        [TestMethod]
         public void Http_ground_speed_is_knots_converted_to_cm_per_s()
         {
             var bad = new List<string>(); int n = 0;

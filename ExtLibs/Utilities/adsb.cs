@@ -199,6 +199,7 @@ namespace MissionPlanner.Utilities
                                         SquawkValid = squawkValid,
                                         Type = (ac.t ?? ""), // NOTE: ac.type is the way the aircraft was detected, not the aircraft type
                                         Category = (ac.category ?? ""),
+                                        DetectionType = ac.type,
                                         IsOnGround = onGround,
                                     };
 
@@ -1515,6 +1516,53 @@ namespace MissionPlanner.Utilities
             public string Type { get; set; }
 
             /// <summary>
+            /// How the aircraft was detected, readsb's "type": adsb_icao, tisb_other, mlat and so on.
+            /// Only the HTTP reader knows it; null otherwise.
+            /// </summary>
+            public string DetectionType { get; set; }
+
+            /// <summary>
+            /// DetectionType for display, or null when unknown
+            /// </summary>
+            public string GetDetectionFriendlyString()
+            {
+                switch (DetectionType)
+                {
+                    case null:
+                    case "":
+                        return null;
+                    case "adsb_icao":
+                        return "ADS-B";
+                    case "adsb_icao_nt":
+                        return "ADS-B (non-transponder)";
+                    case "adsb_other":
+                        return "ADS-B (anonymous)";
+                    case "adsr_icao":
+                    case "adsr_other":
+                        return "ADS-R";
+                    case "tisb_icao":
+                    case "tisb_other":
+                        return "TIS-B";
+                    case "tisb_trackfile":
+                        return "TIS-B (radar track)";
+                    case "adsc":
+                        return "ADS-C";
+                    case "mlat":
+                        return "MLAT";
+                    case "mode_s":
+                        return "Mode S";
+                    default:
+                        return DetectionType;
+                }
+            }
+
+            /// <summary>
+            /// True for "~" addresses, which readsb uses for addresses that aren't ICAO addresses,
+            /// e.g. a TIS-B track the ground station couldn't tie to an aircraft
+            /// </summary>
+            public bool IsNonIcaoAddress => Tag != null && Tag.StartsWith("~");
+
+            /// <summary>
             /// A boolean indicating if the aircraft is on the ground
             /// </summary>
             public bool IsOnGround { get; set; }
@@ -1647,6 +1695,8 @@ namespace MissionPlanner.Utilities
             public double VerticalSpeed;
             public string Category;
             public string Type;
+            /// <summary>How the aircraft was detected, readsb's "type" (adsb_icao, tisb_other, mlat, ...), or null</summary>
+            public string DetectionType;
             public bool IsOnGround;
             /// <summary>The higher of the autopilot's level and Mission Planner's own assessment, as drawn on the map</summary>
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel;
@@ -1665,6 +1715,7 @@ namespace MissionPlanner.Utilities
                 VerticalSpeed = plane.VerticalSpeed;
                 Category = plane.Category;
                 Type = plane.Type;
+                DetectionType = plane.DetectionType;
                 IsOnGround = plane.IsOnGround;
                 ThreatLevel = plane.EffectiveThreatLevel;
                 Time = plane.Time;

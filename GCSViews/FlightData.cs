@@ -4309,9 +4309,12 @@ namespace MissionPlanner.GCSViews
                                     }
                                     typeCategory += pllau.GetCategoryFriendlyString() ?? "No Info";
 
-                                    adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
+                                    // "~" addresses aren't ICAO addresses, e.g. a TIS-B radar track with no transponder behind it
+                                    string detection = pllau.GetDetectionFriendlyString();
+                                    adsbplane.ToolTipText = (pllau.IsNonIcaoAddress ? "Address: " + pllau.Tag + " (not ICAO)" : "ICAO: " + pllau.Tag) + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
                                                             "Type/Category: " + typeCategory + "\n" +
+                                                            (detection != null ? "Source: " + detection + "\n" : "") +
                                                             "Squawk: " + (pllau.SquawkValid ? pllau.SquawkString : "unknown") + "\n" +
                                                             "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +

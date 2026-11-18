@@ -1300,6 +1300,7 @@ namespace MissionPlanner
                     plane.Source = sender;
                     plane.Category = adsb.Category;
                     plane.Type = adsb.Type;
+                    plane.DetectionType = adsb.DetectionType;
                     plane.IsOnGround = adsb.IsOnGround;
                     instance.adsbPlanes[id] = plane;
                 }
@@ -1310,7 +1311,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, AltValid = adsb.AltValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, IsOnGround = adsb.IsOnGround};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, AltValid = adsb.AltValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, DetectionType = adsb.DetectionType, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
