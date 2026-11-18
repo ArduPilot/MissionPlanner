@@ -1206,19 +1206,50 @@ namespace MissionPlanner
         }
 
         /// <summary>
+        /// Set on a 24-bit address that is not an ICAO address, e.g. a TIS-B track the ground station
+        /// couldn't tie to an aircraft. Same flag as MODES_NON_ICAO_ADDRESS in dump1090 and readsb,
+        /// which is where the "~A1B2C3" ids in readsb's JSON and SBS output come from. A real ICAO
+        /// address never has it set, so the two can't collide in the vehicle's traffic list. ArduPilot
+        /// before ArduPilot/ardupilot#35256 drops any ADSB_VEHICLE above 24 bits, so on those this
+        /// traffic is simply ignored.
+        /// </summary>
+        internal const uint NonIcaoAddressFlag = 1u << 24;
+
+        /// <summary>
         /// ICAO addresses arrive as "A1234" (MAVLink, Beast/AVR) or "0A1234" (SBS, HTTP). Key every
         /// plane by the same 6-digit upper-case form, so the vehicle's echo of traffic we forwarded
-        /// matches our own copy. Ids that aren't ICAO addresses (e.g. "~A1B2C3") are kept as they are.
+        /// matches our own copy. Non-ICAO addresses are keyed "~A1B2C3" like readsb shows them,
+        /// whether they came as that or as a number with NonIcaoAddressFlag set (MAVLink).
         /// </summary>
         internal static string NormalizeAdsbId(string id)
         {
             var trimmed = (id ?? "").Trim();
-            return TryParseIcao(trimmed, out var icao) ? icao.ToString("X6") : trimmed.ToUpperInvariant();
+            if (!TryParseAdsbAddress(trimmed, out var address))
+                return trimmed.ToUpperInvariant();
+            return (address & NonIcaoAddressFlag) != 0
+                ? "~" + (address & 0xFFFFFF).ToString("X6")
+                : address.ToString("X6");
         }
 
-        internal static bool TryParseIcao(string id, out uint icao) =>
-            uint.TryParse(id, System.Globalization.NumberStyles.AllowHexSpecifier,
-                System.Globalization.CultureInfo.InvariantCulture, out icao) && icao <= 0xFFFFFF;
+        /// <summary>
+        /// The address to send in ADSB_VEHICLE.ICAO_address: the ICAO address, or for "~A1B2C3" the
+        /// 24 bits with NonIcaoAddressFlag set. False for anything else, which must not go up as 0.
+        /// </summary>
+        internal static bool TryParseAdsbAddress(string id, out uint address)
+        {
+            bool nonIcao = id.StartsWith("~");
+            if (!uint.TryParse(nonIcao ? id.Substring(1) : id, System.Globalization.NumberStyles.AllowHexSpecifier,
+                    System.Globalization.CultureInfo.InvariantCulture, out address))
+                return false;
+            if (nonIcao)
+            {
+                if (address > 0xFFFFFF)
+                    return false;
+                address |= NonIcaoAddressFlag;
+                return true;
+            }
+            return address <= 0xFFFFFF || (address & ~0xFFFFFFu) == NonIcaoAddressFlag;
+        }
 
         /// <summary>
         /// True when an ADSB_VEHICLE from the vehicle is a copy of a position we forwarded to it
@@ -3303,8 +3334,8 @@ namespace MissionPlanner
                 // came from the vehicle itself so we don't echo it back
                 var relevantPlanes = assessedPlanes
                     .Where(v => !(v.Plane.Source is MAVLinkInterface))
-                    // Non-ICAO ids (TIS-B "~" addresses etc.) would all go up as address 0
-                    .Where(v => TryParseIcao(v.Plane.Tag, out _))
+                    // Only ids we can turn into an address; anything else would go up as address 0
+                    .Where(v => TryParseAdsbAddress(v.Plane.Tag, out _))
                     .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                     .Take(10)
                     .ToList();
@@ -3325,15 +3356,7 @@ namespace MissionPlanner
                 packet.lon = (int)(currentPlane.Lng * 1e7);
                 packet.hor_velocity = (ushort)(currentPlane.Speed);
                 packet.ver_velocity = (short)(currentPlane.VerticalSpeed);
-                try
-                {
-                    packet.ICAO_address = uint.Parse(currentPlane.Tag, NumberStyles.HexNumber);
-                }
-                catch
-                {
-                    log.WarnFormat("invalid icao address: {0}", currentPlane.Tag);
-                    packet.ICAO_address = 0;
-                }
+                TryParseAdsbAddress(currentPlane.Tag, out packet.ICAO_address);
                 packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_COORDS |
                                           MAVLink.ADSB_FLAGS.VALID_VELOCITY | MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
                 if (currentPlane.AltValid)
