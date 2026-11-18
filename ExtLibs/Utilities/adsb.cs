@@ -1436,9 +1436,23 @@ namespace MissionPlanner.Utilities
             public float Heading { get; set; }
 
             /// <summary>
-            /// Threat level the autopilot reported for this aircraft in a COLLISION message
+            /// Threat level the autopilot reported for this aircraft in a COLLISION message. ArduPilot only
+            /// reports its most serious threat, once a second, so an aircraft that stops being that threat
+            /// may never get a NONE; the level lapses back to NONE when the reports stop.
             /// </summary>
-            public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel
+            {
+                get => DateTime.Now - threatLevelTime < ThreatLevelTimeout ? threatLevel : MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE;
+                set
+                {
+                    threatLevel = value;
+                    threatLevelTime = DateTime.Now;
+                }
+            }
+
+            private MAVLink.MAV_COLLISION_THREAT_LEVEL threatLevel;
+            private DateTime threatLevelTime;
+            private static readonly TimeSpan ThreatLevelTimeout = TimeSpan.FromSeconds(3);
 
             /// <summary>
             /// Threat level Mission Planner assessed itself (adsb.AssessThreat), the one the speech callouts use
