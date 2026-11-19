@@ -29,11 +29,23 @@ namespace MissionPlanner.Maps
                 Bitmap temp = new Bitmap(100,40, PixelFormat.Format32bppArgb);
                 using (Graphics g = Graphics.FromImage(temp))
                 {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
                     txtsize = g.MeasureString(wpno, font);
 
-                    g.DrawString(wpno, font, Brushes.Black, new PointF(0, 0));
+                    System.Drawing.Drawing2D.GraphicsPath pth = new System.Drawing.Drawing2D.GraphicsPath();
+                    pth.AddString(
+                        wpno,
+                        font.FontFamily,
+                        (int)FontStyle.Regular,
+                        g.DpiY * (font.Size) / 72,
+                        new Point(0, 0),
+                        new StringFormat());
+                    g.DrawPath(new Pen(Brushes.White,3), pth);
+                    g.DrawPath(new Pen(Brushes.Black, 1.5f), pth);
+
                 }
                 fontBitmaps[wpno] = temp;
             }
@@ -46,11 +58,14 @@ namespace MissionPlanner.Maps
                 g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
                 g.DrawArc(Pens.Red, new Rectangle(this.LocalPosition, this.Size), 0, 360);
             }
-            
+
             base.OnRender(g);
 
             var midw = LocalPosition.X + 10;
             var midh = LocalPosition.Y + 3;
+
+            // need to recalculate textsize for redrawing
+            txtsize = g.MeasureString(wpno, font);
 
             if (txtsize.Width > 15)
                 midw -= 4;
