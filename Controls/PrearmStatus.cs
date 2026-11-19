@@ -16,8 +16,8 @@ namespace MissionPlanner.Controls
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private DateTime lastRequestTime = DateTime.MinValue;
-        private DateTime searchTime = DateTime.MinValue;
+        private DateTime lastRequestTime = DateTime.MaxValue;
+        private DateTime searchTime = DateTime.MaxValue;
         public PrearmStatus()
         {
             InitializeComponent();
