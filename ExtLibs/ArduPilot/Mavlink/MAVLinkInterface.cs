@@ -761,8 +761,6 @@ namespace MissionPlanner
             Terrain?.UnSub();
             Terrain = new TerrainFollow(this);
 
-            bool hbseen = false;
-
             try
             {
                 BaseStream.ReadBufferSize = 16 * 1024;
@@ -793,10 +791,11 @@ namespace MissionPlanner
                     }
                 }
 
-                List<MAVLinkMessage> hbhistory = new List<MAVLinkMessage>();
-
+                MAVLinkMessage selected = null;
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
+                var nextHeartbeat = MAVlist.DiscoveryTime;
+                var nextRtsToggle = nextHeartbeat + TimeSpan.FromSeconds(20);
 
                 var countDown = new Timer {Interval = 1000, AutoReset = false};
                 countDown.Elapsed += (sender, e) =>
@@ -807,138 +806,88 @@ namespace MissionPlanner
                 };
                 countDown.Start();
 
-                int count = 0;
-
                 plaintxtline = "";
 
-                while (true)
+                // Both this worker and the normal reader record discovery in
+                // MAVlist. Poll without waiting for another packet so a quiet
+                // candidate's three-second discovery window can expire on time.
+                try
                 {
-                    if (PRsender.doWorkArgs.CancelRequested)
+                    while (true)
                     {
-                        PRsender.doWorkArgs.CancelAcknowledged = true;
-                        countDown.Stop();
-                        if (BaseStream.IsOpen)
-                            BaseStream.Close();
-                        giveComport = false;
-                        return;
-                    }
-
-                    log.Info(DateTime.Now.Millisecond + " Start connect loop ");
-
-                    if (DateTime.Now > deadline)
-                    {
-                        //if (Progress != null)
-                        //    Progress(-1, "No Heartbeat Packets");
-                        countDown.Stop();
-                        this.Close();
-
-                        if (hbseen)
+                        if (PRsender.doWorkArgs.CancelRequested)
                         {
-                            PRsender.doWorkArgs.ErrorMessage = Strings.Only1Hb;
-                            throw new Exception(Strings.Only1HbD + plaintxtlinebuffer.Aggregate((a, b) => a + "\r\n" + b));
+                            PRsender.doWorkArgs.CancelAcknowledged = true;
+                            if (BaseStream.IsOpen)
+                                BaseStream.Close();
+                            giveComport = false;
+                            return;
                         }
-                        else
+
+                        var now = MAVlist.DiscoveryTime;
+                        bool deadlineReached = DateTime.Now > deadline;
+                        selected = MAVlist.SelectConnectionTarget(now, deadlineReached);
+                        if (selected != null)
+                            break;
+
+                        if (deadlineReached)
                         {
+                            this.Close();
                             PRsender.doWorkArgs.ErrorMessage = "No Heartbeat Packets Received";
                             throw new TimeoutException(@"Can not establish a connection
 
-No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup
-Mission Planner waits for 2 valid heartbeat packets before connecting
+No MAVLink HEARTBEAT or HIGH_LATENCY2 packets were read from this port - Verify Baud Rate and setup
 " + plaintxtlinebuffer.Aggregate((a, b) => a + "\r\n" + b));
                         }
-                    }
 
-                    Thread.Sleep(1);
-
-                    var buffer = getHeartBeat();
-                    if (buffer.Length > 0)
-                    {
-                        if (buffer.msgid == (ulong)MAVLINK_MSG_ID.HEARTBEAT)
+                        if (now >= nextHeartbeat)
                         {
-                            mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+                            SendGcsHeartbeat();
+                            nextHeartbeat = now + TimeSpan.FromSeconds(1);
+                        }
 
-                            // no GCS's and no broadcast compid's (ping adsb)
-                            if (hb.type != (byte)MAV_TYPE.GCS && buffer.compid != 0)
+                        var buffer = readPacketAsync(waitForData: false).AwaitSync();
+
+                        // Retain serial flow-control recovery without toggling it
+                        // on every iteration of the shorter discovery poll.
+                        if (buffer.Length == 0 && BaseStream is SerialPort && now >= nextRtsToggle)
+                        {
+                            nextRtsToggle = now + TimeSpan.FromMilliseconds(2200);
+                            try
                             {
-                                hbhistory.Add(buffer);
+                                log.Debug("about to set RTS to " + !BaseStream.RtsEnable);
+                                BaseStream.RtsEnable = !BaseStream.RtsEnable;
                             }
-                        }
-                        else if (buffer.msgid == (ulong)MAVLINK_MSG_ID.HIGH_LATENCY2)
-                        {
-                            mavlink_high_latency2_t hl = buffer.ToStructure<mavlink_high_latency2_t>();
-                            // no GCS's and no broadcast compid's (ping adsb)
-                            if (hl.type != (byte)MAV_TYPE.GCS && buffer.compid != 0)
+                            catch
                             {
-                                hbhistory.Add(buffer);
-                            }
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (hbhistory.Count > 0)
-                        hbseen = true;
-
-                    count++;
-
-                    // if we get no data, try enableing rts/cts
-                    if (buffer.Length == 0 && BaseStream is SerialPort && start.AddSeconds(20) < DateTime.Now)
-                    {
-                        try
-                        {
-                            log.Debug("about to set RTS to " + !BaseStream.RtsEnable);
-                            BaseStream.RtsEnable = !BaseStream.RtsEnable;
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    // SLCAN check
-                    if (Regex.IsMatch(plaintxtline, @"\rT[0-9A-Z]{9,32}$", RegexOptions.Multiline))
-                    {
-                        PRsender.doWorkArgs.ErrorMessage =
-                            "This appears to be a CAN port, please use the DroneCAN screen";
-                        throw new Exception(@"This appears to be a CAN port, please use the DroneCAN screen");
-                    }
-
-                    // check we have hb's
-                    if (hbhistory.Count > 0)
-                    {
-                        bool exit = false;
-                        // get most seen hbs
-                        var mostseenlist = hbhistory.GroupBy(s => MAVList.GetID(s.sysid, s.compid))
-                            .OrderByDescending(s => s.Count()).Where(s => s.Count() >= 2);
-                        foreach (var mostseen in mostseenlist)
-                        {
-                            // get count on most seen
-                            var seentimes = mostseen.Count();
-                            // get the most seen mavlinkmessage
-                            var msg = mostseen.First();
-
-                            // preference compid of 1, failover to anything that we have seen 4 times
-                            if (seentimes >= 2 && msg.compid == 1 || seentimes >= 4)
-                            {
-                                if (msg.msgid == (ulong)MAVLINK_MSG_ID.HEARTBEAT)
-                                    SetupMavConnect(msg, (mavlink_heartbeat_t) msg.data);
-                                if (msg.msgid == (ulong)MAVLINK_MSG_ID.HIGH_LATENCY2)
-                                    SetupMavConnect(msg, (mavlink_high_latency2_t)msg.data);
-                                sysidcurrent = msg.sysid;
-                                compidcurrent = msg.compid;
-                                log.Info($"HB Selection {sysidcurrent}-{compidcurrent} seen {seentimes}");
-                                exit = true;
-                                break;
                             }
                         }
 
-                        if (exit)
-                            break;
+                        if (Regex.IsMatch(plaintxtline, @"\rT[0-9A-Z]{9,32}$", RegexOptions.Multiline))
+                        {
+                            PRsender.doWorkArgs.ErrorMessage =
+                                "This appears to be a CAN port, please use the DroneCAN screen";
+                            throw new Exception(@"This appears to be a CAN port, please use the DroneCAN screen");
+                        }
+
+                        // Drain queued telemetry promptly; sleeping after every
+                        // packet could leave an FCU heartbeat behind a busy link.
+                        if (buffer.Length == 0)
+                            Thread.Sleep(10);
                     }
                 }
+                finally
+                {
+                    countDown.Stop();
+                }
 
-                countDown.Stop();
+                if (selected.msgid == (uint)MAVLINK_MSG_ID.HEARTBEAT)
+                    SetupMavConnect(selected, selected.ToStructure<mavlink_heartbeat_t>());
+                else
+                    SetupMavConnect(selected, selected.ToStructure<mavlink_high_latency2_t>());
+                sysidcurrent = selected.sysid;
+                compidcurrent = selected.compid;
+                log.Info($"HB Selection {sysidcurrent}-{compidcurrent} priority {MAVlist[sysidcurrent, compidcurrent].ConnectionPriority}");
 
                 char[] temp = ("Mission Planner " + getAppVersion() + "\0").ToCharArray();
                 Array.Resize(ref temp, 50);
@@ -1182,6 +1131,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 MAVlist[message.sysid, message.compid].aptype.ToString(), MAVlist[message.sysid, message.compid].apname.ToString());
         }
 
+        private void SendGcsHeartbeat()
+        {
+            sendPacket(new MAVLink.mavlink_heartbeat_t()
+            {
+                type = (byte) MAVLink.MAV_TYPE.GCS,
+                autopilot = (byte) MAVLink.MAV_AUTOPILOT.INVALID,
+                mavlink_version = 3 // MAVLink.MAVLINK_VERSION
+            }, gcssysid, 190);
+        }
+
         public MAVLinkMessage getHeartBeat()
         {
             return getHeartBeatAsync().AwaitSync();
@@ -1191,12 +1150,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
         {
             giveComport = true;
 
-            sendPacket(new MAVLink.mavlink_heartbeat_t()
-            {
-                type = (byte) MAVLink.MAV_TYPE.GCS,
-                autopilot = (byte) MAVLink.MAV_AUTOPILOT.INVALID,
-                mavlink_version = 3 // MAVLink.MAVLINK_VERSION
-            }, gcssysid, 190);
+            SendGcsHeartbeat();
 
             DateTime start = DateTime.Now;
             int readcount = 0;
@@ -4697,7 +4651,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             return readPacketAsync().AwaitSync();
         }
 
-        public async Task<MAVLinkMessage> readPacketAsync()
+        public Task<MAVLinkMessage> readPacketAsync()
+        {
+            return readPacketAsync(waitForData: true);
+        }
+
+        private async Task<MAVLinkMessage> readPacketAsync(bool waitForData)
         {
             byte[] buffer = null;
             int count = 0;
@@ -4718,7 +4677,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             if (debug)
                 Console.WriteLine(DateTime.Now.Millisecond + " SR0 " + BaseStream?.BytesToRead);
 
-            await readlock.WaitAsync().ConfigureAwait(false);
+            if (waitForData)
+                await readlock.WaitAsync().ConfigureAwait(false);
+            else if (!await readlock.WaitAsync(0).ConfigureAwait(false))
+                return MAVLinkMessage.Invalid;
             
             try
             {
@@ -4765,6 +4727,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                                 while (BaseStream.IsOpen && BaseStream.BytesToRead <= 0)
                                 {
+                                    // Only skip waiting between frames. Once a frame
+                                    // has started, finish parsing it under the lock.
+                                    if (!waitForData)
+                                        return MAVLinkMessage.Invalid;
+
                                     if (DateTime.UtcNow > to)
                                     {
                                         log.InfoFormat("MAVLINK: 1 wait time out btr {0} len {1}",
@@ -5415,6 +5382,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             }
                         }
                     }
+
+                    if (msgid == (uint)MAVLINK_MSG_ID.HEARTBEAT || msgid == (uint)MAVLINK_MSG_ID.HIGH_LATENCY2)
+                        MAVlist.ObserveHeartbeat(message);
 
                     // process for all mavs, filtering done inside - subscription handler
                     PacketReceived(message);

@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MissionPlanner")]
 [assembly: InternalsVisibleTo("MissionPlannerLib")]
+[assembly: InternalsVisibleTo("MissionPlannerTests")]
 
 namespace MissionPlanner
 {
@@ -148,6 +149,13 @@ namespace MissionPlanner
         /// mavlink remove compid
         /// </summary>
         public byte compid { get; set; } = 0;
+
+        // Discovery metadata is owned and synchronized by MAVList. Keeping it on
+        // the discovered state lets the handshake and dropdown use the same list.
+        internal long DiscoveryOrder;
+        internal MAVLinkMessage ConnectionHeartbeat;
+        internal MissionPlanner.Mavlink.ConnectionTargetSelector.Priority ConnectionPriority =
+            MissionPlanner.Mavlink.ConnectionTargetSelector.Priority.WithoutHeartbeat;
 
         public byte linkid { get; set; }
 
