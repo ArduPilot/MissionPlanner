@@ -1059,8 +1059,10 @@ namespace MissionPlanner.GCSViews
                 StringBuilder sb = new StringBuilder();
                 var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.STATUSTEXT, message =>
                 {
-                    sb.AppendLine(Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
-                        .TrimEnd('\0'));
+                    // the vehicle's text is shown in the dialog below, so it must not be able to add a link
+                    sb.AppendLine(CustomMessageBox.NeutraliseLinkMarkup(
+                        Encoding.ASCII.GetString(((MAVLink.mavlink_statustext_t) message.data).text)
+                            .TrimEnd('\0')));
                     return true;
                 }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
                 bool ans = MainV2.comPort.doARM(!isitarmed);
