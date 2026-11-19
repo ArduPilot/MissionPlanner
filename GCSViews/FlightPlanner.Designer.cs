@@ -228,6 +228,8 @@ namespace MissionPlanner.GCSViews
             this.zoomToMissionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gDALOpacityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.useLegacyOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
@@ -1279,7 +1281,9 @@ namespace MissionPlanner.GCSViews
             this.kMLOverlayToolStripMenuItem,
             this.elevationGraphToolStripMenuItem,
             this.reverseWPsToolStripMenuItem,
-            this.gDALOpacityToolStripMenuItem});
+            this.gDALOpacityToolStripMenuItem,
+            this.editStyleToolStripMenuItem,
+            this.useLegacyOverlayToolStripMenuItem});
             this.mapToolToolStripMenuItem.Name = "mapToolToolStripMenuItem";
             resources.ApplyResources(this.mapToolToolStripMenuItem, "mapToolToolStripMenuItem");
             // 
@@ -1570,6 +1574,19 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.gDALOpacityToolStripMenuItem, "gDALOpacityToolStripMenuItem");
             this.gDALOpacityToolStripMenuItem.Click += new System.EventHandler(this.gDALOpacityToolStripMenuItem_Click);
             // 
+            // editStyleToolStripMenuItem
+            // 
+            this.editStyleToolStripMenuItem.Name = "editStyleToolStripMenuItem";
+            resources.ApplyResources(this.editStyleToolStripMenuItem, "editStyleToolStripMenuItem");
+            this.editStyleToolStripMenuItem.Click += new System.EventHandler(this.editStyleToolStripMenuItem_Click);
+            //
+            // useLegacyOverlayToolStripMenuItem
+            //
+            this.useLegacyOverlayToolStripMenuItem.CheckOnClick = true;
+            this.useLegacyOverlayToolStripMenuItem.Name = "useLegacyOverlayToolStripMenuItem";
+            resources.ApplyResources(this.useLegacyOverlayToolStripMenuItem, "useLegacyOverlayToolStripMenuItem");
+            this.useLegacyOverlayToolStripMenuItem.CheckedChanged += new System.EventHandler(this.useLegacyOverlayToolStripMenuItem_CheckedChanged);
+            //
             // FlightPlanner
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
@@ -1781,5 +1798,7 @@ namespace MissionPlanner.GCSViews
         private MyButton BUT_InjectCustomMap;
         private ProgressBar progressBarInjectCustomMap;
         private NumericUpDown Zoomlevel;
+        private ToolStripMenuItem editStyleToolStripMenuItem;
+        private ToolStripMenuItem useLegacyOverlayToolStripMenuItem;
     }
 }

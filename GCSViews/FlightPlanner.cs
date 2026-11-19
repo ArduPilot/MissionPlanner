@@ -53,6 +53,7 @@ using MissionPlanner.ArduPilot.Mavlink;
 using System.Drawing.Imaging;
 using SharpKml.Engine;
 using MissionPlanner.Controls.Waypoints;
+using MissionPlanner.Utilities.Mission;
 
 namespace MissionPlanner.GCSViews
 {
@@ -127,6 +128,7 @@ namespace MissionPlanner.GCSViews
         private Point MouseDownStartLocal;
         private PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
         private WPOverlay wpOverlay;
+        private WPOverlay2 wpOverlay2;
         private bool polygongridmode;
         private MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
         private MissionPlanner.Controls.Icon.Zoom zoomicon = new MissionPlanner.Controls.Icon.Zoom();
@@ -1679,12 +1681,6 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        public class midline
-        {
-            public PointLatLngAlt now { get; set; }
-            public PointLatLngAlt next { get; set; }
-        }
-
         /// <summary>
         /// used to write a KML, update the Map view polygon, and update the row headers
         /// </summary>
@@ -1722,18 +1718,18 @@ namespace MissionPlanner.GCSViews
 
                 if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue == MAVLink.MAV_MISSION_TYPE.MISSION)
                 {
-                    wpOverlay = new WPOverlay();
-                    wpOverlay.overlay.Id = "WPOverlay";
+                    var useV2 = Settings.Instance.GetBoolean("UseWPOverlay2", true);
+                    GMapOverlay activeOverlay;
+                    List<PointLatLngAlt> activePointlist;
 
+                    if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
+                    if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
+
+                    double wprad = 0, loiterrad = 0;
                     try
                     {
-                        if (TXT_WPRad.Text == "") TXT_WPRad.Text = startupWPradius;
-                        if (TXT_loiterrad.Text == "") TXT_loiterrad.Text = "30";
-
-                        wpOverlay.CreateOverlay(home,
-                            commandlist,
-                            double.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist,
-                            double.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist, CurrentState.multiplieralt);
+                        wprad = double.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist;
+                        loiterrad = double.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist;
                     }
                     catch (FormatException)
                     {
@@ -1741,30 +1737,54 @@ namespace MissionPlanner.GCSViews
                             Strings.ERROR);
                     }
 
+                    if (useV2)
+                    {
+                        wpOverlay2 = new WPOverlay2()
+                        {
+                            VehicleClass = MainV2.comPort.MAV.cs.vehicleClass,
+                            ShowPlusMarkers = true,
+                        };
+                        wpOverlay2.overlay.Id = "WPOverlay";
+                        wpOverlay2.CreateOverlay(home, commandlist, wprad, loiterrad, CurrentState.multiplieralt);
+                        activeOverlay = wpOverlay2.overlay;
+                        activePointlist = wpOverlay2.pointlist;
+                    }
+                    else
+                    {
+                        wpOverlay = new WPOverlay();
+                        wpOverlay.overlay.Id = "WPOverlay";
+                        wpOverlay.CreateOverlay(home, commandlist, wprad, loiterrad, CurrentState.multiplieralt);
+                        activeOverlay = wpOverlay.overlay;
+                        activePointlist = wpOverlay.pointlist;
+                    }
+
                     MainMap.HoldInvalidation = true;
 
-                    var existing = MainMap.Overlays.Where(a => a.Id == wpOverlay.overlay.Id).ToList();
+                    var existing = MainMap.Overlays.Where(a => a.Id == activeOverlay.Id).ToList();
                     foreach (var b in existing)
                     {
                         MainMap.Overlays.Remove(b);
                     }
 
-                    MainMap.Overlays.Insert(1, wpOverlay.overlay);
+                    MainMap.Overlays.Insert(1, activeOverlay);
 
-                    wpOverlay.overlay.ForceUpdate();
+                    activeOverlay.ForceUpdate();
 
+                    // WPOverlay2 draws each segment as its own route (jump alternatives, bookmark pointers,
+                    // loiter arcs), so joining all route points would add legs between unrelated segments
+                    var missiondistance = useV2
+                        ? wpOverlay2.PathDistance
+                        : activeOverlay.Routes.SelectMany(a => a.Points)
+                            .Select(a => (PointLatLngAlt) a)
+                            .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2));
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " +
-                                        FormatDistance((
-                                            wpOverlay.overlay.Routes.SelectMany(a => a.Points)
-                                                .Select(a => (PointLatLngAlt) a)
-                                                .Aggregate(0.0, (d, p1, p2) => d + p1.GetDistance(p2))
-                                        ) / 1000.0, false);
+                                        FormatDistance(missiondistance / 1000.0, false);
 
-                    setgradanddistandaz(wpOverlay.pointlist, home);
+                    setgradanddistandaz(activePointlist, home);
 
-                    if (wpOverlay.pointlist.Count <= 1)
+                    if (activePointlist.Count <= 1)
                     {
-                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(wpOverlay.overlay.Id);
+                        RectLatLng? rect = MainMap.GetRectOfAllMarkers(activeOverlay.Id);
                         if (rect.HasValue)
                         {
                             MainMap.Position = rect.Value.LocationMiddle;
@@ -1773,8 +1793,9 @@ namespace MissionPlanner.GCSViews
                         MainMap_OnMapZoomChanged();
                     }
 
-                    pointlist = wpOverlay.pointlist;
+                    pointlist = activePointlist;
 
+                    if (!useV2)
                     {
                         foreach (var pointLatLngAlt in pointlist.PrevNowNext())
                         {
@@ -1792,9 +1813,16 @@ namespace MissionPlanner.GCSViews
 
                             var pnt = new GMapMarkerPlus(mid);
                             pnt.Tag = new midline() {now = now, next = next};
-                            wpOverlay.overlay.Markers.Add(pnt);
+                            activeOverlay.Markers.Add(pnt);
                         }
                     }
+
+                    editStyleToolStripMenuItem.Visible = useV2;
+
+                    // Sync checkbox without re-triggering CheckedChanged -> writeKML
+                    useLegacyOverlayToolStripMenuItem.CheckedChanged -= useLegacyOverlayToolStripMenuItem_CheckedChanged;
+                    useLegacyOverlayToolStripMenuItem.Checked = !useV2;
+                    useLegacyOverlayToolStripMenuItem.CheckedChanged += useLegacyOverlayToolStripMenuItem_CheckedChanged;
 
                     // draw fence
                     {
@@ -2865,7 +2893,7 @@ namespace MissionPlanner.GCSViews
                     DataGridViewCell tcell = Commands.Rows[selectedrow].Cells[i];
                     if (tcell.GetType() == typeof(DataGridViewTextBoxCell))
                     {
-                        if (tcell.Value.ToString() == "?")
+                        if (tcell?.Value?.ToString() == "?")
                             tcell.Value = "0";
                     }
                 }
@@ -3821,6 +3849,13 @@ namespace MissionPlanner.GCSViews
             panelMap.Visible = true;
 
             writeKML();
+
+            BeginInvoke((Action)(() =>
+                Common.MessageShowAgain("New Mission Overlay",
+                    "Mission Planner now uses an improved mission overlay with styled lines and markers.\n\n" +
+                    "You can customize colors, line styles, and markers via Map Tool > Edit Style.\n\n" +
+                    "If you experience any issues, you can switch back via Map Tool > Use Legacy Overlay.")
+            ));
 
             // switch the action and wp table
             if (Settings.Instance["FP_docking"] == "Bottom")
@@ -6039,12 +6074,11 @@ namespace MissionPlanner.GCSViews
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");
-                if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduPlane ||
-                    MainV2.comPort.MAV.cs.firmware == Firmwares.Ateryx)
+                if (MainV2.comPort.MAV.cs.vehicleClass == VehicleClass.Plane)
                 {
                     reader.ReadToFollowing("APM");
                 }
-                else if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduRover)
+                else if (MainV2.comPort.MAV.cs.vehicleClass == VehicleClass.Rover)
                 {
                     reader.ReadToFollowing("APRover");
                 }
@@ -7710,7 +7744,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void groupmarkeradd(GMapMarker marker)
         {
             System.Diagnostics.Debug.WriteLine("add marker " + marker.Tag.ToString());
-            groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+            if (int.TryParse(marker.Tag.ToString(), out int temp))
+            {
+                groupmarkers.Add(temp);
+            }
+            else
+            {
+                return;
+            }
             if (marker is GMapMarkerWP)
             {
                 ((GMapMarkerWP) marker).selected = true;
@@ -7993,12 +8034,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     updateUndoBuffer(true);
                     int pnt2 = 0;
-                    var midline = CurrentMidLine.Tag as midline;
+                    var midline = CurrentMidLine.Tag as midline?;
                     // var pnt1 = int.Parse(midline.now.Tag);
 
-                    if (polygongridmode && midline.now != null)
+                    if (polygongridmode && midline?.now != null)
                     {
-                        var idx = drawnpolygon.Points.IndexOf(midline.now);
+                        var idx = drawnpolygon.Points.IndexOf(midline?.now);
                         drawnpolygon.Points.Insert(idx + 1,
                             new PointLatLng(CurrentMidLine.Position.Lat, CurrentMidLine.Position.Lng));
 
@@ -8006,7 +8047,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     }
                     else
                     {
-                        if (int.TryParse(midline.next.Tag, out pnt2))
+                        if (int.TryParse(midline?.next.Tag, out pnt2))
                         {
                             if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
                                 MAVLink.MAV_MISSION_TYPE.FENCE)
@@ -8024,7 +8065,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             else if ((MAVLink.MAV_MISSION_TYPE) cmb_missiontype.SelectedValue ==
                                      MAVLink.MAV_MISSION_TYPE.MISSION)
                             {
-
+                                var commandlist = GetCommandList();
+                                while (pnt2 > 1 && CommandUtils.IsBookmark(commandlist[pnt2 - 2].id))
+                                {
+                                    pnt2 -= 1;
+                                }
                                 InsertCommand(pnt2 - 1, MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0,
                                     CurrentMidLine.Position.Lng,
                                     CurrentMidLine.Position.Lat, float.Parse(TXT_DefaultAlt.Text));
@@ -8915,6 +8960,31 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
 
             return true;
+        }
+
+        MissionStyleEditor _styleEditor;
+
+        private void editStyleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_styleEditor != null && !_styleEditor.IsDisposed)
+            {
+                _styleEditor.BringToFront();
+                return;
+            }
+
+            _styleEditor = new MissionStyleEditor(WPOverlay2.missionStyle.Config, (style) =>
+            {
+                WPOverlay2.missionStyle = style;
+                writeKML();
+            });
+            _styleEditor.FormClosed += (s, _) => _styleEditor = null;
+            _styleEditor.Show(FindForm());
+        }
+
+        private void useLegacyOverlayToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["UseWPOverlay2"] = (!useLegacyOverlayToolStripMenuItem.Checked).ToString();
+            writeKML();
         }
     }
 }
