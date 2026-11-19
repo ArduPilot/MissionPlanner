@@ -161,14 +161,21 @@
             {
                 bool customarrows = false;
 
-                Pen Stroke = (Pen)this.Stroke.Clone();
+                Pen Stroke = this.Stroke;
+                Pen ownedStroke = null;
 
                 if (Stroke.DashStyle == DashStyle.Custom)
                 {
                     customarrows = true;
+                    // only a custom dash needs a private solid copy; the shared pen is left alone.
+                    // The shared pen (often the static DefaultStroke) is only read here, which is safe because
+                    // GMapControl renders overlays on the UI thread only; nothing in the render path modifies it.
+                    Stroke = ownedStroke = (Pen)this.Stroke.Clone();
                     Stroke.DashStyle = DashStyle.Solid;
                 }
 
+                try
+                {
                 if (graphicsPath.PointCount > 400)
                 {
                     Console.WriteLine("route OnRender Large Graphics Path " + graphicsPath.PointCount);
@@ -225,6 +232,12 @@
                        }
                    }
                }
+
+                }
+                finally
+                {
+                    ownedStroke?.Dispose();
+                }
             }
          }
 #else
