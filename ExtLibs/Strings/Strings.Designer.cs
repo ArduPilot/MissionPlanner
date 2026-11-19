@@ -70,6 +70,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Altitude (optional, {0}).
+        /// </summary>
+        public static string AltitudeOptional {
+            get {
+                return ResourceManager.GetString("AltitudeOptional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to upload .
         /// </summary>
         public static string AreYouSureYouWantToUpload {
@@ -436,6 +445,51 @@ namespace MissionPlanner {
         public static string Converting_bin_to_log {
             get {
                 return ResourceManager.GetString("Converting_bin_to_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordinates.
+        /// </summary>
+        public static string Coordinates {
+            get {
+                return ResourceManager.GetString("Coordinates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Coordinate system.
+        /// </summary>
+        public static string CoordinateSystem {
+            get {
+                return ResourceManager.GetString("CoordinateSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decimal degrees 'lat;long' or 'lat;long;alt' with '.' for decimals, eg 52.829;-7.470.
+        /// </summary>
+        public static string CoordsHintGEO {
+            get {
+                return ResourceManager.GetString("CoordsHintGEO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MGRS grid reference, eg 29UPU0406654629 (spaces allowed).
+        /// </summary>
+        public static string CoordsHintMGRS {
+            get {
+                return ResourceManager.GetString("CoordsHintMGRS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zone and latitude band (the letter is the band, not N or S), easting and northing in metres, eg 29U 540660 5854629.
+        /// </summary>
+        public static string CoordsHintUTM {
+            get {
+                return ResourceManager.GetString("CoordsHintUTM", resourceCulture);
             }
         }
         
@@ -814,6 +868,24 @@ namespace MissionPlanner {
         public static string EnsurePropsNotOn {
             get {
                 return ResourceManager.GetString("EnsurePropsNotOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Home Location.
+        /// </summary>
+        public static string EnterHomeLocation {
+            get {
+                return ResourceManager.GetString("EnterHomeLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter POI Coords.
+        /// </summary>
+        public static string EnterPOICoords {
+            get {
+                return ResourceManager.GetString("EnterPOICoords", resourceCulture);
             }
         }
         
@@ -1199,6 +1271,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid altitude: {0}.
+        /// </summary>
+        public static string InvalidAltitude {
+            get {
+                return ResourceManager.GetString("InvalidAltitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid BaudRate.
         /// </summary>
         public static string InvalidBaudRate {
@@ -1222,6 +1303,15 @@ namespace MissionPlanner {
         public static string InvalidCert {
             get {
                 return ResourceManager.GetString("InvalidCert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid {0} coordinate: {1}.
+        /// </summary>
+        public static string InvalidCoordinate {
+            get {
+                return ResourceManager.GetString("InvalidCoordinate", resourceCulture);
             }
         }
         
