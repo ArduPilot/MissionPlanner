@@ -229,8 +229,11 @@ namespace MissionPlanner.Controls
             if (running != null)
             {
                 running.Changed -= Sender_Changed;
-                running.Stop();
-                BUT_connect.Text = Strings.Connect;
+                var stopped = running.Stop();
+                // not stopped: it is still the output, and Stop can be pressed again
+                if (!stopped)
+                    running.Changed += Sender_Changed;
+                BUT_connect.Text = stopped ? Strings.Connect : Strings.Stop;
                 LBL_status.Text = running.Status;
                 return;
             }

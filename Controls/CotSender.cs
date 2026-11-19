@@ -63,6 +63,7 @@ namespace MissionPlanner.Controls
         readonly CancellationTokenSource cancel = new CancellationTokenSource();
         Thread thread;
         volatile CotSettings settings;
+        int transportClosed;
 
         /// <summary>The sender that is running, or null.</summary>
         public static CotSender Current
@@ -96,14 +97,16 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>Stops the sender that is running, waits for it, then starts this one.</summary>
+        /// <exception cref="InvalidOperationException">the sender that is running did not stop</exception>
         public static CotSender Start(ICotTransport transport, CotSettings settings,
             Func<IEnumerable<CotVehicle>> vehicles = null)
         {
             lock (startStop)
             {
                 var before = Current;
-                if (before != null)
-                    before.Stop();
+                // two runs at once would both send, and a TCP host could not listen on its port again
+                if (before != null && !before.Stop())
+                    throw new InvalidOperationException("The CoT output that is running has not stopped");
 
                 var sender = new CotSender(transport, settings, vehicles ?? AllVehicles);
                 Volatile.Write(ref current, sender);
@@ -114,14 +117,51 @@ namespace MissionPlanner.Controls
         }
 
         /// <summary>Ends the run: the tracks it reported are sent once more, already stale, and the transport closes.</summary>
-        public void Stop()
+        /// <returns>
+        /// false when the run has not ended, even with its transport closed under it. It stays Current, so
+        /// no other run starts beside it, and Stop can be called again.
+        /// </returns>
+        public bool Stop()
+        {
+            return Stop(TimeSpan.FromSeconds(5));
+        }
+
+        /// <param name="wait">for the run to end by itself, and then again once its transport is closed</param>
+        public bool Stop(TimeSpan wait)
         {
             lock (startStop)
             {
                 cancel.Cancel();
-                if (thread != null && thread != Thread.CurrentThread)
-                    thread.Join(TimeSpan.FromSeconds(10));
+                if (thread != null && thread != Thread.CurrentThread && !thread.Join(wait))
+                {
+                    // a send that does not return, to a TCP client that stopped reading or a port that
+                    // blocks: closing the transport makes it fail
+                    log.Warn("CoT output did not stop, closing its transport");
+                    CloseTransport();
+                    if (!thread.Join(wait))
+                    {
+                        log.Error("CoT output did not stop with its transport closed");
+                        return false;
+                    }
+                }
+
                 Interlocked.CompareExchange(ref current, null, this);
+                return true;
+            }
+        }
+
+        /// <summary>Closes the transport once, from the run or from a Stop that gave up waiting.</summary>
+        void CloseTransport()
+        {
+            if (Interlocked.Exchange(ref transportClosed, 1) != 0)
+                return;
+            try
+            {
+                transport.Dispose();
+            }
+            catch (Exception ex)
+            {
+                log.Warn("CoT output could not close its transport", ex);
             }
         }
 
@@ -144,7 +184,7 @@ namespace MissionPlanner.Controls
                 log.Warn("CoT output could not start", ex);
                 Status = string.Format(Strings.CotCouldNotStart, CotNetwork.Reason(ex));
                 Interlocked.CompareExchange(ref current, null, this);
-                transport.Dispose();
+                CloseTransport();
                 OnChanged();
                 return;
             }
@@ -161,6 +201,9 @@ namespace MissionPlanner.Controls
                     var shown = new StringBuilder();
                     foreach (var cotevent in events)
                     {
+                        // a slow transport can take a while over each one: stop between them
+                        if (cancel.IsCancellationRequested)
+                            break;
                         var xml = CotXml.Serialize(cotevent, now.Indent);
                         shown.Append(xml).Append("\r\n");
                         if (Send(xml))
@@ -187,12 +230,14 @@ namespace MissionPlanner.Controls
                 var endings = round.ExpireAll(DateTime.UtcNow)
                     .Select(cotevent => CotXml.Serialize(cotevent, settings.Indent)).ToList();
                 foreach (var xml in endings)
-                    Send(xml);
-                if (endings.Count > 0)
+                    if (!SendEnding(xml))
+                        break;
+                if (endings.Count > 0 && !TransportClosed)
                 {
                     Thread.Sleep(EndingsAgainAfter);
                     foreach (var xml in endings)
-                        Send(xml);
+                        if (!SendEnding(xml))
+                            break;
                 }
             }
             catch (Exception ex)
@@ -200,9 +245,23 @@ namespace MissionPlanner.Controls
                 log.Warn("CoT output could not expire its tracks", ex);
             }
 
-            transport.Dispose();
+            CloseTransport();
             Status = Strings.CotStopped;
             OnChanged();
+        }
+
+        bool TransportClosed
+        {
+            get { return Volatile.Read(ref transportClosed) != 0; }
+        }
+
+        /// <summary>Sends an ending, unless Stop has closed the transport; false once it has.</summary>
+        bool SendEnding(string xml)
+        {
+            if (TransportClosed)
+                return false;
+            Send(xml);
+            return true;
         }
 
         /// <summary>The message as sent: UTF-8, without carriage returns, ending in a line feed.</summary>
