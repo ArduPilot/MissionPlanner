@@ -551,6 +551,13 @@ namespace MissionPlanner
         private int adsbIndex = -1;
 
         /// <summary>
+        /// The last few positions we sent the vehicle for each aircraft, so its echo of them can be
+        /// told apart from traffic its own receiver heard
+        /// </summary>
+        private readonly Dictionary<string, List<(int lat, int lon)>> adsbForwarded =
+            new Dictionary<string, List<(int lat, int lon)>>();
+
+        /// <summary>
         /// used to call anything as needed.
         /// </summary>
         public static MainV2 instance = null;
@@ -671,10 +678,10 @@ namespace MissionPlanner
             {
                 lock (adsblock)
                 {
-                    if (MainV2.instance.adsbPlanes.ContainsKey(tuple.id))
+                    if (MainV2.instance.adsbPlanes.ContainsKey(NormalizeAdsbId(tuple.id)))
                     {
                         // update existing
-                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[tuple.id]).ThreatLevel = tuple.threat_level;
+                        ((adsb.PointLatLngAltHdg) instance.adsbPlanes[NormalizeAdsbId(tuple.id)]).ThreatLevel = tuple.threat_level;
                     }
                 }
             };
@@ -1198,18 +1205,84 @@ namespace MissionPlanner
             MenuHelp.ForeColor = ThemeManager.TextColor;
         }
 
+        /// <summary>
+        /// Set on a 24-bit address that is not an ICAO address, e.g. a TIS-B track the ground station
+        /// couldn't tie to an aircraft. Same flag as MODES_NON_ICAO_ADDRESS in dump1090 and readsb,
+        /// which is where the "~A1B2C3" ids in readsb's JSON and SBS output come from. A real ICAO
+        /// address never has it set, so the two can't collide in the vehicle's traffic list. ArduPilot
+        /// before ArduPilot/ardupilot#35256 drops any ADSB_VEHICLE above 24 bits, so on those this
+        /// traffic is simply ignored.
+        /// </summary>
+        internal const uint NonIcaoAddressFlag = 1u << 24;
+
+        /// <summary>
+        /// ICAO addresses arrive as "A1234" (MAVLink, Beast/AVR) or "0A1234" (SBS, HTTP). Key every
+        /// plane by the same 6-digit upper-case form, so the vehicle's echo of traffic we forwarded
+        /// matches our own copy. Non-ICAO addresses are keyed "~A1B2C3" like readsb shows them,
+        /// whether they came as that or as a number with NonIcaoAddressFlag set (MAVLink).
+        /// </summary>
+        internal static string NormalizeAdsbId(string id)
+        {
+            var trimmed = (id ?? "").Trim();
+            if (!TryParseAdsbAddress(trimmed, out var address))
+                return trimmed.ToUpperInvariant();
+            return (address & NonIcaoAddressFlag) != 0
+                ? "~" + (address & 0xFFFFFF).ToString("X6")
+                : address.ToString("X6");
+        }
+
+        /// <summary>
+        /// The address to send in ADSB_VEHICLE.ICAO_address: the ICAO address, or for "~A1B2C3" the
+        /// 24 bits with NonIcaoAddressFlag set. False for anything else, which must not go up as 0.
+        /// </summary>
+        internal static bool TryParseAdsbAddress(string id, out uint address)
+        {
+            bool nonIcao = id.StartsWith("~");
+            if (!uint.TryParse(nonIcao ? id.Substring(1) : id, System.Globalization.NumberStyles.AllowHexSpecifier,
+                    System.Globalization.CultureInfo.InvariantCulture, out address))
+                return false;
+            if (nonIcao)
+            {
+                if (address > 0xFFFFFF)
+                    return false;
+                address |= NonIcaoAddressFlag;
+                return true;
+            }
+            return address <= 0xFFFFFF || (address & ~0xFFFFFFu) == NonIcaoAddressFlag;
+        }
+
+        /// <summary>
+        /// True when an ADSB_VEHICLE from the vehicle is a copy of a position we forwarded to it
+        /// </summary>
+        bool IsAdsbEcho(string id, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb) =>
+            adsb.Raw is MAVLink.mavlink_adsb_vehicle_t raw &&
+            adsbForwarded.TryGetValue(id, out var sent) &&
+            sent.Contains((raw.lat, raw.lon));
+
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
         {
             lock (adsblock)
             {
-                var id = adsb.Tag;
+                var id = NormalizeAdsbId(adsb.Tag);
+
+                // The vehicle sends back the traffic we forwarded to it; that is our own data, delayed
+                if (sender is MAVLinkInterface && IsAdsbEcho(id, adsb))
+                {
+                    log.DebugFormat("Ignoring vehicle echo of ADSB_VEHICLE for {0}", adsb.Tag);
+                    return;
+                }
 
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     var plane = (adsb.PointLatLngAltHdg)instance.adsbPlanes[id];
-                    if (plane.Source == null && sender != null)
+                    // Anything else the vehicle reports was heard by its own receiver, which is fresher
+                    // than any feed; with the vehicle as its source we also stop forwarding it back up.
+                    // Don't let an older feed copy overwrite it while the vehicle keeps reporting it; ArduPilot
+                    // sends one ADSB_VEHICLE per SRx_ADSB tick, so a full list at a low rate can leave several
+                    // seconds between reports of the same aircraft.
+                    if (plane.Source is MAVLinkInterface && !(sender is MAVLinkInterface) &&
+                        plane.Time > DateTime.Now.AddSeconds(-15))
                     {
-                        log.DebugFormat("Ignoring MAVLink-sourced ADSB_VEHICLE for locally-known aircraft {0}", adsb.Tag);
                         return;
                     }
 
@@ -1221,10 +1294,16 @@ namespace MissionPlanner
                     plane.Time = DateTime.Now;
                     plane.CallSign = adsb.CallSign;
                     plane.Squawk = adsb.Squawk;
+                    plane.SquawkValid = adsb.SquawkValid;
+                    plane.AltValid = adsb.AltValid;
                     plane.Raw = adsb.Raw;
                     plane.Speed = adsb.Speed;
                     plane.VerticalSpeed = adsb.VerticalSpeed;
                     plane.Source = sender;
+                    plane.Category = adsb.Category;
+                    plane.Type = adsb.Type;
+                    plane.DetectionType = adsb.DetectionType;
+                    plane.IsOnGround = adsb.IsOnGround;
                     instance.adsbPlanes[id] = plane;
                 }
                 else
@@ -1234,7 +1313,7 @@ namespace MissionPlanner
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                                 adsb.Alt, adsb.Heading, adsb.Speed, id,
                                 DateTime.Now)
-                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed};
+                            {CallSign = adsb.CallSign, Squawk = adsb.Squawk, SquawkValid = adsb.SquawkValid, AltValid = adsb.AltValid, Raw = adsb.Raw, Source = sender, VerticalSpeed = adsb.VerticalSpeed, Category = adsb.Category, Type = adsb.Type, DetectionType = adsb.DetectionType, IsOnGround = adsb.IsOnGround};
                 }
             }
         }
@@ -3117,6 +3196,7 @@ namespace MissionPlanner
                 return;
             adsbThread = true;
             ADSBThreadRunner.Reset();
+            DateTime lastSpeech = DateTime.Now;
             while (adsbThread)
             {
                 await Task.Delay(1000).ConfigureAwait(false); // run every 1000 ms
@@ -3126,20 +3206,144 @@ namespace MissionPlanner
                 {
                     MainV2.instance.adsbPlanes.Where(a => a.Value.Time < DateTime.Now.AddSeconds(-30)).ForEach(a => planesToClean.Add(a.Key));
                     planesToClean.ForEach(a => MainV2.instance.adsbPlanes.TryRemove(a, out _));
+                    planesToClean.ForEach(a => adsbForwarded.Remove(a));
 
                 }
-                PointLatLngAlt ourLocation = comPort.MAV.cs.Location;
-                // Get only close planes, sorted by distance
-                var relevantPlanes = MainV2.instance.adsbPlanes
-                    .Select(v => new { v, Distance = v.Value.GetDistance(ourLocation) })
-                    .Where(v => v.Distance <= 10000)
-                    .Where(v => !(v.v.Value.Source is MAVLinkInterface))
-                    .OrderBy(v => v.Distance)
-                    .Select(v => v.v.Value)
+                // CurrentState getters are in display units; the traffic is in metres and cm/s
+                var cs = comPort.MAV.cs;
+                var ownship = adsb.Ownship.FromDisplayUnits(cs.lat, cs.lng, cs.altasl, cs.groundspeed,
+                    cs.groundcourse, cs.climbrate, CurrentState.multiplieralt, CurrentState.multiplierspeed);
+                PointLatLngAlt ourLocation = ownship.Location;
+
+                // Threat thresholds; the equivalents of ArduPilot's AVD_W_* and AVD_F_* parameters
+                var warnThresholds = new adsb.ThreatThresholds
+                {
+                    TimeHorizon = Settings.Instance.GetDouble("adsb_warn_time", 30),
+                    DistanceXY = Settings.Instance.GetDouble("adsb_warn_dist_xy", 1000),
+                    DistanceZ = Settings.Instance.GetDouble("adsb_warn_dist_z", 300)
+                };
+                var criticalThresholds = new adsb.ThreatThresholds
+                {
+                    TimeHorizon = Settings.Instance.GetDouble("adsb_crit_time", 30),
+                    DistanceXY = Settings.Instance.GetDouble("adsb_crit_dist_xy", 300),
+                    DistanceZ = Settings.Instance.GetDouble("adsb_crit_dist_z", 100)
+                };
+
+                // Classify every aircraft by its closest point of approach, then prioritize by
+                // threat level and by how soon that closest approach happens. This includes traffic
+                // the vehicle's own ADS-B receiver reported over MAVLink, which is usually the most
+                // important traffic to call out; it is only left out of what we forward back below.
+                bool ownshipValid = cs.lat != 0 || cs.lng != 0;
+                var noThreat = new adsb.ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE,
+                    TimeToClosestApproach = double.MaxValue
+                };
+                var assessedPlanes = MainV2.instance.adsbPlanes.Values
+                    .Select(v => new
+                    {
+                        Plane = v,
+                        Threat = ownshipValid
+                            ? adsb.AssessThreat(ownship, v, warnThresholds, criticalThresholds)
+                            : noThreat,
+                        Distance = v.GetDistance(ourLocation)
+                    })
+                    .OrderByDescending(v => v.Threat.Level)
+                    .ThenBy(v => v.Threat.TimeToClosestApproach)
+                    .ThenBy(v => v.Distance)
+                    .ToList();
+
+                // Keep our own assessment on the plane, so the map and /adsb show the same
+                // level the callouts use (ThreatLevel stays the autopilot's view)
+                foreach (var assessed in assessedPlanes)
+                    assessed.Plane.AssessedThreatLevel = assessed.Threat.Level;
+
+                // Speech alert for the most pressing threat
+                var threat = assessedPlanes.FirstOrDefault();
+                if (
+                    lastSpeech.AddSeconds(5) < DateTime.Now &&
+                    threat != null &&
+                    threat.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE &&
+                    speechEnable && speechEngine != null &&
+                    Settings.Instance.GetBoolean("speechadsbenabled") &&
+                    // Stay quiet while disarmed, e.g. sitting at a field near an airport
+                    (cs.armed || Settings.Instance.GetBoolean("speechadsb_when_disarmed", false))
+                )
+                {
+                    var threatPlane = threat.Plane;
+                    // Bearing to traffic from our plane
+                    int bearingToTraffic = (int)ourLocation.GetBearing(threatPlane);
+
+                    // Heading of our plane
+                    int heading = (int)cs.yaw;
+
+                    // Calculate the bearing to traffic relative to our heading
+                    bearingToTraffic = (bearingToTraffic - heading + 360) % 360;
+                    int clock = (int)Math.Round(bearingToTraffic / 30.0, MidpointRounding.AwayFromZero);
+                    if (clock == 0)
+                    {
+                        clock = 12;
+                    }
+
+                    bool isHigh = threat.Threat.Level == MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH;
+                    string verticalDirection;
+                    string speech;
+                    if (!threatPlane.AltValid)
+                    {
+                        // No altitude reported: we can't tell whether it is above or below us,
+                        // so announce the traffic only and give no climb/descend advice
+                        verticalDirection = "altitude unknown";
+                        speech = string.Format(isHigh ? "Traffic Close! {0} O'Clock, {1}" : "Traffic; {0} O'Clock, {1};",
+                            clock,
+                            verticalDirection
+                        );
+                    }
+                    else
+                    {
+                        verticalDirection = threatPlane.Alt > ourLocation.Alt ? "high" : "low";
+                        string recommendedAction = threatPlane.Alt > ourLocation.Alt ? "descend" : "climb";
+                        // Switch message urgency based on threat level
+                        if (isHigh)
+                        {
+                            // Peak urgency, start with the recommended action
+                            speech = string.Format("{2} NOW! {2} NOW! Traffic {0} O'Clock {1}",
+                                clock,
+                                verticalDirection,
+                                recommendedAction
+                            );
+                        }
+                        else
+                        {
+                            speech = string.Format("Traffic; {0} O'Clock {1};",
+                                clock,
+                                verticalDirection
+                            );
+                        }
+                    }
+
+                    // Log it including callsign
+                    log.InfoFormat("Traffic: {0} {1}; {2} {3}",
+                        bearingToTraffic,
+                        verticalDirection,
+                        threatPlane.CallSign,
+                        threatPlane.Tag
+                    );
+
+                    MainV2.speechEngine.SpeakAsync(speech);
+                    lastSpeech = DateTime.Now;
+                }
+
+                // Forward the most pressing threats to the autopilot, leaving out traffic that
+                // came from the vehicle itself so we don't echo it back
+                var relevantPlanes = assessedPlanes
+                    .Where(v => !(v.Plane.Source is MAVLinkInterface))
+                    // Only ids we can turn into an address; anything else would go up as address 0
+                    .Where(v => TryParseAdsbAddress(v.Plane.Tag, out _))
+                    .Where(v => v.Distance <= 10000 || v.Threat.Level != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
                     .Take(10)
                     .ToList();
                 adsbIndex = (++adsbIndex % Math.Max(1, Math.Min(relevantPlanes.Count, 10)));
-                var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex);
+                var currentPlane = relevantPlanes.ElementAtOrDefault(adsbIndex)?.Plane;
                 if (currentPlane == null)
                 {
                     continue;
@@ -3149,27 +3353,31 @@ namespace MissionPlanner
                 packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
                 packet.callsign = currentPlane.CallSign.MakeBytes();
                 packet.squawk = currentPlane.Squawk;
-                packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                packet.emitter_type = ((byte)currentPlane.GetEmitterCategory());
                 packet.heading = (ushort)(currentPlane.Heading * 100);
                 packet.lat = (int)(currentPlane.Lat * 1e7);
                 packet.lon = (int)(currentPlane.Lng * 1e7);
                 packet.hor_velocity = (ushort)(currentPlane.Speed);
                 packet.ver_velocity = (short)(currentPlane.VerticalSpeed);
-                try
-                {
-                    packet.ICAO_address = uint.Parse(currentPlane.Tag, NumberStyles.HexNumber);
-                }
-                catch
-                {
-                    log.WarnFormat("invalid icao address: {0}", currentPlane.Tag);
-                    packet.ICAO_address = 0;
-                }
-                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                TryParseAdsbAddress(currentPlane.Tag, out packet.ICAO_address);
+                packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_COORDS |
                                           MAVLink.ADSB_FLAGS.VALID_VELOCITY | MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+                if (currentPlane.AltValid)
+                    packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_ALTITUDE;
+                if (currentPlane.SquawkValid)
+                    packet.flags |= (ushort)MAVLink.ADSB_FLAGS.VALID_SQUAWK;
+
+                lock (adsblock)
+                {
+                    if (!adsbForwarded.TryGetValue(currentPlane.Tag, out var sent))
+                        adsbForwarded[currentPlane.Tag] = sent = new List<(int lat, int lon)>();
+                    sent.Add((packet.lat, packet.lon));
+                    if (sent.Count > 4)
+                        sent.RemoveAt(0);
+                }
 
                 //send to current connected
                 MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
-
             }
 
         }

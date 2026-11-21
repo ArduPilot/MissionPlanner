@@ -154,6 +154,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
             SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
+            SetCheckboxFromConfig("speechadsbenabled", CHK_speechadsb);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
             SetCheckboxFromConfig("password_protect", CHK_Password);
             SetCheckboxFromConfig("showairports", CHK_showairports);
@@ -395,6 +396,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechmode.Visible = true;
                 CHK_speecharmdisarm.Visible = true;
                 CHK_speechlowspeed.Visible = true;
+                CHK_speechadsb.Visible = true;
             }
             else
             {
@@ -406,6 +408,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechmode.Visible = false;
                 CHK_speecharmdisarm.Visible = false;
                 CHK_speechlowspeed.Visible = false;
+                CHK_speechadsb.Visible = false;
             }
         }
 
@@ -830,6 +833,55 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (DialogResult.Cancel == InputBox.Show("Disarmed", "What do you want it to say?", ref speechstring))
                     return;
                 Settings.Instance["speechdisarm"] = speechstring;
+            }
+        }
+
+        private void CHK_speechadsb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            Settings.Instance["speechadsbenabled"] = ((CheckBox)sender).Checked.ToString();
+
+            if (((CheckBox)sender).Checked)
+            {
+                // Threat thresholds; the equivalents of ArduPilot's AVD_W_* and AVD_F_* parameters
+                if (!PromptADSBThreshold("adsb_warn_time", "30",
+                        "How many seconds ahead do you want to look for warning-level threats?"))
+                    return;
+                if (!PromptADSBThreshold("adsb_warn_dist_xy", "1000",
+                        "What lateral separation (meters) at closest approach do you want to warn at?"))
+                    return;
+                if (!PromptADSBThreshold("adsb_warn_dist_z", "300",
+                        "What vertical separation (meters) at closest approach do you want to warn at?"))
+                    return;
+                if (!PromptADSBThreshold("adsb_crit_time", "30",
+                        "How many seconds ahead do you want to look for critical threats?"))
+                    return;
+                if (!PromptADSBThreshold("adsb_crit_dist_xy", "300",
+                        "What lateral separation (meters) at closest approach is a critical threat?"))
+                    return;
+                PromptADSBThreshold("adsb_crit_dist_z", "100",
+                    "What vertical separation (meters) at closest approach is a critical threat?");
+            }
+        }
+
+        private static bool PromptADSBThreshold(string key, string defaultvalue, string prompt)
+        {
+            var valuestring = defaultvalue;
+            if (Settings.Instance[key] != null)
+                valuestring = Settings.Instance[key].ToString();
+            var message = prompt;
+            while (true)
+            {
+                if (DialogResult.Cancel == InputBox.Show("Traffic Alerts", message, ref valuestring))
+                    return false; // keep the old value
+                // Same culture as Settings.GetDouble reads it back with
+                if (double.TryParse(valuestring, out var value) && value > 0)
+                {
+                    Settings.Instance[key] = value.ToString();
+                    return true;
+                }
+                message = "Please enter a positive number, without units.\n\n" + prompt;
             }
         }
 
