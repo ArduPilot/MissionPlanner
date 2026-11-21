@@ -1794,6 +1794,18 @@ namespace MissionPlanner.Utilities
             double ourVelocityEast, double ourVerticalSpeed, PointLatLngAltHdg plane,
             ThreatThresholds warn, ThreatThresholds critical)
         {
+            // Traffic on the ground nearly always comes without an altitude ("alt_baro": "ground"), which
+            // would otherwise judge it on distance alone and call out everything taxiing or parked at an
+            // airfield we fly near
+            if (plane.IsOnGround)
+            {
+                return new ThreatAssessment
+                {
+                    Level = MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE,
+                    TimeToClosestApproach = double.MaxValue
+                };
+            }
+
             // Relative NE position of the aircraft (m)
             double bearing = ourLocation.GetBearing(plane) * MathHelper.deg2rad;
             double distance = ourLocation.GetDistance(plane);

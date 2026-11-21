@@ -251,5 +251,15 @@ namespace ADSBTests
             Assert.AreEqual(MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH, adsb.AssessThreat(us, traffic, Warn, Crit).Level,
                 "200 m away with unknown altitude must not be cleared as 120 m below us");
         }
+
+        [TestMethod]
+        public void Traffic_on_the_ground_is_not_a_threat()
+        {
+            // readsb's "alt_baro": "ground" comes with no altitude; parked 100 m away it must not be HIGH
+            var us = adsb.Ownship.FromDisplayUnits(46.2, -119.1, 120, 0, 0, 0, 1, 1);
+            var traffic = new adsb.PointLatLngAltHdg(46.2 + 100 / 111320.0, -119.1, 0, 180, 0, "ABCDEF", DateTime.Now)
+                { AltValid = false, IsOnGround = true };
+            Assert.AreEqual(MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE, adsb.AssessThreat(us, traffic, Warn, Crit).Level);
+        }
     }
 }

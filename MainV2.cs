@@ -1277,9 +1277,11 @@ namespace MissionPlanner
                     var plane = (adsb.PointLatLngAltHdg)instance.adsbPlanes[id];
                     // Anything else the vehicle reports was heard by its own receiver, which is fresher
                     // than any feed; with the vehicle as its source we also stop forwarding it back up.
-                    // Don't let an older feed copy overwrite it while the vehicle keeps reporting it.
+                    // Don't let an older feed copy overwrite it while the vehicle keeps reporting it; ArduPilot
+                    // sends one ADSB_VEHICLE per SRx_ADSB tick, so a full list at a low rate can leave several
+                    // seconds between reports of the same aircraft.
                     if (plane.Source is MAVLinkInterface && !(sender is MAVLinkInterface) &&
-                        plane.Time > DateTime.Now.AddSeconds(-5))
+                        plane.Time > DateTime.Now.AddSeconds(-15))
                     {
                         return;
                     }

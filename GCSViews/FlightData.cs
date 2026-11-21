@@ -4316,7 +4316,7 @@ namespace MissionPlanner.GCSViews
                                                             "Type/Category: " + typeCategory + "\n" +
                                                             (detection != null ? "Source: " + detection + "\n" : "") +
                                                             "Squawk: " + (pllau.SquawkValid ? pllau.SquawkString : "unknown") + "\n" +
-                                                            "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
+                                                            "Alt: " + (pllau.AltValid ? (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit : "unknown") + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "Heading: " + pllau.Heading.ToString("0") + "°" +
