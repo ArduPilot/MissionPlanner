@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TUNE_HIGH.setup(0, 10000, 1, 0.01f, new[] {"TUNE_HIGH", "TUNE_MAX"},
                 MainV2.comPort.MAV.param);
 
-            HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] {"HLD_LAT_P", "POS_XY_P", "PSC_POSXY_P", "Q_P_POSXY_P"},
+            HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] {"HLD_LAT_P", "POS_XY_P", "PSC_POSXY_P", "Q_P_POSXY_P", "PSC_NE_POS_P", "Q_P_NE_POS_P"},
                 MainV2.comPort.MAV.param);
             LOITER_LAT_D.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_D", "PSC_VELXY_D", "Q_P_VELXY_D", "PSC_NE_VEL_D", "Q_P_NE_VEL_D"},
                 MainV2.comPort.MAV.param);
