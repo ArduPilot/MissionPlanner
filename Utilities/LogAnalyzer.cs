@@ -62,7 +62,7 @@ namespace MissionPlanner.Utilities
                 {
                     if (!File.Exists(runner))
                     {
-                        CustomMessageBox.Show("Failed to download LogAnalyzer");
+                        CustomMessageBox.Show(L10NU.GetString("Failed to download LogAnalyzer", "Failed to download LogAnalyzer"));
                         return "";
                     }
                 }
@@ -71,7 +71,7 @@ namespace MissionPlanner.Utilities
 
             if (!File.Exists(runner))
             {
-                CustomMessageBox.Show("Failed to download LogAnalyzer");
+                CustomMessageBox.Show(L10NU.GetString("Failed to download LogAnalyzer", "Failed to download LogAnalyzer"));
                 return "";
             }
 
@@ -106,7 +106,7 @@ namespace MissionPlanner.Utilities
             }
             catch
             {
-                CustomMessageBox.Show("Failed to start LogAnalyzer");
+                CustomMessageBox.Show(L10NU.GetString("Failed to start LogAnalyzer", "Failed to start LogAnalyzer"));
             }
 
             Loading.Close();

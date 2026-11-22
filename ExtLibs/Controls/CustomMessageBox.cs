@@ -80,6 +80,12 @@ namespace MissionPlanner.MsgBox
             if (caption == null)
                 caption = "";
 
+            // translate the standard button captions; captions supplied by callers are kept as-is
+            if (YesText == "Yes")
+                YesText = Localized("Yes");
+            if (NoText == "No" || NoText == "Cancel")
+                NoText = Localized(NoText);
+
             string link = "";
             string linktext = "";
 
@@ -288,6 +294,48 @@ namespace MissionPlanner.MsgBox
             return sb.ToString();
         }
 
+        // This file is compiled into both MissionPlanner.Controls.dll and SikRadio.exe. The
+        // MissionPlanner.Strings resource class lives in its own assembly (never this one), and
+        // SikRadio does not reference it at all - so the localized button captions are resolved
+        // by scanning the loaded assemblies, and fall back to the English literals when the type
+        // is absent (SikRadio) or not loaded yet (retried on the next call, misses are not cached).
+        static Type _stringsType;
+        static readonly System.Collections.Generic.Dictionary<string, string> _localizedCache =
+            new System.Collections.Generic.Dictionary<string, string>();
+
+        static string Localized(string key)
+        {
+            if (_localizedCache.TryGetValue(key, out var cached))
+                return cached;
+            try
+            {
+                if (_stringsType == null)
+                {
+                    foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        var t = asm.GetType("MissionPlanner.Strings", false);
+                        if (t != null)
+                        {
+                            _stringsType = t;
+                            break;
+                        }
+                    }
+                }
+                var prop = _stringsType?.GetProperty(key,
+                    System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                var value = prop?.GetValue(null, null) as string;
+                if (!string.IsNullOrEmpty(value))
+                {
+                    _localizedCache[key] = value;
+                    return value;
+                }
+            }
+            catch
+            {
+            }
+            return key;
+        }
+
         private static void AddButtonsToForm(Form msgBoxFrm, MessageBoxButtons buttons, string YesText = "Yes", string NoText = "No")
         {
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
@@ -303,7 +351,7 @@ namespace MissionPlanner.MsgBox
                     var but = new MyButton
                                   {
                                       Size = new Size(75, 23),
-                                      Text = "OK",
+                                      Text = Localized("OK"),
                                       Left = msgBoxFrm.Width - 100 - FORM_X_MARGIN,
                                       Top = msgBoxFrm.Height - 40 - FORM_Y_MARGIN - titleHeight
                                   };
@@ -351,7 +399,7 @@ namespace MissionPlanner.MsgBox
                     var butok = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "OK",
+                        Text = Localized("OK"),
                         Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
@@ -363,7 +411,7 @@ namespace MissionPlanner.MsgBox
                     var butcancel = new MyButton
                     {
                         Size = new Size(75, 23),
-                        Text = "Cancel",
+                        Text = Localized("Cancel"),
                         Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };

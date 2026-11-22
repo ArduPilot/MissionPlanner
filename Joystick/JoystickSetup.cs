@@ -38,7 +38,7 @@ namespace MissionPlanner.Joystick
             }
             catch
             {
-                CustomMessageBox.Show("Error geting joystick list: do you have the directx redist installed?");
+                CustomMessageBox.Show(L10NU.GetString("Error geting joystick list: do you have the directx redist installed?", "Error geting joystick list: do you have the directx redist installed?"));
                 this.Close();
                 return;
             }
@@ -79,7 +79,7 @@ namespace MissionPlanner.Joystick
                 var ax = new JoystickAxis()
                 {
                     ChannelNo = a,
-                    Label = "RC " + a,
+                    Label = string.Format(L10NU.GetString("RC {0}", "RC {0}"), a),
                     AxisArray = (Enum.GetValues(typeof(joystickaxis))),
                     ChannelValue = config.axis.ToString(),
                     ExpoValue = config.expo.ToString(),
@@ -122,7 +122,7 @@ namespace MissionPlanner.Joystick
             if (MainV2.joystick != null && MainV2.joystick.enabled)
             {
                 timer1.Start();
-                BUT_enable.Text = "Disable";
+                BUT_enable.Text = L10NU.GetString("Disable", "Disable");
             }
 
             startup = false;
@@ -160,7 +160,7 @@ namespace MissionPlanner.Joystick
                 //show error message if a joystick is not connected when Enable is clicked
                 if (!joy.start(CMB_joysticks.Text))
                 {
-                    CustomMessageBox.Show("Please Connect a Joystick", "No Joystick");
+                    CustomMessageBox.Show(L10NU.GetString("Please Connect a Joystick", "Please Connect a Joystick"), L10NU.GetString("No Joystick", "No Joystick"));
                     joy.Dispose();
                     return;
                 }
@@ -170,7 +170,7 @@ namespace MissionPlanner.Joystick
                 MainV2.joystick = joy;
                 MainV2.joystick.enabled = true;
 
-                BUT_enable.Text = "Disable";
+                BUT_enable.Text = L10NU.GetString("Disable", "Disable");
 
                 //timer1.Start();
             }
@@ -185,7 +185,7 @@ namespace MissionPlanner.Joystick
 
                 //timer1.Stop();
 
-                BUT_enable.Text = "Enable";
+                BUT_enable.Text = L10NU.GetString("Enable", "Enable");
             }
         }
 
@@ -193,7 +193,7 @@ namespace MissionPlanner.Joystick
         {
             if (MainV2.joystick == null)
             {
-                CustomMessageBox.Show("Please select a joystick");
+                CustomMessageBox.Show(L10NU.GetString("Please select a joystick", "Please select a joystick"));
                 return;
             }
             MainV2.joystick.saveconfig();
@@ -369,7 +369,7 @@ namespace MissionPlanner.Joystick
 
             butlabel.Location = new Point(x, y);
             butlabel.Size = new Size(47, 13);
-            butlabel.Text = "But " + (int.Parse(name) + 1);
+            butlabel.Text = string.Format(L10NU.GetString("But {0}", "But {0}"), (int.Parse(name) + 1));
 
             butnumberlist.Location = new Point(butlabel.Right, y);
             butnumberlist.Size = new Size(70, 21);
@@ -395,7 +395,7 @@ namespace MissionPlanner.Joystick
 
             but_detect.Location = new Point(butnumberlist.Right, y);
             //but_detect.Size = BUT_detch1.Size;
-            but_detect.Text = "Detect";
+            but_detect.Text = L10NU.GetString("Detect", "Detect");
             but_detect.AutoSize = true;
 
             but_detect.Name = "mybut" + name;
@@ -426,7 +426,7 @@ namespace MissionPlanner.Joystick
 
             but_settings.Location = new Point(cmbaction.Right + 5, y);
             //but_settings.Size = BUT_detch1.Size;
-            but_settings.Text = "Settings";
+            but_settings.Text = L10NU.GetString("Settings", "Settings");
             but_settings.Name = "butsettings" + name;
             but_settings.Click += but_settings_Click;
             but_settings.Tag = cmbaction;
@@ -481,7 +481,7 @@ namespace MissionPlanner.Joystick
                     new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 default:
-                    CustomMessageBox.Show("No settings to set", "No settings");
+                    CustomMessageBox.Show(L10NU.GetString("No settings to set", "No settings to set"), L10NU.GetString("No settings", "No settings"));
                     break;
             }
         }
@@ -548,7 +548,7 @@ namespace MissionPlanner.Joystick
 
         private void but_import_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("NOTE: this will replace any existing joystick configuration.\nPlease make sure you have saved your current configuration if needed.", "Import Joystick Config", MessageBoxButtons.OKCancel) == (int)DialogResult.OK)
+            if (CustomMessageBox.Show(L10NU.GetString("NOTE: this will replace any existing joystick configuration.", "NOTE: this will replace any existing joystick configuration.") + "\n" + L10NU.GetString("Please make sure you have saved your current configuration if needed.", "Please make sure you have saved your current configuration if needed."), L10NU.GetString("Import Joystick Config", "Import Joystick Config"), MessageBoxButtons.OKCancel) == (int)DialogResult.OK)
             {
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "Joystick config files (*.joycfg)|*.joycfg|All files (*.*)|*.*";
@@ -556,7 +556,7 @@ namespace MissionPlanner.Joystick
                 {
                     MainV2.joystick.ImportConfig(ofd.FileName);
                     MainV2.joystick.loadconfig();
-                    CustomMessageBox.Show("Please reopen joystick for changes to take effect");
+                    CustomMessageBox.Show(L10NU.GetString("Please reopen joystick for changes to take effect", "Please reopen joystick for changes to take effect"));
                     this.BeginInvoke((Action)delegate ()
                     {
                         this.Close();

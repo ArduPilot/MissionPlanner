@@ -152,7 +152,7 @@ namespace MissionPlanner.Warnings
             this.TXT_warningtext.Name = "TXT_warningtext";
             this.TXT_warningtext.Size = new System.Drawing.Size(236, 20);
             this.TXT_warningtext.TabIndex = 4;
-            this.TXT_warningtext.Text = "WARNING: {name} is {value}";
+            this.TXT_warningtext.Text = MissionPlanner.Utilities.L10NU.GetString("WARNING: {name} is {value}", "WARNING: {name} is {value}");
             this.TXT_warningtext.TextChanged += new System.EventHandler(this.TXT_warningtext_TextChanged);
             //
             // but_addchild
@@ -318,7 +318,7 @@ namespace MissionPlanner.Warnings
             {
                 //It is regular SpeakAndText item
                 but_addchild.Enabled = true;
-                TXT_warningtext.Text = "WARNING: {name} is {value}";
+                TXT_warningtext.Text = MissionPlanner.Utilities.L10NU.GetString("WARNING: {name} is {value}", "WARNING: {name} is {value}");
                 TXT_warningtext.Enabled = true;
                 NUM_repeattime.Value = 10;
                 NUM_repeattime.Enabled = true;

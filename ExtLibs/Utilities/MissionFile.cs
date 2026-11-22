@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
             string header = sr.ReadLine();
             if (header == null || !header.Contains("QGC WPL"))
             {
-                CustomMessageBox.Show("Invalid Waypoint file");
+                CustomMessageBox.Show(L10NU.GetString("Invalid Waypoint file", "Invalid Waypoint file"));
                 return cmds;
             }
 
@@ -75,7 +75,7 @@ namespace MissionPlanner.Utilities
                 catch (Exception ex)
                 {
                     log.Error(ex);
-                    CustomMessageBox.Show("Line invalid\n" + line);
+                    CustomMessageBox.Show(L10NU.GetString("Line invalid", "Line invalid") + "\n" + line);
                 }
             }
 

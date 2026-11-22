@@ -186,7 +186,7 @@ namespace MissionPlanner.Log
             if (keyData == (Keys.Control | Keys.G))
             {
                 string lineno = "0";
-                InputBox.Show("Line no", "Enter Line Number", ref lineno);
+                InputBox.Show(L10NU.GetString("Line no", "Line no"), L10NU.GetString("Enter Line Number", "Enter Line Number"), ref lineno);
 
                 int line = int.Parse(lineno);
 
@@ -196,7 +196,7 @@ namespace MissionPlanner.Log
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Line Doesn't Exist");
+                    CustomMessageBox.Show(L10NU.GetString("Line Doesn't Exist", "Line Doesn't Exist"));
                 }
 
                 return true;
@@ -393,7 +393,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                CustomMessageBox.Show(string.Format(L10NU.GetString("Failed to read File: {0}", "Failed to read File: {0}"), ex.ToString()));
                 return;
             }
 
@@ -1085,7 +1085,7 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph",
+                CustomMessageBox.Show(L10NU.GetString("Please pick another column, Highlight the cell you wish to graph", "Please pick another column, Highlight the cell you wish to graph"),
                     Strings.ERROR);
                 return;
             }
@@ -1271,7 +1271,7 @@ namespace MissionPlanner.Log
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Failed to graph item: " + ex.Message, Strings.ERROR);
+                        CustomMessageBox.Show(string.Format(L10NU.GetString("Failed to graph item: {0}", "Failed to graph item: {0}"), ex.Message), Strings.ERROR);
                     }
                 });
             }
@@ -1565,7 +1565,7 @@ main()
                         log.Info("Bad Data : " + type + " " + col + " " + a);
                         if (error >= 500)
                         {
-                            CustomMessageBox.Show("There is to much bad data - failing");
+                            CustomMessageBox.Show(L10NU.GetString("There is to much bad data - failing", "There is to much bad data - failing"));
                             break;
                         }
                     }
@@ -2842,9 +2842,9 @@ main()
             opt.Location = mp;
 
             opt.Combobox.DataSource = options;
-            opt.Button1.Text = "Filter";
+            opt.Button1.Text = L10NU.GetString("Filter", "Filter");
             opt.Button1.DialogResult = DialogResult.OK;
-            opt.Button2.Text = "Cancel";
+            opt.Button2.Text = L10NU.GetString("Cancel", "Cancel");
             opt.Button2.DialogResult = DialogResult.Cancel;
 
             var dr = opt.ShowDialog(this);
@@ -3010,9 +3010,9 @@ main()
 
             opt.Combobox.DataSource = list.ToArray();
             opt.Button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            opt.Button1.Text = "Remove";
+            opt.Button1.Text = L10NU.GetString("Remove", "Remove");
             opt.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            opt.Button2.Text = "Cancel";
+            opt.Button2.Text = L10NU.GetString("Cancel", "Cancel");
 
             if (opt.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
             {
@@ -3710,7 +3710,7 @@ main()
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                    CustomMessageBox.Show(string.Format(L10NU.GetString("Failed to read File: {0}", "Failed to read File: {0}"), ex.ToString()));
                     return;
                 }
 

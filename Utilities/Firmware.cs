@@ -385,7 +385,8 @@ namespace MissionPlanner.Utilities
                 {
                     //
                     if ((int)DialogResult.Yes ==
-                        CustomMessageBox.Show("Is this a CubeBlack?", "CubeBlack", MessageBoxButtons.YesNo))
+                        CustomMessageBox.Show(string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "CubeBlack"),
+                            "CubeBlack", MessageBoxButtons.YesNo))
                     {
                         BoardDetect.chbootloader = "CubeBlack";
                         board = BoardDetect.boards.chbootloader;
@@ -544,7 +545,9 @@ namespace MissionPlanner.Utilities
             catch (Exception ex)
             {
                 updateProgress(50, Strings.FailedDownload);
-                CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString());
+                CustomMessageBox.Show(string.Format(
+                    L10NU.GetString("Failed to download new firmware : {0}", "Failed to download new firmware : {0}"),
+                    ex.ToString()));
                 return false;
             }
 
@@ -699,7 +702,7 @@ namespace MissionPlanner.Utilities
                     catch (IOException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        CustomMessageBox.Show(L10NU.GetString("lost communication with the board.", "lost communication with the board."), L10NU.GetString("lost comms", "lost comms"));
                         uploader.close();
                         result = false;
                         return false;
@@ -707,7 +710,7 @@ namespace MissionPlanner.Utilities
                     catch (TimeoutException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "comms timeout");
+                        CustomMessageBox.Show(L10NU.GetString("lost communication with the board.", "lost communication with the board."), L10NU.GetString("comms timeout", "comms timeout"));
                         uploader.close();
                         result = false;
                         return false;
@@ -965,9 +968,9 @@ namespace MissionPlanner.Utilities
                     {
                         //VR boards have no tone alarm
                         if (up.board_type == 1140)
-                            CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
+                            CustomMessageBox.Show(L10NU.GetString("Upload complete! Please unplug and reconnect board.", "Upload complete! Please unplug and reconnect board."));
                         else
-                            CustomMessageBox.Show("Upload complete!");
+                            CustomMessageBox.Show(L10NU.GetString("Upload complete!", "Upload complete!"));
                     }
                     else
                     {
@@ -1222,8 +1225,8 @@ namespace MissionPlanner.Utilities
                     adbClient.ExecuteRemoteCommand("reboot.sh", device, consoleOut);
                 }
 
-                CustomMessageBox.Show("Firmware installed!");
-                updateProgress(-1, "Firmware installed");
+                CustomMessageBox.Show(L10NU.GetString("Firmware installed!", "Firmware installed!"));
+                updateProgress(-1, L10NU.GetString("Firmware installed!", "Firmware installed!"));
             }
             catch (Exception e)
             {
@@ -1306,7 +1309,9 @@ namespace MissionPlanner.Utilities
                 }
                 catch (MissingFieldException)
                 {
-                    CustomMessageBox.Show("Please update, your install is currupt", Strings.ERROR);
+                    CustomMessageBox.Show(
+                        L10NU.GetString("Please update, your install is currupt",
+                            "Please update, your install is currupt"), Strings.ERROR);
                     return false;
                 }
             }
@@ -1372,7 +1377,9 @@ namespace MissionPlanner.Utilities
             {
                 if (FLASH.Length > 126976)
                 {
-                    CustomMessageBox.Show("Firmware is to big for a 1280, Please upgrade your hardware!!");
+                    CustomMessageBox.Show(
+                        L10NU.GetString("Firmware is to big for a 1280, Please upgrade your hardware!!",
+                            "Firmware is to big for a 1280, Please upgrade your hardware!!"));
                     return false;
                 }
                 //port = new ArduinoSTK();
@@ -1548,7 +1555,9 @@ namespace MissionPlanner.Utilities
 
                     if (checksumact != checksum)
                     {
-                        CustomMessageBox.Show("The hex file loaded is invalid, please try again.");
+                        CustomMessageBox.Show(
+                            L10NU.GetString("The hex file loaded is invalid, please try again.",
+                                "The hex file loaded is invalid, please try again."));
                         throw new Exception("Checksum Failed - Invalid Hex");
                     }
                 }
@@ -1557,7 +1566,9 @@ namespace MissionPlanner.Utilities
 
             if (!hitend)
             {
-                CustomMessageBox.Show("The hex file did no contain an end flag. aborting");
+                CustomMessageBox.Show(
+                    L10NU.GetString("The hex file did no contain an end flag. aborting",
+                        "The hex file did no contain an end flag. aborting"));
                 throw new Exception("No end flag in file");
             }
 

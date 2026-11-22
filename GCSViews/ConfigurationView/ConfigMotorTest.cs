@@ -51,7 +51,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (var a = 1; a <= motormax; a++)
             {
                 but = new MyButton();
-                but.Text = "Test motor " + (char)((a - 1) + 'A');
+                but.Text = string.Format(L10NU.GetString("Test motor {0}", "Test motor {0}"), (char)((a - 1) + 'A'));
                 but.Location = new Point(x, y);
                 but.Click += but_Click;
                 but.Tag = a;
@@ -81,7 +81,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             but = new MyButton();
-            but.Text = "Test all motors";
+            but.Text = L10NU.GetString("Test all motors", "Test all motors");
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAll;
@@ -90,7 +90,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             y += 39;
 
             but = new MyButton();
-            but.Text = "Stop all motors";
+            but.Text = L10NU.GetString("Stop all motors", "Stop all motors");
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
@@ -99,7 +99,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             y += 39;
 
             but = new MyButton();
-            but.Text = "Test all in Sequence";
+            but.Text = L10NU.GetString("Test all in Sequence", "Test all in Sequence");
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAllSeq;
@@ -211,7 +211,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (item.Key == Convert.ToInt32(frame_class))
                 {
-                    FrameClass.Text = "Class: " + item.Value;
+                    FrameClass.Text = string.Format(L10NU.GetString("Class: {0}", "Class: {0}"), item.Value);
                     break;
                 }
             }
@@ -222,7 +222,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (item.Key == Convert.ToInt32(frame_type))
                 {
-                    FrameType.Text = "Type: " + item.Value;
+                    FrameType.Text = string.Format(L10NU.GetString("Type: {0}", "Type: {0}"), item.Value);
                     break;
                 }
             }

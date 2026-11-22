@@ -28,6 +28,46 @@ namespace MissionPlanner.Radio
 
         private bool beta;
 
+        // L10NU lives in the MissionPlanner.Utilities assembly, which the standalone SikRadio
+        // build does not reference; resolve it by reflection and fall back to the English text.
+        static string L10N(string key, string defaultTo = null)
+        {
+            if (defaultTo == null)
+                defaultTo = key;
+
+            try
+            {
+                var l10nu = Type.GetType("MissionPlanner.Utilities.L10NU, MissionPlanner.Utilities", false);
+                var m = l10nu?.GetMethod("GetString", new[] {typeof(string), typeof(string)});
+                var value = m?.Invoke(null, new object[] {key, defaultTo}) as string;
+                return string.IsNullOrEmpty(value) ? defaultTo : value;
+            }
+            catch
+            {
+                return defaultTo;
+            }
+        }
+
+        // L10NU lives in the MissionPlanner.Utilities assembly, which the standalone SikRadio
+        // build does not reference; resolve it by reflection and fall back to the English text.
+        static string L10N(string key, string defaultTo = null)
+        {
+            if (defaultTo == null)
+                defaultTo = key;
+
+            try
+            {
+                var l10nu = Type.GetType("MissionPlanner.Utilities.L10NU, MissionPlanner.Utilities", false);
+                var m = l10nu?.GetMethod("GetString", new[] {typeof(string), typeof(string)});
+                var value = m?.Invoke(null, new object[] {key, defaultTo}) as string;
+                return string.IsNullOrEmpty(value) ? defaultTo : value;
+            }
+            catch
+            {
+                return defaultTo;
+            }
+        }
+
         private string firmwarefile = Path.GetTempFileName();
         private Dictionary<Control, bool> _DefaultLocalEnabled = new Dictionary<Control, bool>();
         private Dictionary<ComboBox, object> _DefaultCBObjects = new Dictionary<ComboBox, object>();
@@ -419,7 +459,7 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        MsgBox.CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
+                        MsgBox.CustomMessageBox.Show(L10N("Error copying file") + "\n" + ex, L10N("ERROR"));
                         return false;
                     }
                     return true;
@@ -749,7 +789,7 @@ S15: MAX_WINDOW=131
                         }
                         if (!cmdanswer.Contains("OK"))
                         {
-                            MsgBox.CustomMessageBox.Show("Set Command error");
+                            MsgBox.CustomMessageBox.Show(L10N("Set Command error"));
                         }
 
                     }
@@ -763,7 +803,7 @@ S15: MAX_WINDOW=131
                         }
                         else
                         {
-                            MsgBox.CustomMessageBox.Show("Set Command error");
+                            MsgBox.CustomMessageBox.Show(L10N("Set Command error"));
                         }
                     }
                 }
@@ -947,7 +987,7 @@ S15: MAX_WINDOW=131
                             {
                                 //Complain that encryption key invalid.
                                 lbl_status.Text = "Fail";
-                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                                MsgBox.CustomMessageBox.Show(string.Format(L10N("EncryptionKeyInvalidHex", "Encryption key not valid hex number <= {0} hex numerals"), MaxKeyLength));
                             }
                         }
                         if (GetIsEncryptionEnabled(ENCRYPTION_LEVEL))
@@ -964,7 +1004,7 @@ S15: MAX_WINDOW=131
                             {
                                 //Complain that encryption key invalid.
                                 lbl_status.Text = "Fail";
-                                MsgBox.CustomMessageBox.Show("Encryption key not valid hex number <= " + MaxKeyLength.ToString() + " hex numerals");
+                                MsgBox.CustomMessageBox.Show(string.Format(L10N("EncryptionKeyInvalidHex", "Encryption key not valid hex number <= {0} hex numerals"), MaxKeyLength));
                             }
                         }
 
@@ -982,7 +1022,7 @@ S15: MAX_WINDOW=131
                         var cmdwriteanswer = doCommand(Session.Port, "AT&W");
                         if (!cmdwriteanswer.Contains("OK"))
                         {
-                            MsgBox.CustomMessageBox.Show("Failed to save parameters");
+                            MsgBox.CustomMessageBox.Show(L10N("Failed to save parameters"));
                         }
 
                         // return to normal mode
@@ -998,7 +1038,7 @@ S15: MAX_WINDOW=131
                     doCommand(Session.Port, "ATZ");
 
                     lbl_status.Text = "Fail";
-                    MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                    MsgBox.CustomMessageBox.Show(L10N("Failed to enter command mode"));
                     EnableConfigControls(true, false);
                 }
 
@@ -1820,7 +1860,7 @@ S15: MAX_WINDOW=131
 
                         if ((RemoteFWVer != null) &&  (LocalFWVer != RemoteFWVer) && UsedAltRanges)
                         {
-                            MsgBox.CustomMessageBox.Show("The ranges and options shown for the remote modem may not be accurate.  To ensure accurate, use the same firmware version in both the local and remote modems");
+                            MsgBox.CustomMessageBox.Show(L10N("The ranges and options shown for the remote modem may not be accurate.  To ensure accurate, use the same firmware version in both the local and remote modems"));
                         }
 
                         items = answer.Split('\n');
@@ -1880,7 +1920,7 @@ S15: MAX_WINDOW=131
                     Session.PutIntoTransparentMode();
 
                     lbl_status.Text = "Fail";
-                    MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
+                    MsgBox.CustomMessageBox.Show(L10N("Failed to enter command mode.  Try power-cycling modem."));
                     EnableConfigControls(true, false);
                 }
 
@@ -1895,7 +1935,7 @@ S15: MAX_WINDOW=131
             catch (Exception ex)
             {
                 lbl_status.Text = "Error";
-                MsgBox.CustomMessageBox.Show("Error during read " + ex);
+                MsgBox.CustomMessageBox.Show(string.Format(L10N("Error during read {0}"), ex));
             }
             _AlreadyInEncCheckChangedEvtHdlr = false;
 
@@ -2160,7 +2200,7 @@ red LED solid - in firmware update mode");
                 Session.PutIntoTransparentMode();
 
                 lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode.  Try power-cycling modem.");
+                MsgBox.CustomMessageBox.Show(L10N("Failed to enter command mode.  Try power-cycling modem."));
             }
         }
 
@@ -2265,7 +2305,7 @@ red LED solid - in firmware update mode");
                 if (RFD900 == null)
                 {
                     UpdateStatus("Unknown modem");
-                    MsgBox.CustomMessageBox.Show("Couldn't communicate with modem.  Try power-cycling modem.");
+                    MsgBox.CustomMessageBox.Show(L10N("Couldn't communicate with modem.  Try power-cycling modem."));
                     EndSession();
                 }
                 else
@@ -2332,7 +2372,7 @@ red LED solid - in firmware update mode");
         private void Progressbar_Click(object sender, EventArgs e)
         {
             beta = !beta;
-            MsgBox.CustomMessageBox.Show("Beta set to " + beta);
+            MsgBox.CustomMessageBox.Show(string.Format(L10N("Beta set to {0}"), beta));
         }
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -2421,7 +2461,7 @@ red LED solid - in firmware update mode");
                 //doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
-                MsgBox.CustomMessageBox.Show("Failed to enter command mode");
+                MsgBox.CustomMessageBox.Show(L10N("Failed to enter command mode"));
             }
         }
 
@@ -2447,7 +2487,7 @@ red LED solid - in firmware update mode");
                 }
                 catch
                 {
-                    MsgBox.CustomMessageBox.Show("Invalid ComPort or in use");
+                    MsgBox.CustomMessageBox.Show(L10N("Invalid ComPort or in use"));
                     return null;
                 }
             }
@@ -2653,11 +2693,11 @@ red LED solid - in firmware update mode");
             {
                 if (ToSave.SaveToFile(dlgSave.FileName))
                 {
-                    System.Windows.Forms.MessageBox.Show("Saved settings to " + dlgSave.FileName + " OK");
+                    System.Windows.Forms.MessageBox.Show(string.Format(L10N("Saved settings to {0} OK"), dlgSave.FileName));
                 }
                 else
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed to save settings to " + dlgSave.FileName);
+                    System.Windows.Forms.MessageBox.Show(string.Format(L10N("Failed to save settings to {0}"), dlgSave.FileName));
                 }
             }
         }
@@ -2683,7 +2723,7 @@ red LED solid - in firmware update mode");
 
                 if (x == null)
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed to load settings from " + dlgOpen.FileName);
+                    System.Windows.Forms.MessageBox.Show(string.Format(L10N("Failed to load settings from {0}"), dlgOpen.FileName));
                 }
                 else
                 {

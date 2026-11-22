@@ -65,14 +65,14 @@ namespace MissionPlanner.Log
 
                     if (Control.ModifierKeys == Keys.Shift)
                     {
-                        InputBox.Show("Alt offset",
-                            "Please enter your offset altitude",
+                        InputBox.Show(L10NU.GetString("Alt offset", "Alt offset"),
+                            L10NU.GetString("Please enter your offset altitude", "Please enter your offset altitude"),
                             ref offsetalt);
 
                         float temp = 0;
                         if (!float.TryParse(offsetalt, out temp))
                         {
-                            CustomMessageBox.Show("Bad Offset", "Error");
+                            CustomMessageBox.Show(L10NU.GetString("Bad Offset", "Bad Offset"), L10NU.GetString("Error", "Error"));
                             return;
                         }
                     }
@@ -90,7 +90,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                 return;
                             }
 
@@ -167,8 +167,8 @@ namespace MissionPlanner.Log
                             }
                             else
                             {
-                                InputBox.Show("Relative Alt",
-                                    "Please enter your home altitude, or press cancel to use absolute alt",
+                                InputBox.Show(L10NU.GetString("Relative Alt", "Relative Alt"),
+                                    L10NU.GetString("Please enter your home altitude, or press cancel to use absolute alt", "Please enter your home altitude, or press cancel to use absolute alt"),
                                     ref basealtstring);
                             }
 
@@ -228,7 +228,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                 return;
                             }
 
@@ -421,7 +421,7 @@ namespace MissionPlanner.Log
                 catch (Exception ex)
                 {
                     log.Debug(ex.ToString());
-                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                     return options;
                 }
 
@@ -615,7 +615,7 @@ namespace MissionPlanner.Log
             }
             catch
             {
-                CustomMessageBox.Show("Bad PacketName");
+                CustomMessageBox.Show(L10NU.GetString("Bad PacketName", "Bad PacketName"));
                 return;
             }
 
@@ -675,7 +675,7 @@ namespace MissionPlanner.Log
             }
             else
             {
-                CustomMessageBox.Show("Compile Failed");
+                CustomMessageBox.Show(L10NU.GetString("Compile Failed", "Compile Failed"));
                 return;
             }
 
@@ -1057,7 +1057,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                 return;
                             }
 
@@ -1140,7 +1140,7 @@ namespace MissionPlanner.Log
                                 catch (Exception ex)
                                 {
                                     log.Debug(ex.ToString());
-                                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                    CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                     return;
                                 }
 
@@ -1178,11 +1178,11 @@ namespace MissionPlanner.Log
                                 mine.logplaybackfile = null;
                             }
 
-                            CustomMessageBox.Show("File Saved with log file");
+                            CustomMessageBox.Show(L10NU.GetString("File Saved with log file", "File Saved with log file"));
                         }
                         catch
                         {
-                            CustomMessageBox.Show("Error Extracting params");
+                            CustomMessageBox.Show(L10NU.GetString("Error Extracting params", "Error Extracting params"));
                         }
                     }
                 }
@@ -1222,7 +1222,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                 return;
                             }
 
@@ -1320,11 +1320,11 @@ namespace MissionPlanner.Log
                             {
                                 if (wplists == 0)
                                 {
-                                    CustomMessageBox.Show("No Waypoint found in file!");
+                                    CustomMessageBox.Show(L10NU.GetString("No Waypoint found in file!", "No Waypoint found in file!"));
                                 }
                                 else
                                 {
-                                    CustomMessageBox.Show("File Saved with log file!");
+                                    CustomMessageBox.Show(L10NU.GetString("File Saved with log file!", "File Saved with log file!"));
                                 }
                             }
                         }
@@ -1469,7 +1469,7 @@ namespace MissionPlanner.Log
                             catch (Exception ex)
                             {
                                 log.Debug(ex.ToString());
-                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                CustomMessageBox.Show(L10NU.GetString("Log Can not be opened. Are you still connected?", "Log Can not be opened. Are you still connected?"));
                                 return;
                             }
 

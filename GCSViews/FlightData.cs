@@ -801,7 +801,7 @@ namespace MissionPlanner.GCSViews
                     IsBackground = true,
                     Name = "Script Thread (new)"
                 };
-                labelScriptStatus.Text = "Script Status: Running";
+                labelScriptStatus.Text = L10NU.GetString("Script Status: Running", "Script Status: Running");
 
                 script = null;
                 outputwindowstarted = false;
@@ -1049,10 +1049,10 @@ namespace MissionPlanner.GCSViews
             try
             {
                 var isitarmed = MainV2.comPort.MAV.cs.armed;
-                var action = MainV2.comPort.MAV.cs.armed ? "Disarm" : "Arm";
+                var action = MainV2.comPort.MAV.cs.armed ? L10NU.GetString("Disarm", "Disarm") : L10NU.GetString("Arm", "Arm");
 
                 if (isitarmed)
-                    if (CustomMessageBox.Show("Are you sure you want to " + action, action,
+                    if (CustomMessageBox.Show(string.Format(L10NU.GetString("Are you sure you want to {0}", "Are you sure you want to {0}"), action), action,
                             CustomMessageBox.MessageBoxButtons.YesNo) !=
                         CustomMessageBox.DialogResult.Yes)
                         return;
@@ -1070,10 +1070,10 @@ namespace MissionPlanner.GCSViews
                 if (ans == false)
                 {
                     if (CustomMessageBox.Show(
-                            action + " failed.\n" + sb.ToString() + "\nForce " + action +
-                            " can bypass safety checks,\nwhich can lead to the vehicle crashing\nand causing serious injuries.\n\nDo you wish to Force " +
-                            action + "?", Strings.ERROR, CustomMessageBox.MessageBoxButtons.YesNo,
-                            CustomMessageBox.MessageBoxIcon.Exclamation, "Force " + action, "Cancel") ==
+                            string.Format(Strings.ForceArmDisarmWarning, action, sb.ToString()), Strings.ERROR,
+                            CustomMessageBox.MessageBoxButtons.YesNo,
+                            CustomMessageBox.MessageBoxIcon.Exclamation,
+                            string.Format(L10NU.GetString("Force {0}", "Force {0}"), action), "Cancel") ==
                         CustomMessageBox.DialogResult.Yes)
                     {
                         ans = MainV2.comPort.doARM(!isitarmed, true);
@@ -1203,7 +1203,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex);
+                            CustomMessageBox.Show(L10NU.GetString("Error processing file. Make sure the file is not in use.", "Error processing file. Make sure the file is not in use.") + "\n" + ex);
                         }
 
                         lo.writeKML(logfile + ".kml");
@@ -1341,7 +1341,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (IOException ex)
                         {
-                            CustomMessageBox.Show("File access issue: " + ex.Message, Strings.ERROR);
+                            CustomMessageBox.Show(string.Format(L10NU.GetString("File access issue: {0}", "File access issue: {0}"), ex.Message), Strings.ERROR);
                             return;
                         }
 
@@ -1366,12 +1366,12 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Failed to load analyzer results\n" + ex.ToString());
+                            CustomMessageBox.Show(L10NU.GetString("Failed to load analyzer results", "Failed to load analyzer results") + "\n" + ex.ToString());
                         }
                     }
                     else
                     {
-                        CustomMessageBox.Show("Bad input file");
+                        CustomMessageBox.Show(L10NU.GetString("Bad input file", "Bad input file"));
                     }
 
                     if (!String.IsNullOrEmpty(newlogfile))
@@ -1492,8 +1492,11 @@ namespace MissionPlanner.GCSViews
         private void BUT_resumemis_Click(object sender, EventArgs e)
         {
             if (
-                Common.MessageShowAgain("Resume Mission",
-                    "Warning this will reprogram your mission, arm and issue a takeoff command (copter)") !=
+                Common.MessageShowAgain(
+                    L10NU.GetString("Resume Mission", "Resume Mission"),
+                    L10NU.GetString("Warning this will reprogram your mission, arm and issue a takeoff command (copter)",
+                        "Warning this will reprogram your mission, arm and issue a takeoff command (copter)"),
+                    tag: "Resume Mission") !=
                 DialogResult.OK)
                 return;
 
@@ -1505,7 +1508,9 @@ namespace MissionPlanner.GCSViews
                     if (lastwp == "-1")
                         lastwp = "1";
 
-                    if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)
+                    if (InputBox.Show(L10NU.GetString("Resume at", "Resume at"),
+                            L10NU.GetString("Resume mission at waypoint#", "Resume mission at waypoint#"),
+                            ref lastwp) == DialogResult.OK)
                     {
                         int timeout = 0;
                         int lastwpno = int.Parse(lastwp);
@@ -1547,9 +1552,10 @@ namespace MissionPlanner.GCSViews
                                 (MAVLink.MAV_FRAME) (loc.frame));
                             if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                             {
-                                CustomMessageBox.Show("Upload wps failed " +
-                                                      Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()) + " " +
-                                                      Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
+                                CustomMessageBox.Show(string.Format(
+                                    L10NU.GetString("Upload wps failed {0} {1}", "Upload wps failed {0} {1}"),
+                                    Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()),
+                                    Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString())));
                                 return;
                             }
 
@@ -1644,7 +1650,7 @@ namespace MissionPlanner.GCSViews
             {
                 selectedscript = openScriptDialog.FileName;
                 BUT_run_script.Visible = BUT_edit_selected.Visible = true;
-                labelSelectedScript.Text = "Selected Script: " + selectedscript;
+                labelSelectedScript.Text = string.Format(L10NU.GetString("Selected Script: {0}", "Selected Script: {0}"), selectedscript);
             }
             else
             {
@@ -1656,7 +1662,7 @@ namespace MissionPlanner.GCSViews
         {
             if (MainV2.comPort.MAV.cs.failsafe)
             {
-                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe", MessageBoxButtons.YesNo) !=
+                if (CustomMessageBox.Show(L10NU.GetString("You are in failsafe, are you sure?", "You are in failsafe, are you sure?"), L10NU.GetString("Failsafe", "Failsafe"), MessageBoxButtons.YesNo) !=
                     (int) DialogResult.Yes)
                 {
                     return;
@@ -1783,7 +1789,9 @@ namespace MissionPlanner.GCSViews
             }
 
             if (
-                CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
+                CustomMessageBox.Show(
+                    string.Format(L10NU.GetString("Are you sure you want to do {0} ?", "Are you sure you want to do {0} ?"),
+                        CMB_action.Text), L10NU.GetString("Action", "Action"),
                     MessageBoxButtons.YesNo) == (int) DialogResult.Yes)
             {
                 try
@@ -2313,7 +2321,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
-                    CustomMessageBox.Show("Max 20 at a time.");
+                    CustomMessageBox.Show(L10NU.GetString("Max 20 at a time.", "Max 20 at a time."));
                     ((CheckBox) sender).Checked = false;
                 }
 
@@ -2573,7 +2581,7 @@ namespace MissionPlanner.GCSViews
         {
             CMB_setwp.Items.Clear();
 
-            CMB_setwp.Items.Add("0 (Home)");
+            CMB_setwp.Items.Add(L10NU.GetString("0 (Home)", "0 (Home)"));
 
             int max = 0;
 
@@ -2948,7 +2956,8 @@ namespace MissionPlanner.GCSViews
             if (Settings.Instance.ContainsKey("guided_alt_frame"))
                 frame = (MAVLink.MAV_FRAME)byte.Parse(Settings.Instance["guided_alt_frame"]);
 
-            if (DialogResult.Cancel == AltInputBox.Show("Enter Alt", "Enter Guided Mode Alt", ref alt, ref frame))
+            if (DialogResult.Cancel == AltInputBox.Show(L10NU.GetString("Enter Alt", "Enter Alt"),
+                    L10NU.GetString("Enter Guided Mode Alt", "Enter Guided Mode Alt"), ref alt, ref frame))
                 return;
 
             Settings.Instance["guided_alt"] = alt;
@@ -2957,7 +2966,7 @@ namespace MissionPlanner.GCSViews
             int intalt = (int) (100 * CurrentState.multiplieralt);
             if (!int.TryParse(alt, out intalt))
             {
-                CustomMessageBox.Show("Bad Alt");
+                CustomMessageBox.Show(L10NU.GetString("Bad Alt", "Bad Alt"));
                 return;
             }
 
@@ -3173,7 +3182,7 @@ namespace MissionPlanner.GCSViews
         private void Gspeed_DoubleClick(object sender, EventArgs e)
         {
             string max = "60";
-            if (DialogResult.OK == InputBox.Show("Enter Max Speed", "Enter Max Speed", ref max))
+            if (DialogResult.OK == InputBox.Show(L10NU.GetString("Enter Max Speed", "Enter Max Speed"), L10NU.GetString("Enter Max Speed", "Enter Max Speed"), ref max))
             {
                 Gspeed.MaxValue = float.Parse(max);
                 Settings.Instance["GspeedMAX"] = Gspeed.MaxValue.ToString();
@@ -3222,7 +3231,7 @@ namespace MissionPlanner.GCSViews
                 Name = "select",
                 Width = 50,
                 Height = 50,
-                Text = "Display This",
+                Text = L10NU.GetString("Display This", "Display This"),
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
@@ -4617,7 +4626,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", ref location);
+            InputBox.Show(L10NU.GetString("Enter Coords", "Enter Coords"), L10NU.GetString("Please enter the coords 'lat;long;alt(abs)' or 'lat;long'", "Please enter the coords 'lat;long;alt(abs)' or 'lat;long'"), ref location);
 
             var split = location.Split(';');
 
@@ -4651,24 +4660,25 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First");
+                CustomMessageBox.Show(L10NU.GetString("Please Connect First", "Please Connect First"));
                 return;
             }
 
             string alt = "0";
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt",
-                "Enter Target Alt (Relative to home)", ref alt))
+            if (DialogResult.Cancel == InputBox.Show(L10NU.GetString("Enter Alt", "Enter Alt"),
+                L10NU.GetString("Enter Target Alt (Relative to home)", "Enter Target Alt (Relative to home)"),
+                ref alt))
                 return;
 
             if (!float.TryParse(alt, out var intalt))
             {
-                CustomMessageBox.Show("Bad Alt");
+                CustomMessageBox.Show(L10NU.GetString("Bad Alt", "Bad Alt"));
                 return;
             }
 
             if (MouseDownStart.Lat == 0.0 || MouseDownStart.Lng == 0.0)
             {
-                CustomMessageBox.Show("Bad Lat/Long");
+                CustomMessageBox.Show(L10NU.GetString("Bad Lat/Long", "Bad Lat/Long"));
                 return;
             }
 
@@ -4697,7 +4707,7 @@ namespace MissionPlanner.GCSViews
                 Name = "select",
                 Width = MainV2.instance.Width - 100,
                 Height = MainV2.instance.Height - 100,
-                Text = "Display This",
+                Text = L10NU.GetString("Display This", "Display This"),
                 AutoSize = false,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
@@ -4802,7 +4812,7 @@ namespace MissionPlanner.GCSViews
                 aviwriter.avi_start(Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                     DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".avi");
 
-                recordHudToAVIToolStripMenuItem.Text = "Recording";
+                recordHudToAVIToolStripMenuItem.Text = L10NU.GetString("Recording", "Recording");
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -4898,7 +4908,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!scriptrunning)
             {
-                labelScriptStatus.Text = "Script Status: Finished (or aborted)";
+                labelScriptStatus.Text = L10NU.GetString("Script Status: Finished (or aborted)", "Script Status: Finished (or aborted)");
                 scriptChecker.Enabled = false;
                 BUT_select_script.Enabled = true;
                 BUT_run_script.Enabled = true;
@@ -4934,7 +4944,7 @@ namespace MissionPlanner.GCSViews
 
             if (alt.currenttype != srtm.tiletype.valid)
             {
-                CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                CustomMessageBox.Show(L10NU.GetString("No SRTM data for this area", "No SRTM data for this area"), Strings.ERROR);
                 return;
             }
 
@@ -4998,13 +5008,13 @@ namespace MissionPlanner.GCSViews
 
                     if (alt.currenttype != srtm.tiletype.valid && alt.currenttype != srtm.tiletype.ocean)
                     {
-                        CustomMessageBox.Show("No SRTM data for this area", Strings.ERROR);
+                        CustomMessageBox.Show(L10NU.GetString("No SRTM data for this area", "No SRTM data for this area"), Strings.ERROR);
                         return;
                     }
 
                     if (CustomMessageBox.Show(
-                            "This will reset the onboard home position (effects RTL etc). Are you Sure?",
-                            "Are you sure?", CustomMessageBox.MessageBoxButtons.OKCancel) ==
+                            L10NU.GetString("This will reset the onboard home position (effects RTL etc). Are you Sure?", "This will reset the onboard home position (effects RTL etc). Are you Sure?"),
+                            L10NU.GetString("Are you sure?", "Are you sure?"), CustomMessageBox.MessageBoxButtons.OKCancel) ==
                         CustomMessageBox.DialogResult.OK)
                     {
                         MainV2.comPort.doCommandInt(MainV2.comPort.sysidcurrent,
@@ -5259,7 +5269,7 @@ namespace MissionPlanner.GCSViews
 
         private void stopRecordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            recordHudToAVIToolStripMenuItem.Text = "Start Recording";
+            recordHudToAVIToolStripMenuItem.Text = L10NU.GetString("Start Recording", "Start Recording");
 
             try
             {
@@ -5432,7 +5442,8 @@ namespace MissionPlanner.GCSViews
             {
                 string alt = Settings.Instance["takeoff_alt", "5"];
 
-                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Takeoff Alt", ref alt))
+                if (DialogResult.Cancel == InputBox.Show(L10NU.GetString("Enter Alt", "Enter Alt"),
+                        L10NU.GetString("Enter Takeoff Alt", "Enter Takeoff Alt"), ref alt))
                     return;
 
                 var altf = float.Parse(alt, CultureInfo.InvariantCulture);
@@ -5770,14 +5781,14 @@ namespace MissionPlanner.GCSViews
         {
             if (playing)
             {
-                if (BUT_playlog.Text == "Pause")
+                if (BUT_playlog.Text == L10NU.GetString("Pause", "Pause"))
                     return;
 
                 BeginInvoke((Action) delegate
                 {
                     try
                     {
-                        BUT_playlog.Text = "Pause";
+                        BUT_playlog.Text = L10NU.GetString("Pause", "Pause");
                     }
                     catch
                     {
@@ -5786,14 +5797,14 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                if (BUT_playlog.Text == "Play")
+                if (BUT_playlog.Text == L10NU.GetString("Play", "Play"))
                     return;
 
                 BeginInvoke((Action) delegate
                 {
                     try
                     {
-                        BUT_playlog.Text = "Play";
+                        BUT_playlog.Text = L10NU.GetString("Play", "Play");
                     }
                     catch
                     {
@@ -5816,7 +5827,7 @@ namespace MissionPlanner.GCSViews
                 Name = "select",
                 Width = 50,
                 Height = 50,
-                Text = "Display This",
+                Text = L10NU.GetString("Display This", "Display This"),
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
@@ -6077,7 +6088,7 @@ namespace MissionPlanner.GCSViews
         private void flyToCoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Fly To Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show(L10NU.GetString("Enter Fly To Coords", "Enter Fly To Coords"), L10NU.GetString("Please enter the coords 'lat;long;alt' or 'lat;long'", "Please enter the coords 'lat;long;alt' or 'lat;long'"), ref location);
 
             byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
             if (!MainV2.comPort.MAV.GuidedMode.Equals(new MAVLink.mavlink_mission_item_int_t()))
@@ -6150,7 +6161,7 @@ namespace MissionPlanner.GCSViews
         private void poiatcoordsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter POI Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+            InputBox.Show(L10NU.GetString("Enter POI Coords", "Enter POI Coords"), L10NU.GetString("Please enter the coords 'lat;long;alt' or 'lat;long'", "Please enter the coords 'lat;long;alt' or 'lat;long'"), ref location);
 
             var split = location.Split(';');
 
@@ -6273,12 +6284,12 @@ namespace MissionPlanner.GCSViews
             string CellCount = "4";
             int iCellCount;
 
-            if (DialogResult.Cancel == InputBox.Show("Battery Cell Count", "Cell Count", ref CellCount))
+            if (DialogResult.Cancel == InputBox.Show(L10NU.GetString("Battery Cell Count", "Battery Cell Count"), L10NU.GetString("Cell Count", "Cell Count"), ref CellCount))
                 return;
 
             if (!int.TryParse(CellCount, out iCellCount))
             {
-                CustomMessageBox.Show("Bad Radius");
+                CustomMessageBox.Show(L10NU.GetString("Bad Radius", "Bad Radius"));
                 return;
             }
             Settings.Instance["HUD_batterycellcount"] = iCellCount.ToString();
@@ -6505,12 +6516,12 @@ namespace MissionPlanner.GCSViews
                 {
                     updateTransponder();
                 }
-                else CustomMessageBox.Show("Timeout: Status message not received.");
+                else CustomMessageBox.Show(L10NU.GetString("Timeout: Status message not received.", "Timeout: Status message not received."));
 
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Timeout.");
+                CustomMessageBox.Show(L10NU.GetString("Timeout.", "Timeout."));
             }
         }
 
@@ -6531,7 +6542,7 @@ namespace MissionPlanner.GCSViews
 
                 if (transponderNeverConnected)
                 {
-                    XPDRConnect_btn.Text = "Connect To Transponder";
+                    XPDRConnect_btn.Text = L10NU.GetString("Connect To Transponder", "Connect To Transponder");
                     XPDRConnect_btn.Enabled = true;
                 }
                 else
@@ -6539,7 +6550,7 @@ namespace MissionPlanner.GCSViews
                     // if we have connected before, we should have subscribed to the status message.
                     // something must have reset the message interval (AP power cycled, etc.)
                     // so indicate that the connection reset
-                    XPDRConnect_btn.Text = "Transponder Status Lost";
+                    XPDRConnect_btn.Text = L10NU.GetString("Transponder Status Lost", "Transponder Status Lost");
                     XPDRConnect_btn.Enabled = true;
                     transponderNeverConnected = true;
                 }
@@ -6612,7 +6623,7 @@ namespace MissionPlanner.GCSViews
 
                 IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.xpdr_ident_active ? FontStyle.Bold : FontStyle.Regular);
 
-                XPDRConnect_btn.Text = "Transponder Connected!";
+                XPDRConnect_btn.Text = L10NU.GetString("Transponder Connected!", "Transponder Connected!");
                 XPDRConnect_btn.Enabled = false;
             }
             else
@@ -6624,7 +6635,7 @@ namespace MissionPlanner.GCSViews
                 FlightID_tb.Enabled = false;
                 Squawk_nud.Enabled = false;
 
-                XPDRConnect_btn.Text = "Transponder Offline";
+                XPDRConnect_btn.Text = L10NU.GetString("Transponder Offline", "Transponder Offline");
                 XPDRConnect_btn.Enabled = false;
             }
             MainV2.comPort.MAV.cs.xpdr_status_pending = false;
@@ -6636,11 +6647,11 @@ namespace MissionPlanner.GCSViews
             Settings.Instance["HUD_showicons"] = myhud.displayicons.ToString();
             if (myhud.displayicons)
             {
-                showIconsToolStripMenuItem.Text = "Show text";
+                showIconsToolStripMenuItem.Text = L10NU.GetString("Show text", "Show text");
             }
             else
             {
-                showIconsToolStripMenuItem.Text = "Show icons";
+                showIconsToolStripMenuItem.Text = L10NU.GetString("Show icons", "Show icons");
             }
         }
 
@@ -6843,7 +6854,7 @@ namespace MissionPlanner.GCSViews
 
             var form = new Form()
             {
-                Text = "Gimbal Control",
+                Text = L10NU.GetString("Gimbal Control", "Gimbal Control"),
                 Size = new Size(600, 400),
                 StartPosition = FormStartPosition.CenterParent
             };

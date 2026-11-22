@@ -12,6 +12,26 @@ namespace RFD.RFD900
     /// </summary>
     public class TSession : IDisposable
     {
+        // L10NU lives in the MissionPlanner.Utilities assembly, which the standalone SikRadio
+        // build does not reference; resolve it by reflection and fall back to the English text.
+        static string L10N(string key, string defaultTo = null)
+        {
+            if (defaultTo == null)
+                defaultTo = key;
+
+            try
+            {
+                var l10nu = Type.GetType("MissionPlanner.Utilities.L10NU, MissionPlanner.Utilities", false);
+                var m = l10nu?.GetMethod("GetString", new[] {typeof(string), typeof(string)});
+                var value = m?.Invoke(null, new object[] {key, defaultTo}) as string;
+                return string.IsNullOrEmpty(value) ? defaultTo : value;
+            }
+            catch
+            {
+                return defaultTo;
+            }
+        }
+
         TMode _Mode = TMode.INIT;
         MissionPlanner.Comms.ICommsSerial _Port;
         public Uploader.Board Board = Uploader.Board.FAILED;
@@ -2314,7 +2334,7 @@ namespace RFD.RFD900
         {
             while (!TryFirmwareProgrammingOnce(FilePath, Progress))
             {
-                switch (System.Windows.Forms.MessageBox.Show("Programming firmware failed.  Try again?", "Programming firmware failed.  Try again?", System.Windows.Forms.MessageBoxButtons.YesNoCancel))
+                switch (System.Windows.Forms.MessageBox.Show(L10N("Programming firmware failed.  Try again?"), L10N("Programming firmware failed.  Try again?"), System.Windows.Forms.MessageBoxButtons.YesNoCancel))
                 {
                     case System.Windows.Forms.DialogResult.Yes:
                         break;
@@ -2490,7 +2510,7 @@ namespace RFD.RFD900
                         }
                         else
                         {
-                            System.Windows.Forms.MessageBox.Show("The selected firmware is not certified to run on this modem.  Aborting.");
+                            System.Windows.Forms.MessageBox.Show(L10N("The selected firmware is not certified to run on this modem.  Aborting."));
                             return false;
                         }
                     }

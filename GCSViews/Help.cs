@@ -71,7 +71,7 @@ namespace MissionPlanner.GCSViews
                 if (Control.ModifierKeys == Keys.Control)
                 {
                     Utilities.Update.domaster = true;
-                    CustomMessageBox.Show("This will update to MASTER release");
+                    CustomMessageBox.Show(L10NU.GetString("This will update to MASTER release", "This will update to MASTER release"));
                 }
 
                 Utilities.Update.DoUpdate();

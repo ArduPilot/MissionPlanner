@@ -420,7 +420,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             MainV2.instance.changelanguage((CultureInfo)CMB_language.SelectedItem);
 
-            MessageBox.Show("Please Restart the Planner");
+            MessageBox.Show(L10NU.GetString("Please Restart the Planner", "Please Restart the Planner"));
 
             MainV2.instance.Close();
             //Application.Exit();
@@ -700,7 +700,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            CustomMessageBox.Show("You need to restart the planner for this to take effect");
+            CustomMessageBox.Show(L10NU.GetString("You need to restart the planner for this to take effect", "You need to restart the planner for this to take effect"));
             Settings.Instance["CHK_GDIPlus"] = CHK_GDIPlus.Checked.ToString();
         }
 

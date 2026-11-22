@@ -124,7 +124,7 @@ namespace MissionPlanner.Log
             catch (Exception ex)
             {
                 log.Error("Error opening comport", ex);
-                CustomMessageBox.Show("Error opening comport");
+                CustomMessageBox.Show(L10NU.GetString("Error opening comport", "Error opening comport"));
                 return;
             }
 
@@ -284,7 +284,7 @@ namespace MissionPlanner.Log
                                 {
                                     log.Error(ex);
                                     CustomMessageBox.Show(
-                                        "Failed to rename file " + logfile + "\nto " + newlogfilename, Strings.ERROR);
+                                        L10NU.GetString("Failed to rename file", "Failed to rename file") + " " + logfile + "\n" + L10NU.GetString("to", "to") + " " + newlogfilename, Strings.ERROR);
                                 }
                             }
 
@@ -394,7 +394,7 @@ namespace MissionPlanner.Log
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error reading data" + ex.ToString());
+                CustomMessageBox.Show(L10NU.GetString("Error reading data", "Error reading data") + ex.ToString());
             }
         }
 
@@ -420,7 +420,7 @@ namespace MissionPlanner.Log
             {
                 if (CHK_logs.Items.Count == 0)
                 {
-                    CustomMessageBox.Show("Nothing to download");
+                    CustomMessageBox.Show(L10NU.GetString("Nothing to download", "Nothing to download"));
                     return;
                 }
 
@@ -557,7 +557,7 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" +
+                            CustomMessageBox.Show(L10NU.GetString("Error processing file. Make sure the file is not in use.", "Error processing file. Make sure the file is not in use.") + "\n" +
                                                   ex.ToString());
                         }
 
@@ -609,7 +609,7 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                            CustomMessageBox.Show(L10NU.GetString("Error processing log. Is it still downloading?", "Error processing log. Is it still downloading?") + " " + ex.Message);
                             continue;
                         }
 

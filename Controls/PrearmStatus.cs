@@ -60,7 +60,7 @@ namespace MissionPlanner.Controls
             // If prearm prearm checks are passing, display a message
             if (MainV2.comPort.MAV.cs.prearmstatus)
             {
-                TXT_PrearmErrors.Text = "Ready to Arm";
+                TXT_PrearmErrors.Text = Utilities.L10NU.GetString("ReadyToArm", "Ready to Arm");
                 return;
             }
 

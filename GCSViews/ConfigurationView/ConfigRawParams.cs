@@ -276,7 +276,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     if (MainV2.comPort.BaseStream == null || !MainV2.comPort.BaseStream.IsOpen)
                     {
-                        CustomMessageBox.Show("You are not connected", Strings.ERROR);
+                        CustomMessageBox.Show(L10NU.GetString("You are not connected", "You are not connected"), Strings.ERROR);
                         return;
                     }
 
@@ -295,7 +295,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 string savedParamsMessage = string.Join(Environment.NewLine, savedParams);
 
                 // Ask the user for confirmation showing detailed changes
-                if (CustomMessageBox.Show($"You are about to change {savedParams.Count} parameters. Please review the changes below:\n\n{savedParamsMessage}\n\nDo you want to proceed?", "Confirm Parameter Changes",
+                if (CustomMessageBox.Show(string.Format(L10NU.GetString("You are about to change {0} parameters. Please review the changes below:", "You are about to change {0} parameters. Please review the changes below:"), savedParams.Count) + "\n\n" + savedParamsMessage + "\n\n" + L10NU.GetString("Do you want to proceed?", "Do you want to proceed?"), L10NU.GetString("Confirm Parameter Changes", "Confirm Parameter Changes"),
         CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
     CustomMessageBox.DialogResult.Yes)
                     return;
@@ -303,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (temp.Count > maxdisplay)
             {
                 // Ask the user for confirmation without listing individual changes
-                if (CustomMessageBox.Show($"You are about to change {temp.Count} parameters. Are you sure you want to proceed?", "Confirm Parameter Changes",
+                if (CustomMessageBox.Show(string.Format(L10NU.GetString("You are about to change {0} parameters. Are you sure you want to proceed?", "You are about to change {0} parameters. Are you sure you want to proceed?"), temp.Count), L10NU.GetString("Confirm Parameter Changes", "Confirm Parameter Changes"),
             CustomMessageBox.MessageBoxButtons.YesNo, CustomMessageBox.MessageBoxIcon.Information) !=
         CustomMessageBox.DialogResult.Yes)
                     return;
@@ -359,21 +359,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch
                 {
                     error++;
-                    CustomMessageBox.Show("Set " + value + " Failed");
+                    CustomMessageBox.Show(string.Format(L10NU.GetString("Set {0} Failed", "Set {0} Failed"), value));
                 }
             }
 
             if (error > 0)
-                CustomMessageBox.Show("Not all parameters successfully saved.", "Saved");
+                CustomMessageBox.Show(L10NU.GetString("Not all parameters successfully saved.", "Not all parameters successfully saved."), L10NU.GetString("Saved", "Saved"));
             else if (temp.Count>0)
-                CustomMessageBox.Show($"{temp.Count} parameters successfully saved.", "Saved");
+                CustomMessageBox.Show(string.Format(L10NU.GetString("{0} parameters successfully saved.", "{0} parameters successfully saved."), temp.Count), L10NU.GetString("Saved", "Saved"));
             else
-                CustomMessageBox.Show("No parameters were changed.", "No changes");
+                CustomMessageBox.Show(L10NU.GetString("No parameters were changed.", "No parameters were changed."), L10NU.GetString("No changes", "No changes"));
 
             //Check if reboot is required
             if (reboot)
             {
-               CustomMessageBox.Show("Reboot is required for some parameters to take effect.", "Reboot Required");
+               CustomMessageBox.Show(L10NU.GetString("Reboot is required for some parameters to take effect.", "Reboot is required for some parameters to take effect."), L10NU.GetString("Reboot Required", "Reboot Required"));
             }
 
             if (MainV2.comPort.MAV.param.TotalReceived != MainV2.comPort.MAV.param.TotalReported )
@@ -961,7 +961,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 ThemeManager.ApplyThemeTo(paramCompareForm);
                 if (paramCompareForm.ShowDialog() == DialogResult.OK)
                 {
-                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+                    CustomMessageBox.Show(L10NU.GetString("Loaded parameters, please make sure you write them!", "Loaded parameters, please make sure you write them!"), L10NU.GetString("Loaded", "Loaded"));
                 }
 
                 // no activate the user needs to click write.
@@ -992,7 +992,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                     CustomMessageBox.Show(
-                        "Your board is now rebooting, You will be required to reconnect to the autopilot.");
+                        L10NU.GetString("Your board is now rebooting, You will be required to reconnect to the autopilot.", "Your board is now rebooting, You will be required to reconnect to the autopilot."));
                 }
                 catch (Exception ex)
                 {

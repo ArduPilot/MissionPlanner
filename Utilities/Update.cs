@@ -103,12 +103,12 @@ namespace MissionPlanner.Utilities
             catch (AggregateException ex)
             {
                 log.Error("Update Failed", ex.InnerException);
-                CustomMessageBox.Show("Update Failed " + ex.InnerException?.Message);
+                CustomMessageBox.Show(string.Format(L10NU.GetString("Update Failed {0}", "Update Failed {0}"), ex.InnerException?.Message));
             }
             catch (Exception ex)
             {
                 log.Error("Update Failed", ex);
-                CustomMessageBox.Show("Update Failed " + ex.Message);
+                CustomMessageBox.Show(string.Format(L10NU.GetString("Update Failed {0}", "Update Failed {0}"), ex.Message));
             }
         }
 
@@ -220,7 +220,7 @@ namespace MissionPlanner.Utilities
 
             IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
             {
-                Text = "Check for Updates",
+                Text = L10NU.GetString("Check for Updates", "Check for Updates"),
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
             };
 
