@@ -68,9 +68,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.param);
             LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I", "PSC_VELXY_I", "Q_P_VELXY_I", "PSC_NE_VEL_I", "Q_P_NE_VEL_I"},
                 MainV2.comPort.MAV.param);
-            LOITER_LAT_IMAX.setup(0, 0, 10, 1f,
-                new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX", "PSC_VELXY_IMAX", "Q_P_VELXY_IMAX", "PSC_NE_VEL_IMAX", "Q_P_NE_VEL_IMAX"},
-                MainV2.comPort.MAV.param);
+            if (MainV2.comPort.MAV.param.ContainsKey("PSC_NE_VEL_IMAX") || MainV2.comPort.MAV.param.ContainsKey("Q_P_NE_VEL_IMAX")) // 4.7 changes scaling
+                LOITER_LAT_IMAX.setup(0, 0, 1, 0.01f, new[] {"PSC_NE_VEL_IMAX", "Q_P_NE_VEL_IMAX"}, MainV2.comPort.MAV.param);
+            else
+                LOITER_LAT_IMAX.setup(0, 0, 10, 1f, new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX", "PSC_VELXY_IMAX", "Q_P_VELXY_IMAX"},
+                    MainV2.comPort.MAV.param);
             LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P", "PSC_VELXY_P", "Q_P_VELXY_P", "PSC_NE_VEL_P", "Q_P_NE_VEL_P"},
                 MainV2.comPort.MAV.param);
 
@@ -121,8 +123,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.param);
             THR_ACCEL_D.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_D", "ACCEL_Z_D", "PSC_ACCZ_D", "Q_P_ACCZ_D", "PSC_D_ACC_D", "Q_P_D_ACC_D"},
                 MainV2.comPort.MAV.param);
-            THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX", "PSC_ACCZ_IMAX", "Q_P_ACCZ_IMAX", "PSC_D_ACC_IMAX", "Q_P_D_ACC_IMAX"},
-                MainV2.comPort.MAV.param);
+            if (MainV2.comPort.MAV.param.ContainsKey("PSC_D_ACC_IMAX") || MainV2.comPort.MAV.param.ContainsKey("Q_P_D_ACC_IMAX")) // 4.7 changes scaling
+                THR_ACCEL_IMAX.setup(0, 0, 1, 0.01f, new[] {"PSC_D_ACC_IMAX", "Q_P_D_ACC_IMAX"}, MainV2.comPort.MAV.param);
+            else
+                THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX", "PSC_ACCZ_IMAX", "Q_P_ACCZ_IMAX"},
+                    MainV2.comPort.MAV.param);
 
             THR_ALT_P.setup(0, 0, 1, 0.001f, new[] {"THR_ALT_P", "POS_Z_P", "PSC_POSZ_P", "Q_P_POSZ_P","PSC_D_POS_P","Q_P_D_POS_P"},
                 MainV2.comPort.MAV.param);
