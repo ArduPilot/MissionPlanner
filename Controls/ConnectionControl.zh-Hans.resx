@@ -124,4 +124,7 @@
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>链接统计...</value>
   </data>
+  <data name="cmb_Baud.Items" xml:space="preserve">
+    <value>1200</value>
+  </data>
 </root>

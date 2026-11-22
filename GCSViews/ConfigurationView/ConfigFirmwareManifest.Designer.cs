@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFirmwareManifest));
             this.lbl_status = new System.Windows.Forms.Label();
             this.progress = new System.Windows.Forms.ProgressBar();
             this.lbl_devfw = new System.Windows.Forms.Label();
@@ -56,7 +57,7 @@
             this.lbl_status.Name = "lbl_status";
             this.lbl_status.Size = new System.Drawing.Size(450, 34);
             this.lbl_status.TabIndex = 51;
-            this.lbl_status.Text = "Status";
+            resources.ApplyResources(this.lbl_status, "lbl_status");
             // 
             // progress
             // 
@@ -76,7 +77,7 @@
             this.lbl_devfw.Name = "lbl_devfw";
             this.lbl_devfw.Size = new System.Drawing.Size(76, 13);
             this.lbl_devfw.TabIndex = 52;
-            this.lbl_devfw.Text = "Beta firmwares";
+            resources.ApplyResources(this.lbl_devfw, "lbl_devfw");
             this.lbl_devfw.Click += new System.EventHandler(this.Lbl_devfw_Click);
             // 
             // lbl_Custom_firmware_label
@@ -88,7 +89,7 @@
             this.lbl_Custom_firmware_label.Name = "lbl_Custom_firmware_label";
             this.lbl_Custom_firmware_label.Size = new System.Drawing.Size(110, 13);
             this.lbl_Custom_firmware_label.TabIndex = 53;
-            this.lbl_Custom_firmware_label.Text = "Load custom firmware";
+            resources.ApplyResources(this.lbl_Custom_firmware_label, "lbl_Custom_firmware_label");
             this.lbl_Custom_firmware_label.Click += new System.EventHandler(this.Lbl_Custom_firmware_label_Click);
             // 
             // lbl_px4bl
@@ -100,7 +101,7 @@
             this.lbl_px4bl.Name = "lbl_px4bl";
             this.lbl_px4bl.Size = new System.Drawing.Size(88, 13);
             this.lbl_px4bl.TabIndex = 54;
-            this.lbl_px4bl.Text = "Force Bootloader";
+            resources.ApplyResources(this.lbl_px4bl, "lbl_px4bl");
             this.lbl_px4bl.Click += new System.EventHandler(this.Lbl_px4bl_Click);
             // 
             // lbl_bootloaderupdate
@@ -110,7 +111,7 @@
             this.lbl_bootloaderupdate.Name = "lbl_bootloaderupdate";
             this.lbl_bootloaderupdate.Size = new System.Drawing.Size(96, 13);
             this.lbl_bootloaderupdate.TabIndex = 55;
-            this.lbl_bootloaderupdate.Text = "Bootloader Update";
+            resources.ApplyResources(this.lbl_bootloaderupdate, "lbl_bootloaderupdate");
             this.lbl_bootloaderupdate.Click += new System.EventHandler(this.Lbl_bootloaderupdate_Click);
             // 
             // imageLabel1
@@ -266,7 +267,7 @@
             this.lbl_alloptions.Name = "lbl_alloptions";
             this.lbl_alloptions.Size = new System.Drawing.Size(57, 13);
             this.lbl_alloptions.TabIndex = 56;
-            this.lbl_alloptions.Text = "All Options";
+            resources.ApplyResources(this.lbl_alloptions, "lbl_alloptions");
             this.lbl_alloptions.Click += new System.EventHandler(this.lbl_alloptions_Click);
             // 
             // ConfigFirmwareManifest

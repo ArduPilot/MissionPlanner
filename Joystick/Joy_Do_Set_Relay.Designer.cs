@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Joy_Do_Set_Relay));
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -53,7 +54,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Relay No#";
+            resources.ApplyResources(this.label1, "label1");
             // 
             // Joy_Do_Set_Relay
             // 
@@ -63,7 +64,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDown1);
             this.Name = "Joy_Do_Set_Relay";
-            this.Text = "Joy_Do_Set_Relay";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

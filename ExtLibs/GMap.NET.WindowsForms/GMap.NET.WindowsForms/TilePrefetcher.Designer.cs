@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TilePrefetcher));
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.progressBarDownload = new System.Windows.Forms.ProgressBar();
@@ -46,7 +47,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(304, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
+            resources.ApplyResources(this.label1, "label1");
             // 
             // tableLayoutPanel1
             // 
@@ -83,7 +84,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 32);
             this.label2.TabIndex = 2;
-            this.label2.Text = "please wait...";
+            resources.ApplyResources(this.label2, "label2");
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panel1
@@ -101,7 +102,7 @@
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 0;
-            this.buttonCancel.Text = "Cancel";
+            resources.ApplyResources(this.buttonCancel, "buttonCancel");
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
@@ -123,7 +124,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "GMap.NET - esc to cancel fetching";
+            resources.ApplyResources(this, "$this");
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Prefetch_FormClosed);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.Prefetch_PreviewKeyDown);
             this.tableLayoutPanel1.ResumeLayout(false);

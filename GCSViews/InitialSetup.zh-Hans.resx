@@ -208,4 +208,16 @@
 <data name="backstageViewPageSerialInjectGPS.Text" xml:space="preserve">
     <value>差分定位</value>
   </data>
+  <data name="backstageViewPageInitialParams.Text">
+    <value>初始调参参数</value>
+  </data>
+  <data name="backstageViewPageSerial.Text">
+    <value>串口</value>
+  </data>
+  <data name="backstageViewPageinstfw.Text">
+    <value>安装固件</value>
+  </data>
+  <data name="backstageViewPageosd.Text" xml:space="preserve">
+    <value>OSD</value>
+  </data>
 </root>

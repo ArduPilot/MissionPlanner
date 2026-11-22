@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogAnalyzer));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -49,7 +50,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LogAnalyzer";
-            this.Text = "LogAnalyzer";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 

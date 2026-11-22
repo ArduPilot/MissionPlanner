@@ -156,4 +156,37 @@
   <data name="buttonStart.Text" xml:space="preserve">
     <value>开始</value>
   </data>
+  <data name="label10.Text">
+    <value>保持为 0 以使用接收机输入范围</value>
+  </data>
+  <data name="label11.Text">
+    <value>电机解锁但油门为零时的转速（怠速）</value>
+  </data>
+  <data name="label12.Text">
+    <value>飞行中电机的最小转速（略高于“解锁自转”）</value>
+  </data>
+  <data name="label13.Text">
+    <value>飞行中电机的最大转速（几乎所有 ESC 在顶端都有死区）</value>
+  </data>
+  <data name="label3.Text">
+    <value>ESC 类型：</value>
+  </data>
+  <data name="label4.Text">
+    <value>输出 PWM 最小值</value>
+  </data>
+  <data name="label5.Text">
+    <value>输出 PWM 最大值</value>
+  </data>
+  <data name="label6.Text">
+    <value>解锁自转</value>
+  </data>
+  <data name="label7.Text">
+    <value>最小自转</value>
+  </data>
+  <data name="label8.Text">
+    <value>最大自转</value>
+  </data>
+  <data name="label9.Text">
+    <value>保持为 0 以使用接收机输入范围</value>
+  </data>
 </root>

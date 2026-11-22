@@ -567,4 +567,333 @@ Mission Planner将会在30秒内寻找控制板。</value>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>无法连接到SITL实例</value>
   </data>
+  <data name="BatteryCapacityAsDecimal" xml:space="preserve">
+    <value>"{0}" 被读取为 {1} mAh：此处 '.' 和 ',' 均为小数点。确定吗？</value>
+  </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>写入成功</value>
+  </data>
+  <data name="VerifyHeightTitle" xml:space="preserve">
+    <value>校验高度</value>
+  </data>
+  <data name="VerifyHeightTickRows" xml:space="preserve">
+    <value>勾选需要校验的每个航点，或勾选列标题中的复选框以选择全部。</value>
+  </data>
+  <data name="VerifyHeightBadDefaultAlt" xml:space="preserve">
+    <value>默认高度必须为非 0 的整数，且与 Alt 列使用相同单位。</value>
+  </data>
+  <data name="VerifyHeightUpdated" xml:space="preserve">
+    <value>已更新 {0} 行。</value>
+  </data>
+  <data name="VerifyHeightNoTerrain" xml:space="preserve">
+    <value>{0} 已跳过：尚无地形数据。地形数据正在后台下载，请稍后重试。</value>
+  </data>
+  <data name="VerifyHeightNoAltitude" xml:space="preserve">
+    <value>{0} 已跳过：该命令没有位置或没有高度。</value>
+  </data>
+  <data name="VerifyHeightNoHome" xml:space="preserve">
+    <value>请先设置 Home 点。相对高度以 Home 点高度为基准。</value>
+  </data>
+  <data name="CotStarting" xml:space="preserve">
+    <value>正在启动...</value>
+  </data>
+  <data name="CotNotSending" xml:space="preserve">
+    <value>未在发送</value>
+  </data>
+  <data name="CotSentSoFar" xml:space="preserve">
+    <value>{0}，已发送 {1} 条消息</value>
+  </data>
+  <data name="CotSendFailed" xml:space="preserve">
+    <value>发送失败：{0}</value>
+  </data>
+  <data name="CotCouldNotStart" xml:space="preserve">
+    <value>无法启动：{0}</value>
+  </data>
+  <data name="CotStopped" xml:space="preserve">
+    <value>已停止</value>
+  </data>
+  <data name="CotSendingUdp" xml:space="preserve">
+    <value>正在通过 UDP 发送到 {0}</value>
+  </data>
+  <data name="CotSendingMulticast" xml:space="preserve">
+    <value>正在通过 {1} 发送到 {0}</value>
+  </data>
+  <data name="CotSendingTcp" xml:space="preserve">
+    <value>已通过 TCP 连接到 {0}</value>
+  </data>
+  <data name="CotReconnecting" xml:space="preserve">
+    <value>未连接到 {0}，正在重试：{1}</value>
+  </data>
+  <data name="CotNoAnswer" xml:space="preserve">
+    <value>{0} 无应答</value>
+  </data>
+  <data name="CotNoIPv4Address" xml:space="preserve">
+    <value>{0} 没有 IPv4 地址</value>
+  </data>
+  <data name="CotWaitingForClient" xml:space="preserve">
+    <value>正在 TCP 端口 {0} 等待客户端</value>
+  </data>
+  <data name="CotSendingToClients" xml:space="preserve">
+    <value>正在通过 TCP 端口 {1} 向 {0} 个客户端发送：{2}</value>
+  </data>
+  <data name="CotSendingSerial" xml:space="preserve">
+    <value>正在以 {1} 波特率向 {0} 发送</value>
+  </data>
+  <data name="CotPortInUse" xml:space="preserve">
+    <value>端口 {0} 已被其他程序占用</value>
+  </data>
+  <data name="CotNoAdapter" xml:space="preserve">
+    <value>没有已启用的网络适配器</value>
+  </data>
+  <data name="CotModeTakMulticast" xml:space="preserve">
+    <value>TAK 组播</value>
+  </data>
+  <data name="CotModeUdpClient" xml:space="preserve">
+    <value>UDP 客户端</value>
+  </data>
+  <data name="CotModeTcpClient" xml:space="preserve">
+    <value>TCP 客户端</value>
+  </data>
+  <data name="CotModeTcpHost" xml:space="preserve">
+    <value>TCP 主机</value>
+  </data>
+  <data name="CotAllAdapters" xml:space="preserve">
+    <value>所有网络适配器</value>
+  </data>
+  <data name="CotThisPcOnly" xml:space="preserve">
+    <value>仅本机</value>
+  </data>
+  <data name="CotHost" xml:space="preserve">
+    <value>主机</value>
+  </data>
+  <data name="CotGroup" xml:space="preserve">
+    <value>组</value>
+  </data>
+  <data name="CotAdapter" xml:space="preserve">
+    <value>网络适配器</value>
+  </data>
+  <data name="CotListenOn" xml:space="preserve">
+    <value>监听</value>
+  </data>
+  <data name="CotBaud" xml:space="preserve">
+    <value>波特率</value>
+  </data>
+  <data name="CotEnterHost" xml:space="preserve">
+    <value>请输入发送目标地址。</value>
+  </data>
+  <data name="CotEnterPort" xml:space="preserve">
+    <value>请输入 1 到 65535 之间的端口。</value>
+  </data>
+  <data name="CotEnterGroup" xml:space="preserve">
+    <value>请输入组播地址（224.0.0.0 到 239.255.255.255）。</value>
+  </data>
+  <data name="BadGPSHealth" xml:space="preserve">
+    <value>GPS 信号异常</value>
+  </data>
+  <data name="BadAirspeed" xml:space="preserve">
+    <value>空速计异常</value>
+  </data>
+  <data name="BadGyroHealth" xml:space="preserve">
+    <value>陀螺仪状态异常</value>
+  </data>
+  <data name="BadAccelHealth" xml:space="preserve">
+    <value>加速度计状态异常</value>
+  </data>
+  <data name="BadCompassHealth" xml:space="preserve">
+    <value>罗盘状态异常</value>
+  </data>
+  <data name="BadBaroHealth" xml:space="preserve">
+    <value>气压计状态异常</value>
+  </data>
+  <data name="BadLiDARHealth" xml:space="preserve">
+    <value>激光雷达状态异常</value>
+  </data>
+  <data name="BadOptFlowHealth" xml:space="preserve">
+    <value>光流状态异常</value>
+  </data>
+  <data name="BadorNoTerrainData" xml:space="preserve">
+    <value>地形数据异常或缺失</value>
+  </data>
+  <data name="GeofenceBreach" xml:space="preserve">
+    <value>地理围栏突破</value>
+  </data>
+  <data name="BadAHRS" xml:space="preserve">
+    <value>AHRS 异常</value>
+  </data>
+  <data name="NORCReceiver" xml:space="preserve">
+    <value>无 RC 接收机</value>
+  </data>
+  <data name="ekf_accel_error" xml:space="preserve">
+    <value>EKF 加速度计误差</value>
+  </data>
+  <data name="Scanning_File" xml:space="preserve">
+    <value>正在扫描文件</value>
+  </data>
+  <data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
+    <value>缩放到中心还是已加载的文件？</value>
+  </data>
+  <data name="Zoom_To" xml:space="preserve">
+    <value>缩放至</value>
+  </data>
+  <data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
+    <value>是否要将其加载到飞行数据界面？</value>
+  </data>
+  <data name="Load_data" xml:space="preserve">
+    <value>加载数据</value>
+  </data>
+  <data name="Bad_KML_File" xml:space="preserve">
+    <value>KML 文件错误：</value>
+  </data>
+  <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
+    <value>未从端口读取到有效心跳</value>
+  </data>
+  <data name="Bad_Vision_Position" xml:space="preserve">
+    <value>视觉定位异常</value>
+  </data>
+  <data name="BadLogging" xml:space="preserve">
+    <value>日志异常</value>
+  </data>
+  <data name="ParamRefreshRequired" xml:space="preserve">
+    <value>需要刷新参数 - 请按 F5
+旧 #{0}  新 #{1}</value>
+  </data>
+  <data name="Failed_to_download_the_SITL_image" xml:space="preserve">
+    <value>下载 SITL 镜像失败。</value>
+  </data>
+  <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
+    <value>以 Windows 应用商店应用方式运行时不可用</value>
+  </data>
+  <data name="No_firmware_available_for_this_board" xml:space="preserve">
+    <value>此板卡没有可用的固件！</value>
+  </data>
+  <data name="OnboardOSD" xml:space="preserve">
+    <value>机载 OSD</value>
+  </data>
+  <data name="User_Params" xml:space="preserve">
+    <value>用户参数</value>
+  </data>
+  <data name="Planner" xml:space="preserve">
+    <value>规划</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="No_valid_sik_radio" xml:space="preserve">
+    <value>未找到有效的 SiK 电台</value>
+  </data>
+  <data name="Bad_Battery" xml:space="preserve">
+    <value>电池异常</value>
+  </data>
+  <data name="Bad_Proximity" xml:space="preserve">
+    <value>接近传感器异常</value>
+  </data>
+  <data name="Bad_SatCom" xml:space="preserve">
+    <value>卫星通信异常</value>
+  </data>
+  <data name="Prearm_check_failed" xml:space="preserve">
+    <value>解锁前检查失败 - 请查看消息</value>
+  </data>
+  <data name="Invalid_Location" xml:space="preserve">
+    <value>位置无效</value>
+  </data>
+  <data name="Loading" xml:space="preserve">
+    <value>加载中</value>
+  </data>
+  <data name="ZeroAltWarningCopter" xml:space="preserve">
+    <value>航点 #{0} 高度为零，这意味着高度不会变化！如果你确实想要零高度，请将其改为 0.01。是继续还是取消航点上传？</value>
+  </data>
+  <data name="ZeroAltWarningTitle" xml:space="preserve">
+    <value>零高度警告</value>
+  </data>
+  <data name="ZeroAltWarningPlane" xml:space="preserve">
+    <value>航点 #{0} 高度为零。如果你确实想要零高度，请改用 0.01 以获得可预期的行为。
+
+在 ArduPlane 上，零高度可能有两种解释：实际的零高度，或保持当前高度。WAYPOINT 命令通常会遵循零高度，而 LOITER 命令通常会将其解释为“使用当前高度”，但前提是高度坐标系为“相对”。可能还有更多例外情况，且未来版本中可能会改变。
+
+只有当你完全清楚在自己的情况下会发生什么时，才将其设为零（建议用模拟器确认）。[link;https://ardupilot.org/plane/docs/common-mavlink-mission-command-messages-mav_cmd.html;命令文档]</value>
+  </data>
+  <data name="FirmwareSelectionTitle" xml:space="preserve">
+    <value>选择固件</value>
+  </data>
+  <data name="FirmwareSelectionPrompt" xml:space="preserve">
+    <value>有多个固件与此板卡匹配。请使用筛选条件缩小范围，选出所需的固件。</value>
+  </data>
+  <data name="FirmwareSelectionAny" xml:space="preserve">
+    <value>任意</value>
+  </data>
+  <data name="FirmwareSelectionTooMany" xml:space="preserve">
+    <value>匹配结果过多（{0}）- 请增加更多筛选条件</value>
+  </data>
+  <data name="FirmwareSelectionNoMatches" xml:space="preserve">
+    <value>没有符合当前筛选条件的固件</value>
+  </data>
+  <data name="FirmwareSelectionUpload" xml:space="preserve">
+    <value>上传固件</value>
+  </data>
+  <data name="FirmwareSelectionVehicleType" xml:space="preserve">
+    <value>飞行器类型</value>
+  </data>
+  <data name="FirmwareSelectionReleaseType" xml:space="preserve">
+    <value>发布类型</value>
+  </data>
+  <data name="FirmwareSelectionPlatform" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="FirmwareSelectionVersion" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="FirmwareSelectionFormat" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="FirmwareSelectionBoardId" xml:space="preserve">
+    <value>板卡 ID</value>
+  </data>
+  <data name="FirmwareSelectionFile" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="FirmwareSelectionPickFile" xml:space="preserve">
+    <value>请选择要下载并上传的文件（.apj）</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="Absolute" xml:space="preserve">
+    <value>绝对高度</value>
+  </data>
+  <data name="Relative" xml:space="preserve">
+    <value>相对高度</value>
+  </data>
+  <data name="Terrain" xml:space="preserve">
+    <value>地形高度</value>
+  </data>
+  <data name="ForceArmDisarmWarning" xml:space="preserve">
+    <value>{0} 失败。
+{1}
+强制{0}可绕过安全检查，
+可能导致载具坠毁
+并造成严重人身伤害。
+
+是否要强制{0}？</value>
+  </data>
+  <data name="AreaResult" xml:space="preserve">
+    <value>面积：{0} m2
+	{1} 英亩
+	{2} 公顷
+	{3} 平方英尺</value>
+  </data>
+  <data name="MagOffsetsSaved" xml:space="preserve">
+    <value>罗盘 #{0} 的新偏移量为 {1} {2} {3}，
+已为你保存。</value>
+  </data>
+  <data name="MagOffsetsManual" xml:space="preserve">
+    <value>罗盘 #{0} 的新偏移量为 {1} {2} {3}，
+
+请记录下来以便手动输入。</value>
+  </data>
+  <data name="MagOffsetsTitle" xml:space="preserve">
+    <value>磁力计新偏移量</value>
+  </data>
 </root>

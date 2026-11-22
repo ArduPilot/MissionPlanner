@@ -160,4 +160,7 @@
   <data name="label1gftitle.Text" xml:space="preserve">
     <value>地理围栏</value>
   </data>
+  <data name="label8minalt.Text">
+    <value>最低高度</value>
+  </data>
 </root>

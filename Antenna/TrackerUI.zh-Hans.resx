@@ -232,4 +232,55 @@
   <data name="label14.Text" xml:space="preserve">
     <value>中点的PWM</value>
   </data>
+  <data name="label15.Text">
+    <value>速度</value>
+  </data>
+  <data name="label16.Text">
+    <value>加速度</value>
+  </data>
+  <data name="label17.Text">
+    <value>加速度</value>
+  </data>
+  <data name="label18.Text">
+    <value>速度</value>
+  </data>
+  <data name="CMB_interface.Items" xml:space="preserve">
+    <value>Maestro</value>
+  </data>
+  <data name="CMB_interface.Text" xml:space="preserve">
+    <value>Maestro</value>
+  </data>
+  <data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>4800</value>
+  </data>
+  <data name="TXT_panrange.Text" xml:space="preserve">
+    <value>360</value>
+  </data>
+  <data name="TXT_tiltrange.Text" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="TXT_pwmrangepan.Text" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="TXT_pwmrangetilt.Text" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="TXT_centerpan.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="TXT_centertilt.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="TXT_panspeed.Text" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="TXT_panaccel.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="TXT_tiltspeed.Text" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="TXT_tiltaccel.Text" xml:space="preserve">
+    <value>5</value>
+  </data>
 </root>

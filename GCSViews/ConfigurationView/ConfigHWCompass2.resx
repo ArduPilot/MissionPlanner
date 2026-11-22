@@ -144,4 +144,102 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>54</value>
   </metadata>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Set the Compass Priority by reordering the compasses in the table below (Highest at the top)
+</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Compass Priority</value>
+  </data>
+  <data name="groupBoxonboardcalib.Text" xml:space="preserve">
+    <value>Onboard Mag Calibration</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Relax fitness if calibration fails</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Fitness</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Mag 3</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Mag 2</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Mag 1</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Do you want to disable any of the first 3 compasses?</value>
+  </data>
+  <data name="but_largemagcal.Text" xml:space="preserve">
+    <value>Large Vehicle MagCal</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>A mag calibration is required to remap the above changes.</value>
+  </data>
+  <data name="but_reboot.Text" xml:space="preserve">
+    <value>Reboot</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>A reboot is required to adjust the ordering.
+</value>
+  </data>
+  <data name="mavlinkCheckBoxUseCompass3.Text" xml:space="preserve">
+    <value>Use Compass 3</value>
+  </data>
+  <data name="mavlinkCheckBoxUseCompass2.Text" xml:space="preserve">
+    <value>Use Compass 2</value>
+  </data>
+  <data name="CHK_compass_learn.Text" xml:space="preserve">
+    <value>Automatically learn offsets</value>
+  </data>
+  <data name="mavlinkCheckBoxUseCompass1.Text" xml:space="preserve">
+    <value>Use Compass 1</value>
+  </data>
+  <data name="Priority.HeaderText" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="devIDDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>DevID</value>
+  </data>
+  <data name="busTypeDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>BusType</value>
+  </data>
+  <data name="busDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>Bus</value>
+  </data>
+  <data name="addressDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="devTypeDataGridViewTextBoxColumn.HeaderText" xml:space="preserve">
+    <value>DevType</value>
+  </data>
+  <data name="Missing.HeaderText" xml:space="preserve">
+    <value>Missing</value>
+  </data>
+  <data name="External.HeaderText" xml:space="preserve">
+    <value>External</value>
+  </data>
+  <data name="Orientation.HeaderText" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="Up.HeaderText" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="Down.HeaderText" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="but_missing.Text" xml:space="preserve">
+    <value>Remove Missing</value>
+  </data>
 </root>

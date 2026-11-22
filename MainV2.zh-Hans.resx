@@ -177,4 +177,16 @@
   <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
     <value>自动隐藏</value>
   </data>
+  <data name="connectionListToolStripMenuItem.Text">
+    <value>连接列表</value>
+  </data>
+  <data name="connectionOptionsToolStripMenuItem.Text">
+    <value>连接选项</value>
+  </data>
+  <data name="fullScreenToolStripMenuItem.Text">
+    <value>全屏</value>
+  </data>
+  <data name="readonlyToolStripMenuItem.Text">
+    <value>只读</value>
+  </data>
 </root>

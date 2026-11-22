@@ -123,4 +123,49 @@
   <data name="label3.Text" xml:space="preserve">
     <value>光流</value>
   </data>
+  <data name="label1.Text">
+    <value>类型</value>
+  </data>
+  <data name="label10.Text">
+    <value>前方（米）</value>
+  </data>
+  <data name="label11.Text">
+    <value>右侧（米）</value>
+  </data>
+  <data name="label12.Text">
+    <value>下方（米）</value>
+  </data>
+  <data name="label13.Text">
+    <value>传感器相对 IMU 的位置</value>
+  </data>
+  <data name="label14.Text">
+    <value>缩放系数</value>
+  </data>
+  <data name="label15.Text">
+    <value>覆盖高度</value>
+  </data>
+  <data name="label16.Text">
+    <value>距地面（米）</value>
+  </data>
+  <data name="label2.Text">
+    <value>偏航方向</value>
+  </data>
+  <data name="label4.Text">
+    <value>FX 缩放</value>
+  </data>
+  <data name="label5.Text">
+    <value>FY 缩放</value>
+  </data>
+  <data name="label6.Text">
+    <value>X 位置</value>
+  </data>
+  <data name="label7.Text">
+    <value>Y 位置</value>
+  </data>
+  <data name="label8.Text">
+    <value>Z 位置</value>
+  </data>
+  <data name="label9.Text">
+    <value>度（相对机身）</value>
+  </data>
 </root>

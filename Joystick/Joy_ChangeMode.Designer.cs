@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Joy_ChangeMode));
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
@@ -47,7 +48,7 @@
             this.ClientSize = new System.Drawing.Size(148, 43);
             this.Controls.Add(this.comboBox1);
             this.Name = "Joy_ChangeMode";
-            this.Text = "Joy_ChangeMode";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 
         }

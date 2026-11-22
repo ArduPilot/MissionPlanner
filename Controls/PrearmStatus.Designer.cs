@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrearmStatus));
             this.TXT_PrearmErrors = new System.Windows.Forms.TextBox();
             this.updatetexttimer = new System.Windows.Forms.Timer(this.components);
             this.requestchecktimer = new System.Windows.Forms.Timer(this.components);
@@ -62,7 +63,7 @@
             this.Name = "PrearmStatus";
             this.Padding = new System.Windows.Forms.Padding(10);
             this.ShowIcon = false;
-            this.Text = "Prearm Checks";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
             this.PerformLayout();
 

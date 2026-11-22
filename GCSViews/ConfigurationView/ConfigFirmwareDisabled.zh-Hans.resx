@@ -123,4 +123,10 @@
 请点击右上方的断开连接按钮结束当前MAVLink会话，
 即可启用安装固件界面。</value>
   </data>
+  <data name="but_bootloaderupdate.Text">
+    <value>更新 Bootloader</value>
+  </data>
+  <data name="label2.Text">
+    <value>将硬件上的 Bootloader 更新到最新可用版本。</value>
+  </data>
 </root>

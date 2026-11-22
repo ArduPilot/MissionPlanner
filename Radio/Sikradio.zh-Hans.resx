@@ -315,7 +315,7 @@
     <value />
   </data>
   <data name="RS4.ToolTip" xml:space="preserve">
-    <value>TXPOWER为发射功率，单位dBm。20dBm是100mW，在短距离测试的时候很有空，可以设低一点。
+    <value>TXPOWER为发射功率，单位dBm。20dBm是100mW，在短距离测试的时候很有用，可以设低一点。
 </value>
   </data>
   <data name="label26.ToolTip" xml:space="preserve">
@@ -557,5 +557,430 @@
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_SetPPMFailSafe.Text">
+    <value>设置 PPM 失控保护</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.Text">
+    <value>设置 PPM 失控保护</value>
+  </data>
+  <data name="btnLoadFromFile.Text">
+    <value>从文件加载...</value>
+  </data>
+  <data name="btnRandom.Text">
+    <value>随机</value>
+  </data>
+  <data name="btnRemoteLoadFromFile.Text">
+    <value>从文件加载...</value>
+  </data>
+  <data name="btnRemoteSaveToFile.Text">
+    <value>保存到文件...</value>
+  </data>
+  <data name="btnSaveToFile.Text">
+    <value>保存到文件...</value>
+  </data>
+  <data name="groupBoxLocal.Text">
+    <value>本地</value>
+  </data>
+  <data name="groupBoxRemote.Text">
+    <value>远程</value>
+  </data>
+  <data name="label35.Text">
+    <value>AES 密钥</value>
+  </data>
+  <data name="label38.Text">
+    <value>AES 密钥</value>
+  </data>
+  <data name="label45.Text">
+    <value>速率/频段</value>
+  </data>
+  <data name="label46.Text">
+    <value>速率/频段</value>
+  </data>
+  <data name="label49.Text">
+    <value>国家：</value>
+  </data>
+  <data name="label50.Text">
+    <value>国家：</value>
+  </data>
+  <data name="label54.Text">
+    <value>失控丢帧阈值</value>
+  </data>
+  <data name="lblANT_MODE.Text">
+    <value>天线模式</value>
+  </data>
+  <data name="lblDESTID.Text">
+    <value>目标 ID</value>
+  </data>
+  <data name="lblDUTY_CYCLE.Text">
+    <value>占空比</value>
+  </data>
+  <data name="lblENCRYPTION_LEVEL.Text">
+    <value>AES 加密</value>
+  </data>
+  <data name="lblGLOBAL_RETRIES.Text">
+    <value>全局重试次数</value>
+  </data>
+  <data name="lblLBT_RSSI.Text">
+    <value>LBT RSSI</value>
+  </data>
+  <data name="lblMAX_DATA.Text">
+    <value>最大数据量</value>
+  </data>
+  <data name="lblMAX_FREQ.Text">
+    <value>最大频率</value>
+  </data>
+  <data name="lblMAX_RETRIES.Text">
+    <value>最大重试次数</value>
+  </data>
+  <data name="lblMAX_WINDOW.Text">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="lblMIN_FREQ.Text">
+    <value>最小频率</value>
+  </data>
+  <data name="lblNETID.Text">
+    <value>网络 ID</value>
+  </data>
+  <data name="lblNODEID.Text">
+    <value>节点 ID</value>
+  </data>
+  <data name="lblNUM_CHANNELS.Text">
+    <value>信道数</value>
+  </data>
+  <data name="lblOPPRESEND.Text">
+    <value>机会性重发</value>
+  </data>
+  <data name="lblRANT_MODE.Text">
+    <value>天线模式</value>
+  </data>
+  <data name="lblRDESTID.Text">
+    <value>目标 ID</value>
+  </data>
+  <data name="lblRDUTY_CYCLE.Text">
+    <value>占空比</value>
+  </data>
+  <data name="lblRENCRYPTION_LEVEL.Text">
+    <value>AES 加密</value>
+  </data>
+  <data name="lblRFSFRAMELOSS.Text">
+    <value>失控丢帧阈值</value>
+  </data>
+  <data name="lblRGLOBAL_RETRIES.Text">
+    <value>全局重试次数</value>
+  </data>
+  <data name="lblRLBT_RSSI.Text">
+    <value>LBT RSSI</value>
+  </data>
+  <data name="lblRMAX_DATA.Text">
+    <value>最大数据量</value>
+  </data>
+  <data name="lblRMAX_FREQ.Text">
+    <value>最大频率</value>
+  </data>
+  <data name="lblRMAX_RETRIES.Text">
+    <value>最大重试次数</value>
+  </data>
+  <data name="lblRMAX_WINDOW.Text">
+    <value>最大窗口 (ms)</value>
+  </data>
+  <data name="lblRMIN_FREQ.Text">
+    <value>最小频率</value>
+  </data>
+  <data name="lblRNETID.Text">
+    <value>网络 ID</value>
+  </data>
+  <data name="lblRNODEID.Text">
+    <value>节点 ID</value>
+  </data>
+  <data name="lblRNUM_CHANNELS.Text">
+    <value>信道数</value>
+  </data>
+  <data name="lblROPPRESEND.Text">
+    <value>机会性重发</value>
+  </data>
+  <data name="lblRSER_BRK_DETMS.Text">
+    <value>串口 Break 检测</value>
+  </data>
+  <data name="lblRTXPOWER.Text">
+    <value>发射功率</value>
+  </data>
+  <data name="lblSER_BRK_DETMS.Text">
+    <value>串口 Break 检测</value>
+  </data>
+  <data name="lblTXPOWER.Text">
+    <value>发射功率</value>
+  </data>
+  <data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>启用或禁用硬件流控制</value>
+  </data>
+  <data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>最大频率，单位 kHz</value>
+  </data>
+  <data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>跳频通道数量</value>
+  </data>
+  <data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>允许发射的时间百分比</value>
+  </data>
+  <data name="RLBT_RSSI.ToolTip" xml:space="preserve">
+    <value>“先听后说”(LBT) 的 RSSI 阈值</value>
+  </data>
+  <data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>最小频率，单位 kHz</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT：将 GPIO 1.1 设为 R/C(PPM) 输出</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/CIN：将 GPIO 1.1 设为 R/C(PPM) 输入</value>
+  </data>
+  <data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>串行波特率，以 kbps 为单位取整。所以 57 意味着 57600。
+</value>
+  </data>
+  <data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 是电台间的数据速率，以 kbps 为单位取整。所以 128 意味着 128kbps。最大 192，最小 2。不建议低于 16，否则跳频和 TDM 同步时间会过长。</value>
+  </data>
+  <data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID 是 16 位的“网络 ID”，用作跳频序列的种子，并用于识别数据包是否来自正确的数传。确保与你所在区域内使用同类数传的其他人使用不同的 NETID。</value>
+  </data>
+  <data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER 为发射功率，单位 dBm。20dBm 即 100mW。短距离测试时建议将其设得低一些。
+</value>
+  </data>
+  <data name="RECC.ToolTip" xml:space="preserve">
+    <value>ECC 用于启用/禁用戈莱（Golay）纠错码，默认关闭。启用后数据包占用的字节数翻倍，损失一半空中带宽，但每 12 位数据最多可纠正 3 位错误。适用于远距离，通常配合较低的空中数据速率使用。戈莱解码每个传输字节需要 20 微秒（每个用户数据字节 40 微秒），因此在最高空中速率下 CPU 也会有些吃紧。通常在 128kbps 或以下才使用戈莱码。
+</value>
+  </data>
+  <data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“机会性重发”。启用后，当串口输入缓冲中的数据少于 256 字节时，电台会将同一个数据包发送两次。第二次发送会标记为重发，若接收电台已正确收到第一个包，则会丢弃重发的包。这对链路质量帮助很大，尤其是上行指令。
+</value>
+  </data>
+  <data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>启用或禁用硬件流控制</value>
+  </data>
+  <data name="MAX_FREQ.ToolTip" xml:space="preserve">
+    <value>最大频率，单位 kHz</value>
+  </data>
+  <data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>跳频通道数量</value>
+  </data>
+  <data name="LBT_RSSI.ToolTip" xml:space="preserve">
+    <value>“先听后说”(LBT) 的 RSSI 阈值</value>
+  </data>
+  <data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>最小频率，单位 kHz</value>
+  </data>
+  <data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>允许发射的时间百分比</value>
+  </data>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/COUT：将 GPIO 1.1 设为 R/C(PPM) 输出</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>GPI1_1R/CIN：将 GPIO 1.1 设为 R/C(PPM) 输入</value>
+  </data>
+  <data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>串行波特率，以 kbps 为单位取整。所以 57 意味着 57600。
+</value>
+  </data>
+  <data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED 是电台间的数据速率，以 kbps 为单位取整。所以 128 意味着 128kbps。最大 192，最小 2。不建议低于 16，否则跳频和 TDM 同步时间会过长。</value>
+  </data>
+  <data name="NETID.ToolTip" xml:space="preserve">
+    <value>NETID 是 16 位的“网络 ID”，用作跳频序列的种子，并用于识别数据包是否来自正确的数传。确保与你所在区域内使用同类数传的其他人使用不同的 NETID。</value>
+  </data>
+  <data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER 为发射功率，单位 dBm。20dBm 即 100mW。短距离测试时建议将其设得低一些。
+</value>
+  </data>
+  <data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC 用于启用/禁用戈莱（Golay）纠错码，默认关闭。启用后数据包占用的字节数翻倍，损失一半空中带宽，但每 12 位数据最多可纠正 3 位错误。适用于远距离，通常配合较低的空中数据速率使用。戈莱解码每个传输字节需要 20 微秒（每个用户数据字节 40 微秒），因此在最高空中速率下 CPU 也会有些吃紧。通常在 128kbps 或以下才使用戈莱码。
+</value>
+  </data>
+  <data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND 启用/禁用“机会性重发”。启用后，当串口输入缓冲中的数据少于 256 字节时，电台会将同一个数据包发送两次。第二次发送会标记为重发，若接收电台已正确收到第一个包，则会丢弃重发的包。这对链路质量帮助很大，尤其是上行指令。
+</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.ToolTip" xml:space="preserve">
+    <value>AES 加密等级</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.ToolTip" xml:space="preserve">
+    <value>AES 加密等级</value>
+  </data>
+  <data name="FSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>SBUS 或 PPM 输出帧连续缺失多少帧后进入失控保护。</value>
+  </data>
+  <data name="RFSFRAMELOSS.ToolTip" xml:space="preserve">
+    <value>SBUS 或 PPM 输出帧连续缺失多少帧后进入失控保护。</value>
+  </data>
+  <data name="BUT_SetPPMFailSafeRemote.ToolTip" xml:space="preserve">
+    <value>记录用于 PPM 输出的默认 PPM 流（飞行器端）</value>
+  </data>
+  <data name="BUT_SetPPMFailSafe.ToolTip" xml:space="preserve">
+    <value>记录用于 PPM 输出的默认 PPM 流（飞行器端）</value>
+  </data>
+  <data name="dlgSave.Filter" xml:space="preserve">
+    <value>INI 文件|*.ini</value>
+  </data>
+  <data name="dlgOpen.Filter" xml:space="preserve">
+    <value>INI 文件|*.ini</value>
+  </data>
+  <data name="RMAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RMAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RNUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RDUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="RLBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RMIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="RSERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="RAIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="RNETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RTXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="MAX_WINDOW.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MAX_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="NUM_CHANNELS.Items" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="LBT_RSSI.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="MIN_FREQ.Items" xml:space="preserve">
+    <value>902000</value>
+  </data>
+  <data name="DUTY_CYCLE.Items" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>Mavlink</value>
+  </data>
+  <data name="SERIAL_SPEED.Items" xml:space="preserve">
+    <value>115</value>
+  </data>
+  <data name="AIR_SPEED.Items" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="NETID.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TXPOWER.Items" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ENCRYPTION_LEVEL.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RENCRYPTION_LEVEL.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>RSSI</value>
+  </data>
+  <data name="lblGPO1_3AUXOUT.Text" xml:space="preserve">
+    <value>GPO1_3AUXOUT</value>
+  </data>
+  <data name="lblGPI1_2AUXIN.Text" xml:space="preserve">
+    <value>GPI1_2AUXIN</value>
+  </data>
+  <data name="lblGPIO1_1FUNC.Text" xml:space="preserve">
+    <value>GPIO1_1FUNC</value>
+  </data>
+  <data name="lblGPO1_0TXEN485.Text" xml:space="preserve">
+    <value>GPO1_0TXEN485</value>
+  </data>
+  <data name="lblGPO1_3STATLED.Text" xml:space="preserve">
+    <value>GPO1_3STATLED</value>
+  </data>
+  <data name="lblSBUSOUT.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT:</value>
+  </data>
+  <data name="lblSBUSIN.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="lblRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>RXENCAP</value>
+  </data>
+  <data name="lblTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>TXENCAP</value>
+  </data>
+  <data name="lblGPO1_1R_COUT.Text" xml:space="preserve">
+    <value>GPO1_1R/COUT</value>
+  </data>
+  <data name="lblGPI1_1R_CIN.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="lblECC.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data>
+  <data name="lblMAVLINK.Text" xml:space="preserve">
+    <value>Mavlink</value>
+  </data>
+  <data name="lblRTSCTS.Text" xml:space="preserve">
+    <value>RTS CTS</value>
+  </data>
+  <data name="lblRGPO1_3AUXOUT.Text" xml:space="preserve">
+    <value>GPO1_3AUXOUT</value>
+  </data>
+  <data name="lblRGPI1_2AUXIN.Text" xml:space="preserve">
+    <value>GPI1_2AUXIN</value>
+  </data>
+  <data name="lblRGPIO1_1FUNC.Text" xml:space="preserve">
+    <value>GPIO1_1FUNC</value>
+  </data>
+  <data name="lblRGPO1_0TXEN485.Text" xml:space="preserve">
+    <value>GPO1_0TXEN485</value>
+  </data>
+  <data name="lblRGPO1_3STATLED.Text" xml:space="preserve">
+    <value>GPO1_3STATLED</value>
+  </data>
+  <data name="lblRSBUSOUT.Text" xml:space="preserve">
+    <value>GPO1_3SBUSOUT:</value>
+  </data>
+  <data name="lblRSBUSIN.Text" xml:space="preserve">
+    <value>GPO1_3SBUSIN</value>
+  </data>
+  <data name="lblRRX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>RXENCAP</value>
+  </data>
+  <data name="lblRTX_ENCAP_METHOD.Text" xml:space="preserve">
+    <value>TXENCAP</value>
+  </data>
+  <data name="lblRGPO1_1R_COUT.Text" xml:space="preserve">
+    <value>GPO1_1R/COUT</value>
+  </data>
+  <data name="lblRGPI1_1R_CIN.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="lblRMAVLINK.Text" xml:space="preserve">
+    <value>Mavlink</value>
+  </data>
+  <data name="lblRECC.Text" xml:space="preserve">
+    <value>ECC</value>
+  </data>
+  <data name="lblRRTSCTS.Text" xml:space="preserve">
+    <value>RTS CTS</value>
   </data>
 </root>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TilePrefetcherMenu));
             this.buttonCancel = new System.Windows.Forms.Button();
             this.trackBarMaxZoom = new System.Windows.Forms.TrackBar();
             this.trackBarMinZoom = new System.Windows.Forms.TrackBar();
@@ -51,7 +52,7 @@
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 0;
-            this.buttonCancel.Text = "Cancel";
+            resources.ApplyResources(this.buttonCancel, "buttonCancel");
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
             // trackBarMaxZoom
@@ -86,7 +87,7 @@
             this.labelMaxZoom.Name = "labelMaxZoom";
             this.labelMaxZoom.Size = new System.Drawing.Size(64, 13);
             this.labelMaxZoom.TabIndex = 2;
-            this.labelMaxZoom.Text = "Max zoom : ";
+            resources.ApplyResources(this.labelMaxZoom, "labelMaxZoom");
             // 
             // labelMinZoom
             // 
@@ -95,7 +96,7 @@
             this.labelMinZoom.Name = "labelMinZoom";
             this.labelMinZoom.Size = new System.Drawing.Size(61, 13);
             this.labelMinZoom.TabIndex = 2;
-            this.labelMinZoom.Text = "Min zoom : ";
+            resources.ApplyResources(this.labelMinZoom, "labelMinZoom");
             // 
             // buttonOK
             // 
@@ -104,7 +105,7 @@
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 0;
-            this.buttonOK.Text = "OK";
+            resources.ApplyResources(this.buttonOK, "buttonOK");
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // textBoxTile
@@ -123,7 +124,7 @@
             this.labelTotal.Name = "labelTotal";
             this.labelTotal.Size = new System.Drawing.Size(132, 13);
             this.labelTotal.TabIndex = 4;
-            this.labelTotal.Text = "Estimated : 0 tiles for 0 MB";
+            resources.ApplyResources(this.labelTotal, "labelTotal");
             // 
             // numericUpDownMinZoom
             // 
@@ -196,7 +197,7 @@
             this.Name = "TilePrefetcherMenu";
             this.Padding = new System.Windows.Forms.Padding(4);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Tile Prefetcher Menu";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMaxZoom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarMinZoom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinZoom)).EndInit();

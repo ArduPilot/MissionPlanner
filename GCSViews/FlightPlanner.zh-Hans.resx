@@ -852,4 +852,169 @@
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Angle.HeaderText">
+    <value>角度</value>
+  </data>
+  <data name="BUT_InjectCustomMap.Text">
+    <value>注入自定义地图</value>
+  </data>
+  <data name="BUT_verifyheight.Text">
+    <value>校验航点高度</value>
+  </data>
+  <data name="CMB_altmode.Text">
+    <value>相对</value>
+  </data>
+  <data name="Check.HeaderText">
+    <value>全选</value>
+  </data>
+  <data name="Frame.HeaderText">
+    <value>机架</value>
+  </data>
+  <data name="addPolygonPointToolStripMenuItem2.Text">
+    <value>绘制多边形</value>
+  </data>
+  <data name="areaToolStripMenuItem1.Text">
+    <value>面积</value>
+  </data>
+  <data name="areaToolStripMenuItem2.Text">
+    <value>面积</value>
+  </data>
+  <data name="but_writewpfast.Text">
+    <value>快速写入</value>
+  </data>
+  <data name="clearPolygonToolStripMenuItem2.Text">
+    <value>清除多边形</value>
+  </data>
+  <data name="clearToolStripMenuItem.Text">
+    <value>清除</value>
+  </data>
+  <data name="cmb_missiontype.Items">
+    <value>任务</value>
+  </data>
+  <data name="cmb_missiontype.Items1">
+    <value>围栏</value>
+  </data>
+  <data name="cmb_missiontype.Items2">
+    <value>集结点</value>
+  </data>
+  <data name="convertWPToPolygonToolStripMenuItem.Text">
+    <value>从当前航点生成</value>
+  </data>
+  <data name="coordEasting.HeaderText">
+    <value>东向坐标</value>
+  </data>
+  <data name="coordNorthing.HeaderText">
+    <value>北向坐标</value>
+  </data>
+  <data name="coordZone.HeaderText">
+    <value>分区</value>
+  </data>
+  <data name="createCircleSurveyToolStripMenuItem.Text">
+    <value>创建环形测绘</value>
+  </data>
+  <data name="currentPositionToolStripMenuItem.Text">
+    <value>当前位置</value>
+  </data>
+  <data name="drawAPolygonToolStripMenuItem.Text">
+    <value>绘制多边形</value>
+  </data>
+  <data name="fenceExclusionToolStripMenuItem.Text">
+    <value>排除围栏</value>
+  </data>
+  <data name="fenceHomeCircleToolStripMenuItem.Text">
+    <value>Home 点周围的围栏圈</value>
+  </data>
+  <data name="fenceInclusionToolStripMenuItem.Text">
+    <value>包含围栏</value>
+  </data>
+  <data name="fromCurrentWaypointsToolStripMenuItem.Text">
+    <value>从当前航点生成</value>
+  </data>
+  <data name="fromSHPToolStripMenuItem2.Text">
+    <value>从 SHP 导入</value>
+  </data>
+  <data name="gDALOpacityToolStripMenuItem.Text">
+    <value>GDAL 不透明度</value>
+  </data>
+  <data name="loadPolygonToolStripMenuItem2.Text">
+    <value>加载多边形</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem.Text">
+    <value>偏移多边形</value>
+  </data>
+  <data name="offsetPolygonToolStripMenuItem2.Text">
+    <value>偏移多边形</value>
+  </data>
+  <data name="savePolygonToolStripMenuItem2.Text">
+    <value>保存多边形</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text">
+    <value>在此设置 Home 点</value>
+  </data>
+  <data name="surveyGridToolStripMenuItem.Text">
+    <value>测绘（网格）</value>
+  </data>
+  <data name="textToolStripMenuItem.Text">
+    <value>文本</value>
+  </data>
+  <data name="zoomToHomeToolStripMenuItem.Text">
+    <value>缩放到 Home 点</value>
+  </data>
+  <data name="zoomToMissionToolStripMenuItem.Text">
+    <value>缩放到任务</value>
+  </data>
+  <data name="zoomToVehicleToolStripMenuItem.Text">
+    <value>缩放到飞行器</value>
+  </data>
+  <data name="TXT_WPRad.Text" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="TXT_DefaultAlt.Text" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="TXT_loiterrad.Text" xml:space="preserve">
+    <value>45</value>
+  </data>
+  <data name="chk_usemavftp.Text" xml:space="preserve">
+    <value>MAVFTP</value>
+  </data>
+  <data name="but_mincommands.Text" xml:space="preserve">
+    <value>˅</value>
+  </data>
+  <data name="TXT_altwarn.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Param1.HeaderText" xml:space="preserve">
+    <value>P1</value>
+  </data>
+  <data name="Param2.HeaderText" xml:space="preserve">
+    <value>P2</value>
+  </data>
+  <data name="Param3.HeaderText" xml:space="preserve">
+    <value>P3</value>
+  </data>
+  <data name="Param4.HeaderText" xml:space="preserve">
+    <value>P4</value>
+  </data>
+  <data name="MGRS.HeaderText" xml:space="preserve">
+    <value>MGRS</value>
+  </data>
+  <data name="TagData.HeaderText" xml:space="preserve">
+    <value>TagData</value>
+  </data>
+  <data name="BUT_verifyheight.ToolTip" xml:space="preserve">
+    <value>根据地形数据重新计算勾选行的高度（Alt），方式与“校验高度”设置新航点时相同（默认高度为离地高度，按各行所选坐标系）。勾选列标题中的复选框可对全部行执行。</value>
+  </data>
+  <data name="lbl_wpfile.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>更改缩放级别</value>
+  </data>
+  <data name="toolStripMenuItem3.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="testToolStripMenuItem.Text" xml:space="preserve">
+    <value>测试</value>
+  </data>
 </root>

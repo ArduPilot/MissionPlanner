@@ -138,4 +138,43 @@
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>清除图表</value>
   </data>
+  <data name="chk_datagrid.Text">
+    <value>数据表格</value>
+  </data>
+  <data name="chk_errors.Text">
+    <value>错误</value>
+  </data>
+  <data name="chk_events.Text">
+    <value>事件</value>
+  </data>
+  <data name="chk_mode.Text">
+    <value>模式</value>
+  </data>
+  <data name="chk_params.Text">
+    <value>显示参数</value>
+  </data>
+  <data name="chk_time.Text">
+    <value>时间</value>
+  </data>
+  <data name="exportFilesToolStripMenuItem.Text">
+    <value>导出文件</value>
+  </data>
+  <data name="exportVisibleToolStripMenuItem.Text">
+    <value>导出可见行</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>GPSB</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>POS</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>GPS2</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="chk_msg.Text" xml:space="preserve">
+    <value>MSG</value>
+  </data>
 </root>

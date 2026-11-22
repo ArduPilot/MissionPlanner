@@ -267,4 +267,79 @@
   <data name="label41.Text" xml:space="preserve">
     <value>下</value>
   </data>
+  <data name="groupBox11.Text">
+    <value>油门输出</value>
+  </data>
+  <data name="groupBox12.Text">
+    <value>V 曲线</value>
+  </data>
+  <data name="groupBox13.Text">
+    <value>曲线</value>
+  </data>
+  <data name="groupBox2.Text">
+    <value>舵机</value>
+  </data>
+  <data name="label10.Text">
+    <value>悬停横滚</value>
+  </data>
+  <data name="label11.Text">
+    <value>开机舵机测试</value>
+  </data>
+  <data name="label12.Text">
+    <value>临界值</value>
+  </data>
+  <data name="label13.Text">
+    <value>反向</value>
+  </data>
+  <data name="label14.Text">
+    <value>最大</value>
+  </data>
+  <data name="label15.Text">
+    <value>最小</value>
+  </data>
+  <data name="label16.Text">
+    <value>大功率</value>
+  </data>
+  <data name="label27.Text">
+    <value>自稳 3</value>
+  </data>
+  <data name="label28.Text">
+    <value>自稳 2</value>
+  </data>
+  <data name="label29.Text">
+    <value>自稳 1</value>
+  </data>
+  <data name="label30.Text">
+    <value>自稳 4</value>
+  </data>
+  <data name="label31.Text">
+    <value>特技 Expo</value>
+  </data>
+  <data name="label7.Text">
+    <value>起转时间（秒）</value>
+  </data>
+  <data name="label8.Text">
+    <value>周期变距行程</value>
+  </data>
+  <data name="label9.Text">
+    <value>自转补偿</value>
+  </data>
+  <data name="myButtonH_SV_MAN.Text">
+    <value>启用</value>
+  </data>
+  <data name="myButtonH_SV_MANmanual.Text">
+    <value>手动</value>
+  </data>
+  <data name="myButtonH_SV_MANmax.Text">
+    <value>最大</value>
+  </data>
+  <data name="myButtonH_SV_MANmin.Text">
+    <value>最小</value>
+  </data>
+  <data name="myButtonH_SV_MANtest.Text">
+    <value>测试</value>
+  </data>
+  <data name="myButtonH_SV_MANzero.Text">
+    <value>归零</value>
+  </data>
 </root>

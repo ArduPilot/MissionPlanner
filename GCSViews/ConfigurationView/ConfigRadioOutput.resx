@@ -126,4 +126,25 @@
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>37</value>
   </metadata>
+  <data name="label15.Text" xml:space="preserve">
+    <value>#</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Position</value>
+  </data>
 </root>

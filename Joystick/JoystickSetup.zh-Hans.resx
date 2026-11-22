@@ -216,4 +216,16 @@
   <data name="BUT_enable.Text" xml:space="preserve">
     <value>启用</value>
   </data>
+  <data name="but_export.Text">
+    <value>导出</value>
+  </data>
+  <data name="but_import.Text">
+    <value>导入</value>
+  </data>
+  <data name="chk_manualcontrol.Text">
+    <value>手动控制</value>
+  </data>
+  <data name="label14.Text">
+    <value>已加载配置，适用于：</value>
+  </data>
 </root>

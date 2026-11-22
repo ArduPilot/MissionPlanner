@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionForm));
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.myButton1 = new Controls.MyButton();
             this.myButton2 = new Controls.MyButton();
@@ -48,7 +49,7 @@
             this.myButton1.Name = "myButton1";
             this.myButton1.Size = new System.Drawing.Size(75, 23);
             this.myButton1.TabIndex = 1;
-            this.myButton1.Text = "Accept";
+            resources.ApplyResources(this.myButton1, "myButton1");
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -59,7 +60,7 @@
             this.myButton2.Name = "myButton2";
             this.myButton2.Size = new System.Drawing.Size(75, 23);
             this.myButton2.TabIndex = 2;
-            this.myButton2.Text = "Cancel";
+            resources.ApplyResources(this.myButton2, "myButton2");
             this.myButton2.UseVisualStyleBackColor = true;
             this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
             // 
@@ -77,7 +78,7 @@
             this.Controls.Add(this.comboBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "OptionForm";
-            this.Text = "OptionForm";
+            resources.ApplyResources(this, "$this");
             this.ResumeLayout(false);
 
         }

@@ -164,4 +164,7 @@
   <data name="chkgy.Text" xml:space="preserve">
     <value>陀螺仪 Y</value>
   </data>
+  <data name="CMB_rawupdaterate.Items" xml:space="preserve">
+    <value>3</value>
+  </data>
 </root>

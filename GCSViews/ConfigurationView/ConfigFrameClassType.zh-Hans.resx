@@ -272,4 +272,34 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>787, 462</value>
   </data>
+  <data name="groupBox3.Text">
+    <value>机架类别</value>
+  </data>
+  <data name="radioButtonUndef.Text">
+    <value>未定义</value>
+  </data>
+  <data name="radio_type_other.Text">
+    <value>其他</value>
+  </data>
+  <data name="radioButtonOctaQuad.Text" xml:space="preserve">
+    <value>OctaQuad</value>
+  </data>
+  <data name="radioButtonTri.Text" xml:space="preserve">
+    <value>Tri</value>
+  </data>
+  <data name="radioButtonHeli.Text" xml:space="preserve">
+    <value>Heli</value>
+  </data>
+  <data name="radioButtonY6.Text" xml:space="preserve">
+    <value>Y6</value>
+  </data>
+  <data name="radioButtonOcta.Text" xml:space="preserve">
+    <value>Octa</value>
+  </data>
+  <data name="radioButtonHexa.Text" xml:space="preserve">
+    <value>Hexa</value>
+  </data>
+  <data name="radioButtonQuad.Text" xml:space="preserve">
+    <value>Quad</value>
+  </data>
 </root>

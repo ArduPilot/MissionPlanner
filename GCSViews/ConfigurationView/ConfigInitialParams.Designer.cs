@@ -66,7 +66,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Airscrew size in inch:";
+            resources.ApplyResources(this.label1, "label1");
             // 
             // label2
             // 
@@ -75,7 +75,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(89, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Battery cellcount:";
+            resources.ApplyResources(this.label2, "label2");
             // 
             // label3
             // 
@@ -84,7 +84,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(163, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Battery cell fully charged voltage:";
+            resources.ApplyResources(this.label3, "label3");
             // 
             // label4
             // 
@@ -93,7 +93,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(176, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Battery cell fully discharged voltage:";
+            resources.ApplyResources(this.label4, "label4");
             // 
             // cb_tmotor
             // 
@@ -102,7 +102,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.cb_tmotor.Name = "cb_tmotor";
             this.cb_tmotor.Size = new System.Drawing.Size(154, 17);
             this.cb_tmotor.TabIndex = 5;
-            this.cb_tmotor.Text = "Using T-Motor Flame ESC?";
+            resources.ApplyResources(this.cb_tmotor, "cb_tmotor");
             this.cb_tmotor.UseVisualStyleBackColor = true;
             // 
             // t_prop
@@ -111,7 +111,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.t_prop.Name = "t_prop";
             this.t_prop.Size = new System.Drawing.Size(100, 20);
             this.t_prop.TabIndex = 6;
-            this.t_prop.Text = "12";
+            resources.ApplyResources(this.t_prop, "t_prop");
             // 
             // t_cellcount
             // 
@@ -119,7 +119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.t_cellcount.Name = "t_cellcount";
             this.t_cellcount.Size = new System.Drawing.Size(100, 20);
             this.t_cellcount.TabIndex = 7;
-            this.t_cellcount.Text = "4";
+            resources.ApplyResources(this.t_cellcount, "t_cellcount");
             // 
             // t_cellmax
             // 
@@ -127,7 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.t_cellmax.Name = "t_cellmax";
             this.t_cellmax.Size = new System.Drawing.Size(100, 20);
             this.t_cellmax.TabIndex = 8;
-            this.t_cellmax.Text = "4.2";
+            resources.ApplyResources(this.t_cellmax, "t_cellmax");
             // 
             // t_cellmin
             // 
@@ -135,7 +135,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.t_cellmin.Name = "t_cellmin";
             this.t_cellmin.Size = new System.Drawing.Size(100, 20);
             this.t_cellmin.TabIndex = 9;
-            this.t_cellmin.Text = "3.3";
+            resources.ApplyResources(this.t_cellmin, "t_cellmin");
             // 
             // btn_docalc
             // 
@@ -143,7 +143,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.btn_docalc.Name = "btn_docalc";
             this.btn_docalc.Size = new System.Drawing.Size(236, 23);
             this.btn_docalc.TabIndex = 12;
-            this.btn_docalc.Text = "Calculate Initial Parameters";
+            resources.ApplyResources(this.btn_docalc, "btn_docalc");
             this.btn_docalc.UseVisualStyleBackColor = true;
             this.btn_docalc.Click += new System.EventHandler(this.btn_docalc_Click);
             // 
@@ -167,7 +167,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 14;
-            this.label5.Text = "Battery Chemistry";
+            resources.ApplyResources(this.label5, "label5");
             // 
             // cb_suggested
             // 
@@ -176,7 +176,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.cb_suggested.Name = "cb_suggested";
             this.cb_suggested.Size = new System.Drawing.Size(346, 17);
             this.cb_suggested.TabIndex = 15;
-            this.cb_suggested.Text = "Add suggested settings for 4.0 and up (Battery failsafe and Fence) ?";
+            resources.ApplyResources(this.cb_suggested, "cb_suggested");
             this.cb_suggested.UseVisualStyleBackColor = true;
             // 
             // linkLabel1
@@ -187,7 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.linkLabel1.Size = new System.Drawing.Size(316, 13);
             this.linkLabel1.TabIndex = 16;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://ardupilot.org/copter/docs/tuning-process-instructions.html";
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label6
@@ -197,8 +197,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(377, 13);
             this.label6.TabIndex = 17;
-            this.label6.Text = "You can find a detailed description of initial parameter settings and tuning here" +
-    ".";
+            resources.ApplyResources(this.label6, "label6");
             // 
             // label7
             // 
@@ -207,7 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(100, 13);
             this.label7.TabIndex = 18;
-            this.label7.Text = "PLEASE READ IT !";
+            resources.ApplyResources(this.label7, "label7");
             // 
             // ConfigInitialParams
             // 

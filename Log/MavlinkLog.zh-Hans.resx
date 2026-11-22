@@ -144,4 +144,7 @@
   <data name="BUT_humanreadable.Text" xml:space="preserve">
     <value>转换为文本</value>
   </data>
+  <data name="but_cs.Text">
+    <value>提取 CS</value>
+  </data>
 </root>

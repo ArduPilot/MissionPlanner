@@ -149,4 +149,7 @@
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>显示设置</value>
   </data>
+  <data name="CMB_boardtype.Items" xml:space="preserve">
+    <value>APM</value>
+  </data>
 </root>

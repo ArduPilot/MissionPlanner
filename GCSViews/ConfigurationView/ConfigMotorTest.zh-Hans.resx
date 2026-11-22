@@ -152,4 +152,25 @@
   <data name="label3.Text" xml:space="preserve">
     <value>持续时间 (s)</value>
   </data>
+  <data name="FrameClass.Text">
+    <value>类别：未知</value>
+  </data>
+  <data name="FrameType.Text">
+    <value>类型：未知</value>
+  </data>
+  <data name="but_mot_spin_arm.Text">
+    <value>设置解锁时电机自转</value>
+  </data>
+  <data name="but_mot_spin_min.Text">
+    <value>设置电机最小自转</value>
+  </data>
+  <data name="groupBox1.Text">
+    <value>电机测试</value>
+  </data>
+  <data name="label4.Text">
+    <value>设置解锁后仍在地面时输出的最小百分比</value>
+  </data>
+  <data name="label5.Text">
+    <value>设置飞行时输出的最小百分比</value>
+  </data>
 </root>
