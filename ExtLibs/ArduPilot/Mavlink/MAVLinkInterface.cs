@@ -5799,6 +5799,52 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     MAVlist[sysid, compid].camerapoints.Add(camerapt);
                 }
             }
+            else if (buffer.msgid == (ushort) MAVLINK_MSG_ID.CAMERA_IMAGE_CAPTURED)
+            {
+                // MAVLink cameras (e.g. component 100) report shots with this instead of CAMERA_FEEDBACK.
+                // Convert to a feedback record so the map / history can treat both the same.
+                var captured = buffer.ToStructure<mavlink_camera_image_captured_t>();
+
+                float roll = 0, pitch = 0, yaw = 0;
+                var q = captured.q;
+                if (q != null && q.Length == 4 && !q.Any(float.IsNaN))
+                {
+                    double w = q[0], x = q[1], y = q[2], z = q[3];
+                    roll = (float) (Math.Atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)) * 180 / Math.PI);
+                    pitch = (float) (Math.Asin(Math.Max(-1, Math.Min(1, 2 * (w * y - z * x)))) * 180 / Math.PI);
+                    yaw = (float) (Math.Atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)) * 180 / Math.PI);
+                    if (yaw < 0)
+                        yaw += 360;
+                }
+
+                var camerapt = new mavlink_camera_feedback_t
+                {
+                    // boot time, to match what CAMERA_FEEDBACK reports
+                    time_usec = (ulong) captured.time_boot_ms * 1000UL,
+                    target_system = 0,
+                    cam_idx = captured.camera_id,
+                    img_idx = (ushort) captured.image_index,
+                    lat = captured.lat,
+                    lng = captured.lon,
+                    alt_msl = captured.alt / 1000f,
+                    alt_rel = captured.relative_alt / 1000f,
+                    roll = roll,
+                    pitch = pitch,
+                    yaw = yaw,
+                    flags = (byte) CAMERA_FEEDBACK_FLAGS.CAMERA_FEEDBACK_PHOTO
+                };
+
+                // capture_result 0 = failed
+                if (captured.capture_result != 0)
+                {
+                    var points = MAVlist[sysid, compid].camerapoints;
+                    if (points.Count == 0 || points.Last().time_usec != camerapt.time_usec)
+                    {
+                        points.RemoveAll(a => a.cam_idx * 256 + a.img_idx == camerapt.cam_idx * 256 + camerapt.img_idx);
+                        points.Add(camerapt);
+                    }
+                }
+            }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
             {
                 mavlink_fence_point_t fencept = buffer.ToStructure<mavlink_fence_point_t>();
