@@ -62,6 +62,15 @@ namespace MissionPlanner.Mavlink
             }
         }
 
+        /// <summary>
+        /// All known components of a system, including ones not yet seen via heartbeat
+        /// </summary>
+        public List<MAVState> GetSystem(uint sysid)
+        {
+            lock (locker)
+                return masterlist.Values.Concat(hiddenlist.Values).Where(a => a.sysid == sysid).ToList();
+        }
+
         public int Count
         {
             get { return masterlist.Count; }

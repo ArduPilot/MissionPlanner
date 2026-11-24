@@ -1114,8 +1114,8 @@ namespace MissionPlanner.GCSViews
             if (route != null)
                 route.Points.Clear();
 
-            if (MainV2.comPort.MAV.camerapoints != null)
-                MainV2.comPort.MAV.camerapoints.Clear();
+            foreach (var camstate in MainV2.comPort.MAVlist.GetSystem(MainV2.comPort.MAV.sysid))
+                camstate.camerapoints?.Clear();
         }
 
         void but_Click(object sender, EventArgs e)
@@ -4138,7 +4138,28 @@ namespace MissionPlanner.GCSViews
                         {
 
                             // cleanup old - no markers where added, so remove all old
-                            if (MainV2.comPort.MAV.camerapoints.Count < photosoverlay.Markers.Count)
+                            // gather shots from every component of the vehicle (autopilot CAMERA_FEEDBACK,
+                            // MAVLink camera CAMERA_IMAGE_CAPTURED), and dedup at draw level as the same
+                            // shot can be reported by more than one source
+                            var camerapoints = new List<MAVLink.mavlink_camera_feedback_t>();
+                            foreach (var camstate in MainV2.comPort.MAVlist.GetSystem(MainV2.comPort.MAV.sysid))
+                            {
+                                foreach (var campt in camstate.camerapoints.ToArray())
+                                {
+                                    // same shot: identical time, or same place within ~1m and within 1s
+                                    bool duplicate = camerapoints.Any(prev =>
+                                        prev.time_usec == campt.time_usec ||
+                                        (Math.Abs(prev.lat - campt.lat) < 100 && Math.Abs(prev.lng - campt.lng) < 100 &&
+                                         Math.Abs((double) prev.time_usec - campt.time_usec) < 1000000));
+                                    if (!duplicate)
+                                        camerapoints.Add(campt);
+                                }
+                            }
+
+                            camerapoints = camerapoints.OrderBy(shot => shot.time_usec).ToList();
+
+                            // cleanup old - no markers where added, so remove all old
+                            if (camerapoints.Count < photosoverlay.Markers.Count)
                                 photosoverlay.Markers.Clear();
 
                             var min_interval = 0.0;
@@ -4158,7 +4179,7 @@ namespace MissionPlanner.GCSViews
                             var photosshown = new HashSet<object>();
                             foreach (var p in photosoverlay.Markers)
                                 photosshown.Add(p.Tag);
-                            foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
+                            foreach (var mark in camerapoints)
                             {
                                 var timesincelastshot = (mark.time_usec / 1000.0) / 1000.0 - oldtime;
                                 MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
@@ -4177,7 +4198,7 @@ namespace MissionPlanner.GCSViews
                             var GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
 
                             // age current
-                            int camcount = MainV2.comPort.MAV.camerapoints.Count;
+                            int camcount = camerapoints.Count;
                             int a = 0;
                             foreach (var mark in photosoverlay.Markers)
                             {
