@@ -1247,11 +1247,13 @@ namespace MissionPlanner.Utilities
 
                         Match match = rex.Match(url);
 
-                        if (match.Success)
-                        {
-                            string fileurl = match.Groups[2].Value;
+                        string imagefile = match.Success
+                            ? ResolveGeoRefImagePath(georefimagepath, match.Groups[2].Value)
+                            : null;
 
-                            using (Image orig = Image.FromFile(georefimagepath + fileurl))
+                        if (imagefile != null)
+                        {
+                            using (Image orig = Image.FromFile(imagefile))
                             using (Image resi = ResizeImage(orig, new Size(640, 480)))
                             using (MemoryStream memstream = new MemoryStream())
                             {
@@ -1390,6 +1392,58 @@ namespace MissionPlanner.Utilities
                 byte[] data = streamjpg.ToArray();
 
                 return data;
+            }
+        }
+
+        /// <summary>
+        /// Map a GeoRef image request target (e.g. "/img_0001.jpg") to a file directly inside the
+        /// GeoRef image directory. Returns null unless the target is a single .jpg/.jpeg file name
+        /// that exists in that directory, so absolute paths and ../ cannot reach other files.
+        /// </summary>
+        public static string ResolveGeoRefImagePath(string baseDir, string requestTarget)
+        {
+            if (string.IsNullOrWhiteSpace(baseDir) || string.IsNullOrEmpty(requestTarget))
+                return null;
+
+            try
+            {
+                string name = requestTarget;
+                int query = name.IndexOfAny(new[] { '?', '#' });
+                if (query >= 0)
+                    name = name.Substring(0, query);
+
+                name = Uri.UnescapeDataString(name);
+                if (name.StartsWith("/"))
+                    name = name.Substring(1);
+
+                // a bare file name only: no directory parts, drive, or "..", on any platform
+                if (name.Length == 0 || name == "." || name == ".." ||
+                    name.IndexOfAny(new[] { '/', '\\', ':', '\0' }) >= 0 ||
+                    name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                    return null;
+
+                string ext = Path.GetExtension(name);
+                if (!ext.Equals(".jpg", StringComparison.OrdinalIgnoreCase) &&
+                    !ext.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+                    return null;
+
+                string dir = Path.GetFullPath(baseDir).TrimEnd(Path.DirectorySeparatorChar,
+                    Path.AltDirectorySeparatorChar);
+                string full = Path.GetFullPath(Path.Combine(dir, name));
+
+                // belt and braces: the resolved file must sit directly in the GeoRef directory
+                string parent = Path.GetDirectoryName(full);
+                if (parent == null || !string.Equals(parent.TrimEnd(Path.DirectorySeparatorChar,
+                        Path.AltDirectorySeparatorChar), dir, StringComparison.OrdinalIgnoreCase))
+                    return null;
+
+                return File.Exists(full) ? full : null;
+            }
+            catch (Exception ex) when (ex is ArgumentException || ex is NotSupportedException ||
+                                       ex is PathTooLongException || ex is UriFormatException ||
+                                       ex is System.Security.SecurityException)
+            {
+                return null;
             }
         }
 

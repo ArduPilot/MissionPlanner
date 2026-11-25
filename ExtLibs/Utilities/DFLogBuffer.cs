@@ -306,7 +306,8 @@ namespace MissionPlanner.Utilities
                 int a = 0;
                 foreach (var item in GetEnumeratorType(FMT[b.Key].name))
                 {
-                    var instancevalue = item.raw[b.Value.index + 1].ToString();
+                    // trimmed, the fields of a text log start with a space
+                    var instancevalue = item.raw[b.Value.index + 1].ToString().Trim();
 
                     if (!b.Value.value.Contains(instancevalue))
                         b.Value.value.Add(instancevalue);
@@ -317,7 +318,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (Unit.Count > 0)
+            if (dflog.logformat.ContainsKey("UNIT"))
                 foreach (var item in GetEnumeratorType("UNIT"))
                 {
                     try
@@ -329,7 +330,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-            if (Mult.Count > 0)
+            if (dflog.logformat.ContainsKey("MULT"))
                 foreach (var item in GetEnumeratorType("MULT"))
                 {
                     try
@@ -653,8 +654,10 @@ namespace MissionPlanner.Utilities
                     var unit = units.Skip(i).FirstOrDefault().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
-                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
-                        CultureInfo.InvariantCulture, out multi);
+                    // '-' is 0 in MULT and means no multiplier, as does an id that MULT does not list
+                    if (!double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
+                            CultureInfo.InvariantCulture, out multi) || multi == 0)
+                        multi = 1;
 
                     if (binfmt == 'c' || binfmt == 'C' ||
                         binfmt == 'e' || binfmt == 'E' ||

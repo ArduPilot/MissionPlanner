@@ -71,12 +71,7 @@ namespace MissionPlanner.Utilities
 
                     if (rep.result == (byte)MAVLink.OSD_PARAM_CONFIG_ERROR.OSD_PARAM_SUCCESS)
                     {
-                        var zeroIndex = Array.IndexOf(rep.param_id, (byte)0);
-
-                        if (zeroIndex > 0)
-                        {
-                            result.Name = System.Text.Encoding.UTF8.GetString(rep.param_id, 0, zeroIndex);
-                        }
+                        result.Name = DecodeParamId(rep.param_id);
                     }
                     else
                     {
@@ -94,6 +89,16 @@ namespace MissionPlanner.Utilities
             }
             else
                 throw new Exception($"Unexpected message: {arg.msgid}");
+        }
+
+        public static string DecodeParamId(byte[] paramId)
+        {
+            var length = Array.IndexOf(paramId, (byte)0);
+
+            if (length < 0)
+                length = paramId.Length;
+
+            return length > 0 ? Encoding.UTF8.GetString(paramId, 0, length) : null;
         }
 
         private bool HandleParamSetResponse(MAVLinkMessage arg)
