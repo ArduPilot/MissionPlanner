@@ -14,7 +14,7 @@ namespace MissionPlanner
 
             string strVersion = typeof(Splash).GetType().Assembly.GetName().Version.ToString();
 
-            TXT_version.Text = "Version: " + Application.ProductVersion; // +" Build " + strVersion;
+            TXT_version.Text = MissionPlanner.Utilities.L10NU.GetString("Version", "Version: ") + Application.ProductVersion; // +" Build " + strVersion;
 
             Console.WriteLine(strVersion);
 

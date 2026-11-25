@@ -410,7 +410,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
-            BUT_SaveModes.Text = "Complete";
+            BUT_SaveModes.Text = L10NU.GetString("Complete", "Complete");
         }
 
         private void updateDropDown(ComboBox ctl, string param)

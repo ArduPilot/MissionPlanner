@@ -604,7 +604,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_OBmagcalcancel.Enabled = false;
                 BUT_OBmagcalaccept.Enabled = false;
                 timer1.Stop();
-                CustomMessageBox.Show("Please reboot the autopilot");
+                CustomMessageBox.Show(L10NU.GetString("Please reboot the autopilot", "Please reboot the autopilot"));
             }
 
         }

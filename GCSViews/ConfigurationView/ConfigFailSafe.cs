@@ -126,11 +126,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             lbl_armed.SuspendLayout();
             if (lbl_armed.Text == "True")
             {
-                lbl_armed.Text = "Armed";
+                lbl_armed.Text = L10NU.GetString("Armed", "Armed");
             }
             else if (lbl_armed.Text == "False")
             {
-                lbl_armed.Text = "Disarmed";
+                lbl_armed.Text = L10NU.GetString("Disarmed", "Disarmed");
             }
             lbl_armed.ResumeLayout();
         }

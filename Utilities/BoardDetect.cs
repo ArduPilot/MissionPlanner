@@ -371,30 +371,40 @@ namespace MissionPlanner.Utilities
             {
                 // if its mono
                 if (CustomMessageBox.DialogResult.Yes ==
-                    CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", CustomMessageBox.MessageBoxButtons.YesNo))
+                    CustomMessageBox.Show(
+                        string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "APM 2+"), "APM 2+",
+                        CustomMessageBox.MessageBoxButtons.YesNo))
                 {
                     return boards.b2560v2;
                 }
                 else
                 {
                     if (CustomMessageBox.DialogResult.Yes ==
-                        CustomMessageBox.Show("Is this a CUBE/PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK",
+                        CustomMessageBox.Show(
+                            string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"),
+                                "CUBE/PX4/PIXHAWK/PIXRACER"), "PX4/PIXHAWK",
                             CustomMessageBox.MessageBoxButtons.YesNo))
                     {
                         if (CustomMessageBox.DialogResult.Yes ==
-                            CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER",
+                            CustomMessageBox.Show(
+                                string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "PIXRACER"),
+                                "PIXRACER",
                                 CustomMessageBox.MessageBoxButtons.YesNo))
                         {
                             return boards.px4v4;
                         }
                         else if (CustomMessageBox.DialogResult.Yes ==
-                                 CustomMessageBox.Show("Is this a CUBE?", "CUBE",
+                                 CustomMessageBox.Show(
+                                     string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "CUBE"),
+                                     "CUBE",
                                      CustomMessageBox.MessageBoxButtons.YesNo))
                         {
                             return boards.px4v3;
                         }
                         else if (CustomMessageBox.DialogResult.Yes ==
-                                 CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK",
+                                 CustomMessageBox.Show(
+                                     string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "PIXHAWK"),
+                                     "PIXHAWK",
                                      CustomMessageBox.MessageBoxButtons.YesNo))
                         {
                             return boards.px4v2;
@@ -410,15 +420,21 @@ namespace MissionPlanner.Utilities
             }
 
             if (CustomMessageBox.DialogResult.Yes ==
-                CustomMessageBox.Show("Is this a Linux board?", "Linux", CustomMessageBox.MessageBoxButtons.YesNo))
+                CustomMessageBox.Show(
+                    L10NU.GetString("Is this a Linux board?", "Is this a Linux board?"), "Linux",
+                    CustomMessageBox.MessageBoxButtons.YesNo))
             {
                 if (CustomMessageBox.DialogResult.Yes ==
-                    CustomMessageBox.Show("Is this Bebop2?", "Bebop2", CustomMessageBox.MessageBoxButtons.YesNo))
+                    CustomMessageBox.Show(
+                        string.Format(L10NU.GetString("Is this {0}?", "Is this {0}?"), "Bebop2"), "Bebop2",
+                        CustomMessageBox.MessageBoxButtons.YesNo))
                 {
                     return boards.bebop2;
                 }
 
-                if (CustomMessageBox.DialogResult.Yes == CustomMessageBox.Show("Is this Disco?", "Disco",
+                if (CustomMessageBox.DialogResult.Yes ==
+                    CustomMessageBox.Show(
+                        string.Format(L10NU.GetString("Is this {0}?", "Is this {0}?"), "Disco"), "Disco",
                         CustomMessageBox.MessageBoxButtons.YesNo))
                 {
                     return boards.disco;
@@ -532,7 +548,9 @@ namespace MissionPlanner.Utilities
             serialPort.Close();
             log.Warn("Not a 2560");
 
-            if (CustomMessageBox.DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+",
+            if (CustomMessageBox.DialogResult.Yes ==
+                CustomMessageBox.Show(
+                    string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "APM 2+"), "APM 2+",
                     CustomMessageBox.MessageBoxButtons.YesNo))
             {
                 return boards.b2560v2;
@@ -540,11 +558,14 @@ namespace MissionPlanner.Utilities
             else
             {
                 if (CustomMessageBox.DialogResult.Yes ==
-                    CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK",
+                    CustomMessageBox.Show(
+                        string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "PX4/PIXHAWK"),
+                        "PX4/PIXHAWK",
                         CustomMessageBox.MessageBoxButtons.YesNo))
                 {
                     if (CustomMessageBox.DialogResult.Yes ==
-                        CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK",
+                        CustomMessageBox.Show(
+                            string.Format(L10NU.GetString("Is this a {0}?", "Is this a {0}?"), "PIXHAWK"), "PIXHAWK",
                             CustomMessageBox.MessageBoxButtons.YesNo))
                     {
                         return boards.px4v2;

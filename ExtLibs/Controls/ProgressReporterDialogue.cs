@@ -186,7 +186,7 @@ namespace MissionPlanner.Controls
             this.Invoke((MethodInvoker)delegate
             {
                 this.progressBar1.Visible = false;
-                this.lblProgressMessage.Text = "Cancelled";
+                this.lblProgressMessage.Text = L10NU.GetString("Cancelled", "Cancelled");
                 this.btnClose.Visible = true;
             });
         }
@@ -223,7 +223,7 @@ namespace MissionPlanner.Controls
         // - Change the Cancel button to 'Close', so that the user can look at the exception message a bit
         private void ShowDoneWithError(Exception exception, string doWorkArgs)
         {
-            var errMessage = doWorkArgs ?? "There was an unexpected error (" + exception.Message + ")";
+            var errMessage = doWorkArgs ?? string.Format(L10NU.GetString("There was an unexpected error ({0})", "There was an unexpected error ({0})"), exception.Message);
 
             if (this.Disposing || this.IsDisposed)
                 return;
@@ -234,7 +234,7 @@ namespace MissionPlanner.Controls
                 {
                     this.Invoke((MethodInvoker)delegate
                                                     {
-                                                        this.Text = "Error";
+                                                        this.Text = L10NU.GetString("Error", "Error");
                                                         this.lblProgressMessage.Left = 65;
                                                         this.lblProgressMessage.Text = errMessage;
                                                         this.imgWarning.Visible = true;
@@ -261,7 +261,7 @@ namespace MissionPlanner.Controls
             // * Set the progress bar to marquee, we don't know how long the worker will take to cancel
             // * Signal the worker.
             this.btnCancel.Visible = false;
-            this.lblProgressMessage.Text = "Cancelling...";
+            this.lblProgressMessage.Text = L10NU.GetString("Cancelling...", "Cancelling...");
             this.progressBar1.Style = ProgressBarStyle.Marquee;
 
             doWorkArgs.CancelRequested = true;

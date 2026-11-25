@@ -495,7 +495,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var warning = ParamChanges47.changedByNewParamWarning(mnud.ParamName);
                 if (warning != null)
                 {
-                    lblUnitWarning.Text = "Change in 4.7: " + warning;
+                    lblUnitWarning.Text = string.Format(L10NU.GetString("Change in 4.7: {0}", "Change in 4.7: {0}"), warning);
                     lblUnitWarning.Visible = true;
                     lblUnitWarning.ForeColor = Color.Red;
                     return;

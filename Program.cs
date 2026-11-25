@@ -752,26 +752,28 @@ namespace MissionPlanner
 
             if (ex.Message.Contains("The port is closed"))
             {
-                CustomMessageBox.Show("Serial connection has been lost");
+                CustomMessageBox.Show(L10NU.GetString("Serial connection has been lost",
+                    "Serial connection has been lost"));
                 return;
             }
 
             if (ex.Message.Contains("Array.Empty"))
             {
-                CustomMessageBox.Show("Please install Microsoft Dot Net 4.6.2");
+                CustomMessageBox.Show(L10NU.GetString("Please install Microsoft Dot Net 4.6.2", "Please install Microsoft Dot Net 4.6.2"));
                 Application.Exit();
                 return;
             }
 
             if (ex.Message.Contains("A device attached to the system is not functioning"))
             {
-                CustomMessageBox.Show("Serial connection has been lost");
+                CustomMessageBox.Show(L10NU.GetString("Serial connection has been lost",
+                    "Serial connection has been lost"));
                 return;
             }
 
             if (ex.GetType() == typeof(MissingMethodException) || ex.GetType() == typeof(TypeLoadException))
             {
-                CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
+                CustomMessageBox.Show(L10NU.GetString("Please Update - Some older library dlls are causing problems", "Please Update - Some older library dlls are causing problems") + "\n" + ex.Message);
                 return;
             }
 
@@ -786,8 +788,7 @@ namespace MissionPlanner
                 // i get alot of error from people who click the exe from inside a zip file.
             {
                 CustomMessageBox.Show(
-                    "You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " +
-                    ex.ToString());
+                    L10NU.GetString("You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu", "You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu") + "\n" + ex.ToString());
                 // return;
             }
 
@@ -802,8 +803,8 @@ namespace MissionPlanner
             log.Info("Th Name " + Thread?.Name);
 
             var dr =
-                CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???",
-                    "Send Error", MessageBoxButtons.YesNo);
+                CustomMessageBox.Show(L10NU.GetString("An error has occurred", "An error has occurred") + "\n" + ex.ToString() + "\n\n" + L10NU.GetString("Report this Error???", "Report this Error???"),
+                    L10NU.GetString("Send Error", "Send Error"), MessageBoxButtons.YesNo);
             if ((int) DialogResult.Yes == dr)
             {
                 try
@@ -816,7 +817,7 @@ namespace MissionPlanner
 
                     try
                     {
-                        Controls.InputBox.Show("Message", "Please enter a message about this error if you can.",
+                        Controls.InputBox.Show(L10NU.GetString("Message", "Message"), L10NU.GetString("Please enter a message about this error if you can.", "Please enter a message about this error if you can."),
                             ref message);
                     }
                     catch
@@ -876,7 +877,7 @@ namespace MissionPlanner
                 {
                     Console.WriteLine(exp.ToString());
                     log.Error(exp);
-                    CustomMessageBox.Show("Could not send report! Typically due to lack of internet connection.");
+                    CustomMessageBox.Show(L10NU.GetString("Could not send report! Typically due to lack of internet connection.", "Could not send report! Typically due to lack of internet connection."));
                 }
             }
         }

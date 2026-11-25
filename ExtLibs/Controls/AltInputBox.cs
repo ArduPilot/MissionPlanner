@@ -74,9 +74,9 @@ namespace MissionPlanner.Controls
             comboBoxFrame.DropDownStyle = ComboBoxStyle.DropDownList;
 
             // Add KeyValuePair items for each option
-            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>("Absolute", MAVLink.MAV_FRAME.GLOBAL));
-            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>("Relative", MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT));
-            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>("Terrain", MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT));
+            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>(MissionPlanner.Utilities.L10NU.GetString("Absolute", "Absolute"), MAVLink.MAV_FRAME.GLOBAL));
+            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>(MissionPlanner.Utilities.L10NU.GetString("Relative", "Relative"), MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT));
+            comboBoxFrame.Items.Add(new KeyValuePair<string, MAVLink.MAV_FRAME>(MissionPlanner.Utilities.L10NU.GetString("Terrain", "Terrain"), MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT));
             comboBoxFrame.DisplayMember = "Key";
             comboBoxFrame.ValueMember = "Value";
 
@@ -90,12 +90,12 @@ namespace MissionPlanner.Controls
 
             // OK Button
             buttonOk.Size = new Size(75, 23);
-            buttonOk.Text = "OK";
+            buttonOk.Text = MissionPlanner.Utilities.L10NU.GetString("OK", "OK");
             buttonOk.DialogResult = DialogResult.OK;
 
             // Cancel Button
             buttonCancel.Size = new Size(75, 23);
-            buttonCancel.Text = "Cancel";
+            buttonCancel.Text = MissionPlanner.Utilities.L10NU.GetString("Cancel", "Cancel");
             buttonCancel.DialogResult = DialogResult.Cancel;
 
             // Add controls to the form

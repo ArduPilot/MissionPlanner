@@ -208,7 +208,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set BATT_CAPACITY Failed", Strings.ERROR);
+                CustomMessageBox.Show(string.Format(L10NU.GetString("Set {0} Failed", "Set {0} Failed"), "BATT_CAPACITY"), Strings.ERROR);
             }
         }
 

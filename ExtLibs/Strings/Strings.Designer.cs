@@ -61,11 +61,32 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Absolute.
+        /// </summary>
+        public static string Absolute {
+            get {
+                return ResourceManager.GetString("Absolute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Params.
         /// </summary>
         public static string AdvancedParams {
             get {
                 return ResourceManager.GetString("AdvancedParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Area: {0} m2
+        ///	{1} Acre
+        ///	{2} Hectare
+        ///	{3} sqf.
+        /// </summary>
+        public static string AreaResult {
+            get {
+                return ResourceManager.GetString("AreaResult", resourceCulture);
             }
         }
         
@@ -1073,6 +1094,21 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} failed.
+        ///{1}
+        ///Force {0} can bypass safety checks,
+        ///which can lead to the vehicle crashing
+        ///and causing serious injuries.
+        ///
+        ///Do you wish to Force {0}?.
+        /// </summary>
+        public static string ForceArmDisarmWarning {
+            get {
+                return ResourceManager.GetString("ForceArmDisarmWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full Parameter List.
         /// </summary>
         public static string FullParameterList {
@@ -1326,6 +1362,36 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New offsets for compass #{0} are {1} {2} {3}
+        ///
+        ///Please write these down for manual entry.
+        /// </summary>
+        public static string MagOffsetsManual {
+            get {
+                return ResourceManager.GetString("MagOffsetsManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New offsets for compass #{0} are {1} {2} {3}
+        ///These have been saved for you..
+        /// </summary>
+        public static string MagOffsetsSaved {
+            get {
+                return ResourceManager.GetString("MagOffsetsSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Mag Offsets
+        /// </summary>
+        public static string MagOffsetsTitle {
+            get {
+                return ResourceManager.GetString("MagOffsetsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MAVFtp.
         /// </summary>
         public static string MAVFtp {
@@ -1368,6 +1434,15 @@ namespace MissionPlanner {
         public static string NewFirmwareA {
             get {
                 return ResourceManager.GetString("NewFirmwareA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -1674,6 +1749,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relative.
+        /// </summary>
+        public static string Relative {
+            get {
+                return ResourceManager.GetString("Relative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to run anyway.
         /// </summary>
         public static string RunAnyway {
@@ -1760,6 +1844,15 @@ namespace MissionPlanner {
         public static string Stop {
             get {
                 return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terrain.
+        /// </summary>
+        public static string Terrain {
+            get {
+                return ResourceManager.GetString("Terrain", resourceCulture);
             }
         }
         
@@ -2045,6 +2138,15 @@ namespace MissionPlanner {
         public static string WarningUpdateParamList {
             get {
                 return ResourceManager.GetString("WarningUpdateParamList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         

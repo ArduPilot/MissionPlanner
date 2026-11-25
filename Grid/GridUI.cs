@@ -971,7 +971,7 @@ namespace MissionPlanner.Grid
 
             if (polygon.Count == 0)
             {
-                CustomMessageBox.Show("Please define a polygon!");
+                CustomMessageBox.Show(L10NU.GetString("Please define a polygon!", "Please define a polygon!"));
                 return 0;
             }
 
@@ -1570,7 +1570,7 @@ namespace MissionPlanner.Grid
 
             string camname = "Default";
 
-            if (MissionPlanner.Controls.InputBox.Show("Camera Name", "Please and a camera name", ref camname) != System.Windows.Forms.DialogResult.OK)
+            if (MissionPlanner.Controls.InputBox.Show(L10NU.GetString("Camera Name", "Camera Name"), L10NU.GetString("Please and a camera name", "Please and a camera name"), ref camname) != System.Windows.Forms.DialogResult.OK)
                 return;
 
             CMB_camera.Text = camname;
@@ -1594,7 +1594,7 @@ namespace MissionPlanner.Grid
                 camera.sensorheight = float.Parse(TXT_sensheight.Text);
                 camera.sensorwidth = float.Parse(TXT_senswidth.Text);
             }
-            catch { CustomMessageBox.Show("One of your entries is not a valid number"); return; }
+            catch { CustomMessageBox.Show(L10NU.GetString("One of your entries is not a valid number", "One of your entries is not a valid number")); return; }
 
             cameras[CMB_camera.Text] = camera;
 
@@ -1609,7 +1609,7 @@ namespace MissionPlanner.Grid
 
                 if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
-                    CustomMessageBox.Show("You must use Land/RTL to split a mission", Strings.ERROR);
+                    CustomMessageBox.Show(L10NU.GetString("You must use Land/RTL to split a mission", "You must use Land/RTL to split a mission"), Strings.ERROR);
                     return;
                 }
 
@@ -1889,7 +1889,7 @@ namespace MissionPlanner.Grid
             }
             else
             {
-                CustomMessageBox.Show("Bad Grid", "Error");
+                CustomMessageBox.Show(L10NU.GetString("Bad Grid", "Bad Grid"), L10NU.GetString("Error", "Error"));
             }
         }
 
@@ -1925,7 +1925,7 @@ namespace MissionPlanner.Grid
             if (CMB_startfrom.Text == Utilities.Grid.StartPosition.Point.ToString())
             {
                 int pnt = 1;
-                InputBox.Show("Enter point #", "Please enter a boundary point number", ref pnt);
+                InputBox.Show(L10NU.GetString("Enter point #", "Enter point #"), L10NU.GetString("Please enter a boundary point number", "Please enter a boundary point number"), ref pnt);
 
                 if(list.Count > pnt)
                     Utilities.Grid.StartPointLatLngAlt = list[pnt - 1];
