@@ -470,6 +470,7 @@ namespace MissionPlanner.Utilities
         public void Clear()
         {
             logformat.Clear();
+            instanceColumn.Clear();
             msgoffsetcache.Clear();
 
             GC.Collect();
