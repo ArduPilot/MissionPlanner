@@ -30,7 +30,7 @@ namespace MissionPlanner.Utilities
             remove { _onNewImage -= value; }
         }
 
-        private bool threadShouldRun = true;
+        private volatile bool threadShouldRun = true;
         private Thread _backgroundWorker;
 
 #pragma warning disable IDE1006 // Naming Styles
@@ -1044,9 +1044,10 @@ namespace MissionPlanner.Utilities
             public IntPtr memory;
             public GstMapFlags flags;
             public IntPtr data;
-            public gsize size;
+            // gsize is pointer sized, a fixed 64bit field puts these at the wrong offset in a 32bit process
+            public UIntPtr size;
 
-            public gsize maxsize;
+            public UIntPtr maxsize;
         }
 
         public delegate void eos(IntPtr sink, IntPtr user_data);
@@ -1184,6 +1185,8 @@ namespace MissionPlanner.Utilities
         public Thread Start(string stringpipeline)
         {
             Stop();
+            // set here, not in the worker: a Stop() during the worker's startup must not be overwritten
+            threadShouldRun = true;
             _backgroundWorker = new Thread(ThreadStart) {IsBackground = true, Name = "gstreamer"};
             _backgroundWorker.Start(stringpipeline);
 
@@ -1274,14 +1277,18 @@ namespace MissionPlanner.Utilities
             int trys = 0;
             GstAppSinkCallbacks callbacks2 = callbacks;
 
-            threadShouldRun = true;
-
             // not using appsink
-            if (appsink == IntPtr.Zero && running)
+            if (appsink == IntPtr.Zero)
             {
-                /* Wait until error or EOS */
-                NativeMethods.gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE,
-                    (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+                /* Wait until error or EOS, polling so Stop() can end the wait */
+                while (running && threadShouldRun)
+                {
+                    var msg = NativeMethods.gst_bus_timed_pop_filtered(bus, GST_SECOND / 10,
+                        (int)(GstMessageType.GST_MESSAGE_ERROR | GstMessageType.GST_MESSAGE_EOS));
+                    if (msg != IntPtr.Zero)
+                        break;
+                }
+
                 threadShouldRun = false;
 
             }
@@ -1301,29 +1308,54 @@ namespace MissionPlanner.Utilities
                     if (sample != IntPtr.Zero)
                     {
                         trys = 0;
-                        var caps = NativeMethods.gst_sample_get_caps(sample);
-                        var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
-                        NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
-                        NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
-
-                        // Memory leak: gst_caps_to_string allocates memory that requires g_free()
-                        // var capsstring = NativeMethods.gst_caps_to_string(caps_s);
-                        var buffer = NativeMethods.gst_sample_get_buffer(sample);
-                        if (buffer != IntPtr.Zero)
+                        try
                         {
+                            Width = 0;
+                            Height = 0;
+                            var caps = NativeMethods.gst_sample_get_caps(sample);
+                            var caps_s = NativeMethods.gst_caps_get_structure(caps, 0);
+                            NativeMethods.gst_structure_get_int(caps_s, "width", out Width);
+                            NativeMethods.gst_structure_get_int(caps_s, "height", out Height);
+
+                            // Memory leak: gst_caps_to_string allocates memory that requires g_free()
+                            // var capsstring = NativeMethods.gst_caps_to_string(caps_s);
+                            var buffer = NativeMethods.gst_sample_get_buffer(sample);
                             var info = new GstMapInfo();
-                            if (NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
+                            if (buffer != IntPtr.Zero &&
+                                NativeMethods.gst_buffer_map(buffer, out info, GstMapFlags.GST_MAP_READ))
                             {
-                                var image = new Bitmap(Width, Height, 4 * Width, SkiaSharp.SKColorType.Bgra8888,
-                                    info.data);
+                                try
+                                {
+                                    // the frame is read as 4 bytes per pixel: a pipeline that hands over
+                                    // anything smaller (I420, RGB, ...) must not be read past its end
+                                    var needed = (ulong) Width * (ulong) Height * 4;
+                                    if (Width > 0 && Height > 0 && info.data != IntPtr.Zero &&
+                                        info.size.ToUInt64() >= needed)
+                                    {
+                                        // wraps the mapped buffer without copying, so it is only valid
+                                        // inside the handlers: they must copy whatever they keep
+                                        var image = new Bitmap(Width, Height, 4 * Width,
+                                            SkiaSharp.SKColorType.Bgra8888, info.data);
 
-                                _onNewImage?.Invoke(null, image);
+                                        _onNewImage?.Invoke(null, image);
+                                    }
+                                    else
+                                    {
+                                        log.ErrorFormat(
+                                            "gstreamer frame {0}x{1} needs {2} bytes but has {3}, the outsink caps must be BGRA/BGRx",
+                                            Width, Height, needed, info.size.ToUInt64());
+                                    }
+                                }
+                                finally
+                                {
+                                    NativeMethods.gst_buffer_unmap(buffer, out info);
+                                }
                             }
-
-                            NativeMethods.gst_buffer_unmap(buffer, out info);
                         }
-
-                        NativeMethods.gst_sample_unref(sample);
+                        finally
+                        {
+                            NativeMethods.gst_sample_unref(sample);
+                        }
                     }
                     else
                     {
@@ -1338,8 +1370,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (!NativeMethods.gst_app_sink_is_eos(appsink))
-                NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
+            // also after EOS, otherwise the pipeline's threads and sockets stay alive
+            NativeMethods.gst_element_set_state(pipeline, GstState.GST_STATE_NULL);
             NativeMethods.gst_buffer_unref(bus);
 
             // cleanup
