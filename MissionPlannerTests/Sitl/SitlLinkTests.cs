@@ -258,6 +258,7 @@ namespace MissionPlannerTests.Sitl
             sitl.Mav.setMode(Sys, Comp, "STABILIZE");
             sitl.WaitFor(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, m => m.ToStructure<MAVLink.mavlink_heartbeat_t>().custom_mode == 0, Timeout);
 
+            bool disarmed;
             try
             {
                 // forced: the EKF need not be ready
@@ -266,8 +267,10 @@ namespace MissionPlannerTests.Sitl
             }
             finally
             {
-                Assert.IsTrue(sitl.Mav.doARM(Sys, Comp, false, true), "disarm");
+                // not asserted here, that would replace a failure to arm
+                disarmed = sitl.Mav.doARM(Sys, Comp, false, true);
             }
+            Assert.IsTrue(disarmed, "disarm");
             sitl.WaitFor(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, m => !Armed(m), Timeout);
 
             // an unsupported command is refused, not timed out

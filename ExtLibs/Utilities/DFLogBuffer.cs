@@ -654,8 +654,10 @@ namespace MissionPlanner.Utilities
                     var unit = units.Skip(i).FirstOrDefault().Value;
                     var binfmt = binfmts[i];
                     var multi = 1.0;
-                    double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
-                        CultureInfo.InvariantCulture, out multi);
+                    // '-' is 0 in MULT and means no multiplier, as does an id that MULT does not list
+                    if (!double.TryParse(multipliers.Skip(i).FirstOrDefault().Value, NumberStyles.Any,
+                            CultureInfo.InvariantCulture, out multi) || multi == 0)
+                        multi = 1;
 
                     if (binfmt == 'c' || binfmt == 'C' ||
                         binfmt == 'e' || binfmt == 'E' ||

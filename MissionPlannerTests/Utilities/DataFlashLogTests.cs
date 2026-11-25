@@ -176,6 +176,8 @@ namespace MissionPlannerTests.Utilities
                 // c and C are already scaled when read
                 Assert.AreEqual(Tuple.Create("deg", 1.0), buffer.GetUnit("ATT", "Roll"));
                 Assert.AreEqual(Tuple.Create("", 1.0), buffer.GetUnit("TSTA", "b"));
+                // a - multiplier is 0 in MULT and means none
+                Assert.AreEqual(Tuple.Create("instance", 1.0), buffer.GetUnit("BAT", "Inst"));
             }
         }
 
