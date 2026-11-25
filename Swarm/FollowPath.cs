@@ -47,13 +47,9 @@ namespace MissionPlanner.Swarm
                         PointLatLngAlt target = newpositions[a];
 
                         // send it
-                        port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp()
-                        {
-                            alt = (float)target.Alt,
-                            lat = target.Lat,
-                            lng = target.Lng,
-                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT
-                        });
+                        // the trail is in display units (cs.alt); back to m
+                        port.setGuidedModeWP(mav.sysid, mav.compid, new Locationwp().Set(target.Lat, target.Lng,
+                            target.Alt / CurrentState.multiplieralt, (ushort)MAVLink.MAV_CMD.WAYPOINT));
                     }
                 }
             }

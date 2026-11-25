@@ -126,12 +126,9 @@ namespace mass
                 Parallel.ForEach(MainV2.Comports, mav => {
                     try
                     {
-                        mav.setGuidedModeWP(new Locationwp
-                        {
-                            alt = 50,
-                            lat = Host.FDMenuMapPosition.Lat / 1e7,
-                            lng = Host.FDMenuMapPosition.Lng / 1e7
-                        });
+                        // the map position is already in degrees
+                        mav.setGuidedModeWP(new Locationwp().Set(Host.FDMenuMapPosition.Lat,
+                            Host.FDMenuMapPosition.Lng, 50, (ushort)MAVLink.MAV_CMD.WAYPOINT));
                     }
                     catch { }
                 });

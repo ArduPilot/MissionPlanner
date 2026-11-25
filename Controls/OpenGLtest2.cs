@@ -120,9 +120,12 @@ namespace MissionPlanner.Controls
             mouseDownPos = getMousePos(x, y);
             if (mouseDownPos == null)
                 return;
-            MainV2.comPort.setGuidedModeWP(
-                new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
-                    (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
+            var gotohere = new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng,
+                MainV2.comPort.MAV.GuidedMode.z, (ushort) MAVLink.MAV_CMD.WAYPOINT);
+            // GuidedMode.z is in the frame chosen for guided mode (relative, absolute or terrain);
+            // Set() always marks it relative
+            gotohere.frame = MainV2.comPort.MAV.GuidedMode.frame;
+            MainV2.comPort.setGuidedModeWP(gotohere, false);
         }
 
         private void OnMouseMove(object sender, MouseEventArgs e)

@@ -59,12 +59,8 @@ using MissionPlanner.Utilities;
                     string[] loc = location.Split(',');
 
                     Host.comPort.setGuidedModeWP(
-                        new Locationwp()
-                        {
-                            alt = float.Parse(loc[2]),
-                            lat = double.Parse(loc[0]),
-                            lng = double.Parse(loc[1]),
-                        }
+                        new Locationwp().Set(double.Parse(loc[0]), double.Parse(loc[1]), float.Parse(loc[2]),
+                            (ushort)MAVLink.MAV_CMD.WAYPOINT)
                     );
 
                     //File.Delete(file);
