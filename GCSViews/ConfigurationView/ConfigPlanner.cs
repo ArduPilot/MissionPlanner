@@ -345,18 +345,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             hr = videoStreamConfig.GetNumberOfCapabilities(out count, out size);
             DsError.ThrowExceptionForHR(hr);
             var TaskMemPointer = Marshal.AllocCoTaskMem(size);
-            for (var i = 0; i < count; i++)
+            try
             {
-                var ptr = IntPtr.Zero;
+                for (var i = 0; i < count; i++)
+                {
+                    hr = videoStreamConfig.GetStreamCaps(i, out media, TaskMemPointer);
+                    if (hr < 0 || media == null)
+                        continue;
 
-                hr = videoStreamConfig.GetStreamCaps(i, out media, TaskMemPointer);
-                v = (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
-                c = (VideoStreamConfigCaps)Marshal.PtrToStructure(TaskMemPointer, typeof(VideoStreamConfigCaps));
-                modes.Add(new GCSBitmapInfo(v.BmiHeader.Width, v.BmiHeader.Height, c.MaxFrameInterval,
-                    c.VideoStandard.ToString(), media));
+                    // only a VIDEOINFOHEADER format block can be read as one
+                    if (media.formatType != FormatType.VideoInfo || media.formatPtr == IntPtr.Zero ||
+                        media.formatSize < Marshal.SizeOf(typeof(VideoInfoHeader)))
+                    {
+                        DsUtils.FreeAMMediaType(media);
+                        continue;
+                    }
+
+                    v = (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
+                    c = (VideoStreamConfigCaps)Marshal.PtrToStructure(TaskMemPointer, typeof(VideoStreamConfigCaps));
+                    // the media type is kept by the mode entry and handed to the capture when it is
+                    // selected, so it must not be freed here
+                    modes.Add(new GCSBitmapInfo(v.BmiHeader.Width, v.BmiHeader.Height, c.MaxFrameInterval,
+                        c.VideoStandard.ToString(), media));
+                }
             }
-            Marshal.FreeCoTaskMem(TaskMemPointer);
-            DsUtils.FreeAMMediaType(media);
+            finally
+            {
+                Marshal.FreeCoTaskMem(TaskMemPointer);
+            }
 
             CMB_videoresolutions.DataSource = modes;
 

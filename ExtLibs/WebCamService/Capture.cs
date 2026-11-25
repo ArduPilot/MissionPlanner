@@ -209,7 +209,10 @@ namespace WebCamService
             }
             catch
             {
-                Marshal.FreeCoTaskMem(m_handle);
+                // clear it, the next call would otherwise free the same block again
+                var handle = m_handle;
+                m_handle = IntPtr.Zero;
+                Marshal.FreeCoTaskMem(handle);
                 throw;
             }
 	
@@ -524,7 +527,7 @@ namespace WebCamService
         /// <summary> sample callback, NOT USED. </summary>
         int ISampleGrabberCB.SampleCB( double SampleTime, IMediaSample pSample )
         {
-            if (!m_bGotOne)
+            if (!m_bGotOne && m_handle != IntPtr.Zero)
             {
                 // Set bGotOne to prevent further calls until we
                 // request a new bitmap.
@@ -557,7 +560,7 @@ namespace WebCamService
         /// <summary> buffer callback, COULD BE FROM FOREIGN THREAD. </summary>
         int ISampleGrabberCB.BufferCB( double SampleTime, IntPtr pBuffer, int BufferLen )
         {
-            if (!m_bGotOne)
+            if (!m_bGotOne && m_handle != IntPtr.Zero)
             {
                 // The buffer should be long enought
                 if(BufferLen <= m_stride * m_videoHeight)
