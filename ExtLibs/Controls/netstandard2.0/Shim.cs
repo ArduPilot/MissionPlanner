@@ -1875,11 +1875,148 @@ public enum StringName
         //     Original was GL_INT_2_10_10_10_REV = 0x8D9F
         Int2101010Rev = 36255
     }
+
+    public enum BufferTarget
+    {
+        //
+        // Summary:
+        //     Original was GL_ARRAY_BUFFER = 0x8892
+        ArrayBuffer = 34962,
+        //
+        // Summary:
+        //     Original was GL_ELEMENT_ARRAY_BUFFER = 0x8893
+        ElementArrayBuffer = 34963,
+        //
+        // Summary:
+        //     Original was GL_PIXEL_PACK_BUFFER = 0x88EB
+        PixelPackBuffer = 35051,
+        //
+        // Summary:
+        //     Original was GL_PIXEL_UNPACK_BUFFER = 0x88EC
+        PixelUnpackBuffer = 35052
+    }
+
+    public enum ColorPointerType
+    {
+        //
+        // Summary:
+        //     Original was GL_BYTE = 0x1400
+        Byte = 5120,
+        //
+        // Summary:
+        //     Original was GL_UNSIGNED_BYTE = 0x1401
+        UnsignedByte = 5121,
+        //
+        // Summary:
+        //     Original was GL_SHORT = 0x1402
+        Short = 5122,
+        //
+        // Summary:
+        //     Original was GL_UNSIGNED_SHORT = 0x1403
+        UnsignedShort = 5123,
+        //
+        // Summary:
+        //     Original was GL_INT = 0x1404
+        Int = 5124,
+        //
+        // Summary:
+        //     Original was GL_UNSIGNED_INT = 0x1405
+        UnsignedInt = 5125,
+        //
+        // Summary:
+        //     Original was GL_FLOAT = 0x1406
+        Float = 5126,
+        //
+        // Summary:
+        //     Original was GL_DOUBLE = 0x140A
+        Double = 5130,
+        //
+        // Summary:
+        //     Original was GL_HALF_FLOAT = 0x140B
+        HalfFloat = 5131
+    }
+
+    public enum TextureEnvMode
+    {
+        //
+        // Summary:
+        //     Original was GL_ADD = 0x0104
+        Add = 260,
+        //
+        // Summary:
+        //     Original was GL_BLEND = 0x0BE2
+        Blend = 3042,
+        //
+        // Summary:
+        //     Original was GL_REPLACE = 0x1E01
+        Replace = 7681,
+        //
+        // Summary:
+        //     Original was GL_MODULATE = 0x2100
+        Modulate = 8448,
+        //
+        // Summary:
+        //     Original was GL_DECAL = 0x2101
+        Decal = 8449,
+        //
+        // Summary:
+        //     Original was GL_COMBINE = 0x8570
+        Combine = 34160
+    }
+
     public static class GL
     {
+        // buffer objects and the client-array pointers the HUD's batched drawing uses
 
+        public static int GenBuffer()
+        {
+            throw new NotImplementedException();
+        }
 
+        public static void DeleteBuffer(int buffer)
+        {
+            throw new NotImplementedException();
+        }
 
+        public static void BindBuffer(BufferTarget target, int buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void BufferData(BufferTarget target, IntPtr size, IntPtr data, BufferUsageHint usage)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void BufferSubData<T>(BufferTarget target, IntPtr offset, IntPtr size, T[] data) where T : struct
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void VertexPointer(int size, VertexPointerType type, int stride, IntPtr pointer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ColorPointer(int size, ColorPointerType type, int stride, IntPtr pointer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TexCoordPointer(int size, TexCoordPointerType type, int stride, IntPtr pointer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int GenTexture()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void TexImage2D<T>(TextureTarget target, int level, PixelInternalFormat internalformat, int width, int height, int border, PixelFormat format, PixelType type, T[] pixels) where T : struct
+        {
+            throw new NotImplementedException();
+        }
 
         public static void LoadMatrix(ref Matrix4 modelview)
         {
