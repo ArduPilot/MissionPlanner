@@ -64,27 +64,26 @@ namespace MissionPlanner.Comms
                 {
                 }
 
+                dcb.DCBlength = (uint) Marshal.SizeOf(typeof(DCB));
                 dcb.BaudRate = (uint) BaudRate;
                 dcb.ByteSize = 8;
                 dcb.StopBits = 0;
                 dcb.Parity = 0;
                 //https://msdn.microsoft.com/en-us/library/windows/desktop/aa363214(v=vs.85).aspx
-                SetDcbFlag(dcb, 0, 1); //fBinary
-                SetDcbFlag(dcb, 1, 0); //fParity
-                SetDcbFlag(dcb, 2, 1); //fOutxCtsFlow
-                SetDcbFlag(dcb, 3, 0); // fOutxDsrFlow
-                SetDcbFlag(dcb, 4, 0); //fDtrControl
-                SetDcbFlag(dcb, 5, 0); //fDsrSensitivity
-                SetDcbFlag(dcb, 6, 0); //fTXContinueOnXoff
-                SetDcbFlag(dcb, 7, 0); //fOutX
-                SetDcbFlag(dcb, 8, 0); //fInX
-                SetDcbFlag(dcb, 9, 0); //fErrorChar
-                SetDcbFlag(dcb, 10, 0); //fNull
-                SetDcbFlag(dcb, 11, 1); //fRtsControl
-                SetDcbFlag(dcb, 14, 0); //fAbortOnError
+                // The flow control and DTR/RTS bits are left as the driver reports them: until the DCB layout
+                // was fixed none of these were ever applied, so only the bits that are needed to pass binary
+                // data through untouched are set here.
+                SetDcbFlag(ref dcb, 0, 1); //fBinary
+                SetDcbFlag(ref dcb, 1, 0); //fParity
+                SetDcbFlag(ref dcb, 8, 0); //fOutX
+                SetDcbFlag(ref dcb, 9, 0); //fInX
+                SetDcbFlag(ref dcb, 10, 0); //fErrorChar
+                SetDcbFlag(ref dcb, 11, 0); //fNull
+                SetDcbFlag(ref dcb, 14, 0); //fAbortOnError
 
                 if (!SetCommState(safeFileHandle, ref dcb))
                 {
+                    log.Warn("SetCommState failed on " + PortName + " error " + Marshal.GetLastWin32Error());
                 }
 
                 commTimeouts.ReadTotalTimeoutConstant = 0;
@@ -111,13 +110,20 @@ namespace MissionPlanner.Comms
 
                         uint read = 0;
 
-                        ReadFile(safeFileHandle, buffer, (uint) buffer.Length, out read, IntPtr.Zero);
-
-                        if (!IsOpen)
+                        // the timeouts make this return straight away, with nothing read when idle
+                        if (!ReadFile(safeFileHandle, buffer, (uint) buffer.Length, out read, IntPtr.Zero) ||
+                            read == 0)
+                        {
+                            Thread.Sleep(1);
                             continue;
+                        }
 
                         lock (locker)
                         {
+                            // Close() disposes the stream under the same lock
+                            if (!IsOpen)
+                                continue;
+
                             var pos = BaseStream.Position;
 
                             BaseStream.Write(buffer, 0, (int) read);
@@ -252,10 +258,14 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
-            IsOpen = false;
             log.Info("Closing port " + PortName);
-            BaseStream.Dispose();
-            safeFileHandle.Dispose();
+            lock (locker)
+            {
+                IsOpen = false;
+                BaseStream?.Dispose();
+            }
+
+            safeFileHandle?.Dispose();
         }
 
         public void toggleDTR()
@@ -368,7 +378,7 @@ namespace MissionPlanner.Comms
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern bool SetCommState(SafeFileHandle hFile, ref DCB lpDCB);
 
-        internal void SetDcbFlag(DCB dcb, int whichFlag, int setting)
+        internal void SetDcbFlag(ref DCB dcb, int whichFlag, int setting)
         {
             setting <<= whichFlag;
             uint num;
@@ -386,13 +396,15 @@ namespace MissionPlanner.Comms
         internal static extern int WriteFile(SafeFileHandle handle, byte[] bytes, int numBytesToWrite,
             out int numBytesWritten, IntPtr lpOverlapped);
 
+        // field order is the win32 layout, do not sort
+        [StructLayout(LayoutKind.Sequential)]
         internal struct COMMTIMEOUTS
         {
             public int ReadIntervalTimeout;
-            public int ReadTotalTimeoutConstant;
             public int ReadTotalTimeoutMultiplier;
-            public int WriteTotalTimeoutConstant;
+            public int ReadTotalTimeoutConstant;
             public int WriteTotalTimeoutMultiplier;
+            public int WriteTotalTimeoutConstant;
         }
 
         internal struct COMMPROP
@@ -424,23 +436,25 @@ namespace MissionPlanner.Comms
             public uint Flags;
         }
 
+        // field order is the win32 layout (28 bytes), do not sort
+        [StructLayout(LayoutKind.Sequential)]
         internal struct DCB
         {
-            public uint BaudRate;
-            public byte ByteSize;
             public uint DCBlength;
-            public byte EofChar;
-            public byte ErrorChar;
-            public byte EvtChar;
+            public uint BaudRate;
             public uint Flags;
+            public ushort wReserved;
+            public ushort XonLim;
+            public ushort XoffLim;
+            public byte ByteSize;
             public byte Parity;
             public byte StopBits;
-            public ushort wReserved;
-            public ushort wReserved1;
-            public byte XoffChar;
-            public ushort XoffLim;
             public byte XonChar;
-            public ushort XonLim;
+            public byte XoffChar;
+            public byte ErrorChar;
+            public byte EofChar;
+            public byte EvtChar;
+            public ushort wReserved1;
         }
     }
 }
