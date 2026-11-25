@@ -393,6 +393,11 @@ namespace MissionPlanner
         /// </summary>
         public bool speechenabled { get; set; } = true;
 
+        /// <summary>
+        /// puts STATUSTEXT messages that were sent as several chunks back together
+        /// </summary>
+        private readonly StatusTextAssembler statustextAssembler = new StatusTextAssembler();
+
         private bool _logreadmode = false;
 
         private BinaryReader _logplaybackfile;
@@ -5428,59 +5433,18 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     {
                         var msg = message.ToStructure<mavlink_statustext_t>();
 
-                        byte sev = msg.severity;
+                        // a long message arrives as a run of chunks, hold them until it is whole
+                        string logdata = statustextAssembler.Add(sysid, compid, msg);
 
-                        string logdata = Encoding.UTF8.GetString(msg.text);
-                        int ind = logdata.IndexOf('\0');
-                        if (ind != -1)
-                            logdata = logdata.Substring(0, ind);
-                        log.Info(DateTime.Now + " " + sev + " " + logdata);
+                        // anything older that never got all of its chunks goes ahead of this one
+                        ProcessExpiredStatusText();
 
-                        MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
-
-                        // cap list at 1000 element
-                        while (MAVlist[sysid, compid].cs.messages.Count > 1000)
-                            MAVlist[sysid, compid].cs.messages.RemoveAt(0);
-
-                        // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
-                        if (sysid == sysidcurrent && compid != compidcurrent)
-                            MAVlist[sysidcurrent, compidcurrent].cs.messages
-                                .Add((DateTime.Now, compid + " : " + logdata));
-
-                        bool printit = false;
-
-                        MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
-                        if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
-                        {
-                            printit = true;
-                            mavsev = (MAV_SEVERITY)sev;
-                        }
-
-                        if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") ||
-                            logdata.StartsWith("Arm:"))
-                            printit = true;
-
-                        if (printit)
-                        {
-                            // high severity msg publish to current selected mav
-                            if (sysid == sysidcurrent && compid != compidcurrent)
-                            {
-                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
-                                MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
-                            }
-
-                            MAVlist[sysid, compid].cs.messageHigh = logdata;
-                            MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
-
-                            if (Speech != null &&
-                                Speech.IsReady &&
-                                Settings.Instance["speechenable"] != null &&
-                                Settings.Instance["speechenable"].ToString() == "True")
-                            {
-                                if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages
-                                    Speech.SpeakAsync(logdata);
-                            }
-                        }
+                        if (logdata != null)
+                            ProcessStatusText(sysid, compid, msg.severity, logdata);
+                    }
+                    else if (statustextAssembler.HasPending)
+                    {
+                        ProcessExpiredStatusText();
                     }
 
                     if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
@@ -5511,6 +5475,66 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             MAVlist[sysid, compid].lastvalidpacket = DateTime.UtcNow;
 
             return message;
+        }
+
+        private void ProcessStatusText(uint sysid, byte compid, byte sev, string logdata)
+        {
+            log.Info(DateTime.Now + " " + sev + " " + logdata);
+
+            MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
+
+            // cap list at 1000 element
+            while (MAVlist[sysid, compid].cs.messages.Count > 1000)
+                MAVlist[sysid, compid].cs.messages.RemoveAt(0);
+
+            // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
+            if (sysid == sysidcurrent && compid != compidcurrent)
+                MAVlist[sysidcurrent, compidcurrent].cs.messages
+                    .Add((DateTime.Now, compid + " : " + logdata));
+
+            bool printit = false;
+
+            MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
+            if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
+            {
+                printit = true;
+                mavsev = (MAV_SEVERITY)sev;
+            }
+
+            if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") ||
+                logdata.StartsWith("Arm:"))
+                printit = true;
+
+            if (printit)
+            {
+                // high severity msg publish to current selected mav
+                if (sysid == sysidcurrent && compid != compidcurrent)
+                {
+                    MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+                    MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
+                }
+
+                MAVlist[sysid, compid].cs.messageHigh = logdata;
+                MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
+
+                if (Speech != null &&
+                    Speech.IsReady &&
+                    Settings.Instance["speechenable"] != null &&
+                    Settings.Instance["speechenable"].ToString() == "True")
+                {
+                    if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages
+                        Speech.SpeakAsync(logdata);
+                }
+            }
+        }
+
+        /// <summary>
+        /// show what did arrive of any chunked STATUSTEXT that is still missing chunks after the timeout
+        /// </summary>
+        private void ProcessExpiredStatusText()
+        {
+            foreach (var late in statustextAssembler.TakeExpired())
+                ProcessStatusText(late.sysid, late.compid, late.severity, late.text);
         }
 
         private void ProcessMirrorStream(byte[] buffer)
