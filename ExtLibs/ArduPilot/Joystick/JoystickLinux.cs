@@ -295,7 +295,6 @@ namespace MissionPlanner.Joystick
             byte number_of_buttons = 10;
             //Native.ioctl(fs.Handle.ToInt32(), (int) JSIOCGBUTTONS, ref number_of_buttons);
 
-            GCHandle obj1Handle = GCHandle.Alloc(number_of_buttons , GCHandleType.Pinned);
             log.Info("getNumButtons");
             //Syscall.fcntl(fs.SafeFileHandle.DangerousGetHandle().ToInt32(), (FcntlCommand) JSIOCGBUTTONS, obj1Handle.AddrOfPinnedObject());
             try

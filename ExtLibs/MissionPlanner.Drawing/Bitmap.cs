@@ -214,6 +214,24 @@ namespace System.Drawing
             ReleaseWriter();
         }
 
+        /// <summary>
+        /// Copy the pixels, as premultiplied 32bpp BGRA, into memory owned by the caller.
+        /// For bitmaps that wrap someone else's memory (the stride constructors) this is how to keep a frame.
+        /// </summary>
+        public bool CopyPixelsTo(IntPtr destination, int destinationStride)
+        {
+            var bitmap = nativeSkBitmap;
+            if (bitmap == null || destination == IntPtr.Zero || destinationStride < bitmap.Width * 4)
+                return false;
+
+            using (var pixmap = bitmap.PeekPixels())
+            {
+                return pixmap != null && pixmap.ReadPixels(
+                    new SKImageInfo(bitmap.Width, bitmap.Height, SKColorType.Bgra8888, SKAlphaType.Premul),
+                    destination, destinationStride);
+            }
+        }
+
         public void MakeTransparent()
         {
             if (nativeSkBitmap.IsEmpty)

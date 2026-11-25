@@ -105,7 +105,12 @@ namespace tlogThumbnailHandler
             }
             catch { }
 
-            Dispose();
+            // an exception out of a finalizer takes the shell host down
+            try
+            {
+                Dispose();
+            }
+            catch { }
         }
 
         public long GetLocation(out StringBuilder pszPathBuffer, int cch, ref int pdwPriority, ref SIZE prgSize, int dwRecClrDepth, ref int pdwFlags)
@@ -138,7 +143,8 @@ namespace tlogThumbnailHandler
                 if (!File.Exists(jpgfile))
                     LogMap.ProcessFile(m_filename);
 
-                Bitmap bmp = new Bitmap(m_size.Width, m_size.Height);
+                // GetHbitmap hands the shell its own copy
+                using (Bitmap bmp = new Bitmap(m_size.Width, m_size.Height))
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
                     g.Clear(Color.White);
@@ -270,7 +276,9 @@ namespace tlogThumbnailHandler
 
             stream = null;
 
-            tmpfile = Path.GetTempFileName();
+            // GetTempFileName creates the file it names
+            var createdfile = Path.GetTempFileName();
+            tmpfile = createdfile;
 
             if (data.Length > 20)
             {
@@ -286,6 +294,16 @@ namespace tlogThumbnailHandler
                 {
                     tmpfile += ".tlog";
                 }
+            }
+
+            // the log goes into a renamed copy, so the file created above would be left behind for good
+            if (tmpfile != createdfile)
+            {
+                try
+                {
+                    File.Delete(createdfile);
+                }
+                catch { }
             }
 
             WriteLine("tlogThumbnailHandler GetThumbnail {0}", tmpfile);
@@ -324,8 +342,22 @@ namespace tlogThumbnailHandler
 
         public void Dispose()
         {
-            if (File.Exists(tmpfile))
-                File.Delete(tmpfile);
+            // called from the finalizer as well: nothing in here may throw
+            if (!string.IsNullOrEmpty(tmpfile))
+            {
+                // the copy of the log and the map image generated next to it
+                foreach (var file in new[] {tmpfile, tmpfile + ".jpg"})
+                {
+                    try
+                    {
+                        if (File.Exists(file))
+                            File.Delete(file);
+                    }
+                    catch { }
+                }
+
+                tmpfile = "";
+            }
 
             try
             {

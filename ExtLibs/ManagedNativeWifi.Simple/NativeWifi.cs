@@ -376,6 +376,13 @@ namespace ManagedNativeWifi.Simple
 
 				foreach (var interfaceInfo in interfaceInfoList.InterfaceInfo)
 				{
+					// each interface gets its own list, free the previous one before it is overwritten
+					if (availableNetworkList != IntPtr.Zero)
+					{
+						WlanFreeMemory(availableNetworkList);
+						availableNetworkList = IntPtr.Zero;
+					}
+
 					if (WlanGetAvailableNetworkList(
 						clientHandle,
 						interfaceInfo.InterfaceGuid,
@@ -442,6 +449,13 @@ namespace ManagedNativeWifi.Simple
 
 				foreach (var interfaceInfo in interfaceInfoList.InterfaceInfo)
 				{
+					// each interface gets its own buffer, free the previous one before it is overwritten
+					if (queryData != IntPtr.Zero)
+					{
+						WlanFreeMemory(queryData);
+						queryData = IntPtr.Zero;
+					}
+
 					uint dataSize;
 					if (WlanQueryInterface(
 						clientHandle,

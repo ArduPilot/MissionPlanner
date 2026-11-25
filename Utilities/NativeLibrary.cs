@@ -7,7 +7,8 @@ namespace MissionPlanner.Utilities
 {
     public static class NativeLibrary
     {
-        [DllImport("kernel32.dll")]
+        // unicode: the ansi entry point mangles an install path outside the system code page
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern IntPtr LoadLibrary(string dllToLoad);
 
         [DllImport("kernel32.dll")]

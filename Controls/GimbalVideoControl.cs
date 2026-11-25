@@ -212,14 +212,44 @@ namespace MissionPlanner.Controls
 
         private void RenderFrame(object sender, MPBitmap image)
         {
-            if (InvokeRequired)
-            {
-                BeginInvoke(new Action(() => RenderFrame(sender, image)));
-                return;
-            }
+            // The frame's pixels are only valid during this call (GStreamer unmaps the buffer as soon as we
+            // return), so copy it here, on the stream's thread, before handing it to the UI thread.
+            Bitmap frame = null;
             try
             {
-                if (image == null || image.Width <= 0 || image.Height <= 0)
+                if (image != null && image.Width > 0 && image.Height > 0)
+                    frame = VideoFrame.ToOwnedBitmap(image);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error copying frame", ex);
+                return;
+            }
+
+            if (InvokeRequired)
+            {
+                try
+                {
+                    BeginInvoke(new Action(() => RenderFrame(frame)));
+                }
+                catch
+                {
+                    // the control is gone
+                    frame?.Dispose();
+                }
+
+                return;
+            }
+
+            RenderFrame(frame);
+        }
+
+        /// <param name="frame">a bitmap this control now owns, or null for no video</param>
+        private void RenderFrame(Bitmap frame)
+        {
+            try
+            {
+                if (frame == null)
                 {
                     VideoBox.Image?.Dispose();
                     VideoBox.Image = null;
@@ -228,11 +258,7 @@ namespace MissionPlanner.Controls
                 }
 
                 var old = VideoBox.Image;
-                VideoBox.Image = new Bitmap(
-                    image.Width, image.Height, 4 * image.Width,
-                    PixelFormat.Format32bppPArgb,
-                    image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0
-                );
+                VideoBox.Image = frame;
                 
                 // Overlay tracking info
                 var tracking_status = selectedCamera?.CameraTrackingImageStatus ?? new mavlink_camera_tracking_image_status_t();

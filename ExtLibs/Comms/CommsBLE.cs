@@ -86,19 +86,19 @@ namespace MissionPlanner.Comms
             {
                 try
                 {
-                    if (adapter == null)
+                    if (adapter == IntPtr.Zero)
                         adapter = simpleble_adapter_get_handle(0);
 
-                    if (adapter == null)
+                    if (adapter == IntPtr.Zero)
                     {
                         throw new Exception("No adapter was found.\n");
                         return;
                     }
 
-                    simpleble_adapter_set_callback_on_scan_start(adapter, adapter_on_scan_start, null);
-                    simpleble_adapter_set_callback_on_scan_stop(adapter, adapter_on_scan_stop, null);
-                    simpleble_adapter_set_callback_on_scan_found(adapter, adapter_on_scan_found, null);
-                    simpleble_adapter_set_callback_on_scan_updated(adapter, adapter_on_scan_updated, null);
+                    simpleble_adapter_set_callback_on_scan_start(adapter, _callback_on_scan_start, null);
+                    simpleble_adapter_set_callback_on_scan_stop(adapter, _callback_on_scan_stop, null);
+                    simpleble_adapter_set_callback_on_scan_found(adapter, _callback_on_scan_found, null);
+                    simpleble_adapter_set_callback_on_scan_updated(adapter, _callback_on_scan_updated, null);
 
                     simpleble_adapter_scan_for(adapter, 5000);
 
@@ -259,21 +259,24 @@ namespace MissionPlanner.Comms
 
                         if (adapter == IntPtr.Zero)
                             adapter = simpleble_adapter_get_handle(0);
-                        if (adapter == null)
+                        if (adapter == IntPtr.Zero)
                         {
                             Console.WriteLine("No adapter was found.\n");
                             return;
                         }
 
-                        if (simpleble_adapter_get_paired_peripherals_handle(adapter, 0) != IntPtr.Zero)
+                        var paired = simpleble_adapter_get_paired_peripherals_handle(adapter, 0);
+                        if (paired != IntPtr.Zero)
                         {
+                            simpleble_peripheral_release_handle(paired);
+                            simpleble_adapter_release_handle(adapter);
                             return;
                         }
 
-                        simpleble_adapter_set_callback_on_scan_start(adapter, adapter_on_scan_start, null);
-                        simpleble_adapter_set_callback_on_scan_stop(adapter, adapter_on_scan_stop, null);
-                        simpleble_adapter_set_callback_on_scan_found(adapter, adapter_on_scan_found, null);
-                        simpleble_adapter_set_callback_on_scan_updated(adapter, adapter_on_scan_updated, null);
+                        simpleble_adapter_set_callback_on_scan_start(adapter, _callback_on_scan_start, null);
+                        simpleble_adapter_set_callback_on_scan_stop(adapter, _callback_on_scan_stop, null);
+                        simpleble_adapter_set_callback_on_scan_found(adapter, _callback_on_scan_found, null);
+                        simpleble_adapter_set_callback_on_scan_updated(adapter, _callback_on_scan_updated, null);
 
                         simpleble_adapter_scan_for(adapter, 5000);
 
@@ -511,16 +514,16 @@ namespace MissionPlanner.Comms
             }
 
             adapter = simpleble_adapter_get_handle(0);
-            if (adapter == null)
+            if (adapter == IntPtr.Zero)
             {
                 Console.WriteLine("No adapter was found.\n");
                 return ;
             }
 
-            simpleble_adapter_set_callback_on_scan_start(adapter, adapter_on_scan_start, null);
-            simpleble_adapter_set_callback_on_scan_stop(adapter, adapter_on_scan_stop, null);
-            simpleble_adapter_set_callback_on_scan_found(adapter, adapter_on_scan_found, null);
-            simpleble_adapter_set_callback_on_scan_updated(adapter, adapter_on_scan_updated, null);
+            simpleble_adapter_set_callback_on_scan_start(adapter, _callback_on_scan_start, null);
+            simpleble_adapter_set_callback_on_scan_stop(adapter, _callback_on_scan_stop, null);
+            simpleble_adapter_set_callback_on_scan_found(adapter, _callback_on_scan_found, null);
+            simpleble_adapter_set_callback_on_scan_updated(adapter, _callback_on_scan_updated, null);
 
             simpleble_adapter_scan_for(adapter, 5000);
 
@@ -722,9 +725,19 @@ namespace MissionPlanner.Comms
         private ushort mtu;
         private simpleble_adapter_t adapter;
 
+        // native code calls these from its own threads for the length of a scan: a delegate made at the
+        // call site is unrooted as soon as set_callback returns, and a GC during the scan would free it
+        private static readonly MyCallback _callback_on_scan_start = adapter_on_scan_start;
+        private static readonly MyCallback _callback_on_scan_stop = adapter_on_scan_stop;
+        private static readonly MyCallback2 _callback_on_scan_found = adapter_on_scan_found;
+        private static readonly MyCallback2 _callback_on_scan_updated = adapter_on_scan_updated;
+
         private static void Send(simpleble_peripheral_t peripheral, byte[] data, int offset, int length) 
         {
-            fixed (byte* ptr = data)
+            if (data == null || offset < 0 || length <= 0 || offset > data.Length - length)
+                return;
+
+            fixed (byte* ptr = &data[offset])
             {
                 simpleble_peripheral_write_request(peripheral, RX_SERVICE_UUID,  RX_CHAR_UUID, ptr, length);
             }
