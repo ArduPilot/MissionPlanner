@@ -3446,10 +3446,8 @@ namespace MissionPlanner
                     }
 
                     var old = GCSViews.FlightData.myhud.bgimage;
-                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                        PixelFormat.Format32bppPArgb,
-                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888)
-                            .Scan0);
+                    // the frame's pixels are only valid during this call, the hud paints later
+                    GCSViews.FlightData.myhud.bgimage = VideoFrame.ToOwnedBitmap(image);
                     if (old != null)
                         old.Dispose();
                 }
@@ -3469,11 +3467,8 @@ namespace MissionPlanner
                     }
 
                     var old = GCSViews.FlightData.myhud.bgimage;
-                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width,
-                        image.Height,
-                        4 * image.Width,
-                        PixelFormat.Format32bppPArgb,
-                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    // the frame's pixels are only valid during this call, the hud paints later
+                    GCSViews.FlightData.myhud.bgimage = VideoFrame.ToOwnedBitmap(image);
                     if (old != null)
                         old.Dispose();
                 }
@@ -3493,9 +3488,8 @@ namespace MissionPlanner
                     }
 
                     var old = GCSViews.FlightData.myhud.bgimage;
-                    GCSViews.FlightData.myhud.bgimage = new Bitmap(image.Width, image.Height, 4 * image.Width,
-                        PixelFormat.Format32bppPArgb,
-                        image.LockBits(Rectangle.Empty, null, SKColorType.Bgra8888).Scan0);
+                    // the frame's pixels are only valid during this call, the hud paints later
+                    GCSViews.FlightData.myhud.bgimage = VideoFrame.ToOwnedBitmap(image);
                     if (old != null)
                         old.Dispose();
                 }
