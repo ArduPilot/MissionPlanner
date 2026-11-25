@@ -104,5 +104,14 @@ namespace MissionPlanner.Utilities.Properties {
                 return ResourceManager.GetString("strings_uk", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to the firmware STATUSTEXT translation corpus (zh-Hans).
+        /// </summary>
+        internal static string statustext_zhHans {
+            get {
+                return ResourceManager.GetString("statustext_zhHans", resourceCulture);
+            }
+        }
     }
 }

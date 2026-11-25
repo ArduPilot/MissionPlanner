@@ -5436,7 +5436,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             logdata = logdata.Substring(0, ind);
                         log.Info(DateTime.Now + " " + sev + " " + logdata);
 
-                        MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
+                        // translated display form, the raw text stays in the log above
+                        string displayText = StatusTextTranslator.Translate(logdata);
+
+                        MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, displayText));
 
                         // cap list at 1000 element
                         while (MAVlist[sysid, compid].cs.messages.Count > 1000)
@@ -5445,7 +5448,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
                         if (sysid == sysidcurrent && compid != compidcurrent)
                             MAVlist[sysidcurrent, compidcurrent].cs.messages
-                                .Add((DateTime.Now, compid + " : " + logdata));
+                                .Add((DateTime.Now, compid + " : " + displayText));
 
                         bool printit = false;
 
@@ -5465,11 +5468,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             // high severity msg publish to current selected mav
                             if (sysid == sysidcurrent && compid != compidcurrent)
                             {
-                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + displayText;
                                 MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
                             }
 
-                            MAVlist[sysid, compid].cs.messageHigh = logdata;
+                            MAVlist[sysid, compid].cs.messageHigh = displayText;
                             MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
 
                             if (Speech != null &&
@@ -5477,8 +5480,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                                 Settings.Instance["speechenable"] != null &&
                                 Settings.Instance["speechenable"].ToString() == "True")
                             {
-                                if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages
-                                    Speech.SpeakAsync(logdata);
+                                if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages (raw check, translated speech)
+                                    Speech.SpeakAsync(displayText);
                             }
                         }
                     }
