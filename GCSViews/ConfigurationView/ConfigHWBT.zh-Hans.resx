@@ -136,4 +136,16 @@
   <data name="label3.Text" xml:space="preserve">
     <value>PIN</value>
   </data>
+  <data name="cmb_baud.Items" xml:space="preserve">
+    <value>1200</value>
+  </data>
+  <data name="cmb_baud.Text" xml:space="preserve">
+    <value>57600</value>
+  </data>
+  <data name="txt_name.Text" xml:space="preserve">
+    <value>Ardupilot</value>
+  </data>
+  <data name="txt_pin.Text" xml:space="preserve">
+    <value>1234</value>
+  </data>
 </root>

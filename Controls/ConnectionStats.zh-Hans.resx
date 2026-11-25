@@ -205,4 +205,13 @@
   <data name="groupBox2.Text" xml:space="preserve">
     <value>上传</value>
   </data>
+  <data name="but_reset.Text">
+    <value>复位</value>
+  </data>
+  <data name="chk_signing.Text">
+    <value>签名</value>
+  </data>
+  <data name="chk_mavlink2.Text" xml:space="preserve">
+    <value>Mavlink 2</value>
+  </data>
 </root>

@@ -141,4 +141,7 @@
   <data name="BUT_bintolog.Text" xml:space="preserve">
     <value>.bin 至 .log</value>
   </data>
+  <data name="TXT_seriallog.Text">
+    <value>飞行器解锁状态下无法清除日志，请先上锁！</value>
+  </data>
 </root>

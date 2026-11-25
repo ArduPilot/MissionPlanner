@@ -200,4 +200,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>串口输出 - Mavlink</value>
   </data>
+  <data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>1200</value>
+  </data>
 </root>

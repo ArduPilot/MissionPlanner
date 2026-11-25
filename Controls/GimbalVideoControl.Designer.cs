@@ -16,6 +16,7 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GimbalVideoControl));
             this.VideoBox = new System.Windows.Forms.PictureBox();
             this.VideoBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.videoStreamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,7 +81,7 @@ namespace MissionPlanner.Controls
             // 
             this.videoStreamToolStripMenuItem.Name = "videoStreamToolStripMenuItem";
             this.videoStreamToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.videoStreamToolStripMenuItem.Text = "Video Stream";
+            resources.ApplyResources(this.videoStreamToolStripMenuItem, "videoStreamToolStripMenuItem");
             this.videoStreamToolStripMenuItem.Click += new System.EventHandler(this.videoStreamToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
@@ -92,35 +93,35 @@ namespace MissionPlanner.Controls
             // 
             this.retractToolStripMenuItem.Name = "retractToolStripMenuItem";
             this.retractToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.retractToolStripMenuItem.Text = "Retract";
+            resources.ApplyResources(this.retractToolStripMenuItem, "retractToolStripMenuItem");
             this.retractToolStripMenuItem.Click += new System.EventHandler(this.retractToolStripMenuItem_Click);
             // 
             // neutralToolStripMenuItem
             // 
             this.neutralToolStripMenuItem.Name = "neutralToolStripMenuItem";
             this.neutralToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.neutralToolStripMenuItem.Text = "Neutral";
+            resources.ApplyResources(this.neutralToolStripMenuItem, "neutralToolStripMenuItem");
             this.neutralToolStripMenuItem.Click += new System.EventHandler(this.neutralToolStripMenuItem_Click);
             // 
             // pointDownToolStripMenuItem
             // 
             this.pointDownToolStripMenuItem.Name = "pointDownToolStripMenuItem";
             this.pointDownToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.pointDownToolStripMenuItem.Text = "Point Down";
+            resources.ApplyResources(this.pointDownToolStripMenuItem, "pointDownToolStripMenuItem");
             this.pointDownToolStripMenuItem.Click += new System.EventHandler(this.pointDownToolStripMenuItem_Click);
             // 
             // pointHomeToolStripMenuItem
             // 
             this.pointHomeToolStripMenuItem.Name = "pointHomeToolStripMenuItem";
             this.pointHomeToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.pointHomeToolStripMenuItem.Text = "Point Home";
+            resources.ApplyResources(this.pointHomeToolStripMenuItem, "pointHomeToolStripMenuItem");
             this.pointHomeToolStripMenuItem.Click += new System.EventHandler(this.pointHomeToolStripMenuItem_Click);
             // 
             // yawLockToolStripMenuItem
             // 
             this.yawLockToolStripMenuItem.Name = "yawLockToolStripMenuItem";
             this.yawLockToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.yawLockToolStripMenuItem.Text = "Yaw Lock";
+            resources.ApplyResources(this.yawLockToolStripMenuItem, "yawLockToolStripMenuItem");
             this.yawLockToolStripMenuItem.Click += new System.EventHandler(this.yawLockToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
@@ -132,21 +133,21 @@ namespace MissionPlanner.Controls
             // 
             this.takePictureToolStripMenuItem.Name = "takePictureToolStripMenuItem";
             this.takePictureToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.takePictureToolStripMenuItem.Text = "Take Picture";
+            resources.ApplyResources(this.takePictureToolStripMenuItem, "takePictureToolStripMenuItem");
             this.takePictureToolStripMenuItem.Click += new System.EventHandler(this.takePictureToolStripMenuItem_Click);
             // 
             // startRecordingToolStripMenuItem
             // 
             this.startRecordingToolStripMenuItem.Name = "startRecordingToolStripMenuItem";
             this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.startRecordingToolStripMenuItem.Text = "Start Recording";
+            resources.ApplyResources(this.startRecordingToolStripMenuItem, "startRecordingToolStripMenuItem");
             this.startRecordingToolStripMenuItem.Click += new System.EventHandler(this.startRecordingToolStripMenuItem_Click);
             // 
             // stopRecordingToolStripMenuItem
             // 
             this.stopRecordingToolStripMenuItem.Name = "stopRecordingToolStripMenuItem";
             this.stopRecordingToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.stopRecordingToolStripMenuItem.Text = "Stop Recording";
+            resources.ApplyResources(this.stopRecordingToolStripMenuItem, "stopRecordingToolStripMenuItem");
             this.stopRecordingToolStripMenuItem.Click += new System.EventHandler(this.stopRecordingToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
@@ -158,14 +159,14 @@ namespace MissionPlanner.Controls
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.settingsToolStripMenuItem.Text = "Shortcuts";
+            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             //
             // customSettingsToolStripMenuItem
             //
             this.customSettingsToolStripMenuItem.Name = "customSettingsToolStripMenuItem";
             this.customSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.customSettingsToolStripMenuItem.Text = "Custom Settings";
+            resources.ApplyResources(this.customSettingsToolStripMenuItem, "customSettingsToolStripMenuItem");
             this.customSettingsToolStripMenuItem.Click += new System.EventHandler(this.customSettingsToolStripMenuItem_Click);
             // 
             // UITimer

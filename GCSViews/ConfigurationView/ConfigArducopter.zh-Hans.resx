@@ -493,4 +493,178 @@
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="groupBox3.Text">
+    <value>基础滤波器</value>
+  </data>
+  <data name="groupBox6.Text">
+    <value>滤波日志</value>
+  </data>
+  <data name="groupBox8.Text">
+    <value>静态陷波滤波器</value>
+  </data>
+  <data name="groupBox9.Text">
+    <value>谐波陷波滤波器</value>
+  </data>
+  <data name="label24.Text">
+    <value>陀螺仪</value>
+  </data>
+  <data name="label26.Text">
+    <value>加速度计</value>
+  </data>
+  <data name="label34.Text">
+    <value>掩码</value>
+  </data>
+  <data name="label36.Text">
+    <value>选项</value>
+  </data>
+  <data name="label37.Text">
+    <value>启用</value>
+  </data>
+  <data name="label38.Text">
+    <value>频率</value>
+  </data>
+  <data name="label39.Text">
+    <value>带宽</value>
+  </data>
+  <data name="label40.Text">
+    <value>衰减</value>
+  </data>
+  <data name="label41.Text">
+    <value>频率</value>
+  </data>
+  <data name="label43.Text">
+    <value>参考</value>
+  </data>
+  <data name="label44.Text">
+    <value>模式</value>
+  </data>
+  <data name="label45.Text">
+    <value>启用</value>
+  </data>
+  <data name="label48.Text">
+    <value>衰减</value>
+  </data>
+  <data name="label49.Text">
+    <value>带宽</value>
+  </data>
+  <data name="label50.Text">
+    <value>选项</value>
+  </data>
+  <data name="label51.Text">
+    <value>谐波</value>
+  </data>
+  <data name="lblUnitWarning.Text">
+    <value>破坏性变更警告</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>输入时间常数</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>最大加速度</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>最大加速度</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>最大加速度</value>
+  </data>
+  <data name="myLabel5.Text" xml:space="preserve">
+    <value>RC9 选项</value>
+  </data>
+  <data name="myLabel6.Text" xml:space="preserve">
+    <value>RC10 选项</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>RC6 选项</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>FLTT</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>FLTD</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>FLTE</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label77.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label82.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>FLTT</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>FLTD</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>FLTE</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label86.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label87.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>FLTT</value>
+  </data>
+  <data name="P_FLTD.Text" xml:space="preserve">
+    <value>FLTD</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>FLTE</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label90.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label91.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
 </root>

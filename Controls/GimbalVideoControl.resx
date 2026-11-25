@@ -126,4 +126,37 @@
   <metadata name="UITimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>345, 17</value>
   </metadata>
+  <data name="videoStreamToolStripMenuItem.Text" xml:space="preserve">
+    <value>Video Stream</value>
+  </data>
+  <data name="retractToolStripMenuItem.Text" xml:space="preserve">
+    <value>Retract</value>
+  </data>
+  <data name="neutralToolStripMenuItem.Text" xml:space="preserve">
+    <value>Neutral</value>
+  </data>
+  <data name="pointDownToolStripMenuItem.Text" xml:space="preserve">
+    <value>Point Down</value>
+  </data>
+  <data name="pointHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Point Home</value>
+  </data>
+  <data name="yawLockToolStripMenuItem.Text" xml:space="preserve">
+    <value>Yaw Lock</value>
+  </data>
+  <data name="takePictureToolStripMenuItem.Text" xml:space="preserve">
+    <value>Take Picture</value>
+  </data>
+  <data name="startRecordingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Start Recording</value>
+  </data>
+  <data name="stopRecordingToolStripMenuItem.Text" xml:space="preserve">
+    <value>Stop Recording</value>
+  </data>
+  <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="customSettingsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Custom Settings</value>
+  </data>
 </root>

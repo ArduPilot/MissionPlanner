@@ -209,4 +209,25 @@
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_commitToFlash.Text">
+    <value>提交参数</value>
+  </data>
+  <data name="Default_value.HeaderText">
+    <value>默认值</value>
+  </data>
+  <data name="Fav.HeaderText">
+    <value>收藏</value>
+  </data>
+  <data name="chk_modified.Text">
+    <value>已修改</value>
+  </data>
+  <data name="BUT_refreshTable.Text" xml:space="preserve">
+    <value>刷新表格</value>
+  </data>
+  <data name="chk_none_default.Text" xml:space="preserve">
+    <value>只显示已修改项</value>
+  </data>
+  <data name="but_collapse.Text" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
 </root>

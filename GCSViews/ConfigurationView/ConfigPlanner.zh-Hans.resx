@@ -320,4 +320,94 @@
   <data name="BUT_videostart.Text" xml:space="preserve">
     <value>开始</value>
   </data>
+  <data name="BUT_mapCacheDir.Text">
+    <value>打开地图缓存</value>
+  </data>
+  <data name="CHK_AutoParamCommit.Text">
+    <value>自动提交参数</value>
+  </data>
+  <data name="CHK_params_bg.Text">
+    <value>后台下载参数</value>
+  </data>
+  <data name="CHK_rtsresetesp32.Text">
+    <value>在 ESP32 SerialUSB 上禁用 RTS 复位</value>
+  </data>
+  <data name="CHK_speechArmedOnly.Text">
+    <value>仅解锁时</value>
+  </data>
+  <data name="chk_displaycog.Text">
+    <value>显示航迹向</value>
+  </data>
+  <data name="chk_displayheading.Text">
+    <value>显示机头方向</value>
+  </data>
+  <data name="chk_displaynavbearing.Text">
+    <value>显示导航方位</value>
+  </data>
+  <data name="chk_displayradius.Text">
+    <value>显示转弯半径</value>
+  </data>
+  <data name="chk_displaytarget.Text">
+    <value>显示目标</value>
+  </data>
+  <data name="chk_displaytooltip.Text">
+    <value>显示工具提示</value>
+  </data>
+  <data name="chk_norcreceiver.Text">
+    <value>无遥控接收机</value>
+  </data>
+  <data name="chk_shownofly.Text">
+    <value>禁飞</value>
+  </data>
+  <data name="chk_slowMachine.Text">
+    <value>在低性能计算机上运行</value>
+  </data>
+  <data name="chk_temp.Text">
+    <value>测试界面</value>
+  </data>
+  <data name="chk_tfr.Text">
+    <value>TFR（临时飞行限制）</value>
+  </data>
+  <data name="label10.Text">
+    <value>飞行器图标</value>
+  </data>
+  <data name="label11.Text">
+    <value>线长</value>
+  </data>
+  <data name="label13.Text">
+    <value>地图访问模式</value>
+  </data>
+  <data name="label6.Text">
+    <value>高度单位</value>
+  </data>
+  <data name="label8.Text">
+    <value>注意：将 SEVERITY 级别调低以启用语音播报</value>
+  </data>
+  <data name="label9.Text">
+    <value>不活动飞行器显示样式</value>
+  </data>
+  <data name="CMB_ratesensors.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>HUD</value>
+  </data>
+  <data name="CMB_raterc.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="CMB_ratestatus.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="CMB_rateposition.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="CMB_rateattitude.Items" xml:space="preserve">
+    <value>-1</value>
+  </data>
+  <data name="chk_ADSB.Text" xml:space="preserve">
+    <value>ADSB</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>地面站 ID</value>
+  </data>
 </root>

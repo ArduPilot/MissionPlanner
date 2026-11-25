@@ -182,4 +182,7 @@
   <data name="mavlinkCheckBoxEnable.Text" xml:space="preserve">
     <value>启用 (AC3.3+)</value>
   </data>
+  <data name="mavlinkComboBoxServoNum.Items" xml:space="preserve">
+    <value>RC9</value>
+  </data>
 </root>

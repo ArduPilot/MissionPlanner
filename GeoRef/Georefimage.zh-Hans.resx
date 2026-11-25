@@ -127,10 +127,10 @@
     <value>0</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>纬度</value>
+    <value>丢弃末端图像</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>精度</value>
+    <value>最小快门速度 (s) (CAM)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>秒偏移</value>
@@ -169,6 +169,51 @@
     <value>地理标签图像</value>
   </data>
   <data name="BUT_estoffset.Text" xml:space="preserve">
-    <value>估算便宜</value>
+    <value>估算偏移</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Text">
+    <value>使用海拔高度 (AMSL)</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.Text">
+    <value>相机消息</value>
+  </data>
+  <data name="RDIO_TimeOffset.Text">
+    <value>时间偏移</value>
+  </data>
+  <data name="RDIO_trigmsg.Text">
+    <value>触发消息</value>
+  </data>
+  <data name="chk_cammsg.Text">
+    <value>使用相机消息</value>
+  </data>
+  <data name="chk_camusegpsalt.Text">
+    <value>使用 GPS 高度</value>
+  </data>
+  <data name="chk_trigusergpsalt.Text">
+    <value>使用 GPS 高度</value>
+  </data>
+  <data name="chk_usegps2.Text">
+    <value>使用 GPS2</value>
+  </data>
+  <data name="label27.Text">
+    <value>快门延迟 (ms)</value>
+  </data>
+  <data name="label28.Text">
+    <value>相对高度基准</value>
+  </data>
+  <data name="lbldrpstart.Text">
+    <value>开头丢弃的图像数</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
+  </data>
+  <data name="txt_basealt.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TXT_shutterLag.Text" xml:space="preserve">
+    <value>0</value>
   </data>
 </root>

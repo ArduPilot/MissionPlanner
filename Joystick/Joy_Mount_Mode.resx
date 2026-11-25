@@ -124,4 +124,7 @@ Mavlink_targeting: point to a recevied roll, pitch, yaw
 rc_targeting: use rc channels to control axis's
 gps_point: used to track a single ground point</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Joy_ChangeMode</value>
+  </data>
 </root>

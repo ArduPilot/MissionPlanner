@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ElevationProfile));
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -56,8 +57,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(507, 13);
             this.label1.TabIndex = 31;
-            this.label1.Text = "NOTE: The ground height data is pulled from Google Earth at 100m intervals. You u" +
-                "se this at your own risk";
+            resources.ApplyResources(this.label1, "label1");
             // 
             // ElevationProfile
             // 
@@ -69,7 +69,7 @@
             this.Controls.Add(this.zg1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "ElevationProfile";
-            this.Text = "ElevationProfile";
+            resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ElevationProfile_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

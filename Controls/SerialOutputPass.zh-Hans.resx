@@ -200,4 +200,28 @@
   <data name="$this.Text" xml:space="preserve">
     <value>串口输出 - Mavlink</value>
   </data>
+  <data name="Direction.HeaderText">
+    <value>方向</value>
+  </data>
+  <data name="Extra.HeaderText">
+    <value>主机/波特率</value>
+  </data>
+  <data name="Go.HeaderText">
+    <value>执行</value>
+  </data>
+  <data name="Port.HeaderText">
+    <value>端口</value>
+  </data>
+  <data name="Type.HeaderText">
+    <value>类型</value>
+  </data>
+  <data name="Write.HeaderText">
+    <value>写入</value>
+  </data>
+  <data name="chk_write.Text">
+    <value>写入权限</value>
+  </data>
+  <data name="CMB_baudrate.Items" xml:space="preserve">
+    <value>4800</value>
+  </data>
 </root>

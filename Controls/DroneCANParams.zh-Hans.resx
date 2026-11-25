@@ -209,4 +209,22 @@
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_commitToFlash.Text">
+    <value>提交参数</value>
+  </data>
+  <data name="Default.HeaderText">
+    <value>默认值</value>
+  </data>
+  <data name="Fav.HeaderText">
+    <value>收藏</value>
+  </data>
+  <data name="Max.HeaderText">
+    <value>最大</value>
+  </data>
+  <data name="Min.HeaderText">
+    <value>最小</value>
+  </data>
+  <data name="chk_modified.Text">
+    <value>已修改</value>
+  </data>
 </root>

@@ -168,4 +168,37 @@
   <data name="CMB_batmontype.Items2" xml:space="preserve">
     <value>4: 电压及电流</value>
   </data>
+  <data name="CMB_HWVersion.Items">
+    <value>0: CUAV V5/Pixhawk4 或 APM1</value>
+  </data>
+  <data name="CMB_HWVersion.Items1">
+    <value>1: APM2 - 2.5 非 3DR</value>
+  </data>
+  <data name="CMB_HWVersion.Items2">
+    <value>2: APM2.5+/ZealotF427 - 3DR 电源模块</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items">
+    <value>0: 其他</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items4">
+    <value>4: 3DR 电源模块</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items5">
+    <value>5: 3DR 四合一 ESC</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items6">
+    <value>6: 3DR APM 高压电源模块</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items7">
+    <value>7: Cube 高压电源模块</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items8">
+    <value>8: CUAV 高压电源模块</value>
+  </data>
+  <data name="CMB_batmonsensortype.Items9">
+    <value>9: Holybro 电源模块</value>
+  </data>
+  <data name="CMB_HWVersion.Items4" xml:space="preserve">
+    <value>4: The Cube 或 Pixhawk</value>
+  </data>
 </root>

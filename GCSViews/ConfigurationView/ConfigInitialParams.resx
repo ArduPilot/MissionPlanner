@@ -126,4 +126,49 @@ Please make sure that before entering data here and updating parameters:
 
 Note: INS_GYRO_FILTER with a value other than 20 is optional and probably only for small frames/props. At first, you can keep it at 20</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Airscrew size in inch:</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Battery cellcount:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Battery cell fully charged voltage:</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Battery cell fully discharged voltage:</value>
+  </data>
+  <data name="cb_tmotor.Text" xml:space="preserve">
+    <value>Using T-Motor Flame ESC?</value>
+  </data>
+  <data name="t_prop.Text" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="t_cellcount.Text" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="t_cellmax.Text" xml:space="preserve">
+    <value>4.2</value>
+  </data>
+  <data name="t_cellmin.Text" xml:space="preserve">
+    <value>3.3</value>
+  </data>
+  <data name="btn_docalc.Text" xml:space="preserve">
+    <value>Calculate Initial Parameters</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Battery Chemistry</value>
+  </data>
+  <data name="cb_suggested.Text" xml:space="preserve">
+    <value>Add suggested settings for 4.0 and up (Battery failsafe and Fence) ?</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>https://ardupilot.org/copter/docs/tuning-process-instructions.html</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>You can find a detailed description of initial parameter settings and tuning here.</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>PLEASE READ IT !</value>
+  </data>
 </root>

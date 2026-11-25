@@ -120,4 +120,16 @@
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="BUT_compassmot.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="lbl_start.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="lbl_finish.Text" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>Compass Motor Calibration</value>
+  </data>
 </root>

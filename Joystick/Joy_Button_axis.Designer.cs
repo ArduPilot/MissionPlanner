@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Joy_Button_axis));
             this.numericUpDownpwmmin = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -66,7 +67,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(43, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "PWM 1";
+            resources.ApplyResources(this.label1, "label1");
             // 
             // label2
             // 
@@ -75,7 +76,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "PWM 2";
+            resources.ApplyResources(this.label2, "label2");
             // 
             // numericUpDownpwmmax
             // 
@@ -110,7 +111,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownpwmmin);
             this.Name = "Joy_Button_axis";
-            this.Text = "Joy_Button_axis";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownpwmmin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownpwmmax)).EndInit();
             this.ResumeLayout(false);

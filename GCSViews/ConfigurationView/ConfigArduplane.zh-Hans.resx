@@ -556,4 +556,67 @@
   <data name="$this.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="label73.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label74.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label75.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label76.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label69.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label70.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label71.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label72.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label65.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label66.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label67.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label68.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>TECS</value>
+  </data>
 </root>

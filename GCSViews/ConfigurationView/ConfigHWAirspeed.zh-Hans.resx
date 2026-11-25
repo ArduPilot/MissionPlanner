@@ -126,4 +126,10 @@
   <data name="CHK_airspeeduse.Text" xml:space="preserve">
     <value>使用空速</value>
   </data>
+  <data name="label1.Text">
+    <value>类型</value>
+  </data>
+  <data name="lbl_airspeed_pin.Text">
+    <value>引脚</value>
+  </data>
 </root>

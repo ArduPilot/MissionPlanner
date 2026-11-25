@@ -612,4 +612,226 @@
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>1008, 462</value>
   </data>
+  <data name="BUT_GimbalVideo.Text">
+    <value>视频控制</value>
+  </data>
+  <data name="BUT_SendMSG.Text">
+    <value>消息</value>
+  </data>
+  <data name="BUT_abortland.Text">
+    <value>中止降落</value>
+  </data>
+  <data name="BUT_georefimage.Text">
+    <value>图像地理配准</value>
+  </data>
+  <data name="BUT_resetGimbalPos.Text">
+    <value>重置位置</value>
+  </data>
+  <data name="FlightID_label.Text">
+    <value>航班号</value>
+  </data>
+  <data name="PointCameraCoordsToolStripMenuItem1.Text">
+    <value>相机指向坐标</value>
+  </data>
+  <data name="Squawk_label.Text">
+    <value>应答机代码</value>
+  </data>
+  <data name="XPDRConnect_btn.Text">
+    <value>连接应答机</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Text">
+    <value>添加兴趣点</value>
+  </data>
+  <data name="but_disablejoystick.Text">
+    <value>禁用摇杆</value>
+  </data>
+  <data name="customizeToolStripMenuItem.Text">
+    <value>自定义</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Text">
+    <value>删除</value>
+  </data>
+  <data name="fault_clb.Items">
+    <value>需要维护</value>
+  </data>
+  <data name="fault_clb.Items1">
+    <value>GPS 不可用</value>
+  </data>
+  <data name="fault_clb.Items2">
+    <value>GPS 未定位</value>
+  </data>
+  <data name="fault_clb.Items3">
+    <value>发射系统故障</value>
+  </data>
+  <data name="fault_clb.Items4">
+    <value>在地面</value>
+  </data>
+  <data name="flyToCoordsToolStripMenuItem.Text">
+    <value>飞往坐标</value>
+  </data>
+  <data name="gStreamerStopToolStripMenuItem.Text">
+    <value>停止 GStreamer</value>
+  </data>
+  <data name="gimbalVideoFullSizedToolStripMenuItem.Text">
+    <value>全尺寸</value>
+  </data>
+  <data name="gimbalVideoMiniToolStripMenuItem.Text">
+    <value>迷你</value>
+  </data>
+  <data name="gimbalVideoPopOutToolStripMenuItem.Text">
+    <value>弹出</value>
+  </data>
+  <data name="gimbalVideoToolStripMenuItem.Text">
+    <value>云台视频</value>
+  </data>
+  <data name="groundColorToolStripMenuItem.Text">
+    <value>地面颜色</value>
+  </data>
+  <data name="groupBoxPitch.Text">
+    <value>俯仰</value>
+  </data>
+  <data name="groupBoxRoll.Text">
+    <value>横滚</value>
+  </data>
+  <data name="groupBoxYaw.Text">
+    <value>水平旋转</value>
+  </data>
+  <data name="hereLinkVideoToolStripMenuItem.Text">
+    <value>HereLink 视频</value>
+  </data>
+  <data name="jumpToTagToolStripMenuItem.Text">
+    <value>跳转到标签</value>
+  </data>
+  <data name="lbl_sats.Text">
+    <value>卫星数: 0</value>
+  </data>
+  <data name="loadFileToolStripMenuItem.Text">
+    <value>加载文件</value>
+  </data>
+  <data name="multiLineToolStripMenuItem.Text">
+    <value>多行</value>
+  </data>
+  <data name="onOffCameraOverlapToolStripMenuItem.Text">
+    <value>相机重叠率</value>
+  </data>
+  <data name="poiatcoordsToolStripMenuItem.Text">
+    <value>坐标</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Text">
+    <value>保存文件</value>
+  </data>
+  <data name="setBatteryCellCountToolStripMenuItem.Text">
+    <value>电池单体电压</value>
+  </data>
+  <data name="setEKFHomeHereToolStripMenuItem.Text">
+    <value>在此设置 EKF 原点</value>
+  </data>
+  <data name="setGStreamerSourceToolStripMenuItem.Text">
+    <value>设置 GStreamer 源</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem1.Text">
+    <value>在此设置 Home 点</value>
+  </data>
+  <data name="setViewCountToolStripMenuItem.Text">
+    <value>设置视图数量</value>
+  </data>
+  <data name="showIconsToolStripMenuItem.Text">
+    <value>显示图标</value>
+  </data>
+  <data name="startCameraToolStripMenuItem.Text">
+    <value>启动相机</value>
+  </data>
+  <data name="swapWithMapToolStripMenuItem.Text">
+    <value>与地图交换</value>
+  </data>
+  <data name="tabAuxFunction.Text">
+    <value>辅助功能</value>
+  </data>
+  <data name="tabPayload.Text">
+    <value>负载控制</value>
+  </data>
+  <data name="tabTransponder.Text">
+    <value>应答机</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Text">
+    <value>起飞</value>
+  </data>
+  <data name="undockToolStripMenuItem.Text">
+    <value>脱离停靠</value>
+  </data>
+  <data name="videoToolStripMenuItem.Text">
+    <value>视频</value>
+  </data>
+  <data name="BUT_SendMSG.ToolTip" xml:space="preserve">
+    <value>发送将保存到飞行器日志的消息</value>
+  </data>
+  <data name="BUT_abortland.ToolTip" xml:space="preserve">
+    <value>仅限固定翼</value>
+  </data>
+  <data name="myButton1.ToolTip" xml:space="preserve">
+    <value>改变模式为手动/自稳</value>
+  </data>
+  <data name="myButton2.ToolTip" xml:space="preserve">
+    <value>改变模式为返航</value>
+  </data>
+  <data name="myButton3.ToolTip" xml:space="preserve">
+    <value>更改为自动模式</value>
+  </data>
+  <data name="openScriptDialog.Filter" xml:space="preserve">
+    <value>Python 文件|*.py|所有文件|*.*</value>
+  </data>
+  <data name="CMB_setwp.Items" xml:space="preserve">
+    <value>0 (Home)</value>
+  </data>
+  <data name="NACp_lbl.Text" xml:space="preserve">
+    <value>NACp</value>
+  </data>
+  <data name="NIC_lbl.Text" xml:space="preserve">
+    <value>NIC</value>
+  </data>
+  <data name="IDENT_btn.Text" xml:space="preserve">
+    <value>IDENT</value>
+  </data>
+  <data name="ALT_btn.Text" xml:space="preserve">
+    <value>ALT</value>
+  </data>
+  <data name="STBY_btn.Text" xml:space="preserve">
+    <value>STBY</value>
+  </data>
+  <data name="ON_btn.Text" xml:space="preserve">
+    <value>ON</value>
+  </data>
+  <data name="Mode_clb.Items" xml:space="preserve">
+    <value>Mode A</value>
+  </data>
+  <data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10x</value>
+  </data>
+  <data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5x</value>
+  </data>
+  <data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2x</value>
+  </data>
+  <data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1x</value>
+  </data>
+  <data name="BUT_speed1_2.Text" xml:space="preserve">
+    <value>0.5</value>
+  </data>
+  <data name="BUT_speed1_4.Text" xml:space="preserve">
+    <value>0.25</value>
+  </data>
+  <data name="BUT_speed1_10.Text" xml:space="preserve">
+    <value>0.1</value>
+  </data>
+  <data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>x 1.0</value>
+  </data>
+  <data name="lbl_logpercent.Text" xml:space="preserve">
+    <value>0.00 %</value>
+  </data>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>hdop: 0</value>
+  </data>
 </root>
