@@ -6,6 +6,7 @@ using SharpKml.Dom;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -1291,6 +1292,29 @@ namespace MissionPlanner.Utilities
                             byte[] temp = asciiEncoding.GetBytes(header);
                             stream.Write(temp, 0, temp.Length);
                         }
+                        stream.Close();
+                    }
+                    else if (url.ToLower().Contains(" /adsb"))
+                    {
+                        // The traffic list is centred on the vehicle or the user's receiver, so it
+                        // gives away roughly where the user is. Only let pages served from this
+                        // machine read it cross-origin; scripts and tools don't need CORS at all.
+                        string corsHeader = "";
+                        var origin = GetHeaderValue(head, "Origin");
+                        if (!string.IsNullOrEmpty(origin) && IsLoopbackOrigin(origin))
+                            corsHeader = "Access-Control-Allow-Origin: " + origin + "\r\nVary: Origin\r\n";
+                        string header = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n" + corsHeader + "\r\n";
+                        byte[] temp = asciiEncoding.GetBytes(header);
+                        stream.Write(temp, 0, temp.Length);
+
+                        var adsbdata = MainV2.instance.adsbPlanes.Values
+                            .Select(plane => new adsb.ApiVehicleInfo(plane))
+                            .ToJSON();
+
+                        byte[] buffer = Encoding.ASCII.GetBytes(adsbdata);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
                         stream.Close();
                     }
                     /////////////////////////////////////////////////////////////////

@@ -4342,32 +4342,50 @@ namespace MissionPlanner.GCSViews
                                     if (adsbplane == null || pllau == null)
                                         return;
 
-                                    adsbplane.ToolTipText = "ICAO: " + pllau.Tag + "\n" +
+                                    // Type only comes from the HTTP reader, and Category is null for SBS/AVR
+                                    string typeCategory = "";
+                                    if (!string.IsNullOrEmpty(pllau.Type)) {
+                                        typeCategory = pllau.Type + " / ";
+                                    }
+                                    typeCategory += pllau.GetCategoryFriendlyString() ?? "No Info";
+
+                                    // "~" addresses aren't ICAO addresses, e.g. a TIS-B radar track with no transponder behind it
+                                    string detection = pllau.GetDetectionFriendlyString();
+                                    adsbplane.ToolTipText = (pllau.IsNonIcaoAddress ? "Address: " + pllau.Tag + " (not ICAO)" : "ICAO: " + pllau.Tag) + "\n" +
                                                             "Callsign: " + pllau.CallSign + "\n" +
-                                                            "Squawk: " + pllau.Squawk.ToString("X4") + "\n" +
-                                                            "Alt: " + (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit + "\n" +
+                                                            "Type/Category: " + typeCategory + "\n" +
+                                                            (detection != null ? "Source: " + detection + "\n" : "") +
+                                                            "Squawk: " + (pllau.SquawkValid ? pllau.SquawkString : "unknown") + "\n" +
+                                                            "Alt: " + (pllau.AltValid ? (pllau.Alt * CurrentState.multiplieralt).ToString("0") + " " + CurrentState.AltUnit : "unknown") + "\n" +
                                                             "Speed: " + (pllau.Speed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("0") + " " + CurrentState.SpeedUnit + "\n" +
                                                             "VSpeed: " + (pllau.VerticalSpeed / 100 /* cm to m */ * CurrentState.multiplierspeed).ToString("F1") + " " + CurrentState.SpeedUnit + "\n" +
-                                                            "Heading: " + pllau.Heading.ToString("0") + "°";
+                                                            "Heading: " + pllau.Heading.ToString("0") + "°" +
+                                                            (pllau.IsOnGround ? " (On Ground)" : "") + "\n";
                                     // Add distance
                                     if (MainV2.comPort.MAV.cs.Location.Lat != 0 && MainV2.comPort.MAV.cs.Location.Lng != 0)
                                         adsbplane.ToolTipText += "\n" + "Distance: " + (pllau.GetDistance(MainV2.comPort.MAV.cs.Location) * CurrentState.multiplierdist).ToString("0") + " " + CurrentState.DistanceUnit;
                                     // Add collision threat level
-                                    if (pllau.ThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
-                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.ThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
+                                    if (pllau.EffectiveThreatLevel != MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE)
+                                        adsbplane.ToolTipText += "\n" + "Collision risk: " + (pllau.EffectiveThreatLevel == MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW ? "Warning" : "Danger");
                                     adsbplane.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                     adsbplane.Position = pllau;
                                     adsbplane.heading = pllau.Heading;
                                     adsbplane.Tag = pllau;
+                                    adsbplane.EmitterCategory = pllau.GetEmitterCategory();
+                                    adsbplane.IsOnGround = pllau.IsOnGround;
 
                                     if (((DateTime) pllau.Time) > DateTime.Now.AddSeconds(-30))
                                     {
                                         adsbplane.IsVisible = true;
 
-                                        switch (pllau.ThreatLevel)
+                                        // The higher of the autopilot's level and our own assessment,
+                                        // so the map agrees with the speech callouts
+                                        switch (pllau.EffectiveThreatLevel)
                                         {
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
-                                                adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
+                                                // White with a dark outline; green didn't show on satellite imagery,
+                                                // and orange made no threat look like a warning
+                                                adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.None;
                                                 break;
                                             case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
                                                 adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;

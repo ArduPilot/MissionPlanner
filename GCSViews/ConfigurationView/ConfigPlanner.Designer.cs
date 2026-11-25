@@ -122,6 +122,7 @@
             this.CMB_mapCache = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.BUT_mapCacheDir = new MissionPlanner.Controls.MyButton();
+            this.CHK_speechadsb = new System.Windows.Forms.CheckBox();
             this.CHK_rtsresetesp32 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_gcsid)).BeginInit();
@@ -884,6 +885,12 @@
             this.BUT_mapCacheDir.UseVisualStyleBackColor = true;
             this.BUT_mapCacheDir.Click += new System.EventHandler(this.BUT_mapCacheDir_Click);
             // 
+            // CHK_speechadsb
+            // 
+            resources.ApplyResources(this.CHK_speechadsb, "CHK_speechadsb");
+            this.CHK_speechadsb.Name = "CHK_speechadsb";
+            this.CHK_speechadsb.UseVisualStyleBackColor = true;
+            this.CHK_speechadsb.CheckedChanged += new System.EventHandler(this.CHK_speechadsb_CheckedChanged);
             // CHK_rtsresetesp32
             // 
             resources.ApplyResources(this.CHK_rtsresetesp32, "CHK_rtsresetesp32");
@@ -894,6 +901,7 @@
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.CHK_speechadsb);
             this.Controls.Add(this.CHK_rtsresetesp32);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.cmb_secondarydisplaystyle);
@@ -1093,6 +1101,7 @@
         private System.Windows.Forms.Label label13;
         public System.Windows.Forms.ComboBox CMB_mapCache;
         private Controls.MyButton BUT_mapCacheDir;
+        private System.Windows.Forms.CheckBox CHK_speechadsb;
         private System.Windows.Forms.CheckBox CHK_rtsresetesp32;
     }
 }
