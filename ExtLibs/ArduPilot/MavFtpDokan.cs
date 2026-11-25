@@ -59,11 +59,12 @@ namespace MissionPlanner.ArduPilot
         private const string DokanNativeLibrary = "dokan2.dll";
 
         [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern IntPtr LoadLibrary(string lpFileName);
+        private static extern IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, uint dwFlags);
 
-        [DllImport("kernel32", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool FreeLibrary(IntPtr hModule);
+        private const uint LOAD_LIBRARY_SEARCH_SYSTEM32 = 0x00000800;
+
+        // kept loaded on purpose, see IsDriverInstalled
+        private static IntPtr _dokanLibrary = IntPtr.Zero;
 
         /// <summary>
         /// True when the Dokan native library can be loaded, i.e. the Dokan driver is installed.
@@ -77,11 +78,14 @@ namespace MissionPlanner.ArduPilot
         {
             try
             {
-                var handle = LoadLibrary(DokanNativeLibrary);
-                if (handle == IntPtr.Zero)
-                    return false;
-                FreeLibrary(handle);
-                return true;
+                if (_dokanLibrary != IntPtr.Zero)
+                    return true;
+
+                // The Dokan setup installs the library into System32. Only look there: a bare name would
+                // also search the application directory and every PATH entry, and run whatever dokan2.dll
+                // it finds. The handle is kept so DokanNet's own DllImport binds to this copy.
+                _dokanLibrary = LoadLibraryEx(DokanNativeLibrary, IntPtr.Zero, LOAD_LIBRARY_SEARCH_SYSTEM32);
+                return _dokanLibrary != IntPtr.Zero;
             }
             catch (Exception ex)
             {

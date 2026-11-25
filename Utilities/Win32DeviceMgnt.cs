@@ -414,7 +414,8 @@ public class Win32DeviceMgmt
         Guid guidComPorts = new Guid(guid);
         IntPtr hDeviceInfoSet = SetupDiGetClassDevs(
             ref guidComPorts, 0, IntPtr.Zero, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-        if (hDeviceInfoSet == IntPtr.Zero)
+        // fails with INVALID_HANDLE_VALUE, not null
+        if (hDeviceInfoSet == IntPtr.Zero || hDeviceInfoSet == new IntPtr(-1))
         {
             throw new Exception("Failed to get device information set for the COM ports");
         }
@@ -587,6 +588,10 @@ public class Win32DeviceMgmt
         {
             throw new Exception("Failed to open a registry key for device-specific configuration information");
         }
+
+        // fails with INVALID_HANDLE_VALUE, not null: there is no key to read a port name from
+        if (hDeviceRegistryKey == new IntPtr(-1))
+            return null;
 
         StringBuilder deviceNameBuf = new StringBuilder(256);
         try

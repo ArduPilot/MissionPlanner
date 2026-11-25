@@ -134,31 +134,33 @@ namespace MissionPlanner.Maps
 
             if (showScale)
             {
-                Bitmap test = new Bitmap(255, 20);
-                //fill the image with the rainbow palette
-                for (int i = 0; i < 255; i++)
-                {
-                    using (Graphics g2 = Graphics.FromImage(test))
-                    {
-
-                        Color c = Color.FromArgb(255, Rainbow(i / 255.0f));
-                        g2.FillRectangle(new SolidBrush(c), i, 0, 1, 20);
-                    }
-                }
-                //write the text "200" to the image
+                // this runs on every map paint: dispose what it creates, the finalizers do not keep up
+                using (Bitmap test = new Bitmap(255, 20))
                 using (Graphics g2 = Graphics.FromImage(test))
+                using (var font8 = new Font("Arial", 8))
+                using (var font7 = new Font("Arial", 7))
+                using (var black = new Pen(Color.Black))
                 {
-                    g2.DrawRectangle(new Pen(Color.Black), 0, 0, 255, 20);
-                    g2.DrawString(scaleHigh.ToString() + "m", new Font("Arial", 8), new SolidBrush(Color.White), 1, 0);
-                    int len = (int)g2.MeasureString(scaleLow.ToString() + "m", new Font("Arial", 8)).Width;
-                    g2.DrawString(scaleLow.ToString() + "m", new Font("Arial", 8), new SolidBrush(Color.White), 255 - len + 2, 0);
+                    //fill the image with the rainbow palette
+                    for (int i = 0; i < 255; i++)
+                    {
+                        using (var brush = new SolidBrush(Color.FromArgb(255, Rainbow(i / 255.0f))))
+                            g2.FillRectangle(brush, i, 0, 1, 20);
+                    }
+
+                    //write the text "200" to the image
+                    g2.DrawRectangle(black, 0, 0, 255, 20);
+                    g2.DrawString(scaleHigh.ToString() + "m", font8, Brushes.White, 1, 0);
+                    int len = (int)g2.MeasureString(scaleLow.ToString() + "m", font8).Width;
+                    g2.DrawString(scaleLow.ToString() + "m", font8, Brushes.White, 255 - len + 2, 0);
                     //Write text at center
-                    len = (int)g2.MeasureString(scaleText, new Font("Arial", 7)).Width;
-                    g2.DrawString(scaleText, new Font("Arial", 7), new SolidBrush(Color.Black), 127 - len / 2, 0);
+                    len = (int)g2.MeasureString(scaleText, font7).Width;
+                    g2.DrawString(scaleText, font7, Brushes.Black, 127 - len / 2, 0);
 
+                    g2.Flush();
+
+                    g.DrawImage(test, 0, 60, 300, 20);
                 }
-
-                g.DrawImage(test, 0, 60, 300, 20);
             }
             g.Transform = old;
         }
