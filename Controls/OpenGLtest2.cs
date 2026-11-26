@@ -118,6 +118,8 @@ namespace MissionPlanner.Controls
             var x = ((MouseEventArgs) e).X;
             var y = ((MouseEventArgs) e).Y;
             mouseDownPos = getMousePos(x, y);
+            if (mouseDownPos == null)
+                return;
             MainV2.comPort.setGuidedModeWP(
                 new Locationwp().Set(mouseDownPos.Lat, mouseDownPos.Lng, MainV2.comPort.MAV.GuidedMode.z,
                     (ushort) MAVLink.MAV_CMD.WAYPOINT), false);
@@ -199,19 +201,16 @@ namespace MissionPlanner.Controls
 
         ~OpenGLtest2()
         {
-            foreach (var tileInfo in textureid)
-            {
-                try
-                {
-                    tileInfo.Value.Cleanup();
-                }
-                catch
-                {
-                }
-            }
+            CleanupAllTextures();
         }
 
         public void Deactivate()
+        {
+            CleanupAllTextures();
+            textureid.Clear();
+        }
+
+        private void CleanupAllTextures()
         {
             foreach (var tileInfo in textureid)
             {
@@ -223,8 +222,6 @@ namespace MissionPlanner.Controls
                 {
                 }
             }
-
-            textureid.Clear();
         }
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
@@ -508,8 +505,9 @@ namespace MissionPlanner.Controls
 
                 cameraX = campos[0];
                 cameraY = campos[1];
-                cameraZ = (campos[2] < srtm.getAltitude(_center.Lat, _center.Lng).alt)
-                    ? (srtm.getAltitude(_center.Lat, _center.Lng).alt + 1) * heightscale
+                var terrainAlt = srtm.getAltitude(_center.Lat, _center.Lng).alt;
+                cameraZ = (campos[2] < terrainAlt)
+                    ? (terrainAlt + 1) * heightscale
                     : _center.Alt * heightscale; // (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
                 lookX = campos[0] + Math.Sin(MathHelper.Radians(rpy.Z)) * 100;
                 lookY = campos[1] + Math.Cos(MathHelper.Radians(rpy.Z)) * 100;
@@ -611,7 +609,13 @@ namespace MissionPlanner.Controls
                     if (MainV2.comPort.MAV.cs.Location != PointLatLngAlt.Zero)
                         list.Add(MainV2.comPort.MAV.cs.Location);
 
-                    foreach (var point in list.OrderBy((a)=> a.GetDistance(MainV2.comPort.MAV.cs.Location)))
+                    // billboard offset, constant for the frame
+                    var sideX = Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2;
+                    var sideY = Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2;
+                    var mavLocation = MainV2.comPort.MAV.cs.Location;
+
+                    // draw far to near
+                    foreach (var point in list.OrderByDescending((a) => a.GetDistance(mavLocation)))
                     {
                         if (point == null)
                             continue;
@@ -623,17 +627,13 @@ namespace MissionPlanner.Controls
                         wpmarker.idtexture = green;
 
                         //tr
-                        wpmarker.vertex.Add(new Vertex(Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2 + co[0],
-                            Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2 + co[1], co[2] + 10, 0, 0, 0, 1, 0, 0));
+                        wpmarker.vertex.Add(new Vertex(sideX + co[0], sideY + co[1], co[2] + 10, 0, 0, 0, 1, 0, 0));
                         //tl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] + 10, 0, 0, 0, 1, 1, 0));
+                        wpmarker.vertex.Add(new Vertex(co[0] - sideX, co[1] - sideY, co[2] + 10, 0, 0, 0, 1, 1, 0));
                         //br
-                        wpmarker.vertex.Add(new Vertex(co[0] + Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] + Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 0, 1));
+                        wpmarker.vertex.Add(new Vertex(co[0] + sideX, co[1] + sideY, co[2] - 1, 0, 0, 0, 1, 0, 1));
                         //bl
-                        wpmarker.vertex.Add(new Vertex(co[0] - Math.Sin(MathHelper.Radians(rpy.Z + 90)) * 2,
-                            co[1] - Math.Cos(MathHelper.Radians(rpy.Z + 90)) * 2, co[2] - 1, 0, 0, 0, 1, 1, 1));
+                        wpmarker.vertex.Add(new Vertex(co[0] - sideX, co[1] - sideY, co[2] - 1, 0, 0, 0, 1, 1, 1));
 
                         var startindex = (uint)wpmarker.vertex.Count - 4;
                         wpmarker.indices.AddRange(new[]
@@ -737,24 +737,25 @@ namespace MissionPlanner.Controls
                     //  tiles.points.Count, core.pxRes100m, core.Zoom);
                     tileArea.Add(tiles);
 
-                    // queue the tile load/fetch
-                    foreach (var p in tiles.points)
+                    // queue the tile load/fetch - under the queue's monitor, as the GMap loader threads pop
+                    // from it, and pulse so they wake (they block in Monitor.Wait while it is empty)
+                    lock (core.tileLoadQueue)
                     {
-                        LoadTask task = new LoadTask(p, a);
+                        foreach (var p in tiles.points)
                         {
+                            LoadTask task = new LoadTask(p, a);
                             if (!core.tileLoadQueue.Contains(task))
                             {
                                 core.tileLoadQueue.Push(task);
                             }
                         }
+
+                        Monitor.PulseAll(core.tileLoadQueue);
                     }
                 }
 
                 //Minimumtile(tileArea);
 
-                var totaltiles = 0;
-                foreach (var a in tileArea) totaltiles += a.points.Count;
-                Console.Write(DateTime.Now.Millisecond + " Total tiles " + totaltiles + "   \r");
                 if (DateTime.Now.Second % 3 == 1)
                     CleanupOldTextures(tileArea);
             }
@@ -762,7 +763,7 @@ namespace MissionPlanner.Controls
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             var C = 2 * Math.PI * 6378137.000;
             // horizontal distance by each tile square
-            var stile = C * Math.Cos(_center.Lat) / Math.Pow(2, zoom);
+            var stile = C * Math.Cos(MathHelper.Radians(_center.Lat)) / Math.Pow(2, zoom);
             var pxstep = 2;
             //https://wiki.openstreetmap.org/wiki/Zoom_levels
             // zoom 20 = 38m
@@ -772,13 +773,16 @@ namespace MissionPlanner.Controls
                 talist = tileArea.ToArray();
             foreach (var tilearea in talist)
             {
-                stile = C * Math.Cos(_center.Lat) / Math.Pow(2, tilearea.zoom);
-                pxstep = (int)(stile / 45);
-                pxstep = FloorPowerOf2(pxstep);
-                if (pxstep == int.MinValue) pxstep = 0;
-                if (pxstep == 0)
-                    pxstep = 1;
-                foreach (var p in tilearea.points)
+                // mesh spacing: no finer than the ~30m SRTM data, and at most 32x32 quads per tile
+                stile = C * Math.Cos(MathHelper.Radians(_center.Lat)) / Math.Pow(2, tilearea.zoom);
+                var tilepx = (int) prj.TileSize.Width;
+                pxstep = FloorPowerOf2((int)Math.Max(1, tilepx * 30 / stile));
+                pxstep = Math.Max(tilepx / 32, Math.Min(tilepx, pxstep));
+
+                // build the tiles under/near the camera first
+                var centertile = prj.FromPixelToTileXY(prj.FromLatLngToPixel(_center, tilearea.zoom));
+                foreach (var p in tilearea.points.OrderBy(a =>
+                             Math.Abs(a.X - centertile.X) + Math.Abs(a.Y - centertile.Y)))
                 {
                     core.tileDrawingListLock.AcquireReaderLock();
                     core.Matrix.EnterReadLock();
@@ -842,6 +846,9 @@ namespace MissionPlanner.Controls
                                                 //var temp = ti.idtexture; -- intel hd graphics cant share textures
                                                 var temp2 = ti.idEBO;
                                                 var temp3 = ti.idVBO;
+                                                // the buffers were filled on this (loader) context; without a
+                                                // finish the render context can see them still empty
+                                                GL.Finish();
                                                 //var temp4 = ti.idVAO;
                                                 // release it
                                                 //if (Context.IsCurrent)
@@ -974,7 +981,6 @@ namespace MissionPlanner.Controls
             {
                 this.BeginInvoke((MethodInvoker) delegate
                 {
-                    Console.WriteLine(DateTime.Now.Millisecond + " tile cleanup    \r");
                     tileInfo temp;
                     textureid.TryRemove(c.Key, out temp);
                     temp?.Cleanup();
@@ -1162,7 +1168,7 @@ namespace MissionPlanner.Controls
                     (float) (90 * MathHelper.deg2rad),
                     (float) Width / Height, 2f,
                     (float) 20000);
-                GL.UniformMatrix4(tileInfo.projectionSlot, 1, false, ref projMatrix.Row0.X);
+                // no uniform upload here - every Draw() sets Projection, and on the first resize no program is bound yet
                 {
                     // for unproject - updated on every draw
                     GL.GetInteger(GetPName.Viewport, viewport);
@@ -1292,7 +1298,8 @@ namespace MissionPlanner.Controls
                 // map the vertex buffers
                 GL.VertexAttribPointer(positionSlot, 3, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)0);
                 GL.VertexAttribPointer(colorSlot, 4, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)(sizeof(float) * 3));
-                GL.VertexAttribPointer(texCoordSlot, 2, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)(sizeof(float) * 7));
+                if (texCoordSlot >= 0)
+                    GL.VertexAttribPointer(texCoordSlot, 2, VertexAttribPointerType.Float, false, Marshal.SizeOf(typeof(Vertex)), (IntPtr)(sizeof(float) * 7));
 
                 // draw it
                 GL.DrawArrays(PrimitiveType.LineStrip, 0, indices.Count);
@@ -1565,9 +1572,13 @@ void main(void) {
                 {
                     GL.UseProgram(Program);
 
+                    // the driver strips attributes the shader doesn't use (SourceColor here) and reports
+                    // them as -1 - touching index -1 raises a GL error on every call
                     GL.EnableVertexAttribArray(positionSlot);
-                    GL.EnableVertexAttribArray(colorSlot);
-                    GL.EnableVertexAttribArray(texCoordSlot);
+                    if (colorSlot >= 0)
+                        GL.EnableVertexAttribArray(colorSlot);
+                    if (texCoordSlot >= 0)
+                        GL.EnableVertexAttribArray(texCoordSlot);
 
                     // set matrix
                     GL.UniformMatrix4(modelViewSlot, 1, false, ref ModelView.Row0.X);
@@ -1589,17 +1600,21 @@ void main(void) {
                     GL.BindBuffer(BufferTarget.ArrayBuffer, idVBO);
                     GL.VertexAttribPointer(positionSlot, 3, VertexAttribPointerType.Float, false,
                         Marshal.SizeOf(typeof(Vertex)), (IntPtr) 0);
-                    GL.VertexAttribPointer(colorSlot, 4, VertexAttribPointerType.Float, false,
-                        Marshal.SizeOf(typeof(Vertex)), (IntPtr) (sizeof(float) * 3));
-                    GL.VertexAttribPointer(texCoordSlot, 2, VertexAttribPointerType.Float, false,
-                        Marshal.SizeOf(typeof(Vertex)), (IntPtr) (sizeof(float) * 7));
+                    if (colorSlot >= 0)
+                        GL.VertexAttribPointer(colorSlot, 4, VertexAttribPointerType.Float, false,
+                            Marshal.SizeOf(typeof(Vertex)), (IntPtr) (sizeof(float) * 3));
+                    if (texCoordSlot >= 0)
+                        GL.VertexAttribPointer(texCoordSlot, 2, VertexAttribPointerType.Float, false,
+                            Marshal.SizeOf(typeof(Vertex)), (IntPtr) (sizeof(float) * 7));
                     GL.BindBuffer(BufferTarget.ElementArrayBuffer, idEBO);
                     GL.DrawElements(PrimitiveType.Triangles, indices.Count, DrawElementsType.UnsignedInt,
                         IntPtr.Zero);
 
                     GL.DisableVertexAttribArray(positionSlot);
-                    GL.DisableVertexAttribArray(colorSlot);
-                    GL.DisableVertexAttribArray(texCoordSlot);
+                    if (colorSlot >= 0)
+                        GL.DisableVertexAttribArray(colorSlot);
+                    if (texCoordSlot >= 0)
+                        GL.DisableVertexAttribArray(texCoordSlot);
                 }
             }
 

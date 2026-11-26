@@ -79,7 +79,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", float.Parse(TXT_battcapacity.Text));
+                    var capacity = DecimalInput.Parse(TXT_battcapacity.Text);
+                    // "5.000" meant as 5000 mAh reads as 5
+                    if (DecimalInput.LooksLikeThousands(TXT_battcapacity.Text) &&
+                        CustomMessageBox.Show(string.Format(Strings.BatteryCapacityAsDecimal, TXT_battcapacity.Text.Trim(), capacity),
+                            Strings.Warning, MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                    {
+                        TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT2_CAPACITY"].ToString();
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT2_CAPACITY", capacity);
                 }
             }
             catch
@@ -94,9 +104,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredvoltage = float.Parse(TXT_measuredvoltage.Text);
-                var voltage = float.Parse(TXT_voltage.Text);
-                var divider = float.Parse(TXT_divider.Text);
+                var measuredvoltage = DecimalInput.Parse(TXT_measuredvoltage.Text);
+                var voltage = DecimalInput.Parse(TXT_voltage.Text);
+                var divider = DecimalInput.Parse(TXT_divider.Text);
                 if (voltage == 0)
                     return;
                 var newDivider = (measuredvoltage * divider) / voltage;
@@ -110,7 +120,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, DecimalInput.Parse(TXT_divider.Text));
             }
             catch
             {
@@ -124,7 +134,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, float.Parse(TXT_divider.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_VOLT_MULT" }, DecimalInput.Parse(TXT_divider.Text));
             }
             catch
             {
@@ -138,7 +148,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
             }
             catch
             {
@@ -227,9 +237,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredcurrent = float.Parse(txt_meascurrent.Text);
-                var current = float.Parse(txt_current.Text);
-                var divider = float.Parse(TXT_ampspervolt.Text);
+                var measuredcurrent = DecimalInput.Parse(txt_meascurrent.Text);
+                var current = DecimalInput.Parse(txt_current.Text);
+                var divider = DecimalInput.Parse(TXT_ampspervolt.Text);
                 if (current == 0)
                     return;
                 var newDivider = (measuredcurrent * divider) / current;
@@ -243,7 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, float.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
             }
             catch
             {

@@ -55,31 +55,17 @@ namespace MissionPlanner.Controls
             }
             if(e.Operation== Gestures.Zoom)
             {
-                // aim is to get the ll listed under the users finger
+                if (e.DistanceBetweenStart <= 0 || e.DistanceBetweenNow <= 0)
+                    return;
 
-                var startlocal = FromLatLngToLocal(e.FirstPointLL);
+                // zoom by the change in finger spread since the gesture began (doubling it is one level)
+                Zoom = gestureStartZoom + Math.Log((double)e.DistanceBetweenNow / e.DistanceBetweenStart, 2);
 
-                p1.Position = e.FirstPointLL;
-                p2.Position = e.SecondPointLL;
-                Overlays.First().Markers.Add(p1);
-                Overlays.First().Markers.Add(p2);
-
-
-                var scale = e.DistanceBetweenNow / (float)e.DistanceBetweenStart;
-
-                // use the start center as our center;
-                //Position = FromLocalToLatLng((int)startlocal.X, (int)startlocal.Y);
-                Core.Position = e.FirstPointLL;
-                //Core.mouseLastZoom.X = e.SecondPoint.X;
-                //Core.mouseLastZoom.Y = e.SecondPoint.Y;
-
-                Core.MouseWheelZooming = true;
-                Zoom += (scale - 1);
-                Core.MouseWheelZooming = false;
-
-                iArguments = e.DistanceBetweenNow;
-
-                Console.WriteLine("zoom " + e.FirstPoint + " " + e.SecondPoint + " ") ;
+                // and keep the point that was between the fingers when it began between them now
+                var anchor = FromLatLngToLocal(e.FirstPointLL);
+                var centre = PointToClient(e.SecondPoint);
+                Position = FromLocalToLatLng(Width / 2 + (int)(anchor.X - centre.X),
+                    Height / 2 + (int)(anchor.Y - centre.Y));
             }
         }
 
@@ -154,6 +140,7 @@ namespace MissionPlanner.Controls
         PointLatLng first_pointLL = new PointLatLng();
         PointLatLng second_pointLL = new PointLatLng();
         private Int64 iArguments = 0;
+        private double gestureStartZoom;
         private const Int64 ULL_ARGUMENTS_BIT_MASK = 0xFFFFFFFFL;
         private const int WM_GESTURENOTIFY = 0x11A;
         private const int WM_GESTURE = 0x119;
@@ -196,9 +183,31 @@ namespace MissionPlanner.Controls
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool SetGestureConfig(IntPtr hWnd, int dwReserved, int cIDs, ref GESTURECONFIG pGestureConfig, int cbSize);
 
+#if NETSTANDARD2_0
+        // under Mono's XplatUIMine (Android) the gesture handle is an HGLOBAL holding a GESTUREINFO with
+        // the Windows layout, posted by XplatUIMine.SendGesture
+        private static bool GetGestureInfo(IntPtr hGestureInfo, ref GESTUREINFO pGestureInfo)
+        {
+            if (hGestureInfo == IntPtr.Zero)
+                return false;
+            pGestureInfo = (GESTUREINFO)Marshal.PtrToStructure(hGestureInfo, typeof(GESTUREINFO));
+            return true;
+        }
+
+        private static bool CloseGestureInfoHandle(IntPtr hGestureInfo)
+        {
+            Marshal.FreeHGlobal(hGestureInfo);
+            return true;
+        }
+#else
         [DllImport("user32")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool GetGestureInfo(IntPtr hGestureInfo, ref GESTUREINFO pGestureInfo);
+
+        [DllImport("user32")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CloseGestureInfoHandle(IntPtr hGestureInfo);
+#endif
 
 
         private int _gestureConfigSize;
@@ -233,7 +242,16 @@ namespace MissionPlanner.Controls
 
                 case WM_GESTURE:
                     {
-                        handled = DecodeGesture(ref m);
+                        // a handled gesture is closed here and kept from DefWindowProc, which would
+                        // otherwise also send the legacy mouse wheel/scroll messages for it
+                        if (DecodeGesture(ref m))
+                        {
+                            CloseGestureInfoHandle(m.LParam);
+                            m.Result = IntPtr.Zero;
+                            return;
+                        }
+
+                        handled = false;
                         break;
                     }
 
@@ -293,6 +311,7 @@ namespace MissionPlanner.Controls
                             case GF_BEGIN:
                                 {
                                     iArguments = System.Convert.ToInt64(gi.ullArguments & ULL_ARGUMENTS_BIT_MASK);
+                                    gestureStartZoom = Zoom;
                                     first_point.X = gi.ptsLocation.x;
                                     first_point.Y = gi.ptsLocation.y;
                                     first_pointLL = FromLocalToLatLng(PointToClient(first_point));
@@ -309,7 +328,8 @@ namespace MissionPlanner.Controls
                                 }
                         }
 
-                        break;
+                        // the map zooms itself, so the zoom is consumed
+                        return true;
                     }
 
                 case GID_PAN:
@@ -347,7 +367,7 @@ namespace MissionPlanner.Controls
                         break;
                     }
             }
-            return true;
+            return false;
         }
 
 

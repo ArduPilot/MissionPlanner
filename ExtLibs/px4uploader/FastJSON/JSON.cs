@@ -496,36 +496,16 @@ namespace fastJSON
 
         private object ParseDictionary(Dictionary<string, object> d, Dictionary<string, object> globaltypes, Type type, object input)
         {
-            object tn = "";
-
-            if (d.TryGetValue("$types", out tn))
-            {
-                _usingglobals = true;
-                globaltypes = new Dictionary<string, object>();
-                foreach (var kv in (Dictionary<string, object>)tn)
-                {
-                    globaltypes.Add((string)kv.Value, kv.Key);
-                }
-            }
-
-            bool found = d.TryGetValue("$type", out tn);
+            // The "$types", "$type" and "$map" metadata in the input are ignored. Honouring them let the
+            // JSON pick any type in the loaded assemblies and run its constructor and setters, so a
+            // crafted file (e.g. a custom .apj firmware) could create arbitrary objects (CWE-502).
+            // The type to create always comes from the caller.
 #if !SILVERLIGHT
-            if (found == false && type == typeof(System.Object))
+            if (type == typeof(System.Object))
             {
-                return d;   // CreateDataset(d, globaltypes);
+                return d;
             }
 #endif
-            if (found)
-            {
-                if (_usingglobals)
-                {
-                    object tname = "";
-                    if (globaltypes.TryGetValue((string)tn, out tname))
-                        tn = tname;
-                }
-                type = Reflection.Instance.GetTypeFromCache((string)tn);
-            }
-
             if (type == null)
                 throw new Exception("Cannot determine type");
 
@@ -539,11 +519,8 @@ namespace fastJSON
             {
                 string name = n;
                 if (_params.IgnoreCaseOnDeserialize) name = name.ToLower();
-                if (name == "$map")
-                {
-                    ProcessMap(o, props, (Dictionary<string, object>)d[name]);
+                if (name == "$map" || name == "$type" || name == "$types")
                     continue;
-                }
                 myPropInfo pi;
                 if (props.TryGetValue(name, out pi) == false)
                     continue;

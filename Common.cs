@@ -362,7 +362,7 @@ namespace MissionPlanner
                 {
                     AutoSize = true,
                     Margin = new Padding(0, 0, 0, rowspacing),
-                    Text = linktext,
+                    Text = CustomMessageBox.LinkDisplayText(link, linktext),
                 };
                 linklbl.LinkClicked += (sender, args) =>
                 {

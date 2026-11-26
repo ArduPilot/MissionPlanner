@@ -42,15 +42,27 @@ public partial class MAVLink
             if (target_system.HasValue) return target_system;
             var type = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type;
             if (type == null) return null;
-            var field = GetTargetSystemField(type);
-            return field == null ? (uint?)null : Convert.ToUInt32(field.GetValue(data));
+            int offset = GetTargetOffsets(type)[0];
+            if (offset == TargetFieldAbsent) return null;
+            if (offset >= 0) return ReadPayloadByte(offset);
+            return Convert.ToUInt32(GetTargetSystemField(type).GetValue(data));
         }
 
         public byte? GetTargetComponent()
         {
             var type = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type;
-            var field = type?.GetField("target_component");
-            return field == null ? (byte?)null : Convert.ToByte(field.GetValue(data));
+            if (type == null) return null;
+            int offset = GetTargetOffsets(type)[1];
+            if (offset == TargetFieldAbsent) return null;
+            if (offset >= 0) return ReadPayloadByte(offset);
+            return Convert.ToByte(type.GetField("target_component").GetValue(data));
+        }
+
+        // Bytes past the end of a MAVLink 2 payload were zeros trimmed by the sender.
+        private byte ReadPayloadByte(int offset)
+        {
+            if (_buffer == null || offset >= payloadlength) return 0;
+            return _buffer[headerlength + offset];
         }
 
         public bool IsTargetedTo(uint system, byte component)

@@ -2073,6 +2073,10 @@ namespace MissionPlanner
             log.Info("stop WarningEngine");
             Warnings.WarningEngine.Stop();
 
+            log.Info("stop CoT output");
+            // its last messages mark each track stale, so TAK greys them out now, not when they expire
+            CotSender.Current?.Stop();
+
             log.Info("stop GStreamer");
             GCSViews.FlightData.hudGStreamer.Stop();
 

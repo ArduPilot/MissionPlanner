@@ -8,6 +8,7 @@ using Android.Util;
 using Android.Views;
 using Mono.Unix;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -297,22 +298,17 @@ namespace Xamarin.Droid
             AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
 
             {
-                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) !=
-                    (int)Permission.Granted ||
-                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.Bluetooth) !=
-                    (int)Permission.Granted ||
-                    ContextCompat.CheckSelfPermission(this, Manifest.Permission.BluetoothConnect) !=
-                    (int)Permission.Granted)
-                {
-                    ActivityCompat.RequestPermissions(this,
-                        new String[]
-                        {
-                            Manifest.Permission.AccessFineLocation, Manifest.Permission.LocationHardware,
-                            Manifest.Permission.Bluetooth,
-                            Manifest.Permission.BluetoothConnect,
-                        }, 1);
-                }
+                var perms = new List<string>
+                    { Manifest.Permission.AccessFineLocation, Manifest.Permission.Bluetooth };
+                // BLUETOOTH_CONNECT only exists from Android 12; older releases never grant it
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
+                    perms.Add(Manifest.Permission.BluetoothConnect);
 
+                var missing = perms.Where(p =>
+                    ContextCompat.CheckSelfPermission(this, p) != (int)Permission.Granted).ToArray();
+
+                if (missing.Length > 0)
+                    ActivityCompat.RequestPermissions(this, missing, 1);
             }
 
             try {

@@ -5,6 +5,11 @@
     <TargetFrameworks Condition="$([System.String]::Copy('$(TargetFrameworks)').Contains('net461'))">net472</TargetFrameworks>
     <TargetFrameworks Condition="$([System.String]::Copy('$(TargetFrameworks)').Contains('netstandard2.0'))">netstandard2.0</TargetFrameworks>
   </PropertyGroup>
+  <!-- netstandard2.0 consumers (Utilities) need the netstandard build, which uses the
+       MissionPlanner.Drawing shim instead of the real System.Drawing.Common package. -->
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'GMap.NET.Drawing'">
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectName)' == 'MissionPlanner'">
     <!-- Match the application's managed SkiaSharp version. -->
     <PackageReference Update="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" GeneratePathProperty="true" />

@@ -35,4 +35,8 @@ if [[ ${1:-} == --self-test ]]; then
     shift
     exec mono LinuxSmokeTest.exe "$@"
 fi
+if [[ ${1:-} == --gl-test ]]; then
+    shift
+    exec mono OpenGLSelfTest.exe "$@"
+fi
 exec mono MissionPlanner.exe "$@"

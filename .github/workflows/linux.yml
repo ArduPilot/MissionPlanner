@@ -53,6 +53,7 @@ jobs:
           path: |
             linux-build.log
             linux-runtime-test.log
+            bin/linux/test-results/
 
   publish:
     name: Publish Linux development download

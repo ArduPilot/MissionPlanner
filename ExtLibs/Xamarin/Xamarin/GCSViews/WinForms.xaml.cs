@@ -679,63 +679,31 @@ namespace Xamarin.GCSViews
                         touchDictionary[e.Id].now = e;
                     }
 
-                    if (touchDictionary.Count >= 2)
+                    if (gesture)
                     {
-                        // Copy two dictionary keys into array
-                        long[] keys = new long[touchDictionary.Count];
-                        touchDictionary.Keys.CopyTo(keys, 0);
-
-                        // Find index non-moving (pivot) finger
-                        int pivotIndex = (keys[0] == e.Id) ? 1 : 0;
-
-                        // Get the three points in the transform
-                        SKPoint pivotPoint = touchDictionary[keys[pivotIndex]].atdown.Location;
-                        SKPoint prevPoint = touchDictionary[e.Id].atdown.Location;
-                        SKPoint newPoint = e.Location;
-
-                        // Calculate two vectors
-                        SKPoint oldVector = prevPoint - pivotPoint;
-                        SKPoint newVector = newPoint - pivotPoint;
-
-                        SKPoint center = (pivotPoint + prevPoint);
-                        center.X /= 2;
-                        center.Y /= 2;
-
-                        // Find angles from pivot point to touch points
-                        float oldAngle = (float) Math.Atan2(oldVector.Y, oldVector.X);
-                        float newAngle = (float) Math.Atan2(newVector.Y, newVector.X);
-
-                        float scale1 = Magnitude(newVector) / Magnitude(oldVector);
-
-                        if (!float.IsNaN(scale1) && !float.IsInfinity(scale1))
-                        {
-                            //var centre = pivotPoint;
-                            x = (int) (center.X / scale.Width);
-                            y = (int) (center.Y / scale.Height);
-
-                            if (scale1 >= 2)
-                            {
-                                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEWHEEL,
-                                    new IntPtr((int) (1) << 16),
-                                    (IntPtr) ((y) << 16 | (x)));
-                                touchDictionary[e.Id].atdown = e;
-                            }
-
-                            if (scale1 <= 0.5)
-                            {
-                                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEWHEEL,
-                                    new IntPtr((int) (-1) << 16),
-                                    (IntPtr) ((y) << 16 | (x)));
-                                touchDictionary[e.Id].atdown = e;
-                            }
-                        }
-
+                        // fingers of a gesture don't move the mouse
+                        if (zooming)
+                            SendZoomGesture(0);
                         e.Handled = true;
                         return;
                     }
 
+                    if (touchDictionary.TryGetValue(e.Id, out var touch) && touch.pending)
+                    {
+                        // not the mouse until the finger has moved away from where it went down
+                        if (Magnitude(e.Location - touch.atdown.Location) / scale.Width <= 4)
+                        {
+                            e.Handled = true;
+                            return;
+                        }
+
+                        PressMouse(touch);
+                    }
+
                     if (e.InContact)
                     {
+                        if (touch != null)
+                            touch.dragged = true;
                         XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE,
                             new IntPtr((int) MsgButtons.MK_LBUTTON),
                             (IntPtr) ((y) << 16 | (x)));
@@ -751,7 +719,30 @@ namespace Xamarin.GCSViews
                 if (e.ActionType == SKTouchAction.Pressed && e.MouseButton == SKMouseButton.Left)
                 {
                     var now = DateTime.Now;
-                    touchDictionary.Add(e.Id, new TouchInfo() {now = e, prev = e, DownTime = now, atdown = e});
+                    var istouch = e.DeviceType == SKTouchDeviceType.Touch;
+                    var touch = new TouchInfo() {now = e, prev = e, DownTime = now, atdown = e, pending = istouch};
+                    touchDictionary[e.Id] = touch;
+
+                    // a second finger makes the touch a pinch, sent as WM_GESTURE like a Windows touch screen
+                    if (istouch && (gesture || touchDictionary.Count >= 2))
+                    {
+                        if (!gesture)
+                            BeginGesture();
+                        else
+                            RestartZoomGesture();
+                        e.Handled = true;
+                        return;
+                    }
+
+                    // a touch held still is passed on as the mouse after a moment
+                    if (istouch)
+                        Device.StartTimer(TimeSpan.FromMilliseconds(500), () =>
+                        {
+                            if (!gesture && touch.pending && touchDictionary.TryGetValue(e.Id, out var held) &&
+                                held == touch)
+                                PressMouse(touch);
+                            return false;
+                        });
 
                     // right click handler
                     Device.StartTimer(TimeSpan.FromMilliseconds(1000), () =>
@@ -765,7 +756,7 @@ namespace Xamarin.GCSViews
                                 touchDictionary.Count, 
                                 touchDictionary.ContainsKey(e.Id) ? touchDictionary[e.Id] : null, now, DateTime.Now);
                             */
-                            if (touchDictionary.ContainsKey(e.Id) && touchDictionary.Count == 1)
+                            if (!gesture && touchDictionary.ContainsKey(e.Id) && touchDictionary.Count == 1)
                             if (!touchDictionary[e.Id].hasmoved && touchDictionary[e.Id].DownTime == now)
                             {
                                 touchDictionary[e.Id].wasright = true;
@@ -779,22 +770,28 @@ namespace Xamarin.GCSViews
                         return false;
                     });
 
-                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr)((y) << 16 | (x)));
-
-                    if (LastPressed.AddMilliseconds(500) > DateTime.Now && Math.Abs(LastPressedX - x) < 20 &&
-                        Math.Abs(LastPressedY - y) < 20)
-                    {
-                        XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONDBLCLK, new IntPtr((int) MsgButtons.MK_LBUTTON),
-                            (IntPtr) ((y) << 16 | (x)));
-                        LastPressed = DateTime.MinValue;
-                    }
-                    else
-                        XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONDOWN,
-                            new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr) ((y) << 16 | (x)));
+                    if (!istouch)
+                        PressMouse(touch);
                 }
 
                 if (e.ActionType == SKTouchAction.Released && e.MouseButton == SKMouseButton.Left)
                 {
+                    if (gesture)
+                    {
+                        // a finger of the gesture lifted: no mouse, and the pinch carries on if two remain
+                        touchDictionary.Remove(e.Id);
+                        if (touchDictionary.Count == 0)
+                            EndGesture();
+                        else
+                            RestartZoomGesture();
+                        e.Handled = true;
+                        return;
+                    }
+
+                    // a tap: the press goes now, then the release below
+                    if (touchDictionary.TryGetValue(e.Id, out var tapped) && tapped.pending)
+                        PressMouse(tapped);
+
                     if (touchDictionary.ContainsKey(e.Id) && touchDictionary[e.Id].wasright)
                     {
                         // no action here
@@ -817,36 +814,165 @@ namespace Xamarin.GCSViews
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONDOWN,
                         new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
-                    touchDictionary.Clear();
+                    ClearTouches();
                 }
 
                 if (e.ActionType == SKTouchAction.Released && e.MouseButton == SKMouseButton.Right)
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_RBUTTONUP,
                         new IntPtr((int) MsgButtons.MK_RBUTTON), (IntPtr) ((y) << 16 | (x)));
-                    touchDictionary.Clear();
+                    ClearTouches();
                 }
 
                 if (e.ActionType == SKTouchAction.Entered)
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr) ((y) << 16 | (x)));
-                    touchDictionary.Clear();
+                    ClearTouches();
                 }
 
                 if (e.ActionType == SKTouchAction.Cancelled)
                 {
-                    touchDictionary.Clear();
+                    ClearTouches();
                 }
 
                 if (e.ActionType == SKTouchAction.Exited)
                 {
                     XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr) ((y) << 16 | (x)));
-                    touchDictionary.Clear();
+                    ClearTouches();
                 }
 
                 e.Handled = true;
 
             } catch {}
+        }
+
+        // fingers down that make a gesture, and whether two of them are pinching
+        private bool gesture;
+        private bool zooming;
+
+        // pass a touch's press on as the left mouse button, at the point it went down
+        private void PressMouse(TouchInfo touch)
+        {
+            touch.pending = false;
+
+            var x = (int) (touch.atdown.Location.X / scale.Width);
+            var y = (int) (touch.atdown.Location.Y / scale.Height);
+
+            XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE, new IntPtr(), (IntPtr) ((y) << 16 | (x)));
+
+            if (LastPressed.AddMilliseconds(500) > DateTime.Now && Math.Abs(LastPressedX - x) < 20 &&
+                Math.Abs(LastPressedY - y) < 20)
+            {
+                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONDBLCLK, new IntPtr((int) MsgButtons.MK_LBUTTON),
+                    (IntPtr) ((y) << 16 | (x)));
+                LastPressed = DateTime.MinValue;
+            }
+            else
+                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONDOWN,
+                    new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr) ((y) << 16 | (x)));
+        }
+
+        // a second finger went down: from now until every finger lifts, the touch is a gesture
+        private void BeginGesture()
+        {
+            // a first finger already passed on as the mouse lets go of the button, as the end of a drag
+            // rather than a click (a click on the plan map adds a waypoint)
+            foreach (var touch in touchDictionary.Values)
+            {
+                if (touch.pending || touch.wasright)
+                {
+                    touch.pending = false;
+                    continue;
+                }
+
+                var x = (int) (touch.now.Location.X / scale.Width);
+                var y = (int) (touch.now.Location.Y / scale.Height);
+                if (!touch.dragged)
+                    XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_MOUSEMOVE,
+                        new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr) ((y) << 16 | (x + 3)));
+                XplatUI.driver.SendMessage(IntPtr.Zero, Msg.WM_LBUTTONUP,
+                    new IntPtr((int) MsgButtons.MK_LBUTTON), (IntPtr) ((y) << 16 | (touch.dragged ? x : x + 3)));
+            }
+
+            gesture = true;
+            StartZoomGesture();
+        }
+
+        // the pinch is on the first two fingers down; a change of fingers ends it and starts a new one,
+        // so the zoom doesn't jump to the new pair's spread
+        private void RestartZoomGesture()
+        {
+            EndZoomGesture();
+            StartZoomGesture();
+        }
+
+        private void StartZoomGesture()
+        {
+            if (zooming || !ZoomGeometry(out var x, out var y, out var distance))
+                return;
+
+            XplatUIMine.SendGesture(XplatUIMine.GID_BEGIN, 0, x, y, 0);
+            SendZoomGesture(XplatUIMine.GF_BEGIN);
+            zooming = true;
+        }
+
+        // the end repeats the last update, whatever fingers are down now
+        private void EndZoomGesture()
+        {
+            if (!zooming)
+                return;
+
+            XplatUIMine.SendGesture(XplatUIMine.GID_ZOOM, XplatUIMine.GF_END, zoomX, zoomY, zoomDistance);
+            XplatUIMine.SendGesture(XplatUIMine.GID_END, 0, zoomX, zoomY, 0);
+            zooming = false;
+        }
+
+        private void EndGesture()
+        {
+            EndZoomGesture();
+            gesture = false;
+        }
+
+        private void ClearTouches()
+        {
+            if (gesture)
+                EndGesture();
+            touchDictionary.Clear();
+        }
+
+        private int zoomX;
+        private int zoomY;
+        private long zoomDistance;
+
+        // GID_ZOOM at the centre of the first two fingers, with the distance between them
+        private void SendZoomGesture(int flags)
+        {
+            if (!ZoomGeometry(out var x, out var y, out var distance))
+                return;
+
+            zoomX = x;
+            zoomY = y;
+            zoomDistance = distance;
+            XplatUIMine.SendGesture(XplatUIMine.GID_ZOOM, flags, zoomX, zoomY, zoomDistance);
+        }
+
+        // screen coordinates of the centre of the first two fingers down, and the distance between them
+        private bool ZoomGeometry(out int x, out int y, out long distance)
+        {
+            var fingers = Enumerable.Take(touchDictionary.Values, 2)
+                .Select(t => new SKPoint((float) (t.now.Location.X / scale.Width),
+                    (float) (t.now.Location.Y / scale.Height)))
+                .ToArray();
+
+            x = y = 0;
+            distance = 0;
+            if (fingers.Length < 2)
+                return false;
+
+            x = (int) ((fingers[0].X + fingers[1].X) / 2);
+            y = (int) ((fingers[0].Y + fingers[1].Y) / 2);
+            distance = (long) Magnitude(fingers[1] - fingers[0]);
+            return true;
         }
 
         private void SkCanvasView_PaintSurface(object sender, SkiaSharp.Views.Forms.SKPaintSurfaceEventArgs e)
@@ -1029,6 +1155,10 @@ namespace Xamarin.GCSViews
         public SKTouchEventArgs now;
         public bool hasmoved = false;
         public bool wasright = false;
+        // a touch's press not yet passed on as the mouse button
+        public bool pending = false;
+        // the mouse moved with the button down for this touch, so releasing it ends a drag, not a click
+        public bool dragged = false;
     }
 
     public class Speech : ISpeech

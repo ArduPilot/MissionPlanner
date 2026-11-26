@@ -393,6 +393,11 @@ namespace MissionPlanner
         /// </summary>
         public bool speechenabled { get; set; } = true;
 
+        /// <summary>
+        /// puts STATUSTEXT messages that were sent as several chunks back together
+        /// </summary>
+        private readonly StatusTextAssembler statustextAssembler = new StatusTextAssembler();
+
         private bool _logreadmode = false;
 
         private BinaryReader _logplaybackfile;
@@ -4332,17 +4337,21 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                             return (MAV_MISSION_RESULT) ans.type;
                         }
                     }
-                    else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST &&
+                    else if ((buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST ||
+                              buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST_INT) &&
                              buffer.sysid == sysid && buffer.compid == compid)
                     {
-                        var ans = buffer.ToStructure<mavlink_mission_request_t>();
+                        // the vehicle may request the next item with either message
+                        var ans_seq = buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST
+                            ? buffer.ToStructure<mavlink_mission_request_t>().seq
+                            : buffer.ToStructure<mavlink_mission_request_int_t>().seq;
                         if (!buffer.IsTargetedTo(gcssysid, (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER))
                             continue;
 
-                        if (ans.seq == (index + 1))
+                        if (ans_seq == (index + 1))
                         {
-                            log.Info("setWPint resp MISSION_REQUEST" + buffer.ToJSON(Formatting.None));
-                            //log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
+                            log.Info("setWPint resp " + (MAVLINK_MSG_ID) buffer.msgid + " " + buffer.ToJSON(Formatting.None));
+                            //log.Info("set wp doing " + index + " req " + ans_seq + " REQ 40 : " + buffer.msgid);
 
                             if (req.current == 2)
                             {
@@ -4372,7 +4381,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         else
                         {
                             log.InfoFormat(
-                                "set wp fail doing " + index + " req " + ans.seq + " ACK 47 or REQ 40 : " +
+                                "set wp fail doing " + index + " req " + ans_seq + " ACK 47 or REQ 40 : " +
                                 buffer.msgid +
                                 " seq {0} ts {1} tc {2}", req.seq, req.target_system, req.target_component);
                             // resend point now
@@ -4680,6 +4689,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
         private SemaphoreSlim readlock = new SemaphoreSlim(1, 1);
 
         /// <summary>
+        /// the packet being read, only used while holding readlock
+        /// </summary>
+        private readonly byte[] readbuffer = new byte[MAVLINK_MAX_PACKET_LEN + 25];
+
+        /// <summary>
         /// Serial Reader to read mavlink packets. POLL method
         /// </summary>
         /// <returns></returns>
@@ -4690,7 +4704,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         public async Task<MAVLinkMessage> readPacketAsync()
         {
-            byte[] buffer = new byte[MAVLINK_MAX_PACKET_LEN + 25];
+            byte[] buffer = null;
             int count = 0;
             int length = 0;
             int readcount = 0;
@@ -4715,7 +4729,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             {
                 if (debug)
                     Console.WriteLine(DateTime.Now.Millisecond + " SR1 " + BaseStream?.BytesToRead);
-                
+
+                // read into the shared buffer, the packet is copied out of it at its final size
+                buffer = readbuffer;
+
                 readloop:
 
                 while ((BaseStream != null && BaseStream.IsOpen) || logreadmode)
@@ -4939,6 +4956,9 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 // resize the packet to the correct length
                 Array.Resize<byte>(ref buffer, count);
+                // never hand out the shared buffer itself
+                if (ReferenceEquals(buffer, readbuffer))
+                    buffer = (byte[]) buffer.Clone();
 
                 // add byte count
                 _bytesReceivedSubj.OnNext(buffer.Length);
@@ -5058,9 +5078,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
                 }
 
+                // the state of the sender, looked up once for the checks and statistics below
+                var mav = MAVlist[sysid, compid];
+
                 // once set it cannot be reverted
-                if (!MAVlist[sysid, compid].mavlinkv2)
-                    MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
+                if (!mav.mavlinkv2)
+                    mav.mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
 
                 // stat count
                 if (message.buffer[0] == MAVLINK_STX)
@@ -5070,15 +5093,15 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                 //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
                 //logreadmode we always ignore signing as they would not be in the log if they failed the signature
-                if (message.sig != null && !MAVlist[sysid, compid].signingignore && !logreadmode)
+                if (message.sig != null && !mav.signingignore && !logreadmode)
                 {
                     _mavlink2signed++;
 
                     bool valid = false;
 
                     // check existing key
-                    if (MAVlist[sysid, compid].signingKey != null)
-                        valid = CheckSignature(MAVlist[sysid, compid].signingKey, message, sysid, compid);
+                    if (mav.signingKey != null)
+                        valid = CheckSignature(mav.signingKey, message, sysid, compid);
 
                     if (!valid)
                     {
@@ -5144,17 +5167,17 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 }
 
                 // update packet loss statistics
-                if (!logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < DateTime.UtcNow)
+                if (!logreadmode && mav.packetlosttimer.AddSeconds(5) < DateTime.UtcNow)
                 {
-                    MAVlist[sysid, compid].packetlosttimer = DateTime.UtcNow;
-                    MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
-                    MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
+                    mav.packetlosttimer = DateTime.UtcNow;
+                    mav.packetslost = (mav.packetslost * 0.8f);
+                    mav.packetsnotlost = (mav.packetsnotlost * 0.8f);
                 }
-                else if (logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < lastlogread)
+                else if (logreadmode && mav.packetlosttimer.AddSeconds(5) < lastlogread)
                 {
-                    MAVlist[sysid, compid].packetlosttimer = lastlogread.ToUniversalTime();
-                    MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
-                    MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
+                    mav.packetlosttimer = lastlogread.ToUniversalTime();
+                    mav.packetslost = (mav.packetslost * 0.8f);
+                    mav.packetsnotlost = (mav.packetsnotlost * 0.8f);
                 }
 
                 packetSeemValid = false;
@@ -5171,26 +5194,26 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     // late only if it fills a hole in the mask of recently received seqs. Reordering is a
                     // matter of milliseconds, so after a pause the seq has wrapped through an outage instead
                     const int latePacketWindow = 64;
-                    int lastPacketSeqNo = MAVlist[sysid, compid].recvpacketcount;
+                    int lastPacketSeqNo = mav.recvpacketcount;
                     int delta = (packetSeqNo - lastPacketSeqNo) & 0xFF;
                     int packetsBehind = 0x100 - delta;
                     // bit n set: seq (lastPacketSeqNo - n - 1) has been received
                     ulong lateBit = packetsBehind <= latePacketWindow ? 1UL << (packetsBehind - 1) : 0;
                     bool sincePreviousPacketIsShort =
-                        (DateTime.UtcNow - MAVlist[sysid, compid].lastvalidpacket).TotalSeconds < 1;
+                        (DateTime.UtcNow - mav.lastvalidpacket).TotalSeconds < 1;
 
                     {
                         if (delta == 0)
                         {
                             // work around a 3dr radio bug sending dup seqno's
                         }
-                        else if (lateBit != 0 && (MAVlist[sysid, compid].recvpacketmask & lateBit) == 0 &&
+                        else if (lateBit != 0 && (mav.recvpacketmask & lateBit) == 0 &&
                                  sincePreviousPacketIsShort)
                         {
                             // a late packet fills a hole that was counted as lost when the newer one came
-                            MAVlist[sysid, compid].recvpacketmask |= lateBit;
-                            if (MAVlist[sysid, compid].packetslost >= 1)
-                                MAVlist[sysid, compid].packetslost--;
+                            mav.recvpacketmask |= lateBit;
+                            if (mav.packetslost >= 1)
+                                mav.packetslost--;
                         }
                         else
                         {
@@ -5199,8 +5222,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                             if (numLost != 0)
                             {
-                                MAVlist[sysid, compid].synclost++; // actual sync loss's
-                                MAVlist[sysid, compid].packetslost += numLost;
+                                mav.synclost++; // actual sync loss's
+                                mav.packetslost += numLost;
                                 WhenPacketLost.OnNext(numLost);
 
                                 if (!logreadmode)
@@ -5212,33 +5235,33 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
                             // shift the mask by delta, the previous newest packet is now delta behind
                             // (a ulong shift by 64 or more is taken mod 64 in C#, so clear it explicitly)
-                            ulong mask = delta < 64 ? MAVlist[sysid, compid].recvpacketmask << delta : 0;
+                            ulong mask = delta < 64 ? mav.recvpacketmask << delta : 0;
                             if (delta <= latePacketWindow)
                                 mask |= 1UL << (delta - 1);
-                            MAVlist[sysid, compid].recvpacketmask = mask;
-                            MAVlist[sysid, compid].recvpacketcount = packetSeqNo;
+                            mav.recvpacketmask = mask;
+                            mav.recvpacketcount = packetSeqNo;
                         }
 
-                        MAVlist[sysid, compid].packetsnotlost++;
+                        mav.packetsnotlost++;
                     }
                     WhenPacketReceived.OnNext(1);
 
                     // packet stats per mav
-                    if (!MAVlist[sysid, compid].packetspersecond.ContainsKey(msgid) ||
-                        double.IsInfinity(MAVlist[sysid, compid].packetspersecond[msgid]))
-                        MAVlist[sysid, compid].packetspersecond[msgid] = 0;
-                    if (!MAVlist[sysid, compid].packetspersecondbuild.ContainsKey(msgid))
-                        MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.UtcNow;
+                    if (!mav.packetspersecond.ContainsKey(msgid) ||
+                        double.IsInfinity(mav.packetspersecond[msgid]))
+                        mav.packetspersecond[msgid] = 0;
+                    if (!mav.packetspersecondbuild.ContainsKey(msgid))
+                        mav.packetspersecondbuild[msgid] = DateTime.UtcNow;
 
-                    MAVlist[sysid, compid].packetspersecond[msgid] = (((1000 /
+                    mav.packetspersecond[msgid] = (((1000 /
                                                                         ((DateTime.UtcNow -
-                                                                          MAVlist[sysid, compid]
+                                                                          mav
                                                                               .packetspersecondbuild[msgid])
                                                                             .TotalMilliseconds) +
-                                                                        MAVlist[sysid, compid].packetspersecond[
+                                                                        mav.packetspersecond[
                                                                             msgid]) / 2));
 
-                    MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.UtcNow;
+                    mav.packetspersecondbuild[msgid] = DateTime.UtcNow;
                 }
                 //Console.WriteLine("Packet {0}",temp[5]);
                 // store packet history
@@ -5410,65 +5433,24 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     {
                         var msg = message.ToStructure<mavlink_statustext_t>();
 
-                        byte sev = msg.severity;
+                        // a long message arrives as a run of chunks, hold them until it is whole
+                        string logdata = statustextAssembler.Add(sysid, compid, msg);
 
-                        string logdata = Encoding.UTF8.GetString(msg.text);
-                        int ind = logdata.IndexOf('\0');
-                        if (ind != -1)
-                            logdata = logdata.Substring(0, ind);
-                        log.Info(DateTime.Now + " " + sev + " " + logdata);
+                        // anything older that never got all of its chunks goes ahead of this one
+                        ProcessExpiredStatusText();
 
-                        MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
-
-                        // cap list at 1000 element
-                        while (MAVlist[sysid, compid].cs.messages.Count > 1000)
-                            MAVlist[sysid, compid].cs.messages.RemoveAt(0);
-
-                        // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
-                        if (sysid == sysidcurrent && compid != compidcurrent)
-                            MAVlist[sysidcurrent, compidcurrent].cs.messages
-                                .Add((DateTime.Now, compid + " : " + logdata));
-
-                        bool printit = false;
-
-                        MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
-                        if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
-                        {
-                            printit = true;
-                            mavsev = (MAV_SEVERITY)sev;
-                        }
-
-                        if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") ||
-                            logdata.StartsWith("Arm:"))
-                            printit = true;
-
-                        if (printit)
-                        {
-                            // high severity msg publish to current selected mav
-                            if (sysid == sysidcurrent && compid != compidcurrent)
-                            {
-                                MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
-                                MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
-                            }
-
-                            MAVlist[sysid, compid].cs.messageHigh = logdata;
-                            MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
-
-                            if (Speech != null &&
-                                Speech.IsReady &&
-                                Settings.Instance["speechenable"] != null &&
-                                Settings.Instance["speechenable"].ToString() == "True")
-                            {
-                                if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages
-                                    Speech.SpeakAsync(logdata);
-                            }
-                        }
+                        if (logdata != null)
+                            ProcessStatusText(sysid, compid, msg.severity, logdata);
+                    }
+                    else if (statustextAssembler.HasPending)
+                    {
+                        ProcessExpiredStatusText();
                     }
 
-                    if (Settings.Instance["autoParamCommit"] == null ||
-                        Settings.Instance.GetBoolean("autoParamCommit") == true)
+                    if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
                     {
-                        if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.UtcNow)
+                        if (Settings.Instance["autoParamCommit"] == null ||
+                            Settings.Instance.GetBoolean("autoParamCommit") == true)
                         {
                             lastparamset = DateTime.MinValue;
 
@@ -5493,6 +5475,66 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             MAVlist[sysid, compid].lastvalidpacket = DateTime.UtcNow;
 
             return message;
+        }
+
+        private void ProcessStatusText(uint sysid, byte compid, byte sev, string logdata)
+        {
+            log.Info(DateTime.Now + " " + sev + " " + logdata);
+
+            MAVlist[sysid, compid].cs.messages.Add((DateTime.Now, logdata));
+
+            // cap list at 1000 element
+            while (MAVlist[sysid, compid].cs.messages.Count > 1000)
+                MAVlist[sysid, compid].cs.messages.RemoveAt(0);
+
+            // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
+            if (sysid == sysidcurrent && compid != compidcurrent)
+                MAVlist[sysidcurrent, compidcurrent].cs.messages
+                    .Add((DateTime.Now, compid + " : " + logdata));
+
+            bool printit = false;
+
+            MAV_SEVERITY mavsev = MAV_SEVERITY.EMERGENCY;
+            if (sev <= (byte)Settings.Instance.GetInt32("severity", 4))
+            {
+                printit = true;
+                mavsev = (MAV_SEVERITY)sev;
+            }
+
+            if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") ||
+                logdata.StartsWith("Arm:"))
+                printit = true;
+
+            if (printit)
+            {
+                // high severity msg publish to current selected mav
+                if (sysid == sysidcurrent && compid != compidcurrent)
+                {
+                    MAVlist[sysid, compidcurrent].cs.messageHigh = compid + " : " + logdata;
+                    MAVlist[sysid, compidcurrent].cs.messageHighSeverity = mavsev;
+                }
+
+                MAVlist[sysid, compid].cs.messageHigh = logdata;
+                MAVlist[sysid, compid].cs.messageHighSeverity = mavsev;
+
+                if (Speech != null &&
+                    Speech.IsReady &&
+                    Settings.Instance["speechenable"] != null &&
+                    Settings.Instance["speechenable"].ToString() == "True")
+                {
+                    if (speechenabled && !logdata.StartsWith("PreArm:")) // Suppress audible PreArm messages
+                        Speech.SpeakAsync(logdata);
+                }
+            }
+        }
+
+        /// <summary>
+        /// show what did arrive of any chunked STATUSTEXT that is still missing chunks after the timeout
+        /// </summary>
+        private void ProcessExpiredStatusText()
+        {
+            foreach (var late in statustextAssembler.TakeExpired())
+                ProcessStatusText(late.sysid, late.compid, late.severity, late.text);
         }
 
         private void ProcessMirrorStream(byte[] buffer)
@@ -5565,10 +5607,16 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
             MAVLINK_MSG_ID type = (MAVLINK_MSG_ID) buffer.msgid;
             (MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)[] list;
 
-            // lock to grab the list, because this is public, to prevent a recursion
-            lock (Subscriptions)
+            // work from a copy, a handler may subscribe or unsubscribe. The copy is reused until the
+            // list next changes
+            list = SubscriptionsSnapshot;
+            if (list == null)
             {
-                list = Subscriptions.ToArray();
+                lock (Subscriptions)
+                {
+                    list = Subscriptions.ToArray();
+                    SubscriptionsSnapshot = list;
+                }
             }
 
             foreach (var item in list)
@@ -5591,6 +5639,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         readonly private List<(MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)> Subscriptions =
             new List<(MAVLINK_MSG_ID, Func<MAVLinkMessage, bool>, bool, uint, byte)>();
+
+        /// <summary>
+        /// copy of Subscriptions for PacketReceived, null when Subscriptions has changed since it was taken
+        /// </summary>
+        private volatile (MAVLINK_MSG_ID msgId, Func<MAVLinkMessage, bool> function, bool exclusive, uint sysid, byte compid)[] SubscriptionsSnapshot;
 
         /// <summary>
         /// Subscribe to a packet on the current target MAV. use OnPacketReceived to get all MAVs
@@ -5623,6 +5676,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                 log.Debug("SubscribeToPacketType " + item.msgid + " " + item.function);
 
                 Subscriptions.Add(item);
+                SubscriptionsSnapshot = null;
             }
 
             return item.GetHashCode();
@@ -5643,6 +5697,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                         break;
                     }
                 }
+
+                SubscriptionsSnapshot = null;
             }
         }
 
@@ -5765,6 +5821,52 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
                     MAVlist[sysid, compid].camerapoints.RemoveAll(a =>
                         a.cam_idx * 256 + a.img_idx == camerapt.cam_idx * 256 + camerapt.img_idx);
                     MAVlist[sysid, compid].camerapoints.Add(camerapt);
+                }
+            }
+            else if (buffer.msgid == (ushort) MAVLINK_MSG_ID.CAMERA_IMAGE_CAPTURED)
+            {
+                // MAVLink cameras (e.g. component 100) report shots with this instead of CAMERA_FEEDBACK.
+                // Convert to a feedback record so the map / history can treat both the same.
+                var captured = buffer.ToStructure<mavlink_camera_image_captured_t>();
+
+                float roll = 0, pitch = 0, yaw = 0;
+                var q = captured.q;
+                if (q != null && q.Length == 4 && !q.Any(float.IsNaN))
+                {
+                    double w = q[0], x = q[1], y = q[2], z = q[3];
+                    roll = (float) (Math.Atan2(2 * (w * x + y * z), 1 - 2 * (x * x + y * y)) * 180 / Math.PI);
+                    pitch = (float) (Math.Asin(Math.Max(-1, Math.Min(1, 2 * (w * y - z * x)))) * 180 / Math.PI);
+                    yaw = (float) (Math.Atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)) * 180 / Math.PI);
+                    if (yaw < 0)
+                        yaw += 360;
+                }
+
+                var camerapt = new mavlink_camera_feedback_t
+                {
+                    // boot time, to match what CAMERA_FEEDBACK reports
+                    time_usec = (ulong) captured.time_boot_ms * 1000UL,
+                    target_system = 0,
+                    cam_idx = captured.camera_id,
+                    img_idx = (ushort) captured.image_index,
+                    lat = captured.lat,
+                    lng = captured.lon,
+                    alt_msl = captured.alt / 1000f,
+                    alt_rel = captured.relative_alt / 1000f,
+                    roll = roll,
+                    pitch = pitch,
+                    yaw = yaw,
+                    flags = (byte) CAMERA_FEEDBACK_FLAGS.CAMERA_FEEDBACK_PHOTO
+                };
+
+                // capture_result 0 = failed
+                if (captured.capture_result != 0)
+                {
+                    var points = MAVlist[sysid, compid].camerapoints;
+                    if (points.Count == 0 || points.Last().time_usec != camerapt.time_usec)
+                    {
+                        points.RemoveAll(a => a.cam_idx * 256 + a.img_idx == camerapt.cam_idx * 256 + camerapt.img_idx);
+                        points.Add(camerapt);
+                    }
                 }
             }
             else if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
