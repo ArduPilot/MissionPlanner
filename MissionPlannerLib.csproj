@@ -108,6 +108,7 @@
     <Compile Remove="ExtLibs\Xamarin\**" />
     <Compile Remove="ExtLibs\ZedGraph\**" />
     <Compile Remove="ExtLibs\Zeroconf\**" />
+    <Compile Remove="Linux\**" />
     <Compile Remove="MissionPlannerTests\**" />
     <Compile Remove="Msi\**" />
     <Compile Remove="obj3\**" />

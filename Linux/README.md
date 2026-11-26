@@ -20,14 +20,14 @@ sudo apt update
 sudo apt install mono-runtime ca-certificates-mono libgdiplus fonts-dejavu-core \
   libmono-system-windows-forms4.0-cil libmono-system-web-extensions4.0-cil \
   libmono-system-management4.0-cil libmono-system-servicemodel4.0a-cil \
-  libmono-system-data-entity4.0-cil libmono-system-net-http4.0-cil
+  libmono-system-data-entity4.0-cil libmono-system-net-http4.0-cil \n  libgl1 libgl1-mesa-dri
 sha256sum -c MissionPlanner-linux-x86_64.tar.gz.sha256
 tar -xzf MissionPlanner-linux-x86_64.tar.gz
 ./MissionPlanner-linux-x86_64/run.sh
 ```
 
 Other distributions need equivalent Mono 6.8+ WinForms/runtime assemblies,
-libgdiplus, fonts, and an X11 session (or XWayland). This archive does not bundle
+libgdiplus, fonts, an OpenGL (GLX) driver for the HUD, and an X11 session (or XWayland). This archive does not bundle
 the Mono runtime or the system C library. No commands install dependencies automatically.
 Serial connections require permission to access the device, typically membership
 of the `dialout` group. Optional video and speech features need GStreamer and
@@ -66,13 +66,16 @@ CI builds on Ubuntu 22.04 and tests the extracted archive in an Ubuntu 22.04
 container with runtime packages and a virtual X display, without a system
 compiler or SDK installed. The test loads FlightData, checks its action controls,
 and round-trips an XML theme without connecting
-to a vehicle. Local GUI testing can use Xephyr with `DISPLAY` set to its nested
+to a vehicle. A second test (`run.sh --gl-test`) renders the HUD through OpenGL on
+Mesa's llvmpipe software renderer and checks the frame and `GL_RENDERER`; the
+frame is uploaded as `bin/linux/test-results/opengl-hud-linux.png`. Local GUI testing can use Xephyr with `DISPLAY` set to its nested
 display; the launch script respects that display.
 
 To run the packaged smoke test on a nested Xephyr display:
 
 ```sh
 DISPLAY=:101 ./Linux/run.sh --self-test
+DISPLAY=:101 MP_EXPECT_GL_RENDERER=llvmpipe LIBGL_ALWAYS_SOFTWARE=1 ./Linux/run.sh --gl-test
 ```
 
 Maintainers can also test the archive in a clean runtime-only Docker container:

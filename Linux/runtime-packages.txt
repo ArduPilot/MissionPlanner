@@ -1,6 +1,8 @@
 ca-certificates-mono
 fonts-dejavu-core
 libgdiplus
+libgl1
+libgl1-mesa-dri
 libmono-system-data-entity4.0-cil
 libmono-system-management4.0-cil
 libmono-system-net-http4.0-cil

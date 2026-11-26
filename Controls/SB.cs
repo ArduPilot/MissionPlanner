@@ -41,13 +41,15 @@ namespace MissionPlanner.Controls
             {
                 var url = String.Format(
                     "https://discuss.cubepilot.org:444/CubeSB?BRD_TYPE={0}&SerialNo={1}&INS_ACC_ID={2}&INS_ACC2_ID={3}&INS_ACC3_ID={4}&INS_GYR_ID={5}&INS_GYR2_ID={6}&INS_GYR3_ID={7}&Baro1={8}&Baro2={9}&Name={10}&Email={11}",
-                    MainV2.comPort.MAV.param["BRD_TYPE"], MainV2.comPort.MAV.SerialString,
-                    MainV2.comPort.MAV.param["INS_ACC_ID"], MainV2.comPort.MAV.param["INS_ACC2_ID"],
-                    MainV2.comPort.MAV.param["INS_ACC3_ID"],
-                    MainV2.comPort.MAV.param["INS_GYR_ID"], MainV2.comPort.MAV.param["INS_GYR2_ID"],
-                    MainV2.comPort.MAV.param["INS_GYR3_ID"],
-                    MainV2.comPort.MAV.cs.press_abs, MainV2.comPort.MAV.cs.press_abs2, nameTextBox.Text,
-                    emailTextBox.Text);
+                    // SerialString is vehicle-supplied STATUSTEXT, so escape every value: none of them
+                    // may add query parameters or otherwise change the URL that gets opened.
+                    Esc(MainV2.comPort.MAV.param["BRD_TYPE"]), Esc(MainV2.comPort.MAV.SerialString),
+                    Esc(MainV2.comPort.MAV.param["INS_ACC_ID"]), Esc(MainV2.comPort.MAV.param["INS_ACC2_ID"]),
+                    Esc(MainV2.comPort.MAV.param["INS_ACC3_ID"]),
+                    Esc(MainV2.comPort.MAV.param["INS_GYR_ID"]), Esc(MainV2.comPort.MAV.param["INS_GYR2_ID"]),
+                    Esc(MainV2.comPort.MAV.param["INS_GYR3_ID"]),
+                    Esc(MainV2.comPort.MAV.cs.press_abs), Esc(MainV2.comPort.MAV.cs.press_abs2),
+                    Esc(nameTextBox.Text), Esc(emailTextBox.Text));
 
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url) { UseShellExecute = true });
             };
@@ -56,6 +58,11 @@ namespace MissionPlanner.Controls
 
             frm.Show();
 
+        }
+
+        private static string Esc(object value)
+        {
+            return Uri.EscapeDataString(value?.ToString() ?? "");
         }
     }
 }

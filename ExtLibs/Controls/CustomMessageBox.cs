@@ -160,7 +160,7 @@ namespace MissionPlanner.MsgBox
 
                 if (link != "" && linktext != "")
                 {
-                    linktext = AddNewLinesToText(linktext);
+                    linktext = AddNewLinesToText(LinkDisplayText(link, linktext));
                     Size textSize2 = TextRenderer.MeasureText(linktext, SystemFonts.DefaultFont);
                     var linklbl = new LinkLabel
                     {
@@ -237,6 +237,20 @@ namespace MissionPlanner.MsgBox
             }
 
             return answer;
+        }
+
+        // Copy of System.CustomMessageBox.LinkDisplayText (ExtLibs/Utilities): SikRadio compiles this
+        // file without that one.
+        private static string LinkDisplayText(string link, string label)
+        {
+            Uri uri;
+            if (link == null || !Uri.TryCreate(link, UriKind.Absolute, out uri) || string.IsNullOrEmpty(uri.Host))
+                return label;
+
+            if (string.Equals(label, link, StringComparison.OrdinalIgnoreCase))
+                return label;
+
+            return label + " (" + uri.Host + ")";
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
