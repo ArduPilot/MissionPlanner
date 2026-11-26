@@ -205,13 +205,13 @@ namespace MissionPlanner
             }
 
             rc.target_component = MainV2.comPort.MAV.compid;
-            rc.target_system = MainV2.comPort.MAV.sysid;
+            rc.target_system = (byte)(MainV2.comPort.MAV.sysid);
 
             if (sendnow)
             {
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                MainV2.comPort.sendPacket(rc, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                MainV2.comPort.sendPacket(rc, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
             }
 
             return true;

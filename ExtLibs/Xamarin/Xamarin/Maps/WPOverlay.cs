@@ -22,7 +22,9 @@ namespace MissionPlanner.ArduPilot
         /// list of point as per mission including jump repeats
         public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
 
-        public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius)
+        /// <param name="fencehome">centre used for FENCE_HOME_CIRCLE_INCLUSION items; fence overlays pass
+        /// PointLatLngAlt.Zero as home so that no home marker is drawn, so home is supplied separately</param>
+        public void CreateOverlay(PointLatLngAlt home, List<Locationwp> missionitems, double wpradius, double loiterradius, PointLatLngAlt fencehome = null)
         {
             overlay.Clear();
 
@@ -240,6 +242,20 @@ namespace MissionPlanner.ArduPilot
                 {
                     addpolygonmarker((a + 1).ToString(), item.lng, item.lat,
                         null, Color.Blue, item.p1, MAVLink.MAV_MISSION_TYPE.FENCE);
+                }
+                else if (command == (ushort)MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION) // fence
+                {
+                    // centred on home rather than the item's lat/lng
+                    var centre = fencehome ?? home;
+                    if (centre != null && (centre.Lat != 0 || centre.Lng != 0) && item.p1 > 0)
+                    {
+                        var circle = new GMapPolygon(
+                            Enumerable.Range(0, 72).Select(i => (PointLatLng) centre.newpos(i * 5, item.p1))
+                                .ToList(), (a + 1).ToString());
+                        circle.Fill = Brushes.Transparent;
+                        circle.Stroke = new Pen(Color.Blue, 2) {DashStyle = DashStyle.Dash};
+                        overlay.Polygons.Add(circle);
+                    }
                 }
                 else if (command == (ushort)MAVLink.MAV_CMD.FENCE_RETURN_POINT) // fence
                 {

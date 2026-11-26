@@ -2,7 +2,6 @@
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
-using MissionPlanner.test;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
@@ -244,13 +243,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                     else if (fwitems?.Count > 0)
                     {
-                        FirmwareSelection fws = new FirmwareSelection(fwitems, deviceInfo);
-                        fws.ShowXamarinControl(550, 400);
-                        baseurl = fws.FinalResult;
-                        if (fws.FinalResult == null)
+                        using (var fws = new FirmwareSelectionForm(fwitems, deviceInfo))
                         {
-                            // user canceled
-                            return;
+                            if (fws.ShowDialog(this) != DialogResult.OK || fws.FinalResult == null)
+                            {
+                                // user canceled
+                                return;
+                            }
+
+                            baseurl = fws.FinalResult;
                         }
                     }
                     else
@@ -445,7 +446,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 return;
                             }
                         }
-                        else if(fd.FileName.ToLower().EndsWith(".bin"))
+                        else if(fd.FileName.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                         {
                             DFU.Progress = fw_Progress1;
                             if (CustomMessageBox.Show("Flashing image to 0x08000000", "", CustomMessageBox.MessageBoxButtons.OKCancel) == CustomMessageBox.DialogResult.OK)

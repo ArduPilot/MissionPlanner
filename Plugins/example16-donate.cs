@@ -66,7 +66,7 @@ namespace donate
             MenuCustom.Image = custom;
             MenuCustom.Click += (s, e) =>
             {
-                System.Diagnostics.Process.Start("https://www.unicef.org.au/appeals/ukraine-emergency-appeal");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("https://www.unicef.org.au/appeals/ukraine-emergency-appeal") { UseShellExecute = true });
             };
 
             return true;

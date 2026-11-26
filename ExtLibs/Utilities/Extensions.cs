@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -615,46 +616,38 @@ namespace MissionPlanner.Utilities
                 throw new Exception("Bad Type " + input.GetType().ToString());
         }
 
+        // On timeout the worker is left to finish on its own: Thread.Abort is unsafe mid-call
+        // and Delegate.BeginInvoke/Thread.Abort are not supported on .NET Core.
         public static void CallWithTimeout(this Action action, int timeoutMilliseconds)
         {
-            Thread threadToKill = null;
-            Action wrappedAction = () =>
+            Exception error = null;
+            var thread = new Thread(() =>
             {
-                threadToKill = Thread.CurrentThread;
-                action();
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
+            })
+            {
+                IsBackground = true,
+                Name = "CallWithTimeout"
             };
+            thread.Start();
 
-            var result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
-            {
-                wrappedAction.EndInvoke(result);
-            }
-            else
-            {
-                threadToKill.Abort();
+            if (!thread.Join(timeoutMilliseconds))
                 throw new TimeoutException();
-            }
+
+            if (error != null)
+                ExceptionDispatchInfo.Capture(error).Throw();
         }
 
         public static void CallWithTimeout<T>(Action<T> action, int timeoutMilliseconds, T data)
         {
-            Thread threadToKill = null;
-            Action wrappedAction = () =>
-            {
-                threadToKill = Thread.CurrentThread;
-                action(data);
-            };
-
-            var result = wrappedAction.BeginInvoke(null, null);
-            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
-            {
-                wrappedAction.EndInvoke(result);
-            }
-            else
-            {
-                threadToKill.Abort();
-                throw new TimeoutException();
-            }
+            CallWithTimeout(() => action(data), timeoutMilliseconds);
         }
 
         public static void Add<T, T2>(this List<Tuple<T, T2>> input, T in1, T2 in2)

@@ -81,7 +81,8 @@ namespace FenceDist
                             {
                                 // these fields types stand alone
                                 if (a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_EXCLUSION ||
-                                    a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                                    a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION ||
+                                    a.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
                                     return false;
 
                                 if (count >= b.Value.param1)
@@ -114,6 +115,18 @@ namespace FenceDist
                                 item.y / 1e7);
 
                             var dist = lla.GetDistance(Location);
+                            if (dist > item.param1)
+                                return 0;
+                            disttotal = (float) Math.Min(item.param1 - dist, disttotal);
+                        }
+                        else if (item.command == (ushort)MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
+                        {
+                            // centred on home, not on the item's lat/lng
+                            var home = MAV.cs.HomeLocation;
+                            if (home == null || home.Lat == 0 && home.Lng == 0)
+                                return 0;
+
+                            var dist = home.GetDistance(Location);
                             if (dist > item.param1)
                                 return 0;
                             disttotal = (float) Math.Min(item.param1 - dist, disttotal);
@@ -188,7 +201,8 @@ namespace FenceDist
                 foreach (var sublist in list)
                 foreach (var mavlinkFencePointT in sublist)
                 {
-                    if (mavlinkFencePointT.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION)
+                    if (mavlinkFencePointT.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_CIRCLE_INCLUSION ||
+                        mavlinkFencePointT.Value.command == (ushort) MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION)
                         continue;
                     var pathpoint = new PointLatLngAlt(mavlinkFencePointT.Value.x / 1e7,
                         mavlinkFencePointT.Value.y / 1e7);

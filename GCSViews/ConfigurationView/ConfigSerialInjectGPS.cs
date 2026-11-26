@@ -38,6 +38,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static nmea nmea = new nmea();
 
+        private string activeSeptentrioPort = Utilities.Septentrio.DefaultPorts;
+
         static DroneCAN.DroneCAN can = new DroneCAN.DroneCAN();
         // background thread
         private static System.Threading.Thread t12;
@@ -323,6 +325,36 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Build GGA data from the vehicle's live GPS state. Returns null (fall back to home location)
+        /// when the vehicle has no 3D fix.
+        /// </summary>
+        private static CommsNTRIP.GgaInfo GetLiveGga()
+        {
+            var cs = MainV2.comPort?.MAV?.cs;
+            if (cs == null || cs.gpsstatus < 3 || (cs.lat == 0 && cs.lng == 0))
+                return null;
+
+            int quality;
+            switch ((int) cs.gpsstatus)
+            {
+                case 4: quality = 2; break; // DGPS
+                case 5: quality = 5; break; // RTK float
+                case 6: quality = 4; break; // RTK fixed
+                default: quality = 1; break; // 3D / other
+            }
+
+            return new CommsNTRIP.GgaInfo
+            {
+                Lat = cs.lat,
+                Lng = cs.lng,
+                Alt = cs.altasl,
+                Quality = quality,
+                Sats = (int) cs.satcount,
+                Hdop = cs.gpshdop
+            };
+        }
+
         public async Task DoConnect()
         {
             status_line3 = null;
@@ -341,6 +373,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lat;
                                 ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.PlannedHomeLocation.Lng;
                                 ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.PlannedHomeLocation.Alt;
+                                ((CommsNTRIP) comPort).GgaSource = GetLiveGga;
                             }
                             if (check_sendntripv1.Checked)
                             {
@@ -556,7 +589,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                await Utilities.Septentrio.ConfigureBaseReceiver(comPort);
+                activeSeptentrioPort = await Utilities.Septentrio.ConfigureBaseReceiver(comPort);
                 await UpdateSeptentrioBasePosition();
                 await UpdateSeptentrioRTCMSettings();
 
@@ -1544,7 +1577,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <exception cref="FormatException" />
         /// <exception cref="InvalidOperationException" />
         private async Task UpdateSeptentrioRTCMSettings()
-        {
+        { 
             Utilities.Septentrio.RTCMSignals signals = Utilities.Septentrio.RTCMSignals.None;
             Utilities.Septentrio.RTCMLevel level;
             float rtcmInterval;
@@ -1572,7 +1605,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     break;
             }
 
-            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals);
+            string targetPorts = string.IsNullOrWhiteSpace(activeSeptentrioPort) ? Utilities.Septentrio.DefaultPorts : activeSeptentrioPort;
+            await Utilities.Septentrio.SetEnabledRTCM(comPort, level, signals, targetPorts);
 
             Settings.Instance["SerialInjectGPS_SeptentrioGPS"] = chk_septentriogps.Checked.ToString();
             Settings.Instance["SerialInjectGPS_SeptentrioGLONASS"] = chk_septentrioglonass.Checked.ToString();

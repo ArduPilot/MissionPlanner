@@ -102,7 +102,9 @@ namespace MissionPlanner.Plugin
                 file.ToLower().Contains("microsoft.") ||
                 file.ToLower().Contains("system.") ||
                 file.ToLower().Contains("missionplanner.grid.dll") ||
-                file.ToLower().Contains("usbserialforandroid")
+                file.ToLower().Contains("usbserialforandroid") ||
+                // Altitude Angel was removed; an older install can still have its dlls in plugins
+                file.ToLower().Contains("altitudeangelwings")
                 )
                 return;
 

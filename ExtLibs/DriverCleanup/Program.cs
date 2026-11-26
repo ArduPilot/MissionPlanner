@@ -50,7 +50,7 @@ namespace DriverCleanup
                         sin.Count > i ? sin[i].Groups[1].Value.Trim() : "");
 
                     ProcessStartInfo si =
-                        new ProcessStartInfo("pnputil", "-f -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas"};
+                        new ProcessStartInfo("pnputil", "-f -d " + pun[i].Groups[1].Value.Trim()) {Verb = "runas", UseShellExecute = true};
                     try
                     {
                         if (sin.Count > i ? sin[i].Groups[1].Value.Trim() == "Michael Oborne" : false)

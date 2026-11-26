@@ -20,12 +20,12 @@ namespace MissionPlanner.Utilities
 
         int sub;
         int sub2;
-        private byte sysid;
+        private uint sysid;
         private byte compid;
 
         public bool DataAvailable { get; set; } = false;
 
-        public Proximity(MAVState mavInt, byte sysid, byte compid) 
+        public Proximity(MAVState mavInt, uint sysid, byte compid)
         {
             this.sysid = sysid;
             this.compid = compid;

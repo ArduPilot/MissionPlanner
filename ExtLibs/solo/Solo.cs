@@ -57,7 +57,7 @@ namespace solo
                     {
                         var size = match.Groups[1].Value;
                         var name = match.Groups[2].Value;
-                        if (name.ToLower().EndsWith(".bin"))
+                        if (name.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                             ans.Add(name);
                     }
 

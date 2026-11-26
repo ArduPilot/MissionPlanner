@@ -76,6 +76,17 @@ namespace MissionPlanner.Utilities
                         Fences.Add(cir);
                     }
                         break;
+                    case (ushort) MAVLink.MAV_CMD.FENCE_HOME_CIRCLE_INCLUSION:
+                    {
+                        // centred on home; the item's lat/lng are not used
+                        var cir = new FenceCircle()
+                        {
+                            Mode = FenceCircle.PolyType.HomeInclusive,
+                            Radius = locationwp.p1
+                        };
+                        Fences.Add(cir);
+                    }
+                        break;
                     case (ushort) MAVLink.MAV_CMD.FENCE_RETURN_POINT:
                         Fences.Add(new FenceReturn() {Return = plla});
                         break;
@@ -104,8 +115,8 @@ namespace MissionPlanner.Utilities
                     var b = o as FenceCircle;
                     ans.Add(new Locationwp()
                     {
-                        frame = (byte) MAVLink.MAV_FRAME.GLOBAL, id = (ushort) b.Mode, lat = b.Center.Lat,
-                        lng = b.Center.Lng, p1 = b.Radius
+                        frame = (byte) MAVLink.MAV_FRAME.GLOBAL, id = (ushort) b.Mode, lat = b.Center?.Lat ?? 0,
+                        lng = b.Center?.Lng ?? 0, p1 = b.Radius
                     });
                 }
                 else if (o is FencePolygon)

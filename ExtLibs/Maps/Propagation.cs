@@ -41,10 +41,17 @@ namespace MissionPlanner.Maps
         private PointLatLngAlt prev_home;
         private PointLatLngAlt prev_position;
         private double prev_range;
+        private double prev_clearance;
+        private double prev_base_height;
+        private double prev_rotational;
         private int prev_res;
         private int prev_width;
         private double prev_zoom;
         private bool need_rf_redraw;
+        // when to try the RF outline again because some of its terrain was not loaded yet
+        private DateTime rf_retry = DateTime.MaxValue;
+        // no RF outline before this time, set while the map cannot be drawn on
+        private DateTime rf_hold = DateTime.MinValue;
 
         public Propagation(IControl gMapControl1)
         {
@@ -344,32 +351,58 @@ namespace MissionPlanner.Maps
                     //
                     if (rf_run == false && LineOfSight.Polygons.Count > 0) LineOfSight.Polygons.RemoveAt(0);
 
-                    if (rf_run && connected)
+                    if (rf_run && connected && DateTime.Now >= rf_hold)
                     {
                         start3 = DateTime.Now;
 
-                        if (prev_home != HomeLocation || need_rf_redraw ||
-                            prev_range != Settings.Instance.GetFloat("Propagation_Range") || prev_alt2 != alt)
+                        // read once, the UI thread updates these while this runs
+                        var home = HomeLocation;
+                        var aircraftalt = altasl;
+                        var range = Settings.Instance.GetFloat("Propagation_Range", 2.0f);
+                        var clearance = Settings.Instance.GetFloat("Propagation_Clearance", 5);
+                        var base_height = Settings.Instance.GetFloat("Propagation_Height", 2.0f);
+                        var rotational = SightGen.AzimuthStep;
+
+                        if (prev_home != home || need_rf_redraw || DateTime.Now > rf_retry ||
+                            prev_range != range || prev_alt2 != aircraftalt || prev_clearance != clearance ||
+                            prev_base_height != base_height || prev_rotational != rotational)
                         {
                             need_rf_redraw = false;
                             var pointslist = new List<PointLatLng>();
 
-                            new SightGen(HomeLocation, pointslist, HomeLocation.Alt, DroneLocation, altasl);
+                            var sight = new SightGen(home, pointslist, home.Alt, DroneLocation, aircraftalt);
 
-                            gMapControl1.Invoke((Action) delegate
+                            // terrain still loading: draw what is known now and try again shortly
+                            rf_retry = sight.MissingTerrain ? DateTime.Now.AddSeconds(5) : DateTime.MaxValue;
+
+                            try
                             {
-                                LineOfSight.Polygons.Add(new GMapPolygon(pointslist.Cast<PointLatLng>().ToList(), "LOS")
+                                gMapControl1.Invoke((Action) delegate
                                 {
-                                    Fill = Brushes.Transparent,
-                                    Stroke = new Pen(Color.White, 3) {DashStyle = DashStyle.Dash}
+                                    LineOfSight.Polygons.Add(new GMapPolygon(pointslist.Cast<PointLatLng>().ToList(), "LOS")
+                                    {
+                                        Fill = Brushes.Transparent,
+                                        Stroke = new Pen(Color.White, 3) {DashStyle = DashStyle.Dash}
+                                    });
+
+                                    if (LineOfSight.Polygons.Count > 1) LineOfSight.Polygons.RemoveAt(0);
                                 });
 
-                                if (LineOfSight.Polygons.Count > 1) LineOfSight.Polygons.RemoveAt(0);
-                            });
-
-                            prev_home = HomeLocation;
-                            prev_range = Settings.Instance.GetFloat("Propagation_Range");
-                            prev_alt2 = altasl;
+                                // a copy, so a home that is changed in place still differs next time
+                                prev_home = new PointLatLngAlt(home);
+                                prev_range = range;
+                                prev_alt2 = aircraftalt;
+                                prev_clearance = clearance;
+                                prev_base_height = base_height;
+                                prev_rotational = rotational;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                // the map has no window yet (its page has not been opened): wait a
+                                // few seconds rather than work the outline out three times a second
+                                rf_hold = DateTime.Now.AddSeconds(5);
+                                need_rf_redraw = true;
+                            }
                         }
                     }
                     else need_rf_redraw = true;

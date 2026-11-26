@@ -8,7 +8,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
-    public delegate void sendPacketHandler(object packet, int sysid, int compid);
+    public delegate void sendPacketHandler(object packet, uint sysid, int compid);
 
     public class XPlane : Hil, IDisposable
     {
@@ -23,7 +23,7 @@ namespace MissionPlanner.HIL
         public float hilch2 { get;  set; }
         public float hilch3 { get;  set; }
         public float hilch4 { get;  set; }
-        public int sysid { get;  set; }
+        public uint sysid { get;  set; }
         public int compid { get;  set; }
 
         public override void SetupSockets(int recvPort, int SendPort, string simIP)

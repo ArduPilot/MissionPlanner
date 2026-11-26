@@ -37,7 +37,7 @@ namespace MissionPlanner.Controls
             {
                 // Request prearm checks to be performed
                 MainV2.comPort.doCommand(
-                    (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                     MAVLink.MAV_CMD.RUN_PREARM_CHECKS,
                     0, 0, 0, 0, 0, 0, 0,
                     false // don't require ack

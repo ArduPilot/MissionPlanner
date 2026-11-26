@@ -113,7 +113,7 @@ namespace mass
                 Parallel.ForEach(MainV2.Comports, mav => {
                     try
                     {
-                        mav.doCommand((byte)mav.sysidcurrent, (byte)mav.compidcurrent,
+                        mav.doCommand(mav.sysidcurrent, (byte)mav.compidcurrent,
                             MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
                     }
                     catch { }

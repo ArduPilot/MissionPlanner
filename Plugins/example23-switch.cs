@@ -8,7 +8,6 @@ using log4net;
 using System.Linq;
 using DeviceProgramming;
 using System.Threading;
-using Xamarin.Forms.PlatformConfiguration;
 
 //loadassembly: DeviceProgramming
 //loadassembly: log4net

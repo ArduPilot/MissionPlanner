@@ -95,7 +95,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    var ext = Path.GetExtension(ofd.FileName).ToLower();
+                    var ext = Path.GetExtension(ofd.FileName).ToLowerInvariant();
                     if (ext == ".bin")
                         ext = ".log";
                     using (SaveFileDialog sfd = new SaveFileDialog())

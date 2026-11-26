@@ -31,6 +31,7 @@ namespace MissionPlanner.Controls
             this.stopRecordingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ControlInfoTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.UITimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.VideoBox)).BeginInit();
@@ -70,7 +71,8 @@ namespace MissionPlanner.Controls
             this.startRecordingToolStripMenuItem,
             this.stopRecordingToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.settingsToolStripMenuItem});
+            this.settingsToolStripMenuItem,
+            this.customSettingsToolStripMenuItem});
             this.VideoBoxContextMenu.Name = "VideoBoxContextMenu";
             this.VideoBoxContextMenu.Size = new System.Drawing.Size(156, 242);
             // 
@@ -156,8 +158,15 @@ namespace MissionPlanner.Controls
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Text = "Shortcuts";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            //
+            // customSettingsToolStripMenuItem
+            //
+            this.customSettingsToolStripMenuItem.Name = "customSettingsToolStripMenuItem";
+            this.customSettingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customSettingsToolStripMenuItem.Text = "Custom Settings";
+            this.customSettingsToolStripMenuItem.Click += new System.EventHandler(this.customSettingsToolStripMenuItem_Click);
             // 
             // UITimer
             // 
@@ -187,6 +196,7 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem customSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pointDownToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pointHomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem yawLockToolStripMenuItem;

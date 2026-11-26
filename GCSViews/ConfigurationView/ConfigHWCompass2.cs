@@ -436,7 +436,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 1)
             {
                 list[0]._index = 0;
-                bool p1 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                bool p1 = await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO1_ID",
                     int.Parse(myDataGridView1.Rows[0].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
@@ -448,7 +448,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 2)
             {
                 list[1]._index = 1;
-                bool p2 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                bool p2 = await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO2_ID",
                     int.Parse(myDataGridView1.Rows[1].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
@@ -459,7 +459,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 // clear it
-                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO2_ID",
                     0);
@@ -468,7 +468,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (myDataGridView1.Rows.Count >= 3)
             {
                 list[2]._index = 2;
-                bool p3 = await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                bool p3 = await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO3_ID",
                     int.Parse(myDataGridView1.Rows[2].Cells[devIDDataGridViewTextBoxColumn.Index].Value.ToString()));
@@ -479,7 +479,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 //clear it
-                await MainV2.comPort.setParamAsync((byte)MainV2.comPort.sysidcurrent,
+                await MainV2.comPort.setParamAsync(MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent,
                     "COMPASS_PRIO3_ID",
                     0);
@@ -500,7 +500,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {
@@ -534,8 +534,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
 
-            packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-            packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
 
             BUT_OBmagcalstart.Enabled = false;
             BUT_OBmagcalcancel.Enabled = true;
@@ -565,7 +565,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
             }
             catch (Exception ex)
             {

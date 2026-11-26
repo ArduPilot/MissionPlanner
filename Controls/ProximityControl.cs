@@ -219,7 +219,7 @@ namespace MissionPlanner.Controls
             else
             {
                 Dispose();
-                _parent.Proximity = new Proximity(_parent, (byte)MainV2.comPort.sysidcurrent,
+                _parent.Proximity = new Proximity(_parent, MainV2.comPort.sysidcurrent,
                     (byte)MainV2.comPort.compidcurrent);
                 base.Show();
             }

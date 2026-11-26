@@ -41,7 +41,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public OpticalFlow(MAVLinkInterface mav, byte sysid, byte compid)
+        public OpticalFlow(MAVLinkInterface mav, uint sysid, byte compid)
         {
             _mav = mav;
 

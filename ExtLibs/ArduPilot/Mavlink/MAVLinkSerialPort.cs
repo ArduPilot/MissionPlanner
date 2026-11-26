@@ -69,7 +69,7 @@ namespace MissionPlanner.Comms
                 mavint.UnSubscribeToPacketType(subscription);
 
             subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket,
-                (byte)mavint.sysidcurrent, (byte)mavint.compidcurrent, true);
+                mavint.sysidcurrent, (byte)mavint.compidcurrent, true);
 
             bgdata = new Thread(mainloop);
             bgdata.Name = "MAVLinkSerialPort";

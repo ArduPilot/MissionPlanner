@@ -242,7 +242,7 @@ namespace GMap.NET.Internals
                     if (!headerDone)
                     {
                         var headPart = Encoding.UTF8.GetString(buffer, 0, bytesReceived > 1024 ? 1024 : bytesReceived);
-                        var indexOfFirstBlankLine = headPart.IndexOf("\r\n\r\n");
+                        var indexOfFirstBlankLine = headPart.IndexOf("\r\n\r\n", StringComparison.Ordinal);
                         if (indexOfFirstBlankLine > 0)
                         {
                             headPart = headPart.Substring(0, indexOfFirstBlankLine);

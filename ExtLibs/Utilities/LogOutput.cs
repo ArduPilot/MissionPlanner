@@ -1102,7 +1102,7 @@ gnssId GNSS Type
 
             // create kmz - aka zip file
 
-            FileStream fs = File.Open(filename.ToLower().Replace(".log.kml", ".kmz").Replace(".bin.kml", ".kmz"),
+            FileStream fs = File.Open(filename.ToLowerInvariant().Replace(".log.kml", ".kmz").Replace(".bin.kml", ".kmz"),
                 FileMode.Create);
             ZipOutputStream zipStream = new ZipOutputStream(fs);
             zipStream.SetLevel(9); //0-9, 9 being the highest level of compression

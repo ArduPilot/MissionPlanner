@@ -193,7 +193,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CAPACITY", float.Parse(TXT_battcapacity.Text));
+                    var capacity = DecimalInput.Parse(TXT_battcapacity.Text);
+                    // "5.000" meant as 5000 mAh reads as 5
+                    if (DecimalInput.LooksLikeThousands(TXT_battcapacity.Text) &&
+                        CustomMessageBox.Show(string.Format(Strings.BatteryCapacityAsDecimal, TXT_battcapacity.Text.Trim(), capacity),
+                            Strings.Warning, MessageBoxButtons.YesNo) == (int)DialogResult.No)
+                    {
+                        TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
+                        return;
+                    }
+
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CAPACITY", capacity);
                 }
             }
             catch
@@ -225,8 +235,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CMB_batmonsensortype.Enabled = false;
                         CMB_HWVersion.Enabled = false;
                         groupBox4.Enabled = false;
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", -1);
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
+                        MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", -1);
+                        MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
                     }
                     else if (selection == 4)
                     {
@@ -249,13 +259,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         MainV2.comPort.MAV.param["BATT_MONITOR"].Value == 0 &&
                         selection != 0)
                     {
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_MONITOR", selection);
+                        MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_MONITOR", selection);
                         MainV2.comPort.getParamList();
                         this.Activate();
                     }
                     else
                     {
-                        MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_MONITOR", selection);
+                        MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_MONITOR", selection);
                     }
                 }
             }
@@ -268,7 +278,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_measuredvoltage_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_measuredvoltage.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_measuredvoltage.Text, out ans);
         }
 
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
@@ -277,9 +287,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredvoltage = float.Parse(TXT_measuredvoltage.Text);
-                var voltage = float.Parse(TXT_voltage.Text);
-                var divider = float.Parse(TXT_divider_VOLT_MULT.Text);
+                var measuredvoltage = DecimalInput.Parse(TXT_measuredvoltage.Text);
+                var voltage = DecimalInput.Parse(TXT_voltage.Text);
+                var divider = DecimalInput.Parse(TXT_divider_VOLT_MULT.Text);
                 if (voltage == 0)
                     return;
                 var new_divider = (measuredvoltage * divider) / voltage;
@@ -293,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, float.Parse(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, DecimalInput.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -308,7 +318,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_divider_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_divider_VOLT_MULT.Text, out ans);
         }
 
         private void TXT_divider_Validated(object sender, EventArgs e)
@@ -317,7 +327,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, float.Parse(TXT_divider_VOLT_MULT.Text));
+                MainV2.comPort.setParam(new[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, DecimalInput.Parse(TXT_divider_VOLT_MULT.Text));
             }
             catch
             {
@@ -332,7 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void TXT_ampspervolt_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_AMP_PERVLT.Text, out ans);
+            e.Cancel = !DecimalInput.TryParse(TXT_AMP_PERVLT.Text, out ans);
         }
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
@@ -341,7 +351,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, DecimalInput.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {
@@ -492,68 +502,68 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (selection == 0)
                 {
                     // apm1
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 0);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 1);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 0);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 1);
                 }
                 else if (selection == 1)
                 {
                     // apm2
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 1);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 2);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 1);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 2);
                 }
                 else if (selection == 2)
                 {
                     //apm2.5
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 13);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 12);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 13);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 12);
                 }
                 else if (selection == 3)
                 {
                     //px4
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 100);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 101);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 100);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 101);
                 }
                 else if (selection == 4)
                 {
                     //px4
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 2);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 3);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 2);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 3);
                 }
                 else if (selection == 5)
                 {
                     //vrbrain 5
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 11);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 11);
                 }
                 else if (selection == 6)
                 {
                     //vr micro brain 5
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 10);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", -1);
                 }
                 else if (selection == 7)
                 {
                     //vr brain 4
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 6);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 7);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 6);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 7);
                 }
                 else if (selection == 8)
                 {
                     //cube orange
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 14);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 15);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 14);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 15);
                 }
                 else if (selection == 9)
                 {
                     //durandal
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 16);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 17);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 16);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 17);
                 }
                 else if (selection == 10)
                 {
                     //Pixhawk 6C/Pix32 v6
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 8);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 4);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_VOLT_PIN", 8);
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "BATT_CURR_PIN", 4);
                 }
             }
             catch
@@ -624,9 +634,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                var measuredcurrent = float.Parse(txt_meascurrent.Text);
-                var current = float.Parse(txt_current.Text);
-                var divider = float.Parse(TXT_AMP_PERVLT.Text);
+                var measuredcurrent = DecimalInput.Parse(txt_meascurrent.Text);
+                var current = DecimalInput.Parse(txt_current.Text);
+                var divider = DecimalInput.Parse(TXT_AMP_PERVLT.Text);
                 if (current == 0)
                     return;
                 var new_divider = (measuredcurrent * divider) / current;
@@ -640,7 +650,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, float.Parse(TXT_AMP_PERVLT.Text));
+                MainV2.comPort.setParam(new[] { "AMP_PER_VOLT", "BATT_AMP_PERVOLT", "BATT_AMP_PERVLT" }, DecimalInput.Parse(TXT_AMP_PERVLT.Text));
             }
             catch
             {

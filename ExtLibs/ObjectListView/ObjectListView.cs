@@ -580,10 +580,8 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
-using System.Runtime.Serialization.Formatters;
 using System.Threading;
 
 namespace BrightIdeasSoftware
@@ -5319,128 +5317,6 @@ namespace BrightIdeasSoftware
         }
 
         private Hashtable subscribedModels = new Hashtable();
-
-        #endregion
-
-        #region Save/Restore State
-
-        /// <summary>
-        /// Return a byte array that represents the current state of the ObjectListView, such
-        /// that the state can be restored by RestoreState()
-        /// </summary>
-        /// <remarks>
-        /// <para>The state of an ObjectListView includes the attributes that the user can modify:
-        /// <list type="bullet">
-        /// <item><description>current view (i.e. Details, Tile, Large Icon...)</description></item>
-        /// <item><description>sort column and direction</description></item>
-        /// <item><description>column order</description></item>
-        /// <item><description>column widths</description></item>
-        /// <item><description>column visibility</description></item>
-        /// </list>
-        /// </para>
-        /// <para>
-        /// It does not include selection or the scroll position.
-        /// </para>
-        /// </remarks>
-        /// <returns>A byte array representing the state of the ObjectListView</returns>
-        public virtual byte[] SaveState() {
-            ObjectListViewState olvState = new ObjectListViewState();
-            olvState.VersionNumber = 1;
-            olvState.NumberOfColumns = this.AllColumns.Count;
-            olvState.CurrentView = this.View;
-
-            // If we have a sort column, it is possible that it is not currently being shown, in which
-            // case, it's Index will be -1. So we calculate its index directly. Technically, the sort
-            // column does not even have to a member of AllColumns, in which case IndexOf will return -1,
-            // which is works fine since we have no way of restoring such a column anyway.
-            if (this.PrimarySortColumn != null)
-                olvState.SortColumn = this.AllColumns.IndexOf(this.PrimarySortColumn);
-            olvState.LastSortOrder = this.PrimarySortOrder;
-            olvState.IsShowingGroups = this.ShowGroups;
-
-            if (this.AllColumns.Count > 0 && this.AllColumns[0].LastDisplayIndex == -1)
-                this.RememberDisplayIndicies();
-
-            foreach (OLVColumn column in this.AllColumns) {
-                olvState.ColumnIsVisible.Add(column.IsVisible);
-                olvState.ColumnDisplayIndicies.Add(column.LastDisplayIndex);
-                olvState.ColumnWidths.Add(column.Width);
-            }
-
-            // Now that we have stored our state, convert it to a byte array
-            using (MemoryStream ms = new MemoryStream()) {
-                BinaryFormatter serializer = new BinaryFormatter();
-                serializer.AssemblyFormat = FormatterAssemblyStyle.Simple;
-                serializer.Serialize(ms, olvState);
-                return ms.ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Restore the state of the control from the given string, which must have been
-        /// produced by SaveState()
-        /// </summary>
-        /// <param name="state">A byte array returned from SaveState()</param>
-        /// <returns>Returns true if the state was restored</returns>
-        public virtual bool RestoreState(byte[] state) {
-            using (MemoryStream ms = new MemoryStream(state)) {
-                BinaryFormatter deserializer = new BinaryFormatter();
-                ObjectListViewState olvState;
-                try {
-                    olvState = deserializer.Deserialize(ms) as ObjectListViewState;
-                } catch (System.Runtime.Serialization.SerializationException) {
-                    return false;
-                }
-                // The number of columns has changed. We have no way to match old
-                // columns to the new ones, so we just give up.
-                if (olvState == null || olvState.NumberOfColumns != this.AllColumns.Count)
-                    return false;
-                if (olvState.SortColumn == -1) {
-                    this.PrimarySortColumn = null;
-                    this.PrimarySortOrder = SortOrder.None;
-                } else {
-                    this.PrimarySortColumn = this.AllColumns[olvState.SortColumn];
-                    this.PrimarySortOrder = olvState.LastSortOrder;
-                }
-                for (int i = 0; i < olvState.NumberOfColumns; i++) {
-                    OLVColumn column = this.AllColumns[i];
-                    column.Width = (int)olvState.ColumnWidths[i];
-                    column.IsVisible = (bool)olvState.ColumnIsVisible[i];
-                    column.LastDisplayIndex = (int)olvState.ColumnDisplayIndicies[i];
-                }
-// ReSharper disable RedundantCheckBeforeAssignment
-                if (olvState.IsShowingGroups != this.ShowGroups)
-// ReSharper restore RedundantCheckBeforeAssignment
-                    this.ShowGroups = olvState.IsShowingGroups;
-                if (this.View == olvState.CurrentView)
-                    this.RebuildColumns();
-                else
-                    this.View = olvState.CurrentView;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Instances of this class are used to store the state of an ObjectListView.
-        /// </summary>
-        [Serializable]
-        internal class ObjectListViewState
-        {
-// ReSharper disable NotAccessedField.Global
-            public int VersionNumber = 1;
-// ReSharper restore NotAccessedField.Global
-            public int NumberOfColumns = 1;
-            public View CurrentView;
-            public int SortColumn = -1;
-            public bool IsShowingGroups;
-            public SortOrder LastSortOrder = SortOrder.None;
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-            public ArrayList ColumnIsVisible = new ArrayList();
-            public ArrayList ColumnDisplayIndicies = new ArrayList();
-            public ArrayList ColumnWidths = new ArrayList();
-// ReSharper restore FieldCanBeMadeReadOnly.Global
-        }
 
         #endregion
 

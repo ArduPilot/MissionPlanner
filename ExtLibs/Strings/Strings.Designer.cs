@@ -250,6 +250,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to "{0}" is read as {1} mAh: '.' and ',' are decimal points here. Are you sure?.
+        /// </summary>
+        public static string BatteryCapacityAsDecimal {
+            get {
+                return ResourceManager.GetString("BatteryCapacityAsDecimal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Beta.
         /// </summary>
         public static string Beta {
@@ -431,6 +440,285 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adapter.
+        /// </summary>
+        public static string CotAdapter {
+            get {
+                return ResourceManager.GetString("CotAdapter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All adapters.
+        /// </summary>
+        public static string CotAllAdapters {
+            get {
+                return ResourceManager.GetString("CotAllAdapters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Baud.
+        /// </summary>
+        public static string CotBaud {
+            get {
+                return ResourceManager.GetString("CotBaud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not start: {0}.
+        /// </summary>
+        public static string CotCouldNotStart {
+            get {
+                return ResourceManager.GetString("CotCouldNotStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a multicast group, 224.0.0.0 to 239.255.255.255..
+        /// </summary>
+        public static string CotEnterGroup {
+            get {
+                return ResourceManager.GetString("CotEnterGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the address to send to..
+        /// </summary>
+        public static string CotEnterHost {
+            get {
+                return ResourceManager.GetString("CotEnterHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a port from 1 to 65535..
+        /// </summary>
+        public static string CotEnterPort {
+            get {
+                return ResourceManager.GetString("CotEnterPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Group.
+        /// </summary>
+        public static string CotGroup {
+            get {
+                return ResourceManager.GetString("CotGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        public static string CotHost {
+            get {
+                return ResourceManager.GetString("CotHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listen on.
+        /// </summary>
+        public static string CotListenOn {
+            get {
+                return ResourceManager.GetString("CotListenOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TAK Multicast.
+        /// </summary>
+        public static string CotModeTakMulticast {
+            get {
+                return ResourceManager.GetString("CotModeTakMulticast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCP Client.
+        /// </summary>
+        public static string CotModeTcpClient {
+            get {
+                return ResourceManager.GetString("CotModeTcpClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TCP Host.
+        /// </summary>
+        public static string CotModeTcpHost {
+            get {
+                return ResourceManager.GetString("CotModeTcpHost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UDP Client.
+        /// </summary>
+        public static string CotModeUdpClient {
+            get {
+                return ResourceManager.GetString("CotModeUdpClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no network adapter is up.
+        /// </summary>
+        public static string CotNoAdapter {
+            get {
+                return ResourceManager.GetString("CotNoAdapter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} did not answer.
+        /// </summary>
+        public static string CotNoAnswer {
+            get {
+                return ResourceManager.GetString("CotNoAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to no IPv4 address for {0}.
+        /// </summary>
+        public static string CotNoIPv4Address {
+            get {
+                return ResourceManager.GetString("CotNoIPv4Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not sending.
+        /// </summary>
+        public static string CotNotSending {
+            get {
+                return ResourceManager.GetString("CotNotSending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to port {0} is in use by another program.
+        /// </summary>
+        public static string CotPortInUse {
+            get {
+                return ResourceManager.GetString("CotPortInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not connected to {0}, trying again: {1}.
+        /// </summary>
+        public static string CotReconnecting {
+            get {
+                return ResourceManager.GetString("CotReconnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending failed: {0}.
+        /// </summary>
+        public static string CotSendFailed {
+            get {
+                return ResourceManager.GetString("CotSendFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending to {0} on {1}.
+        /// </summary>
+        public static string CotSendingMulticast {
+            get {
+                return ResourceManager.GetString("CotSendingMulticast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending to {0} at {1} baud.
+        /// </summary>
+        public static string CotSendingSerial {
+            get {
+                return ResourceManager.GetString("CotSendingSerial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connected to {0} over TCP.
+        /// </summary>
+        public static string CotSendingTcp {
+            get {
+                return ResourceManager.GetString("CotSendingTcp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending to {0} client(s) on TCP port {1}: {2}.
+        /// </summary>
+        public static string CotSendingToClients {
+            get {
+                return ResourceManager.GetString("CotSendingToClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sending to {0} over UDP.
+        /// </summary>
+        public static string CotSendingUdp {
+            get {
+                return ResourceManager.GetString("CotSendingUdp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}, {1} messages sent.
+        /// </summary>
+        public static string CotSentSoFar {
+            get {
+                return ResourceManager.GetString("CotSentSoFar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starting....
+        /// </summary>
+        public static string CotStarting {
+            get {
+                return ResourceManager.GetString("CotStarting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stopped.
+        /// </summary>
+        public static string CotStopped {
+            get {
+                return ResourceManager.GetString("CotStopped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This PC only.
+        /// </summary>
+        public static string CotThisPcOnly {
+            get {
+                return ResourceManager.GetString("CotThisPcOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waiting for a client on TCP port {0}.
+        /// </summary>
+        public static string CotWaitingForClient {
+            get {
+                return ResourceManager.GetString("CotWaitingForClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description: .
         /// </summary>
         public static string Desc {
@@ -508,6 +796,15 @@ namespace MissionPlanner {
         public static string DownloadingFromInternet {
             get {
                 return ResourceManager.GetString("DownloadingFromInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EKF accelerometer error.
+        /// </summary>
+        public static string ekf_accel_error {
+            get {
+                return ResourceManager.GetString("ekf_accel_error", resourceCulture);
             }
         }
         
@@ -1632,6 +1929,69 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default Alt must be a whole number other than 0, in the same unit as the Alt column..
+        /// </summary>
+        public static string VerifyHeightBadDefaultAlt {
+            get {
+                return ResourceManager.GetString("VerifyHeightBadDefaultAlt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} skipped: the command has no position or no altitude..
+        /// </summary>
+        public static string VerifyHeightNoAltitude {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoAltitude", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Set the home location first. Relative altitudes are measured from the home altitude..
+        /// </summary>
+        public static string VerifyHeightNoHome {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} skipped: no terrain data yet. It downloads in the background, try again shortly..
+        /// </summary>
+        public static string VerifyHeightNoTerrain {
+            get {
+                return ResourceManager.GetString("VerifyHeightNoTerrain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tick the box of each waypoint to verify, or the box in the column header for all of them..
+        /// </summary>
+        public static string VerifyHeightTickRows {
+            get {
+                return ResourceManager.GetString("VerifyHeightTickRows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify Height.
+        /// </summary>
+        public static string VerifyHeightTitle {
+            get {
+                return ResourceManager.GetString("VerifyHeightTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} row(s) updated..
+        /// </summary>
+        public static string VerifyHeightUpdated {
+            get {
+                return ResourceManager.GetString("VerifyHeightUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string Warning {
@@ -1745,6 +2105,150 @@ namespace MissionPlanner {
         public static string Zoom_to_the_center_or_the_loaded_file {
             get {
                 return ResourceManager.GetString("Zoom_to_the_center_or_the_loaded_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Firmware.
+        /// </summary>
+        public static string FirmwareSelectionTitle {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to More than one firmware matches this board. Use the filters to narrow it down to the one you want..
+        /// </summary>
+        public static string FirmwareSelectionPrompt {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPrompt", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Any.
+        /// </summary>
+        public static string FirmwareSelectionAny {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionAny", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Too many matches ({0}) - apply more filters.
+        /// </summary>
+        public static string FirmwareSelectionTooMany {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionTooMany", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No firmware matches the current filters.
+        /// </summary>
+        public static string FirmwareSelectionNoMatches {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionNoMatches", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Firmware.
+        /// </summary>
+        public static string FirmwareSelectionUpload {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionUpload", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicle Type.
+        /// </summary>
+        public static string FirmwareSelectionVehicleType {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionVehicleType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Release Type.
+        /// </summary>
+        public static string FirmwareSelectionReleaseType {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionReleaseType", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Platform.
+        /// </summary>
+        public static string FirmwareSelectionPlatform {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPlatform", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string FirmwareSelectionVersion {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionVersion", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Format.
+        /// </summary>
+        public static string FirmwareSelectionFormat {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to USB ID.
+        /// </summary>
+        public static string FirmwareSelectionUsbId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionUsbId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Board ID.
+        /// </summary>
+        public static string FirmwareSelectionBoardId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionBoardId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Bootloader ID.
+        /// </summary>
+        public static string FirmwareSelectionBootloaderId {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionBootloaderId", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string FirmwareSelectionFile {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pick a file to download and upload (.apj).
+        /// </summary>
+        public static string FirmwareSelectionPickFile {
+            get {
+                return ResourceManager.GetString("FirmwareSelectionPickFile", resourceCulture);
             }
         }
     }

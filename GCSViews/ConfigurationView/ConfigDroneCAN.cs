@@ -101,7 +101,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         // setup forwarding on can port 1
-                        var ans = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
+                        var ans = MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent,
                             (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.CAN_FORWARD, bus, 0, 0, 0, 0, 0, 0,
                             false);
 
@@ -135,7 +135,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             (byte)MainV2.comPort.compidcurrent, (byte)(bus - 1),
                             (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                             payload.packet_data),
-                        (byte)MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 else
                 {
@@ -146,7 +146,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         (byte)DroneCAN.DroneCAN.dataLengthToDlc(payload.packet_data.Length),
                         payload.packet_data);
                     MainV2.comPort.sendPacket(frame2,
-                        (byte)MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 }
             };
@@ -196,7 +196,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 return true;
-            }, (byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
+            }, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, true);
 
             SetupSLCanPort(port);
         }
@@ -218,7 +218,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     var cport = MainV2.comPort.MAV.param["CAN_SLCAN_CPORT"].Value;
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_SLCAN_CPORT", canport, true);
                     if (cport == 0)
                     {
@@ -227,11 +227,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_SLCAN_TIMOUT", 2, true);
-                    MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
+                    MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent,
                         "CAN_P" + canport + "_DRIVER", 1);
-                    //MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_SERNUM", 0, true); // usb
+                    //MainV2.comPort.setParam(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, "CAN_SLCAN_SERNUM", 0, true); // usb
                     // blind send
                     var paramname = "CAN_SLCAN_SERNUM";
                     var req = new MAVLink.mavlink_param_set_t
@@ -239,13 +239,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         target_system = (byte)MainV2.comPort.sysidcurrent,
                         target_component = (byte)MainV2.comPort.compidcurrent,
                         param_type = (byte)MainV2.comPort
-                            .MAVlist[(byte)MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent]
+                            .MAVlist[MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent]
                             .param_types[paramname],
                         param_id = paramname.MakeBytesSize(16)
                     };
-                    MainV2.comPort.sendPacket(req, (byte)MainV2.comPort.sysidcurrent,
+                    MainV2.comPort.sendPacket(req, MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
-                    MainV2.comPort.sendPacket(req, (byte)MainV2.comPort.sysidcurrent,
+                    MainV2.comPort.sendPacket(req, MainV2.comPort.sysidcurrent,
                         (byte)MainV2.comPort.compidcurrent);
                 }
             }
@@ -933,7 +933,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
-                        MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent,
+                        MainV2.comPort.sendPacket(filter2, MainV2.comPort.sysidcurrent,
                             (byte)MainV2.comPort.compidcurrent);
                     }
                     catch (Exception ex)
@@ -970,7 +970,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            MainV2.comPort.sendPacket(filter2, (byte)MainV2.comPort.sysidcurrent,
+                            MainV2.comPort.sendPacket(filter2, MainV2.comPort.sysidcurrent,
                                 (byte)MainV2.comPort.compidcurrent);
                         }
                         catch (Exception ex)

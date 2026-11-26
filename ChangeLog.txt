@@ -1,4 +1,5 @@
 ﻿*Mission Planner 1.3.83 - Sept 10, 2024
+* Video: add camera Custom Settings; rename the existing Settings menu to Shortcuts for keyboard bindings.
 * FlightData : fix android/ios
 * NoMap: and NoProjection
 * GMapMarkerRect: add max int check

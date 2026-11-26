@@ -719,14 +719,14 @@ namespace System.Drawing.Drawing2D
 
         public void Rotate(float elementRotation, MatrixOrder append)
         {
-            var rot = SKMatrix.MakeRotationDegrees(elementRotation);
+            var rot = SKMatrix.CreateRotationDegrees(elementRotation);
 
             var main = new SKMatrix(M11, M12, OffsetX, M21, M22, OffsetY, 0, 0, 1);
             
             if (append == MatrixOrder.Prepend)
-                SKMatrix.PreConcat(ref main, rot);
+                main = main.PreConcat(rot);
             else
-                SKMatrix.PostConcat(ref main, rot);
+                main = main.PostConcat(rot);
             
             this.SetMatrix(main.ScaleX, main.SkewX, main.SkewY, main.ScaleY, main.TransX, main.TransY,
                 MatrixTypes.TRANSFORM_IS_UNKNOWN);
@@ -741,12 +741,12 @@ namespace System.Drawing.Drawing2D
         {
             var main = new SKMatrix(M11, M12, OffsetX, M21, M22, OffsetY, 0, 0, 1);
 
-            var tra = SKMatrix.MakeTranslation(elementTranslationX, elementTranslationY);
+            var tra = SKMatrix.CreateTranslation(elementTranslationX, elementTranslationY);
 
             if (append == MatrixOrder.Prepend)
-                SKMatrix.PreConcat(ref main, tra);
+                main = main.PreConcat(tra);
             else
-                SKMatrix.PostConcat(ref main, tra);
+                main = main.PostConcat(tra);
             
             this.SetMatrix(main.ScaleX, main.SkewX, main.SkewY, main.ScaleY, main.TransX, main.TransY,
                 MatrixTypes.TRANSFORM_IS_UNKNOWN);

@@ -241,6 +241,9 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="BasicTuning" xml:space="preserve">
     <value>Basic Tuning</value>
   </data>
+  <data name="BatteryCapacityAsDecimal" xml:space="preserve">
+    <value>"{0}" is read as {1} mAh: '.' and ',' are decimal points here. Are you sure?</value>
+  </data>
   <data name="Desc" xml:space="preserve">
     <value>Description: </value>
   </data>
@@ -396,6 +399,27 @@ Do you wish to continue?</value>
   <data name="VerifyFirmware" xml:space="preserve">
     <value>Verify Firmware</value>
   </data>
+  <data name="VerifyHeightTitle" xml:space="preserve">
+    <value>Verify Height</value>
+  </data>
+  <data name="VerifyHeightTickRows" xml:space="preserve">
+    <value>Tick the box of each waypoint to verify, or the box in the column header for all of them.</value>
+  </data>
+  <data name="VerifyHeightBadDefaultAlt" xml:space="preserve">
+    <value>Default Alt must be a whole number other than 0, in the same unit as the Alt column.</value>
+  </data>
+  <data name="VerifyHeightUpdated" xml:space="preserve">
+    <value>{0} row(s) updated.</value>
+  </data>
+  <data name="VerifyHeightNoTerrain" xml:space="preserve">
+    <value>{0} skipped: no terrain data yet. It downloads in the background, try again shortly.</value>
+  </data>
+  <data name="VerifyHeightNoAltitude" xml:space="preserve">
+    <value>{0} skipped: the command has no position or no altitude.</value>
+  </data>
+  <data name="VerifyHeightNoHome" xml:space="preserve">
+    <value>Set the home location first. Relative altitudes are measured from the home altitude.</value>
+  </data>
   <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
     <value>Upload succeeded, but verify failed: exp {0} got {1} at </value>
   </data>
@@ -452,6 +476,99 @@ Please use Standard/Advanced Params for the safe settings</value>
   </data>
   <data name="Connect" xml:space="preserve">
     <value>Connect</value>
+  </data>
+  <data name="CotStarting" xml:space="preserve">
+    <value>Starting...</value>
+  </data>
+  <data name="CotNotSending" xml:space="preserve">
+    <value>Not sending</value>
+  </data>
+  <data name="CotSentSoFar" xml:space="preserve">
+    <value>{0}, {1} messages sent</value>
+  </data>
+  <data name="CotSendFailed" xml:space="preserve">
+    <value>Sending failed: {0}</value>
+  </data>
+  <data name="CotCouldNotStart" xml:space="preserve">
+    <value>Could not start: {0}</value>
+  </data>
+  <data name="CotStopped" xml:space="preserve">
+    <value>Stopped</value>
+  </data>
+  <data name="CotSendingUdp" xml:space="preserve">
+    <value>Sending to {0} over UDP</value>
+  </data>
+  <data name="CotSendingMulticast" xml:space="preserve">
+    <value>Sending to {0} on {1}</value>
+  </data>
+  <data name="CotSendingTcp" xml:space="preserve">
+    <value>Connected to {0} over TCP</value>
+  </data>
+  <data name="CotReconnecting" xml:space="preserve">
+    <value>Not connected to {0}, trying again: {1}</value>
+  </data>
+  <data name="CotNoAnswer" xml:space="preserve">
+    <value>{0} did not answer</value>
+  </data>
+  <data name="CotNoIPv4Address" xml:space="preserve">
+    <value>no IPv4 address for {0}</value>
+  </data>
+  <data name="CotWaitingForClient" xml:space="preserve">
+    <value>Waiting for a client on TCP port {0}</value>
+  </data>
+  <data name="CotSendingToClients" xml:space="preserve">
+    <value>Sending to {0} client(s) on TCP port {1}: {2}</value>
+  </data>
+  <data name="CotSendingSerial" xml:space="preserve">
+    <value>Sending to {0} at {1} baud</value>
+  </data>
+  <data name="CotPortInUse" xml:space="preserve">
+    <value>port {0} is in use by another program</value>
+  </data>
+  <data name="CotNoAdapter" xml:space="preserve">
+    <value>no network adapter is up</value>
+  </data>
+  <data name="CotModeTakMulticast" xml:space="preserve">
+    <value>TAK Multicast</value>
+  </data>
+  <data name="CotModeUdpClient" xml:space="preserve">
+    <value>UDP Client</value>
+  </data>
+  <data name="CotModeTcpClient" xml:space="preserve">
+    <value>TCP Client</value>
+  </data>
+  <data name="CotModeTcpHost" xml:space="preserve">
+    <value>TCP Host</value>
+  </data>
+  <data name="CotAllAdapters" xml:space="preserve">
+    <value>All adapters</value>
+  </data>
+  <data name="CotThisPcOnly" xml:space="preserve">
+    <value>This PC only</value>
+  </data>
+  <data name="CotHost" xml:space="preserve">
+    <value>Host</value>
+  </data>
+  <data name="CotGroup" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="CotAdapter" xml:space="preserve">
+    <value>Adapter</value>
+  </data>
+  <data name="CotListenOn" xml:space="preserve">
+    <value>Listen on</value>
+  </data>
+  <data name="CotBaud" xml:space="preserve">
+    <value>Baud</value>
+  </data>
+  <data name="CotEnterHost" xml:space="preserve">
+    <value>Enter the address to send to.</value>
+  </data>
+  <data name="CotEnterPort" xml:space="preserve">
+    <value>Enter a port from 1 to 65535.</value>
+  </data>
+  <data name="CotEnterGroup" xml:space="preserve">
+    <value>Enter a multicast group, 224.0.0.0 to 239.255.255.255.</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
@@ -591,6 +708,9 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="terrain_alt_variance" xml:space="preserve">
     <value>terrain alt variance</value>
   </data>
+  <data name="ekf_accel_error" xml:space="preserve">
+    <value>EKF accelerometer error</value>
+  </data>
   <data name="ChangeThrottle" xml:space="preserve">
     <value>Change Throttle</value>
   </data>
@@ -694,5 +814,53 @@ old #{0}  new #{1}</value>
 On ArduPlane, zero altitudes may interpreted in two different ways: actual zero altitude, or keep current altitude. WAYPOINT commands will generally honor a zero altitude and LOITER commands will generally interpret it as "use current altitude", but only if the altitude frame is "relative". There may be more exceptions and this could change in future versions.
 
 ONLY SET TO ZERO IF YOU REALLY UNDERSTAND EXACTLY WHAT IS GOING TO HAPPEN IN YOUR CASE (use a simulator to be sure).[link;https://ardupilot.org/plane/docs/common-mavlink-mission-command-messages-mav_cmd.html;Command Documentation]</value>
+  </data>
+  <data name="FirmwareSelectionTitle" xml:space="preserve">
+    <value>Select Firmware</value>
+  </data>
+  <data name="FirmwareSelectionPrompt" xml:space="preserve">
+    <value>More than one firmware matches this board. Use the filters to narrow it down to the one you want.</value>
+  </data>
+  <data name="FirmwareSelectionAny" xml:space="preserve">
+    <value>Any</value>
+  </data>
+  <data name="FirmwareSelectionTooMany" xml:space="preserve">
+    <value>Too many matches ({0}) - apply more filters</value>
+  </data>
+  <data name="FirmwareSelectionNoMatches" xml:space="preserve">
+    <value>No firmware matches the current filters</value>
+  </data>
+  <data name="FirmwareSelectionUpload" xml:space="preserve">
+    <value>Upload Firmware</value>
+  </data>
+  <data name="FirmwareSelectionVehicleType" xml:space="preserve">
+    <value>Vehicle Type</value>
+  </data>
+  <data name="FirmwareSelectionReleaseType" xml:space="preserve">
+    <value>Release Type</value>
+  </data>
+  <data name="FirmwareSelectionPlatform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="FirmwareSelectionVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="FirmwareSelectionFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="FirmwareSelectionUsbId" xml:space="preserve">
+    <value>USB ID</value>
+  </data>
+  <data name="FirmwareSelectionBoardId" xml:space="preserve">
+    <value>Board ID</value>
+  </data>
+  <data name="FirmwareSelectionBootloaderId" xml:space="preserve">
+    <value>Bootloader ID</value>
+  </data>
+  <data name="FirmwareSelectionFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FirmwareSelectionPickFile" xml:space="preserve">
+    <value>Please pick a file to download and upload (.apj)</value>
   </data>
 </root>

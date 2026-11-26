@@ -1072,7 +1072,8 @@ namespace Xamarin
                             fenceoverlay.overlay.Id = "fence";
 
                             fenceoverlay.CreateOverlay(PointLatLngAlt.Zero,
-                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0);
+                                MainV2.comPort.MAV.fencepoints.Values.Select(a => (Locationwp) a).ToList(), 0, 0,
+                                MainV2.comPort.MAV.cs.HomeLocation);
 
                             var fence = mymap.Overlays.Where(a => a.Id == "fence");
                             if (fence.Count() > 0)

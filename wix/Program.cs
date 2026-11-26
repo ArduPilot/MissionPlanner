@@ -176,9 +176,9 @@ namespace wix
 
     <SetProperty Action='SetTARGETDIR' Before='LaunchConditions' Id='TARGETDIR' Value=""[ProgramFilesFolder]"" />
 
-    <PropertyRef Id=""WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED"" />
+    <PropertyRef Id=""NETFRAMEWORK45"" />
 
-    <Condition Message=""This application requires .NET Framework 4.6.1. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR WIX_IS_NETFRAMEWORK_46_OR_LATER_INSTALLED]]></Condition>
+    <Condition Message=""This application requires .NET Framework 4.7.2 or later. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK45 >= ""#461808""]]></Condition>
 
     <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 

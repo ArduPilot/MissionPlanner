@@ -36,7 +36,7 @@ namespace netDxf.IO
             byte[] utf8 = {0xEF, 0xBB, 0xBF}; //with BOM
             Encoding reVal = Encoding.ASCII; //.Default;
 
-            BinaryReader r = new BinaryReader(fs, Encoding.Default);
+            BinaryReader r = new BinaryReader(fs, Encoding.ASCII);
             int i;
             if (!int.TryParse(fs.Length.ToString(CultureInfo.InvariantCulture), out i))
                 return null;

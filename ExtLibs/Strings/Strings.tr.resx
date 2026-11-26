@@ -231,6 +231,9 @@
   <data name="BasicTuning" xml:space="preserve">
     <value>Temel ayarlar</value>
   </data>
+  <data name="BatteryCapacityAsDecimal" xml:space="preserve">
+    <value>"{0}" değeri {1} mAh olarak okunuyor: burada '.' ve ',' ondalık ayırıcıdır. Emin misiniz?</value>
+  </data>
   <data name="Desc" xml:space="preserve">
     <value>Tanım:</value>
   </data>
