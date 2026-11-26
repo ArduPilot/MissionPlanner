@@ -1114,8 +1114,8 @@ namespace MissionPlanner.GCSViews
             if (route != null)
                 route.Points.Clear();
 
-            if (MainV2.comPort.MAV.camerapoints != null)
-                MainV2.comPort.MAV.camerapoints.Clear();
+            foreach (var camstate in MainV2.comPort.MAVlist.GetSystem(MainV2.comPort.MAV.sysid))
+                camstate.camerapoints?.Clear();
         }
 
         void but_Click(object sender, EventArgs e)
@@ -4137,13 +4137,64 @@ namespace MissionPlanner.GCSViews
                         try
                         {
 
-                            // cleanup old - no markers where added, so remove all old
-                            if (MainV2.comPort.MAV.camerapoints.Count < photosoverlay.Markers.Count)
-                                photosoverlay.Markers.Clear();
-
                             var min_interval = 0.0;
                             if (MainV2.comPort.MAV.param.ContainsKey("CAM_MIN_INTERVAL"))
                                 min_interval = MainV2.comPort.MAV.param["CAM_MIN_INTERVAL"].Value / 1000.0;
+
+                            // gather shots from every component of the vehicle (autopilot CAMERA_FEEDBACK,
+                            // MAVLink camera CAMERA_IMAGE_CAPTURED). Each component has its own clock, so
+                            // the interval check is per component, and dedup between components is by
+                            // position only: a shot within ~1m of one already reported by an earlier
+                            // component (the selected vehicle first) is the same shot.
+                            var camerapoints = new List<(MAVLink.mavlink_camera_feedback_t shot, bool belowmin)>();
+                            var shotcells = new Dictionary<long, List<MAVLink.mavlink_camera_feedback_t>>();
+                            Func<long, long, long> cellkey = (clat, clng) => (clat << 32) ^ (clng & 0xffffffffL);
+                            var camstates = MainV2.comPort.MAVlist.GetSystem(MainV2.comPort.MAV.sysid)
+                                .OrderBy(s => s == MainV2.comPort.MAV ? 0 : 1).ThenBy(s => s.compid);
+                            foreach (var camstate in camstates)
+                            {
+                                var added = new List<(long key, MAVLink.mavlink_camera_feedback_t shot)>();
+                                double oldtime = double.MinValue;
+                                foreach (var campt in camstate.camerapoints.ToArray().OrderBy(s => s.time_usec))
+                                {
+                                    var shottime = (campt.time_usec / 1000.0) / 1000.0;
+                                    var timesincelastshot = shottime - oldtime;
+                                    oldtime = shottime;
+                                    if (camstate == MainV2.comPort.MAV)
+                                        MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
+
+                                    // 100 = 1e-5 deg, ~1m
+                                    long clat = (long) Math.Floor(campt.lat / 100.0);
+                                    long clng = (long) Math.Floor(campt.lng / 100.0);
+                                    bool duplicate = false;
+                                    for (long dlat = -1; dlat <= 1 && !duplicate; dlat++)
+                                    for (long dlng = -1; dlng <= 1 && !duplicate; dlng++)
+                                    {
+                                        if (shotcells.TryGetValue(cellkey(clat + dlat, clng + dlng), out var cell))
+                                            duplicate = cell.Any(prev =>
+                                                Math.Abs(prev.lat - campt.lat) < 100 &&
+                                                Math.Abs(prev.lng - campt.lng) < 100);
+                                    }
+
+                                    if (duplicate)
+                                        continue;
+
+                                    camerapoints.Add((campt, timesincelastshot < min_interval));
+                                    added.Add((cellkey(clat, clng), campt));
+                                }
+
+                                // only after the whole component, so a component never dedups its own shots
+                                foreach (var item in added)
+                                {
+                                    if (!shotcells.TryGetValue(item.key, out var cell))
+                                        shotcells[item.key] = cell = new List<MAVLink.mavlink_camera_feedback_t>();
+                                    cell.Add(item.shot);
+                                }
+                            }
+
+                            // cleanup old - no markers where added, so remove all old
+                            if (camerapoints.Count < photosoverlay.Markers.Count)
+                                photosoverlay.Markers.Clear();
 
                             // set fov's based on last grid calc
                             if (Settings.Instance["camera_fovh"] != null)
@@ -4153,31 +4204,20 @@ namespace MissionPlanner.GCSViews
                             }
 
                             // add new - populate camera_feedback to map
-                            double oldtime = double.MinValue;
                             // the photos already on the map, by their time
                             var photosshown = new HashSet<object>();
                             foreach (var p in photosoverlay.Markers)
                                 photosshown.Add(p.Tag);
-                            foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
+                            foreach (var mark in camerapoints)
                             {
-                                var timesincelastshot = (mark.time_usec / 1000.0) / 1000.0 - oldtime;
-                                MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
-                                bool contains = photosshown.Contains(mark.time_usec);
-                                if (!contains)
-                                {
-                                    if (timesincelastshot < min_interval)
-                                        addMissionPhotoMarker(new GMapMarkerPhoto(mark, true));
-                                    else
-                                        addMissionPhotoMarker(new GMapMarkerPhoto(mark, false));
-                                }
-
-                                oldtime = (mark.time_usec / 1000.0) / 1000.0;
+                                if (photosshown.Add(mark.shot.time_usec))
+                                    addMissionPhotoMarker(new GMapMarkerPhoto(mark.shot, mark.belowmin));
                             }
 
                             var GMapMarkerOverlapCount = new GMapMarkerOverlapCount(PointLatLng.Empty);
 
                             // age current
-                            int camcount = MainV2.comPort.MAV.camerapoints.Count;
+                            int camcount = camerapoints.Count;
                             int a = 0;
                             foreach (var mark in photosoverlay.Markers)
                             {
