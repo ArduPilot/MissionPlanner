@@ -2547,6 +2547,11 @@ Mission Planner waits for 2 valid heartbeat packets before connecting
 
         public bool doDFUBoot(uint sysid, byte compid)
         {
+            // REBOOT_SHUTDOWN_ACTION_REBOOT_TO_ROM_BOOTLOADER
+            doCommand(sysid, compid, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
+                6, 0, 0, 0, 0, 0, 0, false);
+            // the param sequence ArduPilot used before that action existed.
+            // Firmware that rebooted on the first command never sees it.
             doCommand(sysid, compid, MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN,
                 42, 24, 71, 99, 0, 0, 0, false);
 
