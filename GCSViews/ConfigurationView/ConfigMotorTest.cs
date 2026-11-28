@@ -378,7 +378,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (NUM_thr_percent.Value < 20)
             {
-                var value = (int)MainV2.comPort.MAV.param["MOT_SPIN_MIN"].Value + 3;
+                var value = (int)Math.Round(MainV2.comPort.MAV.param["MOT_SPIN_ARM"].Value * 100) + 3;
                 if (InputBox.Show(Strings.ChangeThrottle, "Enter min spin throttle % (arm min + 3%)", ref value) ==
                     DialogResult.OK)
                 {
