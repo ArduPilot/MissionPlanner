@@ -125,7 +125,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxUseCompass2.setup(1, 0, new[] { "COMPASS_USE2", "COMPASS2_USE"}, MainV2.comPort.MAV.param);
             mavlinkCheckBoxUseCompass3.setup(1, 0, new[] { "COMPASS_USE3", "COMPASS3_USE"}, MainV2.comPort.MAV.param);
 
-            CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
+            CHK_compass_learn.setup(3, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
 
             {
                 // set the default items
