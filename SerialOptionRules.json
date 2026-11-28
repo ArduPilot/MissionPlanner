@@ -2,11 +2,11 @@
   "1": {
     "PresetBaudRate": 115,
     "PresetOptionsByte": 0,
-    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from'"
+    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from' (MAVn_OPTIONS on 4.7+)"
   },
   "2": {
     "PresetBaudRate": -1,
     "PresetOptionsByte": 0,
-    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from'"
+    "Comment": "If connecting a Mavlink sensor, consider setting 'Do not forward Mavlink to/from' (MAVn_OPTIONS on 4.7+)"
   }
 }
