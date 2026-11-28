@@ -1,8 +1,9 @@
-﻿using MissionPlanner.Controls;
+using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +17,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private List<CompassDeviceInfo> list;
 
         private bool _calChangesRequireReboot;
+        private bool _rebootPromptDeclined;
+        private bool _rebootInProgress;
+        private int _deactivationVersion;
+        private bool _pageActive;
+        private MAVLinkInterface _calibrationPort;
+        private uint _calibrationSystemId;
+        private byte _calibrationComponentId;
+        private long _lastCalPacketTime;
+        private bool _calibrationStatusUnknown;
+        private const int CalUpdateTimeoutSeconds = 10;
 
         // Number of physical compass slots the UI can display (progress bars + indicators).
         private const int MaxCompassInstances = 3;
 
-        // Firmware raw packet stream (MAG_CAL_PROGRESS + MAG_CAL_REPORT), filled on the comms
-        // thread and drained on the UI timer. A single queue keeps progress and report handling
-        // in one ordered pass instead of two.
+        // Keep only the latest packet of each type per compass, in receive order.
         private readonly List<MAVLink.MAVLinkMessage> _calPackets = new List<MAVLink.MAVLinkMessage>();
 
         // Derived UI state, owned exclusively by the UI thread.
@@ -265,10 +274,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWCompass2()
         {
             InitializeComponent();
+            Disposed += (sender, args) => StopCalibrationTracking();
         }
 
         public void Activate()
         {
+            _pageActive = true;
             // COMPASS_DEV_ID get a list of all connected devices
             list = MainV2.comPort.MAV.param.Where(a => a.Name.StartsWith("COMPASS") && a.Name.Contains("DEV_ID") && a.Value != 0)
                 .Select((a, b) => new CompassDeviceInfo(b, a.Name, (uint) a.Value))
@@ -326,48 +337,43 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show("Your compass configuration has changed, please review the missing compass", Strings.ERROR);
             }
+            if (_rebootPromptPending && !timer1.Enabled)
+                timer1.Start();
         }
 
         public void Deactivate()
         {
-            // Cancel any in-progress calibration on page nav so firmware can't silently
-            // autosave a compass while the user is off this page — they can't see per-
-            // compass status anymore and would only learn about the partial save via
-            // PreArm "Compass calibrated requires reboot" on the next arm attempt.
-            // Only fire if calibration was actually running (timer1 stops on
-            // Cancel/completion).
-            if (timer1.Enabled)
-            {
-                try
-                {
-                    MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
-                        (byte)MainV2.comPort.compidcurrent,
-                        MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
-                }
-                catch (Exception ex) { this.LogError(ex); }
-            }
-            timer1.Stop();
-            MainV2.comPort.UnSubscribeToPacketType(packetsub1);
-            MainV2.comPort.UnSubscribeToPacketType(packetsub2);
-            // Restore the button strip to its resting state so that on page re-entry
-            // the user can start a fresh cal. Without this, Start (which the Start
-            // handler disabled) stays greyed out because Activate() doesn't touch
-            // button state — the user would be locked out until they clicked Cancel
-            // (which is itself disabled here).
-            BUT_OBmagcalstart.Enabled = true;
-            BUT_OBmagcalcancel.Enabled = false;
+            _pageActive = false;
+            _deactivationVersion++;
 
-            CheckReboot();
+            if (!_rebootInProgress && !timer1.Enabled && !_rebootPromptPending)
+                CheckReboot();
         }
 
-        private bool CheckReboot()
+        internal bool HasBackgroundCalibration =>
+            timer1.Enabled || _rebootPromptPending || _rebootInProgress;
+
+        private void StopCalibrationTracking()
+        {
+            timer1.Stop();
+            var port = _calibrationPort;
+            _calibrationPort = null;
+            if (port != null)
+            {
+                port.UnSubscribeToPacketType(packetsub1);
+                port.UnSubscribeToPacketType(packetsub2);
+            }
+        }
+
+        // force: prompt even if the user already declined (used when starting a calibration).
+        private bool CheckReboot(bool force = false)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return true;
 
-            if (_calChangesRequireReboot)
+            if (_calChangesRequireReboot && (force || !_rebootPromptDeclined))
             {
-                if (CustomMessageBox.Show("Compass changes have been saved to parameters but require a reboot to take effect. Reboot now?", "Reboot",
+                if (CustomMessageBox.Show("Compass changes have been saved to parameters.\nA reboot is required for them to take effect. Reboot now?", "Reboot",
                         CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
                 {
                     try
@@ -377,6 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (MainV2.comPort.doReboot())
                         {
                             _calChangesRequireReboot = false;
+                                _rebootPromptDeclined = false;
                             UpdateRebootButtonState();
                         }
                         else
@@ -391,6 +398,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     return true;
                 }
+
+                // Remember the answer so navigating away doesn't nag again; the Reboot button stays flagged.
+                _rebootPromptDeclined = true;
             }
 
             return false;
@@ -486,6 +496,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             _calChangesRequireReboot = true;
+            _rebootPromptDeclined = false;
             UpdateRebootButtonState();
 
             myDataGridView1.Invalidate();
@@ -493,14 +504,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
-            if (_calChangesRequireReboot && !CheckReboot())
+            if (_calChangesRequireReboot && !CheckReboot(true))
             {
                 return;
             }
 
             try
             {
-                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
+                if (!MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0))
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    return;
+                }
             }
             catch (Exception ex)
             {
@@ -509,7 +524,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            _calPackets.Clear();
+            lock (_calPackets)
+            {
+                _calPackets.Clear();
+                _lastCalPacketTime = Stopwatch.GetTimestamp();
+            }
+            _calibrationStatusUnknown = false;
+            _rebootPromptDeclined = false;
             _latestReports.Clear();
             _liveProgress.Clear();
             _attempt.Clear();
@@ -531,11 +552,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Unsubscribe any prior subscriptions from an earlier Start click so we don't
             // stack duplicates when the user restarts calibration without leaving the screen.
             // Fields default to 0; UnSubscribeToPacketType(0) safely no-ops.
-            MainV2.comPort.UnSubscribeToPacketType(packetsub1);
-            MainV2.comPort.UnSubscribeToPacketType(packetsub2);
-
-            packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
-            packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket, MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent);
+            StopCalibrationTracking();
+            _calibrationPort = MainV2.comPort;
+            _calibrationSystemId = _calibrationPort.sysidcurrent;
+            _calibrationComponentId = (byte)_calibrationPort.compidcurrent;
+            packetsub1 = _calibrationPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket, _calibrationSystemId, _calibrationComponentId);
+            packetsub2 = _calibrationPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket, _calibrationSystemId, _calibrationComponentId);
 
             BUT_OBmagcalstart.Enabled = false;
             BUT_OBmagcalcancel.Enabled = true;
@@ -547,41 +569,97 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (System.Diagnostics.Debugger.IsAttached)
                 MainV2.comPort.DebugPacket(packet, true);
 
-            // Queue progress and report packets together, preserving receive order, so the
-            // tick handler can attribute a failure to the attempt that produced it.
             if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS ||
                 packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
             {
                 lock (this._calPackets)
                 {
-                    this._calPackets.Add(packet);
+                    var compassId = packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS
+                        ? ((MAVLink.mavlink_mag_cal_progress_t)packet.data).compass_id
+                        : ((MAVLink.mavlink_mag_cal_report_t)packet.data).compass_id;
+                    var isEmptyNotStartedReport =
+                        packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT &&
+                        IsEmptyNotStartedReport((MAVLink.mavlink_mag_cal_report_t)packet.data);
+                    if (!isEmptyNotStartedReport)
+                    {
+                        _calPackets.RemoveAll(p => p.msgid == packet.msgid &&
+                            (p.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS
+                                ? ((MAVLink.mavlink_mag_cal_progress_t)p.data).compass_id
+                                : ((MAVLink.mavlink_mag_cal_report_t)p.data).compass_id) == compassId);
+                        _calPackets.Add(packet);
+                    }
+                    _lastCalPacketTime = Stopwatch.GetTimestamp();
                 }
             }
 
             return true;
         }
 
+        private static bool IsEmptyNotStartedReport(MAVLink.mavlink_mag_cal_report_t report)
+        {
+            return report.ofs_x == 0 && report.ofs_y == 0 && report.ofs_z == 0
+                && report.cal_status == (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_NOT_STARTED;
+        }
+
         private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
         {
             try
             {
-                MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+                if (!MainV2.comPort.doCommand(MainV2.comPort.sysidcurrent, (byte)MainV2.comPort.compidcurrent, MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0))
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    return;
+                }
             }
             catch (Exception ex)
             {
                 CustomMessageBox.Show(ex.ToString(), Strings.ERROR, MessageBoxButtons.OK);
+                return;
             }
 
-            MainV2.comPort.UnSubscribeToPacketType(packetsub1);
-            MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+            StopCalibrationTracking();
+            IngestPackets();
+            ResetCancelledCalibration();
+        }
 
-            timer1.Stop();
+        private void ResetCancelledCalibration()
+        {
+            lock (_calPackets)
+                _calPackets.Clear();
+            _latestReports.Clear();
+            _liveProgress.Clear();
+            _attempt.Clear();
+            _activeCalMask = 0;
+            _calibrationStatusUnknown = false;
+            _rebootPromptPending = false;
+            _rebootPromptDelayTicks = 0;
+            horizontalProgressBar1.Value = 0;
+            horizontalProgressBar2.Value = 0;
+            horizontalProgressBar3.Value = 0;
+            pictureBox1.BackColor = Color.Transparent;
+            pictureBox2.BackColor = Color.Transparent;
+            pictureBox3.BackColor = Color.Transparent;
+            lbl_obmagresult.Text = "Calibration cancelled." +
+                (_calChangesRequireReboot ? Environment.NewLine + "Compass changes require a reboot to take effect." : "");
             BUT_OBmagcalstart.Enabled = true;
             BUT_OBmagcalcancel.Enabled = false;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (_calibrationPort != null &&
+                (!ReferenceEquals(_calibrationPort, MainV2.comPort) ||
+                 _calibrationPort.BaseStream == null || !_calibrationPort.BaseStream.IsOpen ||
+                 _calibrationPort.sysidcurrent != _calibrationSystemId ||
+                 (byte)_calibrationPort.compidcurrent != _calibrationComponentId))
+            {
+                StopCalibrationTracking();
+                _calibrationStatusUnknown = true;
+                BUT_OBmagcalstart.Enabled = true;
+                BUT_OBmagcalcancel.Enabled = false;
+                RenderCalibrationState();
+                return;
+            }
             // Deferred reboot prompt: fire one tick after completion so the final
             // SUCCESS lines paint before the modal dialog steals focus.
             if (_rebootPromptPending)
@@ -592,13 +670,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
+                StopCalibrationTracking();
+                if (!_pageActive)
+                    return;
                 _rebootPromptPending = false;
-                timer1.Stop();
-                // Stop listening: firmware keeps re-broadcasting terminal MAG_CAL_REPORTs
-                // until the calibrator is stopped, and with the timer stopped nothing
-                // would drain the queue any more.
-                MainV2.comPort.UnSubscribeToPacketType(packetsub1);
-                MainV2.comPort.UnSubscribeToPacketType(packetsub2);
                 // Autosave was requested on start, so all params are already written to flash.
                 // Offer an immediate reboot to activate them.
                 CheckReboot();
@@ -630,8 +705,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var obj = (MAVLink.mavlink_mag_cal_report_t)item.data;
 
                     // Skip the empty NOT_STARTED placeholder some firmware emits.
-                    if (obj.ofs_x == 0 && obj.ofs_y == 0 && obj.ofs_z == 0
-                        && obj.cal_status == (byte)MAVLink.MAG_CAL_STATUS.MAG_CAL_NOT_STARTED)
+                    if (IsEmptyNotStartedReport(obj))
                         continue;
 
                     _activeCalMask |= obj.cal_mask;
@@ -698,6 +772,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 progressRow.Append("  ");
             }
             sb.AppendLine(progressRow.ToString().TrimEnd());
+
+            long lastPacketTime;
+            lock (_calPackets)
+                lastPacketTime = _lastCalPacketTime;
+            if (_calibrationStatusUnknown)
+                sb.AppendLine("Connection or selected vehicle changed; calibration status unknown.");
+            else if (_calibrationPort != null &&
+                     Stopwatch.GetTimestamp() - lastPacketTime >= CalUpdateTimeoutSeconds * Stopwatch.Frequency)
+                sb.AppendLine("No recent calibration updates.");
 
             // --- one terminal status line per compass ---
             // Ordered by id so the operator sees which compasses saved and which need fixing.
@@ -782,7 +865,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void but_reboot_Click(object sender, EventArgs e)
+        private async void but_reboot_Click(object sender, EventArgs e)
         {
             if (CustomMessageBox.Show("Reboot the autopilot now?", "Reboot",
                     CustomMessageBox.MessageBoxButtons.YesNo) == CustomMessageBox.DialogResult.Yes)
@@ -792,18 +875,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // cal is running; keeps this button safe to click any time.
                 if (timer1.Enabled)
                 {
+                    var port = MainV2.comPort;
+                    var sysid = port.sysidcurrent;
+                    var compid = (byte)port.compidcurrent;
+                    var deactivationVersion = _deactivationVersion;
+                    var cancelled = false;
+                    _rebootInProgress = true;
+                    but_reboot.Enabled = false;
+                    BUT_OBmagcalstart.Enabled = false;
+                    BUT_OBmagcalcancel.Enabled = false;
+                    timer1.Stop();
                     try
                     {
-                        MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent,
-                            (byte)MainV2.comPort.compidcurrent,
-                            MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+                        cancelled = await Task.Run(() => port.doCommand(sysid, compid,
+                            MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0));
+                        if (!cancelled)
+                        {
+                            CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                            return;
+                        }
+
+                        port.UnSubscribeToPacketType(packetsub1);
+                        port.UnSubscribeToPacketType(packetsub2);
+                        if (IsDisposed || deactivationVersion != _deactivationVersion ||
+                            !ReferenceEquals(port, MainV2.comPort) || port.sysidcurrent != sysid ||
+                            (byte)port.compidcurrent != compid)
+                        {
+                            this.LogError("Reboot cancelled because the page or selected vehicle changed.");
+                            if (!IsDisposed)
+                                CustomMessageBox.Show("Reboot cancelled because the page or selected vehicle changed.", Strings.ERROR);
+                            return;
+                        }
                     }
-                    catch (Exception ex) { this.LogError(ex); }
-                    MainV2.comPort.UnSubscribeToPacketType(packetsub1);
-                    MainV2.comPort.UnSubscribeToPacketType(packetsub2);
-                    timer1.Stop();
-                    BUT_OBmagcalstart.Enabled = true;
-                    BUT_OBmagcalcancel.Enabled = false;
+                    catch (Exception ex)
+                    {
+                        this.LogError(ex);
+                        CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
+                        return;
+                    }
+                    finally
+                    {
+                        _rebootInProgress = false;
+                        var sameVehicle = !IsDisposed &&
+                            ReferenceEquals(port, MainV2.comPort) && port.sysidcurrent == sysid &&
+                            (byte)port.compidcurrent == compid;
+                        if (!cancelled && !sameVehicle)
+                        {
+                            StopCalibrationTracking();
+                            _calibrationStatusUnknown = true;
+                        }
+                        if (!IsDisposed)
+                        {
+                            but_reboot.Enabled = true;
+                            if (!cancelled && sameVehicle)
+                            {
+                                timer1.Start();
+                                BUT_OBmagcalcancel.Enabled = true;
+                            }
+                            else
+                            {
+                                BUT_OBmagcalstart.Enabled = true;
+                            }
+                        }
+                    }
                 }
 
                 if (MainV2.comPort.doReboot(false, true))
