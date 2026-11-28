@@ -619,7 +619,7 @@ After pushing this button:
     <value>89</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Leave as 0 to use RX input range</value>
+    <value>Set to your ESC's PWM range (not 0)</value>
   </data>
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
@@ -649,7 +649,7 @@ After pushing this button:
     <value>90</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Leave as 0 to use RX input range</value>
+    <value>Set to your ESC's PWM range (not 0)</value>
   </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
