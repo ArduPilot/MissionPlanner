@@ -27,23 +27,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             // get the detected id's
-            var id1 = MainV2.comPort.MAV.param["GPS_CAN_NODEID1"];
-            var id2 = MainV2.comPort.MAV.param["GPS_CAN_NODEID2"];
+            var id1 = MainV2.comPort.MAV.param[new[] { "GPS1_CAN_NODEID", "GPS_CAN_NODEID1" }]?.Value ?? 0;
+            var id2 = MainV2.comPort.MAV.param[new[] { "GPS2_CAN_NODEID", "GPS_CAN_NODEID2" }]?.Value ?? 0;
 
             // get the override id's
-            var id1ovr = MainV2.comPort.MAV.param["GPS1_CAN_OVRIDE"];
-            var id2ovr = MainV2.comPort.MAV.param["GPS2_CAN_OVRIDE"];
+            var id1ovr = MainV2.comPort.MAV.param["GPS1_CAN_OVRIDE"]?.Value ?? 0;
+            var id2ovr = MainV2.comPort.MAV.param["GPS2_CAN_OVRIDE"]?.Value ?? 0;
 
             var list = new List<GPSCAN>();
 
-            if (id1ovr.Value != 0)
-                list.Add(new GPSCAN() {Order = 1, NodeID = (int) id1ovr.Value, Name = "GPS Override 1"});
-            if (id2ovr.Value != 0)
-                list.Add(new GPSCAN() {Order = 2, NodeID = (int) id2ovr.Value, Name = "GPS Override 2"});
-            if (id1.Value != 0 && id1.Value != id1ovr.Value && id1.Value != id2ovr.Value)
-                list.Add(new GPSCAN() {Order = 98, NodeID = (int) id1.Value, Name = "GPS Detect 1"});
-            if (id2.Value != 0 && id2.Value != id1ovr.Value && id2.Value != id2ovr.Value)
-                list.Add(new GPSCAN() {Order = 99, NodeID = (int) id2.Value, Name = "GPS Detect 2"});
+            if (id1ovr != 0)
+                list.Add(new GPSCAN() {Order = 1, NodeID = (int) id1ovr, Name = "GPS Override 1"});
+            if (id2ovr != 0)
+                list.Add(new GPSCAN() {Order = 2, NodeID = (int) id2ovr, Name = "GPS Override 2"});
+            if (id1 != 0 && id1 != id1ovr && id1 != id2ovr)
+                list.Add(new GPSCAN() {Order = 98, NodeID = (int) id1, Name = "GPS Detect 1"});
+            if (id2 != 0 && id2 != id1ovr && id2 != id2ovr)
+                list.Add(new GPSCAN() {Order = 99, NodeID = (int) id2, Name = "GPS Detect 2"});
 
             var bs = new BindingSource();
             bs.DataSource = list;
