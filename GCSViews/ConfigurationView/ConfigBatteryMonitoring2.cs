@@ -34,8 +34,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.comPort.MAV.param["BATT2_VOLT_MULT"] != null)
                 TXT_divider.Text = MainV2.comPort.MAV.param["BATT2_VOLT_MULT"].ToString();
 
-            if (MainV2.comPort.MAV.param["BATT2_AMP_PERVOL"] != null)
-                TXT_ampspervolt.Text = MainV2.comPort.MAV.param["BATT2_AMP_PERVOL"].ToString();
+            if (MainV2.comPort.MAV.param[new[] { "BATT2_AMP_PERVLT", "BATT2_AMP_PERVOL" }] != null)
+                TXT_ampspervolt.Text = MainV2.comPort.MAV.param[new[] { "BATT2_AMP_PERVLT", "BATT2_AMP_PERVOL" }].ToString();
 
             if (Settings.Instance.GetBoolean("speechbatteryenabled") && Settings.Instance.GetBoolean("speechenable"))
             {
@@ -148,7 +148,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVLT", "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
             }
             catch
             {
@@ -253,7 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
+                MainV2.comPort.setParam(new[] { "BATT2_AMP_PERVLT", "BATT2_AMP_PERVOL" }, DecimalInput.Parse(TXT_ampspervolt.Text));
             }
             catch
             {
