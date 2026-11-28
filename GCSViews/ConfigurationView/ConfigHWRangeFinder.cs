@@ -24,9 +24,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Enabled = true;
             startup = true;
 
-            CMB_sonartype.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("RNGFND_TYPE",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "RNGFND_TYPE", MainV2.comPort.MAV.param);
+            CMB_sonartype.setup(new[] { "RNGFND1_TYPE", "RNGFND_TYPE" }, MainV2.comPort.MAV.param);
 
             timer1.Start();
 
