@@ -425,7 +425,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             if (mavlinkPorts >= 4)
             {
-                noteLabel.Text = noteLabel.Text + "\r\nWarning: Maximum number of Mavlink ports are 5 including the USB port!";
+                noteLabel.Text = noteLabel.Text + "\r\nWarning: at most 5 Mavlink ports including USB (8 on 4.6+ boards with more than 1MB flash)!";
             }
        }
 
