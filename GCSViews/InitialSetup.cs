@@ -7,16 +7,18 @@ using MissionPlanner.Radio;
 using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews
 {
-    public partial class InitialSetup : MyUserControl, IActivate
+    public partial class InitialSetup : MyUserControl, IActivate, IDeactivate, MainSwitcher.IKeepAlive
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private static string lastpagename = "";
+        private bool _preservedForCalibration;
 
         [Flags]
         public enum pageOptions
@@ -148,8 +150,43 @@ namespace MissionPlanner.GCSViews
             return null;
         }
 
+        public bool KeepAlive => backstageView.Pages.Cast<BackstageViewPage>()
+            .Any(page => page.isPageCreated && page.Page is ConfigHWCompass2 compass &&
+                         compass.HasBackgroundCalibration);
+
         public void Activate()
         {
+            if (_preservedForCalibration)
+            {
+                _preservedForCalibration = false;
+                if (backstageView.SelectedPage?.Page is IActivate page)
+                {
+                    try
+                    {
+                        page.Activate();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
+            }
+        }
+
+        public void Deactivate()
+        {
+            _preservedForCalibration = KeepAlive;
+            if (_preservedForCalibration && backstageView.SelectedPage?.Page is IDeactivate page)
+            {
+                try
+                {
+                    page.Deactivate();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
         }
 
         private void HardwareConfig_Load(object sender, EventArgs e)

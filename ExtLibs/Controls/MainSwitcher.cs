@@ -11,6 +11,11 @@ namespace MissionPlanner.Controls
 {
     public partial class MainSwitcher : IDisposable
     {
+        public interface IKeepAlive
+        {
+            bool KeepAlive { get; }
+        }
+
         public delegate void ThemeManager(Control ctl);
 
         public static event ThemeManager ApplyTheme;
@@ -125,7 +130,8 @@ namespace MissionPlanner.Controls
                 }
 
                 // check if we need to remove the current control
-                if (!current.Persistent)
+                if (!current.Persistent &&
+                    !(current.Control is IKeepAlive keepAlive && keepAlive.KeepAlive))
                 {
                     // cleanup
                     current.Control.Close();

@@ -46,7 +46,6 @@
             this.horizontalProgressBar2 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.horizontalProgressBar1 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.lbl_obmagresult = new System.Windows.Forms.TextBox();
-            this.BUT_OBmagcalaccept = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalcancel = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalstart = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
@@ -55,6 +54,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.but_reboot = new MissionPlanner.Controls.MyButton();
             this.label5 = new System.Windows.Forms.Label();
+            this.compassDeviceInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.but_missing = new MissionPlanner.Controls.MyButton();
+            this.toolTipReboot = new System.Windows.Forms.ToolTip(this.components);
             this.mavlinkCheckBoxUseCompass3 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxUseCompass2 = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
@@ -71,14 +73,12 @@
             this.Orientation = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
-            this.compassDeviceInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.but_missing = new MissionPlanner.Controls.MyButton();
             this.groupBoxonboardcalib.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassDeviceInfoBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -107,7 +107,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Location = new System.Drawing.Point(-1, 18);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(1197, 10);
+            this.groupBox5.Size = new System.Drawing.Size(1237, 10);
             this.groupBox5.TabIndex = 79;
             this.groupBox5.TabStop = false;
             // 
@@ -126,19 +126,18 @@
             this.groupBoxonboardcalib.Controls.Add(this.horizontalProgressBar2);
             this.groupBoxonboardcalib.Controls.Add(this.horizontalProgressBar1);
             this.groupBoxonboardcalib.Controls.Add(this.lbl_obmagresult);
-            this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalaccept);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalcancel);
             this.groupBoxonboardcalib.Controls.Add(this.BUT_OBmagcalstart);
             this.groupBoxonboardcalib.Location = new System.Drawing.Point(3, 355);
             this.groupBoxonboardcalib.Name = "groupBoxonboardcalib";
-            this.groupBoxonboardcalib.Size = new System.Drawing.Size(600, 162);
+            this.groupBoxonboardcalib.Size = new System.Drawing.Size(712, 162);
             this.groupBoxonboardcalib.TabIndex = 81;
             this.groupBoxonboardcalib.TabStop = false;
             this.groupBoxonboardcalib.Text = "Onboard Mag Calibration";
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(321, 107);
+            this.pictureBox3.Location = new System.Drawing.Point(203, 107);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(23, 23);
             this.pictureBox3.TabIndex = 20;
@@ -146,7 +145,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(321, 78);
+            this.pictureBox2.Location = new System.Drawing.Point(203, 78);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(23, 23);
             this.pictureBox2.TabIndex = 19;
@@ -154,7 +153,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(321, 49);
+            this.pictureBox1.Location = new System.Drawing.Point(203, 49);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(23, 23);
             this.pictureBox1.TabIndex = 18;
@@ -198,7 +197,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label9.Location = new System.Drawing.Point(6, 117);
+            this.label9.Location = new System.Drawing.Point(7, 112);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(37, 13);
             this.label9.TabIndex = 14;
@@ -208,7 +207,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label8.Location = new System.Drawing.Point(6, 88);
+            this.label8.Location = new System.Drawing.Point(7, 83);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 13);
             this.label8.TabIndex = 13;
@@ -218,7 +217,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(6, 59);
+            this.label7.Location = new System.Drawing.Point(7, 54);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 12;
@@ -233,7 +232,7 @@
             this.horizontalProgressBar3.maxline = 0;
             this.horizontalProgressBar3.minline = 0;
             this.horizontalProgressBar3.Name = "horizontalProgressBar3";
-            this.horizontalProgressBar3.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar3.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar3.TabIndex = 6;
             // 
             // horizontalProgressBar2
@@ -245,7 +244,7 @@
             this.horizontalProgressBar2.maxline = 0;
             this.horizontalProgressBar2.minline = 0;
             this.horizontalProgressBar2.Name = "horizontalProgressBar2";
-            this.horizontalProgressBar2.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar2.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar2.TabIndex = 5;
             // 
             // horizontalProgressBar1
@@ -257,52 +256,42 @@
             this.horizontalProgressBar1.maxline = 0;
             this.horizontalProgressBar1.minline = 0;
             this.horizontalProgressBar1.Name = "horizontalProgressBar1";
-            this.horizontalProgressBar1.Size = new System.Drawing.Size(258, 23);
+            this.horizontalProgressBar1.Size = new System.Drawing.Size(140, 23);
             this.horizontalProgressBar1.TabIndex = 4;
             // 
             // lbl_obmagresult
             // 
             this.lbl_obmagresult.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.lbl_obmagresult.Location = new System.Drawing.Point(350, 20);
+            this.lbl_obmagresult.Location = new System.Drawing.Point(232, 20);
             this.lbl_obmagresult.Multiline = true;
             this.lbl_obmagresult.Name = "lbl_obmagresult";
             this.lbl_obmagresult.ReadOnly = true;
             this.lbl_obmagresult.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.lbl_obmagresult.Size = new System.Drawing.Size(244, 110);
+            this.lbl_obmagresult.Size = new System.Drawing.Size(474, 110);
             this.lbl_obmagresult.TabIndex = 3;
-            // 
-            // BUT_OBmagcalaccept
-            // 
-            this.BUT_OBmagcalaccept.Enabled = false;
-            this.BUT_OBmagcalaccept.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalaccept.Location = new System.Drawing.Point(125, 20);
-            this.BUT_OBmagcalaccept.Name = "BUT_OBmagcalaccept";
-            this.BUT_OBmagcalaccept.Size = new System.Drawing.Size(75, 23);
-            this.BUT_OBmagcalaccept.TabIndex = 1;
-            this.BUT_OBmagcalaccept.Text = "Accept";
-            this.BUT_OBmagcalaccept.UseVisualStyleBackColor = true;
-            this.BUT_OBmagcalaccept.Click += new System.EventHandler(this.BUT_OBmagcalaccept_Click);
             // 
             // BUT_OBmagcalcancel
             // 
             this.BUT_OBmagcalcancel.Enabled = false;
             this.BUT_OBmagcalcancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalcancel.Location = new System.Drawing.Point(206, 20);
+            this.BUT_OBmagcalcancel.Location = new System.Drawing.Point(120, 20);
             this.BUT_OBmagcalcancel.Name = "BUT_OBmagcalcancel";
-            this.BUT_OBmagcalcancel.Size = new System.Drawing.Size(75, 23);
+            this.BUT_OBmagcalcancel.Size = new System.Drawing.Size(106, 23);
             this.BUT_OBmagcalcancel.TabIndex = 2;
             this.BUT_OBmagcalcancel.Text = "Cancel";
+            this.BUT_OBmagcalcancel.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_OBmagcalcancel.UseVisualStyleBackColor = true;
             this.BUT_OBmagcalcancel.Click += new System.EventHandler(this.BUT_OBmagcalcancel_Click);
             // 
             // BUT_OBmagcalstart
             // 
             this.BUT_OBmagcalstart.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.BUT_OBmagcalstart.Location = new System.Drawing.Point(44, 20);
+            this.BUT_OBmagcalstart.Location = new System.Drawing.Point(7, 20);
             this.BUT_OBmagcalstart.Name = "BUT_OBmagcalstart";
-            this.BUT_OBmagcalstart.Size = new System.Drawing.Size(75, 23);
+            this.BUT_OBmagcalstart.Size = new System.Drawing.Size(106, 23);
             this.BUT_OBmagcalstart.TabIndex = 0;
             this.BUT_OBmagcalstart.Text = "Start";
+            this.BUT_OBmagcalstart.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_OBmagcalstart.UseVisualStyleBackColor = true;
             this.BUT_OBmagcalstart.Click += new System.EventHandler(this.BUT_OBmagcalstart_Click);
             // 
@@ -324,9 +313,10 @@
             this.but_largemagcal.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.but_largemagcal.Location = new System.Drawing.Point(3, 523);
             this.but_largemagcal.Name = "but_largemagcal";
-            this.but_largemagcal.Size = new System.Drawing.Size(75, 23);
+            this.but_largemagcal.Size = new System.Drawing.Size(132, 31);
             this.but_largemagcal.TabIndex = 21;
             this.but_largemagcal.Text = "Large Vehicle MagCal";
+            this.but_largemagcal.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_largemagcal.UseVisualStyleBackColor = true;
             this.but_largemagcal.Click += new System.EventHandler(this.but_largemagcal_Click);
             // 
@@ -343,9 +333,10 @@
             // 
             this.but_reboot.Location = new System.Drawing.Point(3, 313);
             this.but_reboot.Name = "but_reboot";
-            this.but_reboot.Size = new System.Drawing.Size(75, 23);
+            this.but_reboot.Size = new System.Drawing.Size(106, 23);
             this.but_reboot.TabIndex = 88;
             this.but_reboot.Text = "Reboot";
+            this.but_reboot.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_reboot.UseVisualStyleBackColor = true;
             this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
             // 
@@ -357,6 +348,22 @@
             this.label5.Size = new System.Drawing.Size(203, 13);
             this.label5.TabIndex = 89;
             this.label5.Text = "A reboot is required to adjust the ordering.\r\n";
+            // 
+            // compassDeviceInfoBindingSource
+            // 
+            this.compassDeviceInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.CompassDeviceInfo);
+            this.compassDeviceInfoBindingSource.CurrentChanged += new System.EventHandler(this.compassDeviceInfoBindingSource_CurrentChanged);
+            // 
+            // but_missing
+            // 
+            this.but_missing.Location = new System.Drawing.Point(321, 264);
+            this.but_missing.Name = "but_missing";
+            this.but_missing.Size = new System.Drawing.Size(75, 30);
+            this.but_missing.TabIndex = 90;
+            this.but_missing.Text = "Remove Missing";
+            this.but_missing.TextColorNotEnabled = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_missing.UseVisualStyleBackColor = true;
+            this.but_missing.Click += new System.EventHandler(this.but_missing_ClickAsync);
             // 
             // mavlinkCheckBoxUseCompass3
             // 
@@ -441,7 +448,7 @@
             this.myDataGridView1.ReadOnly = true;
             this.myDataGridView1.RowHeadersWidth = 20;
             this.myDataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.myDataGridView1.Size = new System.Drawing.Size(672, 209);
+            this.myDataGridView1.Size = new System.Drawing.Size(712, 209);
             this.myDataGridView1.TabIndex = 0;
             this.myDataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.myDataGridView1_CellContentClick);
             this.myDataGridView1.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.myDataGridView1_DataError);
@@ -533,21 +540,6 @@
             this.Down.ReadOnly = true;
             this.Down.Width = 40;
             // 
-            // compassDeviceInfoBindingSource
-            // 
-            this.compassDeviceInfoBindingSource.DataSource = typeof(MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass2.CompassDeviceInfo);
-            this.compassDeviceInfoBindingSource.CurrentChanged += new System.EventHandler(this.compassDeviceInfoBindingSource_CurrentChanged);
-            // 
-            // but_missing
-            // 
-            this.but_missing.Location = new System.Drawing.Point(321, 271);
-            this.but_missing.Name = "but_missing";
-            this.but_missing.Size = new System.Drawing.Size(75, 23);
-            this.but_missing.TabIndex = 90;
-            this.but_missing.Text = "Remove Missing";
-            this.but_missing.UseVisualStyleBackColor = true;
-            this.but_missing.Click += new System.EventHandler(this.but_missing_ClickAsync);
-            // 
             // ConfigHWCompass2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -568,14 +560,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.myDataGridView1);
             this.Name = "ConfigHWCompass2";
-            this.Size = new System.Drawing.Size(678, 582);
+            this.Size = new System.Drawing.Size(718, 561);
             this.groupBoxonboardcalib.ResumeLayout(false);
             this.groupBoxonboardcalib.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.compassDeviceInfoBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.myDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,7 +590,6 @@
         private Controls.HorizontalProgressBar horizontalProgressBar2;
         private Controls.HorizontalProgressBar horizontalProgressBar1;
         private System.Windows.Forms.TextBox lbl_obmagresult;
-        private Controls.MyButton BUT_OBmagcalaccept;
         private Controls.MyButton BUT_OBmagcalcancel;
         private Controls.MyButton BUT_OBmagcalstart;
         private System.Windows.Forms.Timer timer1;
@@ -627,5 +618,6 @@
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
         private Controls.MyButton but_missing;
+        private System.Windows.Forms.ToolTip toolTipReboot;
     }
 }
